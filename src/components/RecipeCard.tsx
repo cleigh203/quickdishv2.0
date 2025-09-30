@@ -20,6 +20,22 @@ interface RecipeCardProps {
 }
 
 export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
+  const getRecipeImage = () => {
+    if (recipe.image || recipe.imageUrl) return recipe.image || recipe.imageUrl;
+    
+    const fallbackImages = [
+      'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
+      'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
+      'https://images.pexels.com/photos/718742/pexels-photo-718742.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
+      'https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
+      'https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
+      'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800&h=600'
+    ];
+    
+    const index = parseInt(recipe.id) % fallbackImages.length;
+    return fallbackImages[index];
+  };
+
   return (
     <Card 
       className="glass-card smooth-transition hover:scale-[1.02] cursor-pointer overflow-hidden"
@@ -28,7 +44,7 @@ export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
     >
       <div className="relative h-48 overflow-hidden">
         <img 
-          src={recipe.image || recipe.imageUrl || 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800&h=600'} 
+          src={getRecipeImage()} 
           alt={recipe.name}
           className="w-full h-full object-cover"
         />
