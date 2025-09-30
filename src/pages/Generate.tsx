@@ -29,6 +29,46 @@ const Generate = () => {
     return cached.find((r: any) => r.ingredientKey === normalized) || null;
   };
 
+  const estimateNutrition = (ingredients: any[]) => {
+    // Basic estimates based on common ingredients
+    let calories = 350; // base calories
+    let protein = 20;
+    let carbs = 35;
+    let fat = 12;
+    
+    const ingredientText = ingredients.map(i => i.item || i).join(' ').toLowerCase();
+    
+    // Adjust based on main ingredients
+    if (ingredientText.includes('chicken')) {
+      protein += 25;
+      calories += 150;
+    }
+    if (ingredientText.includes('beef')) {
+      protein += 30;
+      fat += 15;
+      calories += 250;
+    }
+    if (ingredientText.includes('pasta') || ingredientText.includes('rice')) {
+      carbs += 45;
+      calories += 200;
+    }
+    if (ingredientText.includes('cheese')) {
+      fat += 10;
+      calories += 100;
+    }
+    if (ingredientText.includes('oil') || ingredientText.includes('butter')) {
+      fat += 15;
+      calories += 120;
+    }
+    
+    return {
+      calories: Math.round(calories),
+      protein: Math.round(protein),
+      carbs: Math.round(carbs),
+      fat: Math.round(fat)
+    };
+  };
+
   const parseRecipeText = (text: string): Recipe => {
     const lines = text.split('\n');
     const recipe: any = {
@@ -42,7 +82,13 @@ const Generate = () => {
       difficulty: 'Medium',
       servings: 4,
       cuisine: 'Various',
-      image: ''
+      image: '',
+      nutrition: {
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0
+      }
     };
     
     let section = '';
@@ -60,6 +106,7 @@ const Generate = () => {
       }
       if (line.includes('Ingredients:')) section = 'ingredients';
       else if (line.includes('Instructions:')) section = 'instructions';
+      else if (line.includes('Nutrition')) section = 'nutrition';
       else if (section === 'ingredients' && line.trim().startsWith('-')) {
         const ingredient = line.replace('-', '').trim();
         recipe.ingredients.push({
@@ -71,7 +118,18 @@ const Generate = () => {
       else if (section === 'instructions' && line.trim().match(/^\d+\./)) {
         recipe.instructions.push(line.trim());
       }
+      else if (section === 'nutrition') {
+        if (line.includes('Calories:')) recipe.nutrition.calories = parseInt(line.match(/\d+/)?.[0] || '0');
+        if (line.includes('Protein:')) recipe.nutrition.protein = parseInt(line.match(/\d+/)?.[0] || '0');
+        if (line.includes('Carbs:')) recipe.nutrition.carbs = parseInt(line.match(/\d+/)?.[0] || '0');
+        if (line.includes('Fat:')) recipe.nutrition.fat = parseInt(line.match(/\d+/)?.[0] || '0');
+      }
     });
+    
+    // Fallback nutrition if AI doesn't provide it
+    if (recipe.nutrition.calories === 0) {
+      recipe.nutrition = estimateNutrition(recipe.ingredients);
+    }
     
     return recipe;
   };
@@ -156,7 +214,13 @@ const Generate = () => {
               
               Instructions:
               1. [Casual step like "Grab your biggest pan and heat it up"]
-              2. [Include measurements inline like "Toss in [2 cups rice]"]`
+              2. [Include measurements inline like "Toss in [2 cups rice]"]
+              
+              Nutrition (per serving, estimated):
+              Calories: [number]
+              Protein: [number]g
+              Carbs: [number]g
+              Fat: [number]g`
             }
           ],
           max_tokens: 500,
@@ -306,6 +370,30 @@ const Generate = () => {
               <span>⏱ Prep: {generatedRecipe.prepTime}</span>
               <span>🔥 Cook: {generatedRecipe.cookTime}</span>
             </div>
+            {generatedRecipe.nutrition && (
+              <div className="bg-card/50 rounded-lg p-3 mb-4 border border-border">
+                <h4 className="text-primary font-semibold mb-2 text-sm">Nutrition (per serving)</h4>
+                <div className="grid grid-cols-4 gap-2 text-center">
+                  <div>
+                    <div className="text-foreground font-bold">{generatedRecipe.nutrition.calories}</div>
+                    <div className="text-muted-foreground text-xs">Calories</div>
+                  </div>
+                  <div>
+                    <div className="text-foreground font-bold">{generatedRecipe.nutrition.protein}g</div>
+                    <div className="text-muted-foreground text-xs">Protein</div>
+                  </div>
+                  <div>
+                    <div className="text-foreground font-bold">{generatedRecipe.nutrition.carbs}g</div>
+                    <div className="text-muted-foreground text-xs">Carbs</div>
+                  </div>
+                  <div>
+                    <div className="text-foreground font-bold">{generatedRecipe.nutrition.fat}g</div>
+                    <div className="text-muted-foreground text-xs">Fat</div>
+                  </div>
+                </div>
+                <p className="text-muted-foreground text-xs mt-2 text-center">*Estimated values</p>
+              </div>
+            )}
             <div className="space-y-4">
               <div>
                 <h4 className="text-primary font-semibold mb-2">You'll need:</h4>

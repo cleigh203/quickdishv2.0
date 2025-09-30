@@ -4,6 +4,13 @@ export interface Ingredient {
   item: string;
 }
 
+export interface Nutrition {
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+}
+
 export interface Recipe {
   id: string;
   name: string;
@@ -17,4 +24,5 @@ export interface Recipe {
   cuisine: string;
   imageUrl?: string;
   image?: string;
+  nutrition?: Nutrition;
 }
