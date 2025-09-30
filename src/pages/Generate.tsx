@@ -6,63 +6,190 @@ import { Input } from "@/components/ui/input";
 import { BottomNav } from "@/components/BottomNav";
 import { RecipeCard } from "@/components/RecipeCard";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
 
+const OPENAI_API_KEY = 'sk-proj-YOUR_KEY_HERE'; // TODO: Replace with actual key
+
 const Generate = () => {
-  const [ingredients, setIngredients] = useState("");
+  const [ingredientInput, setIngredientInput] = useState("");
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [recipesGeneratedToday, setRecipesGeneratedToday] = useState(() => {
+    const count = parseInt(localStorage.getItem('recipesGenerated') || '0');
+    return count;
+  });
+  const [generatedRecipe, setGeneratedRecipe] = useState<Recipe | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const generateRecipes = async () => {
-    if (!ingredients.trim()) {
+  const findExistingRecipe = (ingredients: string): Recipe | null => {
+    const normalizedInput = ingredients.toLowerCase().split(',').map(i => i.trim()).sort().join(',');
+    const cachedRecipes = JSON.parse(localStorage.getItem('generatedRecipes') || '[]');
+    const match = cachedRecipes.find((r: any) => r.ingredientKey === normalizedInput);
+    return match || null;
+  };
+
+  const parseRecipeText = (text: string): Recipe => {
+    const lines = text.split('\n').filter(l => l.trim());
+    const recipe: any = {
+      id: `recipe-${Date.now()}`,
+      name: '',
+      description: '',
+      prepTime: '',
+      cookTime: '',
+      difficulty: 'Medium',
+      servings: 4,
+      ingredients: [],
+      instructions: [],
+      cuisine: 'Various',
+      imageUrl: ''
+    };
+
+    let section = '';
+    for (const line of lines) {
+      if (line.startsWith('Title:')) {
+        recipe.name = line.replace('Title:', '').trim();
+      } else if (line.startsWith('Prep Time:')) {
+        recipe.prepTime = line.replace('Prep Time:', '').trim();
+      } else if (line.startsWith('Cook Time:')) {
+        recipe.cookTime = line.replace('Cook Time:', '').trim();
+      } else if (line.startsWith('Ingredients:')) {
+        section = 'ingredients';
+      } else if (line.startsWith('Instructions:')) {
+        section = 'instructions';
+      } else if (section === 'ingredients' && line.startsWith('-')) {
+        const ing = line.substring(1).trim();
+        recipe.ingredients.push({
+          amount: '',
+          unit: '',
+          item: ing
+        });
+      } else if (section === 'instructions' && /^\d+\./.test(line)) {
+        recipe.instructions.push(line.replace(/^\d+\.\s*/, ''));
+      }
+    }
+
+    recipe.description = `A delicious recipe using ${ingredientInput}`;
+    return recipe;
+  };
+
+  const handleGenerateRecipe = async () => {
+    if (!ingredientInput.trim()) {
       toast({
-        title: "Please enter ingredients",
-        description: "Add some ingredients to generate recipes",
+        title: "Hey! Add some ingredients first 😊",
         variant: "destructive",
       });
       return;
     }
-
+    
+    // Reset daily limit at midnight
+    const lastReset = localStorage.getItem('lastResetDate');
+    const today = new Date().toDateString();
+    if (lastReset !== today) {
+      localStorage.setItem('recipesGenerated', '0');
+      localStorage.setItem('lastResetDate', today);
+      setRecipesGeneratedToday(0);
+    }
+    
+    // Check cache FIRST
+    const cached = findExistingRecipe(ingredientInput);
+    if (cached) {
+      console.log('CACHE HIT:', cached.name);
+      setGeneratedRecipe(cached);
+      setRecipes([cached]);
+      recipeStorage.setRecipes([cached]);
+      toast({
+        title: "Found a perfect match in my cookbook!",
+      });
+      return;
+    }
+    
+    // Check daily limit
+    const currentCount = parseInt(localStorage.getItem('recipesGenerated') || '0');
+    if (currentCount >= 5) {
+      toast({
+        title: "You've cooked up 5 recipes today! Come back tomorrow for more 🍳",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Call OpenAI
     setIsLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('generate-recipes', {
-        body: { ingredients: ingredients.trim() }
-      });
-
-      if (error) throw error;
-
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      // Add unique IDs and fetch images
-      const recipesWithImages = await Promise.all(
-        data.recipes.map(async (recipe: any, index: number) => {
-          const imageUrl = `https://source.unsplash.com/800x600/?${encodeURIComponent(recipe.cuisine)},food&sig=${Date.now()}-${index}`;
-          return {
-            ...recipe,
-            id: `recipe-${Date.now()}-${index}`,
-            imageUrl,
-          };
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-3.5-turbo',
+          messages: [
+            {
+              role: 'system',
+              content: 'You are a friendly home cook sharing recipes like texting a friend. Use casual language like "toss in", "a splash of", "until it smells amazing". Add personality like "my kids devour this" or "perfect for lazy Sundays". Never sound robotic or use AI terminology.'
+            },
+            {
+              role: 'user',
+              content: `Create a delicious recipe using: ${ingredientInput}.
+              
+              Format exactly like this:
+              Title: [Fun, appetizing name - not generic but not silly]
+              Prep Time: [X] minutes
+              Cook Time: [Y] minutes
+              
+              Ingredients:
+              - [amount] [ingredient]
+              
+              Instructions:
+              1. [Casual step like "Grab your biggest pan and heat it up"]
+              2. [Include measurements inline like "Toss in [2 cups rice]"]`
+            }
+          ],
+          max_tokens: 500,
+          temperature: 0.8
         })
-      );
-
-      setRecipes(recipesWithImages);
-      recipeStorage.setRecipes(recipesWithImages);
-
-      toast({
-        title: "Recipes generated!",
-        description: `Found ${recipesWithImages.length} delicious recipes for you`,
       });
-    } catch (error: any) {
-      console.error('Error generating recipes:', error);
+      
+      if (!response.ok) throw new Error('Failed to generate');
+      
+      const data = await response.json();
+      const recipeText = data.choices[0].message.content;
+      
+      // Parse recipe
+      const recipe = parseRecipeText(recipeText);
+      recipe.imageUrl = `https://source.unsplash.com/featured/800x600/?${encodeURIComponent(recipe.name)},food`;
+      
+      // Cache it
+      const cachedRecipes = JSON.parse(localStorage.getItem('generatedRecipes') || '[]');
+      cachedRecipes.push({
+        ...recipe,
+        ingredientKey: ingredientInput.toLowerCase().split(',').map(i => i.trim()).sort().join(','),
+        timestamp: Date.now()
+      });
+      if (cachedRecipes.length > 100) cachedRecipes.shift();
+      localStorage.setItem('generatedRecipes', JSON.stringify(cachedRecipes));
+      
+      // Update daily count
+      const newCount = currentCount + 1;
+      localStorage.setItem('recipesGenerated', String(newCount));
+      setRecipesGeneratedToday(newCount);
+      
+      // Display recipe
+      setGeneratedRecipe(recipe);
+      setRecipes([recipe]);
+      recipeStorage.setRecipes([recipe]);
+      console.log('NEW RECIPE GENERATED:', recipe.name);
       toast({
-        title: "Failed to generate recipes",
-        description: error.message || "Please try again",
+        title: "Your recipe is ready! 👨‍🍳",
+      });
+      
+    } catch (error) {
+      console.error('API Error:', error);
+      toast({
+        title: "Oops! My kitchen brain froze. Try again?",
         variant: "destructive",
       });
     } finally {
@@ -77,23 +204,23 @@ const Generate = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
             <Sparkles className="w-8 h-8 text-primary" />
           </div>
-          <h1 className="text-4xl font-bold mb-2">AI Recipe Generator</h1>
+          <h1 className="text-4xl font-bold mb-2">What's Cooking?</h1>
           <p className="text-muted-foreground">
-            Enter your ingredients and let AI create amazing recipes
+            Tell me what's in your fridge, I'll make it delicious
           </p>
         </div>
 
         <div className="glass-card p-6 rounded-2xl mb-8">
           <Input
             type="text"
-            placeholder="e.g., chicken, tomatoes, garlic, pasta"
-            value={ingredients}
-            onChange={(e) => setIngredients(e.target.value)}
+            placeholder="What do you have? chicken, rice, that leftover bell pepper..."
+            value={ingredientInput}
+            onChange={(e) => setIngredientInput(e.target.value)}
             className="mb-4 bg-background/50 border-border text-lg"
-            onKeyPress={(e) => e.key === 'Enter' && generateRecipes()}
+            onKeyPress={(e) => e.key === 'Enter' && handleGenerateRecipe()}
           />
           <Button
-            onClick={generateRecipes}
+            onClick={handleGenerateRecipe}
             disabled={isLoading}
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             size="lg"
@@ -110,6 +237,9 @@ const Generate = () => {
               </>
             )}
           </Button>
+          <p className="text-gray-400 text-sm text-center mt-2">
+            {5 - recipesGeneratedToday} free recipes left today
+          </p>
         </div>
 
         {recipes.length > 0 && (
