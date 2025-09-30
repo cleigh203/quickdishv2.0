@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
+import { getRecipeImage } from "@/utils/recipeImages";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -95,9 +96,18 @@ const RecipeDetail = () => {
     <div className="min-h-screen pb-8">
       <div className="relative h-64 overflow-hidden">
         <img 
-          src={recipe.imageUrl} 
+          src={recipe.image || recipe.imageUrl || getRecipeImage(recipe)} 
           alt={recipe.name}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            const title = recipe.name?.toLowerCase() || '';
+            if (title.includes('cheesecake') || title.includes('cake')) {
+              target.src = 'https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=800';
+            } else {
+              target.src = 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800';
+            }
+          }}
         />
         <Button
           onClick={() => navigate(-1)}
