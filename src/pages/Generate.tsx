@@ -126,6 +126,72 @@ const Generate = () => {
     };
   };
 
+  const parseIngredient = (text: string): { amount: string; unit: string; item: string } => {
+    // Remove leading dash and trim
+    let cleaned = text.replace(/^-\s*/, '').trim();
+    
+    // Remove instruction phrases (case insensitive)
+    const instructionPhrases = [
+      /,?\s*cut into bite[- ]?sized cubes?/gi,
+      /,?\s*diced/gi,
+      /,?\s*chopped/gi,
+      /,?\s*minced/gi,
+      /,?\s*sliced/gi,
+      /,?\s*shredded/gi,
+      /,?\s*grated/gi,
+      /,?\s*beaten/gi,
+      /,?\s*for frying/gi,
+      /,?\s*for cooking/gi,
+      /,?\s*peeled/gi,
+      /,?\s*deveined/gi,
+      /,?\s*cubed/gi,
+      /,?\s*halved/gi,
+      /,?\s*quartered/gi,
+      /,?\s*crushed/gi,
+      /,?\s*pressed/gi,
+      /,?\s*softened/gi,
+      /,?\s*melted/gi,
+      /,?\s*room temperature/gi,
+      /,?\s*to taste/gi,
+      /,?\s*optional/gi,
+      /,?\s*divided/gi,
+      /,?\s*day[- ]?old/gi
+    ];
+    
+    instructionPhrases.forEach(phrase => {
+      cleaned = cleaned.replace(phrase, '');
+    });
+    
+    // Extract amount and unit pattern: "2 cups flour" or "1/2 tsp salt" or "2-3 lbs chicken"
+    const match = cleaned.match(/^([\d\/-]+(?:\s*-\s*\d+)?)\s*([a-zA-Z]+)?\s+(.+)$/);
+    
+    if (match) {
+      return {
+        amount: match[1].trim(),
+        unit: match[2] || '',
+        item: match[3].trim()
+      };
+    }
+    
+    // No quantity pattern found (like "salt and pepper to taste")
+    // Try to find just a unit at the start
+    const unitOnlyMatch = cleaned.match(/^([a-zA-Z]+)\s+(.+)$/);
+    if (unitOnlyMatch && ['cup', 'cups', 'tbsp', 'tsp', 'oz', 'lb', 'lbs', 'g', 'kg', 'ml', 'l'].includes(unitOnlyMatch[1].toLowerCase())) {
+      return {
+        amount: '',
+        unit: unitOnlyMatch[1],
+        item: unitOnlyMatch[2].trim()
+      };
+    }
+    
+    // Fallback: entire text is the item
+    return {
+      amount: '',
+      unit: '',
+      item: cleaned
+    };
+  };
+
   const parseRecipeText = (text: string): Recipe => {
     const lines = text.split('\n');
     const recipe: any = {
@@ -165,12 +231,8 @@ const Generate = () => {
       else if (line.includes('Instructions:')) section = 'instructions';
       else if (line.includes('Nutrition')) section = 'nutrition';
       else if (section === 'ingredients' && line.trim().startsWith('-')) {
-        const ingredient = line.replace('-', '').trim();
-        recipe.ingredients.push({
-          amount: '',
-          unit: '',
-          item: ingredient
-        });
+        const parsed = parseIngredient(line);
+        recipe.ingredients.push(parsed);
       }
       else if (section === 'instructions' && line.trim().match(/^\d+\./)) {
         recipe.instructions.push(line.trim());
