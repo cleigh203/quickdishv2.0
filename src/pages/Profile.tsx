@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { User, ChefHat } from "lucide-react";
+import { User, ChefHat, Settings } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BottomNav } from "@/components/BottomNav";
@@ -8,9 +9,14 @@ import { useToast } from "@/hooks/use-toast";
 
 const Profile = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isPremium, setIsPremium] = useState(() => {
     return localStorage.getItem('premiumUser') === 'true';
   });
+  const [devMode, setDevMode] = useState(() => {
+    return localStorage.getItem('developerMode') === 'true';
+  });
+  const [tapCount, setTapCount] = useState(0);
 
   const recipes = recipeStorage.getRecipes();
   const favorites = recipeStorage.getFavorites();
@@ -31,6 +37,21 @@ const Profile = () => {
       toast({
         title: "Switched to free tier (5 recipes/day)",
       });
+    }
+  };
+
+  // Secret activation: tap version number 7 times
+  const handleVersionTap = () => {
+    const newCount = tapCount + 1;
+    setTapCount(newCount);
+    
+    if (newCount === 7) {
+      setDevMode(true);
+      localStorage.setItem('developerMode', 'true');
+      toast({
+        title: "Developer mode activated! 🛠️",
+      });
+      setTapCount(0);
     }
   };
 
@@ -105,6 +126,29 @@ const Profile = () => {
             )}
           </CardContent>
         </Card>
+
+        {devMode && (
+          <Card className="glass-card mt-6 border-red-500/50">
+            <CardContent className="p-6">
+              <p className="text-red-400 text-xs mb-3">⚠️ Developer Tools</p>
+              <Button
+                onClick={() => navigate('/admin')}
+                className="w-full bg-red-600 hover:bg-red-700 text-white"
+                size="lg"
+              >
+                <Settings className="w-4 h-4 mr-2" />
+                Open Admin Panel
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
+        <div 
+          onClick={handleVersionTap}
+          className="text-xs text-muted-foreground text-center mt-8 cursor-pointer"
+        >
+          Version 1.0.0
+        </div>
       </div>
       
       <BottomNav />

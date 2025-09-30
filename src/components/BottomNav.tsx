@@ -1,17 +1,27 @@
-import { Home, Sparkles, Heart, ShoppingCart, User } from "lucide-react";
+import { Home, Sparkles, Heart, ShoppingCart, User, Settings } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isDeveloper, setIsDeveloper] = useState(false);
 
-  const navItems = [
+  useEffect(() => {
+    setIsDeveloper(localStorage.getItem('developerMode') === 'true');
+  }, []);
+
+  const baseNavItems = [
     { icon: Home, label: "Home", path: "/" },
     { icon: Sparkles, label: "Quick Cook", path: "/generate" },
     { icon: Heart, label: "Saved", path: "/favorites" },
     { icon: ShoppingCart, label: "Shopping", path: "/shopping" },
     { icon: User, label: "Profile", path: "/profile" },
   ];
+
+  const navItems = isDeveloper 
+    ? [...baseNavItems, { icon: Settings, label: "Admin", path: "/admin" }]
+    : baseNavItems;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 glass-card border-t border-border z-50">
