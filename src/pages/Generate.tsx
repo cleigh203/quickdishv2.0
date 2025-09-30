@@ -23,55 +23,66 @@ const Generate = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const findExistingRecipe = (ingredients: string): Recipe | null => {
-    const normalizedInput = ingredients.toLowerCase().split(',').map(i => i.trim()).sort().join(',');
-    const cachedRecipes = JSON.parse(localStorage.getItem('generatedRecipes') || '[]');
-    const match = cachedRecipes.find((r: any) => r.ingredientKey === normalizedInput);
-    return match || null;
+  const findExistingRecipe = (input: string): Recipe | null => {
+    const normalized = input.toLowerCase().split(',').map(i => i.trim()).sort().join(',');
+    const cached = JSON.parse(localStorage.getItem('generatedRecipes') || '[]');
+    return cached.find((r: any) => r.ingredientKey === normalized) || null;
   };
 
-  const parseRecipeText = (text: string, ingredients: string): Recipe => {
-    const lines = text.split('\n').filter(l => l.trim());
+  const parseRecipeText = (text: string): Recipe => {
+    const lines = text.split('\n');
     const recipe: any = {
-      id: `recipe-${Date.now()}`,
+      id: Date.now().toString(),
       name: '',
-      description: '',
-      prepTime: '',
-      cookTime: '',
-      difficulty: 'Medium',
-      servings: 4,
+      prepTime: '0 minutes',
+      cookTime: '0 minutes',
       ingredients: [],
       instructions: [],
+      description: '',
+      difficulty: 'Medium',
+      servings: 4,
       cuisine: 'Various',
       imageUrl: ''
     };
-
+    
     let section = '';
-    for (const line of lines) {
+    lines.forEach(line => {
       if (line.startsWith('Title:')) {
         recipe.name = line.replace('Title:', '').trim();
-      } else if (line.startsWith('Prep Time:')) {
-        recipe.prepTime = line.replace('Prep Time:', '').trim();
-      } else if (line.startsWith('Cook Time:')) {
-        recipe.cookTime = line.replace('Cook Time:', '').trim();
-      } else if (line.startsWith('Ingredients:')) {
-        section = 'ingredients';
-      } else if (line.startsWith('Instructions:')) {
-        section = 'instructions';
-      } else if (section === 'ingredients' && line.startsWith('-')) {
-        const ing = line.substring(1).trim();
+      }
+      if (line.includes('Prep Time:')) {
+        const mins = parseInt(line.match(/\d+/)?.[0] || '0');
+        recipe.prepTime = `${mins} minutes`;
+      }
+      if (line.includes('Cook Time:')) {
+        const mins = parseInt(line.match(/\d+/)?.[0] || '0');
+        recipe.cookTime = `${mins} minutes`;
+      }
+      if (line.includes('Ingredients:')) section = 'ingredients';
+      else if (line.includes('Instructions:')) section = 'instructions';
+      else if (section === 'ingredients' && line.trim().startsWith('-')) {
+        const ingredient = line.replace('-', '').trim();
         recipe.ingredients.push({
           amount: '',
           unit: '',
-          item: ing
+          item: ingredient
         });
-      } else if (section === 'instructions' && /^\d+\./.test(line)) {
-        recipe.instructions.push(line.replace(/^\d+\.\s*/, ''));
       }
-    }
-
-    recipe.description = `A delicious recipe using ${ingredients}`;
+      else if (section === 'instructions' && line.trim().match(/^\d+\./)) {
+        recipe.instructions.push(line.trim());
+      }
+    });
+    
     return recipe;
+  };
+
+  const saveToFavorites = (recipe: Recipe) => {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    favorites.push(recipe);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    toast({
+      title: "Saved to your recipes!",
+    });
   };
 
   const handleGenerateRecipe = async () => {
@@ -159,7 +170,7 @@ const Generate = () => {
       const recipeText = data.choices[0].message.content;
       
       // Parse recipe
-      const recipe = parseRecipeText(recipeText, ingredientInput);
+      const recipe = parseRecipeText(recipeText);
       recipe.imageUrl = `https://source.unsplash.com/featured/800x600/?${encodeURIComponent(recipe.name)},food`;
       
       // Cache it
@@ -242,7 +253,53 @@ const Generate = () => {
           </p>
         </div>
 
-        {recipes.length > 0 && (
+        {isLoading && (
+          <div className="mt-6 text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto" />
+            <p className="text-muted-foreground mt-4">Cooking up something special...</p>
+          </div>
+        )}
+
+        {generatedRecipe && !isLoading && (
+          <div className="mt-6 p-6 glass-card rounded-2xl">
+            <img 
+              src={generatedRecipe.imageUrl} 
+              alt={generatedRecipe.name} 
+              className="w-full h-48 object-cover rounded-xl mb-4" 
+            />
+            <h3 className="text-2xl font-bold mb-2">{generatedRecipe.name}</h3>
+            <div className="flex gap-4 text-sm text-muted-foreground mb-4">
+              <span>⏱ Prep: {generatedRecipe.prepTime}</span>
+              <span>🔥 Cook: {generatedRecipe.cookTime}</span>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <h4 className="text-primary font-semibold mb-2">You'll need:</h4>
+                <ul className="text-foreground space-y-1">
+                  {generatedRecipe.ingredients.map((ing, i) => (
+                    <li key={i}>• {ing.item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-primary font-semibold mb-2">Let's cook:</h4>
+                <ol className="text-foreground space-y-2">
+                  {generatedRecipe.instructions.map((step, i) => (
+                    <li key={i}>{step}</li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <Button 
+              onClick={() => saveToFavorites(generatedRecipe)} 
+              className="mt-6 w-full bg-primary hover:bg-primary/90"
+            >
+              ❤️ Save to My Recipes
+            </Button>
+          </div>
+        )}
+
+        {recipes.length > 0 && !generatedRecipe && (
           <div>
             <h2 className="text-2xl font-bold mb-4">Your Recipes</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
