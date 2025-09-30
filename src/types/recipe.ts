@@ -25,4 +25,5 @@ export interface Recipe {
   imageUrl?: string;
   image?: string;
   nutrition?: Nutrition;
+  ingredientInput?: string; // Store original input for smart image matching
 }

@@ -7,6 +7,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { RecipeCard } from "@/components/RecipeCard";
 import { useToast } from "@/hooks/use-toast";
 import { recipeStorage } from "@/utils/recipeStorage";
+import { getRecipeImage } from "@/utils/recipeImages";
 import { Recipe } from "@/types/recipe";
 
 const OPENAI_API_KEY = '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'; // TODO: Replace with actual key
@@ -269,39 +270,18 @@ const Generate = () => {
       // Parse recipe
       const recipe = parseRecipeText(recipeText);
       
-      // Simple working image solution
-      const foodImages = {
-        chicken: 'https://images.pexels.com/photos/2994900/pexels-photo-2994900.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-        beef: 'https://images.pexels.com/photos/675951/pexels-photo-675951.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-        pasta: 'https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-        rice: 'https://images.pexels.com/photos/723198/pexels-photo-723198.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-        fish: 'https://images.pexels.com/photos/725991/pexels-photo-725991.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-        default: 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800&h=600'
-      };
-
-      // Check which image to use based on ingredients
-      let selectedImage = foodImages.default;
-      const ingredients = ingredientInput.toLowerCase();
-
-      if (ingredients.includes('chicken')) {
-        selectedImage = foodImages.chicken;
-      } else if (ingredients.includes('beef')) {
-        selectedImage = foodImages.beef;
-      } else if (ingredients.includes('pasta')) {
-        selectedImage = foodImages.pasta;
-      } else if (ingredients.includes('rice')) {
-        selectedImage = foodImages.rice;
-      } else if (ingredients.includes('fish') || ingredients.includes('salmon')) {
-        selectedImage = foodImages.fish;
-      }
-
-      recipe.image = selectedImage;
+      // Save ingredient input for smart image matching
+      recipe.ingredientInput = ingredientInput;
+      
+      // Get appropriate image based on recipe content
+      recipe.image = getRecipeImage(recipe);
       console.log('Image URL set to:', recipe.image);
       
       // Cache it
       const cachedRecipes = JSON.parse(localStorage.getItem('generatedRecipes') || '[]');
       cachedRecipes.push({
         ...recipe,
+        ingredientInput,
         ingredientKey: ingredientInput.toLowerCase().split(',').map(i => i.trim()).sort().join(','),
         timestamp: Date.now()
       });
@@ -400,7 +380,8 @@ const Generate = () => {
                 className="w-full h-48 object-cover rounded-xl mb-4"
                 onError={(e) => {
                   console.error('Image failed to load:', e.currentTarget.src);
-                  e.currentTarget.style.display = 'none';
+                  // Fallback to a default image if loading fails
+                  e.currentTarget.src = 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=600';
                 }}
               />
             )}

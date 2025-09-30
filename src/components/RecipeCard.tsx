@@ -1,18 +1,8 @@
 import { Clock, ChefHat } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
-interface Recipe {
-  id: string;
-  name: string;
-  description: string;
-  cookTime: string;
-  prepTime: string;
-  difficulty: string;
-  cuisine: string;
-  imageUrl?: string;
-  image?: string;
-}
+import { Recipe } from "@/types/recipe";
+import { getRecipeImage } from "@/utils/recipeImages";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -20,21 +10,7 @@ interface RecipeCardProps {
 }
 
 export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
-  const getRecipeImage = () => {
-    if (recipe.image || recipe.imageUrl) return recipe.image || recipe.imageUrl;
-    
-    const fallbackImages = [
-      'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-      'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-      'https://images.pexels.com/photos/718742/pexels-photo-718742.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-      'https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-      'https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-      'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800&h=600'
-    ];
-    
-    const index = parseInt(recipe.id) % fallbackImages.length;
-    return fallbackImages[index];
-  };
+  const imageUrl = getRecipeImage(recipe);
 
   return (
     <Card 
@@ -44,9 +20,13 @@ export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
     >
       <div className="relative h-48 overflow-hidden">
         <img 
-          src={getRecipeImage()} 
+          src={imageUrl} 
           alt={recipe.name}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            // Fallback if image fails to load
+            e.currentTarget.src = 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=600';
+          }}
         />
         <div className="absolute top-2 right-2 flex gap-2">
           <Badge 
