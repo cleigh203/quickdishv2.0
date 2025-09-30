@@ -11,21 +11,39 @@ const Shopping = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    const list = recipeStorage.getShoppingList();
-    setShoppingList(list);
+    const loadList = () => {
+      const list = JSON.parse(localStorage.getItem('shoppingList') || '[]');
+      setShoppingList(list);
+    };
+    
+    loadList();
+    window.addEventListener('storage', loadList);
+    window.addEventListener('focus', loadList);
+    
+    return () => {
+      window.removeEventListener('storage', loadList);
+      window.removeEventListener('focus', loadList);
+    };
   }, []);
 
-  const removeItem = (recipeId: string) => {
-    recipeStorage.removeFromShoppingList(recipeId);
-    setShoppingList(recipeStorage.getShoppingList());
+  const toggleItem = (id: number) => {
+    const updated = shoppingList.map(item => 
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+    setShoppingList(updated);
+    localStorage.setItem('shoppingList', JSON.stringify(updated));
+  };
+
+  const removeItem = (id: number) => {
+    const updated = shoppingList.filter(item => item.id !== id);
+    setShoppingList(updated);
+    localStorage.setItem('shoppingList', JSON.stringify(updated));
     toast({ title: "Removed from shopping list" });
   };
 
   const clearAll = () => {
-    shoppingList.forEach(item => {
-      recipeStorage.removeFromShoppingList(item.recipeId);
-    });
     setShoppingList([]);
+    localStorage.setItem('shoppingList', JSON.stringify([]));
     toast({ title: "Shopping list cleared" });
   };
 
@@ -55,42 +73,39 @@ const Shopping = () => {
               </Button>
             </div>
 
-            <div className="space-y-6">
-              {shoppingList.map((item) => {
-                const recipe = recipeStorage.getRecipeById(item.recipeId);
-                return (
-                  <Card key={item.recipeId} className="glass-card">
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div>
-                          <h3 className="text-xl font-bold">{recipe?.name}</h3>
-                          <p className="text-sm text-muted-foreground">
-                            {recipe?.servings} servings
-                          </p>
+            <div className="space-y-3">
+              {shoppingList.map((item) => (
+                <Card key={item.id} className="glass-card">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3 flex-1">
+                        <input 
+                          type="checkbox"
+                          checked={item.checked}
+                          onChange={() => toggleItem(item.id)}
+                          className="w-5 h-5 rounded border-border"
+                        />
+                        <div className={item.checked ? 'line-through text-muted-foreground' : 'text-foreground'}>
+                          <div className="font-medium">{item.item}</div>
+                          <div className="text-sm text-muted-foreground">{item.amount}</div>
+                          {item.recipes && item.recipes.length > 0 && (
+                            <div className="text-xs text-primary mt-1">
+                              For: {item.recipes.join(', ')}
+                            </div>
+                          )}
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => removeItem(item.recipeId)}
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
                       </div>
-                      
-                      <ul className="space-y-2">
-                        {item.ingredients.map((ing: any, index: number) => (
-                          <li key={index} className="flex items-start">
-                            <span className="text-primary mr-2">•</span>
-                            <span>
-                              {ing.amount} {ing.unit} {ing.item}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeItem(item.id)}
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </>
         ) : (

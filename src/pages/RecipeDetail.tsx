@@ -45,14 +45,42 @@ const RecipeDetail = () => {
   const addToShoppingList = () => {
     if (!recipe) return;
     
-    const scaledIngredients = recipe.ingredients.map(ing => ({
-      ...ing,
-      amount: (parseFloat(ing.amount) * servingMultiplier).toString(),
-    }));
+    const currentList = JSON.parse(localStorage.getItem('shoppingList') || '[]');
     
-    recipeStorage.addToShoppingList(recipe.id, scaledIngredients);
+    recipe.ingredients.forEach(ing => {
+      const ingredientText = ing.item || `${ing.amount} ${ing.unit} ${ing.item}`.trim();
+      
+      // Parse ingredient (e.g., "2 cups rice" -> {amount: "2 cups", item: "rice"})
+      const parts = ingredientText.match(/^([\d\s\w/.]+(?:cups?|tbsp|tsp|oz|lb|g|kg|ml|L)?)\s+(.+)$/);
+      const item = parts ? parts[2] : ingredientText;
+      const amount = parts ? parts[1] : '';
+      
+      // Check if item already exists
+      const existingIndex = currentList.findIndex((i: any) => 
+        i.item.toLowerCase() === item.toLowerCase()
+      );
+      
+      if (existingIndex > -1) {
+        // Item exists - append amount
+        currentList[existingIndex].amount += ` + ${amount}`;
+        if (!currentList[existingIndex].recipes.includes(recipe.name)) {
+          currentList[existingIndex].recipes.push(recipe.name);
+        }
+      } else {
+        // New item
+        currentList.push({
+          id: Date.now() + Math.random(),
+          item: item,
+          amount: amount,
+          checked: false,
+          recipes: [recipe.name]
+        });
+      }
+    });
+    
+    localStorage.setItem('shoppingList', JSON.stringify(currentList));
     toast({
-      title: "Added to shopping list",
+      title: "Added to shopping list! 🛒",
       description: `${recipe.name} ingredients added`,
     });
   };
@@ -145,13 +173,22 @@ const RecipeDetail = () => {
               <h2 className="text-2xl font-bold mb-4">Ingredients</h2>
               <ul className="space-y-2">
                 {recipe.ingredients.map((ing, index) => {
-                  const scaledAmount = (parseFloat(ing.amount) * servingMultiplier).toFixed(1);
+                  // Handle full text ingredients (e.g., "2 cups rice")
+                  const ingredientText = ing.item || `${ing.amount} ${ing.unit} ${ing.item}`.trim();
+                  
+                  // Smart ingredient scaling
+                  const adjustIngredientAmount = (text: string) => {
+                    return text.replace(/(\d+\.?\d*)/g, (match) => {
+                      const num = parseFloat(match);
+                      const scaled = (num * servingMultiplier).toFixed(1).replace('.0', '');
+                      return scaled;
+                    });
+                  };
+                  
                   return (
-                    <li key={index} className="flex items-start">
+                    <li key={index} className="flex items-start text-foreground">
                       <span className="text-primary mr-2">•</span>
-                      <span>
-                        {scaledAmount} {ing.unit} {ing.item}
-                      </span>
+                      <span>{adjustIngredientAmount(ingredientText)}</span>
                     </li>
                   );
                 })}
