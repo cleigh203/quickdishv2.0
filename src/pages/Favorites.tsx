@@ -7,14 +7,30 @@ import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
 
 const Favorites = () => {
-  const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
+  const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>(() => {
+    const favorites = localStorage.getItem('favorites');
+    return favorites ? JSON.parse(favorites) : [];
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
-    const favoriteIds = recipeStorage.getFavorites();
-    const recipes = recipeStorage.getRecipes();
-    const filtered = recipes.filter(r => favoriteIds.includes(r.id));
-    setFavoriteRecipes(filtered);
+    const loadFavorites = () => {
+      const favorites = localStorage.getItem('favorites');
+      setFavoriteRecipes(favorites ? JSON.parse(favorites) : []);
+      console.log('Favorites loaded:', favorites ? JSON.parse(favorites).length : 0);
+    };
+    
+    // Load on mount and when returning to this tab
+    loadFavorites();
+    
+    // Listen for storage changes (when recipe is saved from another tab)
+    window.addEventListener('storage', loadFavorites);
+    window.addEventListener('focus', loadFavorites);
+    
+    return () => {
+      window.removeEventListener('storage', loadFavorites);
+      window.removeEventListener('focus', loadFavorites);
+    };
   }, []);
 
   return (
@@ -43,9 +59,9 @@ const Favorites = () => {
         ) : (
           <div className="text-center py-12 glass-card rounded-2xl">
             <Heart className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-            <p className="text-xl text-muted-foreground">No favorite recipes yet</p>
+            <p className="text-xl text-muted-foreground">No saved recipes yet</p>
             <p className="text-muted-foreground mt-2">
-              Save recipes to find them here later
+              Your favorites will appear here
             </p>
           </div>
         )}

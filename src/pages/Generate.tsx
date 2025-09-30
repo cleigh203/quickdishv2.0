@@ -135,12 +135,40 @@ const Generate = () => {
   };
 
   const saveToFavorites = (recipe: Recipe) => {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    favorites.push(recipe);
-    localStorage.setItem('favorites', JSON.stringify(favorites));
+    // Get existing favorites from localStorage
+    const existingFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    
+    // Add unique ID if it doesn't have one
+    const recipeToSave = {
+      ...recipe,
+      id: recipe.id || Date.now().toString(),
+      savedAt: Date.now()
+    };
+    
+    // Check if already saved (prevent duplicates)
+    const alreadySaved = existingFavorites.some((fav: any) => fav.id === recipeToSave.id);
+    
+    if (alreadySaved) {
+      toast({
+        title: "Recipe already in your favorites!",
+      });
+      return;
+    }
+    
+    // Add to favorites
+    existingFavorites.push(recipeToSave);
+    
+    // Save back to localStorage
+    localStorage.setItem('favorites', JSON.stringify(existingFavorites));
+    
+    // Show success message
     toast({
-      title: "Saved to your recipes!",
+      title: "Saved to your recipes! ❤️",
     });
+    
+    // Log for debugging
+    console.log('Recipe saved:', recipeToSave);
+    console.log('Total favorites:', existingFavorites.length);
   };
 
   const handleGenerateRecipe = async () => {
