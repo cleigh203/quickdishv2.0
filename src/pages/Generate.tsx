@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sparkles, Loader2 } from "lucide-react";
+import { Sparkles, Loader2, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BottomNav } from "@/components/BottomNav";
-import { RecipeCard } from "@/components/RecipeCard";
 import { useToast } from "@/hooks/use-toast";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { Recipe } from "@/types/recipe";
 
 const Generate = () => {
+  const [activeCategory, setActiveCategory] = useState('20min');
   const [ingredientInput, setIngredientInput] = useState("");
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +24,50 @@ const Generate = () => {
   });
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // Recipe collections
+  const categories = {
+    '20min': {
+      title: '⚡ Quick 20-Min Meals',
+      subtitle: 'Perfect for busy weeknights',
+      recipes: [
+        { id: '1', title: 'Garlic Shrimp Pasta', time: 15, image: 'https://images.pexels.com/photos/3843224/pexels-photo-3843224.jpeg?auto=compress&cs=tinysrgb&w=600' },
+        { id: '2', title: 'Chicken Stir Fry', time: 18, image: 'https://images.pexels.com/photos/2994900/pexels-photo-2994900.jpeg?auto=compress&cs=tinysrgb&w=600' },
+        { id: '3', title: 'Veggie Quesadilla', time: 12, image: 'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=600' },
+        { id: '4', title: 'Egg Fried Rice', time: 20, image: 'https://images.pexels.com/photos/723198/pexels-photo-723198.jpeg?auto=compress&cs=tinysrgb&w=600' }
+      ]
+    },
+    'trending': {
+      title: '🔥 Trending Now',
+      subtitle: 'What everyone is cooking',
+      recipes: [
+        { id: '5', title: 'Viral Feta Pasta', time: 35, image: 'https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=600' },
+        { id: '6', title: 'Cloud Eggs', time: 25, image: 'https://images.pexels.com/photos/704569/pexels-photo-704569.jpeg?auto=compress&cs=tinysrgb&w=600' },
+        { id: '7', title: 'Dalgona Coffee', time: 10, image: 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600' },
+        { id: '8', title: 'Birria Tacos', time: 45, image: 'https://images.pexels.com/photos/4958792/pexels-photo-4958792.jpeg?auto=compress&cs=tinysrgb&w=600' }
+      ]
+    },
+    'copycat': {
+      title: '🍔 Restaurant Copycats',
+      subtitle: 'Your favorites, made at home',
+      recipes: [
+        { id: '9', title: "Olive Garden's Breadsticks", time: 30, image: 'https://images.pexels.com/photos/1775043/pexels-photo-1775043.jpeg?auto=compress&cs=tinysrgb&w=600' },
+        { id: '10', title: 'Big Mac Sauce', time: 5, image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=600' },
+        { id: '11', title: 'KFC Coleslaw', time: 15, image: 'https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=600' },
+        { id: '12', title: 'Chipotle Rice', time: 25, image: 'https://images.pexels.com/photos/723198/pexels-photo-723198.jpeg?auto=compress&cs=tinysrgb&w=600' }
+      ]
+    },
+    'kids': {
+      title: '👶 Picky Eater Approved',
+      subtitle: 'Kids will actually eat these',
+      recipes: [
+        { id: '13', title: 'Hidden Veggie Mac & Cheese', time: 20, image: 'https://images.pexels.com/photos/265393/pexels-photo-265393.jpeg?auto=compress&cs=tinysrgb&w=600' },
+        { id: '14', title: 'Pizza Rolls', time: 15, image: 'https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&w=600' },
+        { id: '15', title: 'Dinosaur Nuggets', time: 18, image: 'https://images.pexels.com/photos/1108117/pexels-photo-1108117.jpeg?auto=compress&cs=tinysrgb&w=600' },
+        { id: '16', title: 'Rainbow Fruit Kabobs', time: 10, image: 'https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=600' }
+      ]
+    }
+  };
 
   const findExistingRecipe = (input: string): Recipe | null => {
     const normalized = input.toLowerCase().split(',').map(i => i.trim()).sort().join(',');
@@ -330,61 +374,115 @@ const Generate = () => {
 
   return (
     <div className="min-h-screen pb-20 px-4">
-      <div className="max-w-4xl mx-auto pt-8">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-            <Sparkles className="w-8 h-8 text-primary" />
-          </div>
-          <h1 className="text-4xl font-bold mb-2">What's Cooking?</h1>
-          <p className="text-muted-foreground">
-            Tell me what's in your fridge, I'll make it delicious
-          </p>
+      <div className="max-w-6xl mx-auto pt-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-2">Discover Recipes</h1>
+          <p className="text-muted-foreground">Find your next favorite meal</p>
         </div>
 
-        <div className="glass-card p-6 rounded-2xl mb-8">
-          <Input
-            type="text"
-            placeholder="What do you have? chicken, rice, that leftover bell pepper..."
-            value={ingredientInput}
-            onChange={(e) => setIngredientInput(e.target.value)}
-            className="mb-4 bg-background/50 border-border text-lg"
-            onKeyPress={(e) => e.key === 'Enter' && handleGenerateRecipe()}
-          />
-          <Button
-            onClick={handleGenerateRecipe}
-            disabled={isLoading}
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-            size="lg"
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Generating Recipes...
-              </>
-            ) : (
-              <>
-                <Sparkles className="mr-2 h-5 w-5" />
-                Generate Recipes
-              </>
-            )}
-          </Button>
-          <p className="text-muted-foreground text-sm text-center mt-2">
-            {isPremium 
-              ? '⭐ Premium - Unlimited recipes' 
-              : `${5 - recipesGeneratedToday} free recipes left today`
-            }
-          </p>
+        {/* Category Tabs */}
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+          {Object.entries(categories).map(([key, cat]) => (
+            <button
+              key={key}
+              onClick={() => setActiveCategory(key)}
+              className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                activeCategory === key
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-card text-muted-foreground hover:bg-card/80 border border-border'
+              }`}
+            >
+              {cat.title}
+            </button>
+          ))}
         </div>
 
-        {isLoading && (
-          <div className="mt-6 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto" />
-            <p className="text-muted-foreground mt-4">Cooking up something special...</p>
+        {/* Active Category Content */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-2">
+            {categories[activeCategory as keyof typeof categories].title}
+          </h2>
+          <p className="text-muted-foreground mb-6">
+            {categories[activeCategory as keyof typeof categories].subtitle}
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {categories[activeCategory as keyof typeof categories].recipes.map(recipe => (
+              <div 
+                key={recipe.id} 
+                className="glass-card rounded-xl overflow-hidden hover:transform hover:scale-105 transition-transform cursor-pointer group"
+              >
+                <img 
+                  src={recipe.image} 
+                  alt={recipe.title}
+                  className="w-full h-32 object-cover group-hover:opacity-90 transition-opacity"
+                />
+                <div className="p-3">
+                  <h3 className="font-semibold text-sm mb-1">{recipe.title}</h3>
+                  <p className="text-muted-foreground text-xs flex items-center gap-1">
+                    <Clock className="w-3 h-3" /> {recipe.time} min
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
-        )}
+        </div>
 
-        {generatedRecipe && !isLoading && (
-          <div className="mt-6 p-6 glass-card rounded-2xl">
+        {/* AI Generator Section */}
+        <div className="border-t border-border pt-8 mt-8">
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-3">
+              <Sparkles className="w-6 h-6 text-primary" />
+            </div>
+            <h2 className="text-2xl font-bold mb-2">🎲 Create Custom Recipe</h2>
+            <p className="text-muted-foreground">
+              Tell me what's in your fridge, I'll make it delicious
+            </p>
+          </div>
+
+          <div className="glass-card p-6 rounded-2xl mb-8 max-w-2xl mx-auto">
+            <Input
+              type="text"
+              placeholder="What do you have? chicken, rice, that leftover bell pepper..."
+              value={ingredientInput}
+              onChange={(e) => setIngredientInput(e.target.value)}
+              className="mb-4 bg-background/50 border-border text-base"
+              onKeyPress={(e) => e.key === 'Enter' && handleGenerateRecipe()}
+            />
+            <Button
+              onClick={handleGenerateRecipe}
+              disabled={isLoading}
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Generating Recipes...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Generate Recipe
+                </>
+              )}
+            </Button>
+            <p className="text-muted-foreground text-sm text-center mt-2">
+              {isPremium 
+                ? '⭐ Premium - Unlimited recipes' 
+                : `${5 - recipesGeneratedToday} free recipes left today`
+              }
+            </p>
+          </div>
+
+          {isLoading && (
+            <div className="mt-6 text-center max-w-2xl mx-auto">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto" />
+              <p className="text-muted-foreground mt-4">Cooking up something special...</p>
+            </div>
+          )}
+
+          {generatedRecipe && !isLoading && (
+            <div className="mt-6 p-6 glass-card rounded-2xl max-w-2xl mx-auto">
             {generatedRecipe.image && (
               <img 
                 src={generatedRecipe.image} 
@@ -444,29 +542,15 @@ const Generate = () => {
                 </ol>
               </div>
             </div>
-            <Button 
-              onClick={() => saveToFavorites(generatedRecipe)} 
-              className="mt-6 w-full bg-primary hover:bg-primary/90"
-            >
-              ❤️ Save to My Recipes
-            </Button>
-          </div>
-        )}
-
-        {recipes.length > 0 && !generatedRecipe && (
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Your Recipes</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {recipes.map((recipe) => (
-                <RecipeCard
-                  key={recipe.id}
-                  recipe={recipe}
-                  onClick={() => navigate(`/recipe/${recipe.id}`)}
-                />
-              ))}
+              <Button 
+                onClick={() => saveToFavorites(generatedRecipe)} 
+                className="mt-6 w-full bg-primary hover:bg-primary/90"
+              >
+                ❤️ Save to My Recipes
+              </Button>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       
       <BottomNav />
