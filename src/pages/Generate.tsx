@@ -275,7 +275,11 @@ const Generate = () => {
       
       // Get appropriate image based on recipe content
       recipe.image = getRecipeImage(recipe);
-      console.log('Image URL set to:', recipe.image);
+      
+      // Debugging
+      console.log('Recipe title:', recipe.name);
+      console.log('Ingredients used:', recipe.ingredientInput);
+      console.log('Selected image:', recipe.image);
       
       // Cache it
       const cachedRecipes = JSON.parse(localStorage.getItem('generatedRecipes') || '[]');
