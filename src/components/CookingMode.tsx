@@ -64,11 +64,18 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   // Extract ingredients mentioned in current step
   const getStepIngredients = (instruction: string) => {
     const ingredients: string[] = [];
+    const instructionLower = instruction.toLowerCase();
+    
     recipe.ingredients.forEach(ing => {
-      const ingredientText = ing.item || `${ing.amount} ${ing.unit} ${ing.item}`.trim();
+      const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
       const itemName = ing.item.toLowerCase();
       
-      if (instruction.toLowerCase().includes(itemName)) {
+      // Match full item name or key words from it
+      const itemWords = itemName.split(/[\s,]+/).filter(w => w.length > 3);
+      const matches = itemWords.some(word => instructionLower.includes(word)) || 
+                     instructionLower.includes(itemName);
+      
+      if (matches) {
         ingredients.push(ingredientText);
       }
     });
@@ -100,7 +107,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
             <h3 className="text-2xl font-bold mb-4 text-primary">Ingredients</h3>
             <ul className="space-y-2">
               {recipe.ingredients.map((ing, index) => {
-                const ingredientText = ing.item || `${ing.amount} ${ing.unit} ${ing.item}`.trim();
+                const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
                 return (
                   <li key={index} className="flex items-start text-lg">
                     <span className="text-primary mr-2">•</span>

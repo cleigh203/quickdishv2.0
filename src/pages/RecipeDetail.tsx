@@ -59,7 +59,7 @@ const RecipeDetail = () => {
     const currentList = JSON.parse(localStorage.getItem('shoppingList') || '[]');
     
     recipe.ingredients.forEach(ing => {
-      const ingredientText = ing.item || `${ing.amount} ${ing.unit} ${ing.item}`.trim();
+      const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
       const cleaned = ingredientText.toLowerCase().trim();
       
       // Extract core item name (remove quantities and descriptors)
@@ -212,8 +212,8 @@ const RecipeDetail = () => {
               <h2 className="text-2xl font-bold mb-4">Ingredients</h2>
               <ul className="space-y-2">
                 {recipe.ingredients.map((ing, index) => {
-                  // Handle full text ingredients (e.g., "2 cups rice")
-                  const ingredientText = ing.item || `${ing.amount} ${ing.unit} ${ing.item}`.trim();
+                  // Always show complete ingredient with measurements
+                  const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
                   
                   // Smart ingredient scaling
                   const adjustIngredientAmount = (text: string) => {
