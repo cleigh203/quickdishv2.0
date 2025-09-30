@@ -1,12 +1,38 @@
+import { useState } from "react";
 import { User, ChefHat } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { BottomNav } from "@/components/BottomNav";
 import { recipeStorage } from "@/utils/recipeStorage";
+import { useToast } from "@/hooks/use-toast";
 
 const Profile = () => {
+  const { toast } = useToast();
+  const [isPremium, setIsPremium] = useState(() => {
+    return localStorage.getItem('premiumUser') === 'true';
+  });
+
   const recipes = recipeStorage.getRecipes();
   const favorites = recipeStorage.getFavorites();
   const shoppingList = recipeStorage.getShoppingList();
+
+  const togglePremium = () => {
+    const newStatus = !isPremium;
+    setIsPremium(newStatus);
+    localStorage.setItem('premiumUser', newStatus.toString());
+    
+    // Reset daily limits when enabling premium
+    if (newStatus) {
+      localStorage.setItem('recipesGenerated', '0');
+      toast({
+        title: "Premium activated! Unlimited recipes enabled 🎉",
+      });
+    } else {
+      toast({
+        title: "Switched to free tier (5 recipes/day)",
+      });
+    }
+  };
 
   const stats = [
     { label: "Recipes Generated", value: recipes.length, icon: ChefHat },
@@ -56,6 +82,29 @@ const Profile = () => {
               <p>• Save favorite recipes</p>
               <p>• Smart shopping lists</p>
             </div>
+          </CardContent>
+        </Card>
+
+        <Card className="glass-card mt-6">
+          <CardContent className="p-6">
+            <div className="text-xs text-muted-foreground mb-3">Developer Testing</div>
+            <Button
+              onClick={togglePremium}
+              className={`w-full ${
+                isPremium 
+                  ? 'bg-gradient-to-r from-primary to-pink-500 text-white hover:opacity-90' 
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
+              }`}
+              size="lg"
+            >
+              {isPremium ? '⭐ Premium Active' : '🔓 Activate Premium (Testing)'}
+            </Button>
+            {isPremium && (
+              <div className="mt-3 text-center text-sm text-green-400">
+                <div>✓ Unlimited recipes</div>
+                <div>✓ All features unlocked</div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

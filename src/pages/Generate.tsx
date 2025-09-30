@@ -20,6 +20,9 @@ const Generate = () => {
     return count;
   });
   const [generatedRecipe, setGeneratedRecipe] = useState<Recipe | null>(null);
+  const [isPremium] = useState(() => {
+    return localStorage.getItem('premiumUser') === 'true';
+  });
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -202,14 +205,16 @@ const Generate = () => {
       return;
     }
     
-    // Check daily limit
-    const currentCount = parseInt(localStorage.getItem('recipesGenerated') || '0');
-    if (currentCount >= 5) {
-      toast({
-        title: "You've cooked up 5 recipes today! Come back tomorrow for more 🍳",
-        variant: "destructive",
-      });
-      return;
+    // Check daily limit (skip for premium users)
+    if (!isPremium) {
+      const currentCount = parseInt(localStorage.getItem('recipesGenerated') || '0');
+      if (currentCount >= 5) {
+        toast({
+          title: "Daily limit reached! Activate premium for unlimited recipes",
+          variant: "destructive",
+        });
+        return;
+      }
     }
     
     // Call OpenAI
@@ -303,10 +308,13 @@ const Generate = () => {
       if (cachedRecipes.length > 100) cachedRecipes.shift();
       localStorage.setItem('generatedRecipes', JSON.stringify(cachedRecipes));
       
-      // Update daily count
-      const newCount = currentCount + 1;
-      localStorage.setItem('recipesGenerated', String(newCount));
-      setRecipesGeneratedToday(newCount);
+      // Update daily count (only for non-premium users)
+      if (!isPremium) {
+        const currentCount = parseInt(localStorage.getItem('recipesGenerated') || '0');
+        const newCount = currentCount + 1;
+        localStorage.setItem('recipesGenerated', String(newCount));
+        setRecipesGeneratedToday(newCount);
+      }
       
       // Display recipe
       setGeneratedRecipe(recipe);
@@ -368,8 +376,11 @@ const Generate = () => {
               </>
             )}
           </Button>
-          <p className="text-gray-400 text-sm text-center mt-2">
-            {5 - recipesGeneratedToday} free recipes left today
+          <p className="text-muted-foreground text-sm text-center mt-2">
+            {isPremium 
+              ? '⭐ Premium - Unlimited recipes' 
+              : `${5 - recipesGeneratedToday} free recipes left today`
+            }
           </p>
         </div>
 
