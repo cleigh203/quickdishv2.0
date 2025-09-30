@@ -32,9 +32,9 @@ const Index = () => {
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-6">
             <ChefHat className="w-10 h-10 text-primary" />
           </div>
-          <h1 className="text-5xl font-bold mb-4">QuickDish AI</h1>
+          <h1 className="text-5xl font-bold mb-4">QuickDish</h1>
           <p className="text-xl text-muted-foreground mb-8">
-            Transform your ingredients into delicious recipes with AI
+            Transform your ingredients into delicious recipes in just one click!
           </p>
           <Button
             onClick={() => navigate('/generate')}
