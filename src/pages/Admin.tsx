@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { BottomNav } from "@/components/BottomNav";
 import { useToast } from "@/hooks/use-toast";
 import { Recipe } from "@/types/recipe";
+import { recipeStorage } from "@/utils/recipeStorage";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -94,22 +95,18 @@ const Admin = () => {
   };
 
   const loadRecipes = () => {
-    const stored = localStorage.getItem('recipes');
-    if (stored) {
-      setRecipes(JSON.parse(stored));
-    }
+    setRecipes(recipeStorage.getRecipes());
   };
 
   const deleteRecipe = (recipeId: string) => {
     if (!window.confirm('Delete this recipe?')) return;
     
     const updated = recipes.filter(r => r.id !== recipeId);
-    localStorage.setItem('recipes', JSON.stringify(updated));
+    recipeStorage.setRecipes(updated);
     setRecipes(updated);
     
-    // Also remove from favorites and shopping list
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    localStorage.setItem('favorites', JSON.stringify(favorites.filter((id: string) => id !== recipeId)));
+    // Also remove from favorites
+    recipeStorage.removeFavorite(recipeId);
     
     toast({ title: "Recipe deleted" });
     loadStorageData();
@@ -132,7 +129,7 @@ const Admin = () => {
         : r
     );
     
-    localStorage.setItem('recipes', JSON.stringify(updated));
+    recipeStorage.setRecipes(updated);
     setRecipes(updated);
     setEditingRecipe(null);
     toast({ title: "Recipe updated" });
