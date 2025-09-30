@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Heart } from "lucide-react";
+import { Heart, ChefHat } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
-import { RecipeCard } from "@/components/RecipeCard";
 import { Recipe } from "@/types/recipe";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { getRecipeImage } from "@/utils/recipeImages";
 
 const Favorites = () => {
   const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>(() => {
@@ -72,11 +73,50 @@ const Favorites = () => {
         {filteredRecipes.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredRecipes.map((recipe) => (
-              <RecipeCard
-                key={recipe.id}
-                recipe={recipe}
-                onClick={() => navigate(`/recipe/${recipe.id}`)}
-              />
+              <div key={recipe.id} className="glass-card rounded-xl overflow-hidden group hover:scale-[1.02] transition-transform">
+                <div 
+                  className="relative h-48 overflow-hidden cursor-pointer"
+                  onClick={() => navigate(`/recipe/${recipe.id}`)}
+                >
+                  <img 
+                    src={recipe.image || recipe.imageUrl || getRecipeImage(recipe)} 
+                    alt={recipe.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                
+                <div className="p-4">
+                  <h3 
+                    className="text-white font-bold text-lg mb-2 cursor-pointer hover:text-primary transition-colors"
+                    onClick={() => navigate(`/recipe/${recipe.id}`)}
+                  >
+                    {recipe.name}
+                  </h3>
+                  
+                  <div className="flex gap-2 mb-3">
+                    <Badge variant="secondary" className="text-xs">{recipe.difficulty}</Badge>
+                    <Badge variant="outline" className="text-xs">{recipe.cuisine}</Badge>
+                  </div>
+                  
+                  {/* Action buttons */}
+                  <div className="flex gap-2">
+                    <Button 
+                      onClick={() => navigate(`/recipe/${recipe.id}`)}
+                      variant="outline"
+                      className="flex-1"
+                    >
+                      View
+                    </Button>
+                    <Button 
+                      onClick={() => navigate(`/recipe/${recipe.id}?cook=true`)}
+                      className="flex-1 bg-primary hover:bg-primary/90 font-semibold"
+                    >
+                      <ChefHat className="mr-2 h-4 w-4" />
+                      Cook Now
+                    </Button>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         ) : (
