@@ -30,7 +30,7 @@ const Generate = () => {
     return match || null;
   };
 
-  const parseRecipeText = (text: string): Recipe => {
+  const parseRecipeText = (text: string, ingredients: string): Recipe => {
     const lines = text.split('\n').filter(l => l.trim());
     const recipe: any = {
       id: `recipe-${Date.now()}`,
@@ -70,7 +70,7 @@ const Generate = () => {
       }
     }
 
-    recipe.description = `A delicious recipe using ${ingredientInput}`;
+    recipe.description = `A delicious recipe using ${ingredients}`;
     return recipe;
   };
 
@@ -159,7 +159,7 @@ const Generate = () => {
       const recipeText = data.choices[0].message.content;
       
       // Parse recipe
-      const recipe = parseRecipeText(recipeText);
+      const recipe = parseRecipeText(recipeText, ingredientInput);
       recipe.imageUrl = `https://source.unsplash.com/featured/800x600/?${encodeURIComponent(recipe.name)},food`;
       
       // Cache it
