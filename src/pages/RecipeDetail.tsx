@@ -60,28 +60,25 @@ const RecipeDetail = () => {
     
     recipe.ingredients.forEach(ing => {
       const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
-      const cleaned = ingredientText.toLowerCase().trim();
       
-      // Extract core item name (remove quantities and descriptors)
-      const itemMatch = cleaned.match(/(?:\d+[\s\w\/]*\s+)?(?:of\s+)?(.+)/);
-      let itemName = itemMatch ? itemMatch[1] : cleaned;
+      // Use the item field directly, normalize for matching
+      let itemName = ing.item.toLowerCase().trim();
       
-      // Normalize common variations
-      itemName = itemName
-        .replace(/tomatoes?/i, 'tomato')
-        .replace(/onions?/i, 'onion')
-        .replace(/peppers?/i, 'pepper')
-        .replace(/cloves?/i, 'clove')
-        .replace(/cups?|tbsp|tsp|oz|lb|g|kg|ml|l/gi, '')
-        .trim();
+      // Normalize common variations for matching
+      const normalizeForMatching = (text: string) => {
+        return text
+          .replace(/tomatoes?/i, 'tomato')
+          .replace(/onions?/i, 'onion')
+          .replace(/peppers?/i, 'pepper')
+          .replace(/cloves?/i, 'clove');
+      };
+      
+      const normalizedItem = normalizeForMatching(itemName);
       
       // Check if base item already exists
       const existingItem = currentList.find((item: any) => {
-        const existingBase = item.item.toLowerCase()
-          .replace(/tomatoes?/i, 'tomato')
-          .replace(/onions?/i, 'onion')
-          .replace(/peppers?/i, 'pepper');
-        return existingBase === itemName || item.item.toLowerCase() === itemName;
+        const existingNormalized = normalizeForMatching(item.item.toLowerCase());
+        return existingNormalized === normalizedItem;
       });
       
       if (existingItem) {
@@ -92,10 +89,10 @@ const RecipeDetail = () => {
           existingItem.combinedAmounts.push(ingredientText);
         }
       } else {
-        // Add new item
+        // Add new item - capitalize first letter of original item
         currentList.push({
           id: Date.now() + Math.random(),
-          item: itemName.charAt(0).toUpperCase() + itemName.slice(1),
+          item: ing.item.charAt(0).toUpperCase() + ing.item.slice(1),
           amount: ingredientText,
           combinedAmounts: [ingredientText],
           checked: false,
