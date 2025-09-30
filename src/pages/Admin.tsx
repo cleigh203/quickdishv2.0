@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Trash2, Database, Key, AlertTriangle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { BottomNav } from "@/components/BottomNav";
 import { useToast } from "@/hooks/use-toast";
 
@@ -13,6 +14,7 @@ const Admin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [storageData, setStorageData] = useState<any>({});
+  const [apiKey, setApiKey] = useState("");
 
   useEffect(() => {
     // Check if user is developer, redirect if not
@@ -67,6 +69,22 @@ const Admin = () => {
       title: "Developer mode disabled",
     });
     navigate('/profile');
+  };
+
+  const saveApiKey = () => {
+    if (!apiKey.trim()) {
+      toast({
+        title: "Please enter an API key",
+        variant: "destructive",
+      });
+      return;
+    }
+    localStorage.setItem('openai_api_key', apiKey);
+    toast({
+      title: "API key saved successfully",
+    });
+    loadStorageData();
+    setApiKey("");
   };
 
   return (
@@ -133,6 +151,31 @@ const Admin = () => {
             </CardContent>
           </Card>
         </div>
+
+        <Card className="glass-card mb-6">
+          <CardContent className="p-6 space-y-4">
+            <h3 className="text-xl font-bold mb-4">OpenAI API Key</h3>
+            <div className="space-y-2">
+              <Input
+                type="password"
+                placeholder="sk-proj-..."
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value)}
+                className="bg-background/50"
+              />
+              <Button
+                onClick={saveApiKey}
+                className="w-full"
+                variant="outline"
+              >
+                Save API Key
+              </Button>
+              <p className="text-sm text-muted-foreground">
+                Status: {storageData.openai_api_key ? '✓ Set' : '✗ Not Set'}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
 
         <Card className="glass-card mb-6">
           <CardContent className="p-6 space-y-4">

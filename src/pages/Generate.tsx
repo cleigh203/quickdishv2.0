@@ -10,8 +10,6 @@ import { recipeStorage } from "@/utils/recipeStorage";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { Recipe } from "@/types/recipe";
 
-const OPENAI_API_KEY = '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'; // TODO: Replace with actual key
-
 const Generate = () => {
   const [ingredientInput, setIngredientInput] = useState("");
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -179,6 +177,16 @@ const Generate = () => {
     if (!ingredientInput.trim()) {
       toast({
         title: "Hey! Add some ingredients first 😊",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Check if API key is set
+    const OPENAI_API_KEY = localStorage.getItem('openai_api_key') || '';
+    if (!OPENAI_API_KEY) {
+      toast({
+        title: "Please set your OpenAI API key in Admin panel",
         variant: "destructive",
       });
       return;
