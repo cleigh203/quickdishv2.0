@@ -3,18 +3,23 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Trash2, Database, Key, AlertTriangle } from "lucide-react";
+import { Trash2, Database, Key, AlertTriangle, Edit, Image as ImageIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { BottomNav } from "@/components/BottomNav";
 import { useToast } from "@/hooks/use-toast";
+import { Recipe } from "@/types/recipe";
 
 const Admin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [storageData, setStorageData] = useState<any>({});
   const [apiKey, setApiKey] = useState("");
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
+  const [editForm, setEditForm] = useState({ name: "", imageUrl: "" });
 
   useEffect(() => {
     // Check if user is developer, redirect if not
@@ -26,6 +31,7 @@ const Admin = () => {
 
     // Load all localStorage data
     loadStorageData();
+    loadRecipes();
   }, [navigate]);
 
   const loadStorageData = () => {
@@ -85,6 +91,52 @@ const Admin = () => {
     });
     loadStorageData();
     setApiKey("");
+  };
+
+  const loadRecipes = () => {
+    const stored = localStorage.getItem('recipes');
+    if (stored) {
+      setRecipes(JSON.parse(stored));
+    }
+  };
+
+  const deleteRecipe = (recipeId: string) => {
+    if (!window.confirm('Delete this recipe?')) return;
+    
+    const updated = recipes.filter(r => r.id !== recipeId);
+    localStorage.setItem('recipes', JSON.stringify(updated));
+    setRecipes(updated);
+    
+    // Also remove from favorites and shopping list
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    localStorage.setItem('favorites', JSON.stringify(favorites.filter((id: string) => id !== recipeId)));
+    
+    toast({ title: "Recipe deleted" });
+    loadStorageData();
+  };
+
+  const startEdit = (recipe: Recipe) => {
+    setEditingRecipe(recipe);
+    setEditForm({
+      name: recipe.name,
+      imageUrl: recipe.imageUrl || recipe.image || ""
+    });
+  };
+
+  const saveEdit = () => {
+    if (!editingRecipe) return;
+    
+    const updated = recipes.map(r => 
+      r.id === editingRecipe.id 
+        ? { ...r, name: editForm.name, imageUrl: editForm.imageUrl, image: editForm.imageUrl }
+        : r
+    );
+    
+    localStorage.setItem('recipes', JSON.stringify(updated));
+    setRecipes(updated);
+    setEditingRecipe(null);
+    toast({ title: "Recipe updated" });
+    loadStorageData();
   };
 
   return (
@@ -216,6 +268,71 @@ const Admin = () => {
               <Trash2 className="w-4 h-4 mr-2" />
               Clear All Data
             </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="glass-card mb-6">
+          <CardContent className="p-6">
+            <h3 className="text-xl font-bold mb-4">Recipe Management</h3>
+            
+            {editingRecipe ? (
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Recipe Name</label>
+                  <Input
+                    value={editForm.name}
+                    onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                    className="bg-background/50"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Image URL</label>
+                  <Textarea
+                    value={editForm.imageUrl}
+                    onChange={(e) => setEditForm({ ...editForm, imageUrl: e.target.value })}
+                    className="bg-background/50"
+                    rows={3}
+                  />
+                </div>
+                {editForm.imageUrl && (
+                  <img src={editForm.imageUrl} alt="Preview" className="w-full h-32 object-cover rounded" />
+                )}
+                <div className="flex gap-2">
+                  <Button onClick={saveEdit} className="flex-1">Save Changes</Button>
+                  <Button onClick={() => setEditingRecipe(null)} variant="outline" className="flex-1">Cancel</Button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-3 max-h-96 overflow-auto">
+                {recipes.length === 0 ? (
+                  <p className="text-muted-foreground text-center py-4">No recipes yet</p>
+                ) : (
+                  recipes.map(recipe => (
+                    <div key={recipe.id} className="flex items-center gap-3 p-3 bg-background/50 rounded-lg">
+                      {recipe.imageUrl || recipe.image ? (
+                        <img src={recipe.imageUrl || recipe.image} alt={recipe.name} className="w-16 h-16 object-cover rounded" />
+                      ) : (
+                        <div className="w-16 h-16 bg-muted rounded flex items-center justify-center">
+                          <ImageIcon className="w-6 h-6 text-muted-foreground" />
+                        </div>
+                      )}
+                      <div className="flex-1">
+                        <div className="font-medium">{recipe.name}</div>
+                        <div className="text-sm text-muted-foreground">{recipe.cuisine}</div>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button onClick={() => startEdit(recipe)} variant="outline" size="sm">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button onClick={() => deleteRecipe(recipe.id)} variant="destructive" size="sm">
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
           </CardContent>
         </Card>
 
