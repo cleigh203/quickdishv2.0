@@ -72,8 +72,7 @@ const Profile = () => {
           <CardContent className="p-6">
             <h2 className="text-2xl font-bold mb-4">About QuickDish AI</h2>
             <p className="text-muted-foreground mb-4">
-              QuickDish AI uses advanced artificial intelligence to generate personalized 
-              recipes based on your available ingredients. Get creative cooking ideas, 
+              QuickDish generates personalized recipes based on your available ingredients. Get creative cooking ideas, 
               save your favorites, and build shopping lists effortlessly.
             </p>
             <div className="space-y-2 text-sm text-muted-foreground">
