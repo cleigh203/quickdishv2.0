@@ -87,7 +87,13 @@ const Shopping = () => {
                         />
                         <div className={item.checked ? 'line-through text-muted-foreground' : 'text-foreground'}>
                           <div className="font-medium">{item.item}</div>
-                          <div className="text-sm text-muted-foreground">{item.amount}</div>
+                          {item.combinedAmounts && item.combinedAmounts.length > 1 ? (
+                            <div className="text-sm text-muted-foreground">
+                              {item.combinedAmounts.join(' + ')}
+                            </div>
+                          ) : (
+                            <div className="text-sm text-muted-foreground">{item.amount}</div>
+                          )}
                           {item.recipes && item.recipes.length > 0 && (
                             <div className="text-xs text-primary mt-1">
                               For: {item.recipes.join(', ')}

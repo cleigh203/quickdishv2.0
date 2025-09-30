@@ -50,29 +50,44 @@ const RecipeDetail = () => {
     
     recipe.ingredients.forEach(ing => {
       const ingredientText = ing.item || `${ing.amount} ${ing.unit} ${ing.item}`.trim();
+      const cleaned = ingredientText.toLowerCase().trim();
       
-      // Parse ingredient (e.g., "2 cups rice" -> {amount: "2 cups", item: "rice"})
-      const parts = ingredientText.match(/^([\d\s\w/.]+(?:cups?|tbsp|tsp|oz|lb|g|kg|ml|L)?)\s+(.+)$/);
-      const item = parts ? parts[2] : ingredientText;
-      const amount = parts ? parts[1] : '';
+      // Extract core item name (remove quantities and descriptors)
+      const itemMatch = cleaned.match(/(?:\d+[\s\w\/]*\s+)?(?:of\s+)?(.+)/);
+      let itemName = itemMatch ? itemMatch[1] : cleaned;
       
-      // Check if item already exists
-      const existingIndex = currentList.findIndex((i: any) => 
-        i.item.toLowerCase() === item.toLowerCase()
-      );
+      // Normalize common variations
+      itemName = itemName
+        .replace(/tomatoes?/i, 'tomato')
+        .replace(/onions?/i, 'onion')
+        .replace(/peppers?/i, 'pepper')
+        .replace(/cloves?/i, 'clove')
+        .replace(/cups?|tbsp|tsp|oz|lb|g|kg|ml|l/gi, '')
+        .trim();
       
-      if (existingIndex > -1) {
-        // Item exists - append amount
-        currentList[existingIndex].amount += ` + ${amount}`;
-        if (!currentList[existingIndex].recipes.includes(recipe.name)) {
-          currentList[existingIndex].recipes.push(recipe.name);
+      // Check if base item already exists
+      const existingItem = currentList.find((item: any) => {
+        const existingBase = item.item.toLowerCase()
+          .replace(/tomatoes?/i, 'tomato')
+          .replace(/onions?/i, 'onion')
+          .replace(/peppers?/i, 'pepper');
+        return existingBase === itemName || item.item.toLowerCase() === itemName;
+      });
+      
+      if (existingItem) {
+        // Update existing item with combined amounts
+        if (!existingItem.recipes.includes(recipe.name)) {
+          existingItem.recipes.push(recipe.name);
+          existingItem.combinedAmounts = existingItem.combinedAmounts || [existingItem.amount];
+          existingItem.combinedAmounts.push(ingredientText);
         }
       } else {
-        // New item
+        // Add new item
         currentList.push({
           id: Date.now() + Math.random(),
-          item: item,
-          amount: amount,
+          item: itemName.charAt(0).toUpperCase() + itemName.slice(1),
+          amount: ingredientText,
+          combinedAmounts: [ingredientText],
           checked: false,
           recipes: [recipe.name]
         });
