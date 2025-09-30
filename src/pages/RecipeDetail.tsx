@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Heart, ShoppingCart, Plus, Minus } from "lucide-react";
+import { ArrowLeft, Heart, ShoppingCart, Plus, Minus, ChefHat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
+import CookingMode from "@/components/CookingMode";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,8 +17,7 @@ const RecipeDetail = () => {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [servingMultiplier, setServingMultiplier] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isCookingMode, setIsCookingMode] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [cookingMode, setCookingMode] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -29,8 +29,7 @@ const RecipeDetail = () => {
         // Check if coming from "Cook Now" button
         const params = new URLSearchParams(window.location.search);
         if (params.get('cook') === 'true') {
-          setIsCookingMode(true);
-          setCurrentStep(0);
+          setCookingMode(true);
           // Clean up URL
           window.history.replaceState({}, '', `/recipe/${id}`);
         }
@@ -39,41 +38,6 @@ const RecipeDetail = () => {
       }
     }
   }, [id, navigate]);
-
-  // Keep screen awake during cooking
-  useEffect(() => {
-    if (isCookingMode && 'wakeLock' in navigator) {
-      let wakeLock: any = null;
-      (navigator as any).wakeLock.request('screen')
-        .then((wl: any) => wakeLock = wl)
-        .catch((err: any) => console.log('Wake Lock error:', err));
-      
-      return () => wakeLock?.release();
-    }
-  }, [isCookingMode]);
-
-  // Keyboard shortcuts for cooking mode
-  useEffect(() => {
-    if (!isCookingMode || !recipe) return;
-    
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight' || e.key === ' ') {
-        e.preventDefault();
-        setCurrentStep(prev => Math.min(recipe.instructions.length - 1, prev + 1));
-      }
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        setCurrentStep(prev => Math.max(0, prev - 1));
-      }
-      if (e.key === 'Escape') {
-        setIsCookingMode(false);
-        setCurrentStep(0);
-      }
-    };
-    
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isCookingMode, currentStep, recipe]);
 
   const toggleFavorite = () => {
     if (!recipe) return;
@@ -149,6 +113,10 @@ const RecipeDetail = () => {
 
   if (!recipe) {
     return null;
+  }
+
+  if (cookingMode) {
+    return <CookingMode recipe={recipe} onExit={() => setCookingMode(false)} />;
   }
 
   const adjustedServings = recipe.servings * servingMultiplier;
@@ -273,15 +241,13 @@ const RecipeDetail = () => {
               </Button>
             </div>
 
-            <Button
-              onClick={() => {
-                setIsCookingMode(true);
-                setCurrentStep(0);
-              }}
-              className="w-full py-6 bg-gradient-to-r from-primary to-primary/80 text-white text-lg font-bold rounded-xl mb-6 shadow-lg hover:from-primary/90 hover:to-primary/70 transition-all"
+            <button
+              onClick={() => setCookingMode(true)}
+              className="w-full py-4 bg-primary text-black font-bold text-lg rounded-xl hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 mb-6"
             >
-              🍳 Start Cooking Hands-Free
-            </Button>
+              <ChefHat className="w-5 h-5" />
+              Start Cooking Mode
+            </button>
 
             <div>
               <h2 className="text-2xl font-bold mb-4">Instructions</h2>
@@ -299,72 +265,6 @@ const RecipeDetail = () => {
           </CardContent>
         </Card>
       </div>
-
-      {/* Hands-Free Cooking Mode Overlay */}
-      {isCookingMode && (
-        <div className="fixed inset-0 bg-black z-50 flex flex-col">
-          {/* Progress bar */}
-          <div className="p-4 bg-gray-900">
-            <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-primary transition-all duration-300"
-                style={{width: `${((currentStep + 1) / recipe.instructions.length) * 100}%`}}
-              />
-            </div>
-            <p className="text-gray-400 text-center mt-2 text-sm">
-              Step {currentStep + 1} of {recipe.instructions.length}
-            </p>
-          </div>
-          
-          {/* Current step display */}
-          <div className="flex-1 flex items-center justify-center p-8">
-            <div className="text-center max-w-2xl">
-              <h2 className="text-primary text-4xl mb-8 font-bold">Step {currentStep + 1}</h2>
-              <p className="text-white text-3xl md:text-4xl leading-relaxed font-light">
-                {recipe.instructions[currentStep]?.replace(/^\d+\.\s*/, '')}
-              </p>
-            </div>
-          </div>
-          
-          {/* Navigation buttons - HUGE for elbow tapping */}
-          <div className="p-4 bg-gray-900">
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              <button 
-                onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
-                className="py-8 bg-gray-700 text-white text-2xl rounded-xl disabled:opacity-30 active:bg-gray-600 transition-colors"
-                disabled={currentStep === 0}
-              >
-                ← BACK
-              </button>
-              <button 
-                onClick={() => {
-                  if (currentStep < recipe.instructions.length - 1) {
-                    setCurrentStep(currentStep + 1);
-                  } else {
-                    setIsCookingMode(false);
-                    setCurrentStep(0);
-                    toast({ title: "Cooking complete! Enjoy! 🎉" });
-                  }
-                }}
-                className="py-8 bg-primary text-white text-2xl rounded-xl font-bold active:bg-primary/80 transition-colors"
-              >
-                {currentStep === recipe.instructions.length - 1 ? 'DONE!' : 'NEXT →'}
-              </button>
-            </div>
-            
-            {/* Small exit button */}
-            <button 
-              onClick={() => {
-                setIsCookingMode(false);
-                setCurrentStep(0);
-              }}
-              className="w-full py-3 text-gray-500 text-sm hover:text-gray-400 transition-colors"
-            >
-              Exit Cooking Mode
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
