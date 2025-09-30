@@ -10,8 +10,8 @@ const Index = () => {
   const features = [
     {
       icon: Sparkles,
-      title: "AI Recipe Generation",
-      description: "Enter your ingredients and get 5 unique recipes instantly",
+      title: "Smart Recipe Creator",
+      description: "Tell us what's in your fridge, we'll handle the rest",
     },
     {
       icon: Heart,
@@ -21,7 +21,7 @@ const Index = () => {
     {
       icon: ShoppingCart,
       title: "Smart Shopping Lists",
-      description: "Automatically create shopping lists from recipes",
+      description: "Automatically create shopping lists from recipes for instore use",
     },
   ];
 
