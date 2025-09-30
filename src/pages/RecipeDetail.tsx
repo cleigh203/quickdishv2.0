@@ -139,7 +139,7 @@ const RecipeDetail = () => {
           }}
         />
         <Button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/generate')}
           variant="secondary"
           size="icon"
           className="absolute top-4 left-4 glass-card"
