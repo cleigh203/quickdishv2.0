@@ -257,7 +257,7 @@ const RecipeDetail = () => {
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center mr-4 font-bold">
                       {index + 1}
                     </span>
-                    <p className="flex-1 pt-1">{instruction}</p>
+                    <p className="flex-1 pt-1">{instruction.replace(/\[|\]/g, '')}</p>
                   </li>
                 ))}
               </ol>

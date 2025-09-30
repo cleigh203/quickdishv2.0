@@ -82,7 +82,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     return ingredients;
   };
 
-  const currentInstruction = recipe.instructions[currentStep]?.replace(/^\d+\.\s*/, '') || '';
+  const currentInstruction = recipe.instructions[currentStep]?.replace(/^\d+\.\s*/, '').replace(/\[|\]/g, '') || '';
   const stepIngredients = getStepIngredients(currentInstruction);
   const progress = ((currentStep + 1) / recipe.instructions.length) * 100;
 
@@ -129,10 +129,10 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
                     index === currentStep ? 'bg-primary/20 border border-primary' : 'bg-gray-900'
                   }`}
                 >
-                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-black flex items-center justify-center mr-4 font-bold">
-                    {index + 1}
-                  </span>
-                  <p className="flex-1 pt-1 text-lg">{instruction}</p>
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-black flex items-center justify-center mr-4 font-bold">
+                      {index + 1}
+                    </span>
+                    <p className="flex-1 pt-1 text-lg">{instruction.replace(/\[|\]/g, '')}</p>
                 </li>
               ))}
             </ol>
