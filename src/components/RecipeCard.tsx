@@ -10,7 +10,8 @@ interface Recipe {
   prepTime: string;
   difficulty: string;
   cuisine: string;
-  imageUrl: string;
+  imageUrl?: string;
+  image?: string;
 }
 
 interface RecipeCardProps {
@@ -27,7 +28,7 @@ export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
     >
       <div className="relative h-48 overflow-hidden">
         <img 
-          src={recipe.imageUrl} 
+          src={recipe.image || recipe.imageUrl || 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800&h=600'} 
           alt={recipe.name}
           className="w-full h-full object-cover"
         />

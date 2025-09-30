@@ -42,7 +42,7 @@ const Generate = () => {
       difficulty: 'Medium',
       servings: 4,
       cuisine: 'Various',
-      imageUrl: ''
+      image: ''
     };
     
     let section = '';
@@ -171,7 +171,35 @@ const Generate = () => {
       
       // Parse recipe
       const recipe = parseRecipeText(recipeText);
-      recipe.imageUrl = `https://source.unsplash.com/featured/800x600/?${encodeURIComponent(recipe.name)},food`;
+      
+      // Simple working image solution
+      const foodImages = {
+        chicken: 'https://images.pexels.com/photos/2994900/pexels-photo-2994900.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
+        beef: 'https://images.pexels.com/photos/675951/pexels-photo-675951.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
+        pasta: 'https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
+        rice: 'https://images.pexels.com/photos/723198/pexels-photo-723198.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
+        fish: 'https://images.pexels.com/photos/725991/pexels-photo-725991.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
+        default: 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800&h=600'
+      };
+
+      // Check which image to use based on ingredients
+      let selectedImage = foodImages.default;
+      const ingredients = ingredientInput.toLowerCase();
+
+      if (ingredients.includes('chicken')) {
+        selectedImage = foodImages.chicken;
+      } else if (ingredients.includes('beef')) {
+        selectedImage = foodImages.beef;
+      } else if (ingredients.includes('pasta')) {
+        selectedImage = foodImages.pasta;
+      } else if (ingredients.includes('rice')) {
+        selectedImage = foodImages.rice;
+      } else if (ingredients.includes('fish') || ingredients.includes('salmon')) {
+        selectedImage = foodImages.fish;
+      }
+
+      recipe.image = selectedImage;
+      console.log('Image URL set to:', recipe.image);
       
       // Cache it
       const cachedRecipes = JSON.parse(localStorage.getItem('generatedRecipes') || '[]');
@@ -262,11 +290,17 @@ const Generate = () => {
 
         {generatedRecipe && !isLoading && (
           <div className="mt-6 p-6 glass-card rounded-2xl">
-            <img 
-              src={generatedRecipe.imageUrl} 
-              alt={generatedRecipe.name} 
-              className="w-full h-48 object-cover rounded-xl mb-4" 
-            />
+            {generatedRecipe.image && (
+              <img 
+                src={generatedRecipe.image} 
+                alt={generatedRecipe.name}
+                className="w-full h-48 object-cover rounded-xl mb-4"
+                onError={(e) => {
+                  console.error('Image failed to load:', e.currentTarget.src);
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            )}
             <h3 className="text-2xl font-bold mb-2">{generatedRecipe.name}</h3>
             <div className="flex gap-4 text-sm text-muted-foreground mb-4">
               <span>⏱ Prep: {generatedRecipe.prepTime}</span>
