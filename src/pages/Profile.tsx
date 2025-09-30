@@ -70,16 +70,15 @@ const Profile = () => {
 
         <Card className="glass-card">
           <CardContent className="p-6">
-            <h2 className="text-2xl font-bold mb-4">About QuickDish AI</h2>
+            <h2 className="text-2xl font-bold mb-4">About QuickDish </h2>
             <p className="text-muted-foreground mb-4">
-              QuickDish generates personalized recipes based on your available ingredients. Get creative cooking ideas, 
-              save your favorites, and build shopping lists effortlessly.
+             Turn whatever's in your kitchen into delicious meals. Get inspired, cook confidently, and never waste food again.
             </p>
             <div className="space-y-2 text-sm text-muted-foreground">
-              <p>• AI-powered recipe generation</p>
-              <p>• Adjustable serving sizes</p>
-              <p>• Save favorite recipes</p>
-              <p>• Smart shopping lists</p>
+              <p>• - Instant recipes from your ingredients</p>
+              <p>• - Cook hands-free with messy hands mode</p>
+              <p>• - Scale recipes for any party size  </p>
+              <p>• - Smart shopping lists that save you money</p>
             </div>
           </CardContent>
         </Card>
