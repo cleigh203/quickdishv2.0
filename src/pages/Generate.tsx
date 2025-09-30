@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
 
-const OPENAI_API_KEY = 'sk-proj-YOUR_KEY_HERE'; // TODO: Replace with actual key
+const OPENAI_API_KEY = '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'; // TODO: Replace with actual key
 
 const Generate = () => {
   const [ingredientInput, setIngredientInput] = useState("");
