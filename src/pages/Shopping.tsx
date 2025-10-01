@@ -3,6 +3,7 @@ import { ShoppingCart, Trash2, Printer, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BottomNav } from "@/components/BottomNav";
+import { PantryDialog } from "@/components/PantryDialog";
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
@@ -51,6 +52,7 @@ const Shopping = () => {
 
   const [showClearDialog, setShowClearDialog] = useState(false);
   const [hidePantryItems, setHidePantryItems] = useState(false);
+  const [isPantryDialogOpen, setIsPantryDialogOpen] = useState(false);
   const { toast } = useToast();
 
   // ✅ Save to localStorage in useEffect only (v7 compliant)
@@ -169,6 +171,14 @@ const Shopping = () => {
                   {checkedItems} of {totalItems} items checked
                 </span>
                 <div className="flex gap-2 flex-wrap justify-end">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsPantryDialogOpen(true)}
+                  >
+                    <Package className="w-4 h-4 mr-2" />
+                    Pantry
+                  </Button>
                   {checkedItems > 0 && (
                     <Button
                       variant="outline"
@@ -278,6 +288,11 @@ const Shopping = () => {
           </div>
         )}
       </div>
+      
+      <PantryDialog 
+        open={isPantryDialogOpen} 
+        onOpenChange={setIsPantryDialogOpen}
+      />
       
       <BottomNav />
     </div>

@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { User, ChefHat, Settings } from "lucide-react";
+import { User, ChefHat, Settings, Package } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BottomNav } from "@/components/BottomNav";
+import { PantryDialog } from "@/components/PantryDialog";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { useToast } from "@/hooks/use-toast";
 
 const Profile = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [isPantryDialogOpen, setIsPantryDialogOpen] = useState(false);
   const [isPremium, setIsPremium] = useState(() => {
     return localStorage.getItem('premiumUser') === 'true';
   });
@@ -21,6 +23,16 @@ const Profile = () => {
   const recipes = recipeStorage.getRecipes();
   const favorites = recipeStorage.getFavorites();
   const shoppingList = recipeStorage.getShoppingList();
+  
+  // Lazy load pantry count
+  const pantryCount = (() => {
+    try {
+      const saved = localStorage.getItem('pantryItems');
+      return saved ? JSON.parse(saved).length : 0;
+    } catch {
+      return 0;
+    }
+  })();
 
   const togglePremium = () => {
     const newStatus = !isPremium;
@@ -106,6 +118,31 @@ const Profile = () => {
 
         <Card className="glass-card mt-6">
           <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="text-xl font-bold flex items-center gap-2">
+                  <Package className="w-5 h-5" />
+                  My Pantry
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {pantryCount} {pantryCount === 1 ? 'item' : 'items'} in pantry
+                </p>
+              </div>
+            </div>
+            <Button
+              onClick={() => setIsPantryDialogOpen(true)}
+              variant="outline"
+              className="w-full"
+              size="lg"
+            >
+              <Package className="w-4 h-4 mr-2" />
+              Manage Pantry Items
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="glass-card mt-6">
+          <CardContent className="p-6">
             <div className="text-xs text-muted-foreground mb-3">Developer Testing</div>
             <Button
               onClick={togglePremium}
@@ -150,6 +187,11 @@ const Profile = () => {
           Version 1.0.0
         </div>
       </div>
+      
+      <PantryDialog 
+        open={isPantryDialogOpen} 
+        onOpenChange={setIsPantryDialogOpen}
+      />
       
       <BottomNav />
     </div>
