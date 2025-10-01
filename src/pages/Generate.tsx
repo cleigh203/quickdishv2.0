@@ -307,17 +307,15 @@ const Generate = () => {
         ingredients: ingredientInput.split(',').map(ing => ({
           amount: '1',
           unit: 'cup',
-          item: ing.trim()
-        })),
-        instructions: ['1. Prepare ingredients', '2. Cook thoroughly', '3. Serve hot'],
-        nutrition: estimateNutrition([]),
-        ingredientInput,
-        image: getRecipeImage({ name: ingredientInput })
-      };
-      
-      if (!recipe.imageUrl) {
-        recipe.image = getRecipeImage(recipe);
-      }
+        item: ing.trim()
+      })),
+      instructions: ['1. Prepare ingredients', '2. Cook thoroughly', '3. Serve hot'],
+      nutrition: estimateNutrition([]),
+      ingredientInput
+    };
+    
+    // Set image after recipe is fully constructed
+    recipe.image = getRecipeImage(recipe);
       
       console.log('Recipe title:', recipe.name);
       console.log('Ingredients used:', recipe.ingredientInput);
