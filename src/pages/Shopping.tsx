@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
-import { ShoppingCart, Trash2, Printer, Package, Eye, EyeOff } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { ShoppingCart, Trash2, Printer, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BottomNav } from "@/components/BottomNav";
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -48,7 +50,7 @@ const Shopping = () => {
   });
 
   const [showClearDialog, setShowClearDialog] = useState(false);
-  const [showRemovedItems, setShowRemovedItems] = useState(false);
+  const [hidePantryItems, setHidePantryItems] = useState(false);
   const { toast } = useToast();
 
   // ✅ Save to localStorage in useEffect only (v7 compliant)
@@ -126,13 +128,21 @@ const Shopping = () => {
     });
   };
 
-  // Filter shopping list by pantry
-  const { filtered: activeList, removed: removedByPantry } = filterShoppingListByPantry(
-    shoppingList,
-    pantryItems
-  );
+  // Filter shopping list by pantry using useMemo
+  const { displayList, hiddenCount } = useMemo(() => {
+    if (!hidePantryItems) {
+      return { 
+        displayList: shoppingList, 
+        hiddenCount: 0 
+      };
+    }
 
-  const displayList = showRemovedItems ? shoppingList : activeList;
+    const { filtered, removed } = filterShoppingListByPantry(shoppingList, pantryItems);
+    return { 
+      displayList: filtered, 
+      hiddenCount: removed.length 
+    };
+  }, [shoppingList, pantryItems, hidePantryItems]);
 
   const totalItems = displayList.length;
   const checkedItems = displayList.filter(item => item.checked).length;
@@ -151,14 +161,14 @@ const Shopping = () => {
             </p>
           </div>
 
-        {totalItems > 0 && (
+        {shoppingList.length > 0 && (
           <Card className="mb-6">
             <CardContent className="p-4">
-              <div className="flex justify-between items-center mb-2">
+              <div className="flex justify-between items-start gap-4 mb-3">
                 <span className="text-sm text-muted-foreground">
                   {checkedItems} of {totalItems} items checked
                 </span>
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex gap-2 flex-wrap justify-end">
                   {checkedItems > 0 && (
                     <Button
                       variant="outline"
@@ -188,11 +198,29 @@ const Shopping = () => {
                   )}
                 </div>
               </div>
+              
+              <div className="flex items-center justify-between pt-3 border-t">
+                <div className="flex items-center gap-3">
+                  <Switch 
+                    id="hide-pantry"
+                    checked={hidePantryItems}
+                    onCheckedChange={setHidePantryItems}
+                  />
+                  <Label htmlFor="hide-pantry" className="text-sm font-medium cursor-pointer">
+                    Hide pantry staples
+                  </Label>
+                </div>
+                {hidePantryItems && hiddenCount > 0 && (
+                  <span className="text-xs text-muted-foreground">
+                    {hiddenCount} {hiddenCount === 1 ? 'item' : 'items'} in pantry - hidden
+                  </span>
+                )}
+              </div>
             </CardContent>
           </Card>
         )}
 
-        {displayList.length === 0 && shoppingList.length === 0 ? (
+        {shoppingList.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center">
               <ShoppingCart className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
@@ -208,19 +236,14 @@ const Shopping = () => {
               <p className="text-muted-foreground mb-2">
                 All items are already in your pantry! 🎉
               </p>
-              <Button 
-                variant="outline" 
-                onClick={() => setShowRemovedItems(true)}
-              >
-                Show all items
-              </Button>
+              <p className="text-xs text-muted-foreground">
+                Toggle off "Hide pantry staples" to see all items
+              </p>
             </CardContent>
           </Card>
         ) : (
           <div className="space-y-3">
-            {displayList.map((item) => {
-              const inPantry = removedByPantry.some(r => r.id === item.id);
-              return (
+            {displayList.map((item) => (
                 <Card key={item.id}>
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
@@ -233,12 +256,6 @@ const Shopping = () => {
                           <div className="font-medium flex items-center gap-2">
                             {item.amount && <span className="text-muted-foreground">{item.amount} </span>}
                             {item.item}
-                            {inPantry && (
-                              <Badge variant="secondary" className="text-xs">
-                                <Package className="w-3 h-3 mr-1" />
-                                In Pantry
-                              </Badge>
-                            )}
                           </div>
                           {item.recipes && item.recipes.length > 0 && (
                             <div className="text-xs text-primary mt-1">
@@ -257,8 +274,7 @@ const Shopping = () => {
                     </div>
                   </CardContent>
                 </Card>
-              );
-            })}
+            ))}
           </div>
         )}
       </div>
