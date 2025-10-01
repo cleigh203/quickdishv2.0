@@ -33,7 +33,12 @@ export const BottomNav = () => {
           return (
             <button
               key={item.path}
-              onClick={() => navigate(item.path)}
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                console.log('Navigating to:', item.path);
+                navigate(item.path);
+              }}
               className={`flex flex-col items-center justify-center w-full h-full smooth-transition ${
                 isActive ? "text-primary" : "text-muted-foreground"
               }`}
