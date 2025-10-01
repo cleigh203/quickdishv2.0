@@ -21,10 +21,12 @@ const Admin = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
   const [editForm, setEditForm] = useState({ name: "", imageUrl: "" });
+  const [isDeveloper] = useState(() => {
+    return localStorage.getItem('developerMode') === 'true';
+  });
 
   useEffect(() => {
     // Check if user is developer, redirect if not
-    const isDeveloper = localStorage.getItem('developerMode') === 'true';
     if (!isDeveloper) {
       navigate('/profile');
       return;
@@ -33,7 +35,7 @@ const Admin = () => {
     // Load all localStorage data
     loadStorageData();
     loadRecipes();
-  }, [navigate]);
+  }, [navigate, isDeveloper]);
 
   const loadStorageData = () => {
     const data: any = {};

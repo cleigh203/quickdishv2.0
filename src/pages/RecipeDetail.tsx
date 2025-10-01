@@ -56,7 +56,14 @@ const RecipeDetail = () => {
   const addToShoppingList = () => {
     if (!recipe) return;
     
-    const currentList = JSON.parse(localStorage.getItem('shoppingList') || '[]');
+    // Use recipeStorage instead of direct localStorage
+    recipeStorage.addToShoppingList(recipe.id, recipe.ingredients.map(ing => ({
+      id: Date.now() + Math.random(),
+      item: ing.item.charAt(0).toUpperCase() + ing.item.slice(1),
+      amount: `${ing.amount} ${ing.unit} ${ing.item}`.trim(),
+      checked: false,
+      recipes: [recipe.name]
+    })));
     
     recipe.ingredients.forEach(ing => {
       const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
