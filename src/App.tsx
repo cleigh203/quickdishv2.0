@@ -11,7 +11,46 @@ import Shopping from "./pages/Shopping";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import { Toaster } from "@/components/ui/toaster";
+import { useEffect } from "react";
+// ... other imports
 
+const App = () => {
+  // ADD THE DIAGNOSTIC CODE HERE
+  useEffect(() => {
+    // Check what's capturing events
+    const originalAdd = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = function(...args) {
+      if (args[0] === 'click') {
+        console.trace('Click listener added by:', args);
+      }
+      return originalAdd.apply(this, args);
+    };
+    
+    // Log what happens on click
+    window.addEventListener('click', (e) => {
+      console.log('Click captured:', {
+        target: e.target,
+        defaultPrevented: e.defaultPrevented,
+        bubbles: e.bubbles,
+        eventPhase: e.eventPhase
+      });
+    }, true);
+    
+    // Check for service workers
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        console.log('Service workers:', regs);
+      });
+    }
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      // ... rest of your app
+    </QueryClientProvider>
+  );
+};
 const queryClient = new QueryClient();
 
 const App = () => (
