@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { X, List, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, List, ChevronLeft, ChevronRight, Mic, MicOff } from "lucide-react";
 import { Recipe } from "@/types/recipe";
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface CookingModeProps {
   recipe: Recipe;
@@ -12,7 +14,157 @@ interface CookingModeProps {
 const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [showFullRecipe, setShowFullRecipe] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [recognition, setRecognition] = useState<any>(null);
+  const [lastCommand, setLastCommand] = useState<string>("");
+  const [voiceSupported, setVoiceSupported] = useState(false);
   const { toast } = useToast();
+
+  // Check browser support for voice features
+  useEffect(() => {
+    const hasVoiceRecognition = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+    const hasSpeechSynthesis = 'speechSynthesis' in window;
+    setVoiceSupported(hasVoiceRecognition && hasSpeechSynthesis);
+  }, []);
+
+  // Initialize speech recognition
+  useEffect(() => {
+    if (!voiceSupported) return;
+
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const recognitionInstance = new SpeechRecognition();
+    
+    recognitionInstance.continuous = true;
+    recognitionInstance.interimResults = false;
+    recognitionInstance.lang = 'en-US';
+
+    recognitionInstance.onresult = (event: any) => {
+      const command = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
+      setLastCommand(command);
+      handleVoiceCommand(command);
+    };
+
+    recognitionInstance.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error);
+      if (event.error === 'no-speech') {
+        // Silently restart
+        return;
+      }
+      toast({
+        title: "Voice error",
+        description: "Please try again",
+        variant: "destructive"
+      });
+    };
+
+    recognitionInstance.onend = () => {
+      // Auto-restart if still supposed to be listening
+      if (isListening) {
+        try {
+          recognitionInstance.start();
+        } catch (error) {
+          console.log('Recognition restart error:', error);
+        }
+      }
+    };
+
+    setRecognition(recognitionInstance);
+
+    return () => {
+      recognitionInstance?.stop();
+    };
+  }, [voiceSupported]);
+
+  const handleVoiceCommand = (command: string) => {
+    console.log('Voice command:', command);
+
+    if (command.includes('next') || command.includes('forward')) {
+      toast({ title: `Heard: "${command}"`, description: "Moving to next step" });
+      handleNext();
+      announceStep(currentStep + 1);
+    } else if (command.includes('previous') || command.includes('back') || command.includes('last')) {
+      toast({ title: `Heard: "${command}"`, description: "Going back" });
+      handlePrevious();
+      announceStep(currentStep - 1);
+    } else if (command.includes('repeat') || command.includes('again') || command.includes('read')) {
+      toast({ title: `Heard: "${command}"`, description: "Repeating step" });
+      speakCurrentStep();
+    } else if (command.includes('ingredient')) {
+      toast({ title: `Heard: "${command}"`, description: "Showing ingredients" });
+      setShowFullRecipe(true);
+    } else if (command.includes('recipe') || command.includes('list')) {
+      toast({ title: `Heard: "${command}"`, description: "Showing full recipe" });
+      setShowFullRecipe(true);
+    } else if (command.includes('exit') || command.includes('close') || command.includes('quit')) {
+      toast({ title: `Heard: "${command}"`, description: "Exiting cooking mode" });
+      onExit();
+    } else {
+      // Unknown command - don't show error, just log it
+      console.log('Unknown command:', command);
+    }
+  };
+
+  const speakCurrentStep = () => {
+    if (!('speechSynthesis' in window)) return;
+
+    // Cancel any ongoing speech
+    window.speechSynthesis.cancel();
+
+    const currentInstruction = recipe.instructions[currentStep]?.replace(/^\d+\.\s*/, '').replace(/\[|\]/g, '') || '';
+    const speech = new SpeechSynthesisUtterance(currentInstruction);
+    speech.rate = 0.85;
+    speech.pitch = 1;
+    speech.volume = 1;
+    
+    window.speechSynthesis.speak(speech);
+  };
+
+  const announceStep = (step: number) => {
+    if (!('speechSynthesis' in window)) return;
+    if (step < 0 || step >= recipe.instructions.length) return;
+
+    window.speechSynthesis.cancel();
+    
+    const announcement = new SpeechSynthesisUtterance(`Step ${step + 1}`);
+    announcement.rate = 0.9;
+    announcement.volume = 0.7;
+    
+    window.speechSynthesis.speak(announcement);
+  };
+
+  const toggleVoiceControl = () => {
+    if (!voiceSupported) {
+      toast({
+        title: "Voice control not supported",
+        description: "Your browser doesn't support voice commands. Try Chrome, Edge, or Safari.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (isListening) {
+      recognition?.stop();
+      setIsListening(false);
+      window.speechSynthesis.cancel();
+      toast({ title: "Voice control off" });
+    } else {
+      try {
+        recognition?.start();
+        setIsListening(true);
+        toast({ 
+          title: "Voice control active",
+          description: "Say: Next, Back, Repeat, Ingredients"
+        });
+      } catch (error) {
+        console.error('Error starting recognition:', error);
+        toast({
+          title: "Couldn't start voice control",
+          description: "Please try again",
+          variant: "destructive"
+        });
+      }
+    }
+  };
 
   // Keep screen awake during cooking
   useEffect(() => {
@@ -52,6 +204,11 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     if (currentStep < recipe.instructions.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
+      if (isListening) {
+        const speech = new SpeechSynthesisUtterance("Cooking complete! Enjoy your meal!");
+        speech.rate = 0.9;
+        window.speechSynthesis.speak(speech);
+      }
       toast({ title: "Cooking complete! Enjoy! 🎉" });
       onExit();
     }
@@ -89,9 +246,19 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   if (showFullRecipe) {
     return (
       <div className="fixed inset-0 bg-black z-50 flex flex-col text-white">
-        {/* Header */}
-        <div className="p-4 bg-gray-900 flex justify-between items-center">
-          <h2 className="text-xl font-bold">{recipe.name}</h2>
+      {/* Header */}
+        <div className="p-4 bg-gray-900 flex justify-between items-center gap-4">
+          <h2 className="text-xl font-bold flex-1">{recipe.name}</h2>
+          {voiceSupported && (
+            <Button
+              onClick={toggleVoiceControl}
+              variant={isListening ? "default" : "outline"}
+              size="icon"
+              className={isListening ? "animate-pulse" : ""}
+            >
+              {isListening ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
+            </Button>
+          )}
           <button
             onClick={() => setShowFullRecipe(false)}
             className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
@@ -153,13 +320,50 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
           >
             <X className="w-6 h-6" />
           </button>
-          <button
-            onClick={() => setShowFullRecipe(true)}
-            className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
-          >
-            <List className="w-6 h-6" />
-          </button>
+          
+          <div className="flex items-center gap-2">
+            {voiceSupported && (
+              <Button
+                onClick={toggleVoiceControl}
+                variant={isListening ? "default" : "outline"}
+                size="sm"
+                className={isListening ? "animate-pulse" : ""}
+              >
+                {isListening ? (
+                  <>
+                    <Mic className="w-4 h-4 mr-2" />
+                    Listening
+                  </>
+                ) : (
+                  <>
+                    <MicOff className="w-4 h-4 mr-2" />
+                    Voice
+                  </>
+                )}
+              </Button>
+            )}
+            <button
+              onClick={() => setShowFullRecipe(true)}
+              className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+            >
+              <List className="w-6 h-6" />
+            </button>
+          </div>
         </div>
+
+        {isListening && (
+          <div className="mb-3 p-2 bg-primary/20 rounded-lg text-center">
+            <p className="text-xs text-primary font-medium">
+              🎤 Say: "Next", "Back", "Repeat", "Ingredients", "Exit"
+            </p>
+            {lastCommand && (
+              <p className="text-xs text-gray-400 mt-1">
+                Last heard: "{lastCommand}"
+              </p>
+            )}
+          </div>
+        )}
+
         <Progress value={progress} className="h-3" />
         <p className="text-gray-400 text-center mt-2 text-sm">
           Step {currentStep + 1} of {recipe.instructions.length}
@@ -186,9 +390,23 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
                   <li key={index} className="text-xl text-gray-200">
                     • {ing}
                   </li>
-                ))
-              }
+                ))}
               </ul>
+            </div>
+          )}
+
+          {/* Voice control helper for mobile */}
+          {voiceSupported && !isListening && (
+            <div className="mt-8">
+              <Button
+                onClick={toggleVoiceControl}
+                variant="outline"
+                size="lg"
+                className="text-lg"
+              >
+                <Mic className="w-5 h-5 mr-2" />
+                Enable Hands-Free Voice Control
+              </Button>
             </div>
           )}
         </div>
