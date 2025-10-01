@@ -1,21 +1,46 @@
 import { Recipe } from "@/types/recipe";
 
 // In-memory storage for fast access
-let recipesCache: Recipe[] = [];
-let favoritesCache: string[] = [];
-let shoppingListCache: { recipeId: string; ingredients: any[] }[] = [];
+let recipesCache: Recipe[] | null = null;
+let favoritesCache: string[] | null = null;
+let shoppingListCache: { recipeId: string; ingredients: any[] }[] | null = null;
 
-// Initialize from localStorage
-if (typeof window !== 'undefined') {
-  const stored = localStorage.getItem('recipes');
-  if (stored) recipesCache = JSON.parse(stored);
-  
-  const storedFavorites = localStorage.getItem('favorites');
-  if (storedFavorites) favoritesCache = JSON.parse(storedFavorites);
-  
-  const storedShopping = localStorage.getItem('shoppingList');
-  if (storedShopping) shoppingListCache = JSON.parse(storedShopping);
-}
+// Lazy initialization functions - only load from localStorage when first accessed
+const ensureRecipesLoaded = () => {
+  if (recipesCache === null) {
+    try {
+      const stored = localStorage.getItem('recipes');
+      recipesCache = stored ? JSON.parse(stored) : [];
+    } catch {
+      recipesCache = [];
+    }
+  }
+  return recipesCache;
+};
+
+const ensureFavoritesLoaded = () => {
+  if (favoritesCache === null) {
+    try {
+      const stored = localStorage.getItem('favorites');
+      favoritesCache = stored ? JSON.parse(stored) : [];
+    } catch {
+      favoritesCache = [];
+    }
+  }
+  return favoritesCache;
+};
+
+const ensureShoppingListLoaded = () => {
+  if (shoppingListCache === null) {
+    try {
+      const stored = localStorage.getItem('shoppingList');
+      shoppingListCache = stored ? JSON.parse(stored) : [];
+    } catch {
+      shoppingListCache = [];
+    }
+  }
+  return shoppingListCache;
+};
 
 export const recipeStorage = {
   // Recipes
@@ -25,51 +50,57 @@ export const recipeStorage = {
   },
   
   getRecipes: (): Recipe[] => {
-    return recipesCache;
+    return ensureRecipesLoaded();
   },
   
   getRecipeById: (id: string): Recipe | undefined => {
-    return recipesCache.find(r => r.id === id);
+    const cache = ensureRecipesLoaded();
+    return cache.find(r => r.id === id);
   },
   
   // Favorites
   addFavorite: (recipeId: string) => {
-    if (!favoritesCache.includes(recipeId)) {
-      favoritesCache.push(recipeId);
-      localStorage.setItem('favorites', JSON.stringify(favoritesCache));
+    const cache = ensureFavoritesLoaded();
+    if (!cache.includes(recipeId)) {
+      cache.push(recipeId);
+      localStorage.setItem('favorites', JSON.stringify(cache));
     }
   },
   
   removeFavorite: (recipeId: string) => {
-    favoritesCache = favoritesCache.filter(id => id !== recipeId);
+    const cache = ensureFavoritesLoaded();
+    favoritesCache = cache.filter(id => id !== recipeId);
     localStorage.setItem('favorites', JSON.stringify(favoritesCache));
   },
   
   getFavorites: (): string[] => {
-    return favoritesCache;
+    return ensureFavoritesLoaded();
   },
   
   isFavorite: (recipeId: string): boolean => {
-    return favoritesCache.includes(recipeId);
+    const cache = ensureFavoritesLoaded();
+    return cache.includes(recipeId);
   },
   
   // Shopping list
   addToShoppingList: (recipeId: string, ingredients: any[]) => {
-    const existing = shoppingListCache.findIndex(item => item.recipeId === recipeId);
+    const cache = ensureShoppingListLoaded();
+    const existing = cache.findIndex(item => item.recipeId === recipeId);
     if (existing >= 0) {
-      shoppingListCache[existing].ingredients = ingredients;
+      cache[existing].ingredients = ingredients;
     } else {
-      shoppingListCache.push({ recipeId, ingredients });
+      cache.push({ recipeId, ingredients });
     }
-    localStorage.setItem('shoppingList', JSON.stringify(shoppingListCache));
+    localStorage.setItem('shoppingList', JSON.stringify(cache));
   },
   
   removeFromShoppingList: (recipeId: string) => {
-    shoppingListCache = shoppingListCache.filter(item => item.recipeId !== recipeId);
+    const cache = ensureShoppingListLoaded();
+    shoppingListCache = cache.filter(item => item.recipeId !== recipeId);
     localStorage.setItem('shoppingList', JSON.stringify(shoppingListCache));
   },
   
   getShoppingList: () => {
-    return shoppingListCache;
+    return ensureShoppingListLoaded();
   },
 };
