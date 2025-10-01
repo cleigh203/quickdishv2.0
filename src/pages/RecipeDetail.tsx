@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Heart, ShoppingCart, Plus, Minus, ChefHat } from "lucide-react";
+import { halloweenRecipes } from "@/data/halloweenRecipes";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -21,7 +22,14 @@ const RecipeDetail = () => {
 
   useEffect(() => {
     if (id) {
-      const foundRecipe = recipeStorage.getRecipeById(id);
+      // First check recipeStorage, then check Halloween recipes
+      let foundRecipe = recipeStorage.getRecipeById(id);
+      
+      // If not in storage, check if it's a Halloween recipe
+      if (!foundRecipe) {
+        foundRecipe = halloweenRecipes.find(r => r.id === id);
+      }
+      
       if (foundRecipe) {
         setRecipe(foundRecipe);
         setIsFavorite(recipeStorage.isFavorite(id));
@@ -56,7 +64,9 @@ const RecipeDetail = () => {
   const addToShoppingList = () => {
     if (!recipe) return;
     
+    console.log('Adding ingredients from:', recipe.name);
     const currentList = JSON.parse(localStorage.getItem('shoppingList') || '[]');
+    console.log('Current list before adding:', currentList.length, 'items');
     
     recipe.ingredients.forEach(ing => {
       const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
@@ -101,7 +111,12 @@ const RecipeDetail = () => {
       }
     });
     
+    console.log('Final list after adding:', currentList.length, 'items');
     localStorage.setItem('shoppingList', JSON.stringify(currentList));
+    
+    // Trigger storage event for Shopping page
+    window.dispatchEvent(new Event('storage'));
+    
     toast({
       title: "Added to shopping list! 🛒",
       description: `${recipe.name} ingredients added`,
@@ -230,7 +245,13 @@ const RecipeDetail = () => {
                 })}
               </ul>
               <Button
-                onClick={addToShoppingList}
+                onClick={(e) => {
+                  e.currentTarget.disabled = true;
+                  addToShoppingList();
+                  setTimeout(() => {
+                    e.currentTarget.disabled = false;
+                  }, 1000);
+                }}
                 className="w-full mt-4 bg-primary hover:bg-primary/90"
               >
                 <ShoppingCart className="mr-2 h-5 w-5" />
