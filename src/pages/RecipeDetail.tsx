@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Heart, ShoppingCart, Plus, Minus, ChefHat } from "lucide-react";
-import { halloweenRecipes } from "@/data/halloweenRecipes";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,80 +18,25 @@ const RecipeDetail = () => {
   const [servingMultiplier, setServingMultiplier] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [cookingMode, setCookingMode] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadRecipe = async () => {
-      try {
-        setIsLoading(true);
+    if (id) {
+      const foundRecipe = recipeStorage.getRecipeById(id);
+      if (foundRecipe) {
+        setRecipe(foundRecipe);
+        setIsFavorite(recipeStorage.isFavorite(id));
         
-        if (!id) {
-          // No ID provided, check for currentRecipe
-          const currentRecipe = localStorage.getItem('currentRecipe');
-          if (currentRecipe) {
-            const parsed = JSON.parse(currentRecipe);
-            setRecipe(parsed);
-            setIsFavorite(recipeStorage.isFavorite(parsed.id));
-            return;
-          }
-          navigate('/discover');
-          return;
+        // Check if coming from "Cook Now" button
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('cook') === 'true') {
+          setCookingMode(true);
+          // Clean up URL
+          window.history.replaceState({}, '', `/recipe/${id}`);
         }
-
-        // Check multiple sources for the recipe
-        let foundRecipe = recipeStorage.getRecipeById(id);
-        
-        // Check Halloween recipes
-        if (!foundRecipe) {
-          foundRecipe = halloweenRecipes.find(r => r.id === id);
-        }
-        
-        // Check favorites
-        if (!foundRecipe) {
-          const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-          foundRecipe = favorites.find((r: Recipe) => r.id === id);
-        }
-        
-        // Check generated recipes
-        if (!foundRecipe) {
-          const generated = JSON.parse(localStorage.getItem('generatedRecipes') || '[]');
-          foundRecipe = generated.find((r: Recipe) => r.id === id);
-        }
-        
-        // Check currentRecipe as last resort
-        if (!foundRecipe) {
-          const currentRecipe = localStorage.getItem('currentRecipe');
-          if (currentRecipe) {
-            const parsed = JSON.parse(currentRecipe);
-            if (parsed.id === id) {
-              foundRecipe = parsed;
-            }
-          }
-        }
-        
-        if (foundRecipe) {
-          setRecipe(foundRecipe);
-          setIsFavorite(recipeStorage.isFavorite(id));
-          
-          // Check if coming from "Cook Now" button
-          const params = new URLSearchParams(window.location.search);
-          if (params.get('cook') === 'true') {
-            setCookingMode(true);
-            window.history.replaceState({}, '', `/recipe/${id}`);
-          }
-        } else {
-          console.error('Recipe not found:', id);
-          navigate('/discover');
-        }
-      } catch (error) {
-        console.error('Error loading recipe:', error);
-        navigate('/discover');
-      } finally {
-        setIsLoading(false);
+      } else {
+        navigate('/generate');
       }
-    };
-    
-    loadRecipe();
+    }
   }, [id, navigate]);
 
   const toggleFavorite = () => {
@@ -114,38 +58,43 @@ const RecipeDetail = () => {
     
     const currentList = JSON.parse(localStorage.getItem('shoppingList') || '[]');
     
-    // Normalize text for comparison (remove plurals, lowercase, trim)
-    const normalizeForMatching = (text: string) => {
-      return text.toLowerCase().trim()
-        .replace(/tomatoes?/gi, 'tomato')
-        .replace(/onions?/gi, 'onion')
-        .replace(/peppers?/gi, 'pepper')
-        .replace(/potatoes?/gi, 'potato')
-        .replace(/cloves?/gi, 'clove')
-        .replace(/\s+/g, ' ');
-    };
-    
     recipe.ingredients.forEach(ing => {
       const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
-      const normalizedIngredient = normalizeForMatching(ing.item);
       
-      // Find existing item by normalized name
-      const existingItem = currentList.find((item: any) => 
-        normalizeForMatching(item.item) === normalizedIngredient
-      );
+      // Use the item field directly, normalize for matching
+      let itemName = ing.item.toLowerCase().trim();
+      
+      // Normalize common variations for matching
+      const normalizeForMatching = (text: string) => {
+        return text
+          .replace(/tomatoes?/i, 'tomato')
+          .replace(/onions?/i, 'onion')
+          .replace(/peppers?/i, 'pepper')
+          .replace(/cloves?/i, 'clove');
+      };
+      
+      const normalizedItem = normalizeForMatching(itemName);
+      
+      // Check if base item already exists
+      const existingItem = currentList.find((item: any) => {
+        const existingNormalized = normalizeForMatching(item.item.toLowerCase());
+        return existingNormalized === normalizedItem;
+      });
       
       if (existingItem) {
-        // Item exists - update recipes list if not already included
-        if (!existingItem.recipes?.includes(recipe.name)) {
-          existingItem.recipes = existingItem.recipes || [];
+        // Update existing item with combined amounts
+        if (!existingItem.recipes.includes(recipe.name)) {
           existingItem.recipes.push(recipe.name);
+          existingItem.combinedAmounts = existingItem.combinedAmounts || [existingItem.amount];
+          existingItem.combinedAmounts.push(ingredientText);
         }
       } else {
-        // Add new item
+        // Add new item - capitalize first letter of original item
         currentList.push({
           id: Date.now() + Math.random(),
           item: ing.item.charAt(0).toUpperCase() + ing.item.slice(1),
           amount: ingredientText,
+          combinedAmounts: [ingredientText],
           checked: false,
           recipes: [recipe.name]
         });
@@ -153,24 +102,11 @@ const RecipeDetail = () => {
     });
     
     localStorage.setItem('shoppingList', JSON.stringify(currentList));
-    window.dispatchEvent(new Event('storage'));
-    
     toast({
       title: "Added to shopping list! 🛒",
       description: `${recipe.name} ingredients added`,
     });
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading recipe...</p>
-        </div>
-      </div>
-    );
-  }
 
   if (!recipe) {
     return null;
@@ -294,13 +230,7 @@ const RecipeDetail = () => {
                 })}
               </ul>
               <Button
-                onClick={(e) => {
-                  e.currentTarget.disabled = true;
-                  addToShoppingList();
-                  setTimeout(() => {
-                    e.currentTarget.disabled = false;
-                  }, 1000);
-                }}
+                onClick={addToShoppingList}
                 className="w-full mt-4 bg-primary hover:bg-primary/90"
               >
                 <ShoppingCart className="mr-2 h-5 w-5" />

@@ -7,7 +7,6 @@ import { BottomNav } from "@/components/BottomNav";
 import { useToast } from "@/hooks/use-toast";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { getRecipeImage } from "@/utils/recipeImages";
-import { generateRecipeText, generateRecipeImage } from "@/utils/openaiService";
 import { Recipe } from "@/types/recipe";
 
 const Generate = () => {
@@ -344,13 +343,54 @@ const Generate = () => {
       }
     }
     
-    // Call OpenAI via service (promises outside component scope)
+    // Call OpenAI
     setIsLoading(true);
     try {
-      const recipeText = await generateRecipeText({
-        ingredientInput,
-        apiKey: OPENAI_API_KEY
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-3.5-turbo',
+          messages: [
+            {
+              role: 'system',
+              content: 'You are a friendly home cook sharing recipes like texting a friend. Use casual language like "toss in", "a splash of", "until it smells amazing". Add personality like "my kids devour this" or "perfect for lazy Sundays". Never sound robotic or use AI terminology.'
+            },
+            {
+              role: 'user',
+              content: `Create a delicious recipe using: ${ingredientInput}.
+              
+              Format exactly like this:
+              Title: [Fun, appetizing name - not generic but not silly]
+              Prep Time: [X] minutes
+              Cook Time: [Y] minutes
+              
+              Ingredients:
+              - [amount] [ingredient]
+              
+              Instructions:
+              1. [Casual step like "Grab your biggest pan and heat it up"]
+              2. [Include measurements inline like "Toss in [2 cups rice]"]
+              
+              Nutrition (per serving, estimated):
+              Calories: [number]
+              Protein: [number]g
+              Carbs: [number]g
+              Fat: [number]g`
+            }
+          ],
+          max_tokens: 500,
+          temperature: 0.8
+        })
       });
+      
+      if (!response.ok) throw new Error('Failed to generate');
+      
+      const data = await response.json();
+      const recipeText = data.choices[0].message.content;
       
       // Parse recipe
       const recipe = parseRecipeText(recipeText);
@@ -358,16 +398,32 @@ const Generate = () => {
       // Save ingredient input for smart image matching
       recipe.ingredientInput = ingredientInput;
       
-      // Generate DALL-E image via service
-      const imageUrl = await generateRecipeImage({
-        recipeName: recipe.name,
-        apiKey: OPENAI_API_KEY
-      });
-      
-      if (imageUrl) {
-        recipe.imageUrl = imageUrl;
-        console.log('DALL-E image generated:', recipe.imageUrl);
-      } else {
+      // Generate DALL-E image for this recipe
+      try {
+        const imageResponse = await fetch('https://api.openai.com/v1/images/generations', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${OPENAI_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'dall-e-2',
+            prompt: `${recipe.name}, professional food photography, delicious, appetizing, well-plated, natural lighting, high quality`,
+            size: '512x512',
+            n: 1
+          })
+        });
+        
+        if (imageResponse.ok) {
+          const imageData = await imageResponse.json();
+          recipe.imageUrl = imageData.data[0].url;
+          console.log('DALL-E image generated:', recipe.imageUrl);
+        } else {
+          console.error('DALL-E generation failed, using fallback');
+          recipe.image = getRecipeImage(recipe);
+        }
+      } catch (imageError) {
+        console.error('Image generation error:', imageError);
         recipe.image = getRecipeImage(recipe);
       }
       
