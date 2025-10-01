@@ -2,7 +2,10 @@ import { Recipe } from "@/types/recipe";
 
 // Smart image mapping based on recipe content
 export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }): string => {
-  // If recipe already has a valid image, use it
+  // Check for imageUrl first (Halloween recipes), then image (generated recipes)
+  if (recipe.imageUrl && !recipe.imageUrl.includes('undefined')) {
+    return recipe.imageUrl;
+  }
   if (recipe.image && !recipe.image.includes('undefined')) {
     return recipe.image;
   }
