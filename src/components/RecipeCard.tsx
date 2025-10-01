@@ -29,6 +29,14 @@ export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
           }}
         />
         <div className="absolute top-2 right-2 flex gap-2">
+          {recipe.isPremium && (
+            <Badge 
+              variant="default" 
+              className="bg-gradient-to-r from-orange-500 to-purple-500 text-white border-none"
+            >
+              PREMIUM
+            </Badge>
+          )}
           <Badge 
             variant="secondary" 
             className="bg-primary text-primary-foreground"

@@ -3,6 +3,9 @@ import { ChefHat, Sparkles, Heart, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BottomNav } from "@/components/BottomNav";
+import { featuredHalloweenRecipe, getFreeHalloweenRecipes } from "@/data/halloweenRecipes";
+import { RecipeCard } from "@/components/RecipeCard";
+import { recipeStorage } from "@/utils/recipeStorage";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -25,9 +28,57 @@ const Index = () => {
     },
   ];
 
+  const handleRecipeClick = (recipeId: string) => {
+    navigate(`/recipe/${recipeId}`);
+  };
+
+  const freeHalloweenRecipes = getFreeHalloweenRecipes();
+
   return (
     <div className="min-h-screen pb-20">
       <div className="max-w-4xl mx-auto px-4 pt-12">
+        {/* Halloween Hero Section */}
+        <div className="relative overflow-hidden bg-gradient-to-r from-orange-600 via-orange-500 to-purple-600 rounded-2xl p-8 mb-12 shadow-lg">
+          <div className="absolute top-0 right-0 text-9xl opacity-10 select-none">🎃</div>
+          <div className="relative z-10">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              🎃 Halloween Recipe Drop!
+            </h1>
+            <p className="text-xl text-white/95 mb-6 max-w-2xl">
+              Vampire Bite Brownies that actually OOZE. Black pasta that stops conversations. 
+              Zombie brain dip that goes viral. This isn't your mom's Halloween spread.
+            </p>
+            <Button
+              onClick={() => {
+                // Store Halloween recipes and navigate
+                const existingRecipes = recipeStorage.getRecipes();
+                const halloweenIds = freeHalloweenRecipes.map(r => r.id);
+                const withoutHalloween = existingRecipes.filter(r => !halloweenIds.includes(r.id));
+                recipeStorage.setRecipes([...withoutHalloween, ...freeHalloweenRecipes]);
+                navigate('/generate');
+              }}
+              size="lg"
+              className="bg-black hover:bg-black/90 text-orange-500 font-bold text-lg px-8 py-6"
+            >
+              Get Halloween Recipes 👻
+            </Button>
+          </div>
+        </div>
+
+        {/* Featured Halloween Recipes */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold mb-6 text-center">Featured Halloween Recipes</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {freeHalloweenRecipes.slice(0, 4).map((recipe) => (
+              <RecipeCard
+                key={recipe.id}
+                recipe={recipe}
+                onClick={() => handleRecipeClick(recipe.id)}
+              />
+            ))}
+          </div>
+        </div>
+
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-6">
             <ChefHat className="w-10 h-10 text-primary" />

@@ -26,4 +26,5 @@ export interface Recipe {
   image?: string;
   nutrition?: Nutrition;
   ingredientInput?: string; // Store original input for smart image matching
+  isPremium?: boolean; // Premium recipes require subscription
 }
