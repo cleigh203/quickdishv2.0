@@ -19,32 +19,80 @@ const RecipeDetail = () => {
   const [servingMultiplier, setServingMultiplier] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [cookingMode, setCookingMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (id) {
-      // First check recipeStorage, then check Halloween recipes
-      let foundRecipe = recipeStorage.getRecipeById(id);
-      
-      // If not in storage, check if it's a Halloween recipe
-      if (!foundRecipe) {
-        foundRecipe = halloweenRecipes.find(r => r.id === id);
-      }
-      
-      if (foundRecipe) {
-        setRecipe(foundRecipe);
-        setIsFavorite(recipeStorage.isFavorite(id));
+    const loadRecipe = async () => {
+      try {
+        setIsLoading(true);
         
-        // Check if coming from "Cook Now" button
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('cook') === 'true') {
-          setCookingMode(true);
-          // Clean up URL
-          window.history.replaceState({}, '', `/recipe/${id}`);
+        if (!id) {
+          // No ID provided, check for currentRecipe
+          const currentRecipe = localStorage.getItem('currentRecipe');
+          if (currentRecipe) {
+            const parsed = JSON.parse(currentRecipe);
+            setRecipe(parsed);
+            setIsFavorite(recipeStorage.isFavorite(parsed.id));
+            return;
+          }
+          navigate('/discover');
+          return;
         }
-      } else {
-        navigate('/generate');
+
+        // Check multiple sources for the recipe
+        let foundRecipe = recipeStorage.getRecipeById(id);
+        
+        // Check Halloween recipes
+        if (!foundRecipe) {
+          foundRecipe = halloweenRecipes.find(r => r.id === id);
+        }
+        
+        // Check favorites
+        if (!foundRecipe) {
+          const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+          foundRecipe = favorites.find((r: Recipe) => r.id === id);
+        }
+        
+        // Check generated recipes
+        if (!foundRecipe) {
+          const generated = JSON.parse(localStorage.getItem('generatedRecipes') || '[]');
+          foundRecipe = generated.find((r: Recipe) => r.id === id);
+        }
+        
+        // Check currentRecipe as last resort
+        if (!foundRecipe) {
+          const currentRecipe = localStorage.getItem('currentRecipe');
+          if (currentRecipe) {
+            const parsed = JSON.parse(currentRecipe);
+            if (parsed.id === id) {
+              foundRecipe = parsed;
+            }
+          }
+        }
+        
+        if (foundRecipe) {
+          setRecipe(foundRecipe);
+          setIsFavorite(recipeStorage.isFavorite(id));
+          
+          // Check if coming from "Cook Now" button
+          const params = new URLSearchParams(window.location.search);
+          if (params.get('cook') === 'true') {
+            setCookingMode(true);
+            window.history.replaceState({}, '', `/recipe/${id}`);
+          }
+        } else {
+          console.error('Recipe not found:', id);
+          navigate('/discover');
+        }
+      } catch (error) {
+        console.error('Error loading recipe:', error);
+        navigate('/discover');
+      } finally {
+        setIsLoading(false);
       }
-    }
+    };
+    
+    loadRecipe();
   }, [id, navigate]);
 
   const toggleFavorite = () => {
@@ -112,6 +160,17 @@ const RecipeDetail = () => {
       description: `${recipe.name} ingredients added`,
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading recipe...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!recipe) {
     return null;
