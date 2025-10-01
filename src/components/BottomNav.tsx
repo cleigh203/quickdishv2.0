@@ -1,4 +1,4 @@
-import { Home, Sparkles, Heart, ShoppingCart, User, Settings } from "lucide-react";
+import { Home, Sparkles, Heart, ShoppingCart, Package, User, Settings } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -16,6 +16,7 @@ export const BottomNav = () => {
     { icon: Sparkles, label: "Discover", path: "/generate" },
     { icon: Heart, label: "Saved", path: "/favorites" },
     { icon: ShoppingCart, label: "Shopping", path: "/shopping" },
+    { icon: Package, label: "Pantry", path: "/pantry" },
     { icon: User, label: "Profile", path: "/profile" },
   ];
 

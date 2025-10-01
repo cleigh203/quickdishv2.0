@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { ShoppingCart, Trash2, Printer } from "lucide-react";
+import { ShoppingCart, Trash2, Printer, Package, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BottomNav } from "@/components/BottomNav";
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,6 +16,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { PantryItem } from "@/types/pantry";
+import { filterShoppingListByPantry, shoppingItemsToPantry } from "@/utils/pantryUtils";
 
 interface ShoppingItem {
   id: number;
@@ -34,13 +37,41 @@ const Shopping = () => {
       return [];
     }
   });
+  
+  const [pantryItems, setPantryItems] = useState<PantryItem[]>(() => {
+    try {
+      const saved = localStorage.getItem('pantryItems');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
   const [showClearDialog, setShowClearDialog] = useState(false);
+  const [showRemovedItems, setShowRemovedItems] = useState(false);
   const { toast } = useToast();
 
   // ✅ Save to localStorage in useEffect only (v7 compliant)
   useEffect(() => {
     localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
   }, [shoppingList]);
+
+  // ✅ Load pantry changes (v7 compliant)
+  useEffect(() => {
+    const handleStorageChange = () => {
+      try {
+        const saved = localStorage.getItem('pantryItems');
+        if (saved) {
+          setPantryItems(JSON.parse(saved));
+        }
+      } catch (error) {
+        console.error('Failed to load pantry items:', error);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   // ✅ Check for all items checked in useEffect (v7 compliant)
   useEffect(() => {
@@ -79,8 +110,32 @@ const Shopping = () => {
     toast({ title: "Print dialog opened" });
   };
 
-  const totalItems = shoppingList.length;
-  const checkedItems = shoppingList.filter(item => item.checked).length;
+  const handleAddAllToPantry = () => {
+    const newPantryItems = shoppingItemsToPantry(shoppingList.filter(item => item.checked));
+    const updatedPantry = [...pantryItems, ...newPantryItems];
+    
+    localStorage.setItem('pantryItems', JSON.stringify(updatedPantry));
+    setPantryItems(updatedPantry);
+    
+    // Remove checked items from shopping list
+    setShoppingList(prev => prev.filter(item => !item.checked));
+    
+    toast({ 
+      title: `Added ${newPantryItems.length} items to pantry`,
+      description: "Checked items removed from shopping list"
+    });
+  };
+
+  // Filter shopping list by pantry
+  const { filtered: activeList, removed: removedByPantry } = filterShoppingListByPantry(
+    shoppingList,
+    pantryItems
+  );
+
+  const displayList = showRemovedItems ? shoppingList : activeList;
+
+  const totalItems = displayList.length;
+  const checkedItems = displayList.filter(item => item.checked).length;
 
   return (
     <>
@@ -103,7 +158,17 @@ const Shopping = () => {
                 <span className="text-sm text-muted-foreground">
                   {checkedItems} of {totalItems} items checked
                 </span>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
+                  {checkedItems > 0 && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleAddAllToPantry}
+                    >
+                      <Package className="w-4 h-4 mr-2" />
+                      Add to Pantry
+                    </Button>
+                  )}
                   <Button
                     variant="outline"
                     size="sm"
@@ -127,7 +192,7 @@ const Shopping = () => {
           </Card>
         )}
 
-        {shoppingList.length === 0 ? (
+        {displayList.length === 0 && shoppingList.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center">
               <ShoppingCart className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
@@ -136,40 +201,64 @@ const Shopping = () => {
               </p>
             </CardContent>
           </Card>
+        ) : displayList.length === 0 ? (
+          <Card>
+            <CardContent className="p-8 text-center">
+              <Package className="w-12 h-12 text-primary mx-auto mb-4" />
+              <p className="text-muted-foreground mb-2">
+                All items are already in your pantry! 🎉
+              </p>
+              <Button 
+                variant="outline" 
+                onClick={() => setShowRemovedItems(true)}
+              >
+                Show all items
+              </Button>
+            </CardContent>
+          </Card>
         ) : (
           <div className="space-y-3">
-            {shoppingList.map((item) => (
-              <Card key={item.id}>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3 flex-1">
-                      <Checkbox
-                        checked={item.checked}
-                        onCheckedChange={() => toggleItem(item.id)}
-                      />
-                      <div className={item.checked ? 'line-through text-muted-foreground' : 'text-foreground'}>
-                        <div className="font-medium">
-                          {item.amount && <span className="text-muted-foreground">{item.amount} </span>}
-                          {item.item}
-                        </div>
-                        {item.recipes && item.recipes.length > 0 && (
-                          <div className="text-xs text-primary mt-1">
-                            For: {item.recipes.join(', ')}
+            {displayList.map((item) => {
+              const inPantry = removedByPantry.some(r => r.id === item.id);
+              return (
+                <Card key={item.id}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3 flex-1">
+                        <Checkbox
+                          checked={item.checked}
+                          onCheckedChange={() => toggleItem(item.id)}
+                        />
+                        <div className={item.checked ? 'line-through text-muted-foreground' : 'text-foreground'}>
+                          <div className="font-medium flex items-center gap-2">
+                            {item.amount && <span className="text-muted-foreground">{item.amount} </span>}
+                            {item.item}
+                            {inPantry && (
+                              <Badge variant="secondary" className="text-xs">
+                                <Package className="w-3 h-3 mr-1" />
+                                In Pantry
+                              </Badge>
+                            )}
                           </div>
-                        )}
+                          {item.recipes && item.recipes.length > 0 && (
+                            <div className="text-xs text-primary mt-1">
+                              For: {item.recipes.join(', ')}
+                            </div>
+                          )}
+                        </div>
                       </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeItem(item.id)}
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeItem(item.id)}
-                    >
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         )}
       </div>

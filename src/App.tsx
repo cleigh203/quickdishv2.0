@@ -8,6 +8,7 @@ import Generate from "./pages/Generate";
 import RecipeDetail from "./pages/RecipeDetail";
 import Favorites from "./pages/Favorites";
 import Shopping from "./pages/Shopping";
+import Pantry from "./pages/Pantry";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/recipe/:id" element={<RecipeDetail />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/shopping" element={<Shopping />} />
+          <Route path="/pantry" element={<Pantry />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
