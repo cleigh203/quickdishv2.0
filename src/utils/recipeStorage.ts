@@ -1,106 +1,117 @@
 import { Recipe } from "@/types/recipe";
 
-// In-memory storage for fast access
-let recipesCache: Recipe[] | null = null;
-let favoritesCache: string[] | null = null;
-let shoppingListCache: { recipeId: string; ingredients: any[] }[] | null = null;
-
-// Lazy initialization functions - only load from localStorage when first accessed
-const ensureRecipesLoaded = () => {
-  if (recipesCache === null) {
-    try {
-      const stored = localStorage.getItem('recipes');
-      recipesCache = stored ? JSON.parse(stored) : [];
-    } catch {
-      recipesCache = [];
-    }
-  }
-  return recipesCache;
-};
-
-const ensureFavoritesLoaded = () => {
-  if (favoritesCache === null) {
-    try {
-      const stored = localStorage.getItem('favorites');
-      favoritesCache = stored ? JSON.parse(stored) : [];
-    } catch {
-      favoritesCache = [];
-    }
-  }
-  return favoritesCache;
-};
-
-const ensureShoppingListLoaded = () => {
-  if (shoppingListCache === null) {
-    try {
-      const stored = localStorage.getItem('shoppingList');
-      shoppingListCache = stored ? JSON.parse(stored) : [];
-    } catch {
-      shoppingListCache = [];
-    }
-  }
-  return shoppingListCache;
-};
-
 export const recipeStorage = {
   // Recipes
   setRecipes: (recipes: Recipe[]) => {
-    recipesCache = recipes;
-    localStorage.setItem('recipes', JSON.stringify(recipes));
+    try {
+      localStorage.setItem('recipes', JSON.stringify(recipes));
+    } catch (error) {
+      console.error('Failed to save recipes:', error);
+    }
   },
   
   getRecipes: (): Recipe[] => {
-    return ensureRecipesLoaded();
+    try {
+      const saved = localStorage.getItem('recipes');
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error('Failed to load recipes:', error);
+      return [];
+    }
   },
   
   getRecipeById: (id: string): Recipe | undefined => {
-    const cache = ensureRecipesLoaded();
-    return cache.find(r => r.id === id);
+    try {
+      const saved = localStorage.getItem('recipes');
+      const recipes: Recipe[] = saved ? JSON.parse(saved) : [];
+      return recipes.find(r => r.id === id);
+    } catch (error) {
+      console.error('Failed to find recipe:', error);
+      return undefined;
+    }
   },
   
   // Favorites
   addFavorite: (recipeId: string) => {
-    const cache = ensureFavoritesLoaded();
-    if (!cache.includes(recipeId)) {
-      cache.push(recipeId);
-      localStorage.setItem('favorites', JSON.stringify(cache));
+    try {
+      const saved = localStorage.getItem('favorites');
+      const favorites: string[] = saved ? JSON.parse(saved) : [];
+      if (!favorites.includes(recipeId)) {
+        favorites.push(recipeId);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+      }
+    } catch (error) {
+      console.error('Failed to add favorite:', error);
     }
   },
   
   removeFavorite: (recipeId: string) => {
-    const cache = ensureFavoritesLoaded();
-    favoritesCache = cache.filter(id => id !== recipeId);
-    localStorage.setItem('favorites', JSON.stringify(favoritesCache));
+    try {
+      const saved = localStorage.getItem('favorites');
+      const favorites: string[] = saved ? JSON.parse(saved) : [];
+      const updated = favorites.filter(id => id !== recipeId);
+      localStorage.setItem('favorites', JSON.stringify(updated));
+    } catch (error) {
+      console.error('Failed to remove favorite:', error);
+    }
   },
   
   getFavorites: (): string[] => {
-    return ensureFavoritesLoaded();
+    try {
+      const saved = localStorage.getItem('favorites');
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error('Failed to load favorites:', error);
+      return [];
+    }
   },
   
   isFavorite: (recipeId: string): boolean => {
-    const cache = ensureFavoritesLoaded();
-    return cache.includes(recipeId);
+    try {
+      const saved = localStorage.getItem('favorites');
+      const favorites: string[] = saved ? JSON.parse(saved) : [];
+      return favorites.includes(recipeId);
+    } catch (error) {
+      console.error('Failed to check favorite:', error);
+      return false;
+    }
   },
   
   // Shopping list
   addToShoppingList: (recipeId: string, ingredients: any[]) => {
-    const cache = ensureShoppingListLoaded();
-    const existing = cache.findIndex(item => item.recipeId === recipeId);
-    if (existing >= 0) {
-      cache[existing].ingredients = ingredients;
-    } else {
-      cache.push({ recipeId, ingredients });
+    try {
+      const saved = localStorage.getItem('shoppingList');
+      const shoppingList: { recipeId: string; ingredients: any[] }[] = saved ? JSON.parse(saved) : [];
+      const existing = shoppingList.findIndex(item => item.recipeId === recipeId);
+      if (existing >= 0) {
+        shoppingList[existing].ingredients = ingredients;
+      } else {
+        shoppingList.push({ recipeId, ingredients });
+      }
+      localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
+    } catch (error) {
+      console.error('Failed to add to shopping list:', error);
     }
-    localStorage.setItem('shoppingList', JSON.stringify(cache));
   },
   
   removeFromShoppingList: (recipeId: string) => {
-    const cache = ensureShoppingListLoaded();
-    shoppingListCache = cache.filter(item => item.recipeId !== recipeId);
-    localStorage.setItem('shoppingList', JSON.stringify(shoppingListCache));
+    try {
+      const saved = localStorage.getItem('shoppingList');
+      const shoppingList: { recipeId: string; ingredients: any[] }[] = saved ? JSON.parse(saved) : [];
+      const updated = shoppingList.filter(item => item.recipeId !== recipeId);
+      localStorage.setItem('shoppingList', JSON.stringify(updated));
+    } catch (error) {
+      console.error('Failed to remove from shopping list:', error);
+    }
   },
   
   getShoppingList: () => {
-    return ensureShoppingListLoaded();
+    try {
+      const saved = localStorage.getItem('shoppingList');
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error('Failed to load shopping list:', error);
+      return [];
+    }
   },
 };
