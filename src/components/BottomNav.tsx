@@ -1,9 +1,10 @@
 import { Home, Sparkles, Heart, ShoppingCart, User, Settings } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useClientRouter } from "@/hooks/useClientRouter";
 
 export const BottomNav = () => {
-  const navigate = useNavigate();
+  const handleNavigate = useClientRouter();
   const location = useLocation();
   const [isDeveloper, setIsDeveloper] = useState(false);
 
@@ -35,9 +36,8 @@ export const BottomNav = () => {
               key={item.path}
               type="button"
               onClick={(e) => {
-                e.preventDefault();
                 console.log('Navigating to:', item.path);
-                navigate(item.path);
+                handleNavigate(item.path, e);
               }}
               className={`flex flex-col items-center justify-center w-full h-full smooth-transition ${
                 isActive ? "text-primary" : "text-muted-foreground"
