@@ -64,57 +64,47 @@ const RecipeDetail = () => {
   const addToShoppingList = () => {
     if (!recipe) return;
     
-    console.log('Adding ingredients from:', recipe.name);
     const currentList = JSON.parse(localStorage.getItem('shoppingList') || '[]');
-    console.log('Current list before adding:', currentList.length, 'items');
+    
+    // Normalize text for comparison (remove plurals, lowercase, trim)
+    const normalizeForMatching = (text: string) => {
+      return text.toLowerCase().trim()
+        .replace(/tomatoes?/gi, 'tomato')
+        .replace(/onions?/gi, 'onion')
+        .replace(/peppers?/gi, 'pepper')
+        .replace(/potatoes?/gi, 'potato')
+        .replace(/cloves?/gi, 'clove')
+        .replace(/\s+/g, ' ');
+    };
     
     recipe.ingredients.forEach(ing => {
       const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
+      const normalizedIngredient = normalizeForMatching(ing.item);
       
-      // Use the item field directly, normalize for matching
-      let itemName = ing.item.toLowerCase().trim();
-      
-      // Normalize common variations for matching
-      const normalizeForMatching = (text: string) => {
-        return text
-          .replace(/tomatoes?/i, 'tomato')
-          .replace(/onions?/i, 'onion')
-          .replace(/peppers?/i, 'pepper')
-          .replace(/cloves?/i, 'clove');
-      };
-      
-      const normalizedItem = normalizeForMatching(itemName);
-      
-      // Check if base item already exists
-      const existingItem = currentList.find((item: any) => {
-        const existingNormalized = normalizeForMatching(item.item.toLowerCase());
-        return existingNormalized === normalizedItem;
-      });
+      // Find existing item by normalized name
+      const existingItem = currentList.find((item: any) => 
+        normalizeForMatching(item.item) === normalizedIngredient
+      );
       
       if (existingItem) {
-        // Update existing item with combined amounts
-        if (!existingItem.recipes.includes(recipe.name)) {
+        // Item exists - update recipes list if not already included
+        if (!existingItem.recipes?.includes(recipe.name)) {
+          existingItem.recipes = existingItem.recipes || [];
           existingItem.recipes.push(recipe.name);
-          existingItem.combinedAmounts = existingItem.combinedAmounts || [existingItem.amount];
-          existingItem.combinedAmounts.push(ingredientText);
         }
       } else {
-        // Add new item - capitalize first letter of original item
+        // Add new item
         currentList.push({
           id: Date.now() + Math.random(),
           item: ing.item.charAt(0).toUpperCase() + ing.item.slice(1),
           amount: ingredientText,
-          combinedAmounts: [ingredientText],
           checked: false,
           recipes: [recipe.name]
         });
       }
     });
     
-    console.log('Final list after adding:', currentList.length, 'items');
     localStorage.setItem('shoppingList', JSON.stringify(currentList));
-    
-    // Trigger storage event for Shopping page
     window.dispatchEvent(new Event('storage'));
     
     toast({
