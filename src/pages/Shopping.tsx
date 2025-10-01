@@ -120,41 +120,149 @@ const Shopping = () => {
       day: 'numeric' 
     });
 
-    let text = `🛒 QuickDish Shopping List\n📅 ${date}\n${'─'.repeat(25)}\n\n`;
+    // Generate HTML for PDF
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>QuickDish Shopping List</title>
+          <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+              padding: 40px;
+              max-width: 800px;
+              margin: 0 auto;
+              color: #1a1a1a;
+            }
+            .header {
+              background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+              color: white;
+              padding: 30px;
+              border-radius: 16px;
+              margin-bottom: 30px;
+            }
+            .header h1 {
+              font-size: 32px;
+              margin-bottom: 8px;
+              display: flex;
+              align-items: center;
+              gap: 12px;
+            }
+            .header .date {
+              font-size: 16px;
+              opacity: 0.9;
+            }
+            .section {
+              margin-bottom: 30px;
+            }
+            .section-title {
+              font-size: 20px;
+              font-weight: 600;
+              color: #FF6B35;
+              margin-bottom: 16px;
+              padding-bottom: 8px;
+              border-bottom: 2px solid #FF6B35;
+            }
+            .item {
+              display: flex;
+              align-items: flex-start;
+              padding: 12px;
+              margin-bottom: 8px;
+              background: #f8f8f8;
+              border-radius: 8px;
+              border-left: 3px solid #FF6B35;
+            }
+            .checkbox {
+              width: 20px;
+              height: 20px;
+              border: 2px solid #FF6B35;
+              border-radius: 4px;
+              margin-right: 12px;
+              flex-shrink: 0;
+              margin-top: 2px;
+            }
+            .item-text {
+              flex: 1;
+              font-size: 16px;
+              line-height: 1.5;
+            }
+            .amount {
+              color: #666;
+              font-weight: 500;
+            }
+            .footer {
+              margin-top: 40px;
+              padding-top: 20px;
+              border-top: 2px dashed #ddd;
+              color: #666;
+              font-size: 14px;
+            }
+            @media print {
+              body { padding: 20px; }
+              .header { break-inside: avoid; }
+              .section { break-inside: avoid; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>🛒 QuickDish Shopping List</h1>
+            <div class="date">📅 ${date}</div>
+          </div>
 
-    Object.keys(itemsByRecipe).forEach(recipeName => {
-      text += `📖 ${recipeName}\n`;
-      itemsByRecipe[recipeName].forEach(item => {
-        text += `  □ ${item.amount ? item.amount + ' ' : ''}${item.item}\n`;
-      });
-      text += '\n';
-    });
+          ${Object.keys(itemsByRecipe).map(recipeName => `
+            <div class="section">
+              <div class="section-title">📖 ${recipeName}</div>
+              ${itemsByRecipe[recipeName].map(item => `
+                <div class="item">
+                  <div class="checkbox"></div>
+                  <div class="item-text">
+                    ${item.amount ? `<span class="amount">${item.amount}</span> ` : ''}${item.item}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `).join('')}
 
-    if (otherItems.length > 0) {
-      text += `📝 Other Items\n`;
-      otherItems.forEach(item => {
-        text += `  □ ${item.amount ? item.amount + ' ' : ''}${item.item}\n`;
-      });
-      text += '\n';
+          ${otherItems.length > 0 ? `
+            <div class="section">
+              <div class="section-title">📝 Other Items</div>
+              ${otherItems.map(item => `
+                <div class="item">
+                  <div class="checkbox"></div>
+                  <div class="item-text">
+                    ${item.amount ? `<span class="amount">${item.amount}</span> ` : ''}${item.item}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+
+          ${hidePantryItems && pantryItems.length > 0 ? `
+            <div class="footer">
+              ✓ Pantry items excluded: ${pantryItems.join(', ')}
+            </div>
+          ` : ''}
+        </body>
+      </html>
+    `;
+
+    // Open in new window and trigger print dialog
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(html);
+      printWindow.document.close();
+      printWindow.focus();
+      
+      // Trigger print dialog after content loads
+      printWindow.onload = () => {
+        printWindow.print();
+      };
     }
 
-    if (hidePantryItems && pantryItems.length > 0) {
-      text += `${'─'.repeat(25)}\n✓ Pantry items excluded:\n${pantryItems.join(', ')}\n`;
-    }
-
-    // Copy to clipboard
-    navigator.clipboard.writeText(text);
-
-    // Download file
-    const blob = new Blob([text], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `shopping-list-${Date.now()}.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
-
-    toast({ title: "List exported & copied to clipboard!" });
+    toast({ title: "Opening print dialog..." });
   };
 
   const filteredList = hidePantryItems 
