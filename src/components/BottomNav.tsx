@@ -14,7 +14,7 @@ export const BottomNav = () => {
   const baseNavItems = [
     { icon: Home, label: "Home", path: "/" },
     { icon: Sparkles, label: "Discover", path: "/generate" },
-    { icon: Heart, labroutel: "Saved", path: "/favorites" },
+    { icon: Heart, label: "Saved", path: "/favorites" },
     { icon: ShoppingCart, label: "Shopping", path: "/shopping" },
     { icon: User, label: "Profile", path: "/profile" },
   ];
