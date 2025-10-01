@@ -11,7 +11,7 @@ export const halloweenRecipes: Recipe[] = [
     servings: 12,
     cuisine: "Halloween",
     isPremium: false,
-    imageUrl: "https://images.pexels.com/photos/1998634/pexels-photo-1998634.jpeg?auto=compress&cs=tinysrgb&w=800",
+    imageUrl: "https://images.pexels.com/photos/3026804/pexels-photo-3026804.jpeg",
     ingredients: [
       { amount: "1", unit: "cup", item: "butter" },
       { amount: "2", unit: "cups", item: "dark chocolate chips" },
@@ -45,7 +45,7 @@ export const halloweenRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Halloween",
     isPremium: true,
-    imageUrl: "https://images.pexels.com/photos/1438672/pexels-photo-1438672.jpeg?auto=compress&cs=tinysrgb&w=800",
+    imageUrl: "https://images.pexels.com/photos/2703468/pexels-photo-2703468.jpeg",
     ingredients: [
       { amount: "1", unit: "lb", item: "squid ink pasta" },
       { amount: "1", unit: "lb", item: "large shrimp" },
@@ -79,7 +79,7 @@ export const halloweenRecipes: Recipe[] = [
     servings: 8,
     cuisine: "Halloween",
     isPremium: false,
-    imageUrl: "https://images.pexels.com/photos/4033325/pexels-photo-4033325.jpeg?auto=compress&cs=tinysrgb&w=800",
+    imageUrl: "https://images.pexels.com/photos/5638527/pexels-photo-5638527.jpeg",
     ingredients: [
       { amount: "1", unit: "whole", item: "cauliflower" },
       { amount: "1", unit: "cup", item: "buffalo sauce" },
@@ -112,7 +112,7 @@ export const halloweenRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Halloween",
     isPremium: false,
-    imageUrl: "https://images.pexels.com/photos/2789328/pexels-photo-2789328.jpeg?auto=compress&cs=tinysrgb&w=800",
+    imageUrl: "https://images.pexels.com/photos/2842876/pexels-photo-2842876.jpeg",
     ingredients: [
       { amount: "1", unit: "cup", item: "tequila" },
       { amount: "1/2", unit: "cup", item: "triple sec" },
@@ -146,7 +146,7 @@ export const halloweenRecipes: Recipe[] = [
     servings: 10,
     cuisine: "Halloween",
     isPremium: false,
-    imageUrl: "https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800",
+    imageUrl: "https://images.pexels.com/photos/1893555/pexels-photo-1893555.jpeg",
     ingredients: [
       { amount: "2", unit: "cans", item: "crescent roll dough" },
       { amount: "10", unit: "", item: "hot dogs" },
@@ -177,7 +177,7 @@ export const halloweenRecipes: Recipe[] = [
     servings: 6,
     cuisine: "Halloween",
     isPremium: false,
-    imageUrl: "https://images.pexels.com/photos/1707945/pexels-photo-1707945.jpeg?auto=compress&cs=tinysrgb&w=800",
+    imageUrl: "https://images.pexels.com/photos/4518844/pexels-photo-4518844.jpeg",
     ingredients: [
       { amount: "2", unit: "lbs", item: "broccoli florets" },
       { amount: "1", unit: "large", item: "onion" },
@@ -211,7 +211,7 @@ export const halloweenRecipes: Recipe[] = [
     servings: 24,
     cuisine: "Halloween",
     isPremium: true,
-    imageUrl: "https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&cs=tinysrgb&w=800",
+    imageUrl: "https://images.pexels.com/photos/4773769/pexels-photo-4773769.jpeg",
     ingredients: [
       { amount: "2", unit: "cups", item: "flour" },
       { amount: "3/4", unit: "cup", item: "cocoa powder" },
@@ -248,7 +248,7 @@ export const halloweenRecipes: Recipe[] = [
     servings: 6,
     cuisine: "Halloween",
     isPremium: true,
-    imageUrl: "https://images.pexels.com/photos/1118874/pexels-photo-1118874.jpeg?auto=compress&cs=tinysrgb&w=800",
+    imageUrl: "https://images.pexels.com/photos/2662875/pexels-photo-2662875.jpeg",
     ingredients: [
       { amount: "6", unit: "", item: "mini pumpkins" },
       { amount: "2", unit: "lbs", item: "butternut squash" },
@@ -285,7 +285,7 @@ export const halloweenRecipes: Recipe[] = [
     servings: 20,
     cuisine: "Halloween",
     isPremium: true,
-    imageUrl: "https://images.pexels.com/photos/3776942/pexels-photo-3776942.jpeg?auto=compress&cs=tinysrgb&w=800",
+    imageUrl: "https://images.pexels.com/photos/3026810/pexels-photo-3026810.jpeg",
     ingredients: [
       { amount: "12", unit: "oz", item: "white chocolate chips" },
       { amount: "12", unit: "oz", item: "orange chocolate melts" },
@@ -317,7 +317,7 @@ export const halloweenRecipes: Recipe[] = [
     servings: 12,
     cuisine: "Halloween",
     isPremium: true,
-    imageUrl: "https://images.pexels.com/photos/1586947/pexels-photo-1586947.jpeg?auto=compress&cs=tinysrgb&w=800",
+    imageUrl: "https://images.pexels.com/photos/5702780/pexels-photo-5702780.jpeg",
     ingredients: [
       { amount: "12", unit: "", item: "eggs" },
       { amount: "1/2", unit: "cup", item: "mayonnaise" },
