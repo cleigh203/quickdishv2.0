@@ -18,6 +18,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   const [recognition, setRecognition] = useState<any>(null);
   const [lastCommand, setLastCommand] = useState<string>("");
   const [voiceSupported, setVoiceSupported] = useState(false);
+  const [autoRead, setAutoRead] = useState(true);
   const { toast } = useToast();
 
   // Check browser support for voice features
@@ -26,6 +27,21 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     const hasSpeechSynthesis = 'speechSynthesis' in window;
     setVoiceSupported(hasVoiceRecognition && hasSpeechSynthesis);
   }, []);
+
+  // Auto-read step when it changes (for any navigation method)
+  useEffect(() => {
+    if (!voiceSupported || !autoRead || !isListening) return;
+    if (currentStep < 0 || currentStep >= recipe.instructions.length) return;
+
+    // Small delay to let UI update first
+    const timer = setTimeout(() => {
+      speakCurrentStep();
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [currentStep, autoRead, isListening, voiceSupported]);
 
   // Initialize speech recognition
   useEffect(() => {
@@ -81,11 +97,9 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     if (command.includes('next') || command.includes('forward')) {
       toast({ title: `Heard: "${command}"`, description: "Moving to next step" });
       handleNext();
-      announceStep(currentStep + 1);
     } else if (command.includes('previous') || command.includes('back') || command.includes('last')) {
       toast({ title: `Heard: "${command}"`, description: "Going back" });
       handlePrevious();
-      announceStep(currentStep - 1);
     } else if (command.includes('repeat') || command.includes('again') || command.includes('read')) {
       toast({ title: `Heard: "${command}"`, description: "Repeating step" });
       speakCurrentStep();
@@ -111,11 +125,14 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     window.speechSynthesis.cancel();
 
     const currentInstruction = recipe.instructions[currentStep]?.replace(/^\d+\.\s*/, '').replace(/\[|\]/g, '') || '';
-    const speech = new SpeechSynthesisUtterance(currentInstruction);
+    const announcement = `Step ${currentStep + 1}. ${currentInstruction}`;
+    
+    const speech = new SpeechSynthesisUtterance(announcement);
     speech.rate = 0.85;
     speech.pitch = 1;
     speech.volume = 1;
     
+    console.log('Speaking:', announcement);
     window.speechSynthesis.speak(speech);
   };
 
