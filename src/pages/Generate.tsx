@@ -398,8 +398,39 @@ const Generate = () => {
       // Save ingredient input for smart image matching
       recipe.ingredientInput = ingredientInput;
       
-      // Get appropriate image based on recipe content
-      recipe.image = getRecipeImage(recipe);
+      // Generate DALL-E image for this recipe
+      try {
+        const imageResponse = await fetch('https://api.openai.com/v1/images/generations', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${OPENAI_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'dall-e-2',
+            prompt: `${recipe.name}, professional food photography, delicious, appetizing, well-plated, natural lighting, high quality`,
+            size: '512x512',
+            n: 1
+          })
+        });
+        
+        if (imageResponse.ok) {
+          const imageData = await imageResponse.json();
+          recipe.imageUrl = imageData.data[0].url;
+          console.log('DALL-E image generated:', recipe.imageUrl);
+        } else {
+          console.error('DALL-E generation failed, using fallback');
+          recipe.image = getRecipeImage(recipe);
+        }
+      } catch (imageError) {
+        console.error('Image generation error:', imageError);
+        recipe.image = getRecipeImage(recipe);
+      }
+      
+      // Fallback to smart image if no imageUrl was set
+      if (!recipe.imageUrl) {
+        recipe.image = getRecipeImage(recipe);
+      }
       
       // Debugging
       console.log('Recipe title:', recipe.name);
