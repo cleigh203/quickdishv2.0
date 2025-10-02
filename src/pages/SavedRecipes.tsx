@@ -13,7 +13,7 @@ const SavedRecipes = () => {
 
   useEffect(() => {
     // Load saved recipe IDs from localStorage
-    const savedIds = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
+    const savedIds = JSON.parse(localStorage.getItem('favorites') || '[]');
     
     // Filter recipes that match saved IDs
     const saved = allRecipes.filter(recipe => savedIds.includes(recipe.id));
