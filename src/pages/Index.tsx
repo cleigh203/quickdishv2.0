@@ -136,22 +136,49 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {features.map((feature) => {
-            const Icon = feature.icon;
-            return (
-              <Card key={feature.title} className="premium-card border-0">
-                <CardContent className="p-8 text-center">
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 mb-4">
-                    <Icon className="w-7 h-7 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
-                </CardContent>
-              </Card>
-            );
-          })}
+        {/* Featured Collections - Large Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          {/* Halloween Recipe Drop */}
+          <div
+            className="relative h-72 rounded-3xl overflow-hidden cursor-pointer premium-card group"
+            onClick={() => navigate('/generate')}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"
+              style={{
+                backgroundImage: `url(https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80)`
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+              <div className="text-6xl mb-4">🎃</div>
+              <h3 className="text-3xl font-bold mb-2">Halloween Recipe Drop</h3>
+              <p className="text-lg text-white/90">
+                Vampire brownies that ooze • Black pasta that goes viral
+              </p>
+            </div>
+          </div>
+
+          {/* Restaurant Copycats */}
+          <div
+            className="relative h-72 rounded-3xl overflow-hidden cursor-pointer premium-card group"
+            onClick={() => navigate('/generate')}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"
+              style={{
+                backgroundImage: `url(https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80)`
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+              <div className="text-6xl mb-4">🍔</div>
+              <h3 className="text-3xl font-bold mb-2">Restaurant Copycats</h3>
+              <p className="text-lg text-white/90">
+                Make your favorite restaurant dishes at home
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
