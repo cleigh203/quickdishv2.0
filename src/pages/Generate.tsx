@@ -10,6 +10,7 @@ import { recipeStorage } from "@/utils/recipeStorage";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { Recipe } from "@/types/recipe";
 import { allRecipes, getRecipesByCollection, getQuickRecipes } from "@/data/recipes";
+import heroImage from "@/assets/recipes/quick-caprese-chicken.jpg";
 
 const Generate = () => {
   const [searchParams] = useSearchParams();
@@ -406,31 +407,34 @@ const Generate = () => {
   const clearFilters = () => setFilters([]);
 
   return (
-    <div className="min-h-screen pb-20 px-6 bg-background">
-      <div className="max-w-6xl mx-auto pt-12">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-5xl font-bold mb-3">
-            {searchQuery ? `Recipes with: ${searchQuery}` : 'Discover'}
+    <div className="min-h-screen pb-20 bg-background">
+      {/* Hero Section */}
+      <div className="relative h-[500px] w-full overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${heroImage})`
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
+        <div className="relative h-full flex items-center justify-center">
+          <h1 className="text-7xl font-bold text-white">
+            Discover
           </h1>
-          <p className="text-lg text-muted-foreground">
-            {searchQuery 
-              ? `Found ${filteredRecipes.length} recipes you can make`
-              : `Real food, real recipes • ${filteredRecipes.length} recipes`
-            }
-          </p>
         </div>
+      </div>
 
-        <div className="premium-card border-0 p-4 mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="w-5 h-5 text-primary" />
-            <h2 className="text-lg font-semibold">Recipe Creator</h2>
+      {/* Floating Search Card */}
+      <div className="max-w-6xl mx-auto px-6 -mt-20 relative z-10">
+        <div className="bg-background rounded-3xl shadow-2xl p-8 mb-12">
+          <div className="flex items-center gap-2 mb-6">
+            <Sparkles className="w-6 h-6 text-primary" />
+            <h2 className="text-2xl font-semibold">Recipe Creator</h2>
           </div>
-          <p className="text-sm text-muted-foreground mb-4">Find or create the perfect recipe</p>
           
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
-              <label className="text-sm font-medium mb-2 block">
+              <label className="text-base font-medium mb-3 block">
                 What do you want to cook?
               </label>
               <Input
@@ -438,9 +442,9 @@ const Generate = () => {
                 value={ingredientInput}
                 onChange={(e) => setIngredientInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleGenerateRecipe()}
-                className="h-12"
+                className="h-14 text-base"
               />
-              <p className="text-xs text-muted-foreground mt-2">
+              <p className="text-sm text-muted-foreground mt-3">
                 {!isPremium && `${5 - recipesGeneratedToday} of 5 free recipes remaining today`}
                 {isPremium && '✨ Premium - Unlimited recipes'}
               </p>
@@ -449,27 +453,27 @@ const Generate = () => {
             {/* Collapsible Filters Button */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="w-full flex items-center justify-between px-4 py-3 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow"
+              className="w-full flex items-center justify-between px-5 py-4 bg-card rounded-xl shadow-md hover:shadow-lg transition-all border border-border"
             >
-              <span className="text-sm font-medium text-foreground">Customize Filters</span>
-              <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${showFilters ? 'rotate-90' : ''}`} />
+              <span className="text-base font-medium">Customize Filters</span>
+              <ChevronRight className={`w-5 h-5 text-muted-foreground transition-transform ${showFilters ? 'rotate-90' : ''}`} />
             </button>
 
             {/* Collapsible Filters Section */}
             {showFilters && (
-              <div className="space-y-4">
+              <div className="space-y-6 pt-2">
                 {/* Cook Time - 2 column grid */}
                 <div>
-                  <p className="text-xs font-medium text-muted-foreground mb-2">Cook Time</p>
-                  <div className="grid grid-cols-2 gap-2">
+                  <p className="text-sm font-semibold text-foreground mb-3">Cook Time</p>
+                  <div className="grid grid-cols-2 gap-3">
                     {FILTERS.time.map((filter) => (
                       <Badge
                         key={filter}
                         variant={filters.includes(filter) ? "default" : "outline"}
-                        className="cursor-pointer px-4 py-2 border-2 rounded-lg justify-center"
+                        className="cursor-pointer px-4 py-3 border-2 rounded-xl justify-center text-sm"
                         onClick={() => toggleFilter(filter)}
                       >
-                        {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
+                        {filters.includes(filter) && <Check className="w-4 h-4 mr-1" />}
                         {filter}
                       </Badge>
                     ))}
@@ -478,16 +482,16 @@ const Generate = () => {
 
                 {/* Difficulty - 3 column grid */}
                 <div>
-                  <p className="text-xs font-medium text-muted-foreground mb-2">Difficulty</p>
-                  <div className="grid grid-cols-3 gap-2">
+                  <p className="text-sm font-semibold text-foreground mb-3">Difficulty</p>
+                  <div className="grid grid-cols-3 gap-3">
                     {FILTERS.difficulty.map((filter) => (
                       <Badge
                         key={filter}
                         variant={filters.includes(filter) ? "default" : "outline"}
-                        className="cursor-pointer px-4 py-2 border-2 rounded-lg justify-center"
+                        className="cursor-pointer px-4 py-3 border-2 rounded-xl justify-center text-sm"
                         onClick={() => toggleFilter(filter)}
                       >
-                        {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
+                        {filters.includes(filter) && <Check className="w-4 h-4 mr-1" />}
                         {filter}
                       </Badge>
                     ))}
@@ -496,16 +500,16 @@ const Generate = () => {
 
                 {/* Dietary - 2x2 grid */}
                 <div>
-                  <p className="text-xs font-medium text-muted-foreground mb-2">Dietary</p>
-                  <div className="grid grid-cols-2 gap-2">
+                  <p className="text-sm font-semibold text-foreground mb-3">Dietary</p>
+                  <div className="grid grid-cols-2 gap-3">
                     {FILTERS.diet.map((filter) => (
                       <Badge
                         key={filter}
                         variant={filters.includes(filter) ? "default" : "outline"}
-                        className="cursor-pointer px-4 py-2 border-2 rounded-lg justify-center"
+                        className="cursor-pointer px-4 py-3 border-2 rounded-xl justify-center text-sm"
                         onClick={() => toggleFilter(filter)}
                       >
-                        {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
+                        {filters.includes(filter) && <Check className="w-4 h-4 mr-1" />}
                         {filter}
                       </Badge>
                     ))}
@@ -514,16 +518,16 @@ const Generate = () => {
 
                 {/* Meal Type - 2x2 grid */}
                 <div>
-                  <p className="text-xs font-medium text-muted-foreground mb-2">Meal Type</p>
-                  <div className="grid grid-cols-2 gap-2">
+                  <p className="text-sm font-semibold text-foreground mb-3">Meal Type</p>
+                  <div className="grid grid-cols-2 gap-3">
                     {FILTERS.meal.map((filter) => (
                       <Badge
                         key={filter}
                         variant={filters.includes(filter) ? "default" : "outline"}
-                        className="cursor-pointer px-4 py-2 border-2 rounded-lg justify-center"
+                        className="cursor-pointer px-4 py-3 border-2 rounded-xl justify-center text-sm"
                         onClick={() => toggleFilter(filter)}
                       >
-                        {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
+                        {filters.includes(filter) && <Check className="w-4 h-4 mr-1" />}
                         {filter}
                       </Badge>
                     ))}
@@ -534,7 +538,7 @@ const Generate = () => {
 
             <Button
               onClick={handleGenerateRecipe}
-              className="w-full h-12"
+              className="w-full h-14 text-base"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -552,7 +556,8 @@ const Generate = () => {
           </div>
         </div>
 
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+        {/* Category Tabs */}
+        <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
           {Object.entries(categories).map(([key, cat]) => (
             <button
               key={key}
@@ -568,9 +573,9 @@ const Generate = () => {
           ))}
         </div>
 
-
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">
+        {/* Category Title */}
+        <div className="mb-10">
+          <h2 className="text-4xl font-bold mb-3">
             {categories[activeCategory as keyof typeof categories].title}
           </h2>
           <p className="text-muted-foreground text-lg">
@@ -578,12 +583,13 @@ const Generate = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Recipe Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {filteredRecipes.map((recipe) => (
             <div
               key={recipe.id}
               onClick={() => navigate(`/recipe/${recipe.id}`)}
-              className="premium-card cursor-pointer border-0 overflow-hidden"
+              className="premium-card cursor-pointer border-0 overflow-hidden hover:shadow-xl transition-shadow"
             >
               <div className="relative h-48">
                 <img
