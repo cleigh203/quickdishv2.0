@@ -419,7 +419,7 @@ const Generate = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
         <div className="relative h-full flex flex-col items-center justify-center px-6 space-y-8">
-          <h1 className="text-7xl font-bold text-white">
+          <h1 className="text-6xl font-bold text-white">
             Discover
           </h1>
           
@@ -427,7 +427,7 @@ const Generate = () => {
           <div className="inline-flex gap-2 bg-white/20 backdrop-blur-sm p-1.5 rounded-full">
             <button
               onClick={() => setSearchMode('search')}
-              className={`px-6 py-3 rounded-full font-medium transition-all ${
+              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
                 searchMode === 'search'
                   ? 'bg-white text-gray-900 shadow-md'
                   : 'text-white hover:bg-white/10'
@@ -437,7 +437,7 @@ const Generate = () => {
             </button>
             <button
               onClick={() => setSearchMode('ingredients')}
-              className={`px-6 py-3 rounded-full font-medium transition-all ${
+              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
                 searchMode === 'ingredients'
                   ? 'bg-white text-gray-900 shadow-md'
                   : 'text-white hover:bg-white/10'
@@ -448,7 +448,7 @@ const Generate = () => {
           </div>
 
           {/* Search Input */}
-          <div className="w-full max-w-3xl">
+          <div className="w-full max-w-2xl">
             <Input
               placeholder={
                 searchMode === 'search'
@@ -464,12 +464,12 @@ const Generate = () => {
               onKeyPress={(e) =>
                 e.key === 'Enter' && searchMode === 'ingredients' && handleGenerateRecipe()
               }
-              className="h-16 px-8 py-6 text-lg bg-white rounded-2xl shadow-2xl border-0"
+              className="h-14 px-6 py-4 text-base bg-white rounded-2xl shadow-2xl border-0"
             />
           </div>
 
           {/* Links */}
-          <div className="flex items-center gap-3 text-white/90">
+          <div className="flex items-center gap-3 text-white/90 text-sm">
             <button
               onClick={() => setShowFilters(!showFilters)}
               className="font-medium underline hover:text-white transition-colors"
