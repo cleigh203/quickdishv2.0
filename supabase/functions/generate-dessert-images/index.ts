@@ -11,47 +11,61 @@ serve(async (req) => {
   }
 
   try {
-    const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
-    if (!OPENAI_API_KEY) {
-      throw new Error("OPENAI_API_KEY is not configured");
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    if (!LOVABLE_API_KEY) {
+      throw new Error("LOVABLE_API_KEY is not configured");
     }
 
     const { dessertName, index } = await req.json();
 
     console.log(`Generating image ${index} for: ${dessertName}`);
 
-    const response = await fetch("https://api.openai.com/v1/images/generations", {
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${OPENAI_API_KEY}`,
+        "Authorization": `Bearer ${LOVABLE_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-image-1",
-        prompt: `Professional food photography of ${dessertName}, beautifully plated on a white dish, studio lighting, high-end restaurant quality, appetizing, detailed, 4k quality`,
-        n: 1,
-        size: "1024x1024",
-        quality: "high",
-        output_format: "png",
-        response_format: "b64_json"
+        model: "google/gemini-2.5-flash-image-preview",
+        messages: [
+          {
+            role: "user",
+            content: `Generate a professional food photography image of ${dessertName}, beautifully plated on a white dish, studio lighting, high-end restaurant quality, appetizing, detailed, 4k quality`
+          }
+        ],
+        modalities: ["image", "text"]
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("OpenAI API error:", errorText);
+      console.error("Lovable AI error:", errorText);
+      
+      if (response.status === 429) {
+        throw new Error("Rate limit exceeded. Please try again later.");
+      }
+      if (response.status === 402) {
+        throw new Error("Payment required. Please add credits to your workspace.");
+      }
       throw new Error(`Image generation failed: ${response.status}`);
     }
 
     const data = await response.json();
-    const base64Image = data.data[0].b64_json;
+    const imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+    
+    if (!imageUrl) {
+      throw new Error("No image generated in response");
+    }
+    
+    const base64Image = imageUrl;
 
     return new Response(
       JSON.stringify({ 
-        imageBase64: `data:image/png;base64,${base64Image}`,
+        imageBase64: base64Image,
         dessertName,
         index
-      }), 
+      }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       }
