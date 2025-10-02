@@ -6,6 +6,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { RecipeCard } from "@/components/RecipeCard";
 import { allRecipes } from "@/data/recipes";
 import { Recipe } from "@/types/recipe";
+import { recipeStorage } from "@/utils/recipeStorage";
 
 const SavedRecipes = () => {
   const navigate = useNavigate();
@@ -15,8 +16,20 @@ const SavedRecipes = () => {
     // Load saved recipe IDs from localStorage
     const savedIds = JSON.parse(localStorage.getItem('favorites') || '[]');
     
+    // Combine hardcoded recipes and dynamically generated recipes
+    const dynamicRecipes = recipeStorage.getRecipes();
+    const allAvailableRecipes = [...allRecipes, ...dynamicRecipes];
+    
+    // Remove duplicates by ID (prioritize dynamic versions)
+    const recipeMap = new Map<string, Recipe>();
+    allAvailableRecipes.forEach(recipe => {
+      recipeMap.set(recipe.id, recipe);
+    });
+    
     // Filter recipes that match saved IDs
-    const saved = allRecipes.filter(recipe => savedIds.includes(recipe.id));
+    const saved = Array.from(recipeMap.values()).filter(recipe => 
+      savedIds.includes(recipe.id)
+    );
     setSavedRecipes(saved);
   }, []);
 
