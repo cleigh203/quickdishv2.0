@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { BottomNav } from "@/components/BottomNav";
 import { getFreeHalloweenRecipes } from "@/data/halloweenRecipes";
 import { RecipeCard } from "@/components/RecipeCard";
+import poisonAppleCocktail from "@/assets/recipes/poison-apple-cocktail.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -123,7 +124,7 @@ const Index = () => {
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"
               style={{
-                backgroundImage: `url(https://images.unsplash.com/photo-1570473974649-30f6f3c5d0f3?w=800&q=80)`
+                backgroundImage: `url(${poisonAppleCocktail})`
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
