@@ -44,7 +44,9 @@ const Index = () => {
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   e.preventDefault();
-                  navigate(`/generate?search=${encodeURIComponent(searchInput)}`);
+                  if (searchInput.trim()) {
+                    navigate(`/discover?ingredients=${encodeURIComponent(searchInput)}`);
+                  }
                 }
               }}
               placeholder="What's in your fridge?"
@@ -55,7 +57,9 @@ const Index = () => {
               className="rounded-xl"
               onClick={(e) => {
                 e.preventDefault();
-                navigate(`/generate?search=${encodeURIComponent(searchInput)}`);
+                if (searchInput.trim()) {
+                  navigate(`/discover?ingredients=${encodeURIComponent(searchInput)}`);
+                }
               }}
             >
               <Sparkles className="w-5 h-5" />

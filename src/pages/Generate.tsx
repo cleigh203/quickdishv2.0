@@ -26,6 +26,7 @@ const Generate = () => {
   
   // Check for collection filter from URL
   const collectionParam = searchParams.get('collection');
+  const ingredientsParam = searchParams.get('ingredients');
   
   // Load all recipes into storage on mount
   useEffect(() => {
@@ -161,6 +162,8 @@ const Generate = () => {
     setSearchQuery('');
     setIngredientInput('');
     setShowFilteredView(false);
+    // Clear URL params
+    navigate('/discover');
   };
 
   const removeFilter = (filter: string) => {
@@ -199,13 +202,26 @@ const Generate = () => {
     });
   };
 
+  // Filter recipes by ingredients from URL param
+  const filterByIngredients = (recipes: Recipe[], query: string) => {
+    if (!query) return recipes;
+    
+    const searchTerms = query.toLowerCase().split(',').map(t => t.trim());
+    
+    return recipes.filter(recipe => {
+      const recipeIngredients = recipe.ingredients.map(ing => ing.item.toLowerCase()).join(' ');
+      // Match if recipe contains ANY of the search terms
+      return searchTerms.some(term => recipeIngredients.includes(term));
+    });
+  };
+
   // Get filtered recipes for search overlay results
   const getFilteredRecipes = () => {
     const isHalloweenRecipe = (recipe: Recipe) => 
       recipe.cuisine?.toLowerCase() === 'halloween' || 
       recipe.tags?.includes('halloween') || false;
 
-    return allRecipes.filter(recipe => {
+    let filtered = allRecipes.filter(recipe => {
       // Exclude Halloween from search results
       if (isHalloweenRecipe(recipe)) return false;
 
@@ -250,10 +266,17 @@ const Generate = () => {
         ) || false;
       });
     });
+
+    // Apply ingredient filter from URL if present
+    if (ingredientsParam) {
+      filtered = filterByIngredients(filtered, ingredientsParam);
+    }
+
+    return filtered;
   };
 
-  // If viewing filtered search results
-  if (showFilteredView && !collectionParam) {
+  // If viewing filtered search results or ingredient search from home
+  if ((showFilteredView || ingredientsParam) && !collectionParam) {
     const filteredRecipes = getFilteredRecipes();
 
     return (
@@ -289,10 +312,12 @@ const Generate = () => {
         </div>
 
         {/* Active Filters */}
-        {(activeFilters.length > 0 || searchQuery || ingredientInput) && (
+        {(activeFilters.length > 0 || searchQuery || ingredientInput || ingredientsParam) && (
           <div className="px-4 pt-4">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-sm font-semibold">Active Filters</p>
+              <p className="text-sm font-semibold">
+                {ingredientsParam ? 'Showing recipes with:' : 'Active Filters'}
+              </p>
               <Button
                 variant="ghost"
                 size="sm"
@@ -303,6 +328,15 @@ const Generate = () => {
               </Button>
             </div>
             <div className="flex flex-wrap gap-2">
+              {ingredientsParam && (
+                <Badge variant="secondary" className="pl-3 pr-2 py-1.5">
+                  {ingredientsParam}
+                  <X 
+                    className="w-3 h-3 ml-2 cursor-pointer" 
+                    onClick={() => navigate('/discover')}
+                  />
+                </Badge>
+              )}
               {searchQuery && (
                 <Badge variant="secondary" className="pl-3 pr-2 py-1.5">
                   Search: {searchQuery}
@@ -342,7 +376,11 @@ const Generate = () => {
           {filteredRecipes.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
               <p className="text-lg font-medium">No recipes found</p>
-              <p className="text-sm mt-2">Try adjusting your filters or search terms</p>
+              <p className="text-sm mt-2">
+                {ingredientsParam 
+                  ? 'No recipes found with these ingredients. Try different ingredients.' 
+                  : 'Try adjusting your filters or search terms'}
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-4">
