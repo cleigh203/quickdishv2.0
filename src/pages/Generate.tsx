@@ -15,6 +15,7 @@ import heroImage from "@/assets/recipes/quick-caprese-chicken.jpg";
 const Generate = () => {
   const [searchParams] = useSearchParams();
   const [activeCategory, setActiveCategory] = useState('quick');
+  const [searchMode, setSearchMode] = useState<'search' | 'ingredients'>('search');
   const [mode, setMode] = useState<'search' | 'ingredients'>('search');
   const [ingredientInput, setIngredientInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -408,7 +409,7 @@ const Generate = () => {
 
   return (
     <div className="min-h-screen pb-20 bg-background">
-      {/* Hero Section */}
+      {/* Hero Section with Inline Search */}
       <div className="relative h-[500px] w-full overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -417,144 +418,179 @@ const Generate = () => {
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
-        <div className="relative h-full flex items-center justify-center">
+        <div className="relative h-full flex flex-col items-center justify-center px-6 space-y-8">
           <h1 className="text-7xl font-bold text-white">
             Discover
           </h1>
+          
+          {/* Toggle Buttons */}
+          <div className="inline-flex gap-2 bg-white/20 backdrop-blur-sm p-1.5 rounded-full">
+            <button
+              onClick={() => setSearchMode('search')}
+              className={`px-6 py-3 rounded-full font-medium transition-all ${
+                searchMode === 'search'
+                  ? 'bg-white text-gray-900 shadow-md'
+                  : 'text-white hover:bg-white/10'
+              }`}
+            >
+              Search Recipes
+            </button>
+            <button
+              onClick={() => setSearchMode('ingredients')}
+              className={`px-6 py-3 rounded-full font-medium transition-all ${
+                searchMode === 'ingredients'
+                  ? 'bg-white text-gray-900 shadow-md'
+                  : 'text-white hover:bg-white/10'
+              }`}
+            >
+              Use My Ingredients
+            </button>
+          </div>
+
+          {/* Search Input */}
+          <div className="w-full max-w-3xl">
+            <Input
+              placeholder={
+                searchMode === 'search'
+                  ? 'Search for any recipe...'
+                  : 'Enter ingredients you have (e.g., chicken, rice, tomatoes)...'
+              }
+              value={searchMode === 'search' ? searchQuery : ingredientInput}
+              onChange={(e) =>
+                searchMode === 'search'
+                  ? setSearchQuery(e.target.value)
+                  : setIngredientInput(e.target.value)
+              }
+              onKeyPress={(e) =>
+                e.key === 'Enter' && searchMode === 'ingredients' && handleGenerateRecipe()
+              }
+              className="h-16 px-8 py-6 text-lg bg-white rounded-2xl shadow-2xl border-0"
+            />
+          </div>
+
+          {/* Links */}
+          <div className="flex items-center gap-3 text-white/90">
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="font-medium underline hover:text-white transition-colors"
+            >
+              Advanced Filters
+            </button>
+            <span className="text-white/50">•</span>
+            <button
+              onClick={handleGenerateRecipe}
+              disabled={isLoading || (searchMode === 'ingredients' && !ingredientInput.trim())}
+              className="font-medium underline hover:text-white transition-colors disabled:opacity-50"
+            >
+              {isLoading ? 'Creating...' : 'Create Recipe'}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Floating Search Card */}
-      <div className="max-w-6xl mx-auto px-6 -mt-20 relative z-10">
-        <div className="bg-background rounded-3xl shadow-2xl p-8 mb-12">
-          <div className="flex items-center gap-2 mb-6">
-            <Sparkles className="w-6 h-6 text-primary" />
-            <h2 className="text-2xl font-semibold">Recipe Creator</h2>
-          </div>
-          
-          <div className="space-y-6">
-            <div>
-              <label className="text-base font-medium mb-3 block">
-                What do you want to cook?
-              </label>
-              <Input
-                placeholder="Search recipes or enter ingredients..."
-                value={ingredientInput}
-                onChange={(e) => setIngredientInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleGenerateRecipe()}
-                className="h-14 text-base"
-              />
-              <p className="text-sm text-muted-foreground mt-3">
-                {!isPremium && `${5 - recipesGeneratedToday} of 5 free recipes remaining today`}
-                {isPremium && '✨ Premium - Unlimited recipes'}
-              </p>
+      {/* Filters Panel (Collapsible) */}
+      {showFilters && (
+        <div className="max-w-6xl mx-auto px-6 py-8">
+          <div className="bg-background rounded-3xl shadow-2xl p-8 space-y-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-2xl font-semibold">Customize Filters</h3>
+              <Button variant="ghost" size="icon" onClick={() => setShowFilters(false)}>
+                <X className="w-5 h-5" />
+              </Button>
             </div>
 
-            {/* Collapsible Filters Button */}
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="w-full flex items-center justify-between px-5 py-4 bg-card rounded-xl shadow-md hover:shadow-lg transition-all border border-border"
-            >
-              <span className="text-base font-medium">Customize Filters</span>
-              <ChevronRight className={`w-5 h-5 text-muted-foreground transition-transform ${showFilters ? 'rotate-90' : ''}`} />
-            </button>
-
-            {/* Collapsible Filters Section */}
-            {showFilters && (
-              <div className="space-y-6 pt-2">
-                {/* Cook Time - 2 column grid */}
-                <div>
-                  <p className="text-sm font-semibold text-foreground mb-3">Cook Time</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    {FILTERS.time.map((filter) => (
-                      <Badge
-                        key={filter}
-                        variant={filters.includes(filter) ? "default" : "outline"}
-                        className="cursor-pointer px-4 py-3 border-2 rounded-xl justify-center text-sm"
-                        onClick={() => toggleFilter(filter)}
-                      >
-                        {filters.includes(filter) && <Check className="w-4 h-4 mr-1" />}
-                        {filter}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Difficulty - 3 column grid */}
-                <div>
-                  <p className="text-sm font-semibold text-foreground mb-3">Difficulty</p>
-                  <div className="grid grid-cols-3 gap-3">
-                    {FILTERS.difficulty.map((filter) => (
-                      <Badge
-                        key={filter}
-                        variant={filters.includes(filter) ? "default" : "outline"}
-                        className="cursor-pointer px-4 py-3 border-2 rounded-xl justify-center text-sm"
-                        onClick={() => toggleFilter(filter)}
-                      >
-                        {filters.includes(filter) && <Check className="w-4 h-4 mr-1" />}
-                        {filter}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Dietary - 2x2 grid */}
-                <div>
-                  <p className="text-sm font-semibold text-foreground mb-3">Dietary</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    {FILTERS.diet.map((filter) => (
-                      <Badge
-                        key={filter}
-                        variant={filters.includes(filter) ? "default" : "outline"}
-                        className="cursor-pointer px-4 py-3 border-2 rounded-xl justify-center text-sm"
-                        onClick={() => toggleFilter(filter)}
-                      >
-                        {filters.includes(filter) && <Check className="w-4 h-4 mr-1" />}
-                        {filter}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Meal Type - 2x2 grid */}
-                <div>
-                  <p className="text-sm font-semibold text-foreground mb-3">Meal Type</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    {FILTERS.meal.map((filter) => (
-                      <Badge
-                        key={filter}
-                        variant={filters.includes(filter) ? "default" : "outline"}
-                        className="cursor-pointer px-4 py-3 border-2 rounded-xl justify-center text-sm"
-                        onClick={() => toggleFilter(filter)}
-                      >
-                        {filters.includes(filter) && <Check className="w-4 h-4 mr-1" />}
-                        {filter}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
+            {/* Cook Time - 2 column grid */}
+            <div>
+              <p className="text-sm font-semibold text-foreground mb-3">Cook Time</p>
+              <div className="grid grid-cols-2 gap-3">
+                {FILTERS.time.map((filter) => (
+                  <Badge
+                    key={filter}
+                    variant={filters.includes(filter) ? "default" : "outline"}
+                    className="cursor-pointer px-4 py-3 border-2 rounded-xl justify-center text-sm"
+                    onClick={() => toggleFilter(filter)}
+                  >
+                    {filters.includes(filter) && <Check className="w-4 h-4 mr-1" />}
+                    {filter}
+                  </Badge>
+                ))}
               </div>
-            )}
+            </div>
 
-            <Button
-              onClick={handleGenerateRecipe}
-              className="w-full h-14 text-base"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Creating your recipe...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="mr-2 h-5 w-5" />
-                  Create Recipe
-                </>
-              )}
-            </Button>
+            {/* Difficulty - 3 column grid */}
+            <div>
+              <p className="text-sm font-semibold text-foreground mb-3">Difficulty</p>
+              <div className="grid grid-cols-3 gap-3">
+                {FILTERS.difficulty.map((filter) => (
+                  <Badge
+                    key={filter}
+                    variant={filters.includes(filter) ? "default" : "outline"}
+                    className="cursor-pointer px-4 py-3 border-2 rounded-xl justify-center text-sm"
+                    onClick={() => toggleFilter(filter)}
+                  >
+                    {filters.includes(filter) && <Check className="w-4 h-4 mr-1" />}
+                    {filter}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            {/* Dietary - 2x2 grid */}
+            <div>
+              <p className="text-sm font-semibold text-foreground mb-3">Dietary</p>
+              <div className="grid grid-cols-2 gap-3">
+                {FILTERS.diet.map((filter) => (
+                  <Badge
+                    key={filter}
+                    variant={filters.includes(filter) ? "default" : "outline"}
+                    className="cursor-pointer px-4 py-3 border-2 rounded-xl justify-center text-sm"
+                    onClick={() => toggleFilter(filter)}
+                  >
+                    {filters.includes(filter) && <Check className="w-4 h-4 mr-1" />}
+                    {filter}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            {/* Meal Type - 2x2 grid */}
+            <div>
+              <p className="text-sm font-semibold text-foreground mb-3">Meal Type</p>
+              <div className="grid grid-cols-2 gap-3">
+                {FILTERS.meal.map((filter) => (
+                  <Badge
+                    key={filter}
+                    variant={filters.includes(filter) ? "default" : "outline"}
+                    className="cursor-pointer px-4 py-3 border-2 rounded-xl justify-center text-sm"
+                    onClick={() => toggleFilter(filter)}
+                  >
+                    {filters.includes(filter) && <Check className="w-4 h-4 mr-1" />}
+                    {filter}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex gap-3 pt-4">
+              <Button
+                variant="outline"
+                onClick={clearFilters}
+                className="flex-1"
+              >
+                Clear All
+              </Button>
+              <Button
+                onClick={() => setShowFilters(false)}
+                className="flex-1"
+              >
+                Apply Filters
+              </Button>
+            </div>
           </div>
         </div>
+      )}
+
+      <div className="max-w-6xl mx-auto px-6">
 
         {/* Category Tabs */}
         <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
