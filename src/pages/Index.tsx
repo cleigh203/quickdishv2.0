@@ -1,34 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { ChefHat, Sparkles, Heart, ShoppingCart, ChevronRight } from "lucide-react";
+import { Sparkles, Heart, ShoppingCart, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { BottomNav } from "@/components/BottomNav";
-import { featuredHalloweenRecipe, getFreeHalloweenRecipes } from "@/data/halloweenRecipes";
+import { getFreeHalloweenRecipes } from "@/data/halloweenRecipes";
 import { RecipeCard } from "@/components/RecipeCard";
-import { recipeStorage } from "@/utils/recipeStorage";
 
 const Index = () => {
   const navigate = useNavigate();
   const [showHalloweenRecipes, setShowHalloweenRecipes] = useState(false);
-
-  const features = [
-    {
-      icon: Sparkles,
-      title: "Smart Recipe Creator",
-      description: "Tell us what's in your fridge, we'll handle the rest",
-    },
-    {
-      icon: Heart,
-      title: "Save Favorites",
-      description: "Keep track of your favorite recipes for quick access",
-    },
-    {
-      icon: ShoppingCart,
-      title: "Smart Shopping Lists",
-      description: "Automatically create shopping lists from recipes for instore use",
-    },
-  ];
 
   const handleRecipeClick = (recipeId: string) => {
     navigate(`/recipe/${recipeId}`);
@@ -137,7 +117,7 @@ const Index = () => {
         </div>
 
         {/* Featured Collections - Large Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
           {/* Halloween Recipe Drop */}
           <div
             className="relative h-72 rounded-3xl overflow-hidden cursor-pointer premium-card group"
@@ -176,6 +156,53 @@ const Index = () => {
               <h3 className="text-3xl font-bold mb-2">Restaurant Copycats</h3>
               <p className="text-lg text-white/90">
                 Make your favorite restaurant dishes at home
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Features Bar */}
+        <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-3xl p-8 mb-20 shadow-lg hover:shadow-xl transition-all duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* AI Recipe Creator */}
+            <div
+              className="text-center cursor-pointer group"
+              onClick={() => navigate('/generate')}
+            >
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 shadow-lg mb-4 transition-transform duration-300 group-hover:scale-110">
+                <Sparkles className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">AI Recipe Creator</h3>
+              <p className="text-sm text-gray-600">
+                Turn your ingredients into delicious recipes
+              </p>
+            </div>
+
+            {/* Save Favorites */}
+            <div
+              className="text-center cursor-pointer group"
+              onClick={() => navigate('/saved')}
+            >
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 shadow-lg mb-4 transition-transform duration-300 group-hover:scale-110">
+                <Heart className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Save Favorites</h3>
+              <p className="text-sm text-gray-600">
+                Keep track of recipes you love
+              </p>
+            </div>
+
+            {/* Smart Shopping */}
+            <div
+              className="text-center cursor-pointer group"
+              onClick={() => navigate('/shopping')}
+            >
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 shadow-lg mb-4 transition-transform duration-300 group-hover:scale-110">
+                <ShoppingCart className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Smart Shopping</h3>
+              <p className="text-sm text-gray-600">
+                Auto-generate shopping lists
               </p>
             </div>
           </div>
