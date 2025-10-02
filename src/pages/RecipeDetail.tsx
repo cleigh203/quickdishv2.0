@@ -10,6 +10,7 @@ import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
 import CookingMode from "@/components/CookingMode";
 import { ingredientsToShoppingItems, deduplicateShoppingList } from "@/utils/shoppingListUtils";
+import { allRecipes } from "@/data/recipes";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,7 +23,14 @@ const RecipeDetail = () => {
 
   useEffect(() => {
     if (id) {
-      const foundRecipe = recipeStorage.getRecipeById(id);
+      // Load from source recipes first (hardcoded recipes with correct images)
+      let foundRecipe = allRecipes.find(r => r.id === id);
+      
+      // Fall back to localStorage for user-generated recipes
+      if (!foundRecipe) {
+        foundRecipe = recipeStorage.getRecipeById(id);
+      }
+      
       if (foundRecipe) {
         setRecipe(foundRecipe);
         setIsFavorite(recipeStorage.isFavorite(id));
