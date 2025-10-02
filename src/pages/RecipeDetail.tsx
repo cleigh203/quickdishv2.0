@@ -94,14 +94,13 @@ const RecipeDetail = () => {
     <div className="min-h-screen pb-8">
       <div className="relative h-64 overflow-hidden">
         <img 
-          src={recipe.image || recipe.imageUrl || getRecipeImage(recipe)} 
+          src={recipe.image}
           alt={recipe.name}
           className="w-full h-full object-cover"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            // Use smart image matching as fallback
-            console.log('Image load failed for:', recipe.name, 'Original src:', target.src);
-            target.src = getRecipeImage(recipe);
+            console.error('Image failed to load for:', recipe.name, 'Original src:', target.src);
+            console.log('Recipe image path:', recipe.image);
           }}
         />
         <Button
