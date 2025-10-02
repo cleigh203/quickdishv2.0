@@ -13,6 +13,7 @@ import { Recipe } from "@/types/recipe";
 const Generate = () => {
   const [searchParams] = useSearchParams();
   const [activeCategory, setActiveCategory] = useState('20min');
+  const [mode, setMode] = useState<'search' | 'ingredients'>('search');
   const [ingredientInput, setIngredientInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -379,9 +380,9 @@ const Generate = () => {
   // Filter constants
   const FILTERS = {
     time: ['Under 30min', '30-60min'],
-    diet: ['Vegetarian', 'Vegan', 'Gluten-Free', 'Keto'],
+    diet: ['Vegetarian', 'Vegan', 'Gluten-Free', 'None'],
     difficulty: ['Easy', 'Medium', 'Hard'],
-    meal: ['Breakfast', 'Lunch', 'Dinner', 'Dessert']
+    meal: ['Breakfast', 'Lunch', 'Dinner', 'Snack']
   };
 
   // Apply filters
@@ -440,12 +441,48 @@ const Generate = () => {
           </p>
         </div>
 
-        <div className="premium-card border-0 p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">🤖 AI Recipe Generator</h2>
+        <div className="premium-card border-0 p-4 mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <Sparkles className="w-5 h-5 text-primary" />
+            <h2 className="text-lg font-semibold">Recipe Creator</h2>
+          </div>
+          <p className="text-sm text-muted-foreground mb-4">Find or create the perfect recipe</p>
+          
           <div className="space-y-4">
+            {/* Tab Switcher */}
+            <div className="flex gap-2">
+              <button 
+                onClick={() => setMode('search')}
+                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  mode === 'search' 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'bg-muted text-muted-foreground'
+                }`}
+              >
+                Search Recipes
+              </button>
+              <button 
+                onClick={() => setMode('ingredients')}
+                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  mode === 'ingredients' 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'bg-muted text-muted-foreground'
+                }`}
+              >
+                Use My Ingredients
+              </button>
+            </div>
+
             <div>
+              <label className="text-sm font-medium mb-2 block">
+                {mode === 'search' ? 'What do you want to cook?' : 'What ingredients do you have?'}
+              </label>
               <Input
-                placeholder="chicken, rice, peppers..."
+                placeholder={
+                  mode === 'search' 
+                    ? "Search for any recipe... (e.g., 'chicken parmesan', 'chocolate cake')" 
+                    : "What's in your kitchen? (e.g., 'chicken, rice, peppers')"
+                }
                 value={ingredientInput}
                 onChange={(e) => setIngredientInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleGenerateRecipe()}
@@ -469,7 +506,7 @@ const Generate = () => {
               ) : (
                 <>
                   <Sparkles className="mr-2 h-5 w-5" />
-                  Generate Recipe
+                  Create Recipe
                 </>
               )}
             </Button>
@@ -509,64 +546,76 @@ const Generate = () => {
           </div>
 
           <div className="space-y-3">
-            {/* Time */}
-            <div className="flex gap-2 overflow-x-auto pb-1">
-              {FILTERS.time.map((filter) => (
-                <Badge
-                  key={filter}
-                  variant={filters.includes(filter) ? "default" : "outline"}
-                  className="cursor-pointer whitespace-nowrap px-4 py-2 border-2 rounded-full"
-                  onClick={() => toggleFilter(filter)}
-                >
-                  {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
-                  {filter}
-                </Badge>
-              ))}
+            {/* Cook Time - 2 column grid */}
+            <div>
+              <p className="text-xs font-medium text-muted-foreground mb-2">Cook Time</p>
+              <div className="grid grid-cols-2 gap-2">
+                {FILTERS.time.map((filter) => (
+                  <Badge
+                    key={filter}
+                    variant={filters.includes(filter) ? "default" : "outline"}
+                    className="cursor-pointer px-4 py-2 border-2 rounded-lg justify-center"
+                    onClick={() => toggleFilter(filter)}
+                  >
+                    {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
+                    {filter}
+                  </Badge>
+                ))}
+              </div>
             </div>
 
-            {/* Difficulty */}
-            <div className="flex gap-2 overflow-x-auto pb-1">
-              {FILTERS.difficulty.map((filter) => (
-                <Badge
-                  key={filter}
-                  variant={filters.includes(filter) ? "default" : "outline"}
-                  className="cursor-pointer whitespace-nowrap px-4 py-2 border-2 rounded-full"
-                  onClick={() => toggleFilter(filter)}
-                >
-                  {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
-                  {filter}
-                </Badge>
-              ))}
+            {/* Difficulty - 3 column grid */}
+            <div>
+              <p className="text-xs font-medium text-muted-foreground mb-2">Difficulty</p>
+              <div className="grid grid-cols-3 gap-2">
+                {FILTERS.difficulty.map((filter) => (
+                  <Badge
+                    key={filter}
+                    variant={filters.includes(filter) ? "default" : "outline"}
+                    className="cursor-pointer px-4 py-2 border-2 rounded-lg justify-center"
+                    onClick={() => toggleFilter(filter)}
+                  >
+                    {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
+                    {filter}
+                  </Badge>
+                ))}
+              </div>
             </div>
 
-            {/* Diet */}
-            <div className="flex gap-2 overflow-x-auto pb-1">
-              {FILTERS.diet.map((filter) => (
-                <Badge
-                  key={filter}
-                  variant={filters.includes(filter) ? "default" : "outline"}
-                  className="cursor-pointer whitespace-nowrap px-4 py-2 border-2 rounded-full"
-                  onClick={() => toggleFilter(filter)}
-                >
-                  {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
-                  {filter}
-                </Badge>
-              ))}
+            {/* Dietary - 2x2 grid */}
+            <div>
+              <p className="text-xs font-medium text-muted-foreground mb-2">Dietary</p>
+              <div className="grid grid-cols-2 gap-2">
+                {FILTERS.diet.map((filter) => (
+                  <Badge
+                    key={filter}
+                    variant={filters.includes(filter) ? "default" : "outline"}
+                    className="cursor-pointer px-4 py-2 border-2 rounded-lg justify-center"
+                    onClick={() => toggleFilter(filter)}
+                  >
+                    {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
+                    {filter}
+                  </Badge>
+                ))}
+              </div>
             </div>
 
-            {/* Meal Type */}
-            <div className="flex gap-2 overflow-x-auto pb-1">
-              {FILTERS.meal.map((filter) => (
-                <Badge
-                  key={filter}
-                  variant={filters.includes(filter) ? "default" : "outline"}
-                  className="cursor-pointer whitespace-nowrap px-4 py-2 border-2 rounded-full"
-                  onClick={() => toggleFilter(filter)}
-                >
-                  {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
-                  {filter}
-                </Badge>
-              ))}
+            {/* Meal Type - 2x2 grid */}
+            <div>
+              <p className="text-xs font-medium text-muted-foreground mb-2">Meal Type</p>
+              <div className="grid grid-cols-2 gap-2">
+                {FILTERS.meal.map((filter) => (
+                  <Badge
+                    key={filter}
+                    variant={filters.includes(filter) ? "default" : "outline"}
+                    className="cursor-pointer px-4 py-2 border-2 rounded-lg justify-center"
+                    onClick={() => toggleFilter(filter)}
+                  >
+                    {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
+                    {filter}
+                  </Badge>
+                ))}
+              </div>
             </div>
           </div>
         </div>
