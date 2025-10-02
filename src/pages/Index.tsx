@@ -102,7 +102,7 @@ const Index = () => {
               <div 
                 key={collection.name}
                 className="premium-card overflow-hidden cursor-pointer"
-                onClick={() => navigate('/generate')}
+                onClick={() => navigate(`/discover?collection=${encodeURIComponent(collection.name)}`)}
               >
                 <div 
                   className="h-36 bg-cover bg-center"

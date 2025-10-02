@@ -62,7 +62,9 @@ const Generate = () => {
     localStorage.setItem('generatedRecipes', JSON.stringify(cachedRecipes));
   }, [cachedRecipes]);
 
-  // Read search query from URL
+  // Read search query and collection from URL
+  const collectionParam = searchParams.get('collection');
+  
   useEffect(() => {
     const urlSearch = searchParams.get('search');
     if (urlSearch) {
@@ -370,6 +372,45 @@ const Generate = () => {
 
   // Apply filters
   const filteredRecipes = currentRecipes.filter(recipe => {
+    // Collection filter from URL
+    if (collectionParam) {
+      let matchesCollection = false;
+      const prepTimeNum = parseInt(recipe.prepTime) || 0;
+      
+      switch (collectionParam) {
+        case 'Quick & Easy':
+          matchesCollection = prepTimeNum <= 30 || recipe.tags?.includes('quick') || false;
+          break;
+        case 'Healthy Bowls':
+          matchesCollection = recipe.cuisine.toLowerCase().includes('bowl') || 
+                            recipe.tags?.includes('bowls') || 
+                            recipe.tags?.includes('healthy') || false;
+          break;
+        case 'Comfort Food':
+          matchesCollection = recipe.cuisine.toLowerCase().includes('comfort') || 
+                            recipe.tags?.includes('hearty') || 
+                            recipe.tags?.includes('comfort') || false;
+          break;
+        case 'Fresh & Light':
+          matchesCollection = recipe.cuisine.toLowerCase().includes('salad') || 
+                            recipe.tags?.includes('fresh') || 
+                            recipe.tags?.includes('light') || false;
+          break;
+        case 'Leftovers Magic':
+          matchesCollection = recipe.cuisine.toLowerCase().includes('leftover') || 
+                            recipe.tags?.includes('leftovers') || 
+                            recipe.name.toLowerCase().includes('leftover') || false;
+          break;
+        case 'Picky Eaters':
+          matchesCollection = recipe.tags?.includes('kid-friendly') || 
+                            recipe.tags?.includes('kids') || 
+                            recipe.difficulty.toLowerCase() === 'easy' || false;
+          break;
+      }
+      
+      if (!matchesCollection) return false;
+    }
+    
     // Search query filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -592,6 +633,35 @@ const Generate = () => {
       )}
 
       <div className="max-w-6xl mx-auto px-6 pt-8">
+        {/* Collection Badge */}
+        {collectionParam && (
+          <div className="mb-6 flex items-center justify-between bg-primary/10 border border-primary/20 rounded-2xl px-6 py-4">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🎯</span>
+              <div>
+                <p className="text-sm text-muted-foreground">Showing:</p>
+                <p className="text-lg font-bold">{collectionParam}</p>
+              </div>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate('/discover')}
+              className="gap-2"
+            >
+              Clear Filter
+              <X className="w-4 h-4" />
+            </Button>
+          </div>
+        )}
+        
+        {/* Recipe Count */}
+        <div className="mb-6">
+          <p className="text-muted-foreground">
+            {filteredRecipes.length} {filteredRecipes.length === 1 ? 'recipe' : 'recipes'} found
+          </p>
+        </div>
+
         {/* Recipe Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {filteredRecipes.map((recipe) => (
