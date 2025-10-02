@@ -46,11 +46,17 @@ const RecipeDetail = () => {
     if (isFavorite) {
       recipeStorage.removeFavorite(recipe.id);
       setIsFavorite(false);
-      toast({ title: "Removed from favorites" });
+      toast({ 
+        title: "Removed from favorites",
+        duration: 2000
+      });
     } else {
       recipeStorage.addFavorite(recipe.id);
       setIsFavorite(true);
-      toast({ title: "Added to favorites" });
+      toast({ 
+        title: "Added to favorites",
+        duration: 2000
+      });
     }
   };
 
