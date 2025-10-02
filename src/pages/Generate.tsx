@@ -390,20 +390,20 @@ const Generate = () => {
                   onClick={() => navigate(`/recipe/${recipe.id}`)}
                   className="relative cursor-pointer"
                 >
-                  <div className="relative rounded-xl overflow-hidden aspect-[4/5]">
-                    <img
-                      src={recipe.image}
-                      alt={recipe.name}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <button
-                      onClick={(e) => addToFavorites(recipe, e)}
-                      className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
-                    >
-                      <Plus className="w-4 h-4 text-foreground" />
-                    </button>
-                  </div>
+                <div className="relative rounded-xl overflow-hidden">
+                  <img
+                    src={recipe.image}
+                    alt={recipe.name}
+                    className="w-full h-[220px] object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <button
+                    onClick={(e) => addToFavorites(recipe, e)}
+                    className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
+                  >
+                    <Plus className="w-4 h-4 text-foreground" />
+                  </button>
+                </div>
                   <p className="mt-2 font-medium text-sm line-clamp-2">
                     {recipe.name}
                   </p>
@@ -540,11 +540,11 @@ const Generate = () => {
                 onClick={() => navigate(`/recipe/${recipe.id}`)}
                 className="relative cursor-pointer"
               >
-                <div className="relative rounded-xl overflow-hidden aspect-[4/5]">
+                <div className="relative rounded-xl overflow-hidden">
                   <img
                     src={recipe.image}
                     alt={recipe.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-[220px] object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <button

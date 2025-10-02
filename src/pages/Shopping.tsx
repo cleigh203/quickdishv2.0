@@ -163,20 +163,20 @@ const Shopping = () => {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
               <ShoppingCart className="w-8 h-8 text-primary" />
             </div>
-            <div className="flex items-center justify-center gap-4 mb-2">
+            <div className="flex items-center justify-between gap-4 mb-2">
               <h1 className="text-4xl font-bold">Shopping List</h1>
-              {shoppingList.length > 0 && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleShopOnline}
-                  className="text-primary hover:text-primary"
-                >
-                  <Store className="w-4 h-4 mr-2" />
-                  Shop Online
-                </Button>
-              )}
             </div>
+            {shoppingList.length > 0 && (
+              <Button
+                variant="default"
+                size="lg"
+                onClick={handleShopOnline}
+                className="w-full h-14 text-lg font-bold mt-4 mb-2"
+              >
+                <Store className="w-5 h-5 mr-2" />
+                Shop Online
+              </Button>
+            )}
             <p className="text-muted-foreground">
               Your grocery list from recipes
             </p>
@@ -185,46 +185,48 @@ const Shopping = () => {
         {shoppingList.length > 0 && (
           <Card className="mb-6">
             <CardContent className="p-4">
-              <div className="flex justify-between items-start gap-4 mb-3">
-                <span className="text-sm text-muted-foreground">
-                  {checkedItems} of {totalItems} items checked
-                </span>
-                <div className="flex gap-2 flex-wrap justify-end">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setIsPantryDialogOpen(true)}
-                  >
-                    <Package className="w-4 h-4 mr-2" />
-                    Pantry
-                  </Button>
-                  {checkedItems > 0 && (
+              <div className="sticky top-0 bg-card z-10 pb-3 mb-3 border-b border-border">
+                <div className="flex justify-between items-start gap-4">
+                  <span className="text-sm font-bold text-foreground">
+                    {checkedItems} of {totalItems} items checked
+                  </span>
+                  <div className="flex gap-2 flex-wrap justify-end">
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={handleAddAllToPantry}
+                      onClick={() => setIsPantryDialogOpen(true)}
                     >
                       <Package className="w-4 h-4 mr-2" />
-                      Add to Pantry
+                      Pantry
                     </Button>
-                  )}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handlePrint}
-                  >
-                    <Printer className="w-4 h-4 mr-2" />
-                    Print
-                  </Button>
-                  {checkedItems > 0 && (
+                    {checkedItems > 0 && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleAddAllToPantry}
+                      >
+                        <Package className="w-4 h-4 mr-2" />
+                        Add to Pantry
+                      </Button>
+                    )}
                     <Button
-                      variant="ghost"
+                      variant="outline"
                       size="sm"
-                      onClick={clearCompleted}
+                      onClick={handlePrint}
                     >
-                      Clear completed
+                      <Printer className="w-4 h-4 mr-2" />
+                      Print
                     </Button>
-                  )}
+                    {checkedItems > 0 && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={clearCompleted}
+                      >
+                        Clear completed
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
               
@@ -280,6 +282,7 @@ const Shopping = () => {
                         <Checkbox
                           checked={item.checked}
                           onCheckedChange={() => toggleItem(item.id)}
+                          className="w-5 h-5 rounded border-2 border-input data-[state=checked]:bg-primary data-[state=checked]:border-primary transition-all"
                         />
                         <div className={item.checked ? 'line-through text-muted-foreground' : 'text-foreground'}>
                           <div className="font-medium flex items-center gap-2">

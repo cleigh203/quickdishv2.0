@@ -112,6 +112,11 @@ All colors MUST be HSL.
     @apply bg-card rounded-xl p-4 shadow-sm border border-border;
   }
 
+  /* Clickable cards with hover effect */
+  .clickable-card {
+    @apply rounded-xl overflow-hidden bg-card shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer;
+  }
+
   /* Typography hierarchy */
   .page-title {
     @apply text-5xl font-bold text-foreground;
@@ -131,6 +136,11 @@ All colors MUST be HSL.
 
   .small-text {
     @apply text-sm text-muted-foreground;
+  }
+
+  /* Micro-interactions */
+  .interactive-link {
+    @apply hover:text-primary transition-colors;
   }
 
   /* Hide scrollbar for horizontal scroll */

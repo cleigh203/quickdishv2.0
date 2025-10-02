@@ -28,7 +28,7 @@ const Index = () => {
         }}
       >
         <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-          <h1 className="page-title md:text-6xl mb-4 drop-shadow-2xl">
+          <h1 className="page-title md:text-6xl mb-4 drop-shadow-2xl text-white">
             Turn Ingredients Into Magic
           </h1>
           <p className="text-xl text-white/90 mb-8 max-w-2xl drop-shadow-lg">
@@ -50,11 +50,11 @@ const Index = () => {
                 }
               }}
               placeholder="What's in your fridge?"
-              className="flex-1 px-4 py-3 bg-transparent border-0 outline-none text-foreground placeholder:text-muted-foreground"
+              className="flex-1 px-4 py-4 bg-transparent border-0 outline-none text-foreground placeholder:text-muted-foreground text-lg"
             />
             <Button 
               size="lg" 
-              className="rounded-xl"
+              className="rounded-xl h-14"
               onClick={(e) => {
                 e.preventDefault();
                 if (searchInput.trim()) {
@@ -105,11 +105,11 @@ const Index = () => {
             ].map((collection) => (
               <div 
                 key={collection.name}
-                className="premium-card overflow-hidden cursor-pointer"
+                className="clickable-card"
                 onClick={() => navigate(`/discover?collection=${encodeURIComponent(collection.name)}`)}
               >
                 <div 
-                  className="h-36 bg-cover bg-center"
+                  className="h-36 bg-cover bg-center rounded-xl"
                   style={{ backgroundImage: `url(${collection.image})` }}
                 />
                 <div className="p-4">
@@ -124,7 +124,7 @@ const Index = () => {
         <div className="grid md:grid-cols-2 gap-6 mb-20">
           {/* Halloween Recipe Drop */}
           <div
-            className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer premium-card"
+            className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer clickable-card"
             onClick={() => navigate('/discover?collection=Halloween')}
           >
             <div
@@ -145,7 +145,7 @@ const Index = () => {
 
           {/* Restaurant Copycats */}
           <div
-            className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer premium-card"
+            className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer clickable-card"
             onClick={() => navigate('/discover?collection=Restaurant%20Copycats')}
           >
             <div

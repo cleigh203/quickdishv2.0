@@ -4,6 +4,7 @@ import { ArrowLeft, Heart, ShoppingCart, Plus, Minus, ChefHat } from "lucide-rea
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
@@ -100,7 +101,7 @@ const RecipeDetail = () => {
 
   return (
     <div className="min-h-screen pb-8">
-      <div className="relative h-64 overflow-hidden">
+      <div className="relative min-h-[400px] overflow-hidden">
         <img 
           src={recipe.image}
           alt={recipe.name}
@@ -113,18 +114,17 @@ const RecipeDetail = () => {
         />
         <Button
           onClick={() => navigate('/generate')}
-          variant="secondary"
+          variant="icon"
           size="icon"
-          className="absolute top-4 left-4 glass-card"
+          className="absolute top-4 left-4"
         >
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="absolute top-4 right-4 flex gap-2">
           <Button
             onClick={toggleFavorite}
-            variant="secondary"
+            variant="icon"
             size="icon"
-            className="glass-card"
           >
             <Heart className={`h-5 w-5 ${isFavorite ? 'fill-primary text-primary' : ''}`} />
           </Button>
@@ -199,7 +199,9 @@ const RecipeDetail = () => {
                   
                   return (
                     <li key={index} className="flex items-start text-foreground">
-                      <span className="text-primary mr-2">•</span>
+                      <span className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0">
+                        <Checkbox className="w-5 h-5 rounded border-2 border-input checked:bg-primary checked:border-primary transition-all" />
+                      </span>
                       <span>{adjustIngredientAmount(ingredientText)}</span>
                     </li>
                   );
@@ -207,7 +209,7 @@ const RecipeDetail = () => {
               </ul>
               <Button
                 onClick={addToShoppingList}
-                className="w-full mt-4 bg-primary hover:bg-primary/90"
+                className="w-full h-12 mt-4 bg-primary hover:bg-primary/90"
               >
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 Add to Shopping List

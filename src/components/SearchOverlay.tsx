@@ -167,7 +167,11 @@ export const SearchOverlay = ({
               <Badge
                 key={filter}
                 variant={filters.includes(filter) ? "default" : "outline"}
-                className="cursor-pointer px-4 py-2 rounded-full"
+                className={`cursor-pointer px-4 py-2 rounded-full transition-all ${
+                  filters.includes(filter) 
+                    ? 'bg-primary text-white hover:bg-primary/90' 
+                    : 'hover:bg-muted'
+                }`}
                 onClick={() => toggleFilter(filter)}
               >
                 {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
@@ -185,7 +189,11 @@ export const SearchOverlay = ({
               <Badge
                 key={filter}
                 variant={filters.includes(filter) ? "default" : "outline"}
-                className="cursor-pointer px-4 py-2 rounded-full"
+                className={`cursor-pointer px-4 py-2 rounded-full transition-all ${
+                  filters.includes(filter) 
+                    ? 'bg-primary text-white hover:bg-primary/90' 
+                    : 'hover:bg-muted'
+                }`}
                 onClick={() => toggleFilter(filter)}
               >
                 {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
@@ -203,7 +211,11 @@ export const SearchOverlay = ({
               <Badge
                 key={filter}
                 variant={filters.includes(filter) ? "default" : "outline"}
-                className="cursor-pointer px-4 py-2 rounded-full"
+                className={`cursor-pointer px-4 py-2 rounded-full transition-all ${
+                  filters.includes(filter) 
+                    ? 'bg-primary text-white hover:bg-primary/90' 
+                    : 'hover:bg-muted'
+                }`}
                 onClick={() => toggleFilter(filter)}
               >
                 {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
@@ -221,7 +233,11 @@ export const SearchOverlay = ({
               <Badge
                 key={filter}
                 variant={filters.includes(filter) ? "default" : "outline"}
-                className="cursor-pointer px-4 py-2 rounded-full"
+                className={`cursor-pointer px-4 py-2 rounded-full transition-all ${
+                  filters.includes(filter) 
+                    ? 'bg-primary text-white hover:bg-primary/90' 
+                    : 'hover:bg-muted'
+                }`}
                 onClick={() => toggleFilter(filter)}
               >
                 {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
