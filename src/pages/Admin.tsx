@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Trash2, Database, Key, AlertTriangle, Edit, Image as ImageIcon } from "lucide-react";
+import { Trash2, Database, Key, AlertTriangle, Edit, Image as ImageIcon, Loader2, Download } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { useToast } from "@/hooks/use-toast";
 import { Recipe } from "@/types/recipe";
 import { recipeStorage } from "@/utils/recipeStorage";
+import { supabase } from "@/integrations/supabase/client";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -24,6 +25,8 @@ const Admin = () => {
   const [isDeveloper] = useState(() => {
     return localStorage.getItem('developerMode') === 'true';
   });
+  const [generatingDesserts, setGeneratingDesserts] = useState(false);
+  const [generatedDesserts, setGeneratedDesserts] = useState<any[]>([]);
 
   useEffect(() => {
     // Check if user is developer, redirect if not
@@ -136,6 +139,49 @@ const Admin = () => {
     setEditingRecipe(null);
     toast({ title: "Recipe updated" });
     loadStorageData();
+  };
+
+  const generateDessertRecipes = async () => {
+    setGeneratingDesserts(true);
+    try {
+      toast({
+        title: "Generating dessert recipes...",
+        description: "This may take 2-3 minutes to generate 25 recipes with images",
+      });
+
+      const { data, error } = await supabase.functions.invoke('generate-dessert-recipes');
+
+      if (error) throw error;
+
+      setGeneratedDesserts(data.recipes);
+      
+      toast({
+        title: "Success!",
+        description: `Generated ${data.recipes.length} dessert recipes with images`,
+      });
+
+      // Download as JSON file
+      const dataStr = JSON.stringify(data.recipes, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'dessert-recipes.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to generate recipes",
+        variant: "destructive",
+      });
+    } finally {
+      setGeneratingDesserts(false);
+    }
   };
 
   return (
@@ -267,6 +313,63 @@ const Admin = () => {
               <Trash2 className="w-4 h-4 mr-2" />
               Clear All Data
             </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="glass-card mb-6">
+          <CardContent className="p-6">
+            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+              <ImageIcon className="w-6 h-6 text-primary" />
+              Generate AI Dessert Recipes
+            </h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Generate 25 popular dessert recipes with AI-generated images using Gemini. This will take 2-3 minutes.
+            </p>
+            
+            <Button 
+              onClick={generateDessertRecipes} 
+              disabled={generatingDesserts}
+              className="w-full mb-4"
+              variant="default"
+            >
+              {generatingDesserts ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Generating... ({generatedDesserts.length}/25)
+                </>
+              ) : (
+                <>
+                  <Download className="mr-2 h-4 w-4" />
+                  Generate 25 Dessert Recipes
+                </>
+              )}
+            </Button>
+
+            {generatedDesserts.length > 0 && (
+              <div className="space-y-3">
+                <p className="text-sm font-medium">Generated {generatedDesserts.length} recipes</p>
+                <div className="grid grid-cols-2 gap-3 max-h-64 overflow-y-auto">
+                  {generatedDesserts.slice(0, 6).map((recipe, index) => (
+                    <div key={index} className="bg-background/50 rounded-lg overflow-hidden">
+                      {recipe.imageBase64 && (
+                        <img 
+                          src={recipe.imageBase64} 
+                          alt={recipe.name}
+                          className="w-full h-24 object-cover"
+                        />
+                      )}
+                      <div className="p-2">
+                        <p className="text-xs font-medium line-clamp-1">{recipe.name}</p>
+                        <p className="text-xs text-muted-foreground">{recipe.cuisine}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  ✓ Data downloaded as dessert-recipes.json
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
