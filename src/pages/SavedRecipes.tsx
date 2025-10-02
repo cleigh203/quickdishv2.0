@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { Heart, Plus, Pencil, Trash2 } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { Heart, Plus, Pencil, Trash2, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BottomNav } from "@/components/BottomNav";
 import { RecipeCard } from "@/components/RecipeCard";
@@ -11,6 +11,8 @@ import { CustomRecipeForm } from "@/components/CustomRecipeForm";
 import { Badge } from "@/components/ui/badge";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { Check } from "lucide-react";
 
 const SavedRecipes = () => {
   const navigate = useNavigate();
@@ -19,6 +21,14 @@ const SavedRecipes = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
   const [deleteRecipeId, setDeleteRecipeId] = useState<string | null>(null);
+  
+  // Search overlay state
+  const [showSearchOverlay, setShowSearchOverlay] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [recipeTypeFilter, setRecipeTypeFilter] = useState<'all' | 'custom' | 'saved'>('all');
+  const [filters, setFilters] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [showFilteredView, setShowFilteredView] = useState(false);
 
   const loadRecipes = () => {
     // Load saved recipe IDs from localStorage
@@ -81,31 +91,168 @@ const SavedRecipes = () => {
     loadRecipes();
   };
 
+  const toggleFilter = (filter: string) => {
+    setFilters(prev => 
+      prev.includes(filter) ? prev.filter(f => f !== filter) : [...prev, filter]
+    );
+  };
+
+  const clearFilters = () => {
+    setFilters([]);
+    setSearchQuery('');
+    setRecipeTypeFilter('all');
+  };
+
+  const handleSearch = () => {
+    setActiveFilters(filters);
+    setShowFilteredView(true);
+    setShowSearchOverlay(false);
+  };
+
+  const handleClearAll = () => {
+    clearFilters();
+    setActiveFilters([]);
+    setShowFilteredView(false);
+    setShowSearchOverlay(false);
+  };
+
+  const removeActiveFilter = (filter: string) => {
+    const newFilters = activeFilters.filter(f => f !== filter);
+    setActiveFilters(newFilters);
+    setFilters(newFilters);
+    if (newFilters.length === 0 && !searchQuery) {
+      setShowFilteredView(false);
+    }
+  };
+
+  // Filter recipes based on search and filters
+  const getFilteredRecipes = (recipes: Recipe[]) => {
+    return recipes.filter(recipe => {
+      // Search query filter
+      if (searchQuery.trim()) {
+        const queryLower = searchQuery.toLowerCase();
+        const matchesName = recipe.name.toLowerCase().includes(queryLower);
+        const matchesIngredients = recipe.ingredients.some(ing => 
+          ing.item.toLowerCase().includes(queryLower)
+        );
+        if (!matchesName && !matchesIngredients) return false;
+      }
+
+      // Apply all filters (AND logic)
+      if (activeFilters.length === 0) return true;
+
+      return activeFilters.every(filter => {
+        // Time filters
+        if (filter === 'Under 30min') {
+          const totalTime = (parseInt(recipe.prepTime) || 0) + (parseInt(recipe.cookTime) || 0);
+          return totalTime <= 30;
+        }
+        if (filter === '30-60min') {
+          const totalTime = (parseInt(recipe.prepTime) || 0) + (parseInt(recipe.cookTime) || 0);
+          return totalTime > 30 && totalTime <= 60;
+        }
+        
+        // Difficulty filters
+        if (['Easy', 'Medium', 'Hard'].includes(filter)) {
+          return recipe.difficulty.toLowerCase() === filter.toLowerCase();
+        }
+        
+        // Meal type filters
+        if (['Breakfast', 'Lunch', 'Dinner', 'Snack'].includes(filter)) {
+          return recipe.tags?.some(tag => tag.toLowerCase() === filter.toLowerCase()) || false;
+        }
+
+        return true;
+      });
+    });
+  };
+
+  const filteredCustomRecipes = useMemo(() => {
+    if (!showFilteredView && recipeTypeFilter === 'all') return customRecipes;
+    if (recipeTypeFilter === 'saved') return [];
+    return getFilteredRecipes(customRecipes);
+  }, [customRecipes, showFilteredView, recipeTypeFilter, searchQuery, activeFilters]);
+
+  const filteredSavedRecipes = useMemo(() => {
+    if (!showFilteredView && recipeTypeFilter === 'all') return savedRecipes;
+    if (recipeTypeFilter === 'custom') return [];
+    return getFilteredRecipes(savedRecipes);
+  }, [savedRecipes, showFilteredView, recipeTypeFilter, searchQuery, activeFilters]);
+
   return (
     <div className="min-h-screen pb-20 bg-background">
-      {/* Hero Header */}
-      <div className="bg-gradient-to-r from-pink-500 to-rose-500 py-16 px-6 text-center text-white">
-        <Heart className="w-16 h-16 mx-auto mb-4" />
-        <h1 className="text-4xl md:text-5xl font-bold mb-3">Saved Recipes</h1>
-        <p className="text-xl text-white/90">Your favorite recipes in one place</p>
+      {/* Top Bar */}
+      <div className="sticky top-0 bg-background border-b px-4 py-4 flex items-center justify-between z-10">
+        <div className="flex-1" />
+        <h1 className="text-xl font-bold">Saved Recipes</h1>
+        <div className="flex-1 flex justify-end">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setShowSearchOverlay(true)}
+          >
+            <Search className="w-5 h-5" />
+          </Button>
+        </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        <div className="flex justify-end mb-6">
+      <div className="max-w-6xl mx-auto px-4 py-6">
+        {/* Active Filters */}
+        {showFilteredView && (activeFilters.length > 0 || searchQuery) && (
+          <div className="mb-6">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-sm font-medium text-muted-foreground">Active filters:</span>
+              {searchQuery && (
+                <Badge variant="secondary" className="gap-1">
+                  Search: {searchQuery}
+                  <X 
+                    className="w-3 h-3 cursor-pointer" 
+                    onClick={() => {
+                      setSearchQuery('');
+                      if (activeFilters.length === 0) setShowFilteredView(false);
+                    }}
+                  />
+                </Badge>
+              )}
+              {activeFilters.map(filter => (
+                <Badge key={filter} variant="secondary" className="gap-1">
+                  {filter}
+                  <X 
+                    className="w-3 h-3 cursor-pointer" 
+                    onClick={() => removeActiveFilter(filter)}
+                  />
+                </Badge>
+              ))}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleClearAll}
+                className="text-xs"
+              >
+                Clear All
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Create Your Own Recipe Button */}
+        <div className="mb-6">
           <Button
             onClick={() => setShowForm(true)}
-            className="bg-[#FF6B35] hover:bg-[#FF6B35]/90"
+            className="bg-primary hover:bg-primary/90 w-full sm:w-auto"
+            size="lg"
           >
             <Plus className="h-5 w-5 mr-2" />
             Create Your Own Recipe
           </Button>
         </div>
 
-        {customRecipes.length > 0 && (
+        {/* My Recipes Section */}
+        {filteredCustomRecipes.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6">My Custom Recipes</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {customRecipes.map((recipe) => (
+            <h2 className="text-xl font-bold mb-4">My Recipes</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {filteredCustomRecipes.map((recipe) => (
                 <div key={recipe.id} className="relative">
                   <div 
                     className="relative cursor-pointer"
@@ -166,38 +313,200 @@ const SavedRecipes = () => {
           </div>
         )}
 
-        {savedRecipes.length > 0 && (
+        {/* Saved from QuickDish Section */}
+        {filteredSavedRecipes.length > 0 && (
           <div>
-            <h2 className="text-2xl font-bold mb-6">Saved Recipes</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {savedRecipes.map((recipe) => (
-                <RecipeCard
+            <h2 className="text-xl font-bold mb-4">Saved from QuickDish</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {filteredSavedRecipes.map((recipe) => (
+                <div
                   key={recipe.id}
-                  recipe={recipe}
                   onClick={() => handleRecipeClick(recipe.id)}
-                />
+                  className="cursor-pointer group"
+                >
+                  <div className="relative rounded-xl overflow-hidden aspect-[3/4]">
+                    <img
+                      src={recipe.image || recipe.imageUrl}
+                      alt={recipe.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-3">
+                      <p className="text-white text-sm font-medium line-clamp-2">
+                        {recipe.name}
+                      </p>
+                      <div className="flex items-center gap-2 mt-1 text-white/80 text-xs">
+                        <span>{recipe.cookTime}</span>
+                        <span>•</span>
+                        <span>{recipe.servings} servings</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
         )}
 
-        {savedRecipes.length === 0 && customRecipes.length === 0 && (
+        {/* Empty State */}
+        {filteredSavedRecipes.length === 0 && filteredCustomRecipes.length === 0 && (
           <div className="text-center py-20">
-            <Heart className="w-24 h-24 mx-auto mb-6 text-muted-foreground" />
-            <h2 className="text-2xl font-bold mb-3">No saved recipes yet</h2>
-            <p className="text-muted-foreground mb-8">
-              Start saving your favorite recipes to see them here
+            <Heart className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+            <h2 className="text-xl font-bold mb-2">
+              {showFilteredView ? 'No recipes match your filters' : 'No saved recipes yet'}
+            </h2>
+            <p className="text-muted-foreground mb-6">
+              {showFilteredView 
+                ? 'Try adjusting your filters or search terms' 
+                : 'Start saving your favorite recipes to see them here'}
             </p>
-            <Button 
-              size="lg" 
-              onClick={() => navigate('/generate')}
-              className="bg-gradient-to-r from-pink-500 to-rose-500"
-            >
-              Discover Recipes
-            </Button>
+            {!showFilteredView && (
+              <Button 
+                size="lg" 
+                onClick={() => navigate('/generate')}
+                className="bg-primary hover:bg-primary/90"
+              >
+                Discover Recipes
+              </Button>
+            )}
           </div>
         )}
       </div>
+
+      {/* Search Overlay */}
+      {showSearchOverlay && (
+        <div className="fixed inset-0 bg-background z-50 overflow-y-auto pb-20">
+          {/* Header */}
+          <div className="sticky top-0 bg-background border-b px-4 py-3 flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowSearchOverlay(false)}
+              className="shrink-0"
+            >
+              <X className="w-5 h-5" />
+            </Button>
+            <Input
+              autoFocus
+              placeholder="Search your saved recipes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="flex-1 border-0 bg-muted/50 focus-visible:ring-0"
+            />
+          </div>
+
+          {/* Content */}
+          <div className="px-4 py-6 space-y-6">
+            {/* Recipe Type Filter */}
+            <div>
+              <p className="text-sm font-semibold text-foreground mb-3">Recipe Type</p>
+              <div className="inline-flex gap-2 bg-muted p-1 rounded-lg">
+                <button
+                  onClick={() => setRecipeTypeFilter('all')}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                    recipeTypeFilter === 'all'
+                      ? 'bg-background shadow-sm'
+                      : 'text-muted-foreground'
+                  }`}
+                >
+                  All Recipes
+                </button>
+                <button
+                  onClick={() => setRecipeTypeFilter('custom')}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                    recipeTypeFilter === 'custom'
+                      ? 'bg-background shadow-sm'
+                      : 'text-muted-foreground'
+                  }`}
+                >
+                  My Recipes
+                </button>
+                <button
+                  onClick={() => setRecipeTypeFilter('saved')}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                    recipeTypeFilter === 'saved'
+                      ? 'bg-background shadow-sm'
+                      : 'text-muted-foreground'
+                  }`}
+                >
+                  Saved Recipes
+                </button>
+              </div>
+            </div>
+
+            {/* Cook Time */}
+            <div>
+              <p className="text-sm font-semibold text-foreground mb-3">Cook Time</p>
+              <div className="flex flex-wrap gap-2">
+                {['Under 30min', '30-60min'].map((filter) => (
+                  <Badge
+                    key={filter}
+                    variant={filters.includes(filter) ? "default" : "outline"}
+                    className="cursor-pointer px-4 py-2 rounded-full"
+                    onClick={() => toggleFilter(filter)}
+                  >
+                    {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
+                    {filter}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            {/* Difficulty */}
+            <div>
+              <p className="text-sm font-semibold text-foreground mb-3">Difficulty</p>
+              <div className="flex flex-wrap gap-2">
+                {['Easy', 'Medium', 'Hard'].map((filter) => (
+                  <Badge
+                    key={filter}
+                    variant={filters.includes(filter) ? "default" : "outline"}
+                    className="cursor-pointer px-4 py-2 rounded-full"
+                    onClick={() => toggleFilter(filter)}
+                  >
+                    {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
+                    {filter}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            {/* Meal Type */}
+            <div>
+              <p className="text-sm font-semibold text-foreground mb-3">Meal Type</p>
+              <div className="flex flex-wrap gap-2">
+                {['Breakfast', 'Lunch', 'Dinner', 'Snack'].map((filter) => (
+                  <Badge
+                    key={filter}
+                    variant={filters.includes(filter) ? "default" : "outline"}
+                    className="cursor-pointer px-4 py-2 rounded-full"
+                    onClick={() => toggleFilter(filter)}
+                  >
+                    {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
+                    {filter}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3 pt-4 sticky bottom-0 bg-background py-4">
+              <Button
+                variant="outline"
+                onClick={clearFilters}
+                className="flex-1"
+              >
+                Clear All
+              </Button>
+              <Button
+                onClick={handleSearch}
+                className="flex-1"
+              >
+                Apply Filters
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <CustomRecipeForm
         open={showForm}
