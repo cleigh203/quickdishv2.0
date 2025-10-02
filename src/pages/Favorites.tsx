@@ -79,7 +79,7 @@ const Favorites = () => {
                   onClick={() => navigate(`/recipe/${recipe.id}`)}
                 >
                   <img 
-                    src={recipe.image || recipe.imageUrl || getRecipeImage(recipe)} 
+                    src={recipe.image}
                     alt={recipe.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />

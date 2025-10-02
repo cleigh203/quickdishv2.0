@@ -10,8 +10,6 @@ interface RecipeCardProps {
 }
 
 export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
-  const imageUrl = getRecipeImage(recipe);
-
   return (
     <Card 
       className="premium-card cursor-pointer overflow-hidden border-0"
@@ -19,7 +17,7 @@ export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
     >
       <div className="relative">
         <img 
-          src={imageUrl}
+          src={recipe.image}
           alt={recipe.name}
           className="w-full h-44 object-cover"
           loading="lazy"
