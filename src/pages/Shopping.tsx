@@ -1,9 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
-import { ShoppingCart, Trash2, Printer, Package } from "lucide-react";
+import { ShoppingCart, Trash2, Printer, Package, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BottomNav } from "@/components/BottomNav";
 import { PantryDialog } from "@/components/PantryDialog";
+import { StoreSelectionDialog } from "@/components/StoreSelectionDialog";
+import { ShoppingOverlay } from "@/components/ShoppingOverlay";
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
@@ -53,6 +55,9 @@ const Shopping = () => {
   const [showClearDialog, setShowClearDialog] = useState(false);
   const [hidePantryItems, setHidePantryItems] = useState(false);
   const [isPantryDialogOpen, setIsPantryDialogOpen] = useState(false);
+  const [showStoreDialog, setShowStoreDialog] = useState(false);
+  const [showShoppingOverlay, setShowShoppingOverlay] = useState(false);
+  const [storeUrl, setStoreUrl] = useState<string>("");
   const { toast } = useToast();
 
   // ✅ Save to localStorage in useEffect only (v7 compliant)
@@ -130,6 +135,20 @@ const Shopping = () => {
     });
   };
 
+  const handleShopOnline = () => {
+    setShowStoreDialog(true);
+  };
+
+  const handleStoreSelected = (url: string) => {
+    setStoreUrl(url);
+    window.open(url, '_blank');
+    setShowShoppingOverlay(true);
+  };
+
+  const handleItemChecked = (id: number) => {
+    toggleItem(id);
+  };
+
   // Filter shopping list by pantry using useMemo
   const { displayList, hiddenCount } = useMemo(() => {
     if (!hidePantryItems) {
@@ -157,7 +176,20 @@ const Shopping = () => {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
               <ShoppingCart className="w-8 h-8 text-primary" />
             </div>
-            <h1 className="text-4xl font-bold mb-2">Shopping List</h1>
+            <div className="flex items-center justify-center gap-4 mb-2">
+              <h1 className="text-4xl font-bold">Shopping List</h1>
+              {shoppingList.length > 0 && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleShopOnline}
+                  className="text-primary hover:text-primary"
+                >
+                  <Store className="w-4 h-4 mr-2" />
+                  Shop Online
+                </Button>
+              )}
+            </div>
             <p className="text-muted-foreground">
               Your grocery list from recipes
             </p>
@@ -293,6 +325,20 @@ const Shopping = () => {
         open={isPantryDialogOpen} 
         onOpenChange={setIsPantryDialogOpen}
       />
+
+      <StoreSelectionDialog
+        open={showStoreDialog}
+        onOpenChange={setShowStoreDialog}
+        onStoreSelected={handleStoreSelected}
+      />
+
+      {showShoppingOverlay && (
+        <ShoppingOverlay
+          items={shoppingList}
+          onClose={() => setShowShoppingOverlay(false)}
+          onItemChecked={handleItemChecked}
+        />
+      )}
       
       <BottomNav />
     </div>
