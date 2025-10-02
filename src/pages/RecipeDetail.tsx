@@ -9,6 +9,7 @@ import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
 import CookingMode from "@/components/CookingMode";
+import { ingredientsToShoppingItems, deduplicateShoppingList } from "@/utils/shoppingListUtils";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -59,50 +60,14 @@ const RecipeDetail = () => {
     // Get current shopping list from localStorage
     const currentList = JSON.parse(localStorage.getItem('shoppingList') || '[]');
     
-    recipe.ingredients.forEach(ing => {
-      const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
-      
-      // Use the item field directly, normalize for matching
-      let itemName = ing.item.toLowerCase().trim();
-      
-      // Normalize common variations for matching
-      const normalizeForMatching = (text: string) => {
-        return text
-          .replace(/tomatoes?/i, 'tomato')
-          .replace(/onions?/i, 'onion')
-          .replace(/peppers?/i, 'pepper')
-          .replace(/cloves?/i, 'clove');
-      };
-      
-      const normalizedItem = normalizeForMatching(itemName);
-      
-      // Check if base item already exists
-      const existingItem = currentList.find((item: any) => {
-        const existingNormalized = normalizeForMatching(item.item.toLowerCase());
-        return existingNormalized === normalizedItem;
-      });
-      
-      if (existingItem) {
-        // Update existing item with combined amounts
-        if (!existingItem.recipes.includes(recipe.name)) {
-          existingItem.recipes.push(recipe.name);
-          existingItem.combinedAmounts = existingItem.combinedAmounts || [existingItem.amount];
-          existingItem.combinedAmounts.push(ingredientText);
-        }
-      } else {
-        // Add new item - capitalize first letter of original item
-        currentList.push({
-          id: Date.now() + Math.random(),
-          item: ing.item.charAt(0).toUpperCase() + ing.item.slice(1),
-          amount: ingredientText,
-          combinedAmounts: [ingredientText],
-          checked: false,
-          recipes: [recipe.name]
-        });
-      }
-    });
+    // Convert recipe ingredients to shopping items
+    const newItems = ingredientsToShoppingItems(recipe.ingredients, recipe.name);
     
-    localStorage.setItem('shoppingList', JSON.stringify(currentList));
+    // Combine with existing list and deduplicate
+    const combinedList = [...currentList, ...newItems];
+    const deduplicatedList = deduplicateShoppingList(combinedList);
+    
+    localStorage.setItem('shoppingList', JSON.stringify(deduplicatedList));
     toast({
       title: "Added to shopping list! 🛒",
       description: `${recipe.name} ingredients added`,
