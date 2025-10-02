@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { BottomNav } from "@/components/BottomNav";
 import { PantryDialog } from "@/components/PantryDialog";
 import { StoreSelectionDialog } from "@/components/StoreSelectionDialog";
-import { StoreShoppingView } from "@/components/StoreShoppingView";
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
@@ -56,8 +55,6 @@ const Shopping = () => {
   const [hidePantryItems, setHidePantryItems] = useState(false);
   const [isPantryDialogOpen, setIsPantryDialogOpen] = useState(false);
   const [showStoreDialog, setShowStoreDialog] = useState(false);
-  const [showShoppingOverlay, setShowShoppingOverlay] = useState(false);
-  const [storeUrl, setStoreUrl] = useState<string>("");
   const { toast } = useToast();
 
   // ✅ Save to localStorage in useEffect only (v7 compliant)
@@ -137,20 +134,6 @@ const Shopping = () => {
 
   const handleShopOnline = () => {
     setShowStoreDialog(true);
-  };
-
-  const handleStoreSelected = (url: string) => {
-    setStoreUrl(url);
-    setShowShoppingOverlay(true);
-  };
-
-  const handleItemChecked = (id: number) => {
-    toggleItem(id);
-  };
-
-  const handleCloseShoppingView = () => {
-    setShowShoppingOverlay(false);
-    setStoreUrl("");
   };
 
   // Filter shopping list by pantry using useMemo
@@ -333,19 +316,9 @@ const Shopping = () => {
       <StoreSelectionDialog
         open={showStoreDialog}
         onOpenChange={setShowStoreDialog}
-        onStoreSelected={handleStoreSelected}
       />
-
-      {showShoppingOverlay && storeUrl && (
-        <StoreShoppingView
-          storeUrl={storeUrl}
-          items={shoppingList}
-          onClose={handleCloseShoppingView}
-          onItemChecked={handleItemChecked}
-        />
-      )}
       
-      {!showShoppingOverlay && <BottomNav />}
+      <BottomNav />
     </div>
 
     <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>

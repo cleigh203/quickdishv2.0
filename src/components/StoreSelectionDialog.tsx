@@ -19,14 +19,16 @@ const STORES: Store[] = [
 interface StoreSelectionDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onStoreSelected: (storeUrl: string) => void;
 }
 
 export const StoreSelectionDialog = ({
   open,
   onOpenChange,
-  onStoreSelected,
 }: StoreSelectionDialogProps) => {
+  const handleStoreClick = (storeUrl: string) => {
+    window.open(storeUrl, '_blank');
+    onOpenChange(false);
+  };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
@@ -39,10 +41,7 @@ export const StoreSelectionDialog = ({
               key={store.name}
               variant="outline"
               className="w-full justify-between"
-              onClick={() => {
-                onStoreSelected(store.url);
-                onOpenChange(false);
-              }}
+              onClick={() => handleStoreClick(store.url)}
             >
               <span>{store.name}</span>
               <ExternalLink className="w-4 h-4" />
