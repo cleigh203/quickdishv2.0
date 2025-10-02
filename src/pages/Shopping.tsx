@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { BottomNav } from "@/components/BottomNav";
 import { PantryDialog } from "@/components/PantryDialog";
 import { StoreSelectionDialog } from "@/components/StoreSelectionDialog";
-import { ShoppingOverlay } from "@/components/ShoppingOverlay";
+import { StoreShoppingView } from "@/components/StoreShoppingView";
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
@@ -141,12 +141,16 @@ const Shopping = () => {
 
   const handleStoreSelected = (url: string) => {
     setStoreUrl(url);
-    window.open(url, '_blank');
     setShowShoppingOverlay(true);
   };
 
   const handleItemChecked = (id: number) => {
     toggleItem(id);
+  };
+
+  const handleCloseShoppingView = () => {
+    setShowShoppingOverlay(false);
+    setStoreUrl("");
   };
 
   // Filter shopping list by pantry using useMemo
@@ -332,15 +336,16 @@ const Shopping = () => {
         onStoreSelected={handleStoreSelected}
       />
 
-      {showShoppingOverlay && (
-        <ShoppingOverlay
+      {showShoppingOverlay && storeUrl && (
+        <StoreShoppingView
+          storeUrl={storeUrl}
           items={shoppingList}
-          onClose={() => setShowShoppingOverlay(false)}
+          onClose={handleCloseShoppingView}
           onItemChecked={handleItemChecked}
         />
       )}
       
-      <BottomNav />
+      {!showShoppingOverlay && <BottomNav />}
     </div>
 
     <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>
