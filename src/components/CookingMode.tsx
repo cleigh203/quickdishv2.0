@@ -98,29 +98,27 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
 
   // Parse ALL times from instruction (handles multiple timers)
   const parseTimeFromInstruction = (instruction: string): number[] => {
-    const times: number[] = [];
-    const patterns = [
-      /(\d+)-(\d+)\s*(?:more\s+)?(?:minute|min|mins|minutes)/gi,  // "8-10 minutes" or "8-10 more minutes"
-      /(\d+)\s*(?:more\s+)?(?:minute|min|mins|minutes)/gi,        // "15 minutes" or "35 more minutes"
-      /(\d+)\s*(?:more\s+)?(?:hour|hours|hr|hrs)/gi,              // "1 hour" or "2 more hours"
-    ];
+    const timesSet = new Set<number>();
+    
+    // Single regex to match ranges AND standalone times
+    // This prevents "12-15 minutes" from being matched as both a range AND as "15 minutes"
+    const pattern = /(\d+)(?:-(\d+))?\s*(?:more\s+)?(?:minute|min|mins|minutes|hour|hours|hr|hrs)/gi;
+    
+    let match;
+    while ((match = pattern.exec(instruction)) !== null) {
+      const firstNum = parseInt(match[1]);
+      const secondNum = match[2] ? parseInt(match[2]) : null;
+      const unit = match[0].toLowerCase();
+      const isHour = unit.includes('hour') || unit.includes('hr');
+      
+      // If range exists (like "12-15"), use the higher value
+      const value = secondNum ? secondNum : firstNum;
+      const minutes = isHour ? value * 60 : value;
+      
+      timesSet.add(minutes);
+    }
 
-    patterns.forEach(pattern => {
-      let match;
-      while ((match = pattern.exec(instruction)) !== null) {
-        if (pattern.source.includes('-')) {
-          // Range detected, use higher value
-          const higher = parseInt(match[2]);
-          const unit = match[0].toLowerCase();
-          times.push(unit.includes('hour') ? higher * 60 : higher);
-        } else {
-          const value = parseInt(match[1]);
-          const unit = match[0].toLowerCase();
-          times.push(unit.includes('hour') ? value * 60 : value);
-        }
-      }
-    });
-
+    const times = Array.from(timesSet);
     console.log('Parsed times from instruction:', instruction, '→', times);
     return times;
   };
