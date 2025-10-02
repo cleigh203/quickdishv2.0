@@ -45,6 +45,7 @@ const Generate = () => {
     { id: 'breakfast', name: 'Breakfast', emoji: '🍳' },
     { id: 'lunch', name: 'Lunch', emoji: '🥗' },
     { id: 'dinner', name: 'Dinner', emoji: '🍽️' },
+    { id: 'dessert', name: 'Dessert', emoji: '🍰' },
     { id: 'snacks', name: 'Snacks', emoji: '🍿' },
     { id: 'comfort', name: 'Comfort Food', emoji: '🥘' },
     { id: 'bowls', name: 'Healthy Bowls', emoji: '🥙' },
@@ -82,6 +83,11 @@ const Generate = () => {
       case 'dinner':
         return allRecipes.filter(recipe => 
           recipe.tags?.includes('dinner') && !isHalloweenRecipe(recipe)
+        );
+      
+      case 'dessert':
+        return allRecipes.filter(recipe => 
+          recipe.tags?.includes('dessert') && !isHalloweenRecipe(recipe)
         );
       
       case 'snacks':
@@ -366,6 +372,7 @@ const Generate = () => {
       'Breakfast': 'breakfast',
       'Lunch': 'lunch',
       'Dinner': 'dinner',
+      'Dessert': 'dessert',
       'Snacks': 'snacks',
       'Comfort Food': 'comfort',
       'Healthy Bowls': 'bowls',
