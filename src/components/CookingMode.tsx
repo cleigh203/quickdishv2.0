@@ -288,13 +288,13 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
         <div className="flex-1 overflow-y-auto p-6">
           {/* Ingredients */}
           <div className="mb-8">
-            <h3 className="text-2xl font-bold mb-4 text-primary">Ingredients</h3>
+            <h3 className="text-2xl font-bold mb-4 text-green-500">Ingredients</h3>
             <ul className="space-y-2">
               {recipe.ingredients.map((ing, index) => {
                 const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
                 return (
                   <li key={index} className="flex items-start text-lg">
-                    <span className="text-primary mr-2">•</span>
+                    <span className="text-green-500 mr-2">•</span>
                     <span>{ingredientText}</span>
                   </li>
                 );
@@ -304,16 +304,16 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
 
           {/* Instructions */}
           <div>
-            <h3 className="text-2xl font-bold mb-4 text-primary">Instructions</h3>
+            <h3 className="text-2xl font-bold mb-4 text-green-500">Instructions</h3>
             <ol className="space-y-4">
               {recipe.instructions.map((instruction, index) => (
                 <li
                   key={index}
                   className={`flex p-4 rounded-lg ${
-                    index === currentStep ? 'bg-primary/20 border border-primary' : 'bg-gray-900'
+                    index === currentStep ? 'bg-green-500/20 border border-green-500' : 'bg-gray-900'
                   }`}
                 >
-                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-black flex items-center justify-center mr-4 font-bold">
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-green-500 text-black flex items-center justify-center mr-4 font-bold">
                       {index + 1}
                     </span>
                     <p className="flex-1 pt-1 text-lg">{instruction.replace(/\[|\]/g, '')}</p>
@@ -369,8 +369,8 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
         </div>
 
         {isListening && (
-          <div className="mb-3 p-2 bg-primary/20 rounded-lg text-center">
-            <p className="text-xs text-primary font-medium">
+          <div className="mb-3 p-2 bg-green-500/20 rounded-lg text-center">
+            <p className="text-xs text-green-500 font-medium">
               🎤 Say: "Next", "Back", "Repeat", "Ingredients", "Exit"
             </p>
             {lastCommand && (
@@ -390,21 +390,21 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       {/* Current Step Display */}
       <div className="flex-1 flex flex-col items-center justify-center p-6 overflow-y-auto">
         <div className="text-center max-w-4xl w-full">
-          <h2 className="text-primary text-4xl md:text-5xl mb-6 font-bold">
+          <h2 className="text-green-500 text-3xl md:text-4xl mb-6 font-bold">
             Step {currentStep + 1}
           </h2>
           
-          <p className="text-white text-3xl md:text-5xl leading-relaxed font-light mb-8">
+          <p className="text-white text-2xl md:text-3xl leading-relaxed font-light mb-8">
             {currentInstruction}
           </p>
 
           {/* Ingredient Amounts for This Step */}
           {stepIngredients.length > 0 && (
             <div className="mt-8 p-6 bg-gray-900 rounded-xl">
-              <h3 className="text-primary text-2xl font-bold mb-4">You'll need:</h3>
+              <h3 className="text-green-500 text-xl font-bold mb-4">You'll need:</h3>
               <ul className="space-y-2">
                 {stepIngredients.map((ing, index) => (
-                  <li key={index} className="text-xl text-gray-200">
+                  <li key={index} className="text-lg text-gray-200">
                     • {ing}
                   </li>
                 ))}
@@ -442,7 +442,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
           </button>
           <button
             onClick={handleNext}
-            className="py-8 bg-primary text-black text-2xl font-bold rounded-xl active:bg-primary/90 transition-colors flex items-center justify-center gap-2"
+            className="py-8 bg-green-500 hover:bg-green-600 text-black text-2xl font-bold rounded-xl active:bg-green-600 transition-colors flex items-center justify-center gap-2"
           >
             {currentStep === recipe.instructions.length - 1 ? 'DONE!' : 'NEXT'}
             {currentStep < recipe.instructions.length - 1 && <ChevronRight className="w-8 h-8" />}
