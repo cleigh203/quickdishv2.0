@@ -12,6 +12,7 @@ import Shopping from "./pages/Shopping";
 import Pantry from "./pages/Pantry";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
+import GenerateDessertImages from "./pages/GenerateDessertImages";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/pantry" element={<Pantry />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/generate-dessert-images" element={<GenerateDessertImages />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -320,56 +320,20 @@ const Admin = () => {
           <CardContent className="p-6">
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
               <ImageIcon className="w-6 h-6 text-primary" />
-              Generate AI Dessert Recipes
+              Generate AI Dessert Images
             </h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Generate 25 popular dessert recipes with AI-generated images using Gemini. This will take 2-3 minutes.
+              Generate AI images for all 25 dessert recipes using Nano banana model
             </p>
             
             <Button 
-              onClick={generateDessertRecipes} 
-              disabled={generatingDesserts}
-              className="w-full mb-4"
+              onClick={() => window.location.href = '/admin/generate-dessert-images'}
+              className="w-full"
               variant="default"
             >
-              {generatingDesserts ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Generating... ({generatedDesserts.length}/25)
-                </>
-              ) : (
-                <>
-                  <Download className="mr-2 h-4 w-4" />
-                  Generate 25 Dessert Recipes
-                </>
-              )}
+              <Download className="mr-2 h-4 w-4" />
+              Open Image Generator
             </Button>
-
-            {generatedDesserts.length > 0 && (
-              <div className="space-y-3">
-                <p className="text-sm font-medium">Generated {generatedDesserts.length} recipes</p>
-                <div className="grid grid-cols-2 gap-3 max-h-64 overflow-y-auto">
-                  {generatedDesserts.slice(0, 6).map((recipe, index) => (
-                    <div key={index} className="bg-background/50 rounded-lg overflow-hidden">
-                      {recipe.imageBase64 && (
-                        <img 
-                          src={recipe.imageBase64} 
-                          alt={recipe.name}
-                          className="w-full h-24 object-cover"
-                        />
-                      )}
-                      <div className="p-2">
-                        <p className="text-xs font-medium line-clamp-1">{recipe.name}</p>
-                        <p className="text-xs text-muted-foreground">{recipe.cuisine}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  ✓ Data downloaded as dessert-recipes.json
-                </p>
-              </div>
-            )}
           </CardContent>
         </Card>
 
