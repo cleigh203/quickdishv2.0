@@ -100,7 +100,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Italian",
-    image: tiramisuImg,
+    imageUrl: tiramisuImg,
     totalTime: 30,
     tags: ["dessert", "italian", "coffee", "no-bake"],
     ingredients: [
@@ -133,7 +133,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "American",
-    image: cheesecakeImg,
+    imageUrl: cheesecakeImg,
     totalTime: 80,
     tags: ["dessert", "baked", "american", "rich"],
     ingredients: [
@@ -164,7 +164,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 16,
     cuisine: "American",
-    image: browniesImg,
+    imageUrl: browniesImg,
     totalTime: 40,
     tags: ["dessert", "chocolate", "baked", "easy"],
     ingredients: [
@@ -195,7 +195,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "hard",
     servings: 24,
     cuisine: "French",
-    image: macaronsImg,
+    imageUrl: macaronsImg,
     totalTime: 60,
     tags: ["dessert", "french", "baked", "elegant"],
     ingredients: [
@@ -228,7 +228,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "French",
-    image: cremeBruleeImg,
+    imageUrl: cremeBruleeImg,
     totalTime: 55,
     tags: ["dessert", "french", "elegant", "custard"],
     ingredients: [
@@ -257,7 +257,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "American",
-    image: applePieImg,
+    imageUrl: applePieImg,
     totalTime: 80,
     tags: ["dessert", "baked", "american", "fruit"],
     ingredients: [
@@ -289,7 +289,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "French",
-    image: lavaCakeImg,
+    imageUrl: lavaCakeImg,
     totalTime: 27,
     tags: ["dessert", "chocolate", "elegant", "quick"],
     ingredients: [
@@ -320,7 +320,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "Australian",
-    image: pavlovaImg,
+    imageUrl: pavlovaImg,
     totalTime: 110,
     tags: ["dessert", "meringue", "fruit", "elegant"],
     ingredients: [
@@ -351,7 +351,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 24,
     cuisine: "Middle Eastern",
-    image: baklavaImg,
+    imageUrl: baklavaImg,
     totalTime: 75,
     tags: ["dessert", "nuts", "honey", "baked"],
     ingredients: [
@@ -382,7 +382,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Spanish",
-    image: churrosImg,
+    imageUrl: churrosImg,
     totalTime: 35,
     tags: ["dessert", "fried", "cinnamon", "spanish"],
     ingredients: [
@@ -414,7 +414,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Italian",
-    image: pannaCottaImg,
+    imageUrl: pannaCottaImg,
     totalTime: 15,
     tags: ["dessert", "italian", "no-bake", "elegant"],
     ingredients: [
@@ -443,7 +443,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Italian",
-    image: cannoliImg,
+    imageUrl: cannoliImg,
     totalTime: 35,
     tags: ["dessert", "italian", "fried", "ricotta"],
     ingredients: [
@@ -472,7 +472,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "American",
-    image: breadPuddingImg,
+    imageUrl: breadPuddingImg,
     totalTime: 60,
     tags: ["dessert", "comfort", "baked", "warm"],
     ingredients: [
@@ -502,7 +502,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "Latin American",
-    image: flanImg,
+    imageUrl: flanImg,
     totalTime: 65,
     tags: ["dessert", "custard", "caramel", "baked"],
     ingredients: [
@@ -531,7 +531,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "hard",
     servings: 12,
     cuisine: "French",
-    image: eclairsImg,
+    imageUrl: eclairsImg,
     totalTime: 60,
     tags: ["dessert", "french", "pastry", "chocolate"],
     ingredients: [
@@ -562,7 +562,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 12,
     cuisine: "Latin American",
-    image: tresLechesImg,
+    imageUrl: tresLechesImg,
     totalTime: 50,
     tags: ["dessert", "cake", "moist", "latin"],
     ingredients: [
@@ -594,7 +594,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "American",
-    image: cinnamonRollsImg,
+    imageUrl: cinnamonRollsImg,
     totalTime: 65,
     tags: ["dessert", "breakfast", "baked", "cinnamon"],
     ingredients: [
@@ -627,7 +627,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 24,
     cuisine: "American",
-    image: cookiesImg,
+    imageUrl: cookiesImg,
     totalTime: 27,
     tags: ["dessert", "cookies", "chocolate", "easy"],
     ingredients: [
@@ -659,7 +659,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 12,
     cuisine: "American",
-    image: carrotCakeImg,
+    imageUrl: carrotCakeImg,
     totalTime: 55,
     tags: ["dessert", "cake", "spiced", "baked"],
     ingredients: [
@@ -691,7 +691,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "French",
-    image: mousseImg,
+    imageUrl: mousseImg,
     totalTime: 20,
     tags: ["dessert", "chocolate", "no-bake", "elegant"],
     ingredients: [
@@ -720,7 +720,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "French",
-    image: profiterolesImg,
+    imageUrl: profiterolesImg,
     totalTime: 45,
     tags: ["dessert", "french", "pastry", "chocolate"],
     ingredients: [
@@ -750,7 +750,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "American",
-    image: redVelvetImg,
+    imageUrl: redVelvetImg,
     totalTime: 50,
     tags: ["dessert", "cake", "american", "baked"],
     ingredients: [
@@ -782,7 +782,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "American",
-    image: keyLimePieImg,
+    imageUrl: keyLimePieImg,
     totalTime: 35,
     tags: ["dessert", "citrus", "pie", "easy"],
     ingredients: [
@@ -811,7 +811,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "American",
-    image: bananasFosterImg,
+    imageUrl: bananasFosterImg,
     totalTime: 15,
     tags: ["dessert", "quick", "fruit", "warm"],
     ingredients: [
@@ -840,7 +840,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 16,
     cuisine: "American",
-    image: lemonBarsImg,
+    imageUrl: lemonBarsImg,
     totalTime: 40,
     tags: ["dessert", "citrus", "baked", "bars"],
     ingredients: [
