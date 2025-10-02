@@ -137,7 +137,7 @@ const RecipeDetail = () => {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h1 className="text-3xl font-bold mb-2">{recipe.name}</h1>
-                <p className="text-muted-foreground">{recipe.description}</p>
+                <p className="body-text text-muted-foreground">{recipe.description}</p>
               </div>
             </div>
 
@@ -149,17 +149,17 @@ const RecipeDetail = () => {
             </div>
 
             <div className="grid grid-cols-3 gap-4 mb-6 text-center">
-              <div>
+              <div className="info-card">
                 <p className="text-2xl font-bold text-primary">{recipe.prepTime}</p>
-                <p className="text-sm text-muted-foreground">Prep Time</p>
+                <p className="small-text">Prep Time</p>
               </div>
-              <div>
+              <div className="info-card">
                 <p className="text-2xl font-bold text-primary">{recipe.cookTime}</p>
-                <p className="text-sm text-muted-foreground">Cook Time</p>
+                <p className="small-text">Cook Time</p>
               </div>
-              <div>
+              <div className="info-card">
                 <p className="text-2xl font-bold text-primary">{adjustedServings}</p>
-                <p className="text-sm text-muted-foreground">Servings</p>
+                <p className="small-text">Servings</p>
               </div>
             </div>
 
@@ -182,7 +182,7 @@ const RecipeDetail = () => {
             </div>
 
             <div className="mb-6">
-              <h2 className="text-2xl font-bold mb-4">Ingredients</h2>
+              <h2 className="text-3xl font-bold mb-4">Ingredients</h2>
               <ul className="space-y-2">
                 {recipe.ingredients.map((ing, index) => {
                   // Always show complete ingredient with measurements
@@ -223,7 +223,7 @@ const RecipeDetail = () => {
             </button>
 
             <div>
-              <h2 className="text-2xl font-bold mb-4">Instructions</h2>
+              <h2 className="text-3xl font-bold mb-4">Instructions</h2>
               <ol className="space-y-4">
                 {recipe.instructions.map((instruction, index) => (
                   <li key={index} className="flex">

@@ -12,14 +12,14 @@ interface RecipeCardProps {
 export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
   return (
     <Card 
-      className="premium-card cursor-pointer overflow-hidden border-0"
+      className="recipe-card border-0"
       onClick={onClick}
     >
       <div className="relative">
         <img 
           src={recipe.image}
           alt={recipe.name}
-          className="w-full h-44 object-cover"
+          className="recipe-card-image"
           loading="lazy"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
@@ -34,17 +34,17 @@ export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
           </div>
         )}
       </div>
-      <CardContent className="p-5">
+      <CardContent className="recipe-card-content">
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-xs px-2.5 py-1 rounded-lg bg-primary/10 text-primary font-semibold capitalize">
+          <span className="recipe-badge capitalize">
             {recipe.difficulty}
           </span>
         </div>
-        <h3 className="font-bold text-lg mb-2 line-clamp-2 leading-snug">{recipe.name}</h3>
-        <p className="text-sm text-muted-foreground mb-4 line-clamp-2 leading-relaxed">
+        <h3 className="recipe-card-title line-clamp-2 leading-snug">{recipe.name}</h3>
+        <p className="small-text mb-4 line-clamp-2 leading-relaxed">
           {recipe.description}
         </p>
-        <div className="flex items-center justify-between text-sm text-muted-foreground">
+        <div className="flex items-center justify-between small-text">
           <span className="flex items-center gap-1">
             🕐 {recipe.cookTime}
           </span>

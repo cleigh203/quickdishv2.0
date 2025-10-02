@@ -250,7 +250,7 @@ const SavedRecipes = () => {
         {/* My Recipes Section */}
         {filteredCustomRecipes.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-xl font-bold mb-4">My Recipes</h2>
+            <h2 className="text-3xl font-bold mb-4">My Recipes</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {filteredCustomRecipes.map((recipe) => (
                 <div key={recipe.id} className="relative">
@@ -316,7 +316,7 @@ const SavedRecipes = () => {
         {/* Saved from QuickDish Section */}
         {filteredSavedRecipes.length > 0 && (
           <div>
-            <h2 className="text-xl font-bold mb-4">Saved from QuickDish</h2>
+            <h2 className="text-3xl font-bold mb-4">Saved from QuickDish</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {filteredSavedRecipes.map((recipe) => (
                 <div
