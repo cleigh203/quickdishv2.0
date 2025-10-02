@@ -31,7 +31,18 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   const [micPermission, setMicPermission] = useState<'pending' | 'granted' | 'denied'>('pending');
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const isListeningRef = useRef(false); // Track voice state for closures
+  const currentStepRef = useRef(currentStep); // Track current step for closures
+  const timersRef = useRef(timers); // Track timers for closures
   const { toast } = useToast();
+
+  // Update refs when state changes (for voice command closures)
+  useEffect(() => {
+    currentStepRef.current = currentStep;
+  }, [currentStep]);
+
+  useEffect(() => {
+    timersRef.current = timers;
+  }, [timers]);
 
   // Check browser support and mic permission
   useEffect(() => {
@@ -270,16 +281,20 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
 
   const handleVoiceCommand = (command: string) => {
     console.log('Processing voice command:', command);
+    console.log('Current step from ref:', currentStepRef.current);
+    console.log('Active timers from ref:', timersRef.current);
 
     // Timer commands
     if (command.includes('start timer') || command.includes('set timer')) {
-      const currentInstruction = recipe.instructions[currentStep] || '';
+      const step = currentStepRef.current;
+      const currentInstruction = recipe.instructions[step] || '';
       const times = parseTimeFromInstruction(currentInstruction);
+      console.log('Detected times:', times);
       if (times.length > 0) {
         // Start timer with the first detected time
         const minutes = times[0];
         toast({ title: `Heard: "${command}"`, description: `Starting ${minutes} minute timer` });
-        startTimer(currentStep + 1, minutes);
+        startTimer(step + 1, minutes);
       } else {
         toast({ title: "No timer found", description: "This step doesn't have a time" });
       }
@@ -287,18 +302,23 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     }
 
     if (command.includes('pause timer')) {
-      const runningTimer = timers.find(t => t.isRunning);
+      const activeTimers = timersRef.current;
+      const runningTimer = activeTimers.find(t => t.isRunning);
       if (runningTimer) {
         toast({ title: `Heard: "${command}"`, description: "Timer paused" });
         pauseTimer(runningTimer.id);
+      } else {
+        toast({ title: "No running timer", description: "No timer is currently running" });
       }
       return;
     }
 
     if (command.includes('time left') || command.includes('how much time')) {
-      const activeTimers = timers.filter(t => t.remainingSeconds > 0);
+      const activeTimers = timersRef.current.filter(t => t.remainingSeconds > 0);
+      console.log('Checking time left, active timers:', activeTimers);
       if (activeTimers.length === 0) {
         speakText("No active timers");
+        toast({ title: "No active timers" });
       } else {
         activeTimers.forEach(timer => {
           const mins = Math.floor(timer.remainingSeconds / 60);
@@ -309,16 +329,36 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       return;
     }
 
-    // Navigation commands
+    // Navigation commands - use functional setState to avoid stale closures
     if (command.includes('next') || command.includes('forward')) {
       toast({ title: `Heard: "${command}"`, description: "Moving to next step" });
-      handleNext();
+      setCurrentStep(prev => {
+        console.log('Next: moving from', prev, 'to', prev + 1);
+        if (prev >= recipe.instructions.length - 1) {
+          if (isListeningRef.current) {
+            const speech = new SpeechSynthesisUtterance("Cooking complete! Enjoy your meal!");
+            speech.rate = 0.9;
+            window.speechSynthesis.speak(speech);
+          }
+          toast({ title: "Cooking complete! Enjoy! 🎉" });
+          setTimeout(onExit, 2000);
+          return prev;
+        }
+        return prev + 1;
+      });
     } else if (command.includes('previous') || command.includes('back') || command.includes('last')) {
       toast({ title: `Heard: "${command}"`, description: "Going back" });
-      handlePrevious();
+      setCurrentStep(prev => {
+        console.log('Back: moving from', prev, 'to', Math.max(0, prev - 1));
+        return Math.max(0, prev - 1);
+      });
     } else if (command.includes('repeat') || command.includes('again') || command.includes('read')) {
       toast({ title: `Heard: "${command}"`, description: "Repeating step" });
-      speakCurrentStep();
+      // Use ref to read current step
+      const step = currentStepRef.current;
+      const instruction = recipe.instructions[step]?.replace(/^\d+\.\s*/, '').replace(/\[|\]/g, '') || '';
+      const announcement = `Step ${step + 1}. ${instruction}`;
+      speakText(announcement);
     } else if (command.includes('ingredient')) {
       toast({ title: `Heard: "${command}"`, description: "Showing ingredients" });
       setShowFullRecipe(true);
@@ -460,21 +500,24 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   }, [currentStep, showFullRecipe]);
 
   const handleNext = () => {
-    if (currentStep < recipe.instructions.length - 1) {
-      setCurrentStep(currentStep + 1);
-    } else {
-      if (isListening) {
-        const speech = new SpeechSynthesisUtterance("Cooking complete! Enjoy your meal!");
-        speech.rate = 0.9;
-        window.speechSynthesis.speak(speech);
+    setCurrentStep(prev => {
+      if (prev < recipe.instructions.length - 1) {
+        return prev + 1;
+      } else {
+        if (isListening) {
+          const speech = new SpeechSynthesisUtterance("Cooking complete! Enjoy your meal!");
+          speech.rate = 0.9;
+          window.speechSynthesis.speak(speech);
+        }
+        toast({ title: "Cooking complete! Enjoy! 🎉" });
+        setTimeout(onExit, 1000);
+        return prev;
       }
-      toast({ title: "Cooking complete! Enjoy! 🎉" });
-      onExit();
-    }
+    });
   };
 
   const handlePrevious = () => {
-    setCurrentStep(Math.max(0, currentStep - 1));
+    setCurrentStep(prev => Math.max(0, prev - 1));
   };
 
   // Extract ingredients mentioned in current step
