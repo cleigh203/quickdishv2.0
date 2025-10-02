@@ -372,8 +372,17 @@ const Generate = () => {
 
   // Apply filters
   const filteredRecipes = currentRecipes.filter(recipe => {
+    // Always exclude Halloween recipes from non-Halloween collections
+    const isHalloweenRecipe = recipe.cuisine?.toLowerCase() === 'halloween' || 
+                              recipe.tags?.includes('halloween') || false;
+    
     // Collection filter from URL
     if (collectionParam) {
+      // Exclude Halloween recipes from all other collections
+      if (collectionParam !== 'Halloween' && isHalloweenRecipe) {
+        return false;
+      }
+      
       let matchesCollection = false;
       const prepTimeNum = parseInt(recipe.prepTime) || 0;
       
@@ -405,6 +414,9 @@ const Generate = () => {
           matchesCollection = recipe.tags?.includes('kid-friendly') || 
                             recipe.tags?.includes('kids') || 
                             recipe.difficulty.toLowerCase() === 'easy' || false;
+          break;
+        case 'Halloween':
+          matchesCollection = isHalloweenRecipe;
           break;
       }
       
