@@ -30,6 +30,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   const [timers, setTimers] = useState<Timer[]>([]);
   const [micPermission, setMicPermission] = useState<'pending' | 'granted' | 'denied'>('pending');
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const isListeningRef = useRef(false); // Track voice state for closures
   const { toast } = useToast();
 
   // Check browser support and mic permission
@@ -84,30 +85,33 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     };
   }, [timers]);
 
-  // Parse time from instruction
-  const parseTimeFromInstruction = (instruction: string): number | null => {
+  // Parse ALL times from instruction (handles multiple timers)
+  const parseTimeFromInstruction = (instruction: string): number[] => {
+    const times: number[] = [];
     const patterns = [
-      /(\d+)-(\d+)\s*(minute|min|mins|minutes)/i, // "8-10 minutes" - use higher value
-      /(\d+)\s*(hour|hours|hr|hrs)/i,              // "1 hour"
-      /(\d+)\s*(minute|min|mins|minutes)/i,        // "15 minutes"
+      /(\d+)-(\d+)\s*(?:more\s+)?(?:minute|min|mins|minutes)/gi,  // "8-10 minutes" or "8-10 more minutes"
+      /(\d+)\s*(?:more\s+)?(?:minute|min|mins|minutes)/gi,        // "15 minutes" or "35 more minutes"
+      /(\d+)\s*(?:more\s+)?(?:hour|hours|hr|hrs)/gi,              // "1 hour" or "2 more hours"
     ];
 
-    for (const pattern of patterns) {
-      const match = instruction.match(pattern);
-      if (match) {
+    patterns.forEach(pattern => {
+      let match;
+      while ((match = pattern.exec(instruction)) !== null) {
         if (pattern.source.includes('-')) {
           // Range detected, use higher value
           const higher = parseInt(match[2]);
-          const unit = match[3].toLowerCase();
-          return unit.includes('hour') ? higher * 60 : higher;
+          const unit = match[0].toLowerCase();
+          times.push(unit.includes('hour') ? higher * 60 : higher);
         } else {
           const value = parseInt(match[1]);
-          const unit = match[2].toLowerCase();
-          return unit.includes('hour') ? value * 60 : value;
+          const unit = match[0].toLowerCase();
+          times.push(unit.includes('hour') ? value * 60 : value);
         }
       }
-    }
-    return null;
+    });
+
+    console.log('Parsed times from instruction:', instruction, '→', times);
+    return times;
   };
 
   const playTimerSound = () => {
@@ -197,6 +201,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     recognitionInstance.onstart = () => {
       console.log('Voice recognition started');
       setIsListening(true);
+      isListeningRef.current = true;
     };
 
     recognitionInstance.onresult = (event: any) => {
@@ -238,9 +243,9 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     };
 
     recognitionInstance.onend = () => {
-      console.log('Voice recognition ended, isListening:', isListening);
-      // Auto-restart if still supposed to be listening
-      if (isListening) {
+      console.log('Voice recognition ended, should restart:', isListeningRef.current);
+      // Auto-restart if still supposed to be listening (use ref, not stale state)
+      if (isListeningRef.current) {
         setTimeout(() => {
           try {
             console.log('Restarting voice recognition...');
@@ -249,6 +254,8 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
             console.error('Recognition restart error:', error);
           }
         }, 100);
+      } else {
+        setIsListening(false);
       }
     };
 
@@ -267,8 +274,10 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     // Timer commands
     if (command.includes('start timer') || command.includes('set timer')) {
       const currentInstruction = recipe.instructions[currentStep] || '';
-      const minutes = parseTimeFromInstruction(currentInstruction);
-      if (minutes) {
+      const times = parseTimeFromInstruction(currentInstruction);
+      if (times.length > 0) {
+        // Start timer with the first detected time
+        const minutes = times[0];
         toast({ title: `Heard: "${command}"`, description: `Starting ${minutes} minute timer` });
         startTimer(currentStep + 1, minutes);
       } else {
@@ -375,6 +384,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
 
     if (isListening) {
       console.log('Stopping voice control');
+      isListeningRef.current = false;
       recognition?.abort();
       setIsListening(false);
       window.speechSynthesis.cancel();
@@ -396,6 +406,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
           });
 
         console.log('Starting voice recognition...');
+        isListeningRef.current = true;
         recognition?.start();
         setIsListening(true);
         toast({ 
@@ -404,6 +415,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
         });
       } catch (error) {
         console.error('Error starting recognition:', error);
+        isListeningRef.current = false;
         toast({
           title: "Couldn't start voice control",
           description: error instanceof Error ? error.message : "Please enable microphone access",
@@ -489,7 +501,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   const currentInstruction = recipe.instructions[currentStep]?.replace(/^\d+\.\s*/, '').replace(/\[|\]/g, '') || '';
   const stepIngredients = getStepIngredients(currentInstruction);
   const progress = ((currentStep + 1) / recipe.instructions.length) * 100;
-  const stepTimeInMinutes = parseTimeFromInstruction(currentInstruction);
+  const stepTimes = parseTimeFromInstruction(currentInstruction);
   const hasActiveTimerForStep = timers.some(t => t.stepNumber === currentStep + 1 && t.remainingSeconds > 0);
 
   if (showFullRecipe) {
@@ -638,8 +650,8 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
             {currentInstruction}
           </p>
 
-          {/* Ingredient Amounts for This Step */}
-          {stepIngredients.length > 0 && (
+          {/* Ingredient Amounts - ONLY SHOW ON STEP 1 (PREP) */}
+          {currentStep === 0 && stepIngredients.length > 0 && (
             <div className="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200">
               <h3 className="text-green-500 text-xl font-bold mb-4">You'll need:</h3>
               <ul className="space-y-2">
@@ -652,17 +664,20 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
             </div>
           )}
 
-          {/* Smart Timer Button */}
-          {stepTimeInMinutes && !hasActiveTimerForStep && (
-            <div className="mt-8 flex justify-center">
-              <Button
-                onClick={() => startTimer(currentStep + 1, stepTimeInMinutes)}
-                size="lg"
-                className="bg-green-500 hover:bg-green-600 text-white text-xl font-bold py-6 px-8 rounded-xl w-full max-w-md"
-              >
-                <Clock className="w-6 h-6 mr-3" />
-                Start {stepTimeInMinutes} Min Timer
-              </Button>
+          {/* Smart Timer Buttons - Show ALL detected timers */}
+          {stepTimes.length > 0 && !hasActiveTimerForStep && (
+            <div className="mt-8 flex flex-col gap-3 items-center">
+              {stepTimes.map((minutes, index) => (
+                <Button
+                  key={index}
+                  onClick={() => startTimer(currentStep + 1, minutes)}
+                  size="lg"
+                  className="bg-green-500 hover:bg-green-600 text-white text-xl font-bold py-6 px-8 rounded-xl w-full max-w-md"
+                >
+                  <Clock className="w-6 h-6 mr-3" />
+                  Start {minutes} Min Timer {stepTimes.length > 1 ? `(${index + 1}/${stepTimes.length})` : ''}
+                </Button>
+              ))}
             </div>
           )}
 
