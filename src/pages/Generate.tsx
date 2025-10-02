@@ -592,29 +592,50 @@ const Generate = () => {
 
       <div className="max-w-6xl mx-auto px-6">
 
-        {/* Category Tabs */}
-        <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
-          {Object.entries(categories).map(([key, cat]) => (
-            <button
-              key={key}
-              onClick={() => setActiveCategory(key)}
-              className={`px-6 py-3 rounded-2xl whitespace-nowrap transition-all font-semibold ${
-                activeCategory === key
-                  ? 'bg-primary text-primary-foreground shadow-md'
-                  : 'bg-card hover:bg-card/80'
-              }`}
-            >
-              {cat.title.split(' ')[0]} {cat.title.split(' ').slice(1).join(' ')}
-            </button>
-          ))}
+        {/* Horizontal Scrolling Carousel */}
+        <div className="mb-12">
+          <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+            {Object.entries(categories).map(([key, cat]) => {
+              const emoji = cat.title.split(' ')[0];
+              const name = cat.title.split(' ').slice(1).join(' ');
+              
+              return (
+                <button
+                  key={key}
+                  onClick={() => setActiveCategory(key)}
+                  className={`flex-shrink-0 w-48 h-32 rounded-2xl p-4 snap-center transition-all ${
+                    activeCategory === key
+                      ? 'border-4 border-primary opacity-100'
+                      : 'border-2 border-border opacity-70 hover:opacity-90'
+                  }`}
+                  style={{
+                    background: activeCategory === key
+                      ? 'linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--primary) / 0.05))'
+                      : 'linear-gradient(135deg, hsl(var(--muted) / 0.5), hsl(var(--muted) / 0.3))'
+                  }}
+                >
+                  <div className="flex flex-col items-start justify-between h-full">
+                    <div className="text-4xl mb-2">{emoji}</div>
+                    <div className="text-left">
+                      <div className={`font-bold text-sm ${
+                        activeCategory === key ? 'text-primary' : 'text-foreground'
+                      }`}>
+                        {name}
+                      </div>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Category Title */}
+        {/* Active Collection Title */}
         <div className="mb-10">
-          <h2 className="text-4xl font-bold mb-3">
+          <h2 className="text-5xl font-bold mb-3">
             {categories[activeCategory as keyof typeof categories].title}
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-lg text-muted-foreground">
             {categories[activeCategory as keyof typeof categories].subtitle}
           </p>
         </div>
