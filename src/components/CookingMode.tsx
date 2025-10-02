@@ -414,12 +414,12 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
 
           {/* Voice control helper for mobile */}
           {voiceSupported && !isListening && (
-            <div className="mt-8">
+            <div className="mt-8 flex justify-center">
               <Button
                 onClick={toggleVoiceControl}
                 variant="outline"
                 size="lg"
-                className="text-lg"
+                className="text-lg w-full max-w-md"
               >
                 <Mic className="w-5 h-5 mr-2" />
                 Enable Hands-Free Voice Control
