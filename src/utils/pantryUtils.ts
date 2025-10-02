@@ -9,17 +9,46 @@ interface ShoppingItem {
 }
 
 /**
- * Checks if an ingredient exists in pantry with sufficient quantity
+ * Normalizes ingredient name for fuzzy matching
+ */
+const normalizeIngredient = (ingredient: string): string => {
+  return ingredient
+    .toLowerCase()
+    .replace(/[,.].*$/, '') // Remove everything after comma/period
+    .trim()
+    .replace(/s$/, ''); // Remove trailing 's' for plurals
+};
+
+/**
+ * Checks if an ingredient exists in pantry with fuzzy matching
  */
 export const isInPantry = (
   ingredientName: string,
   pantryItems: PantryItem[]
 ): boolean => {
-  const normalizedName = ingredientName.toLowerCase().trim();
-  return pantryItems.some(item => 
-    item.name.toLowerCase().includes(normalizedName) || 
-    normalizedName.includes(item.name.toLowerCase())
-  );
+  const normalizedIngredient = normalizeIngredient(ingredientName);
+  
+  console.log('Checking ingredient:', ingredientName, '→ normalized:', normalizedIngredient);
+  console.log('Against pantry:', pantryItems.map(p => p.name));
+  
+  const match = pantryItems.some(item => {
+    const normalizedPantry = normalizeIngredient(item.name);
+    // Check if either contains the other (handles "ginger" vs "fresh ginger")
+    const isMatch = normalizedIngredient.includes(normalizedPantry) || 
+                    normalizedPantry.includes(normalizedIngredient);
+    
+    if (isMatch) {
+      console.log('✅ MATCH:', ingredientName, 'matches pantry item:', item.name);
+    }
+    
+    return isMatch;
+  });
+  
+  if (!match) {
+    console.log('❌ NO MATCH for:', ingredientName);
+  }
+  
+  return match;
 };
 
 /**
