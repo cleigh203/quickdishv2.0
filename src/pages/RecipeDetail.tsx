@@ -99,12 +99,9 @@ const RecipeDetail = () => {
           className="w-full h-full object-cover"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            const title = recipe.name?.toLowerCase() || '';
-            if (title.includes('cheesecake') || title.includes('cake')) {
-              target.src = 'https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=800';
-            } else {
-              target.src = 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800';
-            }
+            // Use smart image matching as fallback
+            console.log('Image load failed for:', recipe.name, 'Original src:', target.src);
+            target.src = getRecipeImage(recipe);
           }}
         />
         <Button

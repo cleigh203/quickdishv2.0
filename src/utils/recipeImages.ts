@@ -34,9 +34,24 @@ export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }): s
     return 'https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=600';
   }
   
-  // DESSERTS
+  // DESSERTS - Specific types first for better matching
+  if (searchText.includes('apple pie')) {
+    return 'https://images.pexels.com/photos/6210747/pexels-photo-6210747.jpeg?auto=compress&cs=tinysrgb&w=600';
+  }
+  if (searchText.includes('pumpkin pie')) {
+    return 'https://images.pexels.com/photos/3992133/pexels-photo-3992133.jpeg?auto=compress&cs=tinysrgb&w=600';
+  }
+  if (searchText.includes('cherry pie')) {
+    return 'https://images.pexels.com/photos/5639931/pexels-photo-5639931.jpeg?auto=compress&cs=tinysrgb&w=600';
+  }
+  if (searchText.includes('pie') && !searchText.includes('pizza')) {
+    return 'https://images.pexels.com/photos/1775043/pexels-photo-1775043.jpeg?auto=compress&cs=tinysrgb&w=600';
+  }
   if (searchText.includes('cheesecake')) {
     return 'https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=600';
+  }
+  if (searchText.includes('chocolate cake')) {
+    return 'https://images.pexels.com/photos/6880219/pexels-photo-6880219.jpeg?auto=compress&cs=tinysrgb&w=600';
   }
   if (searchText.includes('cake') || searchText.includes('dessert')) {
     return 'https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=600';
