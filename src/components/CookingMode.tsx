@@ -262,9 +262,9 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
 
   if (showFullRecipe) {
     return (
-      <div className="fixed inset-0 bg-black z-50 flex flex-col text-white">
+      <div className="fixed inset-0 bg-white z-50 flex flex-col text-black">
       {/* Header */}
-        <div className="p-4 bg-gray-900 flex justify-between items-center gap-4">
+        <div className="p-4 bg-gray-50 flex justify-between items-center gap-4">
           <h2 className="text-xl font-bold flex-1">{recipe.name}</h2>
           {voiceSupported && (
             <Button
@@ -278,7 +278,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
           )}
           <button
             onClick={() => setShowFullRecipe(false)}
-            className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
@@ -310,7 +310,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
                 <li
                   key={index}
                   className={`flex p-4 rounded-lg ${
-                    index === currentStep ? 'bg-green-500/20 border border-green-500' : 'bg-gray-900'
+                    index === currentStep ? 'bg-green-500/20 border border-green-500' : 'bg-gray-50'
                   }`}
                 >
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-green-500 text-black flex items-center justify-center mr-4 font-bold">
@@ -327,13 +327,13 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black z-50 flex flex-col text-white">
+    <div className="fixed inset-0 bg-white z-50 flex flex-col text-black">
       {/* Header with Progress */}
-      <div className="p-4 bg-gray-900">
+      <div className="p-4 bg-gray-50">
         <div className="flex justify-between items-center mb-3">
           <button
             onClick={onExit}
-            className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
@@ -361,7 +361,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
             )}
             <button
               onClick={() => setShowFullRecipe(true)}
-              className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <List className="w-6 h-6" />
             </button>
@@ -394,17 +394,17 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
             Step {currentStep + 1}
           </h2>
           
-          <p className="text-white text-2xl md:text-3xl leading-relaxed font-light mb-8">
+          <p className="text-black text-2xl md:text-3xl leading-relaxed font-light mb-8">
             {currentInstruction}
           </p>
 
           {/* Ingredient Amounts for This Step */}
           {stepIngredients.length > 0 && (
-            <div className="mt-8 p-6 bg-gray-900 rounded-xl">
+            <div className="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200">
               <h3 className="text-green-500 text-xl font-bold mb-4">You'll need:</h3>
               <ul className="space-y-2">
                 {stepIngredients.map((ing, index) => (
-                  <li key={index} className="text-lg text-gray-200">
+                  <li key={index} className="text-lg text-gray-700">
                     • {ing}
                   </li>
                 ))}
@@ -429,23 +429,23 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
         </div>
       </div>
 
-      {/* Navigation Buttons - HUGE for elbow tapping */}
-      <div className="p-4 bg-gray-900">
+      {/* Navigation Buttons */}
+      <div className="p-4 bg-gray-50 border-t border-gray-200">
         <div className="grid grid-cols-2 gap-4">
           <button
             onClick={handlePrevious}
-            className="py-8 bg-gray-700 text-white text-2xl font-bold rounded-xl disabled:opacity-30 active:bg-gray-600 transition-colors flex items-center justify-center gap-2"
+            className="py-4 bg-gray-200 text-black text-lg font-bold rounded-xl disabled:opacity-30 active:bg-gray-300 transition-colors flex items-center justify-center gap-2"
             disabled={currentStep === 0}
           >
-            <ChevronLeft className="w-8 h-8" />
+            <ChevronLeft className="w-5 h-5" />
             BACK
           </button>
           <button
             onClick={handleNext}
-            className="py-8 bg-green-500 hover:bg-green-600 text-black text-2xl font-bold rounded-xl active:bg-green-600 transition-colors flex items-center justify-center gap-2"
+            className="py-4 bg-green-500 hover:bg-green-600 text-black text-lg font-bold rounded-xl active:bg-green-600 transition-colors flex items-center justify-center gap-2"
           >
             {currentStep === recipe.instructions.length - 1 ? 'DONE!' : 'NEXT'}
-            {currentStep < recipe.instructions.length - 1 && <ChevronRight className="w-8 h-8" />}
+            {currentStep < recipe.instructions.length - 1 && <ChevronRight className="w-5 h-5" />}
           </button>
         </div>
       </div>
