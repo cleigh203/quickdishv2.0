@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Sparkles, Loader2, Clock, X, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,8 +11,10 @@ import { getRecipeImage } from "@/utils/recipeImages";
 import { Recipe } from "@/types/recipe";
 
 const Generate = () => {
+  const [searchParams] = useSearchParams();
   const [activeCategory, setActiveCategory] = useState('20min');
   const [ingredientInput, setIngredientInput] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [generatedRecipe, setGeneratedRecipe] = useState<Recipe | null>(null);
@@ -54,6 +56,14 @@ const Generate = () => {
   useEffect(() => {
     localStorage.setItem('generatedRecipes', JSON.stringify(cachedRecipes));
   }, [cachedRecipes]);
+
+  // Read search query from URL
+  useEffect(() => {
+    const urlSearch = searchParams.get('search');
+    if (urlSearch) {
+      setSearchQuery(urlSearch);
+    }
+  }, [searchParams]);
 
   // Full Recipe collections with complete data
   const discoverRecipes: Recipe[] = [
@@ -376,6 +386,16 @@ const Generate = () => {
 
   // Apply filters
   const filteredRecipes = currentRecipes.filter(recipe => {
+    // Search query filter
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      const matchesName = recipe.name.toLowerCase().includes(query);
+      const matchesIngredients = recipe.ingredients.some(ing => 
+        ing.item.toLowerCase().includes(query)
+      );
+      if (!matchesName && !matchesIngredients) return false;
+    }
+    
     if (!filters.length) return true;
     
     return filters.every(filter => {
@@ -409,9 +429,14 @@ const Generate = () => {
       <div className="max-w-6xl mx-auto pt-12">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-5xl font-bold mb-3">Discover</h1>
+          <h1 className="text-5xl font-bold mb-3">
+            {searchQuery ? `Recipes with: ${searchQuery}` : 'Discover'}
+          </h1>
           <p className="text-lg text-muted-foreground">
-            Real food, real recipes • {filteredRecipes.length} recipes
+            {searchQuery 
+              ? `Found ${filteredRecipes.length} recipes you can make`
+              : `Real food, real recipes • ${filteredRecipes.length} recipes`
+            }
           </p>
         </div>
 

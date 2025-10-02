@@ -64,24 +64,6 @@ const Index = () => {
       </div>
 
       <div className="max-w-6xl mx-auto px-6">
-        {/* Halloween Banner - Compact */}
-        {!showHalloweenRecipes && (
-          <div className="bg-gradient-to-r from-orange-500 to-purple-600 rounded-3xl p-6 mb-8 cursor-pointer hover:shadow-lg transition-all"
-               onClick={() => setShowHalloweenRecipes(true)}>
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-2xl">🎃</span>
-                  <h2 className="text-2xl font-bold text-white">Halloween Recipe Drop</h2>
-                </div>
-                <p className="text-white/90 text-sm">
-                  Vampire brownies that ooze • Black pasta that goes viral
-                </p>
-              </div>
-              <ChevronRight className="w-6 h-6 text-white" />
-            </div>
-          </div>
-        )}
 
         {/* Halloween Recipes Grid */}
         {showHalloweenRecipes && (
@@ -131,11 +113,32 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Featured Collection - Large Card */}
-        <div className="grid grid-cols-1 gap-6 mb-20">
+        {/* Featured Collection - Large Cards */}
+        <div className="grid md:grid-cols-2 gap-6 mb-20">
+          {/* Halloween Recipe Drop */}
+          <div
+            className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer premium-card"
+            onClick={() => navigate('/generate')}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"
+              style={{
+                backgroundImage: `url(https://images.unsplash.com/photo-1570473974649-30f6f3c5d0f3?w=800&q=80)`
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+              <div className="text-5xl mb-3">🎃</div>
+              <h3 className="text-3xl font-bold text-white mb-2">Halloween Recipe Drop</h3>
+              <p className="text-lg text-white/90">
+                Vampire brownies that ooze • Black pasta that goes viral
+              </p>
+            </div>
+          </div>
+
           {/* Restaurant Copycats */}
           <div
-            className="relative h-72 rounded-3xl overflow-hidden cursor-pointer premium-card group"
+            className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer premium-card"
             onClick={() => navigate('/generate')}
           >
             <div
@@ -144,7 +147,7 @@ const Index = () => {
                 backgroundImage: `url(https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80)`
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
               <div className="text-6xl mb-4">🍔</div>
               <h3 className="text-3xl font-bold mb-2">Restaurant Copycats</h3>
