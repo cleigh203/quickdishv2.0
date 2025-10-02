@@ -405,19 +405,17 @@ const Generate = () => {
   const clearFilters = () => setFilters([]);
 
   return (
-    <div className="min-h-screen pb-20 px-4 bg-background">
-      <div className="max-w-4xl mx-auto pt-8">
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-            <Sparkles className="w-8 h-8 text-primary" />
-          </div>
-          <h1 className="text-4xl font-bold mb-2">Discover & Generate</h1>
-          <p className="text-muted-foreground">
-            Browse trending recipes or create your own
+    <div className="min-h-screen pb-20 px-6 bg-background">
+      <div className="max-w-6xl mx-auto pt-12">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-5xl font-bold mb-3">Discover</h1>
+          <p className="text-lg text-muted-foreground">
+            Real food, real recipes • {filteredRecipes.length} recipes
           </p>
         </div>
 
-        <div className="bg-card rounded-xl p-6 mb-6">
+        <div className="premium-card border-0 p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4">🤖 AI Recipe Generator</h2>
           <div className="space-y-4">
             <div>
@@ -426,7 +424,7 @@ const Generate = () => {
                 value={ingredientInput}
                 onChange={(e) => setIngredientInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleGenerateRecipe()}
-                className="bg-background"
+                className="h-12"
               />
               <p className="text-xs text-muted-foreground mt-2">
                 {!isPremium && `${5 - recipesGeneratedToday} of 5 free recipes remaining today`}
@@ -435,7 +433,7 @@ const Generate = () => {
             </div>
             <Button
               onClick={handleGenerateRecipe}
-              className="w-full bg-primary hover:bg-primary/90"
+              className="w-full h-12"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -453,14 +451,14 @@ const Generate = () => {
           </div>
         </div>
 
-        <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
           {Object.entries(categories).map(([key, cat]) => (
             <button
               key={key}
               onClick={() => setActiveCategory(key)}
-              className={`px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
+              className={`px-6 py-3 rounded-2xl whitespace-nowrap transition-all font-semibold ${
                 activeCategory === key
-                  ? 'bg-primary text-primary-foreground'
+                  ? 'bg-primary text-primary-foreground shadow-md'
                   : 'bg-card hover:bg-card/80'
               }`}
             >
@@ -469,16 +467,15 @@ const Generate = () => {
           ))}
         </div>
 
-        {/* Quick Filters */}
-        <div className="mb-6 space-y-3">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-muted-foreground">Filters</h3>
+        {/* Sticky Filters */}
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm pb-6 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-semibold text-muted-foreground">Quick Filters</h3>
             {filters.length > 0 && (
               <Button 
                 variant="ghost" 
                 size="sm" 
                 onClick={clearFilters}
-                className="h-8 text-xs"
               >
                 <X className="w-3 h-3 mr-1" />
                 Clear all
@@ -486,15 +483,14 @@ const Generate = () => {
             )}
           </div>
 
-          {/* Time filters */}
-          <div>
-            <p className="text-xs text-muted-foreground mb-2">Time</p>
+          <div className="space-y-3">
+            {/* Time */}
             <div className="flex gap-2 overflow-x-auto pb-1">
               {FILTERS.time.map((filter) => (
                 <Badge
                   key={filter}
                   variant={filters.includes(filter) ? "default" : "outline"}
-                  className="cursor-pointer whitespace-nowrap"
+                  className="cursor-pointer whitespace-nowrap px-4 py-2 border-2 rounded-full"
                   onClick={() => toggleFilter(filter)}
                 >
                   {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
@@ -502,17 +498,14 @@ const Generate = () => {
                 </Badge>
               ))}
             </div>
-          </div>
 
-          {/* Difficulty filters */}
-          <div>
-            <p className="text-xs text-muted-foreground mb-2">Difficulty</p>
+            {/* Difficulty */}
             <div className="flex gap-2 overflow-x-auto pb-1">
               {FILTERS.difficulty.map((filter) => (
                 <Badge
                   key={filter}
                   variant={filters.includes(filter) ? "default" : "outline"}
-                  className="cursor-pointer whitespace-nowrap"
+                  className="cursor-pointer whitespace-nowrap px-4 py-2 border-2 rounded-full"
                   onClick={() => toggleFilter(filter)}
                 >
                   {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
@@ -520,17 +513,14 @@ const Generate = () => {
                 </Badge>
               ))}
             </div>
-          </div>
 
-          {/* Diet filters */}
-          <div>
-            <p className="text-xs text-muted-foreground mb-2">Diet</p>
+            {/* Diet */}
             <div className="flex gap-2 overflow-x-auto pb-1">
               {FILTERS.diet.map((filter) => (
                 <Badge
                   key={filter}
                   variant={filters.includes(filter) ? "default" : "outline"}
-                  className="cursor-pointer whitespace-nowrap"
+                  className="cursor-pointer whitespace-nowrap px-4 py-2 border-2 rounded-full"
                   onClick={() => toggleFilter(filter)}
                 >
                   {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
@@ -538,17 +528,14 @@ const Generate = () => {
                 </Badge>
               ))}
             </div>
-          </div>
 
-          {/* Meal type filters */}
-          <div>
-            <p className="text-xs text-muted-foreground mb-2">Meal Type</p>
+            {/* Meal Type */}
             <div className="flex gap-2 overflow-x-auto pb-1">
               {FILTERS.meal.map((filter) => (
                 <Badge
                   key={filter}
                   variant={filters.includes(filter) ? "default" : "outline"}
-                  className="cursor-pointer whitespace-nowrap"
+                  className="cursor-pointer whitespace-nowrap px-4 py-2 border-2 rounded-full"
                   onClick={() => toggleFilter(filter)}
                 >
                   {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
@@ -559,42 +546,43 @@ const Generate = () => {
           </div>
         </div>
 
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold mb-2">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold mb-2">
             {categories[activeCategory as keyof typeof categories].title}
           </h2>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-lg">
             {categories[activeCategory as keyof typeof categories].subtitle}
-            {filters.length > 0 && ` • ${filteredRecipes.length} recipes`}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredRecipes.map((recipe) => (
             <div
               key={recipe.id}
               onClick={() => navigate(`/recipe/${recipe.id}`)}
-              className="group cursor-pointer"
+              className="premium-card cursor-pointer border-0 overflow-hidden"
             >
-              <div className="relative overflow-hidden rounded-xl mb-3 aspect-video">
+              <div className="relative h-48">
                 <img
                   src={recipe.image}
                   alt={recipe.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute top-3 right-3">
-                  <div className="bg-black/60 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
+                  <div className="bg-white/90 backdrop-blur-sm text-foreground px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1">
                     <Clock className="w-4 h-4" />
                     {recipe.prepTime}
                   </div>
                 </div>
               </div>
-              <h3 className="text-xl font-semibold mb-1 group-hover:text-primary transition-colors">
-                {recipe.name}
-              </h3>
-              <p className="text-muted-foreground text-sm">
-                {recipe.description}
-              </p>
+              <div className="p-5">
+                <h3 className="text-xl font-bold mb-2 leading-snug">
+                  {recipe.name}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {recipe.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>

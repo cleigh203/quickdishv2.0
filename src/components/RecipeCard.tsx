@@ -14,53 +14,45 @@ export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
 
   return (
     <Card 
-      className="glass-card smooth-transition hover:scale-[1.02] cursor-pointer overflow-hidden"
+      className="premium-card cursor-pointer overflow-hidden border-0"
       onClick={onClick}
-      style={{ boxShadow: '0 10px 40px rgba(255, 107, 53, 0.2)' }}
     >
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative">
         <img 
-          src={imageUrl} 
+          src={imageUrl}
           alt={recipe.name}
-          className="w-full h-full object-cover"
+          className="w-full h-44 object-cover"
+          loading="lazy"
           onError={(e) => {
-            // Fallback if image fails to load
-            e.currentTarget.src = 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=600';
+            const target = e.target as HTMLImageElement;
+            target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
           }}
         />
-        <div className="absolute top-2 right-2 flex gap-2">
-          {recipe.isPremium && (
-            <Badge 
-              variant="default" 
-              className="bg-gradient-to-r from-orange-500 to-purple-500 text-white border-none"
-            >
+        {recipe.isPremium && (
+          <div className="absolute top-3 right-3">
+            <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
               PREMIUM
-            </Badge>
-          )}
-          <Badge 
-            variant="secondary" 
-            className="bg-primary text-primary-foreground"
-          >
-            {recipe.difficulty}
-          </Badge>
-        </div>
+            </span>
+          </div>
+        )}
       </div>
-      
-      <CardContent className="p-4">
-        <h3 className="text-xl font-bold mb-2 text-foreground">{recipe.name}</h3>
-        <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+      <CardContent className="p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-xs px-2.5 py-1 rounded-lg bg-primary/10 text-primary font-semibold capitalize">
+            {recipe.difficulty}
+          </span>
+        </div>
+        <h3 className="font-bold text-lg mb-2 line-clamp-2 leading-snug">{recipe.name}</h3>
+        <p className="text-sm text-muted-foreground mb-4 line-clamp-2 leading-relaxed">
           {recipe.description}
         </p>
-        
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4" />
-            <span>{recipe.cookTime}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <ChefHat className="w-4 h-4" />
-            <span>{recipe.cuisine}</span>
-          </div>
+        <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <span className="flex items-center gap-1">
+            🕐 {recipe.cookTime}
+          </span>
+          <span className="flex items-center gap-1">
+            🍽️ {recipe.cuisine}
+          </span>
         </div>
       </CardContent>
     </Card>

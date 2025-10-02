@@ -37,35 +37,67 @@ const Index = () => {
   const freeHalloweenRecipes = getFreeHalloweenRecipes();
 
   return (
-    <div className="min-h-screen pb-20">
-      <div className="max-w-4xl mx-auto px-4 pt-12">
-        {/* Halloween Hero Section - Compact */}
-        <div className="bg-gradient-to-r from-orange-500 to-purple-600 rounded-2xl p-6 mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-2xl">🎃</span>
-                <h2 className="text-2xl font-bold text-white">Halloween Recipe Drop</h2>
-              </div>
-              <p className="text-white/90 text-sm mb-0 md:mb-4">
-                Vampire brownies that ooze • Black pasta that goes viral • Not your basic Halloween
-              </p>
+    <div className="min-h-screen pb-20 bg-background">
+      {/* Full-width Hero */}
+      <div 
+        className="relative h-[420px] mb-8 bg-cover bg-center"
+        style={{
+          backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%), url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80)`
+        }}
+      >
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+          <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-2xl">
+            Turn Ingredients Into Magic
+          </h1>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl drop-shadow-lg">
+            Real recipes. Real food. Zero waste.
+          </p>
+          
+          {/* Glassmorphic Search Bar */}
+          <div 
+            className="w-full max-w-xl glass-card rounded-2xl p-2 flex items-center gap-2 cursor-pointer hover:shadow-xl transition-all"
+            onClick={() => navigate('/generate')}
+          >
+            <div className="flex-1 px-4 py-3 text-left text-muted-foreground">
+              What's in your fridge?
             </div>
-            <button
-              onClick={() => setShowHalloweenRecipes(!showHalloweenRecipes)}
-              className="bg-black/20 backdrop-blur text-white px-6 py-3 rounded-xl font-semibold hover:bg-black/30 transition-all flex items-center gap-2"
-            >
-              {showHalloweenRecipes ? 'Hide' : 'View'}
-              <ChevronRight className={`w-4 h-4 transition-transform ${showHalloweenRecipes ? 'rotate-90' : ''}`} />
-            </button>
+            <Button size="lg" className="rounded-xl">
+              <Sparkles className="w-5 h-5" />
+            </Button>
           </div>
         </div>
+      </div>
 
-        {/* Halloween Recipes - Only show when toggled */}
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Halloween Banner - Compact */}
+        {!showHalloweenRecipes && (
+          <div className="bg-gradient-to-r from-orange-500 to-purple-600 rounded-3xl p-6 mb-8 cursor-pointer hover:shadow-lg transition-all"
+               onClick={() => setShowHalloweenRecipes(true)}>
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-2xl">🎃</span>
+                  <h2 className="text-2xl font-bold text-white">Halloween Recipe Drop</h2>
+                </div>
+                <p className="text-white/90 text-sm">
+                  Vampire brownies that ooze • Black pasta that goes viral
+                </p>
+              </div>
+              <ChevronRight className="w-6 h-6 text-white" />
+            </div>
+          </div>
+        )}
+
+        {/* Halloween Recipes Grid */}
         {showHalloweenRecipes && (
-          <div className="mb-8">
-            <h3 className="text-xl font-bold mb-4">🦇 Spooky Specials</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="mb-12">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold">🦇 Spooky Specials</h3>
+              <Button variant="ghost" onClick={() => setShowHalloweenRecipes(false)}>
+                Hide
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {freeHalloweenRecipes.map((recipe) => (
                 <RecipeCard
                   key={recipe.id}
@@ -77,81 +109,50 @@ const Index = () => {
           </div>
         )}
 
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-6">
-            <ChefHat className="w-10 h-10 text-primary" />
+        {/* Featured Collections - 2x2 Grid */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold mb-6">Featured Collections</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { name: 'Quick & Easy', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80' },
+              { name: 'Healthy Bowls', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80' },
+              { name: 'Comfort Food', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80' },
+              { name: 'Fresh & Light', image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80' },
+            ].map((collection) => (
+              <div 
+                key={collection.name}
+                className="premium-card overflow-hidden cursor-pointer"
+                onClick={() => navigate('/generate')}
+              >
+                <div 
+                  className="h-36 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${collection.image})` }}
+                />
+                <div className="p-4">
+                  <h3 className="font-semibold text-sm">{collection.name}</h3>
+                </div>
+              </div>
+            ))}
           </div>
-          <h1 className="text-5xl font-bold mb-4">QuickDish</h1>
-          <p className="text-xl text-muted-foreground mb-8">
-            Transform your ingredients into delicious recipes in just one click!
-          </p>
-          <Button
-            onClick={() => navigate('/generate')}
-            size="lg"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-8 py-6"
-          >
-            <Sparkles className="mr-2 h-6 w-6" />
-            Start Cooking
-          </Button>
         </div>
 
+        {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
-              <Card key={feature.title} className="glass-card">
-                <CardContent className="p-6 text-center">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">
-                    <Icon className="w-6 h-6 text-primary" />
+              <Card key={feature.title} className="premium-card border-0">
+                <CardContent className="p-8 text-center">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 mb-4">
+                    <Icon className="w-7 h-7 text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground text-sm">{feature.description}</p>
+                  <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
                 </CardContent>
               </Card>
             );
           })}
         </div>
-
-        <Card className="glass-card">
-          <CardContent className="p-8">
-            <h2 className="text-2xl font-bold mb-4 text-center">How It Works</h2>
-            <div className="space-y-4">
-              <div className="flex items-start">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center mr-4 font-bold">
-                  1
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">Enter Your Ingredients</h3>
-                  <p className="text-muted-foreground text-sm">
-                    List what you have in your kitchen
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center mr-4 font-bold">
-                  2
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">AI Generates Recipes</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Get 5 diverse recipes tailored to your ingredients
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center mr-4 font-bold">
-                  3
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">Cook & Enjoy</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Follow step-by-step instructions and adjust servings
-                  </p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       <BottomNav />
