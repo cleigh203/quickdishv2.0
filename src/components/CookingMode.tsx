@@ -1,10 +1,18 @@
-import { useState, useEffect } from "react";
-import { X, List, ChevronLeft, ChevronRight, Mic, MicOff } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { X, List, ChevronLeft, ChevronRight, Mic, MicOff, Clock, Play, Pause, XCircle } from "lucide-react";
 import { Recipe } from "@/types/recipe";
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+
+interface Timer {
+  id: string;
+  stepNumber: number;
+  totalSeconds: number;
+  remainingSeconds: number;
+  isRunning: boolean;
+}
 
 interface CookingModeProps {
   recipe: Recipe;
@@ -19,14 +27,145 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   const [lastCommand, setLastCommand] = useState<string>("");
   const [voiceSupported, setVoiceSupported] = useState(false);
   const [autoRead, setAutoRead] = useState(true);
+  const [timers, setTimers] = useState<Timer[]>([]);
+  const [micPermission, setMicPermission] = useState<'pending' | 'granted' | 'denied'>('pending');
+  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
 
-  // Check browser support for voice features
+  // Check browser support and mic permission
   useEffect(() => {
     const hasVoiceRecognition = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
     const hasSpeechSynthesis = 'speechSynthesis' in window;
     setVoiceSupported(hasVoiceRecognition && hasSpeechSynthesis);
+
+    // Check mic permission
+    if (navigator.permissions && navigator.permissions.query) {
+      navigator.permissions.query({ name: 'microphone' as PermissionName })
+        .then(result => {
+          setMicPermission(result.state === 'granted' ? 'granted' : 'denied');
+          result.onchange = () => {
+            setMicPermission(result.state === 'granted' ? 'granted' : 'denied');
+          };
+        })
+        .catch(() => setMicPermission('pending'));
+    }
   }, []);
+
+  // Timer countdown effect
+  useEffect(() => {
+    if (timers.some(t => t.isRunning)) {
+      timerIntervalRef.current = setInterval(() => {
+        setTimers(prevTimers => 
+          prevTimers.map(timer => {
+            if (!timer.isRunning || timer.remainingSeconds <= 0) return timer;
+            
+            const newRemaining = timer.remainingSeconds - 1;
+            
+            // Timer complete
+            if (newRemaining <= 0) {
+              playTimerSound();
+              toast({
+                title: `⏰ Timer Complete!`,
+                description: `Step ${timer.stepNumber} timer finished`,
+              });
+              return { ...timer, remainingSeconds: 0, isRunning: false };
+            }
+            
+            return { ...timer, remainingSeconds: newRemaining };
+          })
+        );
+      }, 1000);
+    }
+
+    return () => {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+      }
+    };
+  }, [timers]);
+
+  // Parse time from instruction
+  const parseTimeFromInstruction = (instruction: string): number | null => {
+    const patterns = [
+      /(\d+)-(\d+)\s*(minute|min|mins|minutes)/i, // "8-10 minutes" - use higher value
+      /(\d+)\s*(hour|hours|hr|hrs)/i,              // "1 hour"
+      /(\d+)\s*(minute|min|mins|minutes)/i,        // "15 minutes"
+    ];
+
+    for (const pattern of patterns) {
+      const match = instruction.match(pattern);
+      if (match) {
+        if (pattern.source.includes('-')) {
+          // Range detected, use higher value
+          const higher = parseInt(match[2]);
+          const unit = match[3].toLowerCase();
+          return unit.includes('hour') ? higher * 60 : higher;
+        } else {
+          const value = parseInt(match[1]);
+          const unit = match[2].toLowerCase();
+          return unit.includes('hour') ? value * 60 : value;
+        }
+      }
+    }
+    return null;
+  };
+
+  const playTimerSound = () => {
+    // Create audio context for beep
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 800;
+    oscillator.type = 'sine';
+    gainNode.gain.value = 0.3;
+    
+    oscillator.start();
+    setTimeout(() => oscillator.stop(), 300);
+  };
+
+  const startTimer = (stepNumber: number, minutes: number) => {
+    const timerId = `timer-${Date.now()}`;
+    const totalSeconds = minutes * 60;
+    
+    setTimers(prev => [...prev, {
+      id: timerId,
+      stepNumber,
+      totalSeconds,
+      remainingSeconds: totalSeconds,
+      isRunning: true,
+    }]);
+
+    toast({
+      title: "Timer Started",
+      description: `${minutes} minute${minutes > 1 ? 's' : ''} for Step ${stepNumber}`,
+    });
+  };
+
+  const pauseTimer = (timerId: string) => {
+    setTimers(prev => prev.map(t => 
+      t.id === timerId ? { ...t, isRunning: false } : t
+    ));
+  };
+
+  const resumeTimer = (timerId: string) => {
+    setTimers(prev => prev.map(t => 
+      t.id === timerId ? { ...t, isRunning: true } : t
+    ));
+  };
+
+  const cancelTimer = (timerId: string) => {
+    setTimers(prev => prev.filter(t => t.id !== timerId));
+  };
+
+  const formatTime = (seconds: number): string => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   // Auto-read step when it changes (for any navigation method)
   useEffect(() => {
@@ -43,7 +182,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     };
   }, [currentStep, autoRead, isListening, voiceSupported]);
 
-  // Initialize speech recognition
+  // Initialize speech recognition with better error handling
   useEffect(() => {
     if (!voiceSupported) return;
 
@@ -53,47 +192,115 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     recognitionInstance.continuous = true;
     recognitionInstance.interimResults = false;
     recognitionInstance.lang = 'en-US';
+    recognitionInstance.maxAlternatives = 1;
+
+    recognitionInstance.onstart = () => {
+      console.log('Voice recognition started');
+      setIsListening(true);
+    };
 
     recognitionInstance.onresult = (event: any) => {
       const command = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
+      console.log('Voice command detected:', command);
       setLastCommand(command);
       handleVoiceCommand(command);
     };
 
     recognitionInstance.onerror = (event: any) => {
       console.error('Speech recognition error:', event.error);
+      
       if (event.error === 'no-speech') {
-        // Silently restart
+        console.log('No speech detected, continuing...');
         return;
       }
+      
+      if (event.error === 'not-allowed' || event.error === 'permission-denied') {
+        setMicPermission('denied');
+        setIsListening(false);
+        toast({
+          title: "Microphone access denied",
+          description: "Please enable microphone permissions in your browser settings",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      if (event.error === 'aborted') {
+        console.log('Recognition aborted, will restart if needed');
+        return;
+      }
+      
       toast({
         title: "Voice error",
-        description: "Please try again",
+        description: `${event.error} - Please try again`,
         variant: "destructive"
       });
     };
 
     recognitionInstance.onend = () => {
+      console.log('Voice recognition ended, isListening:', isListening);
       // Auto-restart if still supposed to be listening
       if (isListening) {
-        try {
-          recognitionInstance.start();
-        } catch (error) {
-          console.log('Recognition restart error:', error);
-        }
+        setTimeout(() => {
+          try {
+            console.log('Restarting voice recognition...');
+            recognitionInstance.start();
+          } catch (error) {
+            console.error('Recognition restart error:', error);
+          }
+        }, 100);
       }
     };
 
     setRecognition(recognitionInstance);
 
     return () => {
-      recognitionInstance?.stop();
+      if (recognitionInstance) {
+        recognitionInstance.abort();
+      }
     };
   }, [voiceSupported]);
 
   const handleVoiceCommand = (command: string) => {
-    console.log('Voice command:', command);
+    console.log('Processing voice command:', command);
 
+    // Timer commands
+    if (command.includes('start timer') || command.includes('set timer')) {
+      const currentInstruction = recipe.instructions[currentStep] || '';
+      const minutes = parseTimeFromInstruction(currentInstruction);
+      if (minutes) {
+        toast({ title: `Heard: "${command}"`, description: `Starting ${minutes} minute timer` });
+        startTimer(currentStep + 1, minutes);
+      } else {
+        toast({ title: "No timer found", description: "This step doesn't have a time" });
+      }
+      return;
+    }
+
+    if (command.includes('pause timer')) {
+      const runningTimer = timers.find(t => t.isRunning);
+      if (runningTimer) {
+        toast({ title: `Heard: "${command}"`, description: "Timer paused" });
+        pauseTimer(runningTimer.id);
+      }
+      return;
+    }
+
+    if (command.includes('time left') || command.includes('how much time')) {
+      const activeTimers = timers.filter(t => t.remainingSeconds > 0);
+      if (activeTimers.length === 0) {
+        speakText("No active timers");
+      } else {
+        activeTimers.forEach(timer => {
+          const mins = Math.floor(timer.remainingSeconds / 60);
+          const secs = timer.remainingSeconds % 60;
+          speakText(`Step ${timer.stepNumber}: ${mins} minutes ${secs} seconds remaining`);
+        });
+      }
+      return;
+    }
+
+    // Navigation commands
     if (command.includes('next') || command.includes('forward')) {
       toast({ title: `Heard: "${command}"`, description: "Moving to next step" });
       handleNext();
@@ -113,9 +320,16 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       toast({ title: `Heard: "${command}"`, description: "Exiting cooking mode" });
       onExit();
     } else {
-      // Unknown command - don't show error, just log it
       console.log('Unknown command:', command);
     }
+  };
+
+  const speakText = (text: string) => {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.rate = 0.9;
+    window.speechSynthesis.speak(speech);
   };
 
   const speakCurrentStep = () => {
@@ -149,7 +363,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     window.speechSynthesis.speak(announcement);
   };
 
-  const toggleVoiceControl = () => {
+  const toggleVoiceControl = async () => {
     if (!voiceSupported) {
       toast({
         title: "Voice control not supported",
@@ -160,23 +374,39 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     }
 
     if (isListening) {
-      recognition?.stop();
+      console.log('Stopping voice control');
+      recognition?.abort();
       setIsListening(false);
       window.speechSynthesis.cancel();
       toast({ title: "Voice control off" });
     } else {
       try {
+        // Request microphone permission first
+        console.log('Requesting microphone permission...');
+        await navigator.mediaDevices.getUserMedia({ audio: true })
+          .then(stream => {
+            stream.getTracks().forEach(track => track.stop());
+            setMicPermission('granted');
+            console.log('Microphone permission granted');
+          })
+          .catch(err => {
+            console.error('Microphone permission error:', err);
+            setMicPermission('denied');
+            throw new Error('Microphone access denied');
+          });
+
+        console.log('Starting voice recognition...');
         recognition?.start();
         setIsListening(true);
         toast({ 
-          title: "Voice control active",
-          description: "Say: Next, Back, Repeat, Ingredients"
+          title: "🎤 Voice control active",
+          description: "Say: Next, Back, Repeat, Start Timer, Time Left"
         });
       } catch (error) {
         console.error('Error starting recognition:', error);
         toast({
           title: "Couldn't start voice control",
-          description: "Please try again",
+          description: error instanceof Error ? error.message : "Please enable microphone access",
           variant: "destructive"
         });
       }
@@ -259,6 +489,8 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   const currentInstruction = recipe.instructions[currentStep]?.replace(/^\d+\.\s*/, '').replace(/\[|\]/g, '') || '';
   const stepIngredients = getStepIngredients(currentInstruction);
   const progress = ((currentStep + 1) / recipe.instructions.length) * 100;
+  const stepTimeInMinutes = parseTimeFromInstruction(currentInstruction);
+  const hasActiveTimerForStep = timers.some(t => t.stepNumber === currentStep + 1 && t.remainingSeconds > 0);
 
   if (showFullRecipe) {
     return (
@@ -369,15 +601,23 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
         </div>
 
         {isListening && (
-          <div className="mb-3 p-2 bg-green-500/20 rounded-lg text-center">
+          <div className="mb-3 p-2 bg-green-500/20 rounded-lg text-center animate-pulse">
             <p className="text-xs text-green-500 font-medium">
-              🎤 Say: "Next", "Back", "Repeat", "Ingredients", "Exit"
+              🎤 LISTENING... Say: "Next", "Back", "Start Timer", "Time Left"
             </p>
             {lastCommand && (
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-gray-600 mt-1">
                 Last heard: "{lastCommand}"
               </p>
             )}
+          </div>
+        )}
+
+        {micPermission === 'denied' && !isListening && (
+          <div className="mb-3 p-2 bg-red-100 rounded-lg text-center">
+            <p className="text-xs text-red-600 font-medium">
+              ⚠️ Microphone access denied. Enable it in browser settings.
+            </p>
           </div>
         )}
 
@@ -412,6 +652,20 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
             </div>
           )}
 
+          {/* Smart Timer Button */}
+          {stepTimeInMinutes && !hasActiveTimerForStep && (
+            <div className="mt-8 flex justify-center">
+              <Button
+                onClick={() => startTimer(currentStep + 1, stepTimeInMinutes)}
+                size="lg"
+                className="bg-green-500 hover:bg-green-600 text-white text-xl font-bold py-6 px-8 rounded-xl w-full max-w-md"
+              >
+                <Clock className="w-6 h-6 mr-3" />
+                Start {stepTimeInMinutes} Min Timer
+              </Button>
+            </div>
+          )}
+
           {/* Voice control helper for mobile */}
           {voiceSupported && !isListening && (
             <div className="mt-8 flex justify-center">
@@ -428,6 +682,54 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
           )}
         </div>
       </div>
+
+      {/* Active Timers Display */}
+      {timers.length > 0 && (
+        <div className="p-4 bg-white border-t border-gray-200 max-h-48 overflow-y-auto">
+          <h3 className="text-sm font-bold text-gray-600 mb-3">Active Timers:</h3>
+          <div className="space-y-2">
+            {timers.map(timer => (
+              <div 
+                key={timer.id} 
+                className="flex items-center justify-between bg-gray-50 p-3 rounded-lg border-l-4 border-green-500"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex flex-col items-center justify-center w-20 h-20 rounded-full bg-green-500 text-white">
+                    <Clock className="w-5 h-5 mb-1" />
+                    <span className="text-xl font-bold">{formatTime(timer.remainingSeconds)}</span>
+                  </div>
+                  <div>
+                    <p className="font-bold text-black">Step {timer.stepNumber}</p>
+                    <p className="text-xs text-gray-500">
+                      {timer.remainingSeconds > 0 ? (timer.isRunning ? 'Running' : 'Paused') : 'Complete'}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  {timer.remainingSeconds > 0 && (
+                    <>
+                      <Button
+                        onClick={() => timer.isRunning ? pauseTimer(timer.id) : resumeTimer(timer.id)}
+                        variant="outline"
+                        size="sm"
+                      >
+                        {timer.isRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                      </Button>
+                      <Button
+                        onClick={() => cancelTimer(timer.id)}
+                        variant="outline"
+                        size="sm"
+                      >
+                        <XCircle className="w-4 h-4" />
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Navigation Buttons */}
       <div className="p-4 bg-gray-50 border-t border-gray-200">
