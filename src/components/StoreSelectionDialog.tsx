@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 
@@ -34,6 +34,9 @@ export const StoreSelectionDialog = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Choose a Store</DialogTitle>
+          <DialogDescription>
+            Select a store to shop for your ingredients online
+          </DialogDescription>
         </DialogHeader>
         <div className="space-y-2 mt-4">
           {STORES.map((store) => (
