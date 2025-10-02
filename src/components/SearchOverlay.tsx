@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { ArrowLeft, Search, Check, X } from "lucide-react";
+import { useState, useMemo } from "react";
+import { ArrowLeft, Search, Check, X, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Recipe } from "@/types/recipe";
+import { useNavigate } from "react-router-dom";
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -17,6 +19,8 @@ interface SearchOverlayProps {
   toggleFilter: (filter: string) => void;
   clearFilters: () => void;
   onSearch: () => void;
+  recipes: Recipe[];
+  onAddToFavorites: (recipe: Recipe) => void;
 }
 
 export const SearchOverlay = ({
@@ -31,14 +35,73 @@ export const SearchOverlay = ({
   filters,
   toggleFilter,
   clearFilters,
-  onSearch
+  onSearch,
+  recipes,
+  onAddToFavorites
 }: SearchOverlayProps) => {
+  const navigate = useNavigate();
+  
   const FILTERS = {
     time: ['Under 30min', '30-60min'],
     difficulty: ['Easy', 'Medium', 'Hard'],
     diet: ['Vegetarian', 'Vegan', 'Gluten-Free'],
     meal: ['Breakfast', 'Lunch', 'Dinner', 'Snack']
   };
+
+  // Filter recipes in real-time
+  const filteredRecipes = useMemo(() => {
+    const isHalloweenRecipe = (recipe: Recipe) => 
+      recipe.cuisine?.toLowerCase() === 'halloween' || 
+      recipe.tags?.includes('halloween') || false;
+
+    return recipes.filter(recipe => {
+      // Exclude Halloween recipes from search
+      if (isHalloweenRecipe(recipe)) return false;
+
+      // Search query filter
+      const query = searchMode === 'search' ? searchQuery : ingredientInput;
+      if (query.trim()) {
+        const queryLower = query.toLowerCase();
+        
+        if (searchMode === 'search') {
+          // Search by recipe name
+          if (!recipe.name.toLowerCase().includes(queryLower)) return false;
+        } else {
+          // Search by ingredients
+          const hasIngredient = recipe.ingredients.some(ing => 
+            ing.item.toLowerCase().includes(queryLower)
+          );
+          if (!hasIngredient) return false;
+        }
+      }
+
+      // Apply all filters (AND logic)
+      if (filters.length === 0) return true;
+
+      return filters.every(filter => {
+        // Time filters
+        if (filter === 'Under 30min') {
+          const totalTime = (parseInt(recipe.prepTime) || 0) + (parseInt(recipe.cookTime) || 0);
+          return totalTime <= 30;
+        }
+        if (filter === '30-60min') {
+          const totalTime = (parseInt(recipe.prepTime) || 0) + (parseInt(recipe.cookTime) || 0);
+          return totalTime > 30 && totalTime <= 60;
+        }
+        
+        // Difficulty filters
+        if (['Easy', 'Medium', 'Hard'].includes(filter)) {
+          return recipe.difficulty.toLowerCase() === filter.toLowerCase();
+        }
+        
+        // Diet and meal filters (check tags)
+        const normalizedFilter = filter.toLowerCase().replace(/\s+/g, '-').replace('gluten-free', 'glutenfree');
+        return recipe.tags?.some(tag => 
+          tag.toLowerCase().replace(/\s+/g, '-') === normalizedFilter
+        ) || false;
+      });
+    });
+  }, [recipes, searchQuery, ingredientInput, searchMode, filters]);
 
   if (!isOpen) return null;
 
@@ -168,11 +231,63 @@ export const SearchOverlay = ({
           </div>
         </div>
 
+        {/* Filtered Results */}
+        <div>
+          <p className="text-sm font-semibold text-foreground mb-3">
+            Results ({filteredRecipes.length})
+          </p>
+          
+          {filteredRecipes.length === 0 ? (
+            <div className="text-center py-12 text-muted-foreground">
+              <p className="text-lg font-medium">No recipes found</p>
+              <p className="text-sm mt-2">Try adjusting your filters or search terms</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-4">
+              {filteredRecipes.map((recipe) => (
+                <div
+                  key={recipe.id}
+                  onClick={() => {
+                    navigate(`/recipe/${recipe.id}`);
+                    onClose();
+                  }}
+                  className="relative cursor-pointer"
+                >
+                  <div className="relative rounded-xl overflow-hidden aspect-[4/5]">
+                    <img
+                      src={recipe.image || recipe.imageUrl}
+                      alt={recipe.name}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onAddToFavorites(recipe);
+                      }}
+                      className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
+                    >
+                      <Plus className="w-4 h-4 text-foreground" />
+                    </button>
+                  </div>
+                  <p className="mt-2 font-medium text-sm line-clamp-2">
+                    {recipe.name}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* Action Buttons */}
-        <div className="flex gap-3 pt-4">
+        <div className="flex gap-3 pt-4 sticky bottom-0 bg-background py-4">
           <Button
             variant="outline"
-            onClick={clearFilters}
+            onClick={() => {
+              clearFilters();
+              setSearchQuery('');
+              setIngredientInput('');
+            }}
             className="flex-1"
           >
             Clear All
