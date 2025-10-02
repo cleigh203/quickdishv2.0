@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Generate from "./pages/Generate";
 import RecipeDetail from "./pages/RecipeDetail";
 import Favorites from "./pages/Favorites";
+import SavedRecipes from "./pages/SavedRecipes";
 import Shopping from "./pages/Shopping";
 import Pantry from "./pages/Pantry";
 import Profile from "./pages/Profile";
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/generate" element={<Generate />} />
           <Route path="/recipe/:id" element={<RecipeDetail />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/saved" element={<SavedRecipes />} />
           <Route path="/shopping" element={<Shopping />} />
           <Route path="/pantry" element={<Pantry />} />
           <Route path="/profile" element={<Profile />} />

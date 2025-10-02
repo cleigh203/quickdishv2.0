@@ -9,6 +9,7 @@ import { RecipeCard } from "@/components/RecipeCard";
 const Index = () => {
   const navigate = useNavigate();
   const [showHalloweenRecipes, setShowHalloweenRecipes] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
 
   const handleRecipeClick = (recipeId: string) => {
     navigate(`/recipe/${recipeId}`);
@@ -34,14 +35,28 @@ const Index = () => {
           </p>
           
           {/* Glassmorphic Search Bar */}
-          <div 
-            className="w-full max-w-xl glass-card rounded-2xl p-2 flex items-center gap-2 cursor-pointer hover:shadow-xl transition-all"
-            onClick={() => navigate('/generate')}
-          >
-            <div className="flex-1 px-4 py-3 text-left text-muted-foreground">
-              What's in your fridge?
-            </div>
-            <Button size="lg" className="rounded-xl">
+          <div className="w-full max-w-xl glass-card rounded-2xl p-2 flex items-center gap-2 hover:shadow-xl transition-all">
+            <input
+              type="text"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  navigate(`/generate?search=${encodeURIComponent(searchInput)}`);
+                }
+              }}
+              placeholder="What's in your fridge?"
+              className="flex-1 px-4 py-3 bg-transparent border-0 outline-none text-foreground placeholder:text-muted-foreground"
+            />
+            <Button 
+              size="lg" 
+              className="rounded-xl"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(`/generate?search=${encodeURIComponent(searchInput)}`);
+              }}
+            >
               <Sparkles className="w-5 h-5" />
             </Button>
           </div>
@@ -116,29 +131,8 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Featured Collections - Large Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
-          {/* Halloween Recipe Drop */}
-          <div
-            className="relative h-72 rounded-3xl overflow-hidden cursor-pointer premium-card group"
-            onClick={() => navigate('/generate')}
-          >
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"
-              style={{
-                backgroundImage: `url(https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80)`
-              }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-              <div className="text-6xl mb-4">🎃</div>
-              <h3 className="text-3xl font-bold mb-2">Halloween Recipe Drop</h3>
-              <p className="text-lg text-white/90">
-                Vampire brownies that ooze • Black pasta that goes viral
-              </p>
-            </div>
-          </div>
-
+        {/* Featured Collection - Large Card */}
+        <div className="grid grid-cols-1 gap-6 mb-20">
           {/* Restaurant Copycats */}
           <div
             className="relative h-72 rounded-3xl overflow-hidden cursor-pointer premium-card group"
