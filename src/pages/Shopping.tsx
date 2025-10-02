@@ -1,15 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
-import { ShoppingCart, Trash2, Printer, Package, Store } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Printer, Package, Store } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { PantryDialog } from "@/components/PantryDialog";
 import { StoreSelectionDialog } from "@/components/StoreSelectionDialog";
 import { useToast } from "@/hooks/use-toast";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,6 +25,36 @@ interface ShoppingItem {
   checked: boolean;
   recipes?: string[];
 }
+
+interface Category {
+  emoji: string;
+  name: string;
+  items: ShoppingItem[];
+}
+
+const categorizeItem = (itemName: string): { emoji: string; name: string } => {
+  const name = itemName.toLowerCase();
+  
+  if (name.includes('beef') || name.includes('chicken') || name.includes('pork') || name.includes('steak') || name.includes('fish') || name.includes('shrimp') || name.includes('salmon') || name.includes('turkey') || name.includes('lamb')) {
+    return { emoji: '🥩', name: 'PROTEINS' };
+  }
+  if (name.includes('cheese') || name.includes('milk') || name.includes('butter') || name.includes('cream') || name.includes('yogurt') || name.includes('sour cream')) {
+    return { emoji: '🧀', name: 'DAIRY' };
+  }
+  if (name.includes('lettuce') || name.includes('tomato') || name.includes('pepper') || name.includes('onion') || name.includes('apple') || name.includes('banana') || name.includes('carrot') || name.includes('broccoli') || name.includes('spinach') || name.includes('avocado') || name.includes('cucumber') || name.includes('mushroom')) {
+    return { emoji: '🥬', name: 'PRODUCE' };
+  }
+  if (name.includes('pasta') || name.includes('rice') || name.includes('bread') || name.includes('tortilla') || name.includes('noodle') || name.includes('bun')) {
+    return { emoji: '🌾', name: 'GRAINS & BREAD' };
+  }
+  if (name.includes('salt') || name.includes('pepper') || name.includes('garlic') || name.includes('basil') || name.includes('cumin') || name.includes('oregano') || name.includes('thyme') || name.includes('paprika') || name.includes('cinnamon')) {
+    return { emoji: '🌶️', name: 'SPICES & HERBS' };
+  }
+  if (name.includes('oil') || name.includes('sauce') || name.includes('flour') || name.includes('sugar') || name.includes('vinegar') || name.includes('stock') || name.includes('broth') || name.includes('can')) {
+    return { emoji: '🥫', name: 'PANTRY' };
+  }
+  return { emoji: '🍖', name: 'OTHER' };
+};
 
 const Shopping = () => {
   // ✅ Lazy initialization for localStorage (v7 compliant)
@@ -152,162 +177,207 @@ const Shopping = () => {
     };
   }, [shoppingList, pantryItems, hidePantryItems]);
 
+  // Group items by category
+  const categorizedItems = useMemo(() => {
+    const categories: { [key: string]: Category } = {};
+    
+    displayList.forEach(item => {
+      const category = categorizeItem(item.item);
+      const key = category.name;
+      
+      if (!categories[key]) {
+        categories[key] = {
+          emoji: category.emoji,
+          name: category.name,
+          items: []
+        };
+      }
+      categories[key].items.push(item);
+    });
+    
+    return Object.values(categories).sort((a, b) => a.name.localeCompare(b.name));
+  }, [displayList]);
+
   const totalItems = displayList.length;
   const checkedItems = displayList.filter(item => item.checked).length;
+  const progressPercentage = totalItems > 0 ? (checkedItems / totalItems) * 100 : 0;
 
   return (
     <>
-      <div className="min-h-screen pb-20 px-4 bg-background">
-        <div className="max-w-4xl mx-auto pt-8">
-          <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-              <ShoppingCart className="w-8 h-8 text-primary" />
-            </div>
-            <div className="flex items-center justify-between gap-4 mb-2">
-              <h1 className="text-4xl font-bold">Shopping List</h1>
-            </div>
-            {shoppingList.length > 0 && (
-              <Button
-                variant="default"
-                size="lg"
-                onClick={handleShopOnline}
-                className="w-full h-14 text-lg font-bold mt-4 mb-2"
-              >
-                <Store className="w-5 h-5 mr-2" />
-                Shop Online
-              </Button>
-            )}
-            <p className="text-muted-foreground">
-              Your grocery list from recipes
-            </p>
-          </div>
-
-        {shoppingList.length > 0 && (
-          <Card className="mb-6">
-            <CardContent className="p-4">
-              <div className="sticky top-0 bg-card z-10 pb-3 mb-3 border-b border-border">
-                <div className="flex justify-between items-start gap-4">
-                  <span className="text-sm font-bold text-foreground">
-                    {checkedItems} of {totalItems} items checked
-                  </span>
-                  <div className="flex gap-2 flex-wrap justify-end">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setIsPantryDialogOpen(true)}
-                    >
-                      <Package className="w-4 h-4 mr-2" />
-                      Pantry
-                    </Button>
-                    {checkedItems > 0 && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleAddAllToPantry}
-                      >
-                        <Package className="w-4 h-4 mr-2" />
-                        Add to Pantry
-                      </Button>
-                    )}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handlePrint}
-                    >
-                      <Printer className="w-4 h-4 mr-2" />
-                      Print
-                    </Button>
-                    {checkedItems > 0 && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={clearCompleted}
-                      >
-                        Clear completed
-                      </Button>
-                    )}
-                  </div>
-                </div>
+      <div className="min-h-screen pb-20 bg-gray-50">
+        {/* Header with Orange Gradient */}
+        <div className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C5A] text-white px-5 py-6">
+          <h1 className="text-3xl font-bold mb-3">Shopping List</h1>
+          
+          {/* Progress Bar */}
+          {totalItems > 0 && (
+            <>
+              <div className="bg-white/20 h-1.5 rounded-full overflow-hidden mb-2">
+                <div 
+                  className="bg-white h-full transition-all duration-300"
+                  style={{ width: `${progressPercentage}%` }}
+                />
               </div>
               
-              <div className="flex items-center justify-between pt-3 border-t">
-                <div className="flex items-center gap-3">
-                  <Switch 
-                    id="hide-pantry"
-                    checked={hidePantryItems}
-                    onCheckedChange={setHidePantryItems}
-                  />
-                  <Label htmlFor="hide-pantry" className="text-sm font-medium cursor-pointer">
-                    Hide pantry staples
-                  </Label>
-                </div>
-                {hidePantryItems && hiddenCount > 0 && (
-                  <span className="text-xs text-muted-foreground">
-                    {hiddenCount} {hiddenCount === 1 ? 'item' : 'items'} in pantry - hidden
-                  </span>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        )}
+              {/* Stats */}
+              <p className="text-sm opacity-90">
+                {checkedItems} of {totalItems} items checked
+              </p>
+            </>
+          )}
+        </div>
 
         {shoppingList.length === 0 ? (
-          <Card>
-            <CardContent className="p-8 text-center">
-              <ShoppingCart className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">
-                Your shopping list is empty. Add recipes with ingredients to get started!
-              </p>
-            </CardContent>
-          </Card>
-        ) : displayList.length === 0 ? (
-          <Card>
-            <CardContent className="p-8 text-center">
-              <Package className="w-12 h-12 text-primary mx-auto mb-4" />
-              <p className="text-muted-foreground mb-2">
-                All items are already in your pantry! 🎉
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Toggle off "Hide pantry staples" to see all items
-              </p>
-            </CardContent>
-          </Card>
+          <div className="px-5 py-12 text-center">
+            <div className="text-6xl mb-4">🛒</div>
+            <p className="text-gray-600 text-lg">
+              Your shopping list is empty. Add recipes with ingredients to get started!
+            </p>
+          </div>
         ) : (
-          <div className="space-y-3">
-            {displayList.map((item) => (
-                <Card key={item.id}>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3 flex-1">
-                        <Checkbox
-                          checked={item.checked}
-                          onCheckedChange={() => toggleItem(item.id)}
-                          className="w-5 h-5 rounded border-2 border-input data-[state=checked]:bg-primary data-[state=checked]:border-primary transition-all"
-                        />
-                        <div className={item.checked ? 'line-through text-muted-foreground' : 'text-foreground'}>
-                          <div className="font-medium flex items-center gap-2">
-                            {item.amount && <span className="text-muted-foreground">{item.amount} </span>}
-                            {item.item}
+          <>
+            {/* Action Bar */}
+            <div className="bg-white px-5 py-4 flex gap-3 border-b border-gray-200">
+              <button
+                onClick={handleShopOnline}
+                className="flex-1 h-12 bg-[#FF6B35] text-white rounded-xl font-semibold text-base shadow-md hover:bg-[#E55A2B] transition-all"
+              >
+                <Store className="w-4 h-4 inline mr-2" />
+                Shop Online
+              </button>
+              <button
+                onClick={handlePrint}
+                className="h-12 px-6 bg-white border-2 border-gray-200 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-all"
+              >
+                <Printer className="w-4 h-4 inline mr-2" />
+                Print
+              </button>
+            </div>
+
+            {/* Pantry Toggle */}
+            <div className="bg-orange-50 px-5 py-3.5 border-b border-orange-200 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Switch
+                  id="hide-pantry"
+                  checked={hidePantryItems}
+                  onCheckedChange={setHidePantryItems}
+                  className="data-[state=checked]:bg-[#FF6B35]"
+                />
+                <span className="text-sm font-medium text-orange-800">
+                  Hide pantry items {hiddenCount > 0 && `(${hiddenCount})`}
+                </span>
+              </div>
+              <button
+                onClick={() => setIsPantryDialogOpen(true)}
+                className="text-sm font-medium text-[#FF6B35] hover:text-[#E55A2B] transition-colors"
+              >
+                <Package className="w-4 h-4 inline mr-1" />
+                Manage Pantry
+              </button>
+            </div>
+
+            {displayList.length === 0 ? (
+              <div className="px-5 py-12 text-center">
+                <div className="text-6xl mb-4">✨</div>
+                <p className="text-gray-600 text-lg mb-2">
+                  All items are already in your pantry! 🎉
+                </p>
+                <p className="text-sm text-gray-500">
+                  Toggle off "Hide pantry items" to see all items
+                </p>
+              </div>
+            ) : (
+              <>
+                {/* Category Sections */}
+                {categorizedItems.map((category) => (
+                  <div key={category.name}>
+                    {/* Category Header - Sticky */}
+                    <div className="bg-gray-50 px-5 py-3 font-bold text-xs uppercase tracking-wide text-gray-600 border-t-2 border-gray-200 border-b border-gray-200 sticky top-0 z-10">
+                      {category.emoji} {category.name} ({category.items.length})
+                    </div>
+
+                    {/* Items in Category */}
+                    <div className="bg-white">
+                      {category.items.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex items-center gap-4 px-5 py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                        >
+                          {/* Checkbox - 22px */}
+                          <div
+                            onClick={() => toggleItem(item.id)}
+                            className={`
+                              w-5.5 h-5.5 rounded-md border-2 flex items-center justify-center transition-all cursor-pointer flex-shrink-0
+                              ${item.checked 
+                                ? 'bg-[#FF6B35] border-[#FF6B35]' 
+                                : 'border-gray-300 hover:border-[#FF6B35]'
+                              }
+                            `}
+                          >
+                            {item.checked && (
+                              <span className="text-white text-sm font-bold">✓</span>
+                            )}
                           </div>
-                          {item.recipes && item.recipes.length > 0 && (
-                            <div className="text-xs text-primary mt-1">
-                              For: {item.recipes.join(', ')}
+                          
+                          {/* Item Content */}
+                          <div className="flex-1 min-w-0">
+                            <div className={`text-base font-medium ${item.checked ? 'line-through text-gray-400' : 'text-gray-900'}`}>
+                              {item.amount && <span className="text-gray-500">{item.amount} </span>}
+                              {item.item}
                             </div>
+                            {item.recipes && item.recipes.length > 0 && (
+                              <div className="inline-block mt-1 px-2 py-0.5 bg-orange-50 text-orange-600 text-xs rounded">
+                                For: {item.recipes.join(', ')}
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Add to Pantry Button - Only for checked items */}
+                          {item.checked && (
+                            <button
+                              onClick={() => {
+                                const newPantryItems = shoppingItemsToPantry([item]);
+                                const updatedPantry = [...pantryItems, ...newPantryItems];
+                                localStorage.setItem('pantryItems', JSON.stringify(updatedPantry));
+                                setPantryItems(updatedPantry);
+                                removeItem(item.id);
+                                toast({ 
+                                  title: "Added to pantry",
+                                  description: `${item.item} moved to your pantry`
+                                });
+                              }}
+                              className="text-xs text-[#FF6B35] font-medium hover:text-[#E55A2B] transition-colors flex-shrink-0"
+                            >
+                              <Package className="w-4 h-4 inline" />
+                            </button>
                           )}
                         </div>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removeItem(item.id)}
-                      >
-                        <Trash2 className="h-4 w-4 text-destructive" />
-                      </Button>
+                      ))}
                     </div>
-                  </CardContent>
-                </Card>
-            ))}
-          </div>
+                  </div>
+                ))}
+
+                {/* Quick Actions at Bottom */}
+                {checkedItems > 0 && (
+                  <div className="bg-white px-5 py-4 border-t-2 border-gray-200 flex gap-3">
+                    <button
+                      onClick={clearCompleted}
+                      className="flex-1 h-11 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all"
+                    >
+                      Clear Completed ({checkedItems})
+                    </button>
+                    <button
+                      onClick={handleAddAllToPantry}
+                      className="flex-1 h-11 bg-[#FF6B35] text-white rounded-xl font-medium hover:bg-[#E55A2B] transition-all"
+                    >
+                      <Package className="w-4 h-4 inline mr-2" />
+                      Add All to Pantry
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+          </>
         )}
       </div>
       
@@ -322,9 +392,8 @@ const Shopping = () => {
       />
       
       <BottomNav />
-    </div>
 
-    <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>
+      <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>All items checked! 🎉</AlertDialogTitle>
