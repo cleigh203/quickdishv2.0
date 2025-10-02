@@ -121,7 +121,7 @@ const Index = () => {
           {/* Halloween Recipe Drop */}
           <div
             className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer premium-card"
-            onClick={() => navigate('/generate')}
+            onClick={() => navigate('/discover?collection=Halloween')}
           >
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"
@@ -142,7 +142,7 @@ const Index = () => {
           {/* Restaurant Copycats */}
           <div
             className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer premium-card"
-            onClick={() => navigate('/generate')}
+            onClick={() => navigate('/discover?collection=Restaurant%20Copycats')}
           >
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"

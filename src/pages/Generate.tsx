@@ -42,6 +42,7 @@ const Generate = () => {
   const categories = [
     { id: 'halloween', name: 'Halloween', emoji: '🎃' },
     { id: 'quick', name: 'Quick & Easy', emoji: '⚡' },
+    { id: 'copycat', name: 'Restaurant Copycats', emoji: '🍔' },
     { id: 'breakfast', name: 'Breakfast', emoji: '🍳' },
     { id: 'lunch', name: 'Lunch', emoji: '🥗' },
     { id: 'dinner', name: 'Dinner', emoji: '🍽️' },
@@ -50,6 +51,7 @@ const Generate = () => {
     { id: 'comfort', name: 'Comfort Food', emoji: '🥘' },
     { id: 'bowls', name: 'Healthy Bowls', emoji: '🥙' },
     { id: 'fresh', name: 'Fresh & Light', emoji: '🥬' },
+    { id: 'leftover', name: 'Leftovers Magic', emoji: '♻️' },
     { id: 'kids', name: 'Picky Eaters', emoji: '👶' },
     { id: 'rated', name: 'Top Rated', emoji: '⭐' }
   ];
@@ -121,6 +123,20 @@ const Generate = () => {
           (recipe.tags?.includes('kid-friendly') || 
            recipe.tags?.includes('kids') || 
            recipe.difficulty.toLowerCase() === 'easy') && !isHalloweenRecipe(recipe)
+        );
+      
+      case 'copycat':
+        return allRecipes.filter(recipe => 
+          (recipe.cuisine.toLowerCase().includes('copycat') || 
+           recipe.tags?.includes('copycat') ||
+           recipe.name.toLowerCase().includes('copycat')) && !isHalloweenRecipe(recipe)
+        );
+      
+      case 'leftover':
+        return allRecipes.filter(recipe => 
+          (recipe.cuisine.toLowerCase().includes('leftover') || 
+           recipe.tags?.includes('leftovers') ||
+           recipe.name.toLowerCase().includes('leftover')) && !isHalloweenRecipe(recipe)
         );
       
       case 'rated':
@@ -369,6 +385,7 @@ const Generate = () => {
     const categoryMapping: { [key: string]: string } = {
       'Halloween': 'halloween',
       'Quick & Easy': 'quick',
+      'Restaurant Copycats': 'copycat',
       'Breakfast': 'breakfast',
       'Lunch': 'lunch',
       'Dinner': 'dinner',
@@ -543,6 +560,47 @@ const Generate = () => {
         >
           <Search className="w-5 h-5" />
         </Button>
+      </div>
+
+      {/* Quick Filter Chips */}
+      <div className="px-4 pt-4 pb-2">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
+          <Badge 
+            variant="secondary" 
+            className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors shrink-0"
+            onClick={() => navigate('/discover?collection=Halloween')}
+          >
+            🎃 Halloween
+          </Badge>
+          <Badge 
+            variant="secondary" 
+            className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors shrink-0"
+            onClick={() => navigate('/discover?collection=Restaurant%20Copycats')}
+          >
+            🍔 Copycats
+          </Badge>
+          <Badge 
+            variant="secondary" 
+            className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors shrink-0"
+            onClick={() => navigate('/discover?collection=Quick%20%26%20Easy')}
+          >
+            ⚡ Quick & Easy
+          </Badge>
+          <Badge 
+            variant="secondary" 
+            className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors shrink-0"
+            onClick={() => navigate('/discover?collection=Fresh%20%26%20Light')}
+          >
+            🥬 Fresh & Light
+          </Badge>
+          <Badge 
+            variant="secondary" 
+            className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors shrink-0"
+            onClick={() => navigate('/discover?collection=Leftovers%20Magic')}
+          >
+            ♻️ Leftovers
+          </Badge>
+        </div>
       </div>
 
       {/* Horizontal Scrolling Sections */}
