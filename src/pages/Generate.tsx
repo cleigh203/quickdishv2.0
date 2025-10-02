@@ -72,22 +72,22 @@ const Generate = () => {
     'quick': {
       title: '⚡ Quick Meals Under 30 Min',
       subtitle: 'Perfect for busy weeknights',
-      recipes: getQuickRecipes()
+      recipes: getQuickRecipes() || []
     },
     'halloween': {
       title: '🎃 Halloween Recipes',
       subtitle: 'Spooky seasonal treats',
-      recipes: getRecipesByCollection('halloween')
+      recipes: getRecipesByCollection('halloween') || []
     },
     'copycat': {
       title: '🍔 Restaurant Copycats',
       subtitle: 'Your favorite restaurant dishes at home',
-      recipes: getRecipesByCollection('copycat')
+      recipes: getRecipesByCollection('copycat') || []
     },
     'leftover': {
       title: '🔄 Leftover Makeovers',
       subtitle: 'Transform leftovers into delicious meals',
-      recipes: getRecipesByCollection('leftover')
+      recipes: getRecipesByCollection('leftover') || []
     }
   };
 
@@ -355,7 +355,7 @@ const Generate = () => {
     }
   };
 
-  const currentRecipes = categories[activeCategory as keyof typeof categories].recipes;
+  const currentRecipes = categories[activeCategory as keyof typeof categories]?.recipes || [];
 
   // Filter constants
   const FILTERS = {
