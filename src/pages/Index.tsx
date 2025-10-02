@@ -87,15 +87,17 @@ const Index = () => {
           </div>
         )}
 
-        {/* Featured Collections - 2x2 Grid */}
+        {/* Featured Collections */}
         <div className="mb-12">
           <h2 className="text-3xl font-bold mb-6">Featured Collections</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {[
               { name: 'Quick & Easy', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80' },
               { name: 'Healthy Bowls', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80' },
               { name: 'Comfort Food', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80' },
               { name: 'Fresh & Light', image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80' },
+              { name: 'Leftovers Magic', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80' },
+              { name: 'Picky Eaters', image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80' },
             ].map((collection) => (
               <div 
                 key={collection.name}
@@ -159,52 +161,6 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Quick Features Bar */}
-        <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-3xl p-8 mb-20 shadow-lg hover:shadow-xl transition-all duration-300">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* AI Recipe Creator */}
-            <div
-              className="text-center cursor-pointer group"
-              onClick={() => navigate('/generate')}
-            >
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 shadow-lg mb-4 transition-transform duration-300 group-hover:scale-110">
-                <Sparkles className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">AI Recipe Creator</h3>
-              <p className="text-sm text-gray-600">
-                Turn your ingredients into delicious recipes
-              </p>
-            </div>
-
-            {/* Save Favorites */}
-            <div
-              className="text-center cursor-pointer group"
-              onClick={() => navigate('/saved')}
-            >
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 shadow-lg mb-4 transition-transform duration-300 group-hover:scale-110">
-                <Heart className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Save Favorites</h3>
-              <p className="text-sm text-gray-600">
-                Keep track of recipes you love
-              </p>
-            </div>
-
-            {/* Smart Shopping */}
-            <div
-              className="text-center cursor-pointer group"
-              onClick={() => navigate('/shopping')}
-            >
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 shadow-lg mb-4 transition-transform duration-300 group-hover:scale-110">
-                <ShoppingCart className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Smart Shopping</h3>
-              <p className="text-sm text-gray-600">
-                Auto-generate shopping lists
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
 
       <BottomNav />
