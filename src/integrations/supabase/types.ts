@@ -57,6 +57,7 @@ export type Database = {
           display_name: string | null
           favorite_cuisines: string[] | null
           id: string
+          learning_goals: string[] | null
           skill_level: string | null
         }
         Insert: {
@@ -66,6 +67,7 @@ export type Database = {
           display_name?: string | null
           favorite_cuisines?: string[] | null
           id: string
+          learning_goals?: string[] | null
           skill_level?: string | null
         }
         Update: {
@@ -75,6 +77,7 @@ export type Database = {
           display_name?: string | null
           favorite_cuisines?: string[] | null
           id?: string
+          learning_goals?: string[] | null
           skill_level?: string | null
         }
         Relationships: []

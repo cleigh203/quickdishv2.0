@@ -17,6 +17,7 @@ import Admin from "./pages/Admin";
 import GenerateDessertImages from "./pages/GenerateDessertImages";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
+import ProfileSetup from "./pages/ProfileSetup";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
           <Routes>
             <Route path="/auth" element={<Auth />} />
             <Route path="/auth/reset-password" element={<ResetPassword />} />
+            <Route path="/profile-setup" element={<ProtectedRoute><ProfileSetup /></ProtectedRoute>} />
             <Route path="/" element={<ProtectedRoute allowGuest><Index /></ProtectedRoute>} />
             <Route path="/generate" element={<ProtectedRoute allowGuest><Generate /></ProtectedRoute>} />
             <Route path="/discover" element={<ProtectedRoute allowGuest><Generate /></ProtectedRoute>} />

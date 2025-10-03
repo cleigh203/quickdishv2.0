@@ -85,7 +85,7 @@ const Auth = () => {
           title: 'Account created!',
           description: 'Welcome to QuickDish AI',
         });
-        navigate('/');
+        navigate('/profile-setup');
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
