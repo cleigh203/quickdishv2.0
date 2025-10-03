@@ -3,6 +3,7 @@ import { Sparkles, X } from "lucide-react";
 import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { BottomNav } from "@/components/BottomNav";
+import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { getFreeHalloweenRecipes } from "@/data/halloweenRecipes";
 import { RecipeCard } from "@/components/RecipeCard";
 import poisonAppleCocktail from "@/assets/recipes/poison-apple-cocktail.jpg";
@@ -85,6 +86,13 @@ const Index = () => {
               }}
               placeholder="What's in your fridge?"
               className="flex-1 h-14 px-4 bg-transparent border-0 outline-none text-foreground placeholder:text-muted-foreground text-lg"
+            />
+            <VoiceSearchButton
+              onTranscript={(text) => setSearchInput(text)}
+              onSearchTrigger={handleSearch}
+              variant="ghost"
+              size="icon"
+              className="h-14 w-14 flex-shrink-0"
             />
             <Button 
               size="lg" 

@@ -3,6 +3,7 @@ import { ArrowLeft, Search, Check, X, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { Recipe } from "@/types/recipe";
 import { useNavigate } from "react-router-dom";
 
@@ -117,17 +118,30 @@ export const SearchOverlay = ({
         >
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <Input
-          autoFocus
-          placeholder="Search by name, ingredients, ..."
-          value={searchMode === 'search' ? searchQuery : ingredientInput}
-          onChange={(e) =>
-            searchMode === 'search'
-              ? setSearchQuery(e.target.value)
-              : setIngredientInput(e.target.value)
-          }
-          className="flex-1 border-0 bg-muted/50 focus-visible:ring-0"
-        />
+        <div className="flex-1 relative">
+          <Input
+            autoFocus
+            placeholder="Search by name, ingredients, ..."
+            value={searchMode === 'search' ? searchQuery : ingredientInput}
+            onChange={(e) =>
+              searchMode === 'search'
+                ? setSearchQuery(e.target.value)
+                : setIngredientInput(e.target.value)
+            }
+            className="border-0 bg-muted/50 focus-visible:ring-0 pr-12"
+          />
+          <div className="absolute right-2 top-1/2 -translate-y-1/2">
+            <VoiceSearchButton
+              onTranscript={(text) =>
+                searchMode === 'search'
+                  ? setSearchQuery(text)
+                  : setIngredientInput(text)
+              }
+              variant="ghost"
+              size="sm"
+            />
+          </div>
+        </div>
       </div>
 
       {/* Content */}
