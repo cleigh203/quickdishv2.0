@@ -97,11 +97,11 @@ const Index = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {[
               { name: 'Quick & Easy', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80' },
+              { name: 'Fall Favorites', image: 'https://images.unsplash.com/photo-1570145820404-cf22b115bc5f?w=400&q=80' },
+              { name: 'Family Favorites', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80' },
+              { name: 'One-Pot Wonders', image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=80' },
               { name: 'Healthy Bowls', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80' },
-              { name: 'Comfort Food', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80' },
-              { name: 'Fresh & Light', image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80' },
-              { name: 'Leftovers Magic', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80' },
-              { name: 'Picky Eaters', image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80' },
+              { name: 'Desserts', image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80' },
             ].map((collection) => (
               <div 
                 key={collection.name}
