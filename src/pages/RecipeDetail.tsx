@@ -19,6 +19,7 @@ import { PremiumPaywallModal } from "@/components/PremiumPaywallModal";
 import { NutritionFactsModal } from "@/components/NutritionFactsModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { generateRecipePDF } from "@/utils/pdfExport";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -35,6 +36,7 @@ const RecipeDetail = () => {
   const [premiumPaywallOpen, setPremiumPaywallOpen] = useState(false);
   const [nutritionModalOpen, setNutritionModalOpen] = useState(false);
   const [isPremium, setIsPremium] = useState(false);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   const currentSavedRecipe = recipe ? savedRecipes.find(r => r.recipe_id === recipe.id) : null;
 
@@ -164,6 +166,43 @@ const RecipeDetail = () => {
     }
     
     return result;
+  };
+
+  const handleExportPDF = async () => {
+    if (!recipe) return;
+    
+    setIsGeneratingPDF(true);
+    toast({
+      title: "Generating PDF...",
+      description: "Please wait while we create your recipe PDF",
+    });
+
+    try {
+      await generateRecipePDF(recipe, currentSavedRecipe?.notes);
+      
+      toast({
+        title: "PDF downloaded! 📄",
+        description: `${recipe.name} saved as PDF`,
+      });
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      toast({
+        title: "Failed to generate PDF",
+        description: "Please try again",
+        variant: "destructive",
+        action: (
+          <Button
+            size="sm"
+            onClick={handleExportPDF}
+            className="bg-primary hover:bg-primary/90"
+          >
+            Retry
+          </Button>
+        ),
+      });
+    } finally {
+      setIsGeneratingPDF(false);
+    }
   };
 
   if (!recipe) {
@@ -479,20 +518,23 @@ const RecipeDetail = () => {
               )}
             </button>
             
-            {/* Save as PDF */}
+            {/* Export as PDF */}
             <button
               onClick={() => {
-                alert('PDF export coming soon!');
+                handleExportPDF();
                 setMenuOpen(false);
               }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+              disabled={isGeneratingPDF}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl">
                 📄
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900">Save as PDF</div>
-                <div className="text-sm text-gray-500">Export recipe</div>
+                <div className="font-semibold text-gray-900">
+                  {isGeneratingPDF ? 'Generating...' : 'Export as PDF'}
+                </div>
+                <div className="text-sm text-gray-500">Download recipe as PDF</div>
               </div>
             </button>
             
