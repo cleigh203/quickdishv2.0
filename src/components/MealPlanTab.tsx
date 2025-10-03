@@ -138,28 +138,29 @@ export const MealPlanTab = () => {
       <div className="space-y-6 pb-24">
         {upcomingMeals.length > 0 && (
           <Card className="border-primary/20">
-            <CardContent className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="font-semibold">This Week's Meals</h3>
-                  <p className="text-sm text-muted-foreground">{upcomingMeals.length} meals planned</p>
-                </div>
+            <CardContent className="p-4">
+              <div className="mb-3">
+                <h3 className="font-semibold">This Week's Meals</h3>
+                <p className="text-sm text-muted-foreground">{upcomingMeals.length} meals planned</p>
+              </div>
+              <div className="flex gap-2">
+                <Button 
+                  onClick={handleAddToShoppingList} 
+                  className="flex-1 bg-primary hover:bg-primary/90"
+                  size="sm"
+                >
+                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  Add to Shopping List
+                </Button>
                 <Button 
                   variant="outline" 
+                  size="sm"
                   className="text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground"
                   onClick={() => setShowClearDialog(true)}
                 >
-                  Clear Meal Plan
+                  Clear All
                 </Button>
               </div>
-              <Button 
-                onClick={handleAddToShoppingList} 
-                className="w-full bg-primary hover:bg-primary/90"
-                size="sm"
-              >
-                <ShoppingCart className="w-4 h-4 mr-2" />
-                Add to Shopping List
-              </Button>
             </CardContent>
           </Card>
         )}
@@ -174,7 +175,7 @@ export const MealPlanTab = () => {
           return (
             <Card 
               key={meal.id} 
-              className={`border-0 cursor-pointer transition-opacity ${isPastMeal ? 'opacity-60' : ''}`}
+              className={`relative border-0 cursor-pointer transition-opacity ${isPastMeal ? 'opacity-60' : ''}`}
               onClick={() => navigate(`/recipe/${recipe.id}`)}
             >
               <CardContent className="p-4">
@@ -184,7 +185,7 @@ export const MealPlanTab = () => {
                     alt={recipe.name}
                     className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
                   />
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 min-w-0 pr-10">
                     <p className="text-sm text-muted-foreground mb-1">{formatDate(meal.scheduled_date)}</p>
                     <h3 className="font-semibold mb-2 line-clamp-1">{recipe.name}</h3>
                     <div className="flex items-center gap-2 mb-2">
@@ -197,7 +198,7 @@ export const MealPlanTab = () => {
                         {recipe.cookTime}
                       </span>
                     </div>
-                    {isPastMeal ? (
+                    {isPastMeal && (
                       <Button
                         size="sm"
                         variant="link"
@@ -209,25 +210,26 @@ export const MealPlanTab = () => {
                       >
                         Mark as Cooked
                       </Button>
-                    ) : (
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="absolute top-4 right-4 text-destructive hover:text-destructive hover:bg-destructive/10"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setMealToDelete({
-                            id: meal.id,
-                            name: recipe.name,
-                            date: formatDate(meal.scheduled_date),
-                            type: meal.meal_type
-                          });
-                        }}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
                     )}
                   </div>
+                  {!isPastMeal && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="absolute top-4 right-4 text-destructive hover:text-destructive hover:bg-destructive/10 h-8 w-8 p-0"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setMealToDelete({
+                          id: meal.id,
+                          name: recipe.name,
+                          date: formatDate(meal.scheduled_date),
+                          type: meal.meal_type
+                        });
+                      }}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>
