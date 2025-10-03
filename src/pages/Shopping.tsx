@@ -307,7 +307,7 @@ const Shopping = () => {
                           <div
                             onClick={() => toggleItem(item.id)}
                             className={`
-                              w-5.5 h-5.5 rounded-md border-2 flex items-center justify-center transition-all cursor-pointer flex-shrink-0
+                              w-7 h-7 rounded-md border-2 flex items-center justify-center transition-all cursor-pointer flex-shrink-0
                               ${item.checked 
                                 ? 'bg-[#FF6B35] border-[#FF6B35]' 
                                 : 'border-gray-300 hover:border-[#FF6B35]'
@@ -315,7 +315,7 @@ const Shopping = () => {
                             `}
                           >
                             {item.checked && (
-                              <span className="text-white text-sm font-bold">✓</span>
+                              <span className="text-white text-base font-bold">✓</span>
                             )}
                           </div>
                           
