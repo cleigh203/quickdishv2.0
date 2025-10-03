@@ -90,15 +90,23 @@ export const MealPlanTab = () => {
     });
   };
 
-  const handleDeleteMeal = () => {
+  const handleDeleteMeal = async () => {
     if (mealToDelete) {
-      deleteMealPlan(mealToDelete.id);
+      await deleteMealPlan(mealToDelete.id);
+      toast({
+        title: "Success",
+        description: "Removed from meal plan",
+      });
       setMealToDelete(null);
     }
   };
 
   const handleClearAll = async () => {
     await clearAllMealPlans(keepPastMeals);
+    toast({
+      title: "Success",
+      description: "Meal plan cleared",
+    });
     setShowClearDialog(false);
     setKeepPastMeals(true);
   };
@@ -239,7 +247,12 @@ export const MealPlanTab = () => {
       </div>
 
       {/* Individual Meal Delete Confirmation */}
-      <AlertDialog open={!!mealToDelete} onOpenChange={() => setMealToDelete(null)}>
+      <AlertDialog 
+        open={!!mealToDelete} 
+        onOpenChange={(open) => {
+          if (!open) setMealToDelete(null);
+        }}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Remove from meal plan?</AlertDialogTitle>
@@ -250,7 +263,7 @@ export const MealPlanTab = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setMealToDelete(null)}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteMeal}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
@@ -262,7 +275,15 @@ export const MealPlanTab = () => {
       </AlertDialog>
 
       {/* Clear All Meals Confirmation */}
-      <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>
+      <AlertDialog 
+        open={showClearDialog} 
+        onOpenChange={(open) => {
+          if (!open) {
+            setShowClearDialog(false);
+            setKeepPastMeals(true);
+          }
+        }}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Clear your entire meal plan?</AlertDialogTitle>
@@ -281,7 +302,12 @@ export const MealPlanTab = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setKeepPastMeals(true)}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => {
+              setShowClearDialog(false);
+              setKeepPastMeals(true);
+            }}>
+              Cancel
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleClearAll}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
