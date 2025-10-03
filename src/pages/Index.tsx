@@ -81,7 +81,7 @@ const Index = () => {
           </p>
           
           {/* Glassmorphic Search Bar */}
-          <div className="w-full max-w-xl glass-card rounded-2xl p-2 flex items-center gap-2 hover:shadow-xl transition-all mx-auto">
+          <div className="w-full max-w-xl glass-card rounded-2xl p-2 hover:shadow-xl transition-all mx-auto relative">
             <input
               type="text"
               value={searchInput}
@@ -93,18 +93,18 @@ const Index = () => {
                 }
               }}
               placeholder="What's in your fridge?"
-              className="flex-1 h-14 px-4 bg-transparent border-0 outline-none text-foreground placeholder:text-muted-foreground text-lg"
+              className="w-full h-14 px-4 pr-28 bg-transparent border-0 outline-none text-foreground placeholder:text-muted-foreground text-lg"
             />
             <VoiceSearchButton
               onTranscript={(text) => setSearchInput(text)}
               onSearchTrigger={handleSearch}
               variant="ghost"
               size="icon"
-              className="h-14 w-14 flex-shrink-0"
+              className="absolute right-[60px] top-1/2 -translate-y-1/2 h-10 w-10 p-2"
             />
             <Button 
-              size="lg" 
-              className="rounded-xl h-14 w-14 flex-shrink-0"
+              size="icon"
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full h-10 w-10 p-3"
               onClick={handleSearch}
             >
               <Sparkles className="w-5 h-5" />
