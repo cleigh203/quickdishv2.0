@@ -82,6 +82,16 @@ const RecipeDetail = () => {
         foundRecipe = recipeStorage.getRecipeById(id);
       }
       
+      // Check custom recipes in localStorage
+      if (!foundRecipe) {
+        try {
+          const customRecipes = JSON.parse(localStorage.getItem('customRecipes') || '[]');
+          foundRecipe = customRecipes.find((r: Recipe) => r.id === id);
+        } catch (error) {
+          console.error('Failed to load custom recipes:', error);
+        }
+      }
+      
       if (foundRecipe) {
         setRecipe(foundRecipe);
         
