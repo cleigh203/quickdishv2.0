@@ -15,11 +15,13 @@ import { allRecipes } from "@/data/recipes";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useShoppingList } from "@/hooks/useShoppingList";
 import { RecipeNotesDialog } from "@/components/RecipeNotesDialog";
+import { useAuth } from "@/contexts/AuthContext";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
   const { isSaved, saveRecipe, unsaveRecipe, savedRecipes, updateRecipeNotes } = useSavedRecipes();
   const { addItems } = useShoppingList();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
@@ -59,6 +61,23 @@ const RecipeDetail = () => {
   const toggleFavorite = async () => {
     if (!recipe) return;
     
+    if (!user) {
+      toast({
+        title: "Sign up to save recipes",
+        description: "Create an account to save your favorite recipes",
+        action: (
+          <Button
+            size="sm"
+            onClick={() => navigate('/auth')}
+            className="bg-primary hover:bg-primary/90"
+          >
+            Sign Up
+          </Button>
+        ),
+      });
+      return;
+    }
+    
     if (isSaved(recipe.id)) {
       await unsaveRecipe(recipe.id);
     } else {
@@ -68,6 +87,23 @@ const RecipeDetail = () => {
 
   const addToShoppingList = () => {
     if (!recipe) return;
+    
+    if (!user) {
+      toast({
+        title: "Sign up to use shopping lists",
+        description: "Create an account to add ingredients to your shopping list",
+        action: (
+          <Button
+            size="sm"
+            onClick={() => navigate('/auth')}
+            className="bg-primary hover:bg-primary/90"
+          >
+            Sign Up
+          </Button>
+        ),
+      });
+      return;
+    }
     
     // Convert recipe ingredients to shopping items format
     const newItems = ingredientsToShoppingItems(recipe.ingredients, recipe.name);
@@ -324,6 +360,23 @@ const RecipeDetail = () => {
             {/* Start Cooking Mode */}
             <button
               onClick={() => {
+                if (!user) {
+                  toast({
+                    title: "Sign up to use cooking mode",
+                    description: "Create an account to access step-by-step cooking mode",
+                    action: (
+                      <Button
+                        size="sm"
+                        onClick={() => navigate('/auth')}
+                        className="bg-primary hover:bg-primary/90"
+                      >
+                        Sign Up
+                      </Button>
+                    ),
+                  });
+                  setMenuOpen(false);
+                  return;
+                }
                 setCookingMode(true);
                 setMenuOpen(false);
               }}
