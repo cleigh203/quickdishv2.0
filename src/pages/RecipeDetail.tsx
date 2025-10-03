@@ -15,7 +15,10 @@ import { allRecipes } from "@/data/recipes";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useShoppingList } from "@/hooks/useShoppingList";
 import { RecipeNotesDialog } from "@/components/RecipeNotesDialog";
+import { PremiumPaywallModal } from "@/components/PremiumPaywallModal";
+import { NutritionFactsModal } from "@/components/NutritionFactsModal";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -29,8 +32,33 @@ const RecipeDetail = () => {
   const [cookingMode, setCookingMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [notesDialogOpen, setNotesDialogOpen] = useState(false);
+  const [premiumPaywallOpen, setPremiumPaywallOpen] = useState(false);
+  const [nutritionModalOpen, setNutritionModalOpen] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
 
   const currentSavedRecipe = recipe ? savedRecipes.find(r => r.recipe_id === recipe.id) : null;
+
+  // Fetch premium status
+  useEffect(() => {
+    const fetchPremiumStatus = async () => {
+      if (!user) {
+        setIsPremium(false);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('is_premium')
+        .eq('id', user.id)
+        .single();
+
+      if (!error && data) {
+        setIsPremium(data.is_premium || false);
+      }
+    };
+
+    fetchPremiumStatus();
+  }, [user]);
 
   useEffect(() => {
     if (id) {
@@ -394,8 +422,43 @@ const RecipeDetail = () => {
             {/* Nutritional Facts - Premium */}
             <button
               onClick={() => {
-                alert('Nutritional Facts is a premium feature. Upgrade to unlock!');
-                setMenuOpen(false);
+                // Guest users: show sign up prompt
+                if (!user) {
+                  toast({
+                    title: "Sign up to unlock nutritional information",
+                    description: "Create an account to access detailed nutrition facts",
+                    action: (
+                      <Button
+                        size="sm"
+                        onClick={() => navigate('/auth')}
+                        className="bg-primary hover:bg-primary/90"
+                      >
+                        Sign Up
+                      </Button>
+                    ),
+                  });
+                  setMenuOpen(false);
+                  return;
+                }
+
+                // Authenticated users: check premium status
+                if (!isPremium) {
+                  setPremiumPaywallOpen(true);
+                  setMenuOpen(false);
+                  return;
+                }
+
+                // Premium users: show nutrition facts
+                if (recipe?.nutrition) {
+                  setNutritionModalOpen(true);
+                  setMenuOpen(false);
+                } else {
+                  toast({
+                    title: "Nutrition data unavailable",
+                    description: "This recipe doesn't have nutrition information yet",
+                  });
+                  setMenuOpen(false);
+                }
               }}
               className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
             >
@@ -403,12 +466,17 @@ const RecipeDetail = () => {
                 📊
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900">Nutritional Facts</div>
+                <div className="font-semibold text-gray-900 flex items-center gap-2">
+                  Nutritional Facts
+                  {isPremium && <span className="text-xs">👑</span>}
+                </div>
                 <div className="text-sm text-gray-500">Calories, macros, vitamins</div>
               </div>
-              <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                PREMIUM
-              </div>
+              {!isPremium && (
+                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  PREMIUM
+                </div>
+              )}
             </button>
             
             {/* Save as PDF */}
@@ -480,6 +548,20 @@ const RecipeDetail = () => {
         onSave={handleSaveNotes}
         isSaved={isSaved(recipe.id)}
       />
+
+      <PremiumPaywallModal
+        open={premiumPaywallOpen}
+        onClose={() => setPremiumPaywallOpen(false)}
+      />
+
+      {recipe?.nutrition && (
+        <NutritionFactsModal
+          open={nutritionModalOpen}
+          onClose={() => setNutritionModalOpen(false)}
+          nutrition={recipe.nutrition}
+          recipeName={recipe.name}
+        />
+      )}
     </div>
   );
 };

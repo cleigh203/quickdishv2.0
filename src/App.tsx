@@ -13,6 +13,7 @@ import SavedRecipes from "./pages/SavedRecipes";
 import Shopping from "./pages/Shopping";
 import Pantry from "./pages/Pantry";
 import Profile from "./pages/Profile";
+import Premium from "./pages/Premium";
 import Admin from "./pages/Admin";
 import GenerateDessertImages from "./pages/GenerateDessertImages";
 import Auth from "./pages/Auth";
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/shopping" element={<ProtectedRoute><Shopping /></ProtectedRoute>} />
             <Route path="/pantry" element={<ProtectedRoute><Pantry /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/premium" element={<ProtectedRoute allowGuest><Premium /></ProtectedRoute>} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/generate-dessert-images" element={<GenerateDessertImages />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

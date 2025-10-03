@@ -32,6 +32,7 @@ interface ProfileData {
   skill_level: string | null;
   favorite_cuisines: string[] | null;
   learning_goals: string[] | null;
+  is_premium: boolean;
 }
 
 const Profile = () => {
@@ -85,6 +86,8 @@ const Profile = () => {
       if (error) throw error;
 
       setProfileData(data);
+      // Update premium status from database
+      setIsPremium(data?.is_premium || false);
     } catch (error: any) {
       console.error('Error fetching profile:', error);
     } finally {
@@ -238,9 +241,17 @@ const Profile = () => {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <h1 className="text-2xl font-bold truncate">
-                  {profileData?.display_name || 'User'}
-                </h1>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-2xl font-bold truncate">
+                    {profileData?.display_name || 'User'}
+                  </h1>
+                  {profileData?.is_premium && (
+                    <div className="flex-shrink-0 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                      <span>👑</span>
+                      <span>Premium</span>
+                    </div>
+                  )}
+                </div>
                 <p className="text-sm text-muted-foreground truncate">{user.email}</p>
                 <Button
                   size="sm"

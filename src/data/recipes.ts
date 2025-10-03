@@ -78,6 +78,15 @@ export const allRecipes: Recipe[] = [
     image: "/lovable-uploads/dessert-tiramisu.png",
     totalTime: 30,
     tags: ["dessert", "italian", "coffee", "no-bake"],
+    nutrition: {
+      calories: 380,
+      protein: 8,
+      carbs: 42,
+      fat: 20,
+      fiber: 1,
+      sugar: 28,
+      servingSize: "1 slice"
+    },
     ingredients: [
       { amount: "6", unit: "", item: "egg yolks" },
       { amount: "3/4", unit: "cup", item: "sugar" },
@@ -111,6 +120,15 @@ export const allRecipes: Recipe[] = [
     image: "/lovable-uploads/dessert-cheesecake.png",
     totalTime: 80,
     tags: ["dessert", "baked", "american", "rich"],
+    nutrition: {
+      calories: 520,
+      protein: 9,
+      carbs: 48,
+      fat: 32,
+      fiber: 1,
+      sugar: 38,
+      servingSize: "1 slice"
+    },
     ingredients: [
       { amount: "2", unit: "cups", item: "graham cracker crumbs" },
       { amount: "1/2", unit: "cup", item: "butter, melted" },
@@ -142,6 +160,15 @@ export const allRecipes: Recipe[] = [
     image: "/lovable-uploads/dessert-brownies.png",
     totalTime: 40,
     tags: ["dessert", "chocolate", "baked", "easy"],
+    nutrition: {
+      calories: 240,
+      protein: 3,
+      carbs: 32,
+      fat: 12,
+      fiber: 2,
+      sugar: 24,
+      servingSize: "1 brownie"
+    },
     ingredients: [
       { amount: "1", unit: "cup", item: "butter" },
       { amount: "2", unit: "cups", item: "sugar" },
@@ -1221,6 +1248,15 @@ export const allRecipes: Recipe[] = [
     image: burritoBowlImg,
     totalTime: 45,
     tags: ["copycat", "mexican", "healthy", "protein"],
+    nutrition: {
+      calories: 650,
+      protein: 38,
+      carbs: 72,
+      fat: 22,
+      fiber: 12,
+      sugar: 4,
+      servingSize: "1 bowl"
+    },
     ingredients: [
       { amount: "2", unit: "cups", item: "white rice" },
       { amount: "1/4", unit: "cup", item: "lime juice" },
@@ -1255,6 +1291,15 @@ export const allRecipes: Recipe[] = [
     image: alfredoImg,
     totalTime: 30,
     tags: ["copycat", "italian", "pasta", "comfort"],
+    nutrition: {
+      calories: 890,
+      protein: 42,
+      carbs: 68,
+      fat: 48,
+      fiber: 3,
+      sugar: 5,
+      servingSize: "1 plate"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "fettuccine" },
       { amount: "1", unit: "lb", item: "chicken breast" },
@@ -1744,6 +1789,15 @@ export const allRecipes: Recipe[] = [
     image: honeyGarlicChickenImg,
     totalTime: 30,
     tags: ["quick", "dinner", "one-pan", "protein"],
+    nutrition: {
+      calories: 420,
+      protein: 32,
+      carbs: 38,
+      fat: 16,
+      fiber: 4,
+      sugar: 22,
+      servingSize: "1 thigh with vegetables"
+    },
     ingredients: [
       { amount: "4", unit: "", item: "chicken thighs" },
       { amount: "3", unit: "cups", item: "broccoli florets" },
@@ -1775,6 +1829,15 @@ export const allRecipes: Recipe[] = [
     image: shrimpStirfryImg,
     totalTime: 15,
     tags: ["quick", "asian", "protein", "healthy"],
+    nutrition: {
+      calories: 280,
+      protein: 26,
+      carbs: 18,
+      fat: 12,
+      fiber: 3,
+      sugar: 6,
+      servingSize: "1 cup"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "large shrimp, peeled" },
       { amount: "3", unit: "cups", item: "stir fry vegetables" },

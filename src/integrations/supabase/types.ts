@@ -57,6 +57,7 @@ export type Database = {
           display_name: string | null
           favorite_cuisines: string[] | null
           id: string
+          is_premium: boolean
           learning_goals: string[] | null
           skill_level: string | null
         }
@@ -67,6 +68,7 @@ export type Database = {
           display_name?: string | null
           favorite_cuisines?: string[] | null
           id: string
+          is_premium?: boolean
           learning_goals?: string[] | null
           skill_level?: string | null
         }
@@ -77,6 +79,7 @@ export type Database = {
           display_name?: string | null
           favorite_cuisines?: string[] | null
           id?: string
+          is_premium?: boolean
           learning_goals?: string[] | null
           skill_level?: string | null
         }

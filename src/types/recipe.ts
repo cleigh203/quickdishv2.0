@@ -6,9 +6,12 @@ export interface Ingredient {
 
 export interface Nutrition {
   calories: number;
-  protein: number;
-  carbs: number;
-  fat: number;
+  protein: number; // grams
+  carbs: number; // grams
+  fat: number; // grams
+  fiber: number; // grams
+  sugar: number; // grams
+  servingSize: string; // e.g. "1 cup", "2 pieces"
 }
 
 export interface Recipe {
