@@ -252,6 +252,11 @@ const Profile = () => {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 space-y-6">
+        {/* Welcome Text */}
+        <div className="text-center">
+          <p className="text-muted-foreground">Manage your preferences and cooking journey</p>
+        </div>
+
         {/* User Info Section */}
         <Card className="rounded-xl shadow-sm bg-card">
           <CardContent className="p-8">
