@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { handleSupabaseError, retryOperation } from '@/utils/errorHandling';
 
 interface ShoppingItem {
   id: number;
@@ -43,25 +44,35 @@ export const useShoppingList = () => {
       setLoading(true);
       
       // Get or create shopping list for user
-      let { data: lists, error: fetchError } = await supabase
-        .from('shopping_lists')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(1);
+      const { data: lists, error: fetchError } = await retryOperation(async () => {
+        const result = await supabase
+          .from('shopping_lists')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
+          .limit(1);
+        
+        if (result.error) throw result.error;
+        return result;
+      });
 
       if (fetchError) throw fetchError;
 
       if (!lists || lists.length === 0) {
         // Create new shopping list
-        const { data: newList, error: createError } = await supabase
-          .from('shopping_lists')
-          .insert({
-            user_id: user.id,
-            items: [] as any
-          })
-          .select()
-          .single();
+        const { data: newList, error: createError } = await retryOperation(async () => {
+          const result = await supabase
+            .from('shopping_lists')
+            .insert({
+              user_id: user.id,
+              items: [] as any
+            })
+            .select()
+            .single();
+          
+          if (result.error) throw result.error;
+          return result;
+        });
 
         if (createError) throw createError;
         
@@ -74,9 +85,10 @@ export const useShoppingList = () => {
       }
     } catch (err: any) {
       console.error('Error fetching shopping list:', err);
+      const errorInfo = handleSupabaseError(err);
       toast({
-        title: "Error loading shopping list",
-        description: err.message,
+        title: errorInfo.title,
+        description: errorInfo.description,
         variant: "destructive",
       });
     } finally {
@@ -102,22 +114,28 @@ export const useShoppingList = () => {
 
       setSaving(true);
       try {
-        const { error } = await supabase
-          .from('shopping_lists')
-          .update({
-            items: pendingUpdateRef.current as any,
-            updated_at: new Date().toISOString()
-          })
-          .eq('id', listId);
+        const { error } = await retryOperation(async () => {
+          const result = await supabase
+            .from('shopping_lists')
+            .update({
+              items: pendingUpdateRef.current as any,
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', listId);
+          
+          if (result.error) throw result.error;
+          return result;
+        });
 
         if (error) throw error;
         
         pendingUpdateRef.current = null;
       } catch (err: any) {
         console.error('Error saving shopping list:', err);
+        const errorInfo = handleSupabaseError(err);
         toast({
-          title: "Failed to save",
-          description: "Shopping list changes not saved",
+          title: errorInfo.title,
+          description: errorInfo.description,
           variant: "destructive",
         });
       } finally {

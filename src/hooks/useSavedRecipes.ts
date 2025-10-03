@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { handleSupabaseError, retryOperation } from '@/utils/errorHandling';
 
 interface SavedRecipe {
   id: string;
@@ -79,18 +80,24 @@ export const useSavedRecipes = () => {
       setLoading(true);
       setError(null);
       
-      const { data, error } = await supabase
-        .from('saved_recipes')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('saved_at', { ascending: false });
+      const { data, error } = await retryOperation(async () => {
+        const result = await supabase
+          .from('saved_recipes')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('saved_at', { ascending: false });
+        
+        if (result.error) throw result.error;
+        return result;
+      });
 
       if (error) throw error;
       
       setSavedRecipes(data || []);
     } catch (err: any) {
       console.error('Error fetching saved recipes:', err);
-      setError(err.message);
+      const errorInfo = handleSupabaseError(err);
+      setError(errorInfo.description);
     } finally {
       setLoading(false);
     }
@@ -126,12 +133,17 @@ export const useSavedRecipes = () => {
         return { success: false, message: 'Already saved' };
       }
 
-      const { error } = await supabase
-        .from('saved_recipes')
-        .insert({
-          user_id: user.id,
-          recipe_id: recipeId,
-        });
+      const { error } = await retryOperation(async () => {
+        const result = await supabase
+          .from('saved_recipes')
+          .insert({
+            user_id: user.id,
+            recipe_id: recipeId,
+          });
+        
+        if (result.error) throw result.error;
+        return result;
+      });
 
       if (error) throw error;
 
@@ -146,12 +158,13 @@ export const useSavedRecipes = () => {
       return { success: true };
     } catch (err: any) {
       console.error('Error saving recipe:', err);
+      const errorInfo = handleSupabaseError(err);
       toast({
-        title: "Error",
-        description: "Failed to save recipe",
+        title: errorInfo.title,
+        description: errorInfo.description,
         variant: "destructive",
       });
-      return { success: false, message: err.message };
+      return { success: false, message: errorInfo.description };
     }
   };
 
@@ -172,11 +185,16 @@ export const useSavedRecipes = () => {
     }
 
     try {
-      const { error } = await supabase
-        .from('saved_recipes')
-        .delete()
-        .eq('user_id', user.id)
-        .eq('recipe_id', recipeId);
+      const { error } = await retryOperation(async () => {
+        const result = await supabase
+          .from('saved_recipes')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('recipe_id', recipeId);
+        
+        if (result.error) throw result.error;
+        return result;
+      });
 
       if (error) throw error;
 
@@ -191,12 +209,13 @@ export const useSavedRecipes = () => {
       return { success: true };
     } catch (err: any) {
       console.error('Error removing recipe:', err);
+      const errorInfo = handleSupabaseError(err);
       toast({
-        title: "Error",
-        description: "Failed to remove recipe",
+        title: errorInfo.title,
+        description: errorInfo.description,
         variant: "destructive",
       });
-      return { success: false, message: err.message };
+      return { success: false, message: errorInfo.description };
     }
   };
 
@@ -215,11 +234,16 @@ export const useSavedRecipes = () => {
     }
 
     try {
-      const { error } = await supabase
-        .from('saved_recipes')
-        .update({ notes })
-        .eq('user_id', user.id)
-        .eq('recipe_id', recipeId);
+      const { error } = await retryOperation(async () => {
+        const result = await supabase
+          .from('saved_recipes')
+          .update({ notes })
+          .eq('user_id', user.id)
+          .eq('recipe_id', recipeId);
+        
+        if (result.error) throw result.error;
+        return result;
+      });
 
       if (error) throw error;
 
@@ -227,7 +251,8 @@ export const useSavedRecipes = () => {
       return { success: true };
     } catch (err: any) {
       console.error('Error updating notes:', err);
-      return { success: false, message: err.message };
+      const errorInfo = handleSupabaseError(err);
+      return { success: false, message: errorInfo.description };
     }
   };
 
