@@ -52,29 +52,41 @@ const RecipeDetail = () => {
   const { averageRating, totalRatings, refetch: refetchRatings } = useRecipeRating(recipe?.id || '');
 
   useEffect(() => {
+    console.log('🔍 1. RecipeDetail useEffect triggered, ID:', id);
+    console.log('🔍 2. Generated recipes count:', generatedRecipes.length);
+    console.log('🔍 3. Generated recipe IDs:', generatedRecipes.map(r => r.id));
+    console.log('🔍 4. Static recipes count:', allRecipes.length);
+    
     if (id) {
       // Combine all recipe sources
       const combinedRecipes = [...allRecipes, ...generatedRecipes];
+      console.log('🔍 5. Combined recipes count:', combinedRecipes.length);
       
       // Load from combined recipes (including generated recipes)
       let foundRecipe = combinedRecipes.find(r => r.id === id);
+      console.log('🔍 6. Recipe found in combined recipes:', foundRecipe ? 'YES' : 'NO');
       
       // Fall back to localStorage for user-generated recipes
       if (!foundRecipe) {
+        console.log('🔍 7. Checking localStorage...');
         foundRecipe = recipeStorage.getRecipeById(id);
+        console.log('🔍 8. Recipe found in localStorage:', foundRecipe ? 'YES' : 'NO');
       }
       
       // Check custom recipes in localStorage
       if (!foundRecipe) {
+        console.log('🔍 9. Checking custom recipes...');
         try {
           const customRecipes = JSON.parse(localStorage.getItem('customRecipes') || '[]');
           foundRecipe = customRecipes.find((r: Recipe) => r.id === id);
+          console.log('🔍 10. Recipe found in custom recipes:', foundRecipe ? 'YES' : 'NO');
         } catch (error) {
-          console.error('Failed to load custom recipes:', error);
+          console.error('🔍 11. Failed to load custom recipes:', error);
         }
       }
       
       if (foundRecipe) {
+        console.log('🔍 12. Setting recipe:', foundRecipe.name);
         setRecipe(foundRecipe);
         
         // Check if coming from "Cook Now" button
@@ -85,6 +97,8 @@ const RecipeDetail = () => {
           window.history.replaceState({}, '', `/recipe/${id}`);
         }
       } else {
+        console.log('🔍 12. No recipe found for ID:', id);
+        setRecipe(null);
         navigate('/generate');
       }
     }

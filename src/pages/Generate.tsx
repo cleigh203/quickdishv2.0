@@ -378,13 +378,27 @@ const Generate = () => {
           </p>
           {filteredRecipes.length === 0 ? (
             <div className="max-w-md mx-auto">
-              <AiGenerationPrompt 
-                searchTerm={searchQuery || ingredientInput || ingredientsParam || 'recipe'}
-                onRecipeGenerated={async (recipe) => {
-                  await refetchGeneratedRecipes();
-                  navigate(`/recipe/${recipe.id}`);
-                }}
-              />
+          <AiGenerationPrompt 
+            searchTerm={searchQuery || ingredientInput || ingredientsParam || 'recipe'}
+            onRecipeGenerated={async (recipe) => {
+              console.log('🔄 1. onRecipeGenerated called with recipe:', recipe);
+              console.log('🔄 2. Recipe ID:', recipe.id);
+              console.log('🔄 3. About to refetch generated recipes...');
+              
+              await refetchGeneratedRecipes();
+              
+              console.log('🔄 4. Refetch complete');
+              console.log('🔄 5. Waiting 200ms before navigation...');
+              
+              // Wait a bit to ensure state updates propagate
+              setTimeout(() => {
+                console.log('🔄 6. Navigating to:', `/recipe/${recipe.id}`);
+                navigate(`/recipe/${recipe.id}`, { 
+                  state: { recipe } // Pass recipe directly in case lookup fails
+                });
+              }, 200);
+            }}
+          />
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-4">

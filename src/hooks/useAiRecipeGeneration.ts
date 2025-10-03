@@ -46,7 +46,12 @@ export const useAiRecipeGeneration = () => {
   };
 
   const generateRecipe = async (searchTerm: string): Promise<Recipe | null> => {
+    console.log('📡 1. generateRecipe called with:', searchTerm);
+    console.log('📡 2. User ID:', user?.id);
+    console.log('📡 3. Is Premium:', isPremium);
+    
     if (!user) {
+      console.log('📡 4. No user, returning null');
       toast({
         title: "Sign in required",
         description: "Please sign in to generate recipes with AI",
@@ -65,14 +70,18 @@ export const useAiRecipeGeneration = () => {
     });
 
     try {
+      console.log('📡 5. Invoking edge function generate-recipe-ai...');
       const { data, error } = await supabase.functions.invoke('generate-recipe-ai', {
         body: { searchTerm, userId: user.id }
       });
+
+      console.log('📡 6. Edge function response:', { data, error });
 
       // Dismiss loading toast
       loadingToast.dismiss();
 
       if (error) {
+        console.log('📡 7. Error from edge function:', error);
         if (error.message?.includes('Rate limit')) {
           toast({
             title: "Daily limit reached",
@@ -88,6 +97,7 @@ export const useAiRecipeGeneration = () => {
       }
 
       if (data.error) {
+        console.log('📡 8. Error in response data:', data.error);
         toast({
           title: "Generation failed",
           description: data.error,
@@ -96,6 +106,10 @@ export const useAiRecipeGeneration = () => {
         return null;
       }
 
+      console.log('📡 9. Recipe generated successfully:', data.recipe);
+      console.log('📡 10. Recipe ID:', data.recipe?.id);
+      console.log('📡 11. Generations remaining:', data.generationsRemaining);
+      
       setGenerationsRemaining(data.generationsRemaining);
       
       toast({
@@ -105,7 +119,7 @@ export const useAiRecipeGeneration = () => {
 
       return data.recipe;
     } catch (error: any) {
-      console.error('Error generating recipe:', error);
+      console.error('📡 12. Exception in generateRecipe:', error);
       loadingToast.dismiss();
       toast({
         title: "Generation failed",
@@ -114,6 +128,7 @@ export const useAiRecipeGeneration = () => {
       });
       return null;
     } finally {
+      console.log('📡 13. Setting isGenerating to false');
       setIsGenerating(false);
     }
   };

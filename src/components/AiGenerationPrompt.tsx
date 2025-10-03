@@ -29,22 +29,34 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
   }, [user]);
 
   const handleGenerate = async () => {
+    console.log('🎯 1. Starting AI generation for:', searchTerm);
+    console.log('🎯 2. User authenticated:', user?.id);
+    console.log('🎯 3. Rate limit check:', { limitReached, remaining });
+    
     if (!user) {
+      console.log('🎯 4. User not authenticated, redirecting to auth');
       navigate('/auth');
       return;
     }
 
     if (limitReached) {
+      console.log('🎯 5. Rate limit reached, isPremium:', isPremium);
       if (!isPremium) {
         navigate('/premium');
       }
       return;
     }
 
+    console.log('🎯 6. Calling generateRecipe...');
     const recipe = await generateRecipe(searchTerm);
+    console.log('🎯 7. Recipe generated:', recipe);
+    console.log('🎯 8. Recipe ID:', recipe?.id);
+    
     if (recipe) {
-      // Recipe is now saved in database, just notify parent
+      console.log('🎯 9. About to call onRecipeGenerated');
       onRecipeGenerated(recipe);
+    } else {
+      console.log('🎯 9. Recipe generation failed - no recipe returned');
     }
   };
 

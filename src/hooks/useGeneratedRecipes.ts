@@ -18,17 +18,26 @@ export const useGeneratedRecipes = () => {
   }, [user]);
 
   const fetchGeneratedRecipes = async () => {
-    if (!user) return;
+    console.log('🔄 1. fetchGeneratedRecipes called, user:', user?.id);
+    if (!user) {
+      console.log('🔄 2. No user, skipping fetch');
+      return;
+    }
 
     setIsLoading(true);
     try {
+      console.log('🔄 3. Querying generated_recipes table...');
       const { data, error } = await supabase
         .from('generated_recipes')
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
+      console.log('🔄 4. Query result:', { data, error });
+
       if (error) throw error;
+
+      console.log('🔄 5. Raw database records:', data?.length || 0);
 
       // Transform database records to Recipe type
       const recipes: Recipe[] = (data || []).map((record) => ({
@@ -50,11 +59,15 @@ export const useGeneratedRecipes = () => {
         generatedAt: record.created_at
       }));
 
+      console.log('🔄 6. Transformed recipes:', recipes.length);
+      console.log('🔄 7. Recipe IDs:', recipes.map(r => r.id));
+
       setGeneratedRecipes(recipes);
     } catch (error) {
-      console.error('Error fetching generated recipes:', error);
+      console.error('🔄 8. Error fetching generated recipes:', error);
       setGeneratedRecipes([]);
     } finally {
+      console.log('🔄 9. Setting isLoading to false');
       setIsLoading(false);
     }
   };
