@@ -57,10 +57,20 @@ export const useAiRecipeGeneration = () => {
 
     setIsGenerating(true);
 
+    // Show initial loading toast
+    const loadingToast = toast({
+      title: "Creating your custom recipe...",
+      description: "Generating recipe details and image",
+      duration: Infinity
+    });
+
     try {
       const { data, error } = await supabase.functions.invoke('generate-recipe-ai', {
         body: { searchTerm, userId: user.id }
       });
+
+      // Dismiss loading toast
+      loadingToast.dismiss();
 
       if (error) {
         if (error.message?.includes('Rate limit')) {
@@ -96,6 +106,7 @@ export const useAiRecipeGeneration = () => {
       return data.recipe;
     } catch (error: any) {
       console.error('Error generating recipe:', error);
+      loadingToast.dismiss();
       toast({
         title: "Generation failed",
         description: "Failed to generate recipe. Please try again.",

@@ -143,6 +143,47 @@ Return ONLY the JSON object, no other text.`;
     recipe.isAiGenerated = true;
     recipe.generatedAt = new Date().toISOString();
 
+    // Generate image for the recipe
+    console.log('Generating image for recipe:', recipe.name);
+    let imageUrl = null;
+    
+    try {
+      const imagePrompt = `Professional food photography of ${recipe.name}, beautifully plated on a white dish, studio lighting, high-end restaurant quality, appetizing, detailed, 4k quality`;
+      
+      const imageResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'google/gemini-2.5-flash-image-preview',
+          messages: [
+            {
+              role: 'user',
+              content: imagePrompt
+            }
+          ],
+          modalities: ['image', 'text']
+        }),
+      });
+
+      if (imageResponse.ok) {
+        const imageData = await imageResponse.json();
+        imageUrl = imageData.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+        console.log('Image generated successfully');
+      } else {
+        console.error('Image generation failed:', imageResponse.status);
+      }
+    } catch (imageError) {
+      console.error('Error generating image:', imageError);
+      // Continue without image - don't fail the whole request
+    }
+
+    // Add image to recipe (or use placeholder if generation failed)
+    recipe.image = imageUrl || `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80`;
+    recipe.imageUrl = recipe.image;
+
     // Update user's generation count
     const { error: updateError } = await supabaseClient
       .from('profiles')
@@ -157,7 +198,7 @@ Return ONLY the JSON object, no other text.`;
       // Don't fail the request if counter update fails
     }
 
-    console.log('Successfully generated recipe:', recipe.name);
+    console.log('Successfully generated recipe with image:', recipe.name);
 
     return new Response(
       JSON.stringify({ 

@@ -81,7 +81,7 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
               {isGenerating ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Creating your recipe...
+                  Creating recipe & image...
                 </>
               ) : limitReached ? (
                 <>
