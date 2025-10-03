@@ -15,7 +15,7 @@ export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
 
   return (
     <Card 
-      className="recipe-card border-0"
+      className="recipe-card border-0 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-lg cursor-pointer"
       onClick={onClick}
     >
       <div className="relative">
