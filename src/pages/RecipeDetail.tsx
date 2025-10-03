@@ -21,6 +21,7 @@ const RecipeDetail = () => {
   const [servingMultiplier, setServingMultiplier] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [cookingMode, setCookingMode] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -122,18 +123,16 @@ const RecipeDetail = () => {
         </Button>
         <div className="absolute top-4 right-4 flex gap-2">
           <Button
-            onClick={toggleFavorite}
+            onClick={() => setMenuOpen(true)}
             variant="icon"
             size="icon"
           >
-            <Heart className={`h-5 w-5 ${isFavorite ? 'fill-primary text-primary' : ''}`} />
+            <span className="text-xl">⋮</span>
           </Button>
         </div>
       </div>
 
-      <div className="px-4 -mt-6">
-        <Card className="glass-card">
-          <CardContent className="p-6">
+      <div className="relative -mt-5 bg-white rounded-t-3xl px-5 pt-4 pb-6 shadow-lg">
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h1 className="text-3xl font-bold mb-2">{recipe.name}</h1>
@@ -209,7 +208,7 @@ const RecipeDetail = () => {
               </ul>
               <Button
                 onClick={addToShoppingList}
-                className="w-full h-12 mt-4 bg-primary hover:bg-primary/90"
+                className="w-full h-12 mt-4 bg-primary hover:bg-primary/90 hidden"
               >
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 Add to Shopping List
@@ -218,7 +217,7 @@ const RecipeDetail = () => {
 
             <button
               onClick={() => setCookingMode(true)}
-              className="w-full py-4 bg-primary text-black font-bold text-lg rounded-xl hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 mb-6"
+              className="w-full py-4 bg-primary text-black font-bold text-lg rounded-xl hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 mb-6 hidden"
             >
               <ChefHat className="w-5 h-5" />
               Start Cooking Mode
@@ -237,9 +236,146 @@ const RecipeDetail = () => {
                 ))}
               </ol>
             </div>
-          </CardContent>
-        </Card>
       </div>
+
+      {/* 3-Dot Menu Modal */}
+      {menuOpen && (
+        <>
+          {/* Overlay - z-[60] is above bottom nav (z-50) */}
+          <div 
+            className="fixed inset-0 bg-black/50 z-[60]"
+            onClick={() => setMenuOpen(false)}
+          />
+          
+          {/* Menu Panel - z-[70] is above overlay */}
+          <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-[70] p-6 max-h-[80vh] overflow-y-auto pb-24">
+            {/* Handle Bar */}
+            <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-6" />
+            
+            {/* Add to Shopping List */}
+            <button
+              onClick={() => {
+                addToShoppingList();
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+            >
+              <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center text-xl">
+                🛒
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-gray-900">Add to Shopping List</div>
+                <div className="text-sm text-gray-500">Add all ingredients</div>
+              </div>
+            </button>
+            
+            {/* Add to Saved */}
+            <button
+              onClick={() => {
+                toggleFavorite();
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+            >
+              <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center text-xl">
+                {isFavorite ? '❤️' : '🤍'}
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-gray-900">{isFavorite ? 'Remove from' : 'Add to'} Saved</div>
+                <div className="text-sm text-gray-500">Save for later</div>
+              </div>
+            </button>
+            
+            {/* Start Cooking Mode */}
+            <button
+              onClick={() => {
+                setCookingMode(true);
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+            >
+              <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-xl">
+                👨‍🍳
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-gray-900">Start Cooking Mode</div>
+                <div className="text-sm text-gray-500">Step-by-step with voice control</div>
+              </div>
+            </button>
+            
+            {/* Nutritional Facts - Premium */}
+            <button
+              onClick={() => {
+                alert('Nutritional Facts is a premium feature. Upgrade to unlock!');
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+            >
+              <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center text-xl">
+                📊
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-gray-900">Nutritional Facts</div>
+                <div className="text-sm text-gray-500">Calories, macros, vitamins</div>
+              </div>
+              <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                PREMIUM
+              </div>
+            </button>
+            
+            {/* Save as PDF */}
+            <button
+              onClick={() => {
+                alert('PDF export coming soon!');
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+            >
+              <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl">
+                📄
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-gray-900">Save as PDF</div>
+                <div className="text-sm text-gray-500">Export recipe</div>
+              </div>
+            </button>
+            
+            {/* Add Notes */}
+            <button
+              onClick={() => {
+                alert('Notes feature coming soon!');
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+            >
+              <div className="w-10 h-10 bg-purple-50 rounded-full flex items-center justify-center text-xl">
+                📝
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-gray-900">Add Notes</div>
+                <div className="text-sm text-gray-500">Personal recipe notes</div>
+              </div>
+            </button>
+            
+            {/* Rate & Review */}
+            <button
+              onClick={() => {
+                alert('Rating feature coming soon!');
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50"
+            >
+              <div className="w-10 h-10 bg-yellow-50 rounded-full flex items-center justify-center text-xl">
+                ⭐
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-gray-900">Rate & Review</div>
+                <div className="text-sm text-gray-500">Share your experience</div>
+              </div>
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
