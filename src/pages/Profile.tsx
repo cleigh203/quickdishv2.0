@@ -8,6 +8,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { PantryDialog } from "@/components/PantryDialog";
 import { EditProfileDialog } from "@/components/EditProfileDialog";
 import { EditPreferencesDialog } from "@/components/EditPreferencesDialog";
+import { SubscriptionManagementModal } from "@/components/SubscriptionManagementModal";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -44,9 +45,11 @@ const Profile = () => {
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [editPreferencesOpen, setEditPreferencesOpen] = useState(false);
   const [deleteAccountOpen, setDeleteAccountOpen] = useState(false);
+  const [subscriptionModalOpen, setSubscriptionModalOpen] = useState(false);
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
+  const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
 
   const [isPremium, setIsPremium] = useState(() => {
     return localStorage.getItem('premiumUser') === 'true';
@@ -79,6 +82,14 @@ const Profile = () => {
       setProfileData(data);
       // Update premium status from database
       setIsPremium(data?.is_premium || false);
+      
+      // Get subscription end date if premium
+      if (data?.is_premium) {
+        const { data: subData } = await supabase.functions.invoke('check-subscription');
+        if (subData?.subscription_end) {
+          setSubscriptionEnd(subData.subscription_end);
+        }
+      }
     } catch (error: any) {
       console.error('Error fetching profile:', error);
     } finally {
@@ -208,23 +219,16 @@ const Profile = () => {
     });
   };
 
-  const handleManageSubscription = async () => {
-    try {
-      const { data, error } = await supabase.functions.invoke('customer-portal');
-      
-      if (error) throw error;
-      
-      if (data?.url) {
-        window.open(data.url, '_blank');
-      }
-    } catch (error) {
-      console.error('Error opening customer portal:', error);
-      toast({
-        title: "Error",
-        description: "Failed to open subscription management. Please try again.",
-        variant: "destructive",
-      });
+  const handleSubscriptionAction = () => {
+    if (profileData?.is_premium) {
+      setSubscriptionModalOpen(true);
+    } else {
+      navigate('/premium');
     }
+  };
+
+  const handleSubscriptionCanceled = async () => {
+    await fetchProfile();
   };
 
   if (!user) {
@@ -397,37 +401,56 @@ const Profile = () => {
         </Card>
 
         {/* Subscription Management */}
-        {profileData?.is_premium && (
-          <Card className="rounded-xl shadow-sm bg-card border-2 border-primary">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Crown className="w-5 h-5 text-primary" />
-                  Premium Subscription
-                </CardTitle>
+        <Card className={`rounded-xl shadow-sm bg-card ${profileData?.is_premium ? 'border-2 border-primary' : ''}`}>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center gap-2">
+                <Crown className="w-5 h-5 text-primary" />
+                {profileData?.is_premium ? 'Premium Subscription' : 'Subscription'}
+              </CardTitle>
+              {profileData?.is_premium && (
                 <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-0">
                   Active
                 </Badge>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20 rounded-lg p-4">
-                <p className="text-sm text-muted-foreground mb-2">
-                  You have access to all premium features including nutritional information, 
-                  meal planning insights, and an ad-free experience.
-                </p>
-              </div>
-              <Button
-                variant="outline"
-                className="w-full justify-start rounded-lg hover:bg-muted"
-                onClick={handleManageSubscription}
-              >
-                <Settings className="w-4 h-4 mr-2" />
-                Manage Subscription
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+              )}
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {profileData?.is_premium ? (
+              <>
+                <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20 rounded-lg p-4">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    You have access to all premium features including nutritional information, 
+                    meal planning insights, and an ad-free experience.
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start rounded-lg hover:bg-muted"
+                  onClick={handleSubscriptionAction}
+                >
+                  <Settings className="w-4 h-4 mr-2" />
+                  Manage Subscription
+                </Button>
+              </>
+            ) : (
+              <>
+                <div className="bg-gradient-to-br from-muted/50 to-muted/30 rounded-lg p-4">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Upgrade to Premium to unlock nutritional information, meal planning insights, and an ad-free experience.
+                  </p>
+                </div>
+                <Button
+                  className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:opacity-90"
+                  onClick={handleSubscriptionAction}
+                >
+                  <Crown className="w-4 h-4 mr-2" />
+                  Upgrade to Premium
+                </Button>
+              </>
+            )}
+          </CardContent>
+        </Card>
 
         {/* Account Actions */}
         <Card className="rounded-xl shadow-sm bg-card">
@@ -528,6 +551,13 @@ const Profile = () => {
           learning_goals: profileData?.learning_goals || null,
         }}
         onUpdate={fetchProfile}
+      />
+
+      <SubscriptionManagementModal
+        open={subscriptionModalOpen}
+        onOpenChange={setSubscriptionModalOpen}
+        subscriptionEnd={subscriptionEnd}
+        onSubscriptionCanceled={handleSubscriptionCanceled}
       />
 
       <AlertDialog open={deleteAccountOpen} onOpenChange={setDeleteAccountOpen}>
