@@ -247,16 +247,12 @@ const Profile = () => {
       {/* Header - Orange Gradient matching My Kitchen */}
       <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-red-500 text-white py-12 px-4 mb-8">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold">Profile</h1>
+          <h1 className="text-4xl font-bold mb-2">Profile</h1>
+          <p className="text-white/90">Manage your preferences and cooking journey</p>
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 space-y-6">
-        {/* Welcome Text */}
-        <div className="text-center">
-          <p className="text-muted-foreground">Manage your preferences and cooking journey</p>
-        </div>
-
         {/* User Info Section */}
         <Card className="rounded-xl shadow-sm bg-card">
           <CardContent className="p-8">
