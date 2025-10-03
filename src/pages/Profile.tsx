@@ -99,19 +99,44 @@ const Profile = () => {
     fetchProfile();
   }, [user]);
 
-  const togglePremium = () => {
-    const newStatus = !isPremium;
-    setIsPremium(newStatus);
-    localStorage.setItem('premiumUser', newStatus.toString());
+  const togglePremium = async () => {
+    if (!user) return;
     
-    if (newStatus) {
-      localStorage.setItem('recipesGenerated', '0');
+    const newStatus = !isPremium;
+    
+    try {
+      // Update database
+      const { error } = await supabase
+        .from('profiles')
+        .update({ is_premium: newStatus })
+        .eq('id', user.id);
+
+      if (error) throw error;
+
+      // Update local state
+      setIsPremium(newStatus);
+      localStorage.setItem('premiumUser', newStatus.toString());
+      
+      if (newStatus) {
+        localStorage.setItem('recipesGenerated', '0');
+        toast({
+          title: "Premium activated! 👑",
+          description: "Enjoy all premium features for testing",
+        });
+      } else {
+        toast({
+          title: "Premium deactivated",
+          description: "Back to free tier",
+        });
+      }
+
+      // Refresh profile to confirm
+      fetchProfile();
+    } catch (error: any) {
+      console.error('Error toggling premium:', error);
       toast({
-        title: "Premium activated! Unlimited recipes enabled 🎉",
-      });
-    } else {
-      toast({
-        title: "Switched to free tier (5 recipes/day)",
+        title: "Error updating premium status",
+        description: "Please try again",
       });
     }
   };
