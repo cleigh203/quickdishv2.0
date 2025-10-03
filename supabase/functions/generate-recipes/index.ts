@@ -31,11 +31,21 @@ Each recipe must have:
 - ingredients (array): Each item has {amount: string, unit: string, item: string}
 - instructions (array of strings): Step-by-step cooking instructions with specific temperatures and techniques
 - cuisine (string): Type of cuisine (e.g., "Italian", "Asian", "Mexican")
+- nutrition (object): Nutritional information per serving based on USDA data
+  - calories (number): Total calories per serving
+  - protein (number): Grams of protein per serving
+  - carbs (number): Grams of carbohydrates per serving
+  - fat (number): Grams of fat per serving
+  - fiber (number): Grams of dietary fiber per serving
+  - sugar (number): Grams of sugar per serving
+  - servingSize (string): e.g., "1 cup", "2 pieces", "1 bowl"
 
-Make recipes diverse in cuisine styles and cooking methods. Be creative and specific with instructions.`;
+Make recipes diverse in cuisine styles and cooking methods. Be creative and specific with instructions.
+Calculate realistic nutrition values based on the actual ingredients and portions used.`;
 
     const userPrompt = `Generate 5 diverse recipes using these ingredients: ${ingredients}. 
 Each recipe should creatively use at least some of these ingredients. Include specific cooking techniques, temperatures, and timings.
+Calculate accurate nutritional information per serving based on USDA nutritional databases for each ingredient and portion size.
 Return ONLY the JSON array, no other text.`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
