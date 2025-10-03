@@ -8,6 +8,8 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  isPremium: boolean;
+  checkSubscription: () => Promise<void>;
   signUp: (email: string, password: string, displayName: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signInWithGoogle: () => Promise<{ error: any }>;
@@ -29,7 +31,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isPremium, setIsPremium] = useState(false);
   const navigate = useNavigate();
+
+  const checkSubscription = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        setIsPremium(false);
+        return;
+      }
+
+      const { data, error } = await supabase.functions.invoke('check-subscription');
+      
+      if (!error && data?.subscribed) {
+        setIsPremium(true);
+      } else {
+        setIsPremium(false);
+      }
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+      setIsPremium(false);
+    }
+  };
 
   useEffect(() => {
     // Set up auth state listener FIRST
@@ -50,8 +74,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(session?.user ?? null);
         setLoading(false);
         
+        // Check subscription when user signs in
+        if (event === 'SIGNED_IN' && session) {
+          setTimeout(() => {
+            checkSubscription();
+          }, 0);
+        }
+        
         // Redirect to login if session expired while user is on a protected route
         if (event === 'SIGNED_OUT' && window.location.pathname !== '/auth') {
+          setIsPremium(false);
           setTimeout(() => {
             const isProtectedRoute = !['/auth', '/'].includes(window.location.pathname);
             if (isProtectedRoute) {
@@ -67,6 +99,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+      
+      // Check subscription on initial load if user is logged in
+      if (session) {
+        setTimeout(() => {
+          checkSubscription();
+        }, 0);
+      }
     }).catch((error) => {
       console.error('Error getting session:', error);
       setLoading(false);
@@ -175,6 +214,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     user,
     session,
     loading,
+    isPremium,
+    checkSubscription,
     signUp,
     signIn,
     signInWithGoogle,

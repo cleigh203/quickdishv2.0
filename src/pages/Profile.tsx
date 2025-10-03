@@ -208,6 +208,25 @@ const Profile = () => {
     });
   };
 
+  const handleManageSubscription = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('customer-portal');
+      
+      if (error) throw error;
+      
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      }
+    } catch (error) {
+      console.error('Error opening customer portal:', error);
+      toast({
+        title: "Error",
+        description: "Failed to open subscription management. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (!user) {
     return (
       <div className="min-h-screen pb-20 px-4">
@@ -376,6 +395,39 @@ const Profile = () => {
             )}
           </CardContent>
         </Card>
+
+        {/* Subscription Management */}
+        {profileData?.is_premium && (
+          <Card className="rounded-xl shadow-sm bg-card border-2 border-primary">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Crown className="w-5 h-5 text-primary" />
+                  Premium Subscription
+                </CardTitle>
+                <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-0">
+                  Active
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20 rounded-lg p-4">
+                <p className="text-sm text-muted-foreground mb-2">
+                  You have access to all premium features including nutritional information, 
+                  meal planning insights, and an ad-free experience.
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                className="w-full justify-start rounded-lg hover:bg-muted"
+                onClick={handleManageSubscription}
+              >
+                <Settings className="w-4 h-4 mr-2" />
+                Manage Subscription
+              </Button>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Account Actions */}
         <Card className="rounded-xl shadow-sm bg-card">

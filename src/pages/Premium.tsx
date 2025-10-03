@@ -1,12 +1,41 @@
 import { ArrowLeft, Check, Crown, Zap, TrendingUp, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BottomNav } from "@/components/BottomNav";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Premium = () => {
   const navigate = useNavigate();
+  const { user, isPremium } = useAuth();
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async () => {
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const { data, error } = await supabase.functions.invoke('create-checkout');
+      
+      if (error) throw error;
+      
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      }
+    } catch (error) {
+      console.error('Error creating checkout:', error);
+      toast.error("Failed to start checkout. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const features = [
     {
@@ -131,60 +160,58 @@ const Premium = () => {
         <Card className="border-2 border-primary">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl">Premium Pricing</CardTitle>
-            <p className="text-muted-foreground">Choose the plan that works for you</p>
+            <p className="text-muted-foreground">
+              {isPremium ? "You're already a Premium member!" : "Choose the plan that works for you"}
+            </p>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2">
-              {/* Monthly Plan */}
-              <div className="p-6 border rounded-lg hover:border-primary transition-colors">
-                <h3 className="font-bold text-xl mb-2">Monthly</h3>
-                <div className="mb-4">
-                  <span className="text-3xl font-bold">Coming Soon</span>
-                </div>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-primary" />
-                    All premium features
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-primary" />
-                    Cancel anytime
-                  </li>
-                </ul>
+            {isPremium ? (
+              <div className="text-center p-8 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20 rounded-lg">
+                <Crown className="w-16 h-16 mx-auto mb-4 text-primary" />
+                <h3 className="text-2xl font-bold mb-2">Premium Active</h3>
+                <p className="text-muted-foreground mb-6">
+                  You have access to all premium features
+                </p>
+                <Button 
+                  onClick={() => navigate('/profile')}
+                  variant="outline"
+                >
+                  Manage Subscription
+                </Button>
               </div>
-
-              {/* Annual Plan */}
-              <div className="p-6 border-2 border-primary rounded-lg bg-primary/5 relative">
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary">
-                  Best Value
-                </Badge>
-                <h3 className="font-bold text-xl mb-2">Annual</h3>
-                <div className="mb-4">
-                  <span className="text-3xl font-bold">Coming Soon</span>
+            ) : (
+              <>
+                <div className="p-6 border-2 border-primary rounded-lg bg-primary/5">
+                  <h3 className="font-bold text-xl mb-2">Premium Plan</h3>
+                  <div className="mb-4">
+                    <span className="text-4xl font-bold">$2.99</span>
+                    <span className="text-muted-foreground">/month</span>
+                  </div>
+                  <ul className="space-y-2 text-sm mb-6">
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      5-day free trial
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      All premium features
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      Cancel anytime
+                    </li>
+                  </ul>
+                  <Button 
+                    size="lg" 
+                    className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-semibold"
+                    onClick={handleSubscribe}
+                    disabled={loading}
+                  >
+                    {loading ? "Loading..." : "Start Free Trial"}
+                  </Button>
                 </div>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-primary" />
-                    All premium features
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-primary" />
-                    Save with annual billing
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <Button 
-              size="lg" 
-              className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-semibold"
-              disabled
-            >
-              Start Free Trial (Coming Soon)
-            </Button>
-            <p className="text-xs text-center text-muted-foreground">
-              Payment processing will be available soon. Sign up now to get notified!
-            </p>
+              </>
+            )}
           </CardContent>
         </Card>
 

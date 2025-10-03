@@ -30,7 +30,7 @@ const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user, isPremium } = useAuth();
   const { isSaved, saveRecipe, unsaveRecipe, savedRecipes, updateRecipeNotes } = useSavedRecipes();
   const { addItems } = useShoppingList();
   const { addMealPlan } = useMealPlan();
@@ -41,7 +41,6 @@ const RecipeDetail = () => {
   const [notesDialogOpen, setNotesDialogOpen] = useState(false);
   const [premiumPaywallOpen, setPremiumPaywallOpen] = useState(false);
   const [nutritionModalOpen, setNutritionModalOpen] = useState(false);
-  const [isPremium, setIsPremium] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -49,28 +48,6 @@ const RecipeDetail = () => {
 
   const currentSavedRecipe = recipe ? savedRecipes.find(r => r.recipe_id === recipe.id) : null;
   const { averageRating, totalRatings, refetch: refetchRatings } = useRecipeRating(recipe?.id || '');
-
-  // Fetch premium status
-  useEffect(() => {
-    const fetchPremiumStatus = async () => {
-      if (!user) {
-        setIsPremium(false);
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('is_premium')
-        .eq('id', user.id)
-        .single();
-
-      if (!error && data) {
-        setIsPremium(data.is_premium || false);
-      }
-    };
-
-    fetchPremiumStatus();
-  }, [user]);
 
   useEffect(() => {
     if (id) {

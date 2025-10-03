@@ -61,6 +61,10 @@ export type Database = {
           learning_goals: string[] | null
           pantry_items: string[] | null
           skill_level: string | null
+          stripe_customer_id: string | null
+          stripe_product_id: string | null
+          stripe_subscription_id: string | null
+          subscription_status: string | null
         }
         Insert: {
           avatar_url?: string | null
@@ -73,6 +77,10 @@ export type Database = {
           learning_goals?: string[] | null
           pantry_items?: string[] | null
           skill_level?: string | null
+          stripe_customer_id?: string | null
+          stripe_product_id?: string | null
+          stripe_subscription_id?: string | null
+          subscription_status?: string | null
         }
         Update: {
           avatar_url?: string | null
@@ -85,6 +93,10 @@ export type Database = {
           learning_goals?: string[] | null
           pantry_items?: string[] | null
           skill_level?: string | null
+          stripe_customer_id?: string | null
+          stripe_product_id?: string | null
+          stripe_subscription_id?: string | null
+          subscription_status?: string | null
         }
         Relationships: []
       }

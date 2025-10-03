@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface PremiumPaywallModalProps {
   open: boolean;
@@ -10,6 +11,7 @@ interface PremiumPaywallModalProps {
 
 export const PremiumPaywallModal = ({ open, onClose }: PremiumPaywallModalProps) => {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const benefits = [
     "Track nutrition & calories",
@@ -47,12 +49,16 @@ export const PremiumPaywallModal = ({ open, onClose }: PremiumPaywallModalProps)
           <div className="pt-4 space-y-2">
             <Button 
               onClick={() => {
-                navigate('/premium');
+                if (!user) {
+                  navigate('/auth');
+                } else {
+                  navigate('/premium');
+                }
                 onClose();
               }}
               className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-semibold"
             >
-              Upgrade to Premium
+              {user ? 'Upgrade to Premium' : 'Sign In to Upgrade'}
             </Button>
             <Button 
               onClick={onClose}
