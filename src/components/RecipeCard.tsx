@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
+import { useRecipeRating } from "@/hooks/useRecipeRating";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -10,6 +11,8 @@ interface RecipeCardProps {
 }
 
 export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
+  const { averageRating, totalRatings } = useRecipeRating(recipe.id);
+
   return (
     <Card 
       className="recipe-card border-0"
@@ -39,6 +42,11 @@ export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
           <span className="recipe-badge capitalize">
             {recipe.difficulty}
           </span>
+          {totalRatings > 0 && (
+            <span className="text-xs font-semibold text-primary flex items-center gap-1">
+              {averageRating} ★ ({totalRatings})
+            </span>
+          )}
         </div>
         <h3 className="recipe-card-title line-clamp-2 leading-snug">{recipe.name}</h3>
         <p className="small-text mb-4 line-clamp-2 leading-relaxed">

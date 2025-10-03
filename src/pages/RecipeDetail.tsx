@@ -20,6 +20,9 @@ import { NutritionFactsModal } from "@/components/NutritionFactsModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { generateRecipePDF } from "@/utils/pdfExport";
+import { RatingModal } from "@/components/RatingModal";
+import { ShareModal } from "@/components/ShareModal";
+import { useRecipeRating } from "@/hooks/useRecipeRating";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -37,8 +40,11 @@ const RecipeDetail = () => {
   const [nutritionModalOpen, setNutritionModalOpen] = useState(false);
   const [isPremium, setIsPremium] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [ratingModalOpen, setRatingModalOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
 
   const currentSavedRecipe = recipe ? savedRecipes.find(r => r.recipe_id === recipe.id) : null;
+  const { averageRating, totalRatings, refetch: refetchRatings } = useRecipeRating(recipe?.id || '');
 
   // Fetch premium status
   useEffect(() => {
@@ -251,6 +257,18 @@ const RecipeDetail = () => {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h1 className="text-3xl font-bold mb-2">{recipe.name}</h1>
+                
+                {/* Average Rating Display */}
+                {totalRatings > 0 ? (
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-lg font-semibold">{averageRating}</span>
+                    <span className="text-primary">★</span>
+                    <span className="text-sm text-muted-foreground">({totalRatings} {totalRatings === 1 ? 'rating' : 'ratings'})</span>
+                  </div>
+                ) : (
+                  <div className="text-sm text-muted-foreground mb-2">No ratings yet</div>
+                )}
+                
                 <p className="body-text text-muted-foreground">{recipe.description}</p>
                 
                 {/* Personal Notes Display */}
@@ -562,20 +580,56 @@ const RecipeDetail = () => {
               )}
             </button>
             
-            {/* Rate & Review */}
+            {/* Rate Recipe */}
             <button
               onClick={() => {
-                alert('Rating feature coming soon!');
+                if (!user) {
+                  toast({
+                    title: "Sign in to rate recipes",
+                    description: "Create an account to rate and review recipes",
+                    action: (
+                      <Button
+                        size="sm"
+                        onClick={() => navigate('/auth')}
+                        className="bg-primary hover:bg-primary/90"
+                      >
+                        Sign In
+                      </Button>
+                    ),
+                  });
+                  setMenuOpen(false);
+                  return;
+                }
+                setRatingModalOpen(true);
                 setMenuOpen(false);
               }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50"
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
             >
               <div className="w-10 h-10 bg-yellow-50 rounded-full flex items-center justify-center text-xl">
                 ⭐
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900">Rate & Review</div>
-                <div className="text-sm text-gray-500">Share your experience</div>
+                <div className="font-semibold text-gray-900">Rate Recipe</div>
+                <div className="text-sm text-gray-500">
+                  {user ? 'Share your rating' : 'Sign in to rate'}
+                </div>
+              </div>
+            </button>
+
+            {/* Share Recipe */}
+            <button
+              onClick={() => {
+                setShareModalOpen(true);
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50"
+            >
+              <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl">
+                🔗
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-gray-900">Share Recipe</div>
+                <div className="text-sm text-gray-500">Share with friends</div>
               </div>
             </button>
           </div>
@@ -604,6 +658,24 @@ const RecipeDetail = () => {
           recipeName={recipe.name}
         />
       )}
+
+      <RatingModal
+        open={ratingModalOpen}
+        onOpenChange={setRatingModalOpen}
+        recipeName={recipe.name}
+        recipeId={recipe.id}
+        userId={user?.id}
+        onRatingSubmitted={refetchRatings}
+      />
+
+      <ShareModal
+        open={shareModalOpen}
+        onOpenChange={setShareModalOpen}
+        recipeName={recipe.name}
+        recipeId={recipe.id}
+        recipeImage={recipe.image}
+        recipeDescription={recipe.description}
+      />
     </div>
   );
 };
