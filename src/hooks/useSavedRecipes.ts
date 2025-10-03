@@ -205,7 +205,14 @@ export const useSavedRecipes = () => {
   };
 
   const updateRecipeNotes = async (recipeId: string, notes: string) => {
-    if (!user) return { success: false, message: 'Must be logged in' };
+    if (!user) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to save notes",
+        variant: "destructive",
+      });
+      return { success: false, message: 'Must be logged in' };
+    }
 
     try {
       const { error } = await supabase

@@ -13,16 +13,20 @@ import CookingMode from "@/components/CookingMode";
 import { ingredientsToShoppingItems, deduplicateShoppingList } from "@/utils/shoppingListUtils";
 import { allRecipes } from "@/data/recipes";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
+import { RecipeNotesDialog } from "@/components/RecipeNotesDialog";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { isSaved, saveRecipe, unsaveRecipe } = useSavedRecipes();
+  const { isSaved, saveRecipe, unsaveRecipe, savedRecipes, updateRecipeNotes } = useSavedRecipes();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [servingMultiplier, setServingMultiplier] = useState(1);
   const [cookingMode, setCookingMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [notesDialogOpen, setNotesDialogOpen] = useState(false);
+
+  const currentSavedRecipe = recipe ? savedRecipes.find(r => r.recipe_id === recipe.id) : null;
 
   useEffect(() => {
     if (id) {
@@ -80,6 +84,27 @@ const RecipeDetail = () => {
     });
   };
 
+  const handleSaveNotes = async (notes: string) => {
+    if (!recipe) return { success: false, message: 'No recipe loaded' };
+    
+    const result = await updateRecipeNotes(recipe.id, notes);
+    
+    if (result.success) {
+      toast({
+        title: "Notes saved!",
+        description: "Your recipe notes have been updated",
+      });
+    } else {
+      toast({
+        title: "Failed to save notes",
+        description: result.message || "Please try again",
+        variant: "destructive",
+      });
+    }
+    
+    return result;
+  };
+
   if (!recipe) {
     return null;
   }
@@ -127,6 +152,29 @@ const RecipeDetail = () => {
               <div>
                 <h1 className="text-3xl font-bold mb-2">{recipe.name}</h1>
                 <p className="body-text text-muted-foreground">{recipe.description}</p>
+                
+                {/* Personal Notes Display */}
+                {currentSavedRecipe?.notes && (
+                  <Card className="mt-4 bg-purple-50/50 border-purple-200">
+                    <CardContent className="p-4">
+                      <div className="flex items-start gap-2">
+                        <span className="text-lg">📝</span>
+                        <div className="flex-1">
+                          <p className="text-sm font-semibold text-purple-900 mb-1">Your Notes</p>
+                          <p className="text-sm text-purple-800 whitespace-pre-wrap">{currentSavedRecipe.notes}</p>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="mt-2 h-8 text-xs text-purple-700 hover:text-purple-900"
+                            onClick={() => setNotesDialogOpen(true)}
+                          >
+                            Edit Notes
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
               </div>
             </div>
 
@@ -333,7 +381,7 @@ const RecipeDetail = () => {
             {/* Add Notes */}
             <button
               onClick={() => {
-                alert('Notes feature coming soon!');
+                setNotesDialogOpen(true);
                 setMenuOpen(false);
               }}
               className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
@@ -342,9 +390,16 @@ const RecipeDetail = () => {
                 📝
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900">Add Notes</div>
-                <div className="text-sm text-gray-500">Personal recipe notes</div>
+                <div className="font-semibold text-gray-900">
+                  {currentSavedRecipe?.notes ? 'Edit Notes' : 'Add Notes'}
+                </div>
+                <div className="text-sm text-gray-500">
+                  {currentSavedRecipe?.notes ? 'Update your notes' : 'Personal recipe notes'}
+                </div>
               </div>
+              {currentSavedRecipe?.notes && (
+                <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+              )}
             </button>
             
             {/* Rate & Review */}
@@ -366,6 +421,15 @@ const RecipeDetail = () => {
           </div>
         </>
       )}
+
+      <RecipeNotesDialog
+        open={notesDialogOpen}
+        onOpenChange={setNotesDialogOpen}
+        recipeName={recipe.name}
+        currentNotes={currentSavedRecipe?.notes || null}
+        onSave={handleSaveNotes}
+        isSaved={isSaved(recipe.id)}
+      />
     </div>
   );
 };
