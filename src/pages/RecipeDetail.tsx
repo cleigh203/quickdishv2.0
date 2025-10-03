@@ -23,6 +23,8 @@ import { generateRecipePDF } from "@/utils/pdfExport";
 import { RatingModal } from "@/components/RatingModal";
 import { ShareModal } from "@/components/ShareModal";
 import { useRecipeRating } from "@/hooks/useRecipeRating";
+import { useMealPlan } from "@/hooks/useMealPlan";
+import { MealPlanDialog } from "@/components/MealPlanDialog";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,6 +33,7 @@ const RecipeDetail = () => {
   const { user } = useAuth();
   const { isSaved, saveRecipe, unsaveRecipe, savedRecipes, updateRecipeNotes } = useSavedRecipes();
   const { addItems } = useShoppingList();
+  const { addMealPlan } = useMealPlan();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [servingMultiplier, setServingMultiplier] = useState(1);
   const [cookingMode, setCookingMode] = useState(false);
@@ -42,6 +45,7 @@ const RecipeDetail = () => {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [mealPlanDialogOpen, setMealPlanDialogOpen] = useState(false);
 
   const currentSavedRecipe = recipe ? savedRecipes.find(r => r.recipe_id === recipe.id) : null;
   const { averageRating, totalRatings, refetch: refetchRatings } = useRecipeRating(recipe?.id || '');
@@ -616,6 +620,42 @@ const RecipeDetail = () => {
               </div>
             </button>
 
+            {/* Add to Meal Plan */}
+            <button
+              onClick={() => {
+                if (!user) {
+                  toast({
+                    title: "Sign in to use meal planning",
+                    description: "Create an account to plan your meals",
+                    action: (
+                      <Button
+                        size="sm"
+                        onClick={() => navigate('/auth')}
+                        className="bg-primary hover:bg-primary/90"
+                      >
+                        Sign In
+                      </Button>
+                    ),
+                  });
+                  setMenuOpen(false);
+                  return;
+                }
+                setMealPlanDialogOpen(true);
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+            >
+              <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-xl">
+                📅
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-gray-900">Add to Meal Plan</div>
+                <div className="text-sm text-gray-500">
+                  {user ? 'Schedule this meal' : 'Sign in to plan meals'}
+                </div>
+              </div>
+            </button>
+
             {/* Share Recipe */}
             <button
               onClick={() => {
@@ -675,6 +715,15 @@ const RecipeDetail = () => {
         recipeId={recipe.id}
         recipeImage={recipe.image}
         recipeDescription={recipe.description}
+      />
+
+      <MealPlanDialog
+        open={mealPlanDialogOpen}
+        onOpenChange={setMealPlanDialogOpen}
+        recipeName={recipe.name}
+        onSave={async (date, mealType) => {
+          await addMealPlan(recipe.id, date, mealType);
+        }}
       />
     </div>
   );
