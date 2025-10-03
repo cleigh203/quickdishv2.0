@@ -22,7 +22,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { generateRecipePDF } from "@/utils/pdfExport";
 import { RatingModal } from "@/components/RatingModal";
-import { ShareModal } from "@/components/ShareModal";
 import { useRecipeRating } from "@/hooks/useRecipeRating";
 import { useMealPlan } from "@/hooks/useMealPlan";
 import { MealPlanDialog } from "@/components/MealPlanDialog";
@@ -46,7 +45,6 @@ const RecipeDetail = () => {
   const [nutritionModalOpen, setNutritionModalOpen] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
-  const [shareModalOpen, setShareModalOpen] = useState(false);
   const [mealPlanDialogOpen, setMealPlanDialogOpen] = useState(false);
 
   const currentSavedRecipe = recipe ? savedRecipes.find(r => r.recipe_id === recipe.id) : null;
@@ -666,7 +664,7 @@ const RecipeDetail = () => {
                 setMealPlanDialogOpen(true);
                 setMenuOpen(false);
               }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50"
             >
               <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-xl">
                 📅
@@ -676,23 +674,6 @@ const RecipeDetail = () => {
                 <div className="text-sm text-gray-500">
                   {user ? 'Schedule this meal' : 'Sign in to plan meals'}
                 </div>
-              </div>
-            </button>
-
-            {/* Share Recipe */}
-            <button
-              onClick={() => {
-                setShareModalOpen(true);
-                setMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50"
-            >
-              <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl">
-                🔗
-              </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900">Share Recipe</div>
-                <div className="text-sm text-gray-500">Share with friends</div>
               </div>
             </button>
           </div>
@@ -729,15 +710,6 @@ const RecipeDetail = () => {
         recipeId={recipe.id}
         userId={user?.id}
         onRatingSubmitted={refetchRatings}
-      />
-
-      <ShareModal
-        open={shareModalOpen}
-        onOpenChange={setShareModalOpen}
-        recipeName={recipe.name}
-        recipeId={recipe.id}
-        recipeImage={recipe.image}
-        recipeDescription={recipe.description}
       />
 
       <MealPlanDialog
