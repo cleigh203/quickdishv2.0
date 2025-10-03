@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
-import { Printer, Package, Store, Loader2 } from "lucide-react";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { Printer, Package, Store, Loader2, CheckCircle } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { PantryDialog } from "@/components/PantryDialog";
 import { StoreSelectionDialog } from "@/components/StoreSelectionDialog";
@@ -74,6 +74,7 @@ const Shopping = () => {
   const [isPantryDialogOpen, setIsPantryDialogOpen] = useState(false);
   const [showStoreDialog, setShowStoreDialog] = useState(false);
   const { toast } = useToast();
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Load pantry changes
   useEffect(() => {
@@ -92,13 +93,47 @@ const Shopping = () => {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  // Check for all items checked
-  useEffect(() => {
-    const allChecked = shoppingList.length > 0 && shoppingList.every(item => item.checked);
-    if (allChecked && !showClearDialog) {
-      setShowClearDialog(true);
+  // Filter shopping list by pantry using useMemo
+  const { displayList, hiddenCount } = useMemo(() => {
+    if (!hidePantryItems) {
+      return { 
+        displayList: shoppingList, 
+        hiddenCount: 0 
+      };
     }
-  }, [shoppingList, showClearDialog]);
+
+    const { filtered, removed } = filterShoppingListByPantry(shoppingList, pantryItems);
+    return { 
+      displayList: filtered, 
+      hiddenCount: removed.length 
+    };
+  }, [shoppingList, pantryItems, hidePantryItems]);
+
+  // Check for all items checked with debounce
+  useEffect(() => {
+    // Clear any existing timer
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    const allChecked = displayList.length > 0 && displayList.every(item => item.checked);
+    
+    if (allChecked && !showClearDialog) {
+      // Wait 1 second before showing modal
+      debounceTimerRef.current = setTimeout(() => {
+        setShowClearDialog(true);
+      }, 1000);
+    } else if (!allChecked && showClearDialog) {
+      // Auto-close modal if user unchecks an item
+      setShowClearDialog(false);
+    }
+
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, [displayList, showClearDialog]);
 
   const removeItem = (id: number) => {
     removeFromList(id);
@@ -140,22 +175,6 @@ const Shopping = () => {
   const handleShopOnline = () => {
     setShowStoreDialog(true);
   };
-
-  // Filter shopping list by pantry using useMemo
-  const { displayList, hiddenCount } = useMemo(() => {
-    if (!hidePantryItems) {
-      return { 
-        displayList: shoppingList, 
-        hiddenCount: 0 
-      };
-    }
-
-    const { filtered, removed } = filterShoppingListByPantry(shoppingList, pantryItems);
-    return { 
-      displayList: filtered, 
-      hiddenCount: removed.length 
-    };
-  }, [shoppingList, pantryItems, hidePantryItems]);
 
   // Group items by category
   const categorizedItems = useMemo(() => {
@@ -385,19 +404,29 @@ const Shopping = () => {
       <BottomNav />
 
       <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>All items checked! 🎉</AlertDialogTitle>
-          <AlertDialogDescription>
-            Would you like to clear your shopping list?
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Keep List</AlertDialogCancel>
-          <AlertDialogAction onClick={handleClearAll}>Clear List</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div className="flex items-center gap-3 mb-2">
+              <CheckCircle className="w-8 h-8 text-green-500" />
+              <AlertDialogTitle className="text-2xl">Shopping Complete!</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="text-base">
+              All items checked off. Clear your list?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="gap-2">
+            <AlertDialogCancel className="bg-gray-100 text-gray-700 hover:bg-gray-200 border-0">
+              Keep List
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleClearAll}
+              className="bg-[#FF6B35] text-white hover:bg-[#E55A2B]"
+            >
+              Clear List
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };
