@@ -539,6 +539,24 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     return ingredients;
   };
 
+  // Highlight ingredients and measurements in instruction text
+  const renderInstructionWithHighlights = (instruction: string) => {
+    const pattern = /(\d+\.?\d*\s*(?:cup|cups|tbsp|tsp|tablespoon|tablespoons|teaspoon|teaspoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|gram|grams|kg|kilogram|kilograms|ml|milliliter|milliliters|l|liter|liters|minute|minutes|mins?|hour|hours|hrs?|°F|°C|degrees)[s]?(?:\s+[\w\s-]+)?)/gi;
+    
+    const parts = instruction.split(pattern);
+    
+    return parts.map((part, index) => {
+      if (pattern.test(part)) {
+        return (
+          <span key={index} className="text-green-600 font-semibold">
+            {part}
+          </span>
+        );
+      }
+      return <span key={index}>{part}</span>;
+    });
+  };
+
   const currentInstruction = recipe.instructions[currentStep]?.replace(/^\d+\.\s*/, '').replace(/\[|\]/g, '') || '';
   const stepIngredients = getStepIngredients(currentInstruction);
   const progress = ((currentStep + 1) / recipe.instructions.length) * 100;
@@ -548,38 +566,30 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   if (showFullRecipe) {
     return (
       <div className="fixed inset-0 bg-white z-50 flex flex-col text-black">
-      {/* Header */}
-        <div className="p-4 bg-gray-50 flex justify-between items-center gap-4">
-          <h2 className="text-xl font-bold flex-1">{recipe.name}</h2>
-          {voiceSupported && (
-            <Button
-              onClick={toggleVoiceControl}
-              variant={isListening ? "default" : "outline"}
-              size="icon"
-              className={isListening ? "animate-pulse" : ""}
+        {/* Header */}
+        <div className="bg-gradient-to-r from-[#10b981] to-[#34d399] text-white px-5 py-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold">{recipe.name}</h2>
+            <button
+              onClick={() => setShowFullRecipe(false)}
+              className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-xl hover:bg-white/30 transition-all"
             >
-              {isListening ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
-            </Button>
-          )}
-          <button
-            onClick={() => setShowFullRecipe(false)}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <X className="w-6 h-6" />
-          </button>
+              ×
+            </button>
+          </div>
         </div>
 
         {/* Full Recipe Content */}
         <div className="flex-1 overflow-y-auto p-6">
           {/* Ingredients */}
           <div className="mb-8">
-            <h3 className="text-2xl font-bold mb-4 text-green-500">Ingredients</h3>
+            <h3 className="text-2xl font-bold mb-4 text-[#10b981]">Ingredients</h3>
             <ul className="space-y-2">
               {recipe.ingredients.map((ing, index) => {
                 const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
                 return (
                   <li key={index} className="flex items-start text-lg">
-                    <span className="text-green-500 mr-2">•</span>
+                    <span className="text-[#10b981] mr-2">•</span>
                     <span>{ingredientText}</span>
                   </li>
                 );
@@ -589,19 +599,19 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
 
           {/* Instructions */}
           <div>
-            <h3 className="text-2xl font-bold mb-4 text-green-500">Instructions</h3>
+            <h3 className="text-2xl font-bold mb-4 text-[#10b981]">Instructions</h3>
             <ol className="space-y-4">
               {recipe.instructions.map((instruction, index) => (
                 <li
                   key={index}
                   className={`flex p-4 rounded-lg ${
-                    index === currentStep ? 'bg-green-500/20 border border-green-500' : 'bg-gray-50'
+                    index === currentStep ? 'bg-green-100 border-2 border-[#10b981]' : 'bg-gray-50'
                   }`}
                 >
-                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-green-500 text-black flex items-center justify-center mr-4 font-bold">
-                      {index + 1}
-                    </span>
-                    <p className="flex-1 pt-1 text-lg">{instruction.replace(/\[|\]/g, '')}</p>
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#10b981] text-white flex items-center justify-center mr-4 font-bold">
+                    {index + 1}
+                  </span>
+                  <p className="flex-1 pt-1 text-lg">{instruction.replace(/\[|\]/g, '')}</p>
                 </li>
               ))}
             </ol>
@@ -613,171 +623,138 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
 
   return (
     <div className="fixed inset-0 bg-white z-50 flex flex-col text-black">
-      {/* Header with Progress */}
-      <div className="p-4 bg-gray-50">
-        <div className="flex justify-between items-center mb-3">
-          <button
+      {/* Green Gradient Header with Progress */}
+      <div className="bg-gradient-to-r from-[#10b981] to-[#34d399] text-white px-5 py-6">
+        {/* Top Bar - Back/Close and Menu */}
+        <div className="flex items-center justify-between mb-4">
+          <button 
             onClick={onExit}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-lg hover:bg-white/30 transition-all"
           >
-            <X className="w-6 h-6" />
+            ←
           </button>
-          
-          <div className="flex items-center gap-2">
-            {voiceSupported && (
-              <Button
-                onClick={toggleVoiceControl}
-                variant={isListening ? "default" : "outline"}
-                size="sm"
-                className={isListening ? "animate-pulse" : ""}
-              >
-                {isListening ? (
-                  <>
-                    <Mic className="w-4 h-4 mr-2" />
-                    Listening
-                  </>
-                ) : (
-                  <>
-                    <MicOff className="w-4 h-4 mr-2" />
-                    Voice
-                  </>
-                )}
-              </Button>
-            )}
-            <button
-              onClick={() => setShowFullRecipe(true)}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              <List className="w-6 h-6" />
-            </button>
-          </div>
+          <button 
+            onClick={() => setShowFullRecipe(true)}
+            className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-lg hover:bg-white/30 transition-all"
+          >
+            ☰
+          </button>
         </div>
-
-        {isListening && (
-          <div className="mb-3 p-2 bg-green-500/20 rounded-lg text-center animate-pulse">
-            <p className="text-xs text-green-500 font-medium">
-              🎤 LISTENING... Say: "Next", "Back", "Start Timer", "Time Left"
-            </p>
-            {lastCommand && (
-              <p className="text-xs text-gray-600 mt-1">
-                Last heard: "{lastCommand}"
-              </p>
-            )}
-          </div>
-        )}
-
-        {micPermission === 'denied' && !isListening && (
-          <div className="mb-3 p-2 bg-red-100 rounded-lg text-center">
-            <p className="text-xs text-red-600 font-medium">
-              ⚠️ Microphone access denied. Enable it in browser settings.
-            </p>
-          </div>
-        )}
-
-        <Progress value={progress} className="h-3" />
-        <p className="text-gray-400 text-center mt-2 text-sm">
-          Step {currentStep + 1} of {recipe.instructions.length}
-        </p>
+        
+        {/* Recipe Name */}
+        <h1 className="text-2xl font-bold mb-2">{recipe.name}</h1>
+        
+        {/* Progress Bar */}
+        <div className="bg-white/20 h-1.5 rounded-full overflow-hidden mb-2">
+          <div 
+            className="bg-white h-full transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        
+        {/* Progress Text */}
+        <p className="text-sm opacity-90">Step {currentStep + 1} of {recipe.instructions.length}</p>
       </div>
 
-      {/* Current Step Display */}
-      <div className="flex-1 flex flex-col items-center justify-center p-6 overflow-y-auto">
-        <div className="text-center max-w-4xl w-full">
-          <h2 className="text-green-500 text-3xl md:text-4xl mb-6 font-bold">
-            Step {currentStep + 1}
-          </h2>
-          
-          <p className="text-black text-2xl md:text-3xl leading-relaxed font-light mb-8">
-            {currentInstruction}
-          </p>
-
-          {/* Ingredient Amounts - ONLY SHOW ON STEP 1 (PREP) */}
-          {currentStep === 0 && stepIngredients.length > 0 && (
-            <div className="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200">
-              <h3 className="text-green-500 text-xl font-bold mb-4">You'll need:</h3>
-              <ul className="space-y-2">
-                {stepIngredients.map((ing, index) => (
-                  <li key={index} className="text-lg text-gray-700">
-                    • {ing}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Smart Timer Buttons - Show ALL detected timers */}
-          {stepTimes.length > 0 && !hasActiveTimerForStep && (
-            <div className="mt-8 flex flex-col gap-3 items-center">
-              {stepTimes.map((minutes, index) => (
-                <Button
-                  key={index}
-                  onClick={() => startTimer(currentStep + 1, minutes)}
-                  size="lg"
-                  className="bg-green-500 hover:bg-green-600 text-white text-xl font-bold py-6 px-8 rounded-xl w-full max-w-md"
-                >
-                  <Clock className="w-6 h-6 mr-3" />
-                  Start {minutes} Min Timer {stepTimes.length > 1 ? `(${index + 1}/${stepTimes.length})` : ''}
-                </Button>
-              ))}
-            </div>
-          )}
-
-          {/* Voice control helper for mobile */}
-          {voiceSupported && !isListening && (
-            <div className="mt-8 flex justify-center">
-              <Button
-                onClick={toggleVoiceControl}
-                variant="outline"
-                size="lg"
-                className="text-lg w-full max-w-md"
-              >
-                <Mic className="w-5 h-5 mr-2" />
-                Enable Hands-Free Voice Control
-              </Button>
-            </div>
-          )}
+      {/* Voice Listening Indicator */}
+      {isListening && (
+        <div className="fixed top-24 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-full shadow-xl flex items-center gap-2 z-50 animate-pulse">
+          🎤 Listening...
         </div>
+      )}
+
+      {micPermission === 'denied' && !isListening && (
+        <div className="mx-4 mt-4 p-3 bg-red-100 rounded-lg text-center">
+          <p className="text-xs text-red-600 font-medium">
+            ⚠️ Microphone access denied. Enable it in browser settings.
+          </p>
+        </div>
+      )}
+
+      {/* Step Content Area */}
+      <div className="p-8 bg-white flex-1 overflow-y-auto">
+        {/* Step Header with Large Badge */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-12 h-12 bg-[#10b981] rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-md flex-shrink-0">
+            {currentStep + 1}
+          </div>
+          <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+            Step {currentStep + 1}
+          </span>
+        </div>
+        
+        {/* Instruction - Large Text with Highlights */}
+        <p className="text-2xl leading-relaxed text-gray-900 font-medium mb-7">
+          {renderInstructionWithHighlights(currentInstruction)}
+        </p>
+
+        {/* Ingredient Amounts - ONLY SHOW ON STEP 1 (PREP) */}
+        {currentStep === 0 && stepIngredients.length > 0 && (
+          <div className="mt-6 p-6 bg-green-50 rounded-xl border-2 border-green-200">
+            <h3 className="text-[#10b981] text-xl font-bold mb-4">You'll need:</h3>
+            <ul className="space-y-2">
+              {stepIngredients.map((ing, index) => (
+                <li key={index} className="text-lg text-gray-700">
+                  • {ing}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Timer Button (if step has timing) */}
+        {stepTimes.length > 0 && !hasActiveTimerForStep && (
+          <div className="mt-6 flex flex-col gap-3">
+            {stepTimes.map((minutes, index) => (
+              <button
+                key={index}
+                onClick={() => startTimer(currentStep + 1, minutes)}
+                className="w-full h-14 bg-[#10b981] text-white rounded-xl font-semibold text-lg shadow-lg hover:bg-[#059669] transition-all flex items-center justify-center gap-2"
+              >
+                ⏱️ Start {minutes} Minute Timer {stepTimes.length > 1 ? `(${index + 1}/${stepTimes.length})` : ''}
+              </button>
+            ))}
+          </div>
+        )}
+        
+        {/* Voice Control Button */}
+        {voiceSupported && (
+          <button 
+            onClick={toggleVoiceControl}
+            className="mt-4 w-full h-12 bg-green-50 text-green-700 rounded-xl font-semibold border-2 border-green-200 hover:bg-green-100 transition-all flex items-center justify-center gap-2"
+          >
+            🎤 {isListening ? 'Voice Control Active' : 'Enable Hands-Free Voice Control'}
+          </button>
+        )}
       </div>
 
       {/* Active Timers Display */}
       {timers.length > 0 && (
-        <div className="p-4 bg-white border-t border-gray-200 max-h-48 overflow-y-auto">
-          <h3 className="text-sm font-bold text-gray-600 mb-3">Active Timers:</h3>
+        <div className="bg-green-50 border-t-2 border-green-200 p-4">
+          <div className="text-sm font-semibold text-green-800 mb-2">Active Timers:</div>
           <div className="space-y-2">
             {timers.map(timer => (
               <div 
                 key={timer.id} 
-                className="flex items-center justify-between bg-gray-50 p-3 rounded-lg border-l-4 border-green-500"
+                className="bg-white rounded-lg p-3 flex items-center justify-between shadow-sm"
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex flex-col items-center justify-center w-20 h-20 rounded-full bg-green-500 text-white">
-                    <Clock className="w-5 h-5 mb-1" />
-                    <span className="text-xl font-bold">{formatTime(timer.remainingSeconds)}</span>
-                  </div>
-                  <div>
-                    <p className="font-bold text-black">Step {timer.stepNumber}</p>
-                    <p className="text-xs text-gray-500">
-                      {timer.remainingSeconds > 0 ? (timer.isRunning ? 'Running' : 'Paused') : 'Complete'}
-                    </p>
-                  </div>
-                </div>
+                <span className="font-medium text-gray-700">Step {timer.stepNumber}</span>
+                <span className="text-2xl font-bold text-green-600">{formatTime(timer.remainingSeconds)}</span>
                 <div className="flex gap-2">
                   {timer.remainingSeconds > 0 && (
                     <>
-                      <Button
+                      <button
                         onClick={() => timer.isRunning ? pauseTimer(timer.id) : resumeTimer(timer.id)}
-                        variant="outline"
-                        size="sm"
+                        className="text-sm text-gray-600 hover:text-gray-900 px-2"
                       >
-                        {timer.isRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                      </Button>
-                      <Button
+                        {timer.isRunning ? 'Pause' : 'Resume'}
+                      </button>
+                      <button
                         onClick={() => cancelTimer(timer.id)}
-                        variant="outline"
-                        size="sm"
+                        className="text-sm text-red-600 hover:text-red-800 px-2"
                       >
-                        <XCircle className="w-4 h-4" />
-                      </Button>
+                        Cancel
+                      </button>
                     </>
                   )}
                 </div>
@@ -787,25 +764,21 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
         </div>
       )}
 
-      {/* Navigation Buttons */}
-      <div className="p-4 bg-gray-50 border-t border-gray-200">
-        <div className="grid grid-cols-2 gap-4">
-          <button
-            onClick={handlePrevious}
-            className="py-4 bg-gray-200 text-black text-lg font-bold rounded-xl disabled:opacity-30 active:bg-gray-300 transition-colors flex items-center justify-center gap-2"
-            disabled={currentStep === 0}
-          >
-            <ChevronLeft className="w-5 h-5" />
-            BACK
-          </button>
-          <button
-            onClick={handleNext}
-            className="py-4 bg-green-500 hover:bg-green-600 text-black text-lg font-bold rounded-xl active:bg-green-600 transition-colors flex items-center justify-center gap-2"
-          >
-            {currentStep === recipe.instructions.length - 1 ? 'DONE!' : 'NEXT'}
-            {currentStep < recipe.instructions.length - 1 && <ChevronRight className="w-5 h-5" />}
-          </button>
-        </div>
+      {/* Bottom Navigation */}
+      <div className="flex gap-3 p-4 bg-white border-t border-gray-200">
+        <button 
+          onClick={handlePrevious}
+          disabled={currentStep === 0}
+          className="flex-1 h-14 bg-gray-100 text-gray-700 rounded-xl font-semibold text-base hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+        >
+          ← BACK
+        </button>
+        <button 
+          onClick={handleNext}
+          className="flex-1 h-14 bg-[#10b981] text-white rounded-xl font-semibold text-base shadow-md hover:bg-[#059669] transition-all flex items-center justify-center gap-2"
+        >
+          {currentStep === recipe.instructions.length - 1 ? '✓ DONE!' : 'NEXT →'}
+        </button>
       </div>
     </div>
   );
