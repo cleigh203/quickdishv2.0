@@ -2,10 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { Sparkles, X } from "lucide-react";
 import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { BottomNav } from "@/components/BottomNav";
 import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { getFreeHalloweenRecipes } from "@/data/halloweenRecipes";
 import { RecipeCard } from "@/components/RecipeCard";
+import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import poisonAppleCocktail from "@/assets/recipes/poison-apple-cocktail.jpg";
 import { allRecipes } from "@/data/recipes";
 import type { Recipe } from "@/types/recipe";
@@ -126,18 +128,31 @@ const Index = () => {
             {filteredRecipes.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredRecipes.map((recipe) => (
-                  <RecipeCard
-                    key={recipe.id}
-                    recipe={recipe}
-                    onClick={() => handleRecipeClick(recipe.id)}
-                  />
+                  <div key={recipe.id} className="relative">
+                    <RecipeCard
+                      recipe={recipe}
+                      onClick={() => handleRecipeClick(recipe.id)}
+                    />
+                    {recipe.isAiGenerated && (
+                      <Badge 
+                        variant="secondary" 
+                        className="absolute top-2 left-2 text-xs bg-purple-500/90 text-white backdrop-blur-sm"
+                      >
+                        <Sparkles className="w-3 h-3 mr-1" />
+                        AI Generated
+                      </Badge>
+                    )}
+                  </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground text-lg">
-                  No recipes found with these ingredients. Try different ingredients.
-                </p>
+              <div className="max-w-md mx-auto">
+                <AiGenerationPrompt 
+                  searchTerm={searchInput}
+                  onRecipeGenerated={(recipe) => {
+                    handleRecipeClick(recipe.id);
+                  }}
+                />
               </div>
             )}
           </div>

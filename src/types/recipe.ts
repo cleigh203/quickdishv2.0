@@ -32,4 +32,6 @@ export interface Recipe {
   isPremium?: boolean; // Premium recipes require subscription
   totalTime?: number; // Total time in minutes for filtering
   tags?: string[]; // Diet and meal type tags (vegetarian, vegan, breakfast, etc.)
+  isAiGenerated?: boolean; // Flag for AI-generated recipes
+  generatedAt?: string; // Timestamp when recipe was generated
 }

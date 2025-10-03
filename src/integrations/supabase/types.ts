@@ -51,6 +51,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          ai_generations_today: number | null
           avatar_url: string | null
           created_at: string
           dietary_preferences: string[] | null
@@ -58,6 +59,7 @@ export type Database = {
           favorite_cuisines: string[] | null
           id: string
           is_premium: boolean
+          last_generation_date: string | null
           learning_goals: string[] | null
           pantry_items: string[] | null
           skill_level: string | null
@@ -67,6 +69,7 @@ export type Database = {
           subscription_status: string | null
         }
         Insert: {
+          ai_generations_today?: number | null
           avatar_url?: string | null
           created_at?: string
           dietary_preferences?: string[] | null
@@ -74,6 +77,7 @@ export type Database = {
           favorite_cuisines?: string[] | null
           id: string
           is_premium?: boolean
+          last_generation_date?: string | null
           learning_goals?: string[] | null
           pantry_items?: string[] | null
           skill_level?: string | null
@@ -83,6 +87,7 @@ export type Database = {
           subscription_status?: string | null
         }
         Update: {
+          ai_generations_today?: number | null
           avatar_url?: string | null
           created_at?: string
           dietary_preferences?: string[] | null
@@ -90,6 +95,7 @@ export type Database = {
           favorite_cuisines?: string[] | null
           id?: string
           is_premium?: boolean
+          last_generation_date?: string | null
           learning_goals?: string[] | null
           pantry_items?: string[] | null
           skill_level?: string | null

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Search, Plus, X } from "lucide-react";
+import { Search, Plus, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BottomNav } from "@/components/BottomNav";
@@ -10,6 +10,7 @@ import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
 import { allRecipes } from "@/data/recipes";
+import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 
 const Generate = () => {
   const [searchParams] = useSearchParams();
@@ -371,13 +372,13 @@ const Generate = () => {
             {filteredRecipes.length} recipes found
           </p>
           {filteredRecipes.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
-              <p className="text-lg font-medium">No recipes found</p>
-              <p className="text-sm mt-2">
-                {ingredientsParam 
-                  ? 'No recipes found with these ingredients. Try different ingredients.' 
-                  : 'Try adjusting your filters or search terms'}
-              </p>
+            <div className="max-w-md mx-auto">
+              <AiGenerationPrompt 
+                searchTerm={searchQuery || ingredientInput || ingredientsParam || 'recipe'}
+                onRecipeGenerated={(recipe) => {
+                  navigate(`/recipe/${recipe.id}`);
+                }}
+              />
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-4">
@@ -387,20 +388,29 @@ const Generate = () => {
                   onClick={() => navigate(`/recipe/${recipe.id}`)}
                   className="relative cursor-pointer"
                 >
-                <div className="relative rounded-xl overflow-hidden">
-                  <img
-                    src={recipe.image}
-                    alt={recipe.name}
-                    className="w-full h-[220px] object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <button
-                    onClick={(e) => addToFavorites(recipe, e)}
-                    className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
-                  >
-                    <Plus className="w-4 h-4 text-foreground" />
-                  </button>
-                </div>
+                  <div className="relative rounded-xl overflow-hidden">
+                    <img
+                      src={recipe.image}
+                      alt={recipe.name}
+                      className="w-full h-[220px] object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    {recipe.isAiGenerated && (
+                      <Badge 
+                        variant="secondary" 
+                        className="absolute top-2 left-2 text-xs bg-purple-500/90 text-white backdrop-blur-sm"
+                      >
+                        <Sparkles className="w-3 h-3 mr-1" />
+                        AI
+                      </Badge>
+                    )}
+                    <button
+                      onClick={(e) => addToFavorites(recipe, e)}
+                      className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
+                    >
+                      <Plus className="w-4 h-4 text-foreground" />
+                    </button>
+                  </div>
                   <p className="mt-2 font-medium text-sm line-clamp-2">
                     {recipe.name}
                   </p>
