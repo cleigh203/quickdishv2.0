@@ -72,11 +72,17 @@ export const RecipeNotesDialog = ({
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             rows={8}
+            maxLength={10000}
             className="resize-none"
           />
           
-          <div className="text-sm text-muted-foreground">
-            💡 Tip: Use notes to remember ingredient substitutions, cooking tips, or special occasions you made this recipe.
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <div>
+              💡 Tip: Use notes to remember ingredient substitutions, cooking tips, or special occasions you made this recipe.
+            </div>
+            <div className="text-xs">
+              {notes.length}/10000
+            </div>
           </div>
         </div>
 
