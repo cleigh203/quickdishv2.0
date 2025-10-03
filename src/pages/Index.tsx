@@ -106,7 +106,10 @@ const Index = () => {
               <div 
                 key={collection.name}
                 className="clickable-card"
-                onClick={() => navigate(`/discover?collection=${encodeURIComponent(collection.name)}`)}
+                onClick={() => {
+                  navigate(`/discover?collection=${encodeURIComponent(collection.name)}`);
+                  window.scrollTo(0, 0);
+                }}
               >
                 <div 
                   className="h-36 bg-cover bg-center rounded-xl"
@@ -125,7 +128,10 @@ const Index = () => {
           {/* Halloween Recipe Drop */}
           <div
             className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer clickable-card"
-            onClick={() => navigate('/discover?collection=Halloween')}
+            onClick={() => {
+              navigate('/discover?collection=Halloween');
+              window.scrollTo(0, 0);
+            }}
           >
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"
@@ -146,7 +152,10 @@ const Index = () => {
           {/* Restaurant Copycats */}
           <div
             className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer clickable-card"
-            onClick={() => navigate('/discover?collection=Restaurant%20Copycats')}
+            onClick={() => {
+              navigate('/discover?collection=Restaurant%20Copycats');
+              window.scrollTo(0, 0);
+            }}
           >
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"
