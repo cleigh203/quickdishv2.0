@@ -7,7 +7,8 @@ import { BottomNav } from "@/components/BottomNav";
 import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { getFreeHalloweenRecipes } from "@/data/halloweenRecipes";
 import { RecipeCard } from "@/components/RecipeCard";
-import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
+// TODO V2.0: Re-enable AI recipe generation with full feature parity
+// import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import poisonAppleCocktail from "@/assets/recipes/poison-apple-cocktail.jpg";
 import { allRecipes } from "@/data/recipes";
 import type { Recipe } from "@/types/recipe";
@@ -151,14 +152,23 @@ const Index = () => {
                 ))}
               </div>
             ) : (
-              <div className="max-w-md mx-auto">
-                <AiGenerationPrompt 
-                  searchTerm={searchInput}
-                  onRecipeGenerated={async (recipe) => {
-                    await refetchGeneratedRecipes();
-                    handleRecipeClick(recipe.id);
+              <div className="max-w-md mx-auto text-center py-12">
+                <div className="text-6xl mb-4">🔍</div>
+                <h3 className="text-2xl font-bold mb-2">
+                  No recipes found for '{searchInput}'
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  Try different search terms or browse our categories
+                </p>
+                <Button 
+                  size="lg"
+                  onClick={() => {
+                    handleClearSearch();
+                    navigate('/discover');
                   }}
-                />
+                >
+                  Browse Recipes
+                </Button>
               </div>
             )}
           </div>

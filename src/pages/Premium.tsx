@@ -58,14 +58,15 @@ const Premium = () => {
       description: "Enjoy cooking without interruptions or advertisements",
       free: false,
       premium: true
-    },
-    {
-      icon: <Crown className="w-6 h-6" />,
-      title: "Recipe Generation",
-      description: "AI-powered recipe creation from your ingredients",
-      free: true,
-      premium: true
     }
+    // TODO V2.0: Re-enable AI recipe generation feature
+    // {
+    //   icon: <Crown className="w-6 h-6" />,
+    //   title: "Recipe Generation",
+    //   description: "AI-powered recipe creation from your ingredients",
+    //   free: true,
+    //   premium: true
+    // }
   ];
 
   const faqs = [

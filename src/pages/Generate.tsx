@@ -10,7 +10,8 @@ import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
 import { allRecipes } from "@/data/recipes";
-import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
+// TODO V2.0: Re-enable AI recipe generation with full feature parity
+// import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 
 const Generate = () => {
@@ -377,28 +378,23 @@ const Generate = () => {
             {filteredRecipes.length} recipes found
           </p>
           {filteredRecipes.length === 0 ? (
-            <div className="max-w-md mx-auto">
-          <AiGenerationPrompt 
-            searchTerm={searchQuery || ingredientInput || ingredientsParam || 'recipe'}
-            onRecipeGenerated={async (recipe) => {
-              console.log('🔄 1. onRecipeGenerated called with recipe:', recipe);
-              console.log('🔄 2. Recipe ID:', recipe.id);
-              console.log('🔄 3. About to refetch generated recipes...');
-              
-              await refetchGeneratedRecipes();
-              
-              console.log('🔄 4. Refetch complete');
-              console.log('🔄 5. Waiting 200ms before navigation...');
-              
-              // Wait a bit to ensure state updates propagate
-              setTimeout(() => {
-                console.log('🔄 6. Navigating to:', `/recipe/${recipe.id}`);
-                navigate(`/recipe/${recipe.id}`, { 
-                  state: { recipe } // Pass recipe directly in case lookup fails
-                });
-              }, 200);
-            }}
-          />
+            <div className="max-w-md mx-auto text-center py-12">
+              <div className="text-6xl mb-4">🔍</div>
+              <h3 className="text-2xl font-bold mb-2">
+                No recipes found
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                Try different search terms or browse our categories
+              </p>
+              <Button 
+                size="lg"
+                onClick={() => {
+                  clearFilters();
+                  navigate('/discover');
+                }}
+              >
+                Browse Recipes
+              </Button>
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-4">
