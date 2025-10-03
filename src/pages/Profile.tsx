@@ -8,6 +8,7 @@ import { PantryDialog } from "@/components/PantryDialog";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 
 const Profile = () => {
   const { toast } = useToast();
@@ -23,7 +24,7 @@ const Profile = () => {
   const [tapCount, setTapCount] = useState(0);
 
   const recipes = recipeStorage.getRecipes();
-  const favorites = recipeStorage.getFavorites();
+  const { savedRecipes } = useSavedRecipes();
   const shoppingList = recipeStorage.getShoppingList();
   
   // Lazy load pantry count
@@ -71,7 +72,7 @@ const Profile = () => {
 
   const stats = [
     { label: "Recipes Generated", value: recipes.length, icon: ChefHat },
-    { label: "Favorites", value: favorites.length, icon: User },
+    { label: "Favorites", value: savedRecipes.length, icon: User },
     { label: "Shopping Lists", value: shoppingList.length, icon: User },
   ];
 

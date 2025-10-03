@@ -12,14 +12,15 @@ import { getRecipeImage } from "@/utils/recipeImages";
 import CookingMode from "@/components/CookingMode";
 import { ingredientsToShoppingItems, deduplicateShoppingList } from "@/utils/shoppingListUtils";
 import { allRecipes } from "@/data/recipes";
+import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { isSaved, saveRecipe, unsaveRecipe } = useSavedRecipes();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [servingMultiplier, setServingMultiplier] = useState(1);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [cookingMode, setCookingMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -35,7 +36,6 @@ const RecipeDetail = () => {
       
       if (foundRecipe) {
         setRecipe(foundRecipe);
-        setIsFavorite(recipeStorage.isFavorite(id));
         
         // Check if coming from "Cook Now" button
         const params = new URLSearchParams(window.location.search);
@@ -50,23 +50,13 @@ const RecipeDetail = () => {
     }
   }, [id, navigate]);
 
-  const toggleFavorite = () => {
+  const toggleFavorite = async () => {
     if (!recipe) return;
     
-    if (isFavorite) {
-      recipeStorage.removeFavorite(recipe.id);
-      setIsFavorite(false);
-      toast({ 
-        title: "Removed from favorites",
-        duration: 2000
-      });
+    if (isSaved(recipe.id)) {
+      await unsaveRecipe(recipe.id);
     } else {
-      recipeStorage.addFavorite(recipe.id);
-      setIsFavorite(true);
-      toast({ 
-        title: "Added to favorites",
-        duration: 2000
-      });
+      await saveRecipe(recipe.id);
     }
   };
 
@@ -278,10 +268,10 @@ const RecipeDetail = () => {
               className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
             >
               <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center text-xl">
-                {isFavorite ? '❤️' : '🤍'}
+                {recipe && isSaved(recipe.id) ? '❤️' : '🤍'}
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900">{isFavorite ? 'Remove from' : 'Add to'} Saved</div>
+                <div className="font-semibold text-gray-900">{recipe && isSaved(recipe.id) ? 'Remove from' : 'Add to'} Saved</div>
                 <div className="text-sm text-gray-500">Save for later</div>
               </div>
             </button>

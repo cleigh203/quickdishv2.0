@@ -31,8 +31,10 @@ export const recipeStorage = {
     }
   },
   
-  // Favorites
+  // Favorites - DEPRECATED: Use useSavedRecipes hook instead
+  // These are kept for backwards compatibility with guest mode only
   addFavorite: (recipeId: string) => {
+    console.warn('recipeStorage.addFavorite is deprecated. Use useSavedRecipes hook instead.');
     try {
       const saved = localStorage.getItem('favorites');
       const favorites: string[] = saved ? JSON.parse(saved) : [];
@@ -46,6 +48,7 @@ export const recipeStorage = {
   },
   
   removeFavorite: (recipeId: string) => {
+    console.warn('recipeStorage.removeFavorite is deprecated. Use useSavedRecipes hook instead.');
     try {
       const saved = localStorage.getItem('favorites');
       const favorites: string[] = saved ? JSON.parse(saved) : [];
@@ -57,6 +60,7 @@ export const recipeStorage = {
   },
   
   getFavorites: (): string[] => {
+    console.warn('recipeStorage.getFavorites is deprecated. Use useSavedRecipes hook instead.');
     try {
       const saved = localStorage.getItem('favorites');
       return saved ? JSON.parse(saved) : [];
@@ -67,6 +71,7 @@ export const recipeStorage = {
   },
   
   isFavorite: (recipeId: string): boolean => {
+    console.warn('recipeStorage.isFavorite is deprecated. Use useSavedRecipes hook instead.');
     try {
       const saved = localStorage.getItem('favorites');
       const favorites: string[] = saved ? JSON.parse(saved) : [];

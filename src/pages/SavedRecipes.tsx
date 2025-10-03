@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
-import { Heart, Plus, Pencil, Trash2, Search, X } from "lucide-react";
+import { Heart, Plus, Pencil, Trash2, Search, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BottomNav } from "@/components/BottomNav";
 import { RecipeCard } from "@/components/RecipeCard";
 import { allRecipes } from "@/data/recipes";
 import { Recipe } from "@/types/recipe";
 import { recipeStorage } from "@/utils/recipeStorage";
+import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { CustomRecipeForm } from "@/components/CustomRecipeForm";
 import { Badge } from "@/components/ui/badge";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
@@ -16,6 +17,7 @@ import { Check } from "lucide-react";
 
 const SavedRecipes = () => {
   const navigate = useNavigate();
+  const { savedRecipes: savedRecipeData, loading } = useSavedRecipes();
   const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
   const [customRecipes, setCustomRecipes] = useState<Recipe[]>([]);
   const [showForm, setShowForm] = useState(false);
@@ -30,34 +32,21 @@ const SavedRecipes = () => {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [showFilteredView, setShowFilteredView] = useState(false);
 
-  const loadRecipes = () => {
-    // Load saved recipe IDs from localStorage
-    const savedIds = JSON.parse(localStorage.getItem('favorites') || '[]');
-    
-    // Combine hardcoded recipes and dynamically generated recipes
+  useEffect(() => {
+    // Map saved recipe IDs to actual recipe objects
     const dynamicRecipes = recipeStorage.getRecipes();
     const allAvailableRecipes = [...allRecipes, ...dynamicRecipes];
     
-    // Remove duplicates by ID (prioritize dynamic versions)
-    const recipeMap = new Map<string, Recipe>();
-    allAvailableRecipes.forEach(recipe => {
-      recipeMap.set(recipe.id, recipe);
-    });
+    const recipes = savedRecipeData
+      .map(saved => allAvailableRecipes.find(r => r.id === saved.recipe_id))
+      .filter((r): r is Recipe => r !== undefined);
     
-    // Filter recipes that match saved IDs
-    const saved = Array.from(recipeMap.values()).filter(recipe => 
-      savedIds.includes(recipe.id)
-    );
-    setSavedRecipes(saved);
+    setSavedRecipes(recipes);
 
     // Load custom recipes
     const custom = JSON.parse(localStorage.getItem('customRecipes') || '[]');
     setCustomRecipes(custom);
-  };
-
-  useEffect(() => {
-    loadRecipes();
-  }, []);
+  }, [savedRecipeData]);
 
   const handleRecipeClick = (recipeId: string) => {
     navigate(`/recipe/${recipeId}`);
@@ -88,7 +77,9 @@ const SavedRecipes = () => {
   };
 
   const handleSave = () => {
-    loadRecipes();
+    // Reload custom recipes (saved recipes auto-update via hook)
+    const custom = JSON.parse(localStorage.getItem('customRecipes') || '[]');
+    setCustomRecipes(custom);
   };
 
   const toggleFilter = (filter: string) => {
@@ -178,6 +169,17 @@ const SavedRecipes = () => {
     if (recipeTypeFilter === 'custom') return [];
     return getFilteredRecipes(savedRecipes);
   }, [savedRecipes, showFilteredView, recipeTypeFilter, searchQuery, activeFilters]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-primary animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading your recipes...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pb-20 bg-background">

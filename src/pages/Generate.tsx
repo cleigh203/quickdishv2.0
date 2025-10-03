@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { BottomNav } from "@/components/BottomNav";
 import { SearchOverlay } from "@/components/SearchOverlay";
 import { useToast } from "@/hooks/use-toast";
+import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
 import { allRecipes } from "@/data/recipes";
@@ -14,6 +15,7 @@ const Generate = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { saveRecipe, isSaved } = useSavedRecipes();
   
   // Search overlay state
   const [showSearchOverlay, setShowSearchOverlay] = useState(false);
@@ -186,20 +188,17 @@ const Generate = () => {
     navigate(`/discover?collection=${encodeURIComponent(categoryName)}`);
   };
 
-  const addToFavorites = (recipe: Recipe, e: React.MouseEvent) => {
+  const addToFavorites = async (recipe: Recipe, e: React.MouseEvent) => {
     e.stopPropagation();
     
-    if (recipeStorage.isFavorite(recipe.id)) {
+    if (isSaved(recipe.id)) {
       toast({
         title: "Recipe already in your favorites!",
       });
       return;
     }
     
-    recipeStorage.addFavorite(recipe.id);
-    toast({
-      title: "Added to favorites! ❤️",
-    });
+    await saveRecipe(recipe.id);
   };
 
   // Filter recipes by ingredients from URL param

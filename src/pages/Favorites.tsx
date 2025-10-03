@@ -1,44 +1,43 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Heart, ChefHat } from "lucide-react";
+import { Heart, ChefHat, Loader2 } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { Recipe } from "@/types/recipe";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getRecipeImage } from "@/utils/recipeImages";
+import { useSavedRecipes } from "@/hooks/useSavedRecipes";
+import { allRecipes } from "@/data/recipes";
 
 const Favorites = () => {
-  const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>(() => {
-    const favorites = localStorage.getItem('favorites');
-    return favorites ? JSON.parse(favorites) : [];
-  });
+  const { savedRecipes, loading } = useSavedRecipes();
+  const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
   const [selectedCuisine, setSelectedCuisine] = useState('All');
   const navigate = useNavigate();
   const cuisineTypes = ['All', 'Italian', 'Asian', 'Mexican', 'American', 'Mediterranean', 'Various'];
 
   useEffect(() => {
-    const loadFavorites = () => {
-      const favorites = localStorage.getItem('favorites');
-      setFavoriteRecipes(favorites ? JSON.parse(favorites) : []);
-      console.log('Favorites loaded:', favorites ? JSON.parse(favorites).length : 0);
-    };
+    // Map saved recipe IDs to actual recipe objects
+    const recipes = savedRecipes
+      .map(saved => allRecipes.find(r => r.id === saved.recipe_id))
+      .filter((r): r is Recipe => r !== undefined);
     
-    // Load on mount and when returning to this tab
-    loadFavorites();
-    
-    // Listen for storage changes (when recipe is saved from another tab)
-    window.addEventListener('storage', loadFavorites);
-    window.addEventListener('focus', loadFavorites);
-    
-    return () => {
-      window.removeEventListener('storage', loadFavorites);
-      window.removeEventListener('focus', loadFavorites);
-    };
-  }, []);
+    setFavoriteRecipes(recipes);
+  }, [savedRecipes]);
 
   const filteredRecipes = selectedCuisine === 'All' 
     ? favoriteRecipes 
     : favoriteRecipes.filter(r => r.cuisine === selectedCuisine);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-primary animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading your favorites...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pb-20 px-4">
@@ -128,6 +127,12 @@ const Favorites = () => {
             <p className="text-muted-foreground mt-2">
               Your favorites will appear here
             </p>
+            <Button 
+              onClick={() => navigate('/discover')}
+              className="mt-4"
+            >
+              Discover Recipes
+            </Button>
           </div>
         )}
       </div>
