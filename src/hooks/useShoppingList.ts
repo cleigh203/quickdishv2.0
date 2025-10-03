@@ -85,10 +85,9 @@ export const useShoppingList = () => {
       }
     } catch (err: any) {
       console.error('Error fetching shopping list:', err);
-      const errorInfo = handleSupabaseError(err);
       toast({
-        title: errorInfo.title,
-        description: errorInfo.description,
+        title: "Couldn't load shopping list",
+        description: "Check connection and try again",
         variant: "destructive",
       });
     } finally {

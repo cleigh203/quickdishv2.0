@@ -113,11 +113,20 @@ export const useSavedRecipes = () => {
           favorites.push(recipeId);
           localStorage.setItem('favorites', JSON.stringify(favorites));
           loadFromLocalStorage();
+          toast({
+            title: "Saved!",
+            description: "Recipe added to favorites",
+          });
           return { success: true };
         }
         return { success: false, message: 'Already saved' };
       } catch (error) {
         console.error('Failed to save to localStorage:', error);
+        toast({
+          title: "Couldn't save recipe",
+          description: "Try again?",
+          variant: "destructive",
+        });
         return { success: false, message: 'Failed to save' };
       }
     }
@@ -152,19 +161,18 @@ export const useSavedRecipes = () => {
       
       toast({
         title: "Saved!",
-        description: "Recipe added to your favorites",
+        description: "Recipe added to favorites",
       });
-
+      
       return { success: true };
-    } catch (err: any) {
-      console.error('Error saving recipe:', err);
-      const errorInfo = handleSupabaseError(err);
+    } catch (error) {
+      console.error('Failed to save recipe:', error);
       toast({
-        title: errorInfo.title,
-        description: errorInfo.description,
+        title: "Couldn't save recipe",
+        description: "Try again?",
         variant: "destructive",
       });
-      return { success: false, message: errorInfo.description };
+      return { success: false, message: 'Failed to save' };
     }
   };
 

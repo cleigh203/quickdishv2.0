@@ -5,7 +5,19 @@ export interface ErrorResult {
   description: string;
   isNetworkError: boolean;
   shouldRetry: boolean;
+  isAuthError?: boolean;
 }
+
+// User-friendly error messages (under 10 words)
+const ERROR_MESSAGES = {
+  network: "Connection failed. Check internet and try again.",
+  auth: "Invalid email or password. Please try again.",
+  authExpired: "Your session expired. Please log in again.",
+  googleAuth: "Google sign-in failed. Try again or use email.",
+  saveFailed: "Couldn't save. Try again?",
+  loadFailed: "Couldn't load. Check connection and try again.",
+  generic: "Something went wrong. Please try again.",
+} as const;
 
 export const handleSupabaseError = (error: any): ErrorResult => {
   // Network errors
@@ -26,9 +38,23 @@ export const handleSupabaseError = (error: any): ErrorResult => {
       error.message?.includes('not authenticated')) {
     return {
       title: 'Session Expired',
-      description: 'Please sign in again to continue',
+      description: ERROR_MESSAGES.authExpired,
       isNetworkError: false,
       shouldRetry: false,
+      isAuthError: true,
+    };
+  }
+  
+  // Invalid credentials
+  if (error.message?.includes('Invalid login') || 
+      error.message?.includes('Invalid email') ||
+      error.status === 400) {
+    return {
+      title: 'Sign in failed',
+      description: ERROR_MESSAGES.auth,
+      isNetworkError: false,
+      shouldRetry: true,
+      isAuthError: true,
     };
   }
 
@@ -83,13 +109,23 @@ export const handleSupabaseError = (error: any): ErrorResult => {
     };
   }
 
-  // Generic error
+  // Generic error (hide technical details from users)
   return {
-    title: 'Something went wrong',
-    description: error.message || 'An unexpected error occurred. Please try again',
+    title: 'Error',
+    description: ERROR_MESSAGES.generic,
     isNetworkError: false,
     shouldRetry: true,
   };
+};
+
+export const getErrorMessage = (context: 'save' | 'load' | 'network' | 'auth'): string => {
+  switch (context) {
+    case 'save': return ERROR_MESSAGES.saveFailed;
+    case 'load': return ERROR_MESSAGES.loadFailed;
+    case 'network': return ERROR_MESSAGES.network;
+    case 'auth': return ERROR_MESSAGES.auth;
+    default: return ERROR_MESSAGES.generic;
+  }
 };
 
 export const retryOperation = async <T>(

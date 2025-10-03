@@ -149,8 +149,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
       
       if (error) {
-        const errorInfo = handleSupabaseError(error);
-        return { error: { message: errorInfo.description, ...error } };
+        // User-friendly error message
+        return { error: { message: 'Invalid email or password. Please try again.' } };
       }
       
       return { error: null };
@@ -170,14 +170,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
       
       if (error) {
-        const errorInfo = handleSupabaseError(error);
-        return { error: { message: errorInfo.description, ...error } };
+        // User-friendly error message
+        return { error: { message: 'Google sign-in failed. Please try again or use email.' } };
       }
       
       return { error: null };
     } catch (error: any) {
-      const errorInfo = handleSupabaseError(error);
-      return { error: { message: errorInfo.description } };
+      return { error: { message: 'Google sign-in failed. Please try again or use email.' } };
     }
   };
 

@@ -91,18 +91,26 @@ export const useMealPlan = () => {
           meal_type: mealType,
         });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error adding meal plan:', error);
+        toast({
+          title: "Couldn't add to meal plan",
+          description: "Try again?",
+          variant: "destructive",
+        });
+        return false;
+      }
 
       toast({
-        title: "Success",
-        description: "Added to meal plan!",
+        title: "Added to meal plan",
+        description: `Scheduled for ${mealType}`,
       });
       return true;
     } catch (error) {
       console.error('Error adding meal plan:', error);
       toast({
-        title: "Error",
-        description: "Failed to add to meal plan",
+        title: "Couldn't add to meal plan",
+        description: "Try again?",
         variant: "destructive",
       });
       return false;
