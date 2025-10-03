@@ -4,6 +4,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Clock, ChefHat, Trash2, Calendar } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { useMealPlan } from "@/hooks/useMealPlan";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useShoppingList } from "@/hooks/useShoppingList";
@@ -13,9 +25,12 @@ import { format, isToday, isTomorrow, isPast, addDays, startOfDay } from "date-f
 
 export const MealPlanTab = () => {
   const navigate = useNavigate();
-  const { mealPlans, deleteMealPlan } = useMealPlan();
+  const { mealPlans, deleteMealPlan, clearAllMealPlans } = useMealPlan();
   const { incrementTimesCooked } = useSavedRecipes();
   const { addItems } = useShoppingList();
+  const [mealToDelete, setMealToDelete] = useState<{ id: string; name: string; date: string; type: string } | null>(null);
+  const [showClearDialog, setShowClearDialog] = useState(false);
+  const [keepPastMeals, setKeepPastMeals] = useState(true);
 
   const sortedMealPlans = useMemo(() => {
     return [...mealPlans].sort((a, b) => 
@@ -75,6 +90,19 @@ export const MealPlanTab = () => {
     });
   };
 
+  const handleDeleteMeal = () => {
+    if (mealToDelete) {
+      deleteMealPlan(mealToDelete.id);
+      setMealToDelete(null);
+    }
+  };
+
+  const handleClearAll = async () => {
+    await clearAllMealPlans(keepPastMeals);
+    setShowClearDialog(false);
+    setKeepPastMeals(true);
+  };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     if (isToday(date)) return `Today - ${format(date, 'MMM d')}`;
@@ -106,23 +134,35 @@ export const MealPlanTab = () => {
   }
 
   return (
-    <div className="space-y-6 pb-24">
-      {upcomingMeals.length > 0 && (
-        <Card className="border-primary/20">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-semibold">This Week's Meals</h3>
-                <p className="text-sm text-muted-foreground">{upcomingMeals.length} meals planned</p>
+    <>
+      <div className="space-y-6 pb-24">
+        {upcomingMeals.length > 0 && (
+          <Card className="border-primary/20">
+            <CardContent className="p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold">This Week's Meals</h3>
+                  <p className="text-sm text-muted-foreground">{upcomingMeals.length} meals planned</p>
+                </div>
+                <Button 
+                  variant="outline" 
+                  className="text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground"
+                  onClick={() => setShowClearDialog(true)}
+                >
+                  Clear Meal Plan
+                </Button>
               </div>
-              <Button onClick={handleAddToShoppingList} className="bg-primary hover:bg-primary/90">
+              <Button 
+                onClick={handleAddToShoppingList} 
+                className="w-full bg-primary hover:bg-primary/90"
+                size="sm"
+              >
                 <ShoppingCart className="w-4 h-4 mr-2" />
                 Add to Shopping List
               </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+            </CardContent>
+          </Card>
+        )}
 
       <div className="space-y-3">
         {sortedMealPlans.map(meal => {
@@ -176,7 +216,12 @@ export const MealPlanTab = () => {
                         className="absolute top-4 right-4 text-destructive hover:text-destructive hover:bg-destructive/10"
                         onClick={(e) => {
                           e.stopPropagation();
-                          deleteMealPlan(meal.id);
+                          setMealToDelete({
+                            id: meal.id,
+                            name: recipe.name,
+                            date: formatDate(meal.scheduled_date),
+                            type: meal.meal_type
+                          });
                         }}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -189,6 +234,61 @@ export const MealPlanTab = () => {
           );
         })}
       </div>
-    </div>
+      </div>
+
+      {/* Individual Meal Delete Confirmation */}
+      <AlertDialog open={!!mealToDelete} onOpenChange={() => setMealToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remove from meal plan?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {mealToDelete && (
+                <>Remove <strong>{mealToDelete.name}</strong> from {mealToDelete.date} ({mealToDelete.type})?</>
+              )}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteMeal}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Remove
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Clear All Meals Confirmation */}
+      <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Clear your entire meal plan?</AlertDialogTitle>
+            <AlertDialogDescription className="space-y-4">
+              <p>This will remove all planned meals. This can't be undone.</p>
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="keep-past" 
+                  checked={keepPastMeals}
+                  onCheckedChange={(checked) => setKeepPastMeals(checked as boolean)}
+                />
+                <Label htmlFor="keep-past" className="text-sm font-normal cursor-pointer">
+                  Keep past meals (only clear future meals)
+                </Label>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setKeepPastMeals(true)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleClearAll}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Clear All
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };

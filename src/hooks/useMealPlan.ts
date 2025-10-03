@@ -132,11 +132,53 @@ export const useMealPlan = () => {
     }
   };
 
+  const clearAllMealPlans = async (keepPastMeals: boolean = false) => {
+    if (!user) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to clear meal plans",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    try {
+      let query = supabase
+        .from('meal_plans')
+        .delete()
+        .eq('user_id', user.id);
+
+      if (keepPastMeals) {
+        const today = new Date().toISOString().split('T')[0];
+        query = query.gte('scheduled_date', today);
+      }
+
+      const { error } = await query;
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: keepPastMeals ? "Future meals cleared" : "Meal plan cleared",
+      });
+      return true;
+    } catch (error) {
+      console.error('Error clearing meal plans:', error);
+      toast({
+        title: "Error",
+        description: "Failed to clear meal plan",
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
   return {
     mealPlans,
     loading,
     addMealPlan,
     deleteMealPlan,
+    clearAllMealPlans,
     refreshMealPlans: fetchMealPlans,
   };
 };
