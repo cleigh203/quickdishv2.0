@@ -55,67 +55,69 @@ const RecipeDetail = () => {
   useEffect(() => {
     console.log('🔍 1. RecipeDetail useEffect triggered, ID:', id);
     console.log('🔍 2. Location state:', location.state);
-    console.log('🔍 3. Generated recipes count:', generatedRecipes.length);
-    console.log('🔍 4. Generated recipe IDs:', generatedRecipes.map(r => r.id));
-    console.log('🔍 5. Static recipes count:', allRecipes.length);
     
-    if (id) {
-      let foundRecipe: Recipe | undefined;
+    if (!id) return;
+    
+    // PRIORITY 1: Check location.state FIRST (most reliable, especially for newly generated recipes)
+    const passedRecipe = (location.state as any)?.recipe;
+    if (passedRecipe) {
+      console.log('🔍 3. ✅ Recipe found in location.state:', passedRecipe.name);
+      setRecipe(passedRecipe);
       
-      // PRIORITY 1: Check if recipe was passed via navigation state (most reliable for new recipes)
-      if (location.state && (location.state as any).recipe) {
-        const stateRecipe = (location.state as any).recipe;
-        console.log('🔍 6. Recipe found in location.state:', stateRecipe.name);
-        foundRecipe = stateRecipe;
+      // Check if coming from "Cook Now" button
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('cook') === 'true') {
+        setCookingMode(true);
+        window.history.replaceState({}, '', `/recipe/${id}`);
       }
+      return; // STOP HERE - don't search other sources or redirect
+    }
+    
+    console.log('🔍 4. No recipe in state, searching other sources...');
+    console.log('🔍 5. Generated recipes count:', generatedRecipes.length);
+    console.log('🔍 6. Static recipes count:', allRecipes.length);
+    
+    let foundRecipe: Recipe | undefined;
+    
+    // PRIORITY 2: Search in combined recipes (static + generated)
+    const combinedRecipes = [...allRecipes, ...generatedRecipes];
+    foundRecipe = combinedRecipes.find(r => r.id === id);
+    console.log('🔍 7. Recipe found in combined recipes:', foundRecipe ? 'YES - ' + foundRecipe.name : 'NO');
+    
+    // PRIORITY 3: Check localStorage for user-generated recipes
+    if (!foundRecipe) {
+      console.log('🔍 8. Checking localStorage...');
+      foundRecipe = recipeStorage.getRecipeById(id);
+      console.log('🔍 9. Recipe found in localStorage:', foundRecipe ? 'YES' : 'NO');
+    }
+    
+    // PRIORITY 4: Check custom recipes in localStorage
+    if (!foundRecipe) {
+      console.log('🔍 10. Checking custom recipes...');
+      try {
+        const customRecipes = JSON.parse(localStorage.getItem('customRecipes') || '[]');
+        foundRecipe = customRecipes.find((r: Recipe) => r.id === id);
+        console.log('🔍 11. Recipe found in custom recipes:', foundRecipe ? 'YES' : 'NO');
+      } catch (error) {
+        console.error('🔍 12. Failed to load custom recipes:', error);
+      }
+    }
+    
+    if (foundRecipe) {
+      console.log('🔍 13. ✅ Setting recipe:', foundRecipe.name);
+      setRecipe(foundRecipe);
       
-      // PRIORITY 2: Search in combined recipes (static + generated)
-      if (!foundRecipe) {
-        const combinedRecipes = [...allRecipes, ...generatedRecipes];
-        console.log('🔍 7. Combined recipes count:', combinedRecipes.length);
-        foundRecipe = combinedRecipes.find(r => r.id === id);
-        console.log('🔍 8. Recipe found in combined recipes:', foundRecipe ? 'YES' : 'NO');
-        if (foundRecipe) {
-          console.log('🔍 9. Found recipe name:', foundRecipe.name);
-        }
+      // Check if coming from "Cook Now" button
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('cook') === 'true') {
+        setCookingMode(true);
+        window.history.replaceState({}, '', `/recipe/${id}`);
       }
-      
-      // PRIORITY 3: Check localStorage for user-generated recipes
-      if (!foundRecipe) {
-        console.log('🔍 10. Checking localStorage...');
-        foundRecipe = recipeStorage.getRecipeById(id);
-        console.log('🔍 11. Recipe found in localStorage:', foundRecipe ? 'YES' : 'NO');
-      }
-      
-      // PRIORITY 4: Check custom recipes in localStorage
-      if (!foundRecipe) {
-        console.log('🔍 12. Checking custom recipes...');
-        try {
-          const customRecipes = JSON.parse(localStorage.getItem('customRecipes') || '[]');
-          foundRecipe = customRecipes.find((r: Recipe) => r.id === id);
-          console.log('🔍 13. Recipe found in custom recipes:', foundRecipe ? 'YES' : 'NO');
-        } catch (error) {
-          console.error('🔍 14. Failed to load custom recipes:', error);
-        }
-      }
-      
-      if (foundRecipe) {
-        console.log('🔍 15. ✅ Setting recipe:', foundRecipe.name);
-        setRecipe(foundRecipe);
-        
-        // Check if coming from "Cook Now" button
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('cook') === 'true') {
-          setCookingMode(true);
-          // Clean up URL
-          window.history.replaceState({}, '', `/recipe/${id}`);
-        }
-      } else {
-        console.log('🔍 15. ❌ No recipe found for ID:', id);
-        console.log('🔍 16. Redirecting to /generate...');
-        setRecipe(null);
-        navigate('/generate');
-      }
+    } else {
+      console.log('🔍 14. ❌ No recipe found for ID:', id);
+      console.log('🔍 15. Redirecting to /generate...');
+      setRecipe(null);
+      navigate('/generate');
     }
   }, [id, navigate, generatedRecipes, location.state]);
 

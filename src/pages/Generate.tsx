@@ -405,7 +405,7 @@ const Generate = () => {
               {filteredRecipes.map((recipe) => (
                 <div
                   key={recipe.id}
-                  onClick={() => navigate(`/recipe/${recipe.id}`)}
+                  onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
                   className="relative cursor-pointer"
                 >
                   <div className="relative rounded-xl overflow-hidden">
@@ -571,7 +571,7 @@ const Generate = () => {
             {filteredRecipes.map((recipe) => (
               <div
                 key={recipe.id}
-                onClick={() => navigate(`/recipe/${recipe.id}`)}
+                onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
                 className="relative cursor-pointer"
               >
                 <div className="relative rounded-xl overflow-hidden">
@@ -680,7 +680,7 @@ const Generate = () => {
                   {categoryRecipes.slice(0, 10).map((recipe) => (
                     <div
                       key={recipe.id}
-                      onClick={() => navigate(`/recipe/${recipe.id}`)}
+                      onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
                       className="relative cursor-pointer shrink-0 w-40"
                     >
                       <div className="relative rounded-xl overflow-hidden aspect-[3/4]">
