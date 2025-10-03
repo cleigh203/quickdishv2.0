@@ -32,7 +32,7 @@ export const BottomNav = () => {
         {/* Guest mode banner */}
         {!user && (
           <div className="bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2 flex items-center justify-between">
-            <span className="text-white text-sm font-medium">Sign up to save recipes & more!</span>
+            <span className="text-black text-sm font-medium">Sign up to save recipes & more!</span>
             <Button
               size="sm"
               variant="secondary"
