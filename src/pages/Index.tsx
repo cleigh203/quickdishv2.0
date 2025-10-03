@@ -50,11 +50,11 @@ const Index = () => {
                 }
               }}
               placeholder="What's in your fridge?"
-              className="flex-1 px-4 py-4 bg-transparent border-0 outline-none text-foreground placeholder:text-muted-foreground text-lg"
+              className="flex-1 h-14 px-4 bg-transparent border-0 outline-none text-foreground placeholder:text-muted-foreground text-lg"
             />
             <Button 
               size="lg" 
-              className="rounded-xl h-14"
+              className="rounded-xl h-14 w-14 flex-shrink-0"
               onClick={(e) => {
                 e.preventDefault();
                 if (searchInput.trim()) {
