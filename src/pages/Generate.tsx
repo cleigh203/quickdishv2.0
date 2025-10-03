@@ -44,19 +44,17 @@ const Generate = () => {
   // Recipe categories for horizontal sections
   const categories = [
     { id: 'halloween', name: 'Halloween', emoji: '🎃' },
+    { id: 'fall', name: 'Fall Favorites', emoji: '🍂' },
     { id: 'quick', name: 'Quick & Easy', emoji: '⚡' },
     { id: 'copycat', name: 'Restaurant Copycats', emoji: '🍔' },
-    { id: 'breakfast', name: 'Breakfast', emoji: '🍳' },
-    { id: 'lunch', name: 'Lunch', emoji: '🥗' },
-    { id: 'dinner', name: 'Dinner', emoji: '🍽️' },
-    { id: 'dessert', name: 'Dessert', emoji: '🍰' },
-    { id: 'snacks', name: 'Snacks', emoji: '🍿' },
-    { id: 'comfort', name: 'Comfort Food', emoji: '🥘' },
+    { id: 'breakfast', name: 'Breakfast', emoji: '🥞' },
+    { id: 'lunch', name: 'Lunch Ideas', emoji: '🥗' },
+    { id: 'dinner', name: 'Dinner', emoji: '🍗' },
+    { id: 'dessert', name: 'Desserts', emoji: '🧁' },
+    { id: 'onepot', name: 'One-Pot Wonders', emoji: '🍲' },
     { id: 'bowls', name: 'Healthy Bowls', emoji: '🥙' },
-    { id: 'fresh', name: 'Fresh & Light', emoji: '🥬' },
-    { id: 'leftover', name: 'Leftovers Magic', emoji: '♻️' },
-    { id: 'kids', name: 'Picky Eaters', emoji: '👶' },
-    { id: 'rated', name: 'Top Rated', emoji: '⭐' }
+    { id: 'leftover', name: 'Leftover Magic', emoji: '♻️' },
+    { id: 'family', name: 'Family Favorites', emoji: '👨‍👩‍👧' }
   ];
 
   // Function to get recipes for each category
@@ -68,6 +66,17 @@ const Generate = () => {
     switch (categoryId) {
       case 'halloween':
         return allRecipes.filter(isHalloweenRecipe);
+      
+      case 'fall':
+        return allRecipes.filter(recipe => {
+          const ingredients = recipe.ingredients.map(i => i.item.toLowerCase()).join(' ');
+          const hasFallIngredient = ingredients.includes('pumpkin') || 
+            ingredients.includes('apple') || 
+            ingredients.includes('squash') || 
+            ingredients.includes('cinnamon') ||
+            ingredients.includes('nutmeg');
+          return (hasFallIngredient || recipe.tags?.includes('fall')) && !isHalloweenRecipe(recipe);
+        });
       
       case 'quick':
         return allRecipes.filter(recipe => {
@@ -82,7 +91,10 @@ const Generate = () => {
       
       case 'lunch':
         return allRecipes.filter(recipe => 
-          recipe.tags?.includes('lunch') && !isHalloweenRecipe(recipe)
+          (recipe.tags?.includes('lunch') || 
+           recipe.tags?.includes('sandwich') ||
+           recipe.tags?.includes('salad') ||
+           recipe.tags?.includes('wrap')) && !isHalloweenRecipe(recipe)
         );
       
       case 'dinner':
@@ -95,16 +107,12 @@ const Generate = () => {
           recipe.tags?.includes('dessert') && !isHalloweenRecipe(recipe)
         );
       
-      case 'snacks':
+      case 'onepot':
         return allRecipes.filter(recipe => 
-          recipe.tags?.includes('snack') && !isHalloweenRecipe(recipe)
-        );
-      
-      case 'comfort':
-        return allRecipes.filter(recipe => 
-          (recipe.cuisine.toLowerCase().includes('comfort') || 
-           recipe.tags?.includes('hearty') || 
-           recipe.tags?.includes('comfort')) && !isHalloweenRecipe(recipe)
+          (recipe.tags?.includes('one-pot') || 
+           recipe.tags?.includes('sheet-pan') || 
+           recipe.tags?.includes('air-fryer') ||
+           recipe.tags?.includes('casserole')) && !isHalloweenRecipe(recipe)
         );
       
       case 'bowls':
@@ -114,17 +122,10 @@ const Generate = () => {
            recipe.tags?.includes('healthy')) && !isHalloweenRecipe(recipe)
         );
       
-      case 'fresh':
-        return allRecipes.filter(recipe => 
-          (recipe.cuisine.toLowerCase().includes('salad') || 
-           recipe.tags?.includes('fresh') || 
-           recipe.tags?.includes('light')) && !isHalloweenRecipe(recipe)
-        );
-      
-      case 'kids':
+      case 'family':
         return allRecipes.filter(recipe => 
           (recipe.tags?.includes('kid-friendly') || 
-           recipe.tags?.includes('kids') || 
+           recipe.tags?.includes('family') || 
            recipe.difficulty.toLowerCase() === 'easy') && !isHalloweenRecipe(recipe)
         );
       
@@ -141,9 +142,6 @@ const Generate = () => {
            recipe.tags?.includes('leftovers') ||
            recipe.name.toLowerCase().includes('leftover')) && !isHalloweenRecipe(recipe)
         );
-      
-      case 'rated':
-        return allRecipes.filter(recipe => !isHalloweenRecipe(recipe)).slice(0, 12);
       
       default:
         return [];
@@ -421,18 +419,17 @@ const Generate = () => {
   if (collectionParam) {
     const categoryMapping: { [key: string]: string } = {
       'Halloween': 'halloween',
+      'Fall Favorites': 'fall',
       'Quick & Easy': 'quick',
       'Restaurant Copycats': 'copycat',
       'Breakfast': 'breakfast',
-      'Lunch': 'lunch',
+      'Lunch Ideas': 'lunch',
       'Dinner': 'dinner',
-      'Dessert': 'dessert',
-      'Snacks': 'snacks',
-      'Comfort Food': 'comfort',
+      'Desserts': 'dessert',
+      'One-Pot Wonders': 'onepot',
       'Healthy Bowls': 'bowls',
-      'Fresh & Light': 'fresh',
-      'Picky Eaters': 'kids',
-      'Leftovers Magic': 'leftover'
+      'Leftover Magic': 'leftover',
+      'Family Favorites': 'family'
     };
 
     const categoryId = categoryMapping[collectionParam];
@@ -510,20 +507,28 @@ const Generate = () => {
           </Button>
         </div>
 
-        {/* Collection Filter Badge */}
-        <div className="px-4 pt-4">
-          <div className="flex items-center justify-between bg-primary/10 border border-primary/20 rounded-xl px-4 py-3">
-            <div>
-              <p className="text-sm text-muted-foreground">Showing:</p>
-              <p className="font-bold">{collectionParam}</p>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => navigate('/discover')}
-            >
-              <X className="w-4 h-4" />
-            </Button>
+        {/* Category Filter Chips */}
+        <div className="px-4 pt-4 pb-2">
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
+            {categories.map((category) => {
+              const isActive = collectionParam === category.name;
+              return (
+                <button
+                  key={category.id}
+                  onClick={() => {
+                    navigate(`/discover?collection=${encodeURIComponent(category.name)}`);
+                    window.scrollTo(0, 0);
+                  }}
+                  className={`shrink-0 px-4 py-2 rounded-full font-medium text-sm transition-colors ${
+                    isActive 
+                      ? 'bg-primary text-white' 
+                      : 'bg-white border border-border text-foreground hover:bg-primary hover:text-white'
+                  }`}
+                >
+                  {category.emoji} {category.name}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -599,44 +604,21 @@ const Generate = () => {
         </Button>
       </div>
 
-      {/* Quick Filter Chips */}
+      {/* Category Filter Chips */}
       <div className="px-4 pt-4 pb-2">
         <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
-          <Badge 
-            variant="secondary" 
-            className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors shrink-0"
-            onClick={() => navigate('/discover?collection=Halloween')}
-          >
-            🎃 Halloween
-          </Badge>
-          <Badge 
-            variant="secondary" 
-            className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors shrink-0"
-            onClick={() => navigate('/discover?collection=Restaurant%20Copycats')}
-          >
-            🍔 Copycats
-          </Badge>
-          <Badge 
-            variant="secondary" 
-            className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors shrink-0"
-            onClick={() => navigate('/discover?collection=Quick%20%26%20Easy')}
-          >
-            ⚡ Quick & Easy
-          </Badge>
-          <Badge 
-            variant="secondary" 
-            className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors shrink-0"
-            onClick={() => navigate('/discover?collection=Fresh%20%26%20Light')}
-          >
-            🥬 Fresh & Light
-          </Badge>
-          <Badge 
-            variant="secondary" 
-            className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors shrink-0"
-            onClick={() => navigate('/discover?collection=Leftovers%20Magic')}
-          >
-            ♻️ Leftovers
-          </Badge>
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => {
+                navigate(`/discover?collection=${encodeURIComponent(category.name)}`);
+                window.scrollTo(0, 0);
+              }}
+              className="shrink-0 px-4 py-2 rounded-full font-medium text-sm transition-colors bg-white border border-border text-foreground hover:bg-primary hover:text-white"
+            >
+              {category.emoji} {category.name}
+            </button>
+          ))}
         </div>
       </div>
 
