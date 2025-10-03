@@ -53,6 +53,7 @@ const Index = () => {
   }, [searchInput, isSearching, combinedRecipes]);
 
   const handleSearch = () => {
+    console.log('Search button clicked with term:', searchInput);
     if (searchInput.trim()) {
       setIsSearching(true);
     }
@@ -100,11 +101,12 @@ const Index = () => {
               onSearchTrigger={handleSearch}
               variant="ghost"
               size="icon"
-              className="absolute right-[60px] top-1/2 -translate-y-1/2 h-10 w-10 p-2"
+              className="absolute right-[60px] top-1/2 -translate-y-1/2 h-10 w-10 p-2 z-10"
             />
             <Button 
+              type="button"
               size="icon"
-              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full h-10 w-10 p-3"
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full h-10 w-10 p-3 z-10"
               onClick={handleSearch}
             >
               <Sparkles className="w-5 h-5" />
