@@ -23,6 +23,29 @@ export const useSavedRecipes = () => {
   useEffect(() => {
     if (user) {
       fetchSavedRecipes();
+      
+      // Set up realtime subscription for saved_recipes
+      const channel = supabase
+        .channel('saved-recipes-changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'saved_recipes',
+            filter: `user_id=eq.${user.id}`
+          },
+          (payload) => {
+            console.log('Saved recipes changed:', payload);
+            // Refetch when any change occurs
+            fetchSavedRecipes();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
     } else {
       // For guests, load from localStorage
       loadFromLocalStorage();
