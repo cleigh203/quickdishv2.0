@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { User, ChefHat, Settings, Package } from "lucide-react";
+import { User, ChefHat, Settings, Package, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,10 +7,12 @@ import { BottomNav } from "@/components/BottomNav";
 import { PantryDialog } from "@/components/PantryDialog";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Profile = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
   const [isPantryDialogOpen, setIsPantryDialogOpen] = useState(false);
   const [isPremium, setIsPremium] = useState(() => {
     return localStorage.getItem('premiumUser') === 'true';
@@ -73,6 +75,13 @@ const Profile = () => {
     { label: "Shopping Lists", value: shoppingList.length, icon: User },
   ];
 
+  const handleLogout = async () => {
+    await signOut();
+    toast({
+      title: "Logged out successfully",
+    });
+  };
+
   return (
     <div className="min-h-screen pb-20 px-4">
       <div className="max-w-4xl mx-auto pt-8">
@@ -82,9 +91,47 @@ const Profile = () => {
           </div>
           <h1 className="text-4xl font-bold mb-2">Profile</h1>
           <p className="text-muted-foreground">
-            Your cooking journey with QuickDish AI
+            {user ? user.email : 'Your cooking journey with QuickDish AI'}
           </p>
         </div>
+
+        {user && (
+          <Card className="glass-card mb-6">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-bold mb-1">Account</h2>
+                  <p className="text-sm text-muted-foreground">{user.email}</p>
+                  {user.user_metadata?.display_name && (
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {user.user_metadata.display_name}
+                    </p>
+                  )}
+                </div>
+                <Button onClick={handleLogout} variant="outline" size="sm">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {!user && (
+          <Card className="glass-card mb-6">
+            <CardContent className="p-6">
+              <div className="text-center">
+                <h2 className="text-xl font-bold mb-2">Not Logged In</h2>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Sign in to save your recipes and sync across devices
+                </p>
+                <Button onClick={() => navigate('/auth')} className="w-full">
+                  Sign In / Sign Up
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {stats.map((stat) => {
