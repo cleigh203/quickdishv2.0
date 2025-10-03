@@ -97,7 +97,7 @@ const Index = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {[
               { name: 'Quick & Easy', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80' },
-              { name: 'Fall Favorites', image: 'https://images.unsplash.com/photo-1570145820404-cf22b115bc5f?w=400&q=80' },
+              { name: 'Fall Favorites', image: 'https://images.unsplash.com/photo-1535920527002-b35e96722eb9?w=400&q=80' },
               { name: 'Family Favorites', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80' },
               { name: 'One-Pot Wonders', image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=80' },
               { name: 'Healthy Bowls', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80' },
