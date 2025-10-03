@@ -150,6 +150,7 @@ function toast({ ...props }: Toast) {
       ...props,
       id,
       open: true,
+      duration: 1000, // Auto-dismiss after 1 second
       onOpenChange: (open) => {
         if (!open) dismiss();
       },
