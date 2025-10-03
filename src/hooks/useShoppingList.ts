@@ -70,7 +70,7 @@ export const useShoppingList = () => {
       } else {
         setListId(lists[0].id);
         const items = lists[0].items;
-        setShoppingList((items as ShoppingItem[]) || []);
+        setShoppingList(Array.isArray(items) ? items as unknown as ShoppingItem[] : []);
       }
     } catch (err: any) {
       console.error('Error fetching shopping list:', err);
