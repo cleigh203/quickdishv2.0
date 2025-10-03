@@ -1,22 +1,58 @@
 import { useNavigate } from "react-router-dom";
-import { Sparkles, Heart, ShoppingCart, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { Sparkles, X } from "lucide-react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { BottomNav } from "@/components/BottomNav";
 import { getFreeHalloweenRecipes } from "@/data/halloweenRecipes";
 import { RecipeCard } from "@/components/RecipeCard";
 import poisonAppleCocktail from "@/assets/recipes/poison-apple-cocktail.jpg";
+import { allRecipes } from "@/data/recipes";
+import type { Recipe } from "@/types/recipe";
 
 const Index = () => {
   const navigate = useNavigate();
   const [showHalloweenRecipes, setShowHalloweenRecipes] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleRecipeClick = (recipeId: string) => {
     navigate(`/recipe/${recipeId}`);
   };
 
   const freeHalloweenRecipes = getFreeHalloweenRecipes();
+
+  // Filter recipes by ingredients
+  const filteredRecipes = useMemo(() => {
+    if (!isSearching || !searchInput.trim()) return [];
+
+    const searchTerms = searchInput
+      .toLowerCase()
+      .split(/[\s,]+/)
+      .filter(term => term.length > 0);
+
+    if (searchTerms.length === 0) return [];
+
+    return allRecipes.filter(recipe => {
+      const recipeIngredients = recipe.ingredients
+        .map(ing => ing.item.toLowerCase())
+        .join(" ");
+
+      return searchTerms.every(term =>
+        recipeIngredients.includes(term)
+      );
+    });
+  }, [searchInput, isSearching]);
+
+  const handleSearch = () => {
+    if (searchInput.trim()) {
+      setIsSearching(true);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput("");
+    setIsSearching(false);
+  };
 
   return (
     <div className="min-h-screen pb-20 bg-background">
@@ -36,7 +72,7 @@ const Index = () => {
           </p>
           
           {/* Glassmorphic Search Bar */}
-          <div className="w-full max-w-xl glass-card rounded-2xl p-2 flex items-center gap-2 hover:shadow-xl transition-all">
+          <div className="w-full max-w-xl glass-card rounded-2xl p-2 flex items-center gap-2 hover:shadow-xl transition-all mx-auto">
             <input
               type="text"
               value={searchInput}
@@ -44,9 +80,7 @@ const Index = () => {
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   e.preventDefault();
-                  if (searchInput.trim()) {
-                    navigate(`/discover?ingredients=${encodeURIComponent(searchInput)}`);
-                  }
+                  handleSearch();
                 }
               }}
               placeholder="What's in your fridge?"
@@ -55,12 +89,7 @@ const Index = () => {
             <Button 
               size="lg" 
               className="rounded-xl h-14 w-14 flex-shrink-0"
-              onClick={(e) => {
-                e.preventDefault();
-                if (searchInput.trim()) {
-                  navigate(`/discover?ingredients=${encodeURIComponent(searchInput)}`);
-                }
-              }}
+              onClick={handleSearch}
             >
               <Sparkles className="w-5 h-5" />
             </Button>
@@ -69,9 +98,45 @@ const Index = () => {
       </div>
 
       <div className="max-w-6xl mx-auto px-6">
+        {/* Search Results */}
+        {isSearching && (
+          <div className="mb-12">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold">
+                Search Results {filteredRecipes.length > 0 && `(${filteredRecipes.length})`}
+              </h2>
+              <Button 
+                variant="outline" 
+                onClick={handleClearSearch}
+                className="gap-2"
+              >
+                <X className="w-4 h-4" />
+                Clear Search
+              </Button>
+            </div>
+            
+            {filteredRecipes.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredRecipes.map((recipe) => (
+                  <RecipeCard
+                    key={recipe.id}
+                    recipe={recipe}
+                    onClick={() => handleRecipeClick(recipe.id)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground text-lg">
+                  No recipes found with these ingredients. Try different ingredients.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Halloween Recipes Grid */}
-        {showHalloweenRecipes && (
+        {!isSearching && showHalloweenRecipes && (
           <div className="mb-12">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold">🦇 Spooky Specials</h3>
@@ -92,8 +157,9 @@ const Index = () => {
         )}
 
         {/* Featured Collections */}
-        <div className="mb-12">
-          <h2 className="section-header">Featured Collections</h2>
+        {!isSearching && (
+          <div className="mb-12">
+            <h2 className="section-header">Featured Collections</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {[
               { name: 'Quick & Easy', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80' },
@@ -121,10 +187,12 @@ const Index = () => {
               </div>
             ))}
           </div>
-        </div>
+          </div>
+        )}
 
         {/* Featured Collection - Large Cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-20">
+        {!isSearching && (
+          <div className="grid md:grid-cols-2 gap-6 mb-20">
           {/* Halloween Recipe Drop */}
           <div
             className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer clickable-card"
@@ -172,8 +240,8 @@ const Index = () => {
               </p>
             </div>
           </div>
-        </div>
-
+          </div>
+        )}
       </div>
 
       <BottomNav />
