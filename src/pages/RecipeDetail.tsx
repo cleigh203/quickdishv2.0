@@ -10,9 +10,10 @@ import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
 import CookingMode from "@/components/CookingMode";
-import { ingredientsToShoppingItems, deduplicateShoppingList } from "@/utils/shoppingListUtils";
+import { ingredientsToShoppingItems } from "@/utils/shoppingListUtils";
 import { allRecipes } from "@/data/recipes";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
+import { useShoppingList } from "@/hooks/useShoppingList";
 import { RecipeNotesDialog } from "@/components/RecipeNotesDialog";
 
 const RecipeDetail = () => {
@@ -20,6 +21,7 @@ const RecipeDetail = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { isSaved, saveRecipe, unsaveRecipe, savedRecipes, updateRecipeNotes } = useSavedRecipes();
+  const { addItems } = useShoppingList();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [servingMultiplier, setServingMultiplier] = useState(1);
   const [cookingMode, setCookingMode] = useState(false);
@@ -67,17 +69,12 @@ const RecipeDetail = () => {
   const addToShoppingList = () => {
     if (!recipe) return;
     
-    // Get current shopping list from localStorage
-    const currentList = JSON.parse(localStorage.getItem('shoppingList') || '[]');
-    
-    // Convert recipe ingredients to shopping items
+    // Convert recipe ingredients to shopping items format
     const newItems = ingredientsToShoppingItems(recipe.ingredients, recipe.name);
     
-    // Combine with existing list and deduplicate
-    const combinedList = [...currentList, ...newItems];
-    const deduplicatedList = deduplicateShoppingList(combinedList);
+    // Add to shopping list via hook
+    addItems(newItems);
     
-    localStorage.setItem('shoppingList', JSON.stringify(deduplicatedList));
     toast({
       title: "Added to shopping list! 🛒",
       description: `${recipe.name} ingredients added`,

@@ -9,6 +9,7 @@ import { recipeStorage } from "@/utils/recipeStorage";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
+import { useShoppingList } from "@/hooks/useShoppingList";
 
 const Profile = () => {
   const { toast } = useToast();
@@ -25,7 +26,7 @@ const Profile = () => {
 
   const recipes = recipeStorage.getRecipes();
   const { savedRecipes } = useSavedRecipes();
-  const shoppingList = recipeStorage.getShoppingList();
+  const { shoppingList } = useShoppingList();
   
   // Lazy load pantry count
   const pantryCount = (() => {

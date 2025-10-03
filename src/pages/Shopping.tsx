@@ -1,9 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
-import { Printer, Package, Store } from "lucide-react";
+import { Printer, Package, Store, Loader2 } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { PantryDialog } from "@/components/PantryDialog";
 import { StoreSelectionDialog } from "@/components/StoreSelectionDialog";
 import { useToast } from "@/hooks/use-toast";
+import { useShoppingList } from "@/hooks/useShoppingList";
 import { Switch } from "@/components/ui/switch";
 import {
   AlertDialog,
@@ -57,15 +58,7 @@ const categorizeItem = (itemName: string): { emoji: string; name: string } => {
 };
 
 const Shopping = () => {
-  // ✅ Lazy initialization for localStorage (v7 compliant)
-  const [shoppingList, setShoppingList] = useState<ShoppingItem[]>(() => {
-    try {
-      const saved = localStorage.getItem('shoppingList');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
+  const { shoppingList, loading, saving, toggleItem, removeItem: removeFromList, clearCompleted, clearAll, setList } = useShoppingList();
   
   const [pantryItems, setPantryItems] = useState<PantryItem[]>(() => {
     try {
@@ -82,12 +75,7 @@ const Shopping = () => {
   const [showStoreDialog, setShowStoreDialog] = useState(false);
   const { toast } = useToast();
 
-  // ✅ Save to localStorage in useEffect only (v7 compliant)
-  useEffect(() => {
-    localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
-  }, [shoppingList]);
-
-  // ✅ Load pantry changes (v7 compliant)
+  // Load pantry changes
   useEffect(() => {
     const handleStorageChange = () => {
       try {
@@ -104,7 +92,7 @@ const Shopping = () => {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  // ✅ Check for all items checked in useEffect (v7 compliant)
+  // Check for all items checked
   useEffect(() => {
     const allChecked = shoppingList.length > 0 && shoppingList.every(item => item.checked);
     if (allChecked && !showClearDialog) {
@@ -112,26 +100,18 @@ const Shopping = () => {
     }
   }, [shoppingList, showClearDialog]);
 
-  const toggleItem = (id: number) => {
-    setShoppingList(prev => 
-      prev.map(item => 
-        item.id === id ? { ...item, checked: !item.checked } : item
-      )
-    );
-  };
-
   const removeItem = (id: number) => {
-    setShoppingList(prev => prev.filter(item => item.id !== id));
+    removeFromList(id);
     toast({ title: "Removed from shopping list" });
   };
 
-  const clearCompleted = () => {
-    setShoppingList(prev => prev.filter(item => !item.checked));
+  const handleClearCompleted = () => {
+    clearCompleted();
     toast({ title: "Cleared completed items" });
   };
 
-  const clearAll = () => {
-    setShoppingList([]);
+  const handleClearAll = () => {
+    clearAll();
     setShowClearDialog(false);
     toast({ title: "Shopping list cleared!" });
   };
@@ -149,7 +129,7 @@ const Shopping = () => {
     setPantryItems(updatedPantry);
     
     // Remove checked items from shopping list
-    setShoppingList(prev => prev.filter(item => !item.checked));
+    setList(shoppingList.filter(item => !item.checked));
     
     toast({ 
       title: `Added ${newPantryItems.length} items to pantry`,
@@ -201,6 +181,17 @@ const Shopping = () => {
   const totalItems = displayList.length;
   const checkedItems = displayList.filter(item => item.checked).length;
   const progressPercentage = totalItems > 0 ? (checkedItems / totalItems) * 100 : 0;
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-primary animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading shopping list...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -360,12 +351,12 @@ const Shopping = () => {
                 {/* Quick Actions at Bottom */}
                 {checkedItems > 0 && (
                   <div className="bg-white px-5 py-4 border-t-2 border-gray-200 flex gap-3">
-                    <button
-                      onClick={clearCompleted}
-                      className="flex-1 h-11 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all"
-                    >
-                      Clear Completed ({checkedItems})
-                    </button>
+                  <button
+                    onClick={handleClearCompleted}
+                    className="flex-1 h-11 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all"
+                  >
+                    Clear Completed ({checkedItems})
+                  </button>
                     <button
                       onClick={handleAddAllToPantry}
                       className="flex-1 h-11 bg-[#FF6B35] text-white rounded-xl font-medium hover:bg-[#E55A2B] transition-all"
@@ -403,7 +394,7 @@ const Shopping = () => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Keep List</AlertDialogCancel>
-          <AlertDialogAction onClick={clearAll}>Clear List</AlertDialogAction>
+          <AlertDialogAction onClick={handleClearAll}>Clear List</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
