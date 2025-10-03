@@ -14,7 +14,141 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      meal_plans: {
+        Row: {
+          created_at: string
+          id: string
+          meal_type: string
+          recipe_id: string
+          scheduled_date: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          meal_type: string
+          recipe_id: string
+          scheduled_date: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          meal_type?: string
+          recipe_id?: string
+          scheduled_date?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meal_plans_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          dietary_preferences: string[] | null
+          display_name: string | null
+          favorite_cuisines: string[] | null
+          id: string
+          skill_level: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          dietary_preferences?: string[] | null
+          display_name?: string | null
+          favorite_cuisines?: string[] | null
+          id: string
+          skill_level?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          dietary_preferences?: string[] | null
+          display_name?: string | null
+          favorite_cuisines?: string[] | null
+          id?: string
+          skill_level?: string | null
+        }
+        Relationships: []
+      }
+      saved_recipes: {
+        Row: {
+          id: string
+          notes: string | null
+          rating: number | null
+          recipe_id: string
+          saved_at: string
+          times_cooked: number
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          notes?: string | null
+          rating?: number | null
+          recipe_id: string
+          saved_at?: string
+          times_cooked?: number
+          user_id: string
+        }
+        Update: {
+          id?: string
+          notes?: string | null
+          rating?: number | null
+          recipe_id?: string
+          saved_at?: string
+          times_cooked?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_recipes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shopping_lists: {
+        Row: {
+          created_at: string
+          id: string
+          items: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          items?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          items?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shopping_lists_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
