@@ -59,6 +59,7 @@ export type Database = {
           id: string
           is_premium: boolean
           learning_goals: string[] | null
+          pantry_items: string[] | null
           skill_level: string | null
         }
         Insert: {
@@ -70,6 +71,7 @@ export type Database = {
           id: string
           is_premium?: boolean
           learning_goals?: string[] | null
+          pantry_items?: string[] | null
           skill_level?: string | null
         }
         Update: {
@@ -81,6 +83,7 @@ export type Database = {
           id?: string
           is_premium?: boolean
           learning_goals?: string[] | null
+          pantry_items?: string[] | null
           skill_level?: string | null
         }
         Relationships: []

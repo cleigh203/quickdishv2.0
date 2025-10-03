@@ -11,91 +11,105 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { PantryItem, PANTRY_CATEGORIES } from "@/types/pantry";
-import { groupPantryByCategory } from "@/utils/pantryUtils";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface PantryDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onUpdate?: () => void;
 }
 
-export const PantryDialog = ({ open, onOpenChange }: PantryDialogProps) => {
-  const [pantryItems, setPantryItems] = useState<PantryItem[]>(() => {
-    try {
-      const saved = localStorage.getItem('pantryItems');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
-
+export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps) => {
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [pantryItems, setPantryItems] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [newItemName, setNewItemName] = useState("");
-  const [newItemQuantity, setNewItemQuantity] = useState("");
-  const [newItemUnit, setNewItemUnit] = useState("unit");
-  const [newItemCategory, setNewItemCategory] = useState<PantryItem['category']>("other");
-  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('pantryItems', JSON.stringify(pantryItems));
-  }, [pantryItems]);
+    if (open && user) {
+      loadPantryItems();
+    }
+  }, [open, user]);
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      try {
-        const saved = localStorage.getItem('pantryItems');
-        if (saved) {
-          setPantryItems(JSON.parse(saved));
-        }
-      } catch (error) {
-        console.error('Failed to load pantry items:', error);
-      }
-    };
+  const loadPantryItems = async () => {
+    if (!user) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('pantry_items')
+        .eq('id', user.id)
+        .single();
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
+      if (error) throw error;
+      setPantryItems(data?.pantry_items || []);
+    } catch (error) {
+      console.error('Error loading pantry items:', error);
+    }
+  };
 
-  const handleAddItem = () => {
+  const handleAddItem = async () => {
     if (!newItemName.trim()) {
       toast({ title: "Please enter an item name", variant: "destructive" });
       return;
     }
 
-    const newItem: PantryItem = {
-      id: `pantry-${Date.now()}-${Math.random()}`,
-      name: newItemName.trim(),
-      quantity: parseFloat(newItemQuantity) || 1,
-      unit: newItemUnit,
-      category: newItemCategory,
-      addedDate: new Date().toISOString(),
-    };
+    if (!user) return;
 
-    setPantryItems(prev => [...prev, newItem]);
-    setNewItemName("");
-    setNewItemQuantity("");
-    setNewItemUnit("unit");
-    setNewItemCategory("other");
-    toast({ title: "Item added to pantry" });
+    setLoading(true);
+    try {
+      const updatedItems = [...pantryItems, newItemName.trim()];
+      
+      const { error } = await supabase
+        .from('profiles')
+        .update({ pantry_items: updatedItems })
+        .eq('id', user.id);
+
+      if (error) throw error;
+
+      setPantryItems(updatedItems);
+      setNewItemName("");
+      toast({ title: "Item added to pantry" });
+      onUpdate?.();
+    } catch (error) {
+      console.error('Error adding item:', error);
+      toast({ title: "Failed to add item", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleDeleteItem = (id: string) => {
-    setPantryItems(prev => prev.filter(item => item.id !== id));
-    toast({ title: "Removed from pantry" });
+  const handleDeleteItem = async (item: string) => {
+    if (!user) return;
+
+    setLoading(true);
+    try {
+      const updatedItems = pantryItems.filter(i => i !== item);
+      
+      const { error } = await supabase
+        .from('profiles')
+        .update({ pantry_items: updatedItems })
+        .eq('id', user.id);
+
+      if (error) throw error;
+
+      setPantryItems(updatedItems);
+      toast({ title: "Removed from pantry" });
+      onUpdate?.();
+    } catch (error) {
+      console.error('Error removing item:', error);
+      toast({ title: "Failed to remove item", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const filteredItems = pantryItems.filter(item =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    item.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const groupedItems = groupPantryByCategory(filteredItems);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -123,49 +137,43 @@ export const PantryDialog = ({ open, onOpenChange }: PantryDialogProps) => {
           <Card>
             <CardContent className="p-4">
               <h3 className="font-semibold mb-3">Add New Item</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="flex gap-2">
                 <Input
-                  placeholder="Item name"
+                  placeholder="Item name (e.g., flour, eggs, butter)"
                   value={newItemName}
                   onChange={(e) => setNewItemName(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleAddItem()}
+                  disabled={loading}
+                  className="flex-1"
                 />
-                <div className="flex gap-2">
-                  <Input
-                    type="number"
-                    placeholder="Qty"
-                    value={newItemQuantity}
-                    onChange={(e) => setNewItemQuantity(e.target.value)}
-                    className="w-20"
-                  />
-                  <Input
-                    placeholder="Unit"
-                    value={newItemUnit}
-                    onChange={(e) => setNewItemUnit(e.target.value)}
-                    className="flex-1"
-                  />
-                </div>
-                <Select value={newItemCategory} onValueChange={(value: any) => setNewItemCategory(value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {PANTRY_CATEGORIES.map(cat => (
-                      <SelectItem key={cat.value} value={cat.value}>
-                        {cat.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Button onClick={handleAddItem} className="w-full md:w-auto">
+                <Button onClick={handleAddItem} disabled={loading}>
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Item
+                  Add
                 </Button>
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="text-xs text-muted-foreground">Quick add:</span>
+                {['Flour', 'Sugar', 'Eggs', 'Butter', 'Oil', 'Salt', 'Pepper'].map((item) => (
+                  <Button
+                    key={item}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setNewItemName(item);
+                      setTimeout(() => handleAddItem(), 100);
+                    }}
+                    disabled={loading}
+                    className="text-xs h-7"
+                  >
+                    {item}
+                  </Button>
+                ))}
               </div>
             </CardContent>
           </Card>
 
-          {/* Pantry Items by Category */}
-          {Object.keys(groupedItems).length === 0 ? (
+          {/* Pantry Items List */}
+          {filteredItems.length === 0 ? (
             <Card>
               <CardContent className="p-8 text-center">
                 <Package className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
@@ -175,43 +183,32 @@ export const PantryDialog = ({ open, onOpenChange }: PantryDialogProps) => {
               </CardContent>
             </Card>
           ) : (
-            <div className="space-y-4">
-              {Object.entries(groupedItems).map(([category, items]) => {
-                const categoryLabel = PANTRY_CATEGORIES.find(c => c.value === category)?.label || category;
-                return (
-                  <Card key={category}>
-                    <CardContent className="p-4">
-                      <h3 className="font-semibold mb-3 flex items-center gap-2">
-                        {categoryLabel}
-                        <Badge variant="secondary">{items.length}</Badge>
-                      </h3>
-                      <div className="space-y-2">
-                        {items.map(item => (
-                          <div
-                            key={item.id}
-                            className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50"
-                          >
-                            <div className="flex-1">
-                              <span className="font-medium">{item.name}</span>
-                              <span className="text-sm text-muted-foreground ml-2">
-                                ({item.quantity} {item.unit})
-                              </span>
-                            </div>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => handleDeleteItem(item.id)}
-                            >
-                              <Trash2 className="h-4 w-4 text-destructive" />
-                            </Button>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
+            <Card>
+              <CardContent className="p-4">
+                <h3 className="font-semibold mb-3 flex items-center gap-2">
+                  Pantry Items
+                  <Badge variant="secondary">{filteredItems.length}</Badge>
+                </h3>
+                <div className="space-y-2">
+                  {filteredItems.map(item => (
+                    <div
+                      key={item}
+                      className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50"
+                    >
+                      <span className="font-medium">{item}</span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDeleteItem(item)}
+                        disabled={loading}
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           )}
         </div>
       </DialogContent>

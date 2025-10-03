@@ -33,6 +33,7 @@ interface ProfileData {
   favorite_cuisines: string[] | null;
   learning_goals: string[] | null;
   is_premium: boolean;
+  pantry_items: string[] | null;
 }
 
 const Profile = () => {
@@ -58,16 +59,6 @@ const Profile = () => {
   const recipes = recipeStorage.getRecipes();
   const { savedRecipes } = useSavedRecipes();
   const { shoppingList } = useShoppingList();
-  
-  // Lazy load pantry count
-  const pantryCount = (() => {
-    try {
-      const saved = localStorage.getItem('pantryItems');
-      return saved ? JSON.parse(saved).length : 0;
-    } catch {
-      return 0;
-    }
-  })();
 
   // Fetch profile data
   const fetchProfile = async () => {
@@ -253,10 +244,10 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen pb-24 bg-gradient-to-b from-background to-muted/20">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-orange-500 text-white py-8 px-4 mb-8">
+      {/* Header - Orange Gradient matching My Kitchen */}
+      <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-red-500 text-white py-12 px-4 mb-8">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold">Profile</h1>
+          <h1 className="text-4xl font-bold">Profile</h1>
         </div>
       </div>
 
@@ -323,12 +314,15 @@ const Profile = () => {
             </CardContent>
           </Card>
           
-          <Card className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow">
+          <Card 
+            className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => setIsPantryDialogOpen(true)}
+          >
             <CardContent className="p-6 text-center">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 mb-3">
                 <Package className="w-6 h-6 text-orange-600" />
               </div>
-              <p className="text-4xl font-bold text-gray-900 mb-1">{pantryCount}</p>
+              <p className="text-4xl font-bold text-gray-900 mb-1">{profileData?.pantry_items?.length || 0}</p>
               <p className="text-sm text-gray-600">Pantry Items</p>
             </CardContent>
           </Card>
@@ -460,6 +454,7 @@ const Profile = () => {
       <PantryDialog 
         open={isPantryDialogOpen} 
         onOpenChange={setIsPantryDialogOpen}
+        onUpdate={fetchProfile}
       />
 
       <EditProfileDialog
