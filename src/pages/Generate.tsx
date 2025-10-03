@@ -302,17 +302,22 @@ const Generate = () => {
           onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
         />
 
-        {/* Top Bar */}
-        <div className="sticky top-0 bg-background border-b px-4 py-4 flex items-center justify-between z-10">
-          <div className="w-10"></div>
-          <h1 className="text-xl font-bold">Search Results</h1>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setShowSearchOverlay(true)}
-          >
-            <Search className="w-5 h-5" />
-          </Button>
+        {/* Header */}
+        <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-8 px-4">
+          <div className="max-w-lg mx-auto flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">Discover</h1>
+              <p className="text-white/90">Explore recipes for every occasion</p>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowSearchOverlay(true)}
+              className="text-white hover:bg-white/20"
+            >
+              <Search className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
 
         {/* Active Filters */}
@@ -520,17 +525,22 @@ const Generate = () => {
           onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
         />
 
-        {/* Top Bar */}
-        <div className="sticky top-0 bg-background border-b px-4 py-4 flex items-center justify-between z-10">
-          <div className="w-10"></div>
-          <h1 className="text-xl font-bold">Discover</h1>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setShowSearchOverlay(true)}
-          >
-            <Search className="w-5 h-5" />
-          </Button>
+        {/* Header */}
+        <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-8 px-4">
+          <div className="max-w-lg mx-auto flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">Discover</h1>
+              <p className="text-white/90">Explore recipes for every occasion</p>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowSearchOverlay(true)}
+              className="text-white hover:bg-white/20"
+            >
+              <Search className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
 
         {/* Category Filter Chips */}
@@ -617,17 +627,22 @@ const Generate = () => {
         onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
       />
 
-      {/* Top Bar */}
-      <div className="sticky top-0 bg-background border-b px-4 py-4 flex items-center justify-between z-10">
-        <div className="w-10"></div>
-        <h1 className="text-xl font-bold">Discover</h1>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setShowSearchOverlay(true)}
-        >
-          <Search className="w-5 h-5" />
-        </Button>
+      {/* Header */}
+      <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-8 px-4">
+        <div className="max-w-lg mx-auto flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Discover</h1>
+            <p className="text-white/90">Explore recipes for every occasion</p>
+          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setShowSearchOverlay(true)}
+            className="text-white hover:bg-white/20"
+          >
+            <Search className="w-5 h-5" />
+          </Button>
+        </div>
       </div>
 
       {/* Category Filter Chips */}
