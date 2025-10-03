@@ -11,12 +11,14 @@ import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
 import { allRecipes } from "@/data/recipes";
 import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
+import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 
 const Generate = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { saveRecipe, isSaved } = useSavedRecipes();
+  const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
   
   // Search overlay state
   const [showSearchOverlay, setShowSearchOverlay] = useState(false);
@@ -31,6 +33,9 @@ const Generate = () => {
   const collectionParam = searchParams.get('collection');
   const ingredientsParam = searchParams.get('ingredients');
   
+  // Combine static recipes with user's generated recipes
+  const combinedRecipes = [...allRecipes, ...generatedRecipes];
+
   // Load all recipes into storage on mount
   useEffect(() => {
     const existingRecipes = recipeStorage.getRecipes();
@@ -66,10 +71,10 @@ const Generate = () => {
 
     switch (categoryId) {
       case 'halloween':
-        return allRecipes.filter(isHalloweenRecipe);
+        return combinedRecipes.filter(isHalloweenRecipe);
       
       case 'fall':
-        return allRecipes.filter(recipe => {
+        return combinedRecipes.filter(recipe => {
           const ingredients = recipe.ingredients.map(i => i.item.toLowerCase()).join(' ');
           const hasFallIngredient = ingredients.includes('pumpkin') || 
             ingredients.includes('apple') || 
@@ -80,18 +85,18 @@ const Generate = () => {
         });
       
       case 'quick':
-        return allRecipes.filter(recipe => {
+        return combinedRecipes.filter(recipe => {
           const prepTimeNum = parseInt(recipe.prepTime) || 0;
           return (prepTimeNum <= 30 || recipe.tags?.includes('quick')) && !isHalloweenRecipe(recipe);
         });
       
       case 'breakfast':
-        return allRecipes.filter(recipe => 
+        return combinedRecipes.filter(recipe =>
           recipe.tags?.includes('breakfast') && !isHalloweenRecipe(recipe)
         );
       
       case 'lunch':
-        return allRecipes.filter(recipe => 
+        return combinedRecipes.filter(recipe =>
           (recipe.tags?.includes('lunch') || 
            recipe.tags?.includes('sandwich') ||
            recipe.tags?.includes('salad') ||
@@ -99,17 +104,17 @@ const Generate = () => {
         );
       
       case 'dinner':
-        return allRecipes.filter(recipe => 
+        return combinedRecipes.filter(recipe =>
           recipe.tags?.includes('dinner') && !isHalloweenRecipe(recipe)
         );
       
       case 'dessert':
-        return allRecipes.filter(recipe => 
+        return combinedRecipes.filter(recipe =>
           recipe.tags?.includes('dessert') && !isHalloweenRecipe(recipe)
         );
       
       case 'onepot':
-        return allRecipes.filter(recipe => 
+        return combinedRecipes.filter(recipe =>
           (recipe.tags?.includes('one-pot') || 
            recipe.tags?.includes('sheet-pan') || 
            recipe.tags?.includes('air-fryer') ||
@@ -117,28 +122,28 @@ const Generate = () => {
         );
       
       case 'bowls':
-        return allRecipes.filter(recipe => 
+        return combinedRecipes.filter(recipe =>
           (recipe.cuisine.toLowerCase().includes('bowl') || 
            recipe.tags?.includes('bowls') || 
            recipe.tags?.includes('healthy')) && !isHalloweenRecipe(recipe)
         );
       
       case 'family':
-        return allRecipes.filter(recipe => 
+        return combinedRecipes.filter(recipe =>
           (recipe.tags?.includes('kid-friendly') || 
            recipe.tags?.includes('family') || 
            recipe.difficulty.toLowerCase() === 'easy') && !isHalloweenRecipe(recipe)
         );
       
       case 'copycat':
-        return allRecipes.filter(recipe => 
+        return combinedRecipes.filter(recipe =>
           (recipe.cuisine.toLowerCase().includes('copycat') || 
            recipe.tags?.includes('copycat') ||
            recipe.name.toLowerCase().includes('copycat')) && !isHalloweenRecipe(recipe)
         );
       
       case 'leftover':
-        return allRecipes.filter(recipe => 
+        return combinedRecipes.filter(recipe =>
           (recipe.cuisine.toLowerCase().includes('leftover') || 
            recipe.tags?.includes('leftovers') ||
            recipe.name.toLowerCase().includes('leftover')) && !isHalloweenRecipe(recipe)
@@ -219,7 +224,7 @@ const Generate = () => {
       recipe.cuisine?.toLowerCase() === 'halloween' || 
       recipe.tags?.includes('halloween') || false;
 
-    let filtered = allRecipes.filter(recipe => {
+    let filtered = combinedRecipes.filter(recipe => {
       // Exclude Halloween from search results
       if (isHalloweenRecipe(recipe)) return false;
 
@@ -292,7 +297,7 @@ const Generate = () => {
           toggleFilter={toggleFilter}
           clearFilters={clearFilters}
           onSearch={handleSearch}
-          recipes={allRecipes}
+          recipes={combinedRecipes}
           onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
         />
 
@@ -375,7 +380,8 @@ const Generate = () => {
             <div className="max-w-md mx-auto">
               <AiGenerationPrompt 
                 searchTerm={searchQuery || ingredientInput || ingredientsParam || 'recipe'}
-                onRecipeGenerated={(recipe) => {
+                onRecipeGenerated={async (recipe) => {
+                  await refetchGeneratedRecipes();
                   navigate(`/recipe/${recipe.id}`);
                 }}
               />
@@ -446,7 +452,7 @@ const Generate = () => {
     let collectionRecipes: Recipe[] = [];
 
     if (categoryId === 'leftover') {
-      collectionRecipes = allRecipes.filter(recipe => 
+      collectionRecipes = combinedRecipes.filter(recipe =>
         recipe.cuisine.toLowerCase().includes('leftover') || 
         recipe.tags?.includes('leftovers') || 
         recipe.name.toLowerCase().includes('leftover')

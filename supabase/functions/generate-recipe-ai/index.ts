@@ -184,6 +184,36 @@ Return ONLY the JSON object, no other text.`;
     recipe.image = imageUrl || `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80`;
     recipe.imageUrl = recipe.image;
 
+    // Save recipe to database BEFORE returning to user
+    console.log('Saving generated recipe to database...');
+    const { data: savedRecipe, error: saveError } = await supabaseClient
+      .from('generated_recipes')
+      .insert({
+        user_id: userId,
+        recipe_id: recipe.id,
+        name: recipe.name,
+        description: recipe.description,
+        ingredients: recipe.ingredients,
+        instructions: recipe.instructions,
+        prep_time: recipe.prepTime,
+        cook_time: recipe.cookTime,
+        servings: recipe.servings,
+        difficulty: recipe.difficulty,
+        cuisine: recipe.cuisine,
+        image_url: recipe.imageUrl,
+        nutrition: recipe.nutrition || null,
+        tags: recipe.tags || []
+      })
+      .select()
+      .single();
+
+    if (saveError) {
+      console.error('Failed to save generated recipe:', saveError);
+      throw new Error('Failed to save recipe to database');
+    }
+
+    console.log('Recipe saved successfully:', savedRecipe);
+
     // Update user's generation count
     const { error: updateError } = await supabaseClient
       .from('profiles')

@@ -13,6 +13,7 @@ import CookingMode from "@/components/CookingMode";
 import { ingredientsToShoppingItems } from "@/utils/shoppingListUtils";
 import { allRecipes } from "@/data/recipes";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
+import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useShoppingList } from "@/hooks/useShoppingList";
 import { RecipeNotesDialog } from "@/components/RecipeNotesDialog";
 import { PremiumPaywallModal } from "@/components/PremiumPaywallModal";
@@ -34,6 +35,7 @@ const RecipeDetail = () => {
   const { isSaved, saveRecipe, unsaveRecipe, savedRecipes, updateRecipeNotes } = useSavedRecipes();
   const { addItems } = useShoppingList();
   const { addMealPlan } = useMealPlan();
+  const { generatedRecipes } = useGeneratedRecipes();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [servingMultiplier, setServingMultiplier] = useState(1);
   const [cookingMode, setCookingMode] = useState(false);
@@ -51,8 +53,11 @@ const RecipeDetail = () => {
 
   useEffect(() => {
     if (id) {
-      // Load from source recipes first (hardcoded recipes with correct images)
-      let foundRecipe = allRecipes.find(r => r.id === id);
+      // Combine all recipe sources
+      const combinedRecipes = [...allRecipes, ...generatedRecipes];
+      
+      // Load from combined recipes (including generated recipes)
+      let foundRecipe = combinedRecipes.find(r => r.id === id);
       
       // Fall back to localStorage for user-generated recipes
       if (!foundRecipe) {
@@ -83,7 +88,7 @@ const RecipeDetail = () => {
         navigate('/generate');
       }
     }
-  }, [id, navigate]);
+  }, [id, navigate, generatedRecipes]);
 
   const toggleFavorite = async () => {
     if (!recipe) return;

@@ -6,7 +6,6 @@ import { useAiRecipeGeneration } from '@/hooks/useAiRecipeGeneration';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Recipe } from '@/types/recipe';
-import { recipeStorage } from '@/utils/recipeStorage';
 
 interface AiGenerationPromptProps {
   searchTerm: string;
@@ -44,10 +43,7 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
 
     const recipe = await generateRecipe(searchTerm);
     if (recipe) {
-      // Save to local storage
-      const existingRecipes = recipeStorage.getRecipes();
-      recipeStorage.setRecipes([recipe, ...existingRecipes]);
-      
+      // Recipe is now saved in database, just notify parent
       onRecipeGenerated(recipe);
     }
   };

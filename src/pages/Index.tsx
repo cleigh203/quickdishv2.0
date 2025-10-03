@@ -11,18 +11,23 @@ import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import poisonAppleCocktail from "@/assets/recipes/poison-apple-cocktail.jpg";
 import { allRecipes } from "@/data/recipes";
 import type { Recipe } from "@/types/recipe";
+import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 
 const Index = () => {
   const navigate = useNavigate();
   const [showHalloweenRecipes, setShowHalloweenRecipes] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+  const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
 
   const handleRecipeClick = (recipeId: string) => {
     navigate(`/recipe/${recipeId}`);
   };
 
   const freeHalloweenRecipes = getFreeHalloweenRecipes();
+
+  // Combine static recipes with user's generated recipes
+  const combinedRecipes = [...allRecipes, ...generatedRecipes];
 
   // Filter recipes by ingredients
   const filteredRecipes = useMemo(() => {
@@ -35,7 +40,7 @@ const Index = () => {
 
     if (searchTerms.length === 0) return [];
 
-    return allRecipes.filter(recipe => {
+    return combinedRecipes.filter(recipe => {
       const recipeIngredients = recipe.ingredients
         .map(ing => ing.item.toLowerCase())
         .join(" ");
@@ -44,7 +49,7 @@ const Index = () => {
         recipeIngredients.includes(term)
       );
     });
-  }, [searchInput, isSearching]);
+  }, [searchInput, isSearching, combinedRecipes]);
 
   const handleSearch = () => {
     if (searchInput.trim()) {
@@ -149,7 +154,8 @@ const Index = () => {
               <div className="max-w-md mx-auto">
                 <AiGenerationPrompt 
                   searchTerm={searchInput}
-                  onRecipeGenerated={(recipe) => {
+                  onRecipeGenerated={async (recipe) => {
+                    await refetchGeneratedRecipes();
                     handleRecipeClick(recipe.id);
                   }}
                 />
