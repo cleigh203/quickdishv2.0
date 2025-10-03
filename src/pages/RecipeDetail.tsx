@@ -132,7 +132,7 @@ const RecipeDetail = () => {
         </div>
       </div>
 
-      <div className="relative -mt-32 bg-white rounded-t-3xl px-5 pt-4 pb-6 shadow-lg">
+      <div className="relative -mt-24 bg-white rounded-t-3xl px-5 pt-4 pb-6 shadow-lg">
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h1 className="text-3xl font-bold mb-2">{recipe.name}</h1>
