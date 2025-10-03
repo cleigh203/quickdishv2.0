@@ -88,7 +88,7 @@ All colors MUST be HSL.
 
   /* Standardized recipe cards */
   .recipe-card {
-    @apply rounded-xl overflow-hidden bg-card shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer;
+    @apply rounded-xl overflow-hidden bg-card shadow-md hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 cursor-pointer;
   }
 
   .recipe-card-image {
