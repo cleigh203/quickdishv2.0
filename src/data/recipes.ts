@@ -291,7 +291,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "French",
-    image: https://unsplash.com/photos/a-white-plate-topped-with-a-piece-of-cake-and-ice-cream-8lPKzLSWNgM
+    image: https://images.unsplash.com/photo-8lPKzLSWNgM
     totalTime: 27,
     tags: ["dessert", "chocolate", "elegant", "quick"],
     ingredients: [
