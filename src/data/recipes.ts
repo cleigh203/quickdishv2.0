@@ -2764,6 +2764,1075 @@ export const allRecipes: Recipe[] = [
     ]
   }
 ];
+// 20 DINNER RECIPES - Ready to paste into your recipes.ts file
+
+export const newDinnerRecipes = [
+  {
+    id: "honey-garlic-salmon",
+    name: "Honey Garlic Glazed Salmon",
+    description: "Sweet and savory salmon with Asian-inspired glaze.",
+    cookTime: "15 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Asian Fusion",
+    image: "https://images.unsplash.com/photo-1485921325833-c519f76c4927",
+    totalTime: 20,
+    tags: ["seafood", "quick", "healthy", "gluten-free", "dinner"],
+    nutrition: {
+      calories: 385,
+      protein: 42,
+      carbs: 18,
+      fat: 16,
+      fiber: 0,
+      sugar: 14
+    },
+    ingredients: [
+      { amount: "4", unit: "fillets", item: "salmon fillets (6 oz each)" },
+      { amount: "1/4", unit: "cup", item: "honey" },
+      { amount: "3", unit: "tbsp", item: "soy sauce" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tbsp", item: "fresh ginger, grated" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "2", unit: "tbsp", item: "lemon juice" },
+      { amount: "2", unit: "", item: "green onions, sliced" }
+    ],
+    instructions: [
+      "Mix honey, soy sauce, garlic, ginger, and lemon juice in a bowl.",
+      "Heat olive oil in a large skillet over medium-high heat.",
+      "Place salmon fillets skin-side up and cook 4 minutes.",
+      "Flip salmon and pour honey garlic mixture over the top.",
+      "Cook another 4-5 minutes until salmon flakes easily.",
+      "Spoon glaze over salmon and garnish with green onions.",
+      "Serve immediately with rice and steamed vegetables."
+    ]
+  },
+  {
+    id: "beef-stir-fry",
+    name: "Classic Beef and Broccoli Stir Fry",
+    description: "Restaurant-quality stir fry ready in 25 minutes.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Chinese",
+    image: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143",
+    totalTime: 25,
+    tags: ["asian", "quick", "high-protein", "dinner", "stir-fry"],
+    nutrition: {
+      calories: 425,
+      protein: 38,
+      carbs: 22,
+      fat: 20,
+      fiber: 4,
+      sugar: 8
+    },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "flank steak, sliced thin" },
+      { amount: "4", unit: "cups", item: "broccoli florets" },
+      { amount: "1/3", unit: "cup", item: "soy sauce" },
+      { amount: "2", unit: "tbsp", item: "oyster sauce" },
+      { amount: "2", unit: "tbsp", item: "brown sugar" },
+      { amount: "1", unit: "tbsp", item: "cornstarch" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "sesame oil" },
+      { amount: "2", unit: "tbsp", item: "vegetable oil" },
+      { amount: "1", unit: "tbsp", item: "ginger, grated" }
+    ],
+    instructions: [
+      "Mix soy sauce, oyster sauce, brown sugar, and cornstarch in a bowl.",
+      "Heat vegetable oil in a wok or large skillet over high heat.",
+      "Stir-fry beef in batches until browned, about 2-3 minutes. Set aside.",
+      "Add sesame oil, garlic, and ginger. Cook 30 seconds.",
+      "Add broccoli and 1/4 cup water. Cover and steam 3 minutes.",
+      "Return beef to pan and add sauce mixture.",
+      "Toss everything together until sauce thickens, about 2 minutes.",
+      "Serve over steamed rice."
+    ]
+  },
+  {
+    id: "chicken-marsala",
+    name: "Chicken Marsala",
+    description: "Rich mushroom wine sauce over tender chicken.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Italian",
+    image: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6",
+    totalTime: 35,
+    tags: ["italian", "comfort-food", "restaurant-quality", "dinner"],
+    nutrition: {
+      calories: 465,
+      protein: 42,
+      carbs: 18,
+      fat: 24,
+      fiber: 2,
+      sugar: 3
+    },
+    ingredients: [
+      { amount: "4", unit: "", item: "chicken breasts, pounded thin" },
+      { amount: "1/2", unit: "cup", item: "all-purpose flour" },
+      { amount: "8", unit: "oz", item: "mushrooms, sliced" },
+      { amount: "3/4", unit: "cup", item: "Marsala wine" },
+      { amount: "1/2", unit: "cup", item: "chicken broth" },
+      { amount: "1/4", unit: "cup", item: "heavy cream" },
+      { amount: "4", unit: "tbsp", item: "butter" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "fresh parsley, chopped" }
+    ],
+    instructions: [
+      "Season chicken with salt and pepper, then dredge in flour.",
+      "Heat olive oil and 2 tbsp butter in a large skillet over medium-high.",
+      "Cook chicken 4-5 minutes per side until golden. Remove and set aside.",
+      "Add remaining butter and mushrooms. Cook until browned, 5 minutes.",
+      "Add garlic and cook 30 seconds.",
+      "Pour in Marsala wine and scrape up brown bits. Simmer 3 minutes.",
+      "Add chicken broth and cream. Simmer until sauce thickens, 5 minutes.",
+      "Return chicken to pan and coat with sauce.",
+      "Garnish with parsley and serve over pasta or mashed potatoes."
+    ]
+  },
+  {
+    id: "shrimp-tacos",
+    name: "Cilantro Lime Shrimp Tacos",
+    description: "Fresh and zesty tacos with perfectly seasoned shrimp.",
+    cookTime: "10 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican",
+    image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47",
+    totalTime: 20,
+    tags: ["mexican", "seafood", "quick", "healthy", "dinner"],
+    nutrition: {
+      calories: 340,
+      protein: 32,
+      carbs: 35,
+      fat: 10,
+      fiber: 6,
+      sugar: 3
+    },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "large shrimp, peeled" },
+      { amount: "3", unit: "tbsp", item: "lime juice" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1/2", unit: "tsp", item: "chili powder" },
+      { amount: "12", unit: "", item: "corn tortillas" },
+      { amount: "2", unit: "cups", item: "cabbage slaw" },
+      { amount: "1/4", unit: "cup", item: "cilantro, chopped" },
+      { amount: "1", unit: "", item: "avocado, sliced" },
+      { amount: "", unit: "", item: "sour cream for serving" }
+    ],
+    instructions: [
+      "Mix lime juice, olive oil, garlic powder, cumin, and chili powder.",
+      "Toss shrimp with marinade and let sit 10 minutes.",
+      "Heat a large skillet over medium-high heat.",
+      "Cook shrimp 2-3 minutes per side until pink and cooked through.",
+      "Warm tortillas in a dry skillet or microwave.",
+      "Assemble tacos with shrimp, cabbage slaw, cilantro, and avocado.",
+      "Top with sour cream and extra lime juice.",
+      "Serve immediately."
+    ]
+  },
+  {
+    id: "stuffed-peppers",
+    name: "Italian Stuffed Bell Peppers",
+    description: "Hearty peppers filled with seasoned beef and rice.",
+    cookTime: "40 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Italian-American",
+    image: "https://images.unsplash.com/photo-1606802680998-f85abfb6e2d4",
+    totalTime: 55,
+    tags: ["comfort-food", "make-ahead", "gluten-free", "dinner"],
+    nutrition: {
+      calories: 385,
+      protein: 28,
+      carbs: 32,
+      fat: 16,
+      fiber: 5,
+      sugar: 8
+    },
+    ingredients: [
+      { amount: "6", unit: "", item: "bell peppers, halved" },
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1/2", unit: "lb", item: "Italian sausage" },
+      { amount: "2", unit: "cups", item: "cooked rice" },
+      { amount: "2", unit: "cups", item: "marinara sauce" },
+      { amount: "1.5", unit: "cups", item: "mozzarella cheese, shredded" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tsp", item: "Italian seasoning" },
+      { amount: "", unit: "", item: "fresh basil for garnish" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F.",
+      "Remove seeds from pepper halves and arrange in a baking dish.",
+      "Brown ground beef and sausage with onion and garlic. Drain fat.",
+      "Mix meat with rice, 1 cup marinara, 1 cup cheese, and Italian seasoning.",
+      "Fill each pepper half with meat mixture.",
+      "Pour remaining marinara around peppers in the dish.",
+      "Cover with foil and bake 30 minutes.",
+      "Remove foil, top with remaining cheese, and bake 10 more minutes.",
+      "Garnish with fresh basil and serve."
+    ]
+  },
+  {
+    id: "teriyaki-chicken",
+    name: "Homemade Teriyaki Chicken",
+    description: "Better than takeout with homemade teriyaki sauce.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Japanese",
+    image: "https://images.unsplash.com/photo-1588347818036-5a2c4f7fb23d",
+    totalTime: 30,
+    tags: ["asian", "kid-friendly", "meal-prep", "dinner"],
+    nutrition: {
+      calories: 395,
+      protein: 45,
+      carbs: 26,
+      fat: 12,
+      fiber: 1,
+      sugar: 18
+    },
+    ingredients: [
+      { amount: "2", unit: "lbs", item: "chicken thighs, boneless" },
+      { amount: "1/2", unit: "cup", item: "soy sauce" },
+      { amount: "1/4", unit: "cup", item: "brown sugar" },
+      { amount: "2", unit: "tbsp", item: "honey" },
+      { amount: "2", unit: "tbsp", item: "rice vinegar" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tbsp", item: "ginger, grated" },
+      { amount: "1", unit: "tbsp", item: "cornstarch" },
+      { amount: "2", unit: "tbsp", item: "water" },
+      { amount: "", unit: "", item: "sesame seeds for garnish" },
+      { amount: "", unit: "", item: "green onions for garnish" }
+    ],
+    instructions: [
+      "Mix soy sauce, brown sugar, honey, vinegar, garlic, and ginger in a bowl.",
+      "Heat a large skillet over medium-high heat with a bit of oil.",
+      "Season chicken with salt and pepper, cook 5-6 minutes per side.",
+      "Pour teriyaki sauce over chicken and simmer 5 minutes.",
+      "Mix cornstarch with water and add to pan to thicken sauce.",
+      "Cook 2 more minutes until sauce coats chicken.",
+      "Garnish with sesame seeds and green onions.",
+      "Serve over rice with steamed broccoli."
+    ]
+  },
+  {
+    id: "pork-chops-apples",
+    name: "Pork Chops with Apples and Onions",
+    description: "Fall-inspired pork with sweet caramelized apples.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: "https://images.unsplash.com/photo-1576731796241-3c99f1a4ea3f",
+    totalTime: 35,
+    tags: ["fall", "comfort-food", "gluten-free", "dinner"],
+    nutrition: {
+      calories: 420,
+      protein: 38,
+      carbs: 28,
+      fat: 18,
+      fiber: 4,
+      sugar: 18
+    },
+    ingredients: [
+      { amount: "4", unit: "", item: "bone-in pork chops (1-inch thick)" },
+      { amount: "2", unit: "large", item: "apples, sliced" },
+      { amount: "1", unit: "large", item: "onion, sliced" },
+      { amount: "1/2", unit: "cup", item: "apple cider" },
+      { amount: "1/2", unit: "cup", item: "chicken broth" },
+      { amount: "3", unit: "tbsp", item: "butter" },
+      { amount: "4", unit: "sprigs", item: "fresh thyme" },
+      { amount: "1", unit: "tbsp", item: "brown sugar" },
+      { amount: "1", unit: "tsp", item: "Dijon mustard" }
+    ],
+    instructions: [
+      "Season pork chops generously with salt and pepper.",
+      "Heat 1 tbsp butter in a large skillet over medium-high heat.",
+      "Sear pork chops 4 minutes per side. Remove and set aside.",
+      "Add remaining butter, apples, and onions. Cook 5 minutes.",
+      "Add apple cider, broth, thyme, brown sugar, and mustard.",
+      "Return pork chops to pan and simmer 10-12 minutes.",
+      "Flip chops halfway through cooking.",
+      "Serve with apple-onion mixture spooned over top."
+    ]
+  },
+  {
+    id: "lemon-herb-chicken",
+    name: "Lemon Herb Roasted Chicken Thighs",
+    description: "Crispy skin chicken with roasted potatoes.",
+    cookTime: "40 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Mediterranean",
+    image: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6",
+    totalTime: 50,
+    tags: ["roasted", "gluten-free", "meal-prep", "dinner"],
+    nutrition: {
+      calories: 445,
+      protein: 42,
+      carbs: 24,
+      fat: 22,
+      fiber: 4,
+      sugar: 3
+    },
+    ingredients: [
+      { amount: "8", unit: "", item: "chicken thighs, bone-in skin-on" },
+      { amount: "2", unit: "", item: "lemons, zested and juiced" },
+      { amount: "3", unit: "tbsp", item: "olive oil" },
+      { amount: "6", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "fresh rosemary, chopped" },
+      { amount: "2", unit: "tbsp", item: "fresh thyme" },
+      { amount: "1", unit: "tsp", item: "paprika" },
+      { amount: "1.5", unit: "lbs", item: "baby potatoes" }
+    ],
+    instructions: [
+      "Preheat oven to 425°F.",
+      "Mix lemon zest, juice, olive oil, garlic, herbs, paprika, salt, and pepper.",
+      "Rub mixture all over chicken thighs, including under the skin.",
+      "Toss baby potatoes in remaining marinade.",
+      "Arrange chicken and potatoes in a roasting pan.",
+      "Roast 35-40 minutes until chicken reaches 165°F and skin is crispy.",
+      "Let rest 5 minutes before serving.",
+      "Serve with a green salad."
+    ]
+  },
+  {
+    id: "bbq-meatloaf",
+    name: "Classic BBQ Meatloaf",
+    description: "Comfort food classic with tangy BBQ glaze.",
+    cookTime: "60 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba",
+    totalTime: 75,
+    tags: ["comfort-food", "american", "kid-friendly", "dinner"],
+    nutrition: {
+      calories: 425,
+      protein: 32,
+      carbs: 28,
+      fat: 20,
+      fiber: 1,
+      sugar: 14
+    },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "ground beef" },
+      { amount: "1/2", unit: "lb", item: "ground pork" },
+      { amount: "3/4", unit: "cup", item: "breadcrumbs" },
+      { amount: "1/2", unit: "cup", item: "milk" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1", unit: "", item: "onion, finely diced" },
+      { amount: "3/4", unit: "cup", item: "BBQ sauce" },
+      { amount: "2", unit: "tbsp", item: "Worcestershire sauce" },
+      { amount: "1", unit: "tsp", item: "garlic powder" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F.",
+      "Soak breadcrumbs in milk for 5 minutes.",
+      "Mix beef, pork, breadcrumb mixture, eggs, onion, 1/4 cup BBQ sauce, Worcestershire, garlic powder, salt, and pepper.",
+      "Form mixture into a loaf shape in a baking dish.",
+      "Bake 45 minutes.",
+      "Brush remaining BBQ sauce on top and bake 15 more minutes.",
+      "Let rest 10 minutes before slicing.",
+      "Serve with mashed potatoes and green beans."
+    ]
+  },
+  {
+    id: "mediterranean-chicken",
+    name: "Mediterranean Chicken and Rice",
+    description: "One-pan Greek-inspired chicken with feta and olives.",
+    cookTime: "40 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Mediterranean",
+    image: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6",
+    totalTime: 50,
+    tags: ["mediterranean", "one-pan", "healthy", "dinner"],
+    nutrition: {
+      calories: 465,
+      protein: 44,
+      carbs: 42,
+      fat: 14,
+      fiber: 3,
+      sugar: 6
+    },
+    ingredients: [
+      { amount: "2", unit: "lbs", item: "chicken thighs, boneless" },
+      { amount: "1.5", unit: "cups", item: "long-grain rice" },
+      { amount: "2.5", unit: "cups", item: "chicken broth" },
+      { amount: "2", unit: "cups", item: "cherry tomatoes" },
+      { amount: "1/2", unit: "cup", item: "Kalamata olives" },
+      { amount: "1/2", unit: "cup", item: "feta cheese, crumbled" },
+      { amount: "3", unit: "tbsp", item: "lemon juice" },
+      { amount: "2", unit: "tsp", item: "oregano" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "3", unit: "tbsp", item: "olive oil" }
+    ],
+    instructions: [
+      "Season chicken with oregano, salt, and pepper.",
+      "Heat olive oil in a large oven-safe skillet. Brown chicken 3 minutes per side.",
+      "Remove chicken and set aside.",
+      "Add garlic and rice, toast 2 minutes.",
+      "Add broth, tomatoes, olives, and lemon juice. Stir well.",
+      "Nestle chicken on top, cover, and bake at 375°F for 30 minutes.",
+      "Remove from oven and let rest 5 minutes.",
+      "Top with feta cheese and serve."
+    ]
+  },
+  {
+    id: "cajun-pasta",
+    name: "Cajun Chicken Pasta",
+    description: "Spicy creamy pasta with Cajun-seasoned chicken.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Cajun",
+    image: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
+    totalTime: 30,
+    tags: ["spicy", "creamy", "comfort-food", "dinner", "pasta"],
+    nutrition: {
+      calories: 625,
+      protein: 46,
+      carbs: 58,
+      fat: 24,
+      fiber: 5,
+      sugar: 8
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "penne pasta" },
+      { amount: "1.5", unit: "lbs", item: "chicken breasts, sliced" },
+      { amount: "1.5", unit: "cups", item: "heavy cream" },
+      { amount: "1", unit: "can", item: "diced tomatoes (14.5 oz)" },
+      { amount: "2", unit: "", item: "bell peppers, sliced" },
+      { amount: "1", unit: "", item: "onion, sliced" },
+      { amount: "3", unit: "tbsp", item: "Cajun seasoning" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "1/2", unit: "cup", item: "Parmesan cheese" }
+    ],
+    instructions: [
+      "Cook pasta according to package directions. Drain and set aside.",
+      "Season chicken with 2 tbsp Cajun seasoning.",
+      "Heat butter in a large skillet and cook chicken until done. Set aside.",
+      "Add peppers and onion, cook until softened, 5 minutes.",
+      "Add garlic and remaining Cajun seasoning, cook 1 minute.",
+      "Add cream and tomatoes, simmer 5 minutes.",
+      "Return chicken to pan along with pasta.",
+      "Toss everything together and top with Parmesan.",
+      "Serve immediately."
+    ]
+  },
+  {
+    id: "korean-beef-bowl",
+    name: "Korean Ground Beef Bowl",
+    description: "Sweet and spicy beef bowl in under 20 minutes.",
+    cookTime: "15 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Korean",
+    image: "https://images.unsplash.com/photo-1623428454614-abaf00244e52",
+    totalTime: 20,
+    tags: ["asian", "quick", "budget-friendly", "dinner"],
+    nutrition: {
+      calories: 485,
+      protein: 38,
+      carbs: 52,
+      fat: 14,
+      fiber: 2,
+      sugar: 12
+    },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "ground beef" },
+      { amount: "1/3", unit: "cup", item: "soy sauce" },
+      { amount: "1/4", unit: "cup", item: "brown sugar" },
+      { amount: "2", unit: "tbsp", item: "sesame oil" },
+      { amount: "1", unit: "tbsp", item: "ginger, grated" },
+      { amount: "5", unit: "cloves", item: "garlic, minced" },
+      { amount: "1/2", unit: "tsp", item: "red pepper flakes" },
+      { amount: "4", unit: "", item: "green onions, sliced" },
+      { amount: "", unit: "", item: "sesame seeds for garnish" },
+      { amount: "4", unit: "cups", item: "cooked rice" }
+    ],
+    instructions: [
+      "Brown ground beef in a large skillet over medium-high heat. Drain fat.",
+      "Mix soy sauce, brown sugar, sesame oil, ginger, garlic, and red pepper flakes.",
+      "Pour sauce over beef and simmer 3-4 minutes.",
+      "Stir in half the green onions.",
+      "Serve over rice and garnish with remaining green onions and sesame seeds.",
+      "Add kimchi or fried egg on top if desired."
+    ]
+  },
+  {
+    id: "baked-tilapia",
+    name: "Garlic Butter Baked Tilapia",
+    description: "Light and flaky fish with garlic butter.",
+    cookTime: "15 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: "https://images.unsplash.com/photo-1580959375944-0b6e1cb3b80f",
+    totalTime: 20,
+    tags: ["seafood", "quick", "healthy", "low-carb", "dinner"],
+    nutrition: {
+      calories: 245,
+      protein: 38,
+      carbs: 2,
+      fat: 10,
+      fiber: 0,
+      sugar: 0
+    },
+    ingredients: [
+      { amount: "4", unit: "fillets", item: "tilapia fillets (6 oz each)" },
+      { amount: "4", unit: "tbsp", item: "butter, melted" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "lemon juice" },
+      { amount: "1", unit: "tsp", item: "paprika" },
+      { amount: "2", unit: "tbsp", item: "fresh parsley, chopped" },
+      { amount: "1/4", unit: "cup", item: "Parmesan cheese, grated" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F and line a baking sheet with parchment.",
+      "Place tilapia fillets on the baking sheet.",
+      "Mix melted butter, garlic, lemon juice, paprika, salt, and pepper.",
+      "Brush mixture generously over each fillet.",
+      "Sprinkle with Parmesan cheese.",
+      "Bake 12-15 minutes until fish flakes easily.",
+      "Garnish with fresh parsley and serve with vegetables."
+    ]
+  },
+  {
+    id: "turkey-meatballs",
+    name: "Italian Turkey Meatballs",
+    description: "Healthy baked meatballs in marinara sauce.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Italian",
+    image: "https://images.unsplash.com/photo-1529042410759-befb1204b468",
+    totalTime: 45,
+    tags: ["healthy", "meal-prep", "italian", "dinner"],
+    nutrition: {
+      calories: 385,
+      protein: 36,
+      carbs: 28,
+      fat: 14,
+      fiber: 3,
+      sugar: 8
+    },
+    ingredients: [
+      { amount: "2", unit: "lbs", item: "ground turkey" },
+      { amount: "1/2", unit: "cup", item: "breadcrumbs" },
+      { amount: "1/2", unit: "cup", item: "Parmesan cheese, grated" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/4", unit: "cup", item: "fresh parsley, chopped" },
+      { amount: "4", unit: "cups", item: "marinara sauce" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F and line a baking sheet with parchment.",
+      "Mix turkey, breadcrumbs, Parmesan, eggs, garlic, Italian seasoning, parsley, salt, and pepper.",
+      "Form into 24 meatballs (about 2 tbsp each).",
+      "Place on baking sheet and bake 20 minutes.",
+      "Heat marinara sauce in a large pot.",
+      "Add baked meatballs to sauce and simmer 10 minutes.",
+      "Serve over spaghetti or in sub sandwiches."
+    ]
+  },
+  {
+    id: "honey-mustard-chicken",
+    name: "Sheet Pan Honey Mustard Chicken",
+    description: "Easy one-pan dinner with roasted vegetables.",
+    cookTime: "35 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6",
+    totalTime: 45,
+    tags: ["sheet-pan", "easy-cleanup", "kid-friendly", "dinner"],
+    nutrition: {
+      calories: 425,
+      protein: 44,
+      carbs: 38,
+      fat: 12,
+      fiber: 6,
+      sugar: 16
+    },
+    ingredients: [
+      { amount: "4", unit: "", item: "chicken breasts" },
+      { amount: "1/3", unit: "cup", item: "honey" },
+      { amount: "1/4", unit: "cup", item: "Dijon mustard" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "3", unit: "", item: "carrots, sliced" },
+      { amount: "2", unit: "cups", item: "Brussels sprouts, halved" },
+      { amount: "1", unit: "", item: "red onion, cut in wedges" }
+    ],
+    instructions: [
+      "Preheat oven to 425°F.",
+      "Whisk honey, mustard, olive oil, and garlic together.",
+      "Place chicken and vegetables on a large sheet pan.",
+      "Pour honey mustard mixture over everything and toss to coat.",
+      "Season with salt and pepper.",
+      "Roast 30-35 minutes until chicken reaches 165°F.",
+      "Let rest 5 minutes before serving."
+    ]
+  },
+  {
+    id: "chimichurri-steak",
+    name: "Grilled Steak with Chimichurri",
+    description: "Perfectly grilled steak with fresh herb sauce.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Argentinian",
+    image: "https://images.unsplash.com/photo-1600891964092-4316c288032e",
+    totalTime: 25,
+    tags: ["grilled", "argentinian", "gluten-free", "dinner"],
+    nutrition: {
+      calories: 485,
+      protein: 52,
+      carbs: 3,
+      fat: 30,
+      fiber: 1,
+      sugar: 0
+    },
+    ingredients: [
+      { amount: "4", unit: "steaks", item: "ribeye or sirloin steaks (8 oz each)" },
+      { amount: "2", unit: "cups", item: "fresh parsley, packed" },
+      { amount: "1/4", unit: "cup", item: "fresh oregano" },
+      { amount: "6", unit: "cloves", item: "garlic" },
+      { amount: "1/4", unit: "cup", item: "red wine vinegar" },
+      { amount: "1/2", unit: "cup", item: "olive oil" },
+      { amount: "1/2", unit: "tsp", item: "red pepper flakes" }
+    ],
+    instructions: [
+      "Make chimichurri: Finely chop parsley, oregano, and garlic.",
+      "Mix with vinegar, olive oil, red pepper flakes, salt, and pepper. Set aside.",
+      "Season steaks generously with salt and pepper.",
+      "Preheat grill to high heat.",
+      "Grill steaks 4-5 minutes per side for medium-rare.",
+      "Let rest 5 minutes.",
+      "Slice and top with chimichurri sauce.",
+      "Serve with roasted potatoes or grilled vegetables."
+    ]
+  },
+  {
+    id: "coconut-curry-chicken",
+    name: "Thai Coconut Curry Chicken",
+    description: "Creamy and spicy Thai curry with vegetables.",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Thai",
+    image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd",
+    totalTime: 40,
+    tags: ["thai", "spicy", "curry", "dinner"],
+    nutrition: {
+      calories: 485,
+      protein: 38,
+      carbs: 22,
+      fat: 28,
+      fiber: 3,
+      sugar: 8
+    },
+    ingredients: [
+      { amount: "2", unit: "lbs", item: "chicken thighs, cubed" },
+      { amount: "2", unit: "cans", item: "coconut milk (14 oz each)" },
+      { amount: "3", unit: "tbsp", item: "red curry paste" },
+      { amount: "2", unit: "", item: "bell peppers, sliced" },
+      { amount: "1", unit: "can", item: "bamboo shoots (8 oz)" },
+      { amount: "2", unit: "tbsp", item: "fish sauce" },
+      { amount: "1", unit: "tbsp", item: "brown sugar" },
+      { amount: "1/4", unit: "cup", item: "Thai basil leaves" },
+      { amount: "2", unit: "tbsp", item: "lime juice" },
+      { amount: "2", unit: "tbsp", item: "vegetable oil" }
+    ],
+    instructions: [
+      "Heat oil in a large pot over medium-high heat.",
+      "Add curry paste and cook 1 minute until fragrant.",
+      "Add chicken and cook until browned, 5 minutes.",
+      "Pour in coconut milk and bring to a simmer.",
+      "Add bell peppers, bamboo shoots, fish sauce, and brown sugar.",
+      "Simmer 20 minutes until chicken is cooked and sauce thickens.",
+      "Stir in Thai basil and lime juice.",
+      "Serve over jasmine rice."
+    ]
+  },
+  {
+    id: "blackened-fish-tacos",
+    name: "Blackened Fish Tacos",
+    description: "Spicy blackened fish with cool cabbage slaw.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican",
+    image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47",
+    totalTime: 25,
+    tags: ["mexican", "seafood", "healthy", "dinner"],
+    nutrition: {
+      calories: 365,
+      protein: 38,
+      carbs: 36,
+      fat: 8,
+      fiber: 5,
+      sugar: 4
+    },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "white fish fillets (mahi mahi or cod)" },
+      { amount: "1", unit: "tbsp", item: "paprika" },
+      { amount: "1/2", unit: "tsp", item: "cayenne pepper" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "tsp", item: "onion powder" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "12", unit: "", item: "corn tortillas" },
+      { amount: "2", unit: "cups", item: "shredded cabbage" },
+      { amount: "1/2", unit: "cup", item: "lime crema" },
+      { amount: "", unit: "", item: "fresh cilantro for garnish" }
+    ],
+    instructions: [
+      "Mix paprika, cayenne, garlic powder, onion powder, cumin, salt, and pepper.",
+      "Coat fish fillets with spice mixture.",
+      "Heat a cast iron skillet over medium-high heat.",
+      "Cook fish 3-4 minutes per side until blackened and cooked through.",
+      "Break fish into chunks.",
+      "Warm tortillas in a dry skillet.",
+      "Assemble tacos with fish, cabbage, lime crema, and cilantro.",
+      "Serve with lime wedges."
+    ]
+  },
+  {
+    id: "beef-enchiladas",
+    name: "Cheesy Beef Enchiladas",
+    description: "Loaded enchiladas with beef, beans, and cheese.",
+    cookTime: "35 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Mexican",
+    image: "https://images.unsplash.com/photo-1568106690101-d819sofie",
+    totalTime: 50,
+    tags: ["mexican", "comfort-food", "crowd-pleaser", "dinner"],
+    nutrition: {
+      calories: 525,
+      protein: 32,
+      carbs: 48,
+      fat: 22,
+      fiber: 8,
+      sugar: 6
+    },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "ground beef" },
+      { amount: "3", unit: "cups", item: "enchilada sauce" },
+      { amount: "12", unit: "", item: "flour tortillas" },
+      { amount: "3", unit: "cups", item: "cheddar cheese, shredded" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "1", unit: "can", item: "black beans, drained (15 oz)" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "tsp", item: "chili powder" },
+      { amount: "", unit: "", item: "sour cream for serving" },
+      { amount: "", unit: "", item: "green onions, sliced for garnish" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F.",
+      "Brown beef with onion. Drain fat and add cumin and chili powder.",
+      "Stir in black beans and 1/2 cup enchilada sauce.",
+      "Spread 1 cup enchilada sauce in a 9x13 baking dish.",
+      "Fill each tortilla with beef mixture and 1/4 cup cheese. Roll up.",
+      "Place seam-side down in the dish.",
+      "Pour remaining sauce over enchiladas and top with remaining cheese.",
+      "Bake 25-30 minutes until bubbly.",
+      "Garnish with sour cream and green onions."
+    ]
+  },
+  {
+    id: "lemon-garlic-shrimp",
+    name: "Lemon Garlic Butter Shrimp",
+    description: "Quick and elegant shrimp in buttery sauce.",
+    cookTime: "10 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47",
+    totalTime: 15,
+    tags: ["seafood", "quick", "low-carb", "elegant", "dinner"],
+    nutrition: {
+      calories: 245,
+      protein: 32,
+      carbs: 4,
+      fat: 12,
+      fiber: 0,
+      sugar: 1
+    },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "large shrimp, peeled" },
+      { amount: "4", unit: "tbsp", item: "butter" },
+      { amount: "6", unit: "cloves", item: "garlic, minced" },
+      { amount: "3", unit: "tbsp", item: "lemon juice" },
+      { amount: "1/4", unit: "cup", item: "white wine" },
+      { amount: "1/4", unit: "tsp", item: "red pepper flakes" },
+      { amount: "3", unit: "tbsp", item: "fresh parsley, chopped" }
+    ],
+    instructions: [
+      "Melt 2 tbsp butter in a large skillet over medium-high heat.",
+      "Add shrimp, season with salt and pepper, and cook 2 minutes per side. Remove.",
+      "Add remaining butter and garlic. Cook 30 seconds.",
+      "Add lemon juice, wine, and red pepper flakes. Simmer 2 minutes.",
+      "Return shrimp to pan and toss to coat.",
+      "Garnish with fresh parsley.",
+      "Serve over pasta, rice, or with crusty bread."
+    ]
+  }
+];
+
+// 20 ONE-POT RECIPES - Ready to paste into your recipes.ts file
+
+export const newOnePotRecipes = [
+  {
+    id: "jambalaya",
+    name: "Cajun Chicken and Sausage Jambalaya",
+    description: "Spicy Louisiana one-pot with rice, chicken, and sausage.",
+    cookTime: "40 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 8,
+    cuisine: "Cajun",
+    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d",
+    totalTime: 55,
+    tags: ["cajun", "spicy", "rice-dish", "one-pot"],
+    nutrition: {
+      calories: 445,
+      protein: 32,
+      carbs: 48,
+      fat: 14,
+      fiber: 3,
+      sugar: 5
+    },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "chicken thighs, cubed" },
+      { amount: "1", unit: "lb", item: "andouille sausage, sliced" },
+      { amount: "2", unit: "cups", item: "long-grain rice" },
+      { amount: "4", unit: "cups", item: "chicken broth" },
+      { amount: "1", unit: "can", item: "diced tomatoes (14.5 oz)" },
+      { amount: "2", unit: "", item: "bell peppers, diced" },
+      { amount: "3", unit: "stalks", item: "celery, diced" },
+      { amount: "1", unit: "large", item: "onion, diced" },
+      { amount: "3", unit: "tbsp", item: "Cajun seasoning" },
+      { amount: "5", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "", item: "bay leaves" },
+      { amount: "", unit: "", item: "green onions for garnish" }
+    ],
+    instructions: [
+      "Brown chicken in a large Dutch oven. Remove and set aside.",
+      "Brown sausage in the same pot. Remove and set aside.",
+      "Sauté onion, bell peppers, and celery until softened, 5 minutes.",
+      "Add garlic and Cajun seasoning, cook 1 minute.",
+      "Add rice and toast 2 minutes.",
+      "Pour in broth, tomatoes, bay leaves, chicken, and sausage.",
+      "Bring to a boil, reduce heat, cover, and simmer 25 minutes.",
+      "Remove bay leaves, fluff with a fork, and garnish with green onions."
+    ]
+  },
+  {
+    id: "beef-stroganoff",
+    name: "One-Pot Beef Stroganoff",
+    description: "Creamy comfort food with tender beef and noodles.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Russian",
+    image: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
+    totalTime: 35,
+    tags: ["comfort-food", "creamy", "pasta", "one-pot"],
+    nutrition: {
+      calories: 485,
+      protein: 28,
+      carbs: 42,
+      fat: 22,
+      fiber: 3,
+      sugar: 4
+    },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "ground beef" },
+      { amount: "12", unit: "oz", item: "egg noodles" },
+      { amount: "8", unit: "oz", item: "mushrooms, sliced" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cups", item: "beef broth" },
+      { amount: "1", unit: "cup", item: "sour cream" },
+      { amount: "2", unit: "tbsp", item: "Worcestershire sauce" },
+      { amount: "1", unit: "tbsp", item: "Dijon mustard" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "flour" },
+      { amount: "", unit: "", item: "fresh parsley for garnish" }
+    ],
+    instructions: [
+      "Brown ground beef in a large pot or Dutch oven. Drain fat.",
+      "Add onion and mushrooms, cook 5 minutes.",
+      "Add garlic and cook 1 minute.",
+      "Sprinkle flour over meat mixture and stir to coat.",
+      "Add broth, Worcestershire, and mustard. Bring to a boil.",
+      "Add egg noodles and cook 10-12 minutes until tender.",
+      "Remove from heat and stir in sour cream.",
+      "Garnish with parsley and serve immediately."
+    ]
+  },
+  {
+    id: "chicken-fajita-rice",
+    name: "One-Pot Chicken Fajita Rice",
+    description: "Mexican-inspired skillet with chicken, peppers, and rice.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Mexican",
+    image: "https://images.unsplash.com/photo-1604909052743-94e838986d24",
+    totalTime: 35,
+    tags: ["mexican", "rice-dish", "family-friendly", "one-pot"],
+    nutrition: {
+      calories: 425,
+      protein: 36,
+      carbs: 48,
+      fat: 10,
+      fiber: 4,
+      sugar: 6
+    },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "chicken breasts, cubed" },
+      { amount: "1.5", unit: "cups", item: "long-grain rice" },
+      { amount: "3", unit: "cups", item: "chicken broth" },
+      { amount: "3", unit: "", item: "bell peppers, sliced" },
+      { amount: "1", unit: "", item: "onion, sliced" },
+      { amount: "1", unit: "can", item: "diced tomatoes with green chilies (10 oz)" },
+      { amount: "3", unit: "tbsp", item: "fajita seasoning" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "2", unit: "tbsp", item: "lime juice" },
+      { amount: "1", unit: "cup", item: "shredded cheese" },
+      { amount: "", unit: "", item: "cilantro for garnish" }
+    ],
+    instructions: [
+      "Heat olive oil in a large skillet with lid over medium-high heat.",
+      "Season chicken with fajita seasoning and cook until browned. Set aside.",
+      "Sauté peppers and onion until softened, 5 minutes.",
+      "Add rice and toast 2 minutes.",
+      "Pour in broth, tomatoes, and lime juice. Stir well.",
+      "Nestle chicken on top, bring to a boil, then reduce heat.",
+      "Cover and simmer 20 minutes until rice is tender.",
+      "Top with cheese, cover until melted, then garnish with cilantro."
+    ]
+  },
+  {
+    id: "tuscan-chicken-pasta",
+    name: "One-Pot Tuscan Chicken Pasta",
+    description: "Creamy Italian pasta with sun-dried tomatoes and spinach.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
+    totalTime: 30,
+    tags: ["italian", "creamy", "pasta", "one-pot"],
+    nutrition: {
+      calories: 565,
+      protein: 42,
+      carbs: 52,
+      fat: 20,
+      fiber: 4,
+      sugar: 6
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "chicken breasts, cubed" },
+      { amount: "12", unit: "oz", item: "penne pasta" },
+      { amount: "1.5", unit: "cups", item: "heavy cream" },
+      { amount: "2", unit: "cups", item: "chicken broth" },
+      { amount: "1/2", unit: "cup", item: "sun-dried tomatoes" },
+      { amount: "3", unit: "cups", item: "fresh spinach" },
+      { amount: "1", unit: "cup", item: "Parmesan cheese, grated" },
+      { amount: "2", unit: "tsp", item: "Italian seasoning" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "olive oil" }
+    ],
+    instructions: [
+      "Heat olive oil in a large pot over medium-high heat.",
+      "Season chicken with Italian seasoning, salt, and pepper. Cook until browned.",
+      "Add garlic and sun-dried tomatoes, cook 1 minute.",
+      "Add pasta, broth, and cream. Bring to a boil.",
+      "Reduce heat and simmer 12-15 minutes, stirring occasionally.",
+      "Stir in spinach until wilted.",
+      "Add Parmesan and stir until melted and creamy.",
+      "Serve immediately."
+    ]
+  },
+  {
+    id: "chili-mac",
+    name: "One-Pot Chili Mac and Cheese",
+    description: "Kid-friendly combo of chili and mac and cheese.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: "https://images.unsplash.com/photo-1619096252214-ef06c45683e3",
+    totalTime: 30,
+    tags: ["comfort-food", "kid-friendly", "budget-friendly", "one-pot"],
+    nutrition: {
+      calories: 525,
+      protein: 32,
+      carbs: 52,
+      fat: 20,
+      fiber: 8,
+      sugar: 6
+    },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "ground beef" },
+      { amount: "2", unit: "cups", item: "elbow macaroni" },
+      { amount: "1", unit: "can", item: "diced tomatoes (14.5 oz)" },
+      { amount: "1", unit: "can", item: "kidney beans, drained (15 oz)" },
+      { amount: "3", unit: "cups", item: "beef broth" },
+      { amount: "2", unit: "cups", item: "cheddar cheese, shredded" },
+      { amount: "2", unit: "tbsp", item: "chili powder" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" }
+    ],
+    instructions: [
+      "Brown ground beef with onion in a large pot. Drain fat.",
+      "Add garlic, chili powder, and cumin. Cook 1 minute.",
+      "Add tomatoes, beans, broth, and macaroni.",
+      "Bring to a boil, then reduce heat and simmer 12-15 minutes.",
+      "Stir occasionally until pasta is tender.",
+      "Remove from heat and stir in cheese until melted.",
+      "Let sit 5 minutes before serving.",
+      "Top with sour cream and green onions if desired."
+    ]
+  }
+];
+
 
 // Helper functions
 export const getRecipesByCollection = (collection: string): Recipe[] => {
