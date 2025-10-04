@@ -2761,11 +2761,8 @@ export const allRecipes: Recipe[] = [
       "Squeeze fresh lemon over salad.",
       "Serve immediately."
     ]
-  }
-];
-// 20 DINNER RECIPES - Ready to paste into your recipes.ts file
-
-export const newDinnerRecipes = [
+  },
+  // ========== DINNER RECIPES (20) ==========
   {
     id: "honey-garlic-salmon",
     name: "Honey Garlic Glazed Salmon",
@@ -2784,7 +2781,8 @@ export const newDinnerRecipes = [
       carbs: 18,
       fat: 16,
       fiber: 0,
-      sugar: 14
+      sugar: 14,
+      servingSize: "1 fillet"
     },
     ingredients: [
       { amount: "4", unit: "fillets", item: "salmon fillets (6 oz each)" },
@@ -2824,7 +2822,8 @@ export const newDinnerRecipes = [
       carbs: 22,
       fat: 20,
       fiber: 4,
-      sugar: 8
+      sugar: 8,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "flank steak, sliced thin" },
@@ -2867,7 +2866,8 @@ export const newDinnerRecipes = [
       carbs: 18,
       fat: 24,
       fiber: 2,
-      sugar: 3
+      sugar: 3,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "4", unit: "", item: "chicken breasts, pounded thin" },
@@ -2911,7 +2911,8 @@ export const newDinnerRecipes = [
       carbs: 35,
       fat: 10,
       fiber: 6,
-      sugar: 3
+      sugar: 3,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "large shrimp, peeled" },
@@ -2955,7 +2956,8 @@ export const newDinnerRecipes = [
       carbs: 32,
       fat: 16,
       fiber: 5,
-      sugar: 8
+      sugar: 8,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "6", unit: "", item: "bell peppers, halved" },
@@ -2999,7 +3001,8 @@ export const newDinnerRecipes = [
       carbs: 26,
       fat: 12,
       fiber: 1,
-      sugar: 18
+      sugar: 18,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "2", unit: "lbs", item: "chicken thighs, boneless" },
@@ -3043,7 +3046,8 @@ export const newDinnerRecipes = [
       carbs: 28,
       fat: 18,
       fiber: 4,
-      sugar: 18
+      sugar: 18,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "4", unit: "", item: "bone-in pork chops (1-inch thick)" },
@@ -3085,7 +3089,8 @@ export const newDinnerRecipes = [
       carbs: 24,
       fat: 22,
       fiber: 4,
-      sugar: 3
+      sugar: 3,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "8", unit: "", item: "chicken thighs, bone-in skin-on" },
@@ -3126,7 +3131,8 @@ export const newDinnerRecipes = [
       carbs: 28,
       fat: 20,
       fiber: 1,
-      sugar: 14
+      sugar: 14,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "ground beef" },
@@ -3168,7 +3174,8 @@ export const newDinnerRecipes = [
       carbs: 42,
       fat: 14,
       fiber: 3,
-      sugar: 6
+      sugar: 6,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "2", unit: "lbs", item: "chicken thighs, boneless" },
@@ -3211,7 +3218,8 @@ export const newDinnerRecipes = [
       carbs: 58,
       fat: 24,
       fiber: 5,
-      sugar: 8
+      sugar: 8,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "1", unit: "lb", item: "penne pasta" },
@@ -3255,7 +3263,8 @@ export const newDinnerRecipes = [
       carbs: 52,
       fat: 14,
       fiber: 2,
-      sugar: 12
+      sugar: 12,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "ground beef" },
@@ -3296,7 +3305,8 @@ export const newDinnerRecipes = [
       carbs: 2,
       fat: 10,
       fiber: 0,
-      sugar: 0
+      sugar: 0,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "4", unit: "fillets", item: "tilapia fillets (6 oz each)" },
@@ -3335,7 +3345,8 @@ export const newDinnerRecipes = [
       carbs: 28,
       fat: 14,
       fiber: 3,
-      sugar: 8
+      sugar: 8,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "2", unit: "lbs", item: "ground turkey" },
@@ -3375,7 +3386,8 @@ export const newDinnerRecipes = [
       carbs: 38,
       fat: 12,
       fiber: 6,
-      sugar: 16
+      sugar: 16,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "4", unit: "", item: "chicken breasts" },
@@ -3415,7 +3427,8 @@ export const newDinnerRecipes = [
       carbs: 3,
       fat: 30,
       fiber: 1,
-      sugar: 0
+      sugar: 0,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "4", unit: "steaks", item: "ribeye or sirloin steaks (8 oz each)" },
@@ -3455,7 +3468,8 @@ export const newDinnerRecipes = [
       carbs: 22,
       fat: 28,
       fiber: 3,
-      sugar: 8
+      sugar: 8,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "2", unit: "lbs", item: "chicken thighs, cubed" },
@@ -3498,7 +3512,8 @@ export const newDinnerRecipes = [
       carbs: 36,
       fat: 8,
       fiber: 5,
-      sugar: 4
+      sugar: 4,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "white fish fillets (mahi mahi or cod)" },
@@ -3541,7 +3556,8 @@ export const newDinnerRecipes = [
       carbs: 48,
       fat: 22,
       fiber: 8,
-      sugar: 6
+      sugar: 6,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "ground beef" },
@@ -3585,7 +3601,8 @@ export const newDinnerRecipes = [
       carbs: 4,
       fat: 12,
       fiber: 0,
-      sugar: 1
+      sugar: 1,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "large shrimp, peeled" },
@@ -3605,12 +3622,8 @@ export const newDinnerRecipes = [
       "Garnish with fresh parsley.",
       "Serve over pasta, rice, or with crusty bread."
     ]
-  }
-];
-
-// 20 ONE-POT RECIPES - Ready to paste into your recipes.ts file
-
-export const newOnePotRecipes = [
+  },
+  // ========== ONE-POT RECIPES (20) ==========
   {
     id: "jambalaya",
     name: "Cajun Chicken and Sausage Jambalaya",
@@ -3629,7 +3642,8 @@ export const newOnePotRecipes = [
       carbs: 48,
       fat: 14,
       fiber: 3,
-      sugar: 5
+      sugar: 5,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "chicken thighs, cubed" },
@@ -3674,7 +3688,8 @@ export const newOnePotRecipes = [
       carbs: 42,
       fat: 22,
       fiber: 3,
-      sugar: 4
+      sugar: 4,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "ground beef" },
@@ -3718,7 +3733,8 @@ export const newOnePotRecipes = [
       carbs: 48,
       fat: 10,
       fiber: 4,
-      sugar: 6
+      sugar: 6,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "chicken breasts, cubed" },
@@ -3762,7 +3778,8 @@ export const newOnePotRecipes = [
       carbs: 52,
       fat: 20,
       fiber: 4,
-      sugar: 6
+      sugar: 6,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "1", unit: "lb", item: "chicken breasts, cubed" },
@@ -3805,7 +3822,8 @@ export const newOnePotRecipes = [
       carbs: 52,
       fat: 20,
       fiber: 8,
-      sugar: 6
+      sugar: 6,
+      servingSize: "1 serving"
     },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "ground beef" },
@@ -3831,7 +3849,6 @@ export const newOnePotRecipes = [
     ]
   }
 ];
-
 
 // Helper functions
 export const getRecipesByCollection = (collection: string): Recipe[] => {
