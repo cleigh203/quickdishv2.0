@@ -76,7 +76,7 @@ export const allRecipes: Recipe[] = [
     servings: 12,
     cuisine: "Italian",
     image: "/lovable-uploads/dessert-tiramisu.png",
-    totalTime: 30,
+    totalTime: 240,
     tags: ["dessert", "italian", "coffee", "no-bake"],
     nutrition: {
       calories: 380,
@@ -118,7 +118,7 @@ export const allRecipes: Recipe[] = [
     servings: 12,
     cuisine: "American",
     image: "/lovable-uploads/dessert-cheesecake.png",
-    totalTime: 80,
+    totalTime: 180,
     tags: ["dessert", "baked", "american", "rich"],
     nutrition: {
       calories: 520,
@@ -158,7 +158,7 @@ export const allRecipes: Recipe[] = [
     servings: 16,
     cuisine: "American",
     image: "/lovable-uploads/dessert-brownies.png",
-    totalTime: 40,
+    totalTime: 45,
     tags: ["dessert", "chocolate", "baked", "easy"],
     nutrition: {
       calories: 240,
@@ -198,7 +198,7 @@ export const allRecipes: Recipe[] = [
     servings: 24,
     cuisine: "French",
     image: "/lovable-uploads/dessert-macarons.png",
-    totalTime: 60,
+    totalTime: 120,
     tags: ["dessert", "french", "baked", "elegant"],
     ingredients: [
       { amount: "1.75", unit: "cups", item: "powdered sugar" },
@@ -231,7 +231,7 @@ export const allRecipes: Recipe[] = [
     servings: 6,
     cuisine: "French",
     image: "/lovable-uploads/dessert-creme-brulee.png",
-    totalTime: 55,
+    totalTime: 165,
     tags: ["dessert", "french", "elegant", "custard"],
     ingredients: [
       { amount: "2", unit: "cups", item: "heavy cream" },
@@ -323,7 +323,7 @@ export const allRecipes: Recipe[] = [
     servings: 8,
     cuisine: "Australian",
     image: "/lovable-uploads/dessert-pavlova.png",
-    totalTime: 110,
+    totalTime: 120,
     tags: ["dessert", "meringue", "fruit", "elegant"],
     ingredients: [
       { amount: "4", unit: "", item: "egg whites" },
@@ -417,7 +417,7 @@ export const allRecipes: Recipe[] = [
     servings: 6,
     cuisine: "Italian",
     image: "/lovable-uploads/dessert-panna-cotta.png",
-    totalTime: 15,
+    totalTime: 250,
     tags: ["dessert", "italian", "no-bake", "elegant"],
     ingredients: [
       { amount: "2", unit: "cups", item: "heavy cream" },
@@ -505,7 +505,7 @@ export const allRecipes: Recipe[] = [
     servings: 8,
     cuisine: "Latin American",
     image: "/lovable-uploads/dessert-flan.png",
-    totalTime: 65,
+    totalTime: 135,
     tags: ["dessert", "custard", "caramel", "baked"],
     ingredients: [
       { amount: "1", unit: "cup", item: "sugar (for caramel)" },
@@ -534,7 +534,7 @@ export const allRecipes: Recipe[] = [
     servings: 12,
     cuisine: "French",
     image: "/lovable-uploads/dessert-eclairs.png",
-    totalTime: 60,
+    totalTime: 75,
     tags: ["dessert", "french", "pastry", "chocolate"],
     ingredients: [
       { amount: "1", unit: "cup", item: "water" },
@@ -565,7 +565,7 @@ export const allRecipes: Recipe[] = [
     servings: 12,
     cuisine: "Latin American",
     image: "/lovable-uploads/dessert-tres-leches.png",
-    totalTime: 50,
+    totalTime: 80,
     tags: ["dessert", "cake", "moist", "latin"],
     ingredients: [
       { amount: "1", unit: "cup", item: "flour" },
@@ -597,7 +597,7 @@ export const allRecipes: Recipe[] = [
     servings: 12,
     cuisine: "American",
     image: "/lovable-uploads/dessert-cinnamon-rolls.png",
-    totalTime: 65,
+    totalTime: 150,
     tags: ["dessert", "breakfast", "baked", "cinnamon"],
     ingredients: [
       { amount: "3.5", unit: "cups", item: "flour" },
@@ -723,7 +723,7 @@ export const allRecipes: Recipe[] = [
     servings: 12,
     cuisine: "French",
     image: "/lovable-uploads/dessert-profiteroles.png",
-    totalTime: 45,
+    totalTime: 75,
     tags: ["dessert", "french", "pastry", "chocolate"],
     ingredients: [
       { amount: "1", unit: "cup", item: "water" },
@@ -785,7 +785,7 @@ export const allRecipes: Recipe[] = [
     servings: 8,
     cuisine: "American",
     image: "/lovable-uploads/dessert-key-lime-pie.png",
-    totalTime: 35,
+    totalTime: 135,
     tags: ["dessert", "citrus", "pie", "easy"],
     ingredients: [
       { amount: "1.5", unit: "cups", item: "graham cracker crumbs" },
@@ -843,7 +843,7 @@ export const allRecipes: Recipe[] = [
     servings: 16,
     cuisine: "American",
     image: "/lovable-uploads/dessert-lemon-bars.png",
-    totalTime: 40,
+    totalTime: 55,
     tags: ["dessert", "citrus", "baked", "bars"],
     ingredients: [
       { amount: "1", unit: "cup", item: "butter, softened" },
