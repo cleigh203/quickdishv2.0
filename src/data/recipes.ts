@@ -291,7 +291,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "French",
-    image: https://images.unsplash.com/photo-8lPKzLSWNgM
+    image: "https://images.unsplash.com/photo-8lPKzLSWNgM",
     totalTime: 27,
     tags: ["dessert", "chocolate", "elegant", "quick"],
     ingredients: [
