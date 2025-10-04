@@ -87,8 +87,7 @@ const Generate = () => {
       
       case 'quick':
         return combinedRecipes.filter(recipe => {
-          const prepTimeNum = parseInt(recipe.prepTime) || 0;
-          return (prepTimeNum <= 30 || recipe.tags?.includes('quick')) && !isHalloweenRecipe(recipe);
+          return (recipe.totalTime <= 30 || recipe.tags?.includes('quick')) && !isHalloweenRecipe(recipe);
         });
       
       case 'breakfast':
