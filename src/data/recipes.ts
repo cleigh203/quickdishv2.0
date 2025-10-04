@@ -1773,8 +1773,6 @@ export const allRecipes: Recipe[] = [
       "Drain on paper towels.",
       "Butter and toast buns.",
       "Place chicken on bun, top with pickles."
-    ]
-  },
 
   // ========== QUICK MEALS UNDER 30 MIN (18) ==========
   {
