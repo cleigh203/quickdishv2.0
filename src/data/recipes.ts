@@ -3864,5 +3864,9 @@ export const getRecipesByDifficulty = (difficulty: string): Recipe[] => {
 };
 
 export const getQuickRecipes = (): Recipe[] => {
-  return allRecipes.filter(recipe => recipe.totalTime && recipe.totalTime <= 30);
+  return allRecipes.filter(recipe => 
+    recipe.totalTime && 
+    recipe.totalTime <= 30 && 
+    !recipe.tags?.includes("dessert")
+  );
 };
