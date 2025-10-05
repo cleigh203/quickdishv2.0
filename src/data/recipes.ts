@@ -75,7 +75,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Italian",
-    image: https://images.unsplash.com/photo-1714385905983-6f8e06fffae1?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Bnx8dGlyYW1hc3V8ZW58MHx8MHx8fDA%3D",
+    image: "https://images.unsplash.com/photo-1714385905983-6f8e06fffae1?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Bnx8dGlyYW1hc3V8ZW58MHx8MHx8fDA%3D",
     totalTime: 240,
     tags: ["dessert", "italian", "coffee", "no-bake"],
     nutrition: {
@@ -291,7 +291,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "French",
-    image: https://unsplash.com/photos/a-white-plate-topped-with-a-piece-of-cake-and-ice-cream-8lPKzLSWNgM,
+    image: "https://unsplash.com/photos/a-white-plate-topped-with-a-piece-of-cake-and-ice-cream-8lPKzLSWNgM",
     totalTime: 27,
     tags: ["dessert", "chocolate", "elegant", "quick"],
     ingredients: [
