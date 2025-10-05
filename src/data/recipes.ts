@@ -96,6 +96,16 @@ import pecanCrustedPorkImg from "@/assets/recipes/pecan-crusted-pork.jpg";
 import caramelAppleNachosImg from "@/assets/recipes/caramel-apple-nachos.jpg";
 import pumpkinRisottoImg from "@/assets/recipes/pumpkin-risotto.jpg";
 import autumnHarvestSaladImg from "@/assets/recipes/autumn-harvest-salad.jpg";
+import halloweenMummyBrowniesImg from "@/assets/recipes/halloween-mummy-brownies.jpg";
+import halloweenGhostCupcakesImg from "@/assets/recipes/halloween-ghost-cupcakes.jpg";
+import halloweenSpiderWebCheesecakeImg from "@/assets/recipes/halloween-spider-web-cheesecake.jpg";
+import halloweenGraveyardCakeImg from "@/assets/recipes/halloween-graveyard-cake.jpg";
+import halloweenBloodyCupcakesImg from "@/assets/recipes/halloween-bloody-cupcakes.jpg";
+import halloweenWitchHatCookiesImg from "@/assets/recipes/halloween-witch-hat-cookies.jpg";
+import halloweenPumpkinPatchBrowniesImg from "@/assets/recipes/halloween-pumpkin-patch-brownies.jpg";
+import halloweenMonsterEyeTrufflesImg from "@/assets/recipes/halloween-monster-eye-truffles.jpg";
+import halloweenCandyCornFudgeImg from "@/assets/recipes/halloween-candy-corn-fudge.jpg";
+import halloweenBlackCatCookiesImg from "@/assets/recipes/halloween-black-cat-cookies.jpg";
 
 // Dessert images are served from Lovable uploads
 
@@ -1209,6 +1219,300 @@ export const allRecipes: Recipe[] = [
       "Cool completely.",
       "Make glaze: mix powdered sugar, milk, orange coloring.",
       "Dip donuts in glaze, let set."
+    ]
+  },
+  {
+    id: "halloween-mummy-brownies",
+    name: "Mummy Brownies",
+    description: "Fudgy brownies wrapped in white chocolate mummy bandages. Spooky cute!",
+    cookTime: "25 mins",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 16,
+    cuisine: "Halloween",
+    image: halloweenMummyBrowniesImg,
+    totalTime: 45,
+    tags: ["halloween", "dessert", "chocolate"],
+    ingredients: [
+      { amount: "1", unit: "box", item: "brownie mix (plus required ingredients)" },
+      { amount: "1", unit: "cup", item: "white chocolate chips" },
+      { amount: "2", unit: "tbsp", item: "coconut oil" },
+      { amount: "32", unit: "", item: "candy eyes" }
+    ],
+    instructions: [
+      "Bake brownies according to package directions in 9x13 pan. Cool completely.",
+      "Cut into 16 squares.",
+      "Melt white chocolate chips with coconut oil in microwave, stirring every 30 seconds.",
+      "Transfer melted chocolate to piping bag or zip-lock bag with corner cut.",
+      "Pipe white chocolate in zigzag pattern across brownies to look like mummy bandages.",
+      "Place 2 candy eyes on each brownie before chocolate sets.",
+      "Let chocolate harden at room temperature or refrigerate 10 minutes."
+    ]
+  },
+  {
+    id: "halloween-ghost-cupcakes",
+    name: "Ghost Cupcakes",
+    description: "Chocolate cupcakes with adorable ghost toppers. Perfect party treat.",
+    cookTime: "20 mins",
+    prepTime: "30 mins",
+    difficulty: "medium",
+    servings: 12,
+    cuisine: "Halloween",
+    image: halloweenGhostCupcakesImg,
+    totalTime: 50,
+    tags: ["halloween", "dessert", "cupcakes"],
+    ingredients: [
+      { amount: "1", unit: "box", item: "chocolate cake mix (plus required ingredients)" },
+      { amount: "2", unit: "cups", item: "buttercream frosting" },
+      { amount: "1", unit: "lb", item: "white fondant" },
+      { amount: "1", unit: "tube", item: "black icing gel" },
+      { amount: "12", unit: "", item: "purple cupcake liners" }
+    ],
+    instructions: [
+      "Bake cupcakes in purple liners according to package directions. Cool completely.",
+      "Frost cupcakes with buttercream, creating a small dome.",
+      "Roll fondant to 1/4 inch thickness. Cut into 12 circles using large cookie cutter.",
+      "Drape fondant over each cupcake, smoothing gently to create ghost shape.",
+      "Use black icing gel to draw two dots for eyes and curved line for mouth.",
+      "Arrange on platter. Some can be tilted for playful effect."
+    ]
+  },
+  {
+    id: "halloween-spider-web-cheesecake",
+    name: "Spider Web Cheesecake",
+    description: "Creamy cheesecake with chocolate spider web design. Show-stopping dessert.",
+    cookTime: "60 mins",
+    prepTime: "30 mins",
+    difficulty: "medium",
+    servings: 12,
+    cuisine: "Halloween",
+    image: halloweenSpiderWebCheesecakeImg,
+    totalTime: 330,
+    tags: ["halloween", "dessert", "elegant"],
+    ingredients: [
+      { amount: "24", unit: "", item: "Oreo cookies, crushed" },
+      { amount: "5", unit: "tbsp", item: "butter, melted" },
+      { amount: "32", unit: "oz", item: "cream cheese, softened" },
+      { amount: "1", unit: "cup", item: "sugar" },
+      { amount: "1", unit: "cup", item: "sour cream" },
+      { amount: "3", unit: "", item: "eggs" },
+      { amount: "2", unit: "tsp", item: "vanilla extract" },
+      { amount: "1/2", unit: "cup", item: "chocolate chips, melted" }
+    ],
+    instructions: [
+      "Preheat oven to 325°F. Mix crushed Oreos with melted butter.",
+      "Press into bottom of 9-inch springform pan. Bake 10 minutes.",
+      "Beat cream cheese and sugar until fluffy. Add sour cream, eggs, vanilla.",
+      "Pour filling over crust. Bake 55-60 minutes until edges set but center jiggles.",
+      "Cool completely, then refrigerate 4 hours.",
+      "Melt chocolate and transfer to piping bag. Draw spiral on top of cheesecake.",
+      "Use toothpick to drag lines from center outward creating web pattern.",
+      "Add chocolate spider decoration in center."
+    ]
+  },
+  {
+    id: "halloween-graveyard-cake",
+    name: "Graveyard Chocolate Cake",
+    description: "Rich chocolate cake decorated as spooky graveyard. Perfect centerpiece.",
+    cookTime: "35 mins",
+    prepTime: "45 mins",
+    difficulty: "medium",
+    servings: 16,
+    cuisine: "Halloween",
+    image: halloweenGraveyardCakeImg,
+    totalTime: 80,
+    tags: ["halloween", "dessert", "chocolate"],
+    ingredients: [
+      { amount: "1", unit: "box", item: "chocolate cake mix (plus required ingredients)" },
+      { amount: "3", unit: "cups", item: "chocolate buttercream" },
+      { amount: "20", unit: "", item: "Oreo cookies, crushed" },
+      { amount: "12", unit: "", item: "Milano cookies" },
+      { amount: "1", unit: "tube", item: "black decorating gel" },
+      { amount: "10", unit: "", item: "gummy worms" },
+      { amount: "1/4", unit: "cup", item: "candy pumpkins" }
+    ],
+    instructions: [
+      "Bake cake in 9x13 pan according to package. Cool completely.",
+      "Frost entire cake with chocolate buttercream.",
+      "Sprinkle crushed Oreos on top to look like dirt.",
+      "Write 'RIP' and dates on Milano cookies with black gel to make tombstones.",
+      "Insert tombstones upright into cake at various angles.",
+      "Add gummy worms poking out of 'dirt'.",
+      "Scatter candy pumpkins around graveyard."
+    ]
+  },
+  {
+    id: "halloween-bloody-cupcakes",
+    name: "Bloody Red Velvet Cupcakes",
+    description: "Red velvet cupcakes with dripping blood effect. Deliciously spooky.",
+    cookTime: "20 mins",
+    prepTime: "25 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "Halloween",
+    image: halloweenBloodyCupcakesImg,
+    totalTime: 45,
+    tags: ["halloween", "dessert", "cupcakes"],
+    ingredients: [
+      { amount: "1", unit: "box", item: "red velvet cake mix (plus required ingredients)" },
+      { amount: "2", unit: "cups", item: "cream cheese frosting" },
+      { amount: "1/4", unit: "cup", item: "red gel food coloring" },
+      { amount: "2", unit: "tbsp", item: "corn syrup" }
+    ],
+    instructions: [
+      "Bake red velvet cupcakes according to package. Cool completely.",
+      "Frost cupcakes generously with cream cheese frosting.",
+      "Mix red gel coloring with corn syrup to create blood drip.",
+      "Use spoon to drizzle red mixture down sides of frosted cupcakes.",
+      "Let some drips pool at bottom for realistic effect.",
+      "Optional: add decorative plastic syringe with red mixture.",
+      "Serve on dark platter for dramatic presentation."
+    ]
+  },
+  {
+    id: "halloween-witch-hat-cookies",
+    name: "Witch Hat Cookies",
+    description: "Chocolate cookies topped with Hershey Kisses. Easy and adorable.",
+    cookTime: "10 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 24,
+    cuisine: "Halloween",
+    image: halloweenWitchHatCookiesImg,
+    totalTime: 25,
+    tags: ["halloween", "dessert", "cookies", "no-bake"],
+    ingredients: [
+      { amount: "24", unit: "", item: "Keebler Fudge Stripe cookies" },
+      { amount: "24", unit: "", item: "Hershey's Kisses" },
+      { amount: "1/2", unit: "cup", item: "orange icing" },
+      { amount: "1/4", unit: "cup", item: "chocolate frosting" }
+    ],
+    instructions: [
+      "Unwrap all Hershey's Kisses.",
+      "Place a small dollop of chocolate frosting in center of each cookie.",
+      "Press Hershey's Kiss onto frosting to create witch hat shape.",
+      "Hold for a few seconds to set.",
+      "Use orange icing to pipe a ribbon around base of each Kiss.",
+      "Let icing set completely before serving.",
+      "Arrange on black serving plate for Halloween effect."
+    ]
+  },
+  {
+    id: "halloween-pumpkin-patch-brownies",
+    name: "Pumpkin Patch Brownies",
+    description: "Chocolate brownies decorated with icing pumpkins. Festive and fun.",
+    cookTime: "25 mins",
+    prepTime: "30 mins",
+    difficulty: "easy",
+    servings: 16,
+    cuisine: "Halloween",
+    image: halloweenPumpkinPatchBrowniesImg,
+    totalTime: 55,
+    tags: ["halloween", "dessert", "chocolate"],
+    ingredients: [
+      { amount: "1", unit: "box", item: "brownie mix (plus required ingredients)" },
+      { amount: "1", unit: "cup", item: "chocolate frosting" },
+      { amount: "1", unit: "cup", item: "orange icing" },
+      { amount: "1/4", unit: "cup", item: "green icing" },
+      { amount: "1/4", unit: "cup", item: "brown icing" }
+    ],
+    instructions: [
+      "Bake brownies in 9x13 pan according to package. Cool completely.",
+      "Frost entire top with chocolate frosting, creating smooth surface.",
+      "Use orange icing to pipe small pumpkin shapes across brownies.",
+      "Add brown icing stems to each pumpkin.",
+      "Pipe green icing vines connecting pumpkins.",
+      "Cut into 16 squares, making sure each has at least one pumpkin.",
+      "Serve on rustic board for autumn presentation."
+    ]
+  },
+  {
+    id: "halloween-monster-eye-truffles",
+    name: "Monster Eye Truffles",
+    description: "Chocolate truffles decorated as realistic eyeballs. Creepy delicious.",
+    cookTime: "0 mins",
+    prepTime: "45 mins",
+    difficulty: "medium",
+    servings: 20,
+    cuisine: "Halloween",
+    image: halloweenMonsterEyeTrufflesImg,
+    totalTime: 105,
+    tags: ["halloween", "dessert", "chocolate", "no-bake"],
+    ingredients: [
+      { amount: "8", unit: "oz", item: "cream cheese, softened" },
+      { amount: "3", unit: "cups", item: "crushed Oreos" },
+      { amount: "12", unit: "oz", item: "white chocolate chips" },
+      { amount: "2", unit: "tbsp", item: "coconut oil" },
+      { amount: "1", unit: "tube", item: "blue icing gel" },
+      { amount: "1", unit: "tube", item: "red icing gel" }
+    ],
+    instructions: [
+      "Mix cream cheese and crushed Oreos until well combined.",
+      "Roll into 20 balls and refrigerate 30 minutes.",
+      "Melt white chocolate with coconut oil, stirring until smooth.",
+      "Dip each ball in white chocolate, coating completely. Place on parchment.",
+      "While chocolate is wet, use blue icing to draw iris and pupil.",
+      "Let white chocolate set completely.",
+      "Use red icing gel to draw veins from center outward for bloodshot effect.",
+      "Refrigerate until serving."
+    ]
+  },
+  {
+    id: "halloween-candy-corn-fudge",
+    name: "Candy Corn Fudge",
+    description: "Three-layer fudge in candy corn colors. Sweet Halloween treat.",
+    cookTime: "0 mins",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 36,
+    cuisine: "Halloween",
+    image: halloweenCandyCornFudgeImg,
+    totalTime: 140,
+    tags: ["halloween", "dessert", "no-bake"],
+    ingredients: [
+      { amount: "3", unit: "cups", item: "white chocolate chips" },
+      { amount: "14", unit: "oz", item: "sweetened condensed milk" },
+      { amount: "1", unit: "tsp", item: "vanilla extract" },
+      { amount: "15", unit: "drops", item: "yellow food coloring" },
+      { amount: "15", unit: "drops", item: "orange food coloring" }
+    ],
+    instructions: [
+      "Line 8x8 pan with parchment paper.",
+      "Melt 1 cup white chocolate with 1/3 of condensed milk. Add yellow coloring.",
+      "Spread yellow layer in pan. Refrigerate 15 minutes.",
+      "Melt 1 cup white chocolate with 1/3 condensed milk. Add orange coloring.",
+      "Spread orange layer over yellow. Refrigerate 15 minutes.",
+      "Melt remaining chocolate with condensed milk. Add vanilla (white layer).",
+      "Spread white layer on top. Refrigerate 2 hours until firm.",
+      "Cut into squares. Arrange to show candy corn pattern."
+    ]
+  },
+  {
+    id: "halloween-black-cat-cookies",
+    name: "Black Cat Cookies",
+    description: "Chocolate cookies decorated as black cat silhouettes. Purr-fect for Halloween.",
+    cookTime: "12 mins",
+    prepTime: "30 mins",
+    difficulty: "easy",
+    servings: 24,
+    cuisine: "Halloween",
+    image: halloweenBlackCatCookiesImg,
+    totalTime: 42,
+    tags: ["halloween", "dessert", "cookies"],
+    ingredients: [
+      { amount: "1", unit: "package", item: "chocolate cookie mix (plus required ingredients)" },
+      { amount: "2", unit: "cups", item: "black icing" },
+      { amount: "48", unit: "", item: "yellow candy eyes" },
+      { amount: "1/4", unit: "cup", item: "orange icing" }
+    ],
+    instructions: [
+      "Bake chocolate cookies according to package, making them perfectly round. Cool.",
+      "Use black icing to pipe cat silhouette on each cookie with arched back.",
+      "Add pointed ears at top of silhouette.",
+      "Place 2 yellow candy eyes on each cat face.",
+      "Use orange icing to pipe small collar with bell at bottom of each cat.",
+      "Let icing dry completely before handling.",
+      "Arrange on dark platter with Halloween decorations."
     ]
   },
   {
