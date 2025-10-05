@@ -148,7 +148,7 @@ const Profile = () => {
     const newCount = tapCount + 1;
     setTapCount(newCount);
     
-    if (newCount === 7) {
+    if (newCount === 5) {
       setDevMode(true);
       localStorage.setItem('developerMode', 'true');
       toast({
@@ -499,38 +499,40 @@ const Profile = () => {
           </CardContent>
         </Card>
 
-        {/* Developer Testing */}
-        <Card className="rounded-xl shadow-sm bg-card">
-          <CardContent className="p-6">
-            <div className="text-xs text-muted-foreground mb-3">Developer Testing</div>
-            <Button
-              onClick={togglePremium}
-              className={`w-full ${
-                isPremium 
-                  ? 'bg-gradient-to-r from-primary to-pink-500 text-white hover:opacity-90' 
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
-              }`}
-              size="lg"
-            >
-              {isPremium ? '⭐ Premium Active' : '🔓 Activate Premium (Testing)'}
-            </Button>
-          </CardContent>
-        </Card>
-
+        {/* Hidden Developer Tools - Only visible when dev mode is active */}
         {devMode && (
-          <Card className="rounded-xl shadow-sm bg-card border-red-500/50">
-            <CardContent className="p-6">
-              <p className="text-red-400 text-xs mb-3">⚠️ Developer Tools</p>
-              <Button
-                onClick={() => navigate('/admin')}
-                className="w-full bg-red-600 hover:bg-red-700 text-white"
-                size="lg"
-              >
-                <Settings className="w-4 h-4 mr-2" />
-                Open Admin Panel
-              </Button>
-            </CardContent>
-          </Card>
+          <>
+            <Card className="rounded-xl shadow-sm bg-card">
+              <CardContent className="p-6">
+                <div className="text-xs text-muted-foreground mb-3">Developer Testing</div>
+                <Button
+                  onClick={togglePremium}
+                  className={`w-full ${
+                    isPremium 
+                      ? 'bg-gradient-to-r from-primary to-pink-500 text-white hover:opacity-90' 
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  }`}
+                  size="lg"
+                >
+                  {isPremium ? '⭐ Premium Active' : '🔓 Activate Premium (Testing)'}
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="rounded-xl shadow-sm bg-card border-red-500/50">
+              <CardContent className="p-6">
+                <p className="text-red-400 text-xs mb-3">⚠️ Developer Tools</p>
+                <Button
+                  onClick={() => navigate('/admin')}
+                  className="w-full bg-red-600 hover:bg-red-700 text-white"
+                  size="lg"
+                >
+                  <Settings className="w-4 h-4 mr-2" />
+                  Open Admin Panel
+                </Button>
+              </CardContent>
+            </Card>
+          </>
         )}
 
         <div 
