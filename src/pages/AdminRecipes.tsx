@@ -59,6 +59,7 @@ interface Recipe {
   tags: string[];
   image_url: string;
   source: string;
+  category: string;
   ai_generated: boolean;
   needs_validation: boolean;
   verified: boolean;
@@ -131,7 +132,7 @@ const AdminRecipes = () => {
     });
 
     allRecipes.forEach(recipe => {
-      const category = getCategoryFromTags(recipe.tags);
+      const category = recipe.category || 'Family Favorites';
       const stat = categoryMap.get(category);
       if (stat) {
         stat.total++;
@@ -158,7 +159,7 @@ const AdminRecipes = () => {
     // Category filter
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(r => 
-        getCategoryFromTags(r.tags) === selectedCategory
+        (r.category || 'Family Favorites') === selectedCategory
       );
     }
 
@@ -190,7 +191,7 @@ const AdminRecipes = () => {
 
   const getCategoryValidationIssues = (recipe: Recipe): string[] => {
     const issues: string[] = [];
-    const category = getCategoryFromTags(recipe.tags);
+    const category = recipe.category || 'Family Favorites';
     const totalTime = getTotalTime(recipe.prep_time, recipe.cook_time);
 
     switch (category) {
@@ -285,7 +286,7 @@ const AdminRecipes = () => {
 
     try {
       const recipesToApprove = recipes.filter(r => 
-        getCategoryFromTags(r.tags) === category && 
+        (r.category || 'Family Favorites') === category && 
         r.needs_validation && 
         !r.verified
       );
@@ -493,7 +494,7 @@ const AdminRecipes = () => {
         </div>
 
         {filteredRecipes.map(recipe => {
-          const category = getCategoryFromTags(recipe.tags);
+          const category = recipe.category || 'Family Favorites';
           const issues = getCategoryValidationIssues(recipe);
           const isExpanded = expandedRecipes.has(recipe.id);
           const totalTime = getTotalTime(recipe.prep_time, recipe.cook_time);

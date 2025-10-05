@@ -170,6 +170,7 @@ CRITICAL REQUIREMENTS:
             tags: recipeJson.tags,
             nutrition: recipeJson.nutritionalInfo,
             image_url: imageUrl,
+            category: 'Restaurant Copycats',
             source: 'ai_generated',
             ai_generated: true,
             needs_validation: true,

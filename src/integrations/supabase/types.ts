@@ -271,6 +271,7 @@ export type Database = {
       recipes: {
         Row: {
           ai_generated: boolean | null
+          category: string
           cook_time: string | null
           created_at: string | null
           cuisine: string | null
@@ -298,6 +299,7 @@ export type Database = {
         }
         Insert: {
           ai_generated?: boolean | null
+          category?: string
           cook_time?: string | null
           created_at?: string | null
           cuisine?: string | null
@@ -325,6 +327,7 @@ export type Database = {
         }
         Update: {
           ai_generated?: boolean | null
+          category?: string
           cook_time?: string | null
           created_at?: string | null
           cuisine?: string | null
