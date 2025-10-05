@@ -26,7 +26,8 @@ import {
   Filter,
   TrendingUp,
   AlertTriangle,
-  ArrowLeft
+  ArrowLeft,
+  RefreshCw
 } from 'lucide-react';
 import { toast } from 'sonner';
 import {
@@ -278,6 +279,34 @@ const AdminRecipes = () => {
     } catch (error) {
       console.error('Error deleting recipe:', error);
       toast.error('Failed to delete recipe');
+    }
+  };
+
+  const regenerateImage = async (recipeId: string, recipeName: string) => {
+    if (!confirm(`Regenerate image for "${recipeName}"?`)) return;
+
+    toast.info('Generating new image... This may take 20-30 seconds.');
+
+    try {
+      const { data, error } = await supabase.functions.invoke('regenerate-recipe-image', {
+        body: { 
+          recipeId, 
+          recipeName,
+          prompt: `High-quality, appetizing photo of ${recipeName}, professional food photography, restaurant-quality plating, natural lighting, shallow depth of field, 4K resolution, realistic textures`
+        }
+      });
+
+      if (error) throw error;
+      
+      if (data?.error) {
+        throw new Error(data.error);
+      }
+
+      toast.success('Image regenerated successfully!');
+      fetchRecipes();
+    } catch (error) {
+      console.error('Error regenerating image:', error);
+      toast.error(`Failed to regenerate image: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -541,6 +570,15 @@ const AdminRecipes = () => {
                       disabled={recipe.verified}
                     >
                       <CheckCircle className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="bg-blue-50 hover:bg-blue-100 text-blue-700"
+                      onClick={() => regenerateImage(recipe.id, recipe.name)}
+                      title="Regenerate image with AI"
+                    >
+                      <RefreshCw className="h-4 w-4" />
                     </Button>
                     <Button
                       size="sm"
