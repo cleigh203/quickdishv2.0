@@ -13,6 +13,7 @@ import { allRecipes } from "@/data/recipes";
 // TODO V2.0: Re-enable AI recipe generation with full feature parity
 // import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
+import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
 
 const Generate = () => {
   const [searchParams] = useSearchParams();
@@ -20,6 +21,7 @@ const Generate = () => {
   const { toast } = useToast();
   const { saveRecipe, isSaved } = useSavedRecipes();
   const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
+  const { verifiedRecipes } = useVerifiedRecipes();
   
   // Search overlay state
   const [showSearchOverlay, setShowSearchOverlay] = useState(false);
@@ -34,8 +36,8 @@ const Generate = () => {
   const collectionParam = searchParams.get('collection');
   const ingredientsParam = searchParams.get('ingredients');
   
-  // Combine static recipes with user's generated recipes
-  const combinedRecipes = [...allRecipes, ...generatedRecipes];
+  // Combine verified database recipes, static recipes, and user's generated recipes
+  const combinedRecipes = [...verifiedRecipes, ...allRecipes, ...generatedRecipes];
 
   // Load all recipes into storage on mount
   useEffect(() => {
