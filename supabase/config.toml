@@ -23,3 +23,12 @@ verify_jwt = false
 
 [functions.ai-recipe-chat]
 verify_jwt = false
+
+[functions.generate-bulk-recipes]
+verify_jwt = true
+
+[functions.generate-dessert-images]
+verify_jwt = true
+
+[functions.generate-bulk-recipe-images]
+verify_jwt = true
