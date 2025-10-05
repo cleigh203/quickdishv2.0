@@ -503,6 +503,13 @@ const AdminRecipes = () => {
             <Card key={recipe.id} className="overflow-hidden">
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between gap-4">
+                  {recipe.image_url && (
+                    <img 
+                      src={recipe.image_url} 
+                      alt={recipe.name}
+                      className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+                    />
+                  )}
                   <div className="flex-1 space-y-2">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h3 className="text-xl font-semibold">{recipe.name}</h3>
@@ -610,7 +617,7 @@ const AdminRecipes = () => {
                       <ul className="space-y-1 text-sm">
                         {recipe.ingredients.map((ing: any, idx: number) => (
                           <li key={idx}>
-                            {ing.amount} {ing.unit} {ing.name}
+                            {ing.amount} {ing.unit} {ing.item}
                           </li>
                         ))}
                       </ul>
