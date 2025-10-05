@@ -106,6 +106,26 @@ import halloweenPumpkinPatchBrowniesImg from "@/assets/recipes/halloween-pumpkin
 import halloweenMonsterEyeTrufflesImg from "@/assets/recipes/halloween-monster-eye-truffles.jpg";
 import halloweenCandyCornFudgeImg from "@/assets/recipes/halloween-candy-corn-fudge.jpg";
 import halloweenBlackCatCookiesImg from "@/assets/recipes/halloween-black-cat-cookies.jpg";
+import leftoverChickenEnchiladasImg from "@/assets/recipes/leftover-chicken-enchiladas.jpg";
+import leftoverMashedPotatoPancakesImg from "@/assets/recipes/leftover-mashed-potato-pancakes.jpg";
+import leftoverPotRoastShepherdsPieImg from "@/assets/recipes/leftover-pot-roast-shepherds-pie.jpg";
+import leftoverChickenSoupCasseroleImg from "@/assets/recipes/leftover-chicken-soup-casserole.jpg";
+import leftoverTacoMeatPizzaImg from "@/assets/recipes/leftover-taco-meat-pizza.jpg";
+import leftoverChickenPhoImg from "@/assets/recipes/leftover-chicken-pho.jpg";
+import leftoverMeatloafSlidersImg from "@/assets/recipes/leftover-meatloaf-sliders.jpg";
+import leftoverChiliCheeseFriesImg from "@/assets/recipes/leftover-chili-cheese-fries.jpg";
+import leftoverPulledPorkEggRollsImg from "@/assets/recipes/leftover-pulled-pork-egg-rolls.jpg";
+import leftoverTurkeyTetrazziniImg from "@/assets/recipes/leftover-turkey-tetrazzini.jpg";
+import leftoverRoastBeefPoutineImg from "@/assets/recipes/leftover-roast-beef-poutine.jpg";
+import leftoverChickenAlfredoShellsImg from "@/assets/recipes/leftover-chicken-alfredo-shells.jpg";
+import leftoverBbqRibsMacImg from "@/assets/recipes/leftover-bbq-ribs-mac.jpg";
+import leftoverChickenParmSoupImg from "@/assets/recipes/leftover-chicken-parm-soup.jpg";
+import leftoverFajitaBreakfastHashImg from "@/assets/recipes/leftover-fajita-breakfast-hash.jpg";
+import leftoverMeatballCasseroleImg from "@/assets/recipes/leftover-meatball-casserole.jpg";
+import leftoverLasagnaGrilledCheeseImg from "@/assets/recipes/leftover-lasagna-grilled-cheese.jpg";
+import leftoverPotRoastRamenImg from "@/assets/recipes/leftover-pot-roast-ramen.jpg";
+import leftoverTacoStuffedPeppersImg from "@/assets/recipes/leftover-taco-stuffed-peppers.jpg";
+import leftoverTikkaMasalaPotPieImg from "@/assets/recipes/leftover-tikka-masala-pot-pie.jpg";
 
 // Dessert images are served from Lovable uploads
 
@@ -3073,7 +3093,646 @@ export const allRecipes: Recipe[] = [
       "Serve immediately."
     ]
   },
-  // ========== DINNER RECIPES (20) ==========
+  {
+    id: "leftover-chicken-enchiladas",
+    name: "Rotisserie Chicken Enchiladas",
+    description: "Transform leftover chicken into restaurant-quality enchiladas.",
+    cookTime: "25 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Mexican",
+    image: leftoverChickenEnchiladasImg,
+    totalTime: 40,
+    tags: ["leftover", "mexican", "dinner", "comfort-food"],
+    ingredients: [
+      { amount: "3", unit: "cups", item: "leftover rotisserie chicken, shredded" },
+      { amount: "12", unit: "", item: "flour tortillas" },
+      { amount: "2", unit: "cups", item: "red enchilada sauce" },
+      { amount: "2", unit: "cups", item: "shredded Mexican cheese blend" },
+      { amount: "1", unit: "cup", item: "sour cream" },
+      { amount: "1", unit: "can", item: "black beans, drained" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "2", unit: "cloves", item: "garlic, minced" },
+      { amount: "", unit: "", item: "Cilantro for garnish" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Grease 9x13 baking dish.",
+      "Sauté onion and garlic until soft. Mix with chicken and beans.",
+      "Spread 1/2 cup enchilada sauce in bottom of dish.",
+      "Fill each tortilla with chicken mixture and 2 tbsp cheese. Roll tightly.",
+      "Place seam-side down in dish. Pour remaining sauce over top.",
+      "Sprinkle with remaining cheese.",
+      "Bake 25 minutes until bubbly and cheese is melted.",
+      "Top with sour cream, diced tomatoes, and cilantro."
+    ]
+  },
+  {
+    id: "leftover-mashed-potato-pancakes",
+    name: "Crispy Mashed Potato Pancakes",
+    description: "Turn cold mashed potatoes into golden breakfast treats.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: leftoverMashedPotatoPancakesImg,
+    totalTime: 25,
+    tags: ["leftover", "breakfast", "side-dish"],
+    ingredients: [
+      { amount: "3", unit: "cups", item: "leftover mashed potatoes" },
+      { amount: "2", unit: "", item: "eggs, beaten" },
+      { amount: "1/2", unit: "cup", item: "flour" },
+      { amount: "1/4", unit: "cup", item: "green onions, chopped" },
+      { amount: "1", unit: "cup", item: "shredded cheddar cheese" },
+      { amount: "4", unit: "tbsp", item: "butter" },
+      { amount: "", unit: "", item: "Sour cream and chives for serving" }
+    ],
+    instructions: [
+      "Mix mashed potatoes, eggs, flour, green onions, and cheese in bowl.",
+      "Form into 8 patties about 1/2 inch thick.",
+      "Melt 2 tbsp butter in large skillet over medium-high heat.",
+      "Cook patties 4-5 minutes per side until golden and crispy.",
+      "Add more butter as needed for remaining patties.",
+      "Serve hot topped with sour cream and chives."
+    ]
+  },
+  {
+    id: "leftover-pot-roast-shepherds-pie",
+    name: "Pot Roast Shepherd's Pie",
+    description: "Classic comfort food using yesterday's pot roast.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "American",
+    image: leftoverPotRoastShepherdsPieImg,
+    totalTime: 45,
+    tags: ["leftover", "comfort-food", "dinner"],
+    ingredients: [
+      { amount: "3", unit: "cups", item: "leftover pot roast, shredded" },
+      { amount: "2", unit: "cups", item: "leftover vegetables (carrots, onions, celery)" },
+      { amount: "1", unit: "cup", item: "leftover gravy or beef broth" },
+      { amount: "4", unit: "cups", item: "mashed potatoes" },
+      { amount: "1", unit: "cup", item: "frozen peas" },
+      { amount: "2", unit: "tbsp", item: "tomato paste" },
+      { amount: "1", unit: "tsp", item: "Worcestershire sauce" },
+      { amount: "1", unit: "cup", item: "shredded cheddar cheese" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F.",
+      "Mix pot roast, vegetables, peas, gravy, tomato paste, and Worcestershire in baking dish.",
+      "Spread mashed potatoes evenly over meat mixture.",
+      "Use fork to create texture on potato surface.",
+      "Sprinkle cheese on top.",
+      "Bake 30 minutes until potatoes are golden and filling is bubbly.",
+      "Let rest 5 minutes before serving."
+    ]
+  },
+  {
+    id: "leftover-chicken-soup-casserole",
+    name: "Chicken Noodle Soup Casserole",
+    description: "Transform soup into cozy baked comfort food.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: leftoverChickenSoupCasseroleImg,
+    totalTime: 45,
+    tags: ["leftover", "comfort-food", "dinner"],
+    ingredients: [
+      { amount: "4", unit: "cups", item: "leftover chicken noodle soup" },
+      { amount: "2", unit: "cups", item: "cooked egg noodles" },
+      { amount: "1", unit: "cup", item: "shredded chicken" },
+      { amount: "1", unit: "cup", item: "frozen mixed vegetables" },
+      { amount: "1", unit: "cup", item: "sour cream" },
+      { amount: "2", unit: "cups", item: "shredded mozzarella" },
+      { amount: "1", unit: "cup", item: "breadcrumbs" },
+      { amount: "3", unit: "tbsp", item: "butter, melted" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Grease 9x13 baking dish.",
+      "Mix soup, noodles, chicken, vegetables, sour cream, and 1 cup cheese.",
+      "Pour into prepared dish.",
+      "Mix breadcrumbs with melted butter and remaining cheese.",
+      "Sprinkle breadcrumb mixture over casserole.",
+      "Bake 30 minutes until golden and bubbly.",
+      "Garnish with fresh parsley."
+    ]
+  },
+  {
+    id: "leftover-taco-meat-pizza",
+    name: "Taco Pizza",
+    description: "Mexican meets Italian in this creative leftover mashup.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Fusion",
+    image: leftoverTacoMeatPizzaImg,
+    totalTime: 25,
+    tags: ["leftover", "fusion", "dinner", "kid-friendly"],
+    ingredients: [
+      { amount: "1", unit: "", item: "pizza dough or pre-made crust" },
+      { amount: "2", unit: "cups", item: "leftover taco meat" },
+      { amount: "1", unit: "cup", item: "refried beans" },
+      { amount: "2", unit: "cups", item: "shredded Mexican cheese" },
+      { amount: "1", unit: "cup", item: "shredded lettuce" },
+      { amount: "1", unit: "", item: "tomato, diced" },
+      { amount: "1/2", unit: "cup", item: "sour cream" },
+      { amount: "", unit: "", item: "Jalapeños, olives, salsa for topping" }
+    ],
+    instructions: [
+      "Preheat oven to 425°F.",
+      "Roll out pizza dough on baking sheet.",
+      "Spread refried beans as base sauce.",
+      "Top with taco meat and cheese.",
+      "Bake 12-15 minutes until crust is golden and cheese melted.",
+      "Remove from oven, top with lettuce, tomatoes, sour cream drizzle.",
+      "Add jalapeños and olives. Slice and serve with salsa."
+    ]
+  },
+  {
+    id: "leftover-chicken-pho",
+    name: "Easy Chicken Pho",
+    description: "Vietnamese comfort soup using leftover chicken.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Vietnamese",
+    image: leftoverChickenPhoImg,
+    totalTime: 30,
+    tags: ["leftover", "soup", "asian", "healthy"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "leftover rotisserie chicken, shredded" },
+      { amount: "8", unit: "cups", item: "chicken broth" },
+      { amount: "8", unit: "oz", item: "rice noodles" },
+      { amount: "2", unit: "", item: "star anise" },
+      { amount: "1", unit: "stick", item: "cinnamon" },
+      { amount: "3", unit: "slices", item: "fresh ginger" },
+      { amount: "2", unit: "tbsp", item: "fish sauce" },
+      { amount: "1", unit: "tbsp", item: "brown sugar" },
+      { amount: "", unit: "", item: "Bean sprouts, basil, lime, jalapeños for serving" }
+    ],
+    instructions: [
+      "Bring broth to boil with star anise, cinnamon, and ginger.",
+      "Simmer 15 minutes to infuse flavors. Strain out spices.",
+      "Add fish sauce and brown sugar.",
+      "Cook rice noodles according to package, drain.",
+      "Divide noodles between bowls, add shredded chicken.",
+      "Pour hot broth over noodles and chicken.",
+      "Top with bean sprouts, fresh herbs, lime juice, and jalapeños."
+    ]
+  },
+  {
+    id: "leftover-meatloaf-sliders",
+    name: "Meatloaf Sliders with Caramelized Onions",
+    description: "Mini sandwiches that make meatloaf exciting again.",
+    cookTime: "10 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: leftoverMeatloafSlidersImg,
+    totalTime: 20,
+    tags: ["leftover", "sandwich", "lunch"],
+    ingredients: [
+      { amount: "6", unit: "slices", item: "leftover meatloaf" },
+      { amount: "12", unit: "", item: "slider buns" },
+      { amount: "6", unit: "slices", item: "cheddar cheese" },
+      { amount: "1", unit: "large", item: "onion, sliced" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "1/4", unit: "cup", item: "BBQ sauce" },
+      { amount: "1/4", unit: "cup", item: "mayonnaise" }
+    ],
+    instructions: [
+      "Caramelize onions in butter over medium heat, 15 minutes.",
+      "Heat meatloaf slices in skillet until warmed through.",
+      "Toast slider buns.",
+      "Mix BBQ sauce with mayo for spread.",
+      "Spread sauce on buns, add meatloaf slice.",
+      "Top with cheese slice and caramelized onions.",
+      "Serve with fries or chips."
+    ]
+  },
+  {
+    id: "leftover-chili-cheese-fries",
+    name: "Loaded Chili Cheese Fries",
+    description: "Turn leftover chili into irresistible loaded fries.",
+    cookTime: "25 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: leftoverChiliCheeseFriesImg,
+    totalTime: 30,
+    tags: ["leftover", "comfort-food", "appetizer"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "frozen french fries" },
+      { amount: "3", unit: "cups", item: "leftover chili" },
+      { amount: "1", unit: "cup", item: "cheddar cheese sauce" },
+      { amount: "1/2", unit: "cup", item: "sour cream" },
+      { amount: "1/4", unit: "cup", item: "chopped green onions" },
+      { amount: "1/4", unit: "cup", item: "pickled jalapeños" }
+    ],
+    instructions: [
+      "Bake fries according to package directions until extra crispy.",
+      "Reheat chili until hot.",
+      "Arrange fries on large serving platter.",
+      "Pour hot chili over fries.",
+      "Drizzle with cheese sauce.",
+      "Top with dollops of sour cream, green onions, and jalapeños.",
+      "Serve immediately while hot."
+    ]
+  },
+  {
+    id: "leftover-pulled-pork-egg-rolls",
+    name: "BBQ Pulled Pork Egg Rolls",
+    description: "Crispy Asian-inspired rolls with Southern BBQ filling.",
+    cookTime: "15 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 12,
+    cuisine: "Fusion",
+    image: leftoverPulledPorkEggRollsImg,
+    totalTime: 35,
+    tags: ["leftover", "fusion", "appetizer"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "leftover pulled pork" },
+      { amount: "1", unit: "cup", item: "coleslaw" },
+      { amount: "12", unit: "", item: "egg roll wrappers" },
+      { amount: "1/4", unit: "cup", item: "BBQ sauce" },
+      { amount: "1", unit: "", item: "egg, beaten" },
+      { amount: "", unit: "", item: "Vegetable oil for frying" },
+      { amount: "1/2", unit: "cup", item: "sweet chili sauce for dipping" }
+    ],
+    instructions: [
+      "Mix pulled pork with BBQ sauce and coleslaw.",
+      "Lay egg roll wrapper with corner pointing toward you.",
+      "Place 2-3 tbsp filling in center.",
+      "Fold bottom corner over filling, fold in sides, roll tightly.",
+      "Seal edge with beaten egg.",
+      "Heat 2 inches oil to 350°F.",
+      "Fry egg rolls 3-4 minutes until golden brown.",
+      "Drain on paper towels. Serve with sweet chili sauce."
+    ]
+  },
+  {
+    id: "leftover-turkey-tetrazzini",
+    name: "Turkey Tetrazzini",
+    description: "Classic creamy pasta bake perfect for leftover turkey.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "Italian-American",
+    image: leftoverTurkeyTetrazziniImg,
+    totalTime: 45,
+    tags: ["leftover", "pasta", "comfort-food", "thanksgiving"],
+    ingredients: [
+      { amount: "4", unit: "cups", item: "leftover turkey, cubed" },
+      { amount: "1", unit: "lb", item: "spaghetti" },
+      { amount: "8", unit: "oz", item: "mushrooms, sliced" },
+      { amount: "1", unit: "cup", item: "frozen peas" },
+      { amount: "3", unit: "cups", item: "heavy cream" },
+      { amount: "1", unit: "cup", item: "chicken broth" },
+      { amount: "1", unit: "cup", item: "parmesan cheese, grated" },
+      { amount: "1", unit: "cup", item: "breadcrumbs" },
+      { amount: "4", unit: "tbsp", item: "butter" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Cook spaghetti al dente, drain.",
+      "Sauté mushrooms in 2 tbsp butter until golden.",
+      "In large bowl, mix spaghetti, turkey, mushrooms, peas, cream, broth, and half the parmesan.",
+      "Transfer to greased 9x13 baking dish.",
+      "Mix breadcrumbs with remaining butter and parmesan.",
+      "Sprinkle breadcrumb mixture over casserole.",
+      "Bake 30 minutes until golden and bubbly."
+    ]
+  },
+  {
+    id: "leftover-roast-beef-poutine",
+    name: "Roast Beef Poutine",
+    description: "Canadian classic elevated with tender roast beef.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Canadian",
+    image: leftoverRoastBeefPoutineImg,
+    totalTime: 30,
+    tags: ["leftover", "comfort-food", "canadian"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "frozen french fries" },
+      { amount: "2", unit: "cups", item: "leftover roast beef, shredded" },
+      { amount: "2", unit: "cups", item: "beef gravy" },
+      { amount: "2", unit: "cups", item: "cheese curds" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "", unit: "", item: "Fresh parsley for garnish" }
+    ],
+    instructions: [
+      "Bake fries until extra crispy according to package.",
+      "Heat roast beef with butter until warmed through.",
+      "Heat gravy until simmering.",
+      "Divide hot fries among serving bowls.",
+      "Top with cheese curds and shredded roast beef.",
+      "Pour hot gravy over everything.",
+      "Garnish with parsley and serve immediately."
+    ]
+  },
+  {
+    id: "leftover-chicken-alfredo-shells",
+    name: "Chicken Alfredo Stuffed Shells",
+    description: "Creamy pasta shells filled with alfredo and chicken.",
+    cookTime: "30 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Italian",
+    image: leftoverChickenAlfredoShellsImg,
+    totalTime: 50,
+    tags: ["leftover", "pasta", "italian", "comfort-food"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "leftover chicken alfredo" },
+      { amount: "24", unit: "", item: "jumbo pasta shells" },
+      { amount: "2", unit: "cups", item: "ricotta cheese" },
+      { amount: "1", unit: "cup", item: "mozzarella cheese, shredded" },
+      { amount: "1/2", unit: "cup", item: "parmesan cheese" },
+      { amount: "1", unit: "", item: "egg" },
+      { amount: "2", unit: "cups", item: "marinara sauce" },
+      { amount: "", unit: "", item: "Fresh basil for garnish" }
+    ],
+    instructions: [
+      "Cook pasta shells al dente, drain and cool.",
+      "Preheat oven to 375°F.",
+      "Mix chicken alfredo with ricotta, half the mozzarella, parmesan, and egg.",
+      "Spread 1 cup marinara in bottom of baking dish.",
+      "Fill each shell with alfredo mixture, arrange in dish.",
+      "Top with remaining marinara and mozzarella.",
+      "Cover with foil, bake 25 minutes. Uncover, bake 5 more minutes.",
+      "Garnish with fresh basil."
+    ]
+  },
+  {
+    id: "leftover-bbq-ribs-mac",
+    name: "BBQ Ribs Mac and Cheese",
+    description: "Decadent mac topped with tender rib meat.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: leftoverBbqRibsMacImg,
+    totalTime: 35,
+    tags: ["leftover", "comfort-food", "bbq"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "elbow macaroni" },
+      { amount: "2", unit: "cups", item: "leftover rib meat, shredded" },
+      { amount: "4", unit: "cups", item: "shredded cheddar cheese" },
+      { amount: "2", unit: "cups", item: "heavy cream" },
+      { amount: "1", unit: "cup", item: "milk" },
+      { amount: "1/4", unit: "cup", item: "BBQ sauce" },
+      { amount: "1", unit: "cup", item: "crispy onion strings" },
+      { amount: "2", unit: "tbsp", item: "fresh parsley" }
+    ],
+    instructions: [
+      "Cook macaroni al dente, drain.",
+      "In large pot, heat cream and milk until simmering.",
+      "Add cheese gradually, stirring until melted and smooth.",
+      "Mix in cooked macaroni and rib meat.",
+      "Transfer to cast iron skillet or serving dish.",
+      "Drizzle with BBQ sauce.",
+      "Top with crispy onion strings and parsley.",
+      "Serve immediately."
+    ]
+  },
+  {
+    id: "leftover-chicken-parm-soup",
+    name: "Chicken Parmesan Soup",
+    description: "All the flavors of chicken parm in a cozy bowl.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Italian-American",
+    image: leftoverChickenParmSoupImg,
+    totalTime: 35,
+    tags: ["leftover", "soup", "comfort-food"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "leftover breaded chicken, cubed" },
+      { amount: "4", unit: "cups", item: "chicken broth" },
+      { amount: "28", unit: "oz", item: "crushed tomatoes" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "2", unit: "cups", item: "mozzarella cheese, shredded" },
+      { amount: "1/2", unit: "cup", item: "parmesan cheese" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "", unit: "", item: "Fresh basil and garlic bread for serving" }
+    ],
+    instructions: [
+      "Sauté garlic in olive oil until fragrant.",
+      "Add broth, tomatoes, and Italian seasoning. Bring to boil.",
+      "Reduce heat, simmer 15 minutes.",
+      "Stir in cream and cubed chicken.",
+      "Add mozzarella and parmesan, stir until melted.",
+      "Season with salt and pepper.",
+      "Serve topped with fresh basil and garlic bread."
+    ]
+  },
+  {
+    id: "leftover-fajita-breakfast-hash",
+    name: "Fajita Breakfast Hash",
+    description: "Transform fajita leftovers into hearty breakfast.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican",
+    image: leftoverFajitaBreakfastHashImg,
+    totalTime: 30,
+    tags: ["leftover", "breakfast", "mexican"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "leftover fajita meat (chicken or steak)" },
+      { amount: "1", unit: "cup", item: "leftover peppers and onions" },
+      { amount: "3", unit: "cups", item: "breakfast potatoes, diced" },
+      { amount: "4", unit: "", item: "eggs" },
+      { amount: "1", unit: "cup", item: "shredded cheese" },
+      { amount: "1", unit: "", item: "avocado, sliced" },
+      { amount: "1/4", unit: "cup", item: "cilantro, chopped" },
+      { amount: "", unit: "", item: "Salsa and sour cream for serving" }
+    ],
+    instructions: [
+      "Cook diced potatoes in cast iron skillet until crispy and golden.",
+      "Add leftover fajita meat and vegetables, heat through.",
+      "Make 4 wells in hash, crack an egg into each.",
+      "Cover and cook until eggs reach desired doneness.",
+      "Sprinkle with cheese, cover until melted.",
+      "Top with avocado slices and cilantro.",
+      "Serve with salsa and sour cream."
+    ]
+  },
+  {
+    id: "leftover-meatball-casserole",
+    name: "Meatball Sub Casserole",
+    description: "Deconstructed meatball subs in comforting casserole form.",
+    cookTime: "25 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "Italian-American",
+    image: leftoverMeatballCasseroleImg,
+    totalTime: 40,
+    tags: ["leftover", "comfort-food", "italian"],
+    ingredients: [
+      { amount: "20", unit: "", item: "leftover meatballs" },
+      { amount: "4", unit: "cups", item: "marinara sauce" },
+      { amount: "1", unit: "loaf", item: "French bread, cubed" },
+      { amount: "2", unit: "cups", item: "mozzarella cheese, shredded" },
+      { amount: "1", unit: "cup", item: "provolone cheese, sliced" },
+      { amount: "1/4", unit: "cup", item: "parmesan cheese" },
+      { amount: "2", unit: "tbsp", item: "butter, melted" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Grease 9x13 baking dish.",
+      "Toast bread cubes with melted butter and Italian seasoning.",
+      "Layer half the toasted bread in dish.",
+      "Top with meatballs, marinara, and half the cheeses.",
+      "Add remaining bread cubes.",
+      "Top with remaining cheeses.",
+      "Bake 25 minutes until bubbly and cheese is golden.",
+      "Garnish with fresh basil."
+    ]
+  },
+  {
+    id: "leftover-lasagna-grilled-cheese",
+    name: "Lasagna Grilled Cheese",
+    description: "The ultimate comfort food mashup sandwich.",
+    cookTime: "10 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "Fusion",
+    image: leftoverLasagnaGrilledCheeseImg,
+    totalTime: 15,
+    tags: ["leftover", "sandwich", "fusion", "lunch"],
+    ingredients: [
+      { amount: "2", unit: "slices", item: "leftover lasagna" },
+      { amount: "4", unit: "slices", item: "thick bread" },
+      { amount: "4", unit: "slices", item: "mozzarella cheese" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "1/4", unit: "cup", item: "marinara sauce for dipping" },
+      { amount: "", unit: "", item: "Fresh basil leaves" }
+    ],
+    instructions: [
+      "Butter one side of each bread slice.",
+      "Place 2 slices butter-side down in skillet.",
+      "Top each with cheese slice, lasagna slice, basil, and another cheese slice.",
+      "Top with remaining bread slices, butter-side up.",
+      "Cook over medium heat 4-5 minutes per side until golden and cheese melts.",
+      "Press down gently with spatula while cooking.",
+      "Serve with marinara for dipping."
+    ]
+  },
+  {
+    id: "leftover-pot-roast-ramen",
+    name: "Pot Roast Ramen",
+    description: "Upgrade instant ramen with tender pot roast.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Fusion",
+    image: leftoverPotRoastRamenImg,
+    totalTime: 25,
+    tags: ["leftover", "asian", "soup", "quick"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "leftover pot roast, shredded" },
+      { amount: "4", unit: "packs", item: "ramen noodles" },
+      { amount: "8", unit: "cups", item: "beef broth" },
+      { amount: "4", unit: "", item: "soft-boiled eggs" },
+      { amount: "1", unit: "cup", item: "bok choy, chopped" },
+      { amount: "1", unit: "cup", item: "mushrooms, sliced" },
+      { amount: "4", unit: "", item: "green onions, sliced" },
+      { amount: "2", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "sesame oil" }
+    ],
+    instructions: [
+      "Bring beef broth to boil. Add soy sauce and sesame oil.",
+      "Cook ramen noodles according to package, drain.",
+      "Sauté mushrooms and bok choy until tender.",
+      "Divide noodles among 4 bowls.",
+      "Top with shredded pot roast, vegetables, and halved soft-boiled eggs.",
+      "Pour hot broth over everything.",
+      "Garnish with green onions and serve immediately."
+    ]
+  },
+  {
+    id: "leftover-taco-stuffed-peppers",
+    name: "Taco Stuffed Bell Peppers",
+    description: "Colorful peppers filled with seasoned taco filling.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Mexican",
+    image: leftoverTacoStuffedPeppersImg,
+    totalTime: 45,
+    tags: ["leftover", "mexican", "healthy", "dinner"],
+    ingredients: [
+      { amount: "6", unit: "", item: "bell peppers, halved and seeded" },
+      { amount: "3", unit: "cups", item: "leftover taco meat" },
+      { amount: "1", unit: "cup", item: "cooked rice" },
+      { amount: "1", unit: "can", item: "black beans, drained" },
+      { amount: "1", unit: "cup", item: "corn" },
+      { amount: "2", unit: "cups", item: "shredded Mexican cheese" },
+      { amount: "1/2", unit: "cup", item: "sour cream" },
+      { amount: "", unit: "", item: "Cilantro and lime for garnish" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F.",
+      "Arrange pepper halves in baking dish.",
+      "Mix taco meat, rice, beans, corn, and 1 cup cheese.",
+      "Fill each pepper half with mixture.",
+      "Cover with foil, bake 25 minutes.",
+      "Remove foil, top with remaining cheese, bake 5 more minutes.",
+      "Serve topped with sour cream, cilantro, and lime wedges."
+    ]
+  },
+  {
+    id: "leftover-tikka-masala-pot-pie",
+    name: "Chicken Tikka Masala Pot Pie",
+    description: "Indian flavors meet British comfort in this fusion dish.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Fusion",
+    image: leftoverTikkaMasalaPotPieImg,
+    totalTime: 45,
+    tags: ["leftover", "fusion", "indian", "comfort-food"],
+    ingredients: [
+      { amount: "3", unit: "cups", item: "leftover chicken tikka masala" },
+      { amount: "1", unit: "cup", item: "frozen peas" },
+      { amount: "1", unit: "cup", item: "diced potatoes, cooked" },
+      { amount: "1", unit: "sheet", item: "puff pastry, thawed" },
+      { amount: "1", unit: "", item: "egg, beaten" },
+      { amount: "2", unit: "tbsp", item: "fresh cilantro" },
+      { amount: "", unit: "", item: "Naan bread for serving" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F.",
+      "Mix tikka masala with peas and potatoes.",
+      "Transfer to pie dish or individual ramekins.",
+      "Cover with puff pastry, trim excess, crimp edges.",
+      "Cut small vents in top, brush with beaten egg.",
+      "Bake 25-30 minutes until pastry is golden and puffed.",
+      "Let cool 5 minutes, garnish with cilantro.",
+      "Serve with naan bread."
+    ]
+  },
   {
     id: "honey-garlic-salmon",
     name: "Honey Garlic Glazed Salmon",
