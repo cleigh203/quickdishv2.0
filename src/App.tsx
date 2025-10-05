@@ -25,6 +25,9 @@ import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import ProfileSetup from "./pages/ProfileSetup";
 
+import BatchRegenerateImages from "./pages/BatchRegenerateImages";
+import MigrateRecipes from "./pages/MigrateRecipes";
+
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -56,6 +59,7 @@ const App = () => (
           <Route path="/admin/recipes" element={<AdminRecipes />} />
           <Route path="/admin/generate-dessert-images" element={<GenerateDessertImages />} />
           <Route path="/admin/generate-onepot-images" element={<GenerateNewRecipeImages />} />
+          <Route path="/migrate-recipes" element={<MigrateRecipes />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
