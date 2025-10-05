@@ -3,6 +3,19 @@ import { Recipe } from "@/types/recipe";
 // Placeholder images - will be generated in batches
 const placeholderImg = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c";
 
+// One-Pot Wonders Images
+import onePotChickenDumplingsImg from "@/assets/recipes/one-pot-chicken-dumplings.jpg";
+import onePotBeefBourguignonImg from "@/assets/recipes/one-pot-beef-bourguignon.jpg";
+import onePotJambalayaImg from "@/assets/recipes/one-pot-jambalaya.jpg";
+import onePotCreamyTuscanChickenImg from "@/assets/recipes/one-pot-creamy-tuscan-chicken.jpg";
+import onePotChiliConCarneImg from "@/assets/recipes/one-pot-chili-con-carne.jpg";
+import onePotSeafoodPaellaImg from "@/assets/recipes/one-pot-seafood-paella.jpg";
+import onePotChickenCacciatoreImg from "@/assets/recipes/one-pot-chicken-cacciatore.jpg";
+import onePotMoroccanTagineImg from "@/assets/recipes/one-pot-moroccan-tagine.jpg";
+import onePotTuscanWhiteBeanSoupImg from "@/assets/recipes/one-pot-tuscan-white-bean-soup.jpg";
+import onePotChickenTikkaMasalaImg from "@/assets/recipes/one-pot-chicken-tikka-masala.jpg";
+import onePotPotRoastImg from "@/assets/recipes/one-pot-pot-roast.jpg";
+
 export const newRecipes: Recipe[] = [
   // ========== DESSERTS (20) ==========
   {
@@ -1294,7 +1307,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "American",
-    image: placeholderImg,
+    image: onePotChickenDumplingsImg,
     totalTime: 60,
     tags: ["one-pot", "comfort-food", "chicken", "winter"],
     nutrition: { calories: 525, protein: 38, carbs: 52, fat: 18, fiber: 4, sugar: 6, servingSize: "1 serving" },
@@ -1327,7 +1340,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "hard",
     servings: 6,
     cuisine: "French",
-    image: placeholderImg,
+    image: onePotBeefBourguignonImg,
     totalTime: 140,
     tags: ["one-pot", "french", "beef", "elegant"],
     nutrition: { calories: 585, protein: 42, carbs: 24, fat: 32, fiber: 4, sugar: 8, servingSize: "1 serving" },
@@ -1360,7 +1373,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Cajun",
-    image: placeholderImg,
+    image: onePotJambalayaImg,
     totalTime: 50,
     tags: ["one-pot", "cajun", "spicy", "rice"],
     nutrition: { calories: 565, protein: 42, carbs: 58, fat: 18, fiber: 4, sugar: 6, servingSize: "1 serving" },
@@ -1395,7 +1408,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Italian",
-    image: placeholderImg,
+    image: onePotCreamyTuscanChickenImg,
     totalTime: 35,
     tags: ["one-pot", "italian", "creamy", "chicken"],
     nutrition: { calories: 485, protein: 42, carbs: 18, fat: 28, fiber: 3, sugar: 6, servingSize: "1 serving" },
@@ -1428,7 +1441,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "Tex-Mex",
-    image: placeholderImg,
+    image: onePotChiliConCarneImg,
     totalTime: 60,
     tags: ["one-pot", "chili", "beef", "comfort-food"],
     nutrition: { calories: 425, protein: 32, carbs: 38, fat: 16, fiber: 12, sugar: 8, servingSize: "1 serving" },
@@ -1461,7 +1474,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Spanish",
-    image: placeholderImg,
+    image: onePotSeafoodPaellaImg,
     totalTime: 55,
     tags: ["one-pot", "seafood", "spanish", "rice"],
     nutrition: { calories: 485, protein: 36, carbs: 62, fat: 12, fiber: 4, sugar: 6, servingSize: "1 serving" },
@@ -1497,7 +1510,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Italian",
-    image: placeholderImg,
+    image: onePotChickenCacciatoreImg,
     totalTime: 60,
     tags: ["one-pot", "italian", "chicken", "braised"],
     nutrition: { calories: 425, protein: 38, carbs: 24, fat: 20, fiber: 6, sugar: 12, servingSize: "1 serving" },
@@ -1532,7 +1545,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Moroccan",
-    image: placeholderImg,
+    image: onePotMoroccanTagineImg,
     totalTime: 140,
     tags: ["one-pot", "moroccan", "lamb", "exotic"],
     nutrition: { calories: 565, protein: 42, carbs: 38, fat: 28, fiber: 8, sugar: 18, servingSize: "1 serving" },
@@ -1568,7 +1581,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Italian",
-    image: placeholderImg,
+    image: onePotTuscanWhiteBeanSoupImg,
     totalTime: 50,
     tags: ["one-pot", "soup", "italian", "comfort-food"],
     nutrition: { calories: 385, protein: 24, carbs: 42, fat: 14, fiber: 12, sugar: 6, servingSize: "1 serving" },
@@ -1602,7 +1615,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Indian",
-    image: placeholderImg,
+    image: onePotChickenTikkaMasalaImg,
     totalTime: 50,
     tags: ["one-pot", "indian", "curry", "creamy"],
     nutrition: { calories: 485, protein: 38, carbs: 28, fat: 26, fiber: 6, sugar: 12, servingSize: "1 serving" },
@@ -1637,7 +1650,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "American",
-    image: placeholderImg,
+    image: onePotPotRoastImg,
     totalTime: 200,
     tags: ["one-pot", "beef", "comfort-food", "sunday-dinner"],
     nutrition: { calories: 525, protein: 48, carbs: 32, fat: 22, fiber: 6, sugar: 8, servingSize: "1 serving" },
