@@ -262,7 +262,14 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      recipe_rating_stats: {
+        Row: {
+          average_rating: number | null
+          recipe_id: string | null
+          total_ratings: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
