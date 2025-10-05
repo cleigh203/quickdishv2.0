@@ -86,6 +86,16 @@ import beefStroganoffImg from "@/assets/recipes/beef-stroganoff.jpg";
 import chickenFajitaRiceImg from "@/assets/recipes/chicken-fajita-rice.jpg";
 import breadPuddingImg from "@/assets/recipes/bread-pudding.jpg";
 import applePieImg from "@/assets/recipes/apple-pie.jpg";
+import butternutSquashSoupImg from "@/assets/recipes/butternut-squash-soup.jpg";
+import mapleGlazedSalmonImg from "@/assets/recipes/maple-glazed-salmon.jpg";
+import appleCiderPulledPorkImg from "@/assets/recipes/apple-cider-pulled-pork.jpg";
+import cranberryBrieBitesImg from "@/assets/recipes/cranberry-brie-bites.jpg";
+import sweetPotatoCasseroleImg from "@/assets/recipes/sweet-potato-casserole.jpg";
+import harvestChickenVegetablesImg from "@/assets/recipes/harvest-chicken-vegetables.jpg";
+import pecanCrustedPorkImg from "@/assets/recipes/pecan-crusted-pork.jpg";
+import caramelAppleNachosImg from "@/assets/recipes/caramel-apple-nachos.jpg";
+import pumpkinRisottoImg from "@/assets/recipes/pumpkin-risotto.jpg";
+import autumnHarvestSaladImg from "@/assets/recipes/autumn-harvest-salad.jpg";
 
 // Dessert images are served from Lovable uploads
 
@@ -3066,6 +3076,422 @@ export const allRecipes: Recipe[] = [
       "Return pork chops to pan and simmer 10-12 minutes.",
       "Flip chops halfway through cooking.",
       "Serve with apple-onion mixture spooned over top."
+    ]
+  },
+  {
+    id: "butternut-squash-soup",
+    name: "Creamy Butternut Squash Soup",
+    description: "Velvety smooth soup with fall spices. Perfect comfort food.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: butternutSquashSoupImg,
+    totalTime: 45,
+    tags: ["fall", "soup", "vegetarian", "comfort-food"],
+    nutrition: {
+      calories: 180,
+      protein: 4,
+      carbs: 32,
+      fat: 6,
+      fiber: 5,
+      sugar: 8,
+      servingSize: "1 bowl"
+    },
+    ingredients: [
+      { amount: "1", unit: "large", item: "butternut squash, peeled and cubed" },
+      { amount: "1", unit: "", item: "onion, chopped" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "4", unit: "cups", item: "vegetable broth" },
+      { amount: "1/2", unit: "cup", item: "heavy cream" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "1", unit: "tsp", item: "cinnamon" },
+      { amount: "1/2", unit: "tsp", item: "nutmeg" },
+      { amount: "2", unit: "tbsp", item: "maple syrup" },
+      { amount: "", unit: "", item: "Pumpkin seeds for garnish" }
+    ],
+    instructions: [
+      "Melt butter in large pot. Sauté onion until soft, about 5 minutes.",
+      "Add garlic and spices, cook 1 minute until fragrant.",
+      "Add squash and broth. Bring to boil, then simmer 20 minutes until tender.",
+      "Use immersion blender to puree until smooth (or transfer to blender in batches).",
+      "Stir in cream and maple syrup. Season with salt and pepper.",
+      "Serve hot garnished with cream swirl and pumpkin seeds."
+    ]
+  },
+  {
+    id: "maple-glazed-salmon",
+    name: "Maple Glazed Salmon",
+    description: "Sweet and savory salmon with fall vegetables. Restaurant quality.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: mapleGlazedSalmonImg,
+    totalTime: 30,
+    tags: ["fall", "healthy", "protein", "dinner"],
+    nutrition: {
+      calories: 380,
+      protein: 34,
+      carbs: 22,
+      fat: 18,
+      fiber: 3,
+      sugar: 14,
+      servingSize: "1 fillet"
+    },
+    ingredients: [
+      { amount: "4", unit: "", item: "salmon fillets (6 oz each)" },
+      { amount: "1/4", unit: "cup", item: "maple syrup" },
+      { amount: "2", unit: "tbsp", item: "soy sauce" },
+      { amount: "2", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tbsp", item: "Dijon mustard" },
+      { amount: "2", unit: "cups", item: "Brussels sprouts, halved" },
+      { amount: "1", unit: "large", item: "sweet potato, cubed" },
+      { amount: "2", unit: "tbsp", item: "olive oil" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F. Line baking sheet with parchment.",
+      "Toss Brussels sprouts and sweet potato with olive oil, salt, and pepper. Spread on sheet.",
+      "Roast vegetables 10 minutes.",
+      "Meanwhile, mix maple syrup, soy sauce, garlic, and mustard.",
+      "Place salmon on sheet with vegetables. Brush with maple glaze.",
+      "Roast 10-12 minutes until salmon flakes easily.",
+      "Brush with remaining glaze before serving."
+    ]
+  },
+  {
+    id: "apple-cider-pulled-pork",
+    name: "Apple Cider Pulled Pork",
+    description: "Slow-cooked pork with fall spices. Perfect for sandwiches.",
+    cookTime: "6 hours",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 8,
+    cuisine: "American",
+    image: appleCiderPulledPorkImg,
+    totalTime: 375,
+    tags: ["fall", "comfort-food", "slow-cooker", "dinner"],
+    nutrition: {
+      calories: 420,
+      protein: 42,
+      carbs: 28,
+      fat: 14,
+      fiber: 2,
+      sugar: 18,
+      servingSize: "1 sandwich"
+    },
+    ingredients: [
+      { amount: "4", unit: "lbs", item: "pork shoulder" },
+      { amount: "2", unit: "cups", item: "apple cider" },
+      { amount: "1", unit: "cup", item: "BBQ sauce" },
+      { amount: "2", unit: "", item: "apples, sliced" },
+      { amount: "1", unit: "large", item: "onion, sliced" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "brown sugar" },
+      { amount: "1", unit: "tbsp", item: "apple cider vinegar" },
+      { amount: "8", unit: "", item: "brioche buns" }
+    ],
+    instructions: [
+      "Season pork shoulder generously with salt, pepper, and brown sugar.",
+      "Place pork in slow cooker with onions and garlic.",
+      "Pour apple cider over pork. Add apple slices around sides.",
+      "Cook on low 6-8 hours until pork is fork-tender.",
+      "Remove pork and shred with two forks.",
+      "Mix shredded pork with BBQ sauce and 1/2 cup cooking liquid.",
+      "Serve on toasted brioche buns with coleslaw."
+    ]
+  },
+  {
+    id: "cranberry-brie-bites",
+    name: "Cranberry Brie Bites",
+    description: "Elegant appetizer with melted brie and cranberry. Party perfect.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 24,
+    cuisine: "French",
+    image: cranberryBrieBitesImg,
+    totalTime: 25,
+    tags: ["fall", "appetizer", "party", "vegetarian"],
+    nutrition: {
+      calories: 85,
+      protein: 3,
+      carbs: 8,
+      fat: 5,
+      fiber: 0,
+      sugar: 3,
+      servingSize: "1 bite"
+    },
+    ingredients: [
+      { amount: "2", unit: "sheets", item: "puff pastry, thawed" },
+      { amount: "8", unit: "oz", item: "brie cheese, cut into small cubes" },
+      { amount: "1/2", unit: "cup", item: "cranberry sauce" },
+      { amount: "1/4", unit: "cup", item: "chopped pecans" },
+      { amount: "2", unit: "tbsp", item: "honey" },
+      { amount: "", unit: "", item: "Fresh rosemary for garnish" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Grease mini muffin tin.",
+      "Cut puff pastry into 24 squares. Press into muffin cups.",
+      "Place a cube of brie in each cup.",
+      "Top with 1 tsp cranberry sauce and sprinkle of pecans.",
+      "Bake 12-15 minutes until pastry is golden and puffed.",
+      "Drizzle with honey and garnish with rosemary.",
+      "Serve warm."
+    ]
+  },
+  {
+    id: "sweet-potato-casserole",
+    name: "Sweet Potato Casserole",
+    description: "Classic holiday side with marshmallow topping. Family favorite.",
+    cookTime: "40 mins",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 10,
+    cuisine: "American",
+    image: sweetPotatoCasseroleImg,
+    totalTime: 60,
+    tags: ["fall", "side-dish", "holiday", "comfort-food"],
+    nutrition: {
+      calories: 320,
+      protein: 4,
+      carbs: 58,
+      fat: 10,
+      fiber: 4,
+      sugar: 32,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "4", unit: "lbs", item: "sweet potatoes" },
+      { amount: "1/2", unit: "cup", item: "butter, melted" },
+      { amount: "1/2", unit: "cup", item: "brown sugar" },
+      { amount: "2", unit: "", item: "eggs, beaten" },
+      { amount: "1", unit: "tsp", item: "vanilla extract" },
+      { amount: "1/2", unit: "cup", item: "milk" },
+      { amount: "3", unit: "cups", item: "mini marshmallows" },
+      { amount: "1/2", unit: "cup", item: "chopped pecans" }
+    ],
+    instructions: [
+      "Preheat oven to 350°F. Grease 9x13 baking dish.",
+      "Boil sweet potatoes until tender, about 20 minutes. Drain and peel.",
+      "Mash sweet potatoes until smooth.",
+      "Mix in butter, brown sugar, eggs, vanilla, and milk.",
+      "Spread mixture in prepared dish.",
+      "Top with marshmallows and pecans.",
+      "Bake 25-30 minutes until marshmallows are golden brown.",
+      "Let cool 5 minutes before serving."
+    ]
+  },
+  {
+    id: "harvest-chicken-vegetables",
+    name: "Harvest Chicken with Root Vegetables",
+    description: "One-pan roasted chicken with fall vegetables. Simple and delicious.",
+    cookTime: "45 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: harvestChickenVegetablesImg,
+    totalTime: 60,
+    tags: ["fall", "one-pan", "dinner", "healthy"],
+    nutrition: {
+      calories: 380,
+      protein: 36,
+      carbs: 28,
+      fat: 14,
+      fiber: 5,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "6", unit: "", item: "chicken thighs" },
+      { amount: "3", unit: "", item: "carrots, cut into chunks" },
+      { amount: "2", unit: "", item: "parsnips, cut into chunks" },
+      { amount: "1", unit: "", item: "turnip, cubed" },
+      { amount: "1", unit: "large", item: "red onion, quartered" },
+      { amount: "4", unit: "cloves", item: "garlic, whole" },
+      { amount: "3", unit: "tbsp", item: "olive oil" },
+      { amount: "2", unit: "tbsp", item: "fresh thyme" },
+      { amount: "1", unit: "tbsp", item: "fresh rosemary" }
+    ],
+    instructions: [
+      "Preheat oven to 425°F.",
+      "Toss all vegetables with 2 tbsp olive oil, salt, and pepper. Spread on large baking sheet.",
+      "Season chicken with salt, pepper, thyme, and rosemary. Rub with remaining oil.",
+      "Place chicken on top of vegetables.",
+      "Roast 40-45 minutes until chicken reaches 165°F and vegetables are tender.",
+      "Let rest 5 minutes before serving."
+    ]
+  },
+  {
+    id: "pecan-crusted-pork",
+    name: "Pecan Crusted Pork Tenderloin",
+    description: "Elegant pork with crunchy pecan coating. Perfect for dinner parties.",
+    cookTime: "25 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "American",
+    image: pecanCrustedPorkImg,
+    totalTime: 40,
+    tags: ["fall", "elegant", "dinner", "protein"],
+    nutrition: {
+      calories: 420,
+      protein: 42,
+      carbs: 12,
+      fat: 22,
+      fiber: 2,
+      sugar: 6,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "pork tenderloin" },
+      { amount: "1", unit: "cup", item: "pecans, finely chopped" },
+      { amount: "1/4", unit: "cup", item: "panko breadcrumbs" },
+      { amount: "2", unit: "tbsp", item: "Dijon mustard" },
+      { amount: "2", unit: "tbsp", item: "maple syrup" },
+      { amount: "2", unit: "tbsp", item: "butter, melted" },
+      { amount: "1", unit: "tsp", item: "fresh thyme" },
+      { amount: "1/2", unit: "tsp", item: "garlic powder" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F. Line baking sheet with foil.",
+      "Season pork with salt and pepper.",
+      "Mix pecans, panko, thyme, and garlic powder in shallow dish.",
+      "Combine mustard and maple syrup. Brush all over pork.",
+      "Press pork into pecan mixture, coating all sides.",
+      "Drizzle with melted butter.",
+      "Roast 20-25 minutes until internal temp reaches 145°F.",
+      "Let rest 5 minutes before slicing."
+    ]
+  },
+  {
+    id: "caramel-apple-nachos",
+    name: "Caramel Apple Nachos",
+    description: "Fun fall dessert with apple slices and sweet toppings. Kids love it.",
+    cookTime: "0 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: caramelAppleNachosImg,
+    totalTime: 10,
+    tags: ["fall", "dessert", "no-bake", "kid-friendly"],
+    nutrition: {
+      calories: 280,
+      protein: 4,
+      carbs: 48,
+      fat: 10,
+      fiber: 4,
+      sugar: 36,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "4", unit: "", item: "apples, sliced" },
+      { amount: "1/2", unit: "cup", item: "caramel sauce" },
+      { amount: "1/4", unit: "cup", item: "chocolate chips, melted" },
+      { amount: "1/4", unit: "cup", item: "chopped peanuts" },
+      { amount: "2", unit: "tbsp", item: "mini chocolate chips" },
+      { amount: "2", unit: "tbsp", item: "granola" },
+      { amount: "1", unit: "tbsp", item: "cinnamon sugar" }
+    ],
+    instructions: [
+      "Arrange apple slices on large serving platter in overlapping pattern.",
+      "Warm caramel sauce slightly in microwave for easy drizzling.",
+      "Drizzle caramel sauce over apples.",
+      "Drizzle melted chocolate in opposite direction.",
+      "Sprinkle with peanuts, mini chocolate chips, and granola.",
+      "Dust with cinnamon sugar.",
+      "Serve immediately with toothpicks."
+    ]
+  },
+  {
+    id: "pumpkin-risotto",
+    name: "Pumpkin Risotto",
+    description: "Creamy Italian rice with pumpkin and sage. Fall comfort food.",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Italian",
+    image: pumpkinRisottoImg,
+    totalTime: 40,
+    tags: ["fall", "vegetarian", "italian", "comfort-food"],
+    nutrition: {
+      calories: 380,
+      protein: 12,
+      carbs: 58,
+      fat: 12,
+      fiber: 3,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1.5", unit: "cups", item: "arborio rice" },
+      { amount: "1", unit: "cup", item: "pumpkin puree" },
+      { amount: "5", unit: "cups", item: "vegetable broth, warm" },
+      { amount: "1", unit: "", item: "onion, finely chopped" },
+      { amount: "2", unit: "cloves", item: "garlic, minced" },
+      { amount: "1/2", unit: "cup", item: "white wine" },
+      { amount: "1/2", unit: "cup", item: "parmesan cheese, grated" },
+      { amount: "3", unit: "tbsp", item: "butter" },
+      { amount: "10", unit: "", item: "sage leaves" },
+      { amount: "1/4", unit: "cup", item: "pumpkin seeds" }
+    ],
+    instructions: [
+      "In large saucepan, melt 2 tbsp butter. Sauté onion until soft.",
+      "Add garlic and rice. Toast 2 minutes, stirring constantly.",
+      "Add wine and stir until absorbed.",
+      "Add warm broth one ladle at a time, stirring frequently. Wait until absorbed before adding more.",
+      "After 15 minutes, stir in pumpkin puree.",
+      "Continue adding broth until rice is creamy and al dente, about 20 minutes total.",
+      "Stir in parmesan and remaining butter.",
+      "In small pan, fry sage leaves in butter until crispy.",
+      "Serve risotto topped with crispy sage and toasted pumpkin seeds."
+    ]
+  },
+  {
+    id: "autumn-harvest-salad",
+    name: "Autumn Harvest Salad",
+    description: "Colorful salad with roasted squash and candied pecans. Healthy and delicious.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: autumnHarvestSaladImg,
+    totalTime: 35,
+    tags: ["fall", "salad", "vegetarian", "healthy"],
+    nutrition: {
+      calories: 320,
+      protein: 8,
+      carbs: 36,
+      fat: 18,
+      fiber: 6,
+      sugar: 14,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "6", unit: "cups", item: "mixed greens" },
+      { amount: "2", unit: "cups", item: "butternut squash, cubed and roasted" },
+      { amount: "1/2", unit: "cup", item: "dried cranberries" },
+      { amount: "1/2", unit: "cup", item: "candied pecans" },
+      { amount: "4", unit: "oz", item: "goat cheese, crumbled" },
+      { amount: "1", unit: "", item: "pear, sliced" },
+      { amount: "1/4", unit: "cup", item: "balsamic vinegar" },
+      { amount: "1/2", unit: "cup", item: "olive oil" },
+      { amount: "1", unit: "tbsp", item: "maple syrup" },
+      { amount: "1", unit: "tsp", item: "Dijon mustard" }
+    ],
+    instructions: [
+      "Toss squash cubes with olive oil, salt, and pepper. Roast at 400°F for 20 minutes.",
+      "Make dressing: whisk balsamic vinegar, olive oil, maple syrup, and mustard.",
+      "In large bowl, combine mixed greens with roasted squash.",
+      "Add cranberries, pecans, goat cheese, and pear slices.",
+      "Drizzle with dressing and toss gently.",
+      "Serve immediately."
     ]
   },
   {
