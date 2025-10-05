@@ -35,3 +35,9 @@ verify_jwt = true
 
 [functions.generate-bulk-recipe-images]
 verify_jwt = true
+
+[functions.regenerate-recipe-image]
+verify_jwt = true
+
+[functions.batch-regenerate-images]
+verify_jwt = true
