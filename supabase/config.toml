@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.cancel-subscription]
 verify_jwt = false
+
+[functions.ai-recipe-chat]
+verify_jwt = false

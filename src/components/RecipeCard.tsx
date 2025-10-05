@@ -7,16 +7,18 @@ import { useRecipeRating } from "@/hooks/useRecipeRating";
 
 interface RecipeCardProps {
   recipe: Recipe;
-  onClick: () => void;
+  onClick?: () => void;
+  showSaveButton?: boolean;
 }
 
-export const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
+export const RecipeCard = ({ recipe, onClick, showSaveButton = true }: RecipeCardProps) => {
   const { averageRating, totalRatings } = useRecipeRating(recipe.id);
 
   return (
     <Card 
       className="recipe-card border-0"
       onClick={onClick}
+      style={{ cursor: onClick ? 'pointer' : 'default' }}
     >
       <div className="relative">
         <img 
