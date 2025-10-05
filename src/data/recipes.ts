@@ -75,7 +75,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Italian",
-    image: <img src="https://images.unsplash.com/photo-1714385905983-6f8e06fffae1?fm=jpg&amp;q=60&amp;w=3000&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8dGlyYW1hc3V8ZW58MHx8MHx8fDA%3D" alt="a piece of cake sitting on top of a white plate"/>",
+    image: "https://images.unsplash.com/photo-1714385905983-6f8e06fffae1?fm=jpg&amp;q=60&amp;w=3000&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8dGlyYW1hc3V8ZW58MHx8MHx8fDA%3D" alt="a piece of cake sitting on top of a white plate"/>,
     totalTime: 240,
     tags: ["dessert", "italian", "coffee", "no-bake"],
     nutrition: {
