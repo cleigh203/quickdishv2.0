@@ -28,12 +28,12 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <OfflineBanner />
-    <InstallPrompt />
-    <Toaster />
-    <Sonner />
     <BrowserRouter>
       <AuthProvider>
+        <OfflineBanner />
+        <InstallPrompt />
+        <Toaster />
+        <Sonner />
         <Routes>
           <Route path="/auth" element={<Auth />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
