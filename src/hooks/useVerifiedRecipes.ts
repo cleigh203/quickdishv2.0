@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Recipe } from '@/types/recipe';
-import { toast } from '@/hooks/use-toast';
+import { retryOperation, handleSupabaseError } from '@/utils/errorHandling';
 
 export const useVerifiedRecipes = () => {
   const [verifiedRecipes, setVerifiedRecipes] = useState<Recipe[]>([]);
@@ -14,13 +14,19 @@ export const useVerifiedRecipes = () => {
   const fetchVerifiedRecipes = async () => {
     try {
       setIsLoading(true);
-      const { data, error } = await supabase
-        .from('recipes')
-        .select('*')
-        .eq('verified', true)
-        .order('created_at', { ascending: false });
+      
+      // Use retry logic for network resilience
+      const data = await retryOperation(async () => {
+        const { data, error } = await supabase
+          .from('recipes')
+          .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, nutrition, tags, ai_generated, generated_at, category')
+          .eq('verified', true)
+          .order('created_at', { ascending: false })
+          .limit(500); // Limit to prevent timeout
 
-      if (error) throw error;
+        if (error) throw error;
+        return data;
+      }, 2, 1000);
 
       // Transform database recipes to match Recipe type
       const transformedRecipes: Recipe[] = (data || []).map((dbRecipe) => ({
@@ -45,11 +51,8 @@ export const useVerifiedRecipes = () => {
       setVerifiedRecipes(transformedRecipes);
     } catch (error) {
       console.error('Error fetching verified recipes:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to load verified recipes',
-        variant: 'destructive',
-      });
+      // Don't show error toast - silently fall back to static recipes
+      setVerifiedRecipes([]);
     } finally {
       setIsLoading(false);
     }
