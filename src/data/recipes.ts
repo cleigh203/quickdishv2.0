@@ -22,19 +22,24 @@ import burritoBowlImg from "@/assets/recipes/copycat-burrito-bowl.jpg";
 import honeyGarlicChickenImg from "@/assets/recipes/quick-honey-garlic-chicken.jpg";
 import pizzaFrittataImg from "@/assets/recipes/leftover-pizza-frittata.jpg";
 import witchFingersImg from "@/assets/recipes/witch-finger-cookies.jpg";
-import alfredoImg from "@/assets/recipes/copycat-alfredo.jpg";
+import alfredoImg from "@/assets/recipes/olive-garden-alfredo.jpg";
 import shrimpStirfryImg from "@/assets/recipes/quick-shrimp-stirfry.jpg";
-import chickenTacosImg from "@/assets/recipes/leftover-chicken-tacos.jpg";
+import chickenTacosImg from "@/assets/recipes/rotisserie-chicken-tacos.jpg";
 import bloodyMaryEggsImg from "@/assets/recipes/bloody-mary-eggs.jpg";
-import crunchwrapImg from "@/assets/recipes/copycat-crunchwrap.jpg";
+import crunchwrapImg from "@/assets/recipes/crunchwrap-supreme.jpg";
 import lemonSalmonImg from "@/assets/recipes/quick-lemon-salmon.jpg";
-import friedRiceImg from "@/assets/recipes/leftover-fried-rice.jpg";
+import friedRiceImg from "@/assets/recipes/fried-rice.jpg";
+import chocolateLavaCakeImg from "@/assets/recipes/chocolate-lava-cake.jpg";
+import bananasFosterImg from "@/assets/recipes/bananas-foster.jpg";
+import garlicButterSteakBitesImg from "@/assets/recipes/garlic-butter-steak-bites.jpg";
+import chiliMacCheeseImg from "@/assets/recipes/chili-mac-cheese.jpg";
+import tuscanChickenPastaImg from "@/assets/recipes/tuscan-chicken-pasta.jpg";
 import spiderPizzaImg from "@/assets/recipes/spider-web-pizza-new.jpg";
 import avocadoRollsImg from "@/assets/recipes/copycat-avocado-rolls.jpg";
 import beefBroccoliImg from "@/assets/recipes/quick-beef-broccoli.jpg";
-import bloominOnionImg from "@/assets/recipes/copycat-bloomin-onion.jpg";
+import bloominOnionImg from "@/assets/recipes/bloomin-onion.jpg";
 import thaiBasilImg from "@/assets/recipes/quick-thai-basil-chicken.jpg";
-import pastaCarbonaraImg from "@/assets/recipes/leftover-pasta-carbonara.jpg";
+import pastaCarbonaraImg from "@/assets/recipes/pasta-carbonara.jpg";
 import graveyardCupsImg from "@/assets/recipes/graveyard-dirt-cups.jpg";
 import broccoliSoupImg from "@/assets/recipes/copycat-broccoli-soup.jpg";
 import tuscanShrimpImg from "@/assets/recipes/quick-tuscan-shrimp.jpg";
@@ -44,8 +49,8 @@ import lettuceWrapsImg from "@/assets/recipes/copycat-lettuce-wraps.jpg";
 import capreseChickenImg from "@/assets/recipes/quick-caprese-chicken.jpg";
 import turkeyQuesadillasImg from "@/assets/recipes/leftover-turkey-quesadillas.jpg";
 import frankensteinTreatsImg from "@/assets/recipes/frankenstein-treats.jpg";
-import cheddarBiscuitsImg from "@/assets/recipes/copycat-cheddar-biscuits.jpg";
-import teriyakiSalmonImg from "@/assets/recipes/quick-teriyaki-salmon.jpg";
+import cheddarBiscuitsImg from "@/assets/recipes/cheddar-bay-biscuits.jpg";
+import teriyakiSalmonImg from "@/assets/recipes/teriyaki-salmon-bowl.jpg";
 import frenchDipImg from "@/assets/recipes/leftover-french-dip.jpg";
 import pumpkinDonutsImg from "@/assets/recipes/pumpkin-donuts.jpg";
 import chickenSandwichImg from "@/assets/recipes/copycat-chicken-sandwich.jpg";
@@ -55,7 +60,7 @@ import ghostMeringuesImg from "@/assets/recipes/ghost-meringues.jpg";
 import cornSalsaImg from "@/assets/recipes/copycat-corn-salsa.jpg";
 import chickenFajitasImg from "@/assets/recipes/quick-chicken-fajitas.jpg";
 import steakQuesadillaImg from "@/assets/recipes/leftover-steak-quesadilla.jpg";
-import roadhouseRollsImg from "@/assets/recipes/copycat-roadhouse-rolls.jpg";
+import roadhouseRollsImg from "@/assets/recipes/texas-roadhouse-rolls.jpg";
 import kungPaoImg from "@/assets/recipes/quick-kung-pao-chicken.jpg";
 import burgerSlidersImg from "@/assets/recipes/leftover-burger-sliders.jpg";
 import batNachosImg from "@/assets/recipes/bat-wing-nachos.jpg";
@@ -71,7 +76,7 @@ import hashbrownCasseroleImg from "@/assets/recipes/copycat-hashbrown-casserole.
 import greekChickenImg from "@/assets/recipes/quick-greek-chicken.jpg";
 import brisketMacImg from "@/assets/recipes/leftover-brisket-mac.jpg";
 import mcgriddlesImg from "@/assets/recipes/copycat-mcgriddles.jpg";
-import steakBitesImg from "@/assets/recipes/quick-steak-bites.jpg";
+import steakBitesImg from "@/assets/recipes/garlic-butter-steak-bites.jpg";
 import stuffingMuffinsImg from "@/assets/recipes/leftover-stuffing-muffins.jpg";
 import meatballSubImg from "@/assets/recipes/copycat-meatball-sub.jpg";
 import padThaiImg from "@/assets/recipes/quick-pad-thai.jpg";
@@ -306,7 +311,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "French",
-    image: "https://unsplash.com/photos/a-white-plate-topped-with-a-piece-of-cake-and-ice-cream-8lPKzLSWNgM",
+    image: chocolateLavaCakeImg,
     totalTime: 27,
     tags: ["dessert", "chocolate", "elegant", "quick"],
     ingredients: [
@@ -828,7 +833,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "American",
-    image: "/lovable-uploads/dessert-bananas-foster.png",
+    image: bananasFosterImg,
     totalTime: 15,
     tags: ["dessert", "quick", "fruit", "warm"],
     ingredients: [
@@ -3756,7 +3761,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Italian",
-    image: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
+    image: tuscanChickenPastaImg,
     totalTime: 30,
     tags: ["italian", "creamy", "pasta", "one-pot"],
     nutrition: {
@@ -3800,7 +3805,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "American",
-    image: "https://images.unsplash.com/photo-1619096252214-ef06c45683e3",
+    image: chiliMacCheeseImg,
     totalTime: 30,
     tags: ["comfort-food", "kid-friendly", "budget-friendly", "one-pot"],
     nutrition: {
