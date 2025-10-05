@@ -14,6 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_chat_messages: {
+        Row: {
+          created_at: string | null
+          id: string
+          message: string
+          recipe_ids: string[] | null
+          response: string
+          tokens_used: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          message: string
+          recipe_ids?: string[] | null
+          response: string
+          tokens_used?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          message?: string
+          recipe_ids?: string[] | null
+          response?: string
+          tokens_used?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ai_chat_usage: {
+        Row: {
+          created_at: string | null
+          id: string
+          last_reset: string | null
+          monthly_count: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          last_reset?: string | null
+          monthly_count?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          last_reset?: string | null
+          monthly_count?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       generated_recipes: {
         Row: {
           cook_time: string | null
