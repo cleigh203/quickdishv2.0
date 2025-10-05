@@ -18,6 +18,7 @@ import Profile from "./pages/Profile";
 import Premium from "./pages/Premium";
 import PremiumSuccess from "./pages/PremiumSuccess";
 import Admin from "./pages/Admin";
+import AdminRecipes from "./pages/AdminRecipes";
 import GenerateDessertImages from "./pages/GenerateDessertImages";
 import GenerateNewRecipeImages from "./pages/GenerateNewRecipeImages";
 import Auth from "./pages/Auth";
@@ -52,6 +53,7 @@ const App = () => (
           <Route path="/premium" element={<ProtectedRoute allowGuest><Premium /></ProtectedRoute>} />
           <Route path="/premium/success" element={<ProtectedRoute><PremiumSuccess /></ProtectedRoute>} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/recipes" element={<AdminRecipes />} />
           <Route path="/admin/generate-dessert-images" element={<GenerateDessertImages />} />
           <Route path="/admin/generate-onepot-images" element={<GenerateNewRecipeImages />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

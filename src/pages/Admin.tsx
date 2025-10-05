@@ -279,6 +279,15 @@ const Admin = () => {
             <h3 className="text-xl font-bold mb-4">Quick Actions</h3>
             
             <Button
+              onClick={() => navigate('/admin/recipes')}
+              className="w-full"
+              variant="default"
+            >
+              <Database className="w-4 h-4 mr-2" />
+              Review AI Recipes (Admin)
+            </Button>
+
+            <Button
               onClick={resetDailyLimit}
               className="w-full"
               variant="outline"
