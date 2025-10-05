@@ -10,6 +10,7 @@ import { allRecipes } from '@/data/recipes';
 import { Recipe } from '@/types/recipe';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { trackChatOpened } from '@/lib/aiChatAnalytics';
 
 const AIChat = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const AIChat = () => {
   useEffect(() => {
     if (user) {
       loadSavedRecipes();
+      trackChatOpened(user.id);
     } else {
       navigate('/auth');
     }

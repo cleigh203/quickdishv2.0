@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Send, ChefHat, Sparkles } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Send, ChefHat, Sparkles, Check, CheckCheck, Wifi, WifiOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useAuth } from '@/contexts/AuthContext';
@@ -8,11 +8,15 @@ import { useToast } from '@/hooks/use-toast';
 import { Recipe } from '@/types/recipe';
 import { RecipeCard } from '@/components/RecipeCard';
 import { allRecipes } from '@/data/recipes';
+import { trackMessageSent, trackRecipeClicked, trackRecipeMentioned, trackChatError } from '@/lib/aiChatAnalytics';
+import { ChatErrorBoundary } from '@/components/ChatErrorBoundary';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
   recipeIds?: string[];
+  status?: 'sending' | 'sent' | 'delivered' | 'error';
+  timestamp?: number;
 }
 
 const SUGGESTED_PROMPTS = [
@@ -22,14 +26,43 @@ const SUGGESTED_PROMPTS = [
   "Suggest a meal plan using my saved recipes"
 ];
 
+const MAX_MESSAGE_LENGTH = 1000;
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+const RATE_LIMIT_MAX = 10; // messages per minute
+
 export const AIRecipeChat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [messageQueue, setMessageQueue] = useState<string[]>([]);
+  const [rateLimitCount, setRateLimitCount] = useState(0);
+  const [lastRateLimitReset, setLastRateLimitReset] = useState(Date.now());
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user, isPremium } = useAuth();
   const { toast } = useToast();
+
+  // Network status monitoring
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true);
+      toast({ title: "Back online", description: "Processing queued messages..." });
+      processMessageQueue();
+    };
+    const handleOffline = () => {
+      setIsOnline(false);
+      toast({ title: "You're offline", description: "Messages will be sent when back online", variant: "destructive" });
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -42,58 +75,149 @@ export const AIRecipeChat: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // Rate limit reset
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = Date.now();
+      if (now - lastRateLimitReset >= RATE_LIMIT_WINDOW) {
+        setRateLimitCount(0);
+        setLastRateLimitReset(now);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [lastRateLimitReset]);
+
   const loadSavedRecipes = async () => {
     if (!user) return;
 
-    const { data, error } = await supabase
-      .from('saved_recipes')
-      .select('recipe_id')
-      .eq('user_id', user.id);
+    try {
+      const { data, error } = await supabase
+        .from('saved_recipes')
+        .select('recipe_id')
+        .eq('user_id', user.id);
 
-    if (error) {
+      if (error) throw error;
+
+      const recipes = data
+        .map(sr => allRecipes.find(r => r.id === sr.recipe_id))
+        .filter((r): r is Recipe => r !== undefined);
+
+      setSavedRecipes(recipes);
+    } catch (error: any) {
       console.error('Error loading saved recipes:', error);
-      return;
+      trackChatError('Failed to load saved recipes', error.message, user.id);
+      toast({
+        title: "Failed to load recipes",
+        description: "Please refresh the page",
+        variant: "destructive"
+      });
     }
-
-    const recipes = data
-      .map(sr => allRecipes.find(r => r.id === sr.recipe_id))
-      .filter((r): r is Recipe => r !== undefined);
-
-    setSavedRecipes(recipes);
   };
 
   const loadChatHistory = async () => {
     if (!user) return;
 
-    const { data, error } = await supabase
-      .from('ai_chat_messages')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: true })
-      .limit(50);
+    try {
+      const { data, error } = await supabase
+        .from('ai_chat_messages')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: true })
+        .limit(50);
 
-    if (error) {
+      if (error) throw error;
+
+      const history: Message[] = data.flatMap(msg => [
+        { role: 'user' as const, content: msg.message, status: 'delivered' },
+        { role: 'assistant' as const, content: msg.response, recipeIds: msg.recipe_ids || [], status: 'delivered' }
+      ]);
+
+      setMessages(history);
+    } catch (error: any) {
       console.error('Error loading chat history:', error);
-      return;
+      trackChatError('Failed to load chat history', error.message, user.id);
     }
+  };
 
-    const history: Message[] = data.flatMap(msg => [
-      { role: 'user' as const, content: msg.message },
-      { role: 'assistant' as const, content: msg.response, recipeIds: msg.recipe_ids || [] }
-    ]);
+  const processMessageQueue = useCallback(async () => {
+    if (messageQueue.length === 0 || !isOnline) return;
 
-    setMessages(history);
+    const message = messageQueue[0];
+    setMessageQueue(prev => prev.slice(1));
+    await handleSend(message);
+  }, [messageQueue, isOnline]);
+
+  const checkRateLimit = (): boolean => {
+    if (rateLimitCount >= RATE_LIMIT_MAX) {
+      toast({
+        title: "Slow down!",
+        description: `Please wait before sending more messages (max ${RATE_LIMIT_MAX} per minute)`,
+        variant: "destructive"
+      });
+      return false;
+    }
+    return true;
   };
 
   const handleSend = async (text: string = input) => {
     if (!text.trim() || isLoading || !isPremium) return;
 
-    const userMessage: Message = { role: 'user', content: text };
+    // Validation
+    if (text.length > MAX_MESSAGE_LENGTH) {
+      toast({
+        title: "Message too long",
+        description: `Please keep messages under ${MAX_MESSAGE_LENGTH} characters`,
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Check rate limit
+    if (!checkRateLimit()) return;
+
+    // Check if recipes were deleted
+    if (savedRecipes.length === 0) {
+      toast({
+        title: "No saved recipes",
+        description: "Save some recipes first to chat with AI",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Handle offline mode
+    if (!isOnline) {
+      setMessageQueue(prev => [...prev, text]);
+      toast({
+        title: "Queued",
+        description: "Message will be sent when back online"
+      });
+      return;
+    }
+
+    // Track analytics
+    trackMessageSent(text.length, user?.id);
+    setRateLimitCount(prev => prev + 1);
+
+    const timestamp = Date.now();
+    const userMessage: Message = { 
+      role: 'user', 
+      content: text,
+      status: 'sending',
+      timestamp
+    };
+    
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
     try {
+      // Update to "sent"
+      setMessages(prev => 
+        prev.map(m => m.timestamp === timestamp ? { ...m, status: 'sent' as const } : m)
+      );
+
       const { data, error } = await supabase.functions.invoke('ai-recipe-chat', {
         body: {
           message: text,
@@ -111,6 +235,10 @@ export const AIRecipeChat: React.FC = () => {
       if (error) throw error;
 
       if (data.error) {
+        setMessages(prev => 
+          prev.map(m => m.timestamp === timestamp ? { ...m, status: 'error' as const } : m)
+        );
+        trackChatError(data.error, 'AI response error', user?.id);
         toast({
           title: "Chat error",
           description: data.error,
@@ -119,16 +247,31 @@ export const AIRecipeChat: React.FC = () => {
         return;
       }
 
+      // Update to "delivered"
+      setMessages(prev => 
+        prev.map(m => m.timestamp === timestamp ? { ...m, status: 'delivered' as const } : m)
+      );
+
+      // Track recipe mentions
+      data.recipeIds?.forEach((recipeId: string) => {
+        trackRecipeMentioned(recipeId, user?.id);
+      });
+
       const aiMessage: Message = {
         role: 'assistant',
         content: data.response.replace(/\[RECIPE:[\w-]+\]/g, ''),
-        recipeIds: data.recipeIds
+        recipeIds: data.recipeIds,
+        status: 'delivered'
       };
 
       setMessages(prev => [...prev, aiMessage]);
 
     } catch (error: any) {
       console.error('Chat error:', error);
+      setMessages(prev => 
+        prev.map(m => m.timestamp === timestamp ? { ...m, status: 'error' as const } : m)
+      );
+      trackChatError(error.message, 'Network error', user?.id);
       toast({
         title: "Failed to send message",
         description: "Please try again",
@@ -137,6 +280,10 @@ export const AIRecipeChat: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleRecipeClick = (recipeId: string) => {
+    trackRecipeClicked(recipeId, user?.id);
   };
 
   const handlePromptClick = (prompt: string) => {
@@ -148,18 +295,27 @@ export const AIRecipeChat: React.FC = () => {
   }
 
   return (
+    <ChatErrorBoundary onReset={() => setMessages([])}>
     <div className="flex flex-col h-full bg-gradient-to-b from-background to-background/95">
       {/* Header */}
       <div className="border-b border-border/40 bg-card/50 backdrop-blur-sm">
         <div className="container max-w-4xl py-4 px-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20">
-              <Sparkles className="w-5 h-5 text-primary" />
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20">
+                <Sparkles className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold">AI Recipe Assistant</h2>
+                <p className="text-sm text-muted-foreground">Unlimited chats this month</p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-lg font-semibold">AI Recipe Assistant</h2>
-              <p className="text-sm text-muted-foreground">Unlimited chats this month</p>
-            </div>
+            {!isOnline && (
+              <div className="flex items-center gap-2 text-destructive text-sm">
+                <WifiOff className="w-4 h-4" />
+                <span>Offline</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -210,10 +366,30 @@ export const AIRecipeChat: React.FC = () => {
                   <div className={`flex-1 space-y-3 ${msg.role === 'user' ? 'max-w-[80%] ml-auto' : 'max-w-[80%]'}`}>
                     <div className={`rounded-lg px-4 py-3 ${
                       msg.role === 'user'
-                        ? 'bg-primary text-primary-foreground'
+                        ? msg.status === 'error'
+                          ? 'bg-destructive/10 border border-destructive text-destructive'
+                          : 'bg-primary text-primary-foreground'
                         : 'bg-card border border-border/40'
                     }`}>
-                      <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="text-sm whitespace-pre-wrap flex-1">{msg.content}</p>
+                        {msg.role === 'user' && msg.status && (
+                          <div className="flex-shrink-0 mt-1">
+                            {msg.status === 'sending' && (
+                              <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                            )}
+                            {msg.status === 'sent' && (
+                              <Check className="w-4 h-4 opacity-60" />
+                            )}
+                            {msg.status === 'delivered' && (
+                              <CheckCheck className="w-4 h-4" />
+                            )}
+                            {msg.status === 'error' && (
+                              <span className="text-xs">Failed</span>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
                     {msg.recipeIds && msg.recipeIds.length > 0 && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -221,11 +397,12 @@ export const AIRecipeChat: React.FC = () => {
                           const recipe = allRecipes.find(r => r.id === recipeId);
                           if (!recipe) return null;
                           return (
-                            <RecipeCard
-                              key={recipeId}
-                              recipe={recipe}
-                              showSaveButton={false}
-                            />
+                            <div key={recipeId} onClick={() => handleRecipeClick(recipeId)}>
+                              <RecipeCard
+                                recipe={recipe}
+                                showSaveButton={false}
+                              />
+                            </div>
                           );
                         })}
                       </div>
@@ -258,31 +435,47 @@ export const AIRecipeChat: React.FC = () => {
       {/* Input */}
       <div className="border-t border-border/40 bg-card/50 backdrop-blur-sm sticky bottom-0">
         <div className="container max-w-4xl py-4 px-4">
-          <div className="flex gap-2">
-            <Textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-              placeholder="Ask about your recipes..."
-              className="min-h-[60px] resize-none"
-              disabled={isLoading || !isPremium}
-            />
-            <Button
-              onClick={() => handleSend()}
-              disabled={!input.trim() || isLoading || !isPremium}
-              size="icon"
-              className="h-[60px] w-[60px] rounded-lg"
-            >
-              <Send className="w-5 h-5" />
-            </Button>
+          <div className="space-y-2">
+            {input.length > MAX_MESSAGE_LENGTH * 0.8 && (
+              <div className="text-xs text-muted-foreground text-right">
+                {input.length}/{MAX_MESSAGE_LENGTH} characters
+                {input.length > MAX_MESSAGE_LENGTH && (
+                  <span className="text-destructive ml-2">
+                    Message too long!
+                  </span>
+                )}
+              </div>
+            )}
+            <div className="flex gap-2">
+              <Textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                  }
+                }}
+                placeholder="Ask about your recipes..."
+                className="min-h-[60px] resize-none"
+                disabled={isLoading || !isPremium || !isOnline}
+                maxLength={MAX_MESSAGE_LENGTH}
+                aria-label="Chat message input"
+              />
+              <Button
+                onClick={() => handleSend()}
+                disabled={!input.trim() || isLoading || !isPremium || !isOnline || input.length > MAX_MESSAGE_LENGTH}
+                size="icon"
+                className="h-[60px] w-[60px] rounded-lg"
+                aria-label="Send message"
+              >
+                <Send className="w-5 h-5" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    </ChatErrorBoundary>
   );
 };
