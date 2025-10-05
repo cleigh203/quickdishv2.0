@@ -9,6 +9,7 @@ import { PantryDialog } from "@/components/PantryDialog";
 import { EditProfileDialog } from "@/components/EditProfileDialog";
 import { EditPreferencesDialog } from "@/components/EditPreferencesDialog";
 import { SubscriptionManagementModal } from "@/components/SubscriptionManagementModal";
+import { InstallButton } from "@/components/InstallButton";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -482,6 +483,19 @@ const Profile = () => {
               <Trash2 className="w-4 h-4 mr-2" />
               Delete Account
             </Button>
+          </CardContent>
+        </Card>
+
+        {/* PWA Install */}
+        <Card className="rounded-xl shadow-sm bg-card">
+          <CardHeader>
+            <CardTitle>Install App</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              Install QuickDish on your device for quick access, offline recipes, and a better experience.
+            </p>
+            <InstallButton />
           </CardContent>
         </Card>
 

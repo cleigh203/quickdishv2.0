@@ -3,9 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>QuickDish </title>
-    <meta name="description" content="Transform your ingredients into delicious recipes. Generate personalized recipes, save favorites, and create shopping lists." />
+    <title>QuickDish - AI Recipe & Meal Planner</title>
+    <meta name="description" content="AI-powered recipe companion with meal planning and smart shopping lists" />
     <meta name="author" content="QuickDish" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#ff6b35">
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="QuickDish">
+    <link rel="apple-touch-icon" href="/icon-192.png">
 
     <meta property="og:title" content="QuickDish" />
     <meta property="og:description" content="Transform your ingredients into delicious recipes" />
@@ -15,6 +25,21 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@lovable_dev" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('✅ Service Worker registered:', registration.scope);
+            })
+            .catch(error => {
+              console.error('❌ Service Worker registration failed:', error);
+            });
+        });
+      }
+    </script>
   </head>
 
   <body>
