@@ -13,6 +13,7 @@ import poisonAppleCocktail from "@/assets/recipes/poison-apple-cocktail.jpg";
 import { allRecipes } from "@/data/recipes";
 import type { Recipe } from "@/types/recipe";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
+import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Index = () => {
   const [searchInput, setSearchInput] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
+  const { verifiedRecipes } = useVerifiedRecipes();
 
   const handleRecipeClick = (recipeId: string) => {
     navigate(`/recipe/${recipeId}`);
@@ -27,8 +29,27 @@ const Index = () => {
 
   const freeHalloweenRecipes = getFreeHalloweenRecipes();
 
-  // Combine static recipes with user's generated recipes
-  const combinedRecipes = [...allRecipes, ...generatedRecipes];
+  // Combine verified, generated, and static recipes with proper deduplication
+  const combinedRecipes = useMemo(() => {
+    const recipeMap = new Map<string, Recipe>();
+    
+    // Add static recipes first
+    allRecipes.forEach(recipe => {
+      recipeMap.set(recipe.id, recipe);
+    });
+    
+    // Override with generated recipes (higher priority)
+    generatedRecipes.forEach(recipe => {
+      recipeMap.set(recipe.id, recipe);
+    });
+    
+    // Override with verified recipes (highest priority - these have AI images)
+    verifiedRecipes.forEach(recipe => {
+      recipeMap.set(recipe.id, recipe);
+    });
+    
+    return Array.from(recipeMap.values());
+  }, [generatedRecipes, verifiedRecipes]);
 
   // Filter recipes by ingredients
   const filteredRecipes = useMemo(() => {
