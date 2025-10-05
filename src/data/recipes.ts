@@ -39,7 +39,6 @@ import ghostMeringuesImg from "@/assets/recipes/ghost-meringues.jpg";
 import cornSalsaImg from "@/assets/recipes/copycat-corn-salsa.jpg";
 import chickenFajitasImg from "@/assets/recipes/quick-chicken-fajitas.jpg";
 import steakQuesadillaImg from "@/assets/recipes/leftover-steak-quesadilla.jpg";
-import caramelAppleImg from "@/assets/recipes/caramel-apple-slices.jpg";
 import roadhouseRollsImg from "@/assets/recipes/copycat-roadhouse-rolls.jpg";
 import kungPaoImg from "@/assets/recipes/quick-kung-pao-chicken.jpg";
 import burgerSlidersImg from "@/assets/recipes/leftover-burger-sliders.jpg";
@@ -291,7 +290,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "French",
-    image: "https://images.unsplash.com/photo-1673551490812-eaee2e9bf0ef?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: https://unsplash.com/photos/a-white-plate-topped-with-a-piece-of-cake-and-ice-cream-8lPKzLSWNgM,
     totalTime: 27,
     tags: ["dessert", "chocolate", "elegant", "quick"],
     ingredients: [
@@ -1076,34 +1075,6 @@ export const allRecipes: Recipe[] = [
       "Cool 10 minutes, cut into squares.",
       "Melt chocolate, pipe 'hair' and 'bolts' on sides.",
       "Attach candy eyes with chocolate."
-    ]
-  },
-  {
-    id: "halloween-caramel-apple",
-    name: "Caramel Apple Slices",
-    description: "Apple slices with caramel and chocolate drizzle. Easy Halloween party snack.",
-    cookTime: "5 mins",
-    prepTime: "10 mins",
-    difficulty: "easy",
-    servings: 6,
-    cuisine: "Halloween",
-    image: caramelAppleImg,
-    totalTime: 15,
-    tags: ["halloween", "snack", "dessert"],
-    ingredients: [
-      { amount: "4", unit: "", item: "apples, sliced" },
-      { amount: "1", unit: "cup", item: "caramel sauce" },
-      { amount: "1/2", unit: "cup", item: "chocolate chips, melted" },
-      { amount: "1/4", unit: "cup", item: "crushed peanuts" },
-      { amount: "1/4", unit: "cup", item: "mini M&Ms" }
-    ],
-    instructions: [
-      "Slice apples into thick rounds, remove seeds.",
-      "Arrange apple slices on serving platter.",
-      "Drizzle caramel sauce over each slice.",
-      "Drizzle melted chocolate over caramel.",
-      "Sprinkle with crushed peanuts and M&Ms.",
-      "Serve immediately or refrigerate up to 2 hours."
     ]
   },
   {
