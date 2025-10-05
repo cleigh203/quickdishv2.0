@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, Sparkles } from "lucide-react";
+import { trackUpgradeShown, trackUpgradeClicked } from "@/lib/aiChatAnalytics";
 
 interface PremiumGuardProps {
   children: React.ReactNode;
@@ -54,6 +55,18 @@ export const PremiumGuard = ({ children }: PremiumGuardProps) => {
   }
 
   if (!isPremium) {
+    // Track upgrade shown
+    if (user) {
+      trackUpgradeShown('premium_guard', user.id);
+    }
+
+    const handleUpgradeClick = () => {
+      if (user) {
+        trackUpgradeClicked('premium_guard', user.id);
+      }
+      navigate("/premium");
+    };
+
     return (
       <div className="container max-w-2xl mx-auto px-4 py-8">
         <Card className="relative overflow-hidden border-0 shadow-2xl">
@@ -105,7 +118,7 @@ export const PremiumGuard = ({ children }: PremiumGuardProps) => {
             </div>
 
             <Button
-              onClick={() => navigate("/premium")}
+              onClick={handleUpgradeClick}
               className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-xl"
             >
               <Sparkles className="w-5 h-5 mr-2" />
