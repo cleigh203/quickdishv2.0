@@ -268,6 +268,13 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen pb-24 bg-gradient-to-b from-background to-muted/20">
+      {/* Test Premium Mode Warning Banner */}
+      {import.meta.env.DEV && profileData?.is_premium && (
+        <div className="bg-orange-500 text-white py-3 px-4 text-center font-semibold">
+          ⚠️ TEST PREMIUM MODE ACTIVE - Not a real subscription
+        </div>
+      )}
+
       {/* Header - Orange Gradient matching My Kitchen */}
       <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-red-500 text-white py-12 px-4 mb-8">
         <div className="max-w-4xl mx-auto">
@@ -499,29 +506,72 @@ const Profile = () => {
           </CardContent>
         </Card>
 
+        {/* Developer Tools - Test Premium Mode */}
+        {import.meta.env.DEV && (
+          <Card className="p-4 border-2 border-orange-500 bg-orange-50 dark:bg-orange-950/20 rounded-xl shadow-sm">
+            <p className="font-bold text-orange-800 dark:text-orange-300 mb-3">🧪 Developer Tools</p>
+            <p className="text-sm text-orange-700 dark:text-orange-400 mb-4">
+              Test premium features without Stripe. Changes take effect immediately.
+            </p>
+            <div className="flex gap-2">
+              <Button 
+                onClick={async () => {
+                  const { data: { user } } = await supabase.auth.getUser();
+                  if (user) {
+                    await supabase
+                      .from('profiles')
+                      .update({ 
+                        subscription_status: 'active',
+                        is_premium: true
+                      })
+                      .eq('id', user.id);
+                    
+                    toast({
+                      title: "Test Premium Enabled! 👑",
+                      description: "Refreshing page...",
+                    });
+                    setTimeout(() => window.location.reload(), 1000);
+                  }
+                }}
+                variant="outline"
+                className="border-orange-500 hover:bg-orange-100 dark:hover:bg-orange-900/20 flex-1"
+              >
+                🧪 Enable Test Premium
+              </Button>
+              <Button 
+                onClick={async () => {
+                  const { data: { user } } = await supabase.auth.getUser();
+                  if (user) {
+                    await supabase
+                      .from('profiles')
+                      .update({ 
+                        subscription_status: 'inactive',
+                        is_premium: false
+                      })
+                      .eq('id', user.id);
+                    
+                    toast({
+                      title: "Premium Disabled",
+                      description: "Refreshing page...",
+                    });
+                    setTimeout(() => window.location.reload(), 1000);
+                  }
+                }}
+                variant="outline"
+                className="border-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 flex-1"
+              >
+                ❌ Disable Premium
+              </Button>
+            </div>
+          </Card>
+        )}
+
         {/* Hidden Developer Tools - Only visible when dev mode is active */}
         {devMode && (
           <>
-            <Card className="rounded-xl shadow-sm bg-card">
-              <CardContent className="p-6">
-                <div className="text-xs text-muted-foreground mb-3">Developer Testing</div>
-                <Button
-                  onClick={togglePremium}
-                  className={`w-full ${
-                    isPremium 
-                      ? 'bg-gradient-to-r from-primary to-pink-500 text-white hover:opacity-90' 
-                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                  }`}
-                  size="lg"
-                >
-                  {isPremium ? '⭐ Premium Active' : '🔓 Activate Premium (Testing)'}
-                </Button>
-              </CardContent>
-            </Card>
-
             <Card className="rounded-xl shadow-sm bg-card border-red-500/50">
               <CardContent className="p-6 space-y-3">
-                <p className="text-red-400 text-xs">⚠️ Developer Tools</p>
+                <p className="text-red-400 text-xs">⚠️ Advanced Developer Tools</p>
                 <Button
                   onClick={() => navigate('/admin')}
                   className="w-full bg-red-600 hover:bg-red-700 text-white"
