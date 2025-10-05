@@ -1,13 +1,33 @@
 import { supabase } from "@/integrations/supabase/client";
 
+// CRITICAL: These are the ONLY valid categories
+export const VALID_CATEGORIES = [
+  'Halloween',
+  'Fall Favorites',
+  'Quick and Easy',
+  'Restaurant Copycats',
+  'Breakfast',
+  'Lunch Ideas',
+  'Dinner',
+  'Desserts',
+  'One Pot Wonders',
+  'Healthy Bowls',
+  'Leftover Magic',
+  'Family Favorites',
+] as const;
+
+export type RecipeCategory = typeof VALID_CATEGORIES[number];
+
 export interface RecipeGenerationOptions {
   cuisine?: string;
   dietary?: string;
-  cookTime?: string;
+  cookTime?: number;
+  restaurantName?: string; // For Restaurant Copycats
+  leftoverIngredient?: string; // For Leftover Magic
 }
 
 export interface GenerateRecipesParams {
-  category: string;
+  category: RecipeCategory;
   count: number;
   options?: RecipeGenerationOptions;
 }
@@ -83,12 +103,12 @@ export async function generateRecipes(
 /**
  * Generate a single recipe
  * 
- * @param category - Recipe category (Breakfast, Lunch, Dinner, etc.)
+ * @param category - Recipe category (one of the 12 valid categories)
  * @param options - Optional generation parameters
  * @returns Promise with the generated recipe or null if failed
  */
 export async function generateSingleRecipe(
-  category: string,
+  category: RecipeCategory,
   options?: RecipeGenerationOptions
 ): Promise<GeneratedRecipe | null> {
   const result = await generateRecipes({
@@ -102,4 +122,11 @@ export async function generateSingleRecipe(
   }
 
   return null;
+}
+
+/**
+ * Validate that a category is one of the 12 valid categories
+ */
+export function isValidCategory(category: string): category is RecipeCategory {
+  return VALID_CATEGORIES.includes(category as RecipeCategory);
 }
