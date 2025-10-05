@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = `quickdish-${CACHE_VERSION}`;
 
 // Install event - activate immediately
@@ -57,10 +57,19 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache-first strategy for images and static assets
+  // Network-first strategy for scripts to avoid caching issues
+  if (request.destination === 'script') {
+    event.respondWith(
+      fetch(request)
+        .then((response) => response)
+        .catch(() => caches.match(request))
+    );
+    return;
+  }
+
+  // Cache-first strategy for images and static assets (not scripts)
   if (request.destination === 'image' || 
-      request.destination === 'style' || 
-      request.destination === 'script' ||
+      request.destination === 'style' ||
       request.destination === 'font') {
     event.respondWith(
       caches.match(request)
