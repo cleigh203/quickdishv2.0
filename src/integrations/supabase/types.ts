@@ -262,17 +262,17 @@ export type Database = {
       }
     }
     Views: {
-      recipe_rating_stats: {
-        Row: {
-          average_rating: number | null
-          recipe_id: string | null
-          total_ratings: number | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_recipe_rating_stats: {
+        Args: { recipe_id_param: string }
+        Returns: {
+          average_rating: number
+          recipe_id: string
+          total_ratings: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

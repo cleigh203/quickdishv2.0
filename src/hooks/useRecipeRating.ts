@@ -16,19 +16,16 @@ export const useRecipeRating = (recipeId: string) => {
   const fetchRatings = async () => {
     setIsLoading(true);
     try {
-      // Use the aggregated view for public rating stats (no user_id exposure)
+      // Call the SECURITY DEFINER function to get aggregated stats
       const { data, error } = await supabase
-        .from('recipe_rating_stats')
-        .select('average_rating, total_ratings')
-        .eq('recipe_id', recipeId)
-        .maybeSingle();
+        .rpc('get_recipe_rating_stats', { recipe_id_param: recipeId });
 
       if (error) throw error;
 
-      if (data) {
+      if (data && data.length > 0) {
         setRatingData({
-          averageRating: data.average_rating,
-          totalRatings: data.total_ratings
+          averageRating: data[0].average_rating,
+          totalRatings: data[0].total_ratings
         });
       } else {
         setRatingData({
