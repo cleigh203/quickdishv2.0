@@ -127,6 +127,117 @@ import leftoverPotRoastRamenImg from "@/assets/recipes/leftover-pot-roast-ramen.
 import leftoverTacoStuffedPeppersImg from "@/assets/recipes/leftover-taco-stuffed-peppers.jpg";
 import leftoverTikkaMasalaPotPieImg from "@/assets/recipes/leftover-tikka-masala-pot-pie.jpg";
 
+// NEW RECIPE IMAGES - 100 new recipes
+// Desserts (20)
+import dessertChocolateSouffleImg from "@/assets/recipes/dessert-chocolate-souffle.jpg";
+import dessertStrawberryShortcakeImg from "@/assets/recipes/dessert-strawberry-shortcake.jpg";
+import dessertCremeCaramelImg from "@/assets/recipes/dessert-creme-caramel.jpg";
+import dessertCookieDoughBrowniesImg from "@/assets/recipes/dessert-cookie-dough-brownies.jpg";
+import dessertRaspberryTartImg from "@/assets/recipes/dessert-raspberry-tart.jpg";
+import dessertChocolateMousseCakeImg from "@/assets/recipes/dessert-chocolate-mousse-cake.jpg";
+import dessertLemonMeringuePieImg from "@/assets/recipes/dessert-lemon-meringue-pie.jpg";
+import dessertBostonCreamPieImg from "@/assets/recipes/dessert-boston-cream-pie.jpg";
+import dessertPeachCobblerImg from "@/assets/recipes/dessert-peach-cobbler.jpg";
+import dessertChocolateTrufflesImg from "@/assets/recipes/dessert-chocolate-truffles.jpg";
+import dessertBiscottiImg from "@/assets/recipes/dessert-biscotti.jpg";
+import dessertPumpkinCheesecakeImg from "@/assets/recipes/dessert-pumpkin-cheesecake.jpg";
+import dessertBananaBreadChocolateImg from "@/assets/recipes/dessert-banana-bread-chocolate.jpg";
+import dessertSaltedCaramelTartImg from "@/assets/recipes/dessert-salted-caramel-tart.jpg";
+import dessertStickyToffeePuddingImg from "@/assets/recipes/dessert-sticky-toffee-pudding.jpg";
+import dessertOperaCakeImg from "@/assets/recipes/dessert-opera-cake.jpg";
+import dessertChocolateFondueImg from "@/assets/recipes/dessert-chocolate-fondue.jpg";
+import dessertRaspberryWhiteChocolateCheesecakeImg from "@/assets/recipes/dessert-raspberry-white-chocolate-cheesecake.jpg";
+import dessertSmoresBarsImg from "@/assets/recipes/dessert-smores-bars.jpg";
+import dessertCoconutCreamPieImg from "@/assets/recipes/dessert-coconut-cream-pie.jpg";
+
+// Lunch (20)
+import lunchMediterraneanQuinoaBowlImg from "@/assets/recipes/lunch-mediterranean-quinoa-bowl.jpg";
+import lunchBuffaloChickenWrapImg from "@/assets/recipes/lunch-buffalo-chicken-wrap.jpg";
+import lunchGreekSaladChickenImg from "@/assets/recipes/lunch-greek-salad-chicken.jpg";
+import lunchTurkeyAvocadoClubImg from "@/assets/recipes/lunch-turkey-avocado-club.jpg";
+import lunchAsianLettuceWrapsImg from "@/assets/recipes/lunch-asian-lettuce-wraps.jpg";
+import lunchCapresePaniniImg from "@/assets/recipes/lunch-caprese-panini.jpg";
+import lunchTunaNicoiseSaladImg from "@/assets/recipes/lunch-tuna-nicoise-salad.jpg";
+import lunchCaliforniaRollBowlImg from "@/assets/recipes/lunch-california-roll-bowl.jpg";
+import lunchBbqPulledPorkSandwichImg from "@/assets/recipes/lunch-bbq-pulled-pork-sandwich.jpg";
+import lunchFalafelPitaImg from "@/assets/recipes/lunch-falafel-pita.jpg";
+import lunchChickenCaesarSaladImg from "@/assets/recipes/lunch-chicken-caesar-salad.jpg";
+import lunchBanhMiSandwichImg from "@/assets/recipes/lunch-banh-mi-sandwich.jpg";
+import lunchSouthwestChickenBowlImg from "@/assets/recipes/lunch-southwest-chicken-bowl.jpg";
+import lunchMargheritaFlatbreadImg from "@/assets/recipes/lunch-margherita-flatbread.jpg";
+import lunchCobbSaladImg from "@/assets/recipes/lunch-cobb-salad.jpg";
+import lunchPestoPastaSaladImg from "@/assets/recipes/lunch-pesto-pasta-salad.jpg";
+import lunchKoreanBbqBeefBowlImg from "@/assets/recipes/lunch-korean-bbq-beef-bowl.jpg";
+import lunchShrimpPoBoyImg from "@/assets/recipes/lunch-shrimp-po-boy.jpg";
+import lunchChickenShawarmaWrapImg from "@/assets/recipes/lunch-chicken-shawarma-wrap.jpg";
+import lunchTomatoSoupGrilledCheeseImg from "@/assets/recipes/lunch-tomato-soup-grilled-cheese.jpg";
+
+// One Pot Wonders (20)
+import onePotChickenDumplingsImg from "@/assets/recipes/one-pot-chicken-dumplings.jpg";
+import onePotBeefBourguignonImg from "@/assets/recipes/one-pot-beef-bourguignon.jpg";
+import onePotJambalayaImg from "@/assets/recipes/one-pot-jambalaya.jpg";
+import onePotCreamyTuscanChickenImg from "@/assets/recipes/one-pot-creamy-tuscan-chicken.jpg";
+import onePotChiliConCarneImg from "@/assets/recipes/one-pot-chili-con-carne.jpg";
+import onePotSeafoodPaellaImg from "@/assets/recipes/one-pot-seafood-paella.jpg";
+import onePotChickenCacciatoreImg from "@/assets/recipes/one-pot-chicken-cacciatore.jpg";
+import onePotMoroccanTagineImg from "@/assets/recipes/one-pot-moroccan-tagine.jpg";
+import onePotTuscanWhiteBeanSoupImg from "@/assets/recipes/one-pot-tuscan-white-bean-soup.jpg";
+import onePotChickenTikkaMasalaImg from "@/assets/recipes/one-pot-chicken-tikka-masala.jpg";
+import onePotPotRoastImg from "@/assets/recipes/one-pot-pot-roast.jpg";
+import onePotCreamyCajunPastaImg from "@/assets/recipes/one-pot-creamy-cajun-pasta.jpg";
+import onePotIrishStewImg from "@/assets/recipes/one-pot-irish-stew.jpg";
+import onePotChickenRiceImg from "@/assets/recipes/one-pot-chicken-rice.jpg";
+import onePotShakshukaImg from "@/assets/recipes/one-pot-shakshuka.jpg";
+import onePotSausageLentilStewImg from "@/assets/recipes/one-pot-sausage-lentil-stew.jpg";
+import onePotChickenTortillaSoupImg from "@/assets/recipes/one-pot-chicken-tortilla-soup.jpg";
+import onePotBeefStroganoffImg from "@/assets/recipes/one-pot-beef-stroganoff.jpg";
+import onePotRatatouilleImg from "@/assets/recipes/one-pot-ratatouille.jpg";
+import onePotChickenPaprikashImg from "@/assets/recipes/one-pot-chicken-paprikash.jpg";
+
+// Breakfast (20)
+import breakfastBelgianWafflesImg from "@/assets/recipes/breakfast-belgian-waffles.jpg";
+import breakfastEggsBenedictImg from "@/assets/recipes/breakfast-eggs-benedict.jpg";
+import breakfastBurritoImg from "@/assets/recipes/breakfast-burrito.jpg";
+import breakfastFrenchToastImg from "@/assets/recipes/breakfast-french-toast.jpg";
+import breakfastShakshukaImg from "@/assets/recipes/breakfast-shakshuka.jpg";
+import breakfastAvocadoToastImg from "@/assets/recipes/breakfast-avocado-toast.jpg";
+import breakfastHuevosRancherosImg from "@/assets/recipes/breakfast-huevos-rancheros.jpg";
+import breakfastBlueberryPancakesImg from "@/assets/recipes/breakfast-blueberry-pancakes.jpg";
+import breakfastPizzaImg from "@/assets/recipes/breakfast-pizza.jpg";
+import breakfastSmokedSalmonBagelImg from "@/assets/recipes/breakfast-smoked-salmon-bagel.jpg";
+import breakfastAcaiBowlImg from "@/assets/recipes/breakfast-acai-bowl.jpg";
+import breakfastQuesadillaImg from "@/assets/recipes/breakfast-quesadilla.jpg";
+import breakfastBiscuitsGravyImg from "@/assets/recipes/breakfast-biscuits-gravy.jpg";
+import breakfastCroqueMadameImg from "@/assets/recipes/breakfast-croque-madame.jpg";
+import breakfastTacosImg from "@/assets/recipes/breakfast-tacos.jpg";
+import breakfastChilaquilesImg from "@/assets/recipes/breakfast-chilaquiles.jpg";
+import breakfastBananaNutOatmealImg from "@/assets/recipes/breakfast-banana-nut-oatmeal.jpg";
+import breakfastFullEnglishImg from "@/assets/recipes/breakfast-full-english.jpg";
+import breakfastSausageCasseroleImg from "@/assets/recipes/breakfast-sausage-casserole.jpg";
+import breakfastGreekYogurtParfaitImg from "@/assets/recipes/breakfast-greek-yogurt-parfait.jpg";
+
+// Restaurant Copycats (20)
+import copycatChickFilASandwichImg from "@/assets/recipes/copycat-chick-fil-a-sandwich.jpg";
+import copycatChipotleBurritoBowlImg from "@/assets/recipes/copycat-chipotle-burrito-bowl.jpg";
+import copycatOliveGardenBreadsticksImg from "@/assets/recipes/copycat-olive-garden-breadsticks.jpg";
+import copycatPaneraBroccoliSoupImg from "@/assets/recipes/copycat-panera-broccoli-soup.jpg";
+import copycatRedLobsterBiscuitsImg from "@/assets/recipes/copycat-red-lobster-biscuits.jpg";
+import copycatCrackerBarrelHashbrownsImg from "@/assets/recipes/copycat-cracker-barrel-hashbrowns.jpg";
+import copycatTexasRoadhouseButterImg from "@/assets/recipes/copycat-texas-roadhouse-butter.jpg";
+import copycatPfChangsWrapsImg from "@/assets/recipes/copycat-pf-changs-wraps.jpg";
+import copycatCheesecakeFactoryAvocadoRollsImg from "@/assets/recipes/copycat-cheesecake-factory-avocado-rolls.jpg";
+import copycatKfcColeslawImg from "@/assets/recipes/copycat-kfc-coleslaw.jpg";
+import copycatSubwayMeatballSubImg from "@/assets/recipes/copycat-subway-meatball-sub.jpg";
+import copycatStarbucksEggBitesImg from "@/assets/recipes/copycat-starbucks-egg-bites.jpg";
+import copycatWendysChiliImg from "@/assets/recipes/copycat-wendys-chili.jpg";
+import copycatMcdonaldsMcgriddlesImg from "@/assets/recipes/copycat-mcdonalds-mcgriddles.jpg";
+import copycatPizzaHutPanImg from "@/assets/recipes/copycat-pizza-hut-pan.jpg";
+import copycatApplebeesOrientalSaladImg from "@/assets/recipes/copycat-applebees-oriental-salad.jpg";
+import copycatCinnabonRollsImg from "@/assets/recipes/copycat-cinnabon-rolls.jpg";
+import copycatPandaOrangeChickenImg from "@/assets/recipes/copycat-panda-orange-chicken.jpg";
+import copycatChilisMoltenCakeImg from "@/assets/recipes/copycat-chilis-molten-cake.jpg";
+import copycatOutbackBloominOnionImg from "@/assets/recipes/copycat-outback-bloomin-onion.jpg";
+
 // Dessert images are served from Lovable uploads
 
 export const allRecipes: Recipe[] = [
