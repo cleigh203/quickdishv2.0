@@ -1,6 +1,22 @@
 import { Recipe } from "@/types/recipe";
 
 // Import AI-generated images
+import chickenMarsalaImg from "@/assets/recipes/chicken-marsala.jpg";
+import beefBroccoliStirfryImg from "@/assets/recipes/beef-broccoli-stirfry.jpg";
+import stuffedBellPeppersImg from "@/assets/recipes/stuffed-bell-peppers.jpg";
+import teriyakiChickenImg from "@/assets/recipes/teriyaki-chicken.jpg";
+import porkChopsApplesImg from "@/assets/recipes/pork-chops-apples.jpg";
+import lemonHerbChickenThighsImg from "@/assets/recipes/lemon-herb-chicken-thighs.jpg";
+import bbqMeatloafImg from "@/assets/recipes/bbq-meatloaf.jpg";
+import frenchDipSlidersImg from "@/assets/recipes/french-dip-sliders.jpg";
+import mediterraneanChickenRiceImg from "@/assets/recipes/mediterranean-chicken-rice.jpg";
+import cajunChickenPastaImg from "@/assets/recipes/cajun-chicken-pasta.jpg";
+import koreanBeefBowlImg from "@/assets/recipes/korean-beef-bowl.jpg";
+import garlicButterTilapiaImg from "@/assets/recipes/garlic-butter-tilapia.jpg";
+import honeyMustardChickenImg from "@/assets/recipes/honey-mustard-chicken.jpg";
+import thaiCoconutCurryImg from "@/assets/recipes/thai-coconut-curry.jpg";
+import beefEnchiladasImg from "@/assets/recipes/beef-enchiladas.jpg";
+import lemonGarlicShrimpImg from "@/assets/recipes/lemon-garlic-shrimp.jpg";
 import mummyDogsImg from "@/assets/recipes/mummy-dogs.jpg";
 import burritoBowlImg from "@/assets/recipes/copycat-burrito-bowl.jpg";
 import honeyGarlicChickenImg from "@/assets/recipes/quick-honey-garlic-chicken.jpg";
@@ -290,7 +306,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "French",
-    image: https://unsplash.com/photos/a-white-plate-topped-with-a-piece-of-cake-and-ice-cream-8lPKzLSWNgM,
+    image: "https://unsplash.com/photos/a-white-plate-topped-with-a-piece-of-cake-and-ice-cream-8lPKzLSWNgM",
     totalTime: 27,
     tags: ["dessert", "chocolate", "elegant", "quick"],
     ingredients: [
@@ -2479,7 +2495,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "American",
-    image: frenchDipImg,
+    image: frenchDipSlidersImg,
     totalTime: 25,
     tags: ["leftover", "sandwich", "comfort"],
     ingredients: [
@@ -2784,7 +2800,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Chinese",
-    image: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143",
+    image: beefBroccoliStirfryImg,
     totalTime: 25,
     tags: ["asian", "quick", "high-protein", "dinner", "stir-fry"],
     nutrition: {
@@ -2828,7 +2844,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Italian",
-    image: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6",
+    image: chickenMarsalaImg,
     totalTime: 35,
     tags: ["italian", "comfort-food", "restaurant-quality", "dinner"],
     nutrition: {
@@ -2918,7 +2934,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Italian-American",
-    image: "https://images.unsplash.com/photo-1606802680998-f85abfb6e2d4",
+    image: stuffedBellPeppersImg,
     totalTime: 55,
     tags: ["comfort-food", "make-ahead", "gluten-free", "dinner"],
     nutrition: {
@@ -2963,7 +2979,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Japanese",
-    image: "https://images.unsplash.com/photo-1588347818036-5a2c4f7fb23d",
+    image: teriyakiChickenImg,
     totalTime: 30,
     tags: ["asian", "kid-friendly", "meal-prep", "dinner"],
     nutrition: {
@@ -3008,7 +3024,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "American",
-    image: "https://images.unsplash.com/photo-1576731796241-3c99f1a4ea3f",
+    image: porkChopsApplesImg,
     totalTime: 35,
     tags: ["fall", "comfort-food", "gluten-free", "dinner"],
     nutrition: {
@@ -3051,7 +3067,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Mediterranean",
-    image: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6",
+    image: lemonHerbChickenThighsImg,
     totalTime: 50,
     tags: ["roasted", "gluten-free", "meal-prep", "dinner"],
     nutrition: {
@@ -3093,7 +3109,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "American",
-    image: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba",
+    image: bbqMeatloafImg,
     totalTime: 75,
     tags: ["comfort-food", "american", "kid-friendly", "dinner"],
     nutrition: {
@@ -3136,7 +3152,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Mediterranean",
-    image: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6",
+    image: mediterraneanChickenRiceImg,
     totalTime: 50,
     tags: ["mediterranean", "one-pan", "healthy", "dinner"],
     nutrition: {
@@ -3180,7 +3196,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Cajun",
-    image: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
+    image: cajunChickenPastaImg,
     totalTime: 30,
     tags: ["spicy", "creamy", "comfort-food", "dinner", "pasta"],
     nutrition: {
@@ -3225,7 +3241,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Korean",
-    image: "https://images.unsplash.com/photo-1623428454614-abaf00244e52",
+    image: koreanBeefBowlImg,
     totalTime: 20,
     tags: ["asian", "quick", "budget-friendly", "dinner"],
     nutrition: {
@@ -3267,7 +3283,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "American",
-    image: "https://images.unsplash.com/photo-1580959375944-0b6e1cb3b80f",
+    image: garlicButterTilapiaImg,
     totalTime: 20,
     tags: ["seafood", "quick", "healthy", "low-carb", "dinner"],
     nutrition: {
@@ -3348,7 +3364,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "American",
-    image: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6",
+    image: honeyMustardChickenImg,
     totalTime: 45,
     tags: ["sheet-pan", "easy-cleanup", "kid-friendly", "dinner"],
     nutrition: {
@@ -3430,7 +3446,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Thai",
-    image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd",
+    image: thaiCoconutCurryImg,
     totalTime: 40,
     tags: ["thai", "spicy", "curry", "dinner"],
     nutrition: {
@@ -3518,7 +3534,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Mexican",
-    image: "https://images.unsplash.com/photo-1568106690101-d819sofie",
+    image: beefEnchiladasImg,
     totalTime: 50,
     tags: ["mexican", "comfort-food", "crowd-pleaser", "dinner"],
     nutrition: {
@@ -3563,7 +3579,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Italian",
-    image: "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47",
+    image: lemonGarlicShrimpImg,
     totalTime: 15,
     tags: ["seafood", "quick", "low-carb", "elegant", "dinner"],
     nutrition: {
