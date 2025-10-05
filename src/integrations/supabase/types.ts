@@ -268,6 +268,90 @@ export type Database = {
         }
         Relationships: []
       }
+      recipes: {
+        Row: {
+          ai_generated: boolean | null
+          cook_time: string | null
+          created_at: string | null
+          cuisine: string | null
+          description: string | null
+          difficulty: string | null
+          generated_at: string | null
+          id: string
+          image_url: string | null
+          ingredients: Json
+          instructions: Json
+          kitchen_tested: boolean | null
+          name: string
+          needs_validation: boolean | null
+          nutrition: Json | null
+          prep_time: string | null
+          recipe_id: string
+          servings: number | null
+          source: string | null
+          tags: string[] | null
+          updated_at: string | null
+          validated_at: string | null
+          validated_by: string | null
+          validation_notes: string | null
+          verified: boolean | null
+        }
+        Insert: {
+          ai_generated?: boolean | null
+          cook_time?: string | null
+          created_at?: string | null
+          cuisine?: string | null
+          description?: string | null
+          difficulty?: string | null
+          generated_at?: string | null
+          id?: string
+          image_url?: string | null
+          ingredients: Json
+          instructions: Json
+          kitchen_tested?: boolean | null
+          name: string
+          needs_validation?: boolean | null
+          nutrition?: Json | null
+          prep_time?: string | null
+          recipe_id: string
+          servings?: number | null
+          source?: string | null
+          tags?: string[] | null
+          updated_at?: string | null
+          validated_at?: string | null
+          validated_by?: string | null
+          validation_notes?: string | null
+          verified?: boolean | null
+        }
+        Update: {
+          ai_generated?: boolean | null
+          cook_time?: string | null
+          created_at?: string | null
+          cuisine?: string | null
+          description?: string | null
+          difficulty?: string | null
+          generated_at?: string | null
+          id?: string
+          image_url?: string | null
+          ingredients?: Json
+          instructions?: Json
+          kitchen_tested?: boolean | null
+          name?: string
+          needs_validation?: boolean | null
+          nutrition?: Json | null
+          prep_time?: string | null
+          recipe_id?: string
+          servings?: number | null
+          source?: string | null
+          tags?: string[] | null
+          updated_at?: string | null
+          validated_at?: string | null
+          validated_by?: string | null
+          validation_notes?: string | null
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
       saved_recipes: {
         Row: {
           id: string
