@@ -25,6 +25,7 @@ import { RatingModal } from "@/components/RatingModal";
 import { useRecipeRating } from "@/hooks/useRecipeRating";
 import { useMealPlan } from "@/hooks/useMealPlan";
 import { MealPlanDialog } from "@/components/MealPlanDialog";
+import { RecipeAIChatDialog } from "@/components/RecipeAIChatDialog";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -46,6 +47,7 @@ const RecipeDetail = () => {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
   const [mealPlanDialogOpen, setMealPlanDialogOpen] = useState(false);
+  const [aiChatOpen, setAiChatOpen] = useState(false);
 
   const currentSavedRecipe = recipe ? savedRecipes.find(r => r.recipe_id === recipe.id) : null;
   const { averageRating, totalRatings, refetch: refetchRatings } = useRecipeRating(recipe?.id || '');
@@ -561,6 +563,58 @@ const RecipeDetail = () => {
               )}
             </button>
             
+            {/* Ask AI About This Recipe - Premium */}
+            <button
+              onClick={() => {
+                // Guest users: show sign up prompt
+                if (!user) {
+                  toast({
+                    title: "Sign up to chat with AI",
+                    description: "Create an account to ask AI about recipes",
+                    action: (
+                      <Button
+                        size="sm"
+                        onClick={() => navigate('/auth')}
+                        className="bg-primary hover:bg-primary/90"
+                      >
+                        Sign Up
+                      </Button>
+                    ),
+                  });
+                  setMenuOpen(false);
+                  return;
+                }
+
+                // Authenticated users: check premium status
+                if (!isPremium) {
+                  setPremiumPaywallOpen(true);
+                  setMenuOpen(false);
+                  return;
+                }
+
+                // Premium users: open AI chat
+                setAiChatOpen(true);
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+            >
+              <div className="w-10 h-10 bg-purple-50 rounded-full flex items-center justify-center text-xl">
+                💬
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-gray-900 flex items-center gap-2">
+                  Ask AI About This Recipe
+                  {isPremium && <span className="text-xs">👑</span>}
+                </div>
+                <div className="text-sm text-gray-500">Chat with AI Chef</div>
+              </div>
+              {!isPremium && (
+                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  PREMIUM
+                </div>
+              )}
+            </button>
+            
             {/* Export as PDF */}
             <button
               onClick={() => {
@@ -719,6 +773,12 @@ const RecipeDetail = () => {
         onSave={async (date, mealType) => {
           await addMealPlan(recipe.id, date, mealType);
         }}
+      />
+
+      <RecipeAIChatDialog
+        recipe={recipe}
+        open={aiChatOpen}
+        onClose={() => setAiChatOpen(false)}
       />
     </div>
   );

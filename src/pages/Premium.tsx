@@ -40,8 +40,8 @@ const Premium = () => {
   const features = [
     {
       icon: <Bot className="w-6 h-6" />,
-      title: "AI Recipe Chef",
-      description: "Chat with AI about your saved recipes, get meal suggestions, and cooking tips. Unlimited conversations!",
+      title: "AI Chat About Recipes",
+      description: "Get instant cooking help, substitution advice, and cooking tips for any recipe. Chat directly from recipe pages!",
       free: false,
       premium: true
     },

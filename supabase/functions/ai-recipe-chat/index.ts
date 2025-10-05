@@ -13,7 +13,7 @@ serve(async (req) => {
   }
 
   try {
-    const { message, savedRecipes, userId } = await req.json();
+    const { message, savedRecipes, recipeContext, userId } = await req.json();
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -35,13 +35,43 @@ serve(async (req) => {
       );
     }
 
-    // Build context from saved recipes
-    const recipeNames = savedRecipes.map((r: any) => r.name).join(', ');
-    const recipeContext = savedRecipes.map((r: any) => 
-      `- ${r.name} (${r.cookTime}, ${r.difficulty})`
-    ).join('\n');
+    let systemPrompt: string;
 
-    const systemPrompt = `You are a helpful cooking assistant for QuickDish app. 🧑‍🍳
+    // If recipeContext is provided (from recipe detail page), use that
+    if (recipeContext) {
+      const ingredientsList = recipeContext.ingredients.map((ing: any) => 
+        `${ing.amount} ${ing.unit} ${ing.item}`
+      ).join(', ');
+      
+      systemPrompt = `You are a helpful cooking assistant for QuickDish app. 🧑‍🍳
+
+The user is viewing this recipe:
+📝 **${recipeContext.name}**
+⏱️ Prep: ${recipeContext.prepTime} | Cook: ${recipeContext.cookTime}
+👥 Servings: ${recipeContext.servings}
+🏆 Difficulty: ${recipeContext.difficulty}
+
+🛒 Ingredients: ${ingredientsList}
+
+📋 Instructions:
+${recipeContext.instructions.map((inst: string, i: number) => `${i + 1}. ${inst}`).join('\n')}
+
+Answer their questions about THIS specific recipe. Help with:
+- Ingredient substitutions
+- Cooking techniques
+- Timing questions
+- Scaling servings
+- Storage and reheating
+- Troubleshooting
+
+Be friendly, helpful, and use emojis! 😊`;
+    } else if (savedRecipes) {
+      // Original behavior for general chat about saved recipes
+      const recipeContext = savedRecipes.map((r: any) => 
+        `- ${r.name} (${r.cookTime}, ${r.difficulty})`
+      ).join('\n');
+
+      systemPrompt = `You are a helpful cooking assistant for QuickDish app. 🧑‍🍳
 
 The user has these saved recipes:
 ${recipeContext}
@@ -51,6 +81,9 @@ Answer their cooking questions based ONLY on these recipes. Be conversational, f
 When mentioning specific recipes, use this format: [RECIPE:recipe-id] so the UI can show the recipe card.
 
 If they ask about a recipe not in their collection, tell them to save it first from the Recipes tab.`;
+    } else {
+      throw new Error('No recipe context provided');
+    }
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
