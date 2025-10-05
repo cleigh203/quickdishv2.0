@@ -127,8 +127,10 @@ import leftoverPotRoastRamenImg from "@/assets/recipes/leftover-pot-roast-ramen.
 import leftoverTacoStuffedPeppersImg from "@/assets/recipes/leftover-taco-stuffed-peppers.jpg";
 import leftoverTikkaMasalaPotPieImg from "@/assets/recipes/leftover-tikka-masala-pot-pie.jpg";
 
-// NEW RECIPE IMAGES - 100 new recipes
-// Desserts (20)
+// Import new recipes
+import { newRecipes } from "./newRecipes";
+
+// Dessert images are served from Lovable uploads
 import dessertChocolateSouffleImg from "@/assets/recipes/dessert-chocolate-souffle.jpg";
 import dessertStrawberryShortcakeImg from "@/assets/recipes/dessert-strawberry-shortcake.jpg";
 import dessertCremeCaramelImg from "@/assets/recipes/dessert-creme-caramel.jpg";
@@ -5344,7 +5346,8 @@ export const allRecipes: Recipe[] = [
       "Let sit 5 minutes before serving.",
       "Top with sour cream and green onions if desired."
     ]
-  }
+  },
+  ...newRecipes
 ];
 
 // Helper functions
