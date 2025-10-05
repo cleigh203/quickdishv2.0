@@ -520,8 +520,8 @@ const Profile = () => {
             </Card>
 
             <Card className="rounded-xl shadow-sm bg-card border-red-500/50">
-              <CardContent className="p-6">
-                <p className="text-red-400 text-xs mb-3">⚠️ Developer Tools</p>
+              <CardContent className="p-6 space-y-3">
+                <p className="text-red-400 text-xs">⚠️ Developer Tools</p>
                 <Button
                   onClick={() => navigate('/admin')}
                   className="w-full bg-red-600 hover:bg-red-700 text-white"
@@ -529,6 +529,18 @@ const Profile = () => {
                 >
                   <Settings className="w-4 h-4 mr-2" />
                   Open Admin Panel
+                </Button>
+                <Button
+                  onClick={() => {
+                    setDevMode(false);
+                    localStorage.removeItem('developerMode');
+                    toast({ title: "Developer mode disabled" });
+                  }}
+                  variant="outline"
+                  className="w-full"
+                  size="sm"
+                >
+                  Hide Developer Tools
                 </Button>
               </CardContent>
             </Card>
