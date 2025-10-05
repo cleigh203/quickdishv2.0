@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { Progress } from "@/components/ui/progress";
 
 export default function GenerateNewRecipeImages() {
   const [generating, setGenerating] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [currentRecipe, setCurrentRecipe] = useState("");
+  const [completed, setCompleted] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [generatedImages, setGeneratedImages] = useState<Array<{ name: string; success: boolean }>>([]);
 
   const recipes = [
     { name: "Chicken and Dumplings", description: "Tender chicken with fluffy dumplings in rich broth", filename: "one-pot-chicken-dumplings.jpg" },
@@ -32,18 +37,39 @@ export default function GenerateNewRecipeImages() {
 
   const generateBatch = async (batch: any[]) => {
     for (const recipe of batch) {
-      const { data } = await supabase.functions.invoke('generate-bulk-recipe-images', {
-        body: { recipes: [recipe] }
-      });
-      console.log('Generated:', recipe.name, data);
+      setCurrentRecipe(recipe.name);
+      try {
+        const { data, error } = await supabase.functions.invoke('generate-bulk-recipe-images', {
+          body: { recipes: [recipe] }
+        });
+        
+        if (error) {
+          console.error('Error generating:', recipe.name, error);
+          setGeneratedImages(prev => [...prev, { name: recipe.name, success: false }]);
+          toast.error(`Failed to generate ${recipe.name}`);
+        } else {
+          console.log('Generated:', recipe.name, data);
+          setGeneratedImages(prev => [...prev, { name: recipe.name, success: true }]);
+          toast.success(`Generated ${recipe.name}`);
+        }
+      } catch (err) {
+        console.error('Exception generating:', recipe.name, err);
+        setGeneratedImages(prev => [...prev, { name: recipe.name, success: false }]);
+      }
+      
+      setCompleted(prev => prev + 1);
     }
   };
 
   const handleGenerate = async () => {
     setGenerating(true);
+    setCompleted(0);
+    setTotal(recipes.length);
+    setGeneratedImages([]);
+    
     const batches = [];
-    for (let i = 0; i < recipes.length; i += 5) {
-      batches.push(recipes.slice(i, i + 5));
+    for (let i = 0; i < recipes.length; i += 3) {
+      batches.push(recipes.slice(i, i + 3));
     }
 
     for (let i = 0; i < batches.length; i++) {
@@ -52,15 +78,71 @@ export default function GenerateNewRecipeImages() {
     }
 
     setGenerating(false);
-    toast.success('All images generated!');
+    setCurrentRecipe("");
+    toast.success(`Generation complete! ${generatedImages.filter(img => img.success).length}/${recipes.length} images generated successfully`);
   };
 
+  // Auto-start generation on mount
+  useEffect(() => {
+    handleGenerate();
+  }, []);
+
   return (
-    <div className="container p-8">
-      <h1 className="text-3xl font-bold mb-4">Generate Recipe Images</h1>
-      <Button onClick={handleGenerate} disabled={generating}>
-        {generating ? `Generating... ${Math.round(progress)}%` : 'Generate All Images'}
-      </Button>
+    <div className="container p-8 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-2">One Pot Wonders - Image Generation</h1>
+      <p className="text-muted-foreground mb-6">
+        Generating realistic food photography for all {recipes.length} One Pot Wonder recipes
+      </p>
+      
+      <div className="space-y-6">
+        <div className="bg-card p-6 rounded-lg border">
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="font-medium">Progress</span>
+              <span className="text-sm text-muted-foreground">
+                {completed}/{total} recipes
+              </span>
+            </div>
+            <Progress value={progress} className="h-2" />
+            
+            {currentRecipe && (
+              <div className="text-sm text-muted-foreground animate-pulse">
+                Currently generating: <span className="font-medium">{currentRecipe}</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <Button 
+          onClick={handleGenerate} 
+          disabled={generating}
+          size="lg"
+          className="w-full"
+        >
+          {generating ? 'Generating Images...' : 'Restart Generation'}
+        </Button>
+
+        {generatedImages.length > 0 && (
+          <div className="bg-card p-6 rounded-lg border">
+            <h2 className="font-semibold mb-4">Generation Results</h2>
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {generatedImages.map((img, idx) => (
+                <div 
+                  key={idx} 
+                  className={`flex items-center justify-between p-2 rounded ${
+                    img.success ? 'bg-green-500/10' : 'bg-red-500/10'
+                  }`}
+                >
+                  <span className="text-sm">{img.name}</span>
+                  <span className="text-xs">
+                    {img.success ? '✓ Success' : '✗ Failed'}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
