@@ -36,15 +36,21 @@ serve(async (req) => {
     }
 
     // Build context from saved recipes
+    const recipeNames = savedRecipes.map((r: any) => r.name).join(', ');
     const recipeContext = savedRecipes.map((r: any) => 
-      `${r.name} (${r.cookTime}, ${r.difficulty}) - ${r.description}`
+      `- ${r.name} (${r.cookTime}, ${r.difficulty})`
     ).join('\n');
 
-    const systemPrompt = `You are a helpful cooking assistant. The user has these saved recipes:
+    const systemPrompt = `You are a helpful cooking assistant for QuickDish app. 🧑‍🍳
 
+The user has these saved recipes:
 ${recipeContext}
 
-Help them with questions about their recipes, meal planning, and cooking suggestions. When mentioning specific recipes, use this format: [RECIPE:recipe-id] so the UI can show the recipe card. Be friendly, concise, and helpful.`;
+Answer their cooking questions based ONLY on these recipes. Be conversational, friendly, and helpful. Use emojis for personality. 😊
+
+When mentioning specific recipes, use this format: [RECIPE:recipe-id] so the UI can show the recipe card.
+
+If they ask about a recipe not in their collection, tell them to save it first from the Recipes tab.`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
