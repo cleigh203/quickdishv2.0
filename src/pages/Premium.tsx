@@ -1,4 +1,4 @@
-import { ArrowLeft, Check, Crown, Zap, TrendingUp, Shield } from "lucide-react";
+import { ArrowLeft, Check, Crown, Zap, TrendingUp, Shield, Bot } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -38,6 +38,13 @@ const Premium = () => {
   };
 
   const features = [
+    {
+      icon: <Bot className="w-6 h-6" />,
+      title: "AI Recipe Chef",
+      description: "Chat with AI about your saved recipes, get meal suggestions, and cooking tips. Unlimited conversations!",
+      free: false,
+      premium: true
+    },
     {
       icon: <TrendingUp className="w-6 h-6" />,
       title: "Nutritional Information",

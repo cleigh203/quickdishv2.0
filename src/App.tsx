@@ -23,6 +23,7 @@ import GenerateNewRecipeImages from "./pages/GenerateNewRecipeImages";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import ProfileSetup from "./pages/ProfileSetup";
+import AIChat from "./pages/AIChat";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -50,6 +51,7 @@ const App = () => (
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/premium" element={<ProtectedRoute allowGuest><Premium /></ProtectedRoute>} />
           <Route path="/premium/success" element={<ProtectedRoute><PremiumSuccess /></ProtectedRoute>} />
+          <Route path="/ai-chat" element={<ProtectedRoute><AIChat /></ProtectedRoute>} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/generate-dessert-images" element={<GenerateDessertImages />} />
           <Route path="/admin/generate-onepot-images" element={<GenerateNewRecipeImages />} />

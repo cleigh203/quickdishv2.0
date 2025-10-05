@@ -1,16 +1,18 @@
-import { Home, Sparkles, BookMarked, ShoppingCart, User } from "lucide-react";
+import { Home, Sparkles, BookMarked, ShoppingCart, User, Bot } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
+import { PremiumBadge } from "@/components/PremiumBadge";
 
 export const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, isPremium } = useAuth();
 
   const navItems = [
     { icon: Home, label: "Home", path: "/" },
     { icon: Sparkles, label: "Discover", path: "/generate" },
+    ...(user ? [{ icon: Bot, label: "AI Chef", path: "/ai-chat", premium: true }] : []),
     { icon: BookMarked, label: "My Kitchen", path: "/saved" },
     { icon: ShoppingCart, label: "Shopping", path: "/shopping" },
     { icon: User, label: "Profile", path: "/profile" },
@@ -38,16 +40,31 @@ export const BottomNav = () => {
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
+            const isPremiumFeature = 'premium' in item && item.premium;
             
             return (
               <button
                 key={item.path}
                 onClick={() => navigate(item.path)}
-                className={`flex flex-col items-center justify-center w-full h-full smooth-transition ${
-                  isActive ? "text-primary" : "text-muted-foreground"
+                className={`flex flex-col items-center justify-center w-full h-full smooth-transition relative ${
+                  isActive 
+                    ? isPremiumFeature 
+                      ? "text-transparent bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text" 
+                      : "text-primary"
+                    : "text-muted-foreground"
                 }`}
               >
-                <Icon className="w-6 h-6" />
+                <div className="relative">
+                  <Icon className={`w-6 h-6 ${isActive && isPremiumFeature ? 'text-purple-500' : ''}`} />
+                  {isPremiumFeature && (
+                    <PremiumBadge 
+                      variant="compact" 
+                      text="Pro" 
+                      showIcon={false}
+                      className="absolute -top-1 -right-3 scale-75"
+                    />
+                  )}
+                </div>
                 <span className="text-xs mt-1">{item.label}</span>
               </button>
             );
