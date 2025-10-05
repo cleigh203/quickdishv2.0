@@ -42,6 +42,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
+      // In dev mode, read directly from database to support test premium
+      if (import.meta.env.DEV) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_premium')
+          .eq('id', session.user.id)
+          .single();
+        
+        setIsPremium(profile?.is_premium || false);
+        console.log('🧪 Dev mode: Premium status from DB:', profile?.is_premium);
+        return;
+      }
+
+      // Production: check via Stripe
       const { data, error } = await supabase.functions.invoke('check-subscription');
       
       if (!error && data?.subscribed) {
