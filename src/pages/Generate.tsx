@@ -145,7 +145,7 @@ const Generate = () => {
       case 'leftover':
         return combinedRecipes.filter(recipe =>
           (recipe.cuisine.toLowerCase().includes('leftover') || 
-           recipe.tags?.includes('leftovers') ||
+           recipe.tags?.includes('leftover') ||
            recipe.name.toLowerCase().includes('leftover')) && !isHalloweenRecipe(recipe)
         );
       
@@ -468,7 +468,7 @@ const Generate = () => {
     if (categoryId === 'leftover') {
       collectionRecipes = combinedRecipes.filter(recipe =>
         recipe.cuisine.toLowerCase().includes('leftover') || 
-        recipe.tags?.includes('leftovers') || 
+        recipe.tags?.includes('leftover') || 
         recipe.name.toLowerCase().includes('leftover')
       );
     } else if (categoryId) {
