@@ -131,8 +131,6 @@ import leftoverTikkaMasalaPotPieImg from "@/assets/recipes/leftover-tikka-masala
 import { newRecipes } from "./newRecipes";
 
 // Dessert images are served from Lovable uploads
-import dessertChocolateSouffleImg from "@/assets/recipes/dessert-chocolate-souffle.jpg";
-import dessertStrawberryShortcakeImg from "@/assets/recipes/dessert-strawberry-shortcake.jpg";
 import dessertCremeCaramelImg from "@/assets/recipes/dessert-creme-caramel.jpg";
 import dessertCookieDoughBrowniesImg from "@/assets/recipes/dessert-cookie-dough-brownies.jpg";
 import dessertRaspberryTartImg from "@/assets/recipes/dessert-raspberry-tart.jpg";
