@@ -86,6 +86,7 @@ const AdminRecipes = () => {
   const [statusFilter, setStatusFilter] = useState<'all' | 'needs-validation' | 'verified'>('needs-validation');
   const [stats, setStats] = useState<CategoryStats[]>([]);
   const [expandedRecipes, setExpandedRecipes] = useState<Set<string>>(new Set());
+  const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
     fetchRecipes();
@@ -308,6 +309,25 @@ const AdminRecipes = () => {
     }
   };
 
+  const generateCopycatRecipes = async () => {
+    setIsGenerating(true);
+    toast.info('Starting recipe generation... This may take 5-10 minutes.');
+
+    try {
+      const { data, error } = await supabase.functions.invoke('generate-restaurant-copycats');
+
+      if (error) throw error;
+
+      toast.success(`Generated ${data.generated}/${data.total} recipes! ${data.errors?.length || 0} failed.`);
+      fetchRecipes();
+    } catch (error) {
+      console.error('Error generating recipes:', error);
+      toast.error('Failed to generate recipes');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   const toggleExpanded = (recipeId: string) => {
     const newExpanded = new Set(expandedRecipes);
     if (newExpanded.has(recipeId)) {
@@ -361,9 +381,28 @@ const AdminRecipes = () => {
           <h1 className="text-3xl font-bold">Recipe Review Dashboard</h1>
           <p className="text-muted-foreground">Review and validate AI-generated recipes</p>
         </div>
-        <Button onClick={fetchRecipes}>
-          Refresh
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            onClick={generateCopycatRecipes} 
+            disabled={isGenerating}
+            className="gap-2"
+          >
+            {isGenerating ? (
+              <>
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                Generating...
+              </>
+            ) : (
+              <>
+                <TrendingUp className="h-4 w-4" />
+                Generate 15 Copycats
+              </>
+            )}
+          </Button>
+          <Button onClick={fetchRecipes}>
+            Refresh
+          </Button>
+        </div>
       </div>
 
       {/* Stats Dashboard */}

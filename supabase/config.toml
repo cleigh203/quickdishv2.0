@@ -3,6 +3,9 @@ project_id = "rhrrvaggaubvqrbsqjbv"
 [functions.generate-recipes]
 verify_jwt = false
 
+[functions.generate-restaurant-copycats]
+verify_jwt = false
+
 [functions.generate-dessert-recipes]
 verify_jwt = false
 
