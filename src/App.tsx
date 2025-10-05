@@ -1,6 +1,5 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -29,37 +28,35 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <OfflineBanner />
-      <InstallPrompt />
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/auth/reset-password" element={<ResetPassword />} />
-            <Route path="/profile-setup" element={<ProtectedRoute><ProfileSetup /></ProtectedRoute>} />
-            <Route path="/" element={<ProtectedRoute allowGuest><Index /></ProtectedRoute>} />
-            <Route path="/generate" element={<ProtectedRoute allowGuest><Generate /></ProtectedRoute>} />
-            <Route path="/discover" element={<ProtectedRoute allowGuest><Generate /></ProtectedRoute>} />
-            <Route path="/recipe/:id" element={<ProtectedRoute allowGuest><RecipeDetail /></ProtectedRoute>} />
-            <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
-            <Route path="/saved" element={<ProtectedRoute><SavedRecipes /></ProtectedRoute>} />
-            <Route path="/shopping" element={<ProtectedRoute><Shopping /></ProtectedRoute>} />
-            <Route path="/pantry" element={<ProtectedRoute><Pantry /></ProtectedRoute>} />
-            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-            <Route path="/premium" element={<ProtectedRoute allowGuest><Premium /></ProtectedRoute>} />
-            <Route path="/premium/success" element={<ProtectedRoute><PremiumSuccess /></ProtectedRoute>} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/admin/generate-dessert-images" element={<GenerateDessertImages />} />
-            <Route path="/admin/generate-onepot-images" element={<GenerateNewRecipeImages />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-    </TooltipProvider>
+    <OfflineBanner />
+    <InstallPrompt />
+    <Toaster />
+    <Sonner />
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/auth/reset-password" element={<ResetPassword />} />
+          <Route path="/profile-setup" element={<ProtectedRoute><ProfileSetup /></ProtectedRoute>} />
+          <Route path="/" element={<ProtectedRoute allowGuest><Index /></ProtectedRoute>} />
+          <Route path="/generate" element={<ProtectedRoute allowGuest><Generate /></ProtectedRoute>} />
+          <Route path="/discover" element={<ProtectedRoute allowGuest><Generate /></ProtectedRoute>} />
+          <Route path="/recipe/:id" element={<ProtectedRoute allowGuest><RecipeDetail /></ProtectedRoute>} />
+          <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
+          <Route path="/saved" element={<ProtectedRoute><SavedRecipes /></ProtectedRoute>} />
+          <Route path="/shopping" element={<ProtectedRoute><Shopping /></ProtectedRoute>} />
+          <Route path="/pantry" element={<ProtectedRoute><Pantry /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/premium" element={<ProtectedRoute allowGuest><Premium /></ProtectedRoute>} />
+          <Route path="/premium/success" element={<ProtectedRoute><PremiumSuccess /></ProtectedRoute>} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/generate-dessert-images" element={<GenerateDessertImages />} />
+          <Route path="/admin/generate-onepot-images" element={<GenerateNewRecipeImages />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   </QueryClientProvider>
 );
 
