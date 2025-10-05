@@ -3,6 +3,26 @@ import { Recipe } from "@/types/recipe";
 // Placeholder images - will be generated in batches
 const placeholderImg = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c";
 
+// Dessert Images
+import dessertChocolateTrufflesImg from "@/assets/recipes/dessert-chocolate-truffles.jpg";
+import dessertChocolateFondueImg from "@/assets/recipes/dessert-chocolate-fondue.jpg";
+
+// Quick & Easy Images
+import quickBuffaloChickenWrapImg from "@/assets/recipes/quick-buffalo-chicken-wrap.jpg";
+import quickGreekSaladChickenImg from "@/assets/recipes/quick-greek-salad-chicken.jpg";
+import quickTurkeyAvocadoClubImg from "@/assets/recipes/quick-turkey-avocado-club.jpg";
+import quickAsianLettuceWrapsImg from "@/assets/recipes/quick-asian-lettuce-wraps.jpg";
+import quickCapresePaniniImg from "@/assets/recipes/quick-caprese-panini.jpg";
+import quickBbqPulledPorkImg from "@/assets/recipes/quick-bbq-pulled-pork.jpg";
+import quickFalafelPitaImg from "@/assets/recipes/quick-falafel-pita.jpg";
+import quickChickenCaesarImg from "@/assets/recipes/quick-chicken-caesar.jpg";
+import quickMargheritaFlatbreadImg from "@/assets/recipes/quick-margherita-flatbread.jpg";
+import quickCobbSaladImg from "@/assets/recipes/quick-cobb-salad.jpg";
+import quickPestoPastaSaladImg from "@/assets/recipes/quick-pesto-pasta-salad.jpg";
+import quickKoreanBbqBowlImg from "@/assets/recipes/quick-korean-bbq-bowl.jpg";
+import quickShrimpPoBoyImg from "@/assets/recipes/quick-shrimp-po-boy.jpg";
+import quickTomatoSoupGrilledCheeseImg from "@/assets/recipes/quick-tomato-soup-grilled-cheese.jpg";
+
 // One-Pot Wonders Images
 import onePotChickenDumplingsImg from "@/assets/recipes/one-pot-chicken-dumplings.jpg";
 import onePotBeefBourguignonImg from "@/assets/recipes/one-pot-beef-bourguignon.jpg";
@@ -315,7 +335,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 24,
     cuisine: "French",
-    image: placeholderImg,
+    image: dessertChocolateTrufflesImg,
     totalTime: 25,
     tags: ["dessert", "chocolate", "elegant", "gift-worthy"],
     nutrition: { calories: 95, protein: 1, carbs: 8, fat: 7, fiber: 1, sugar: 6, servingSize: "1 truffle" },
@@ -543,7 +563,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "Swiss",
-    image: placeholderImg,
+    image: dessertChocolateFondueImg,
     totalTime: 20,
     tags: ["dessert", "chocolate", "interactive", "party"],
     nutrition: { calories: 285, protein: 3, carbs: 28, fat: 18, fiber: 2, sugar: 24, servingSize: "1/4 cup" },
@@ -700,7 +720,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "American",
-    image: placeholderImg,
+    image: quickBuffaloChickenWrapImg,
     totalTime: 25,
     tags: ["lunch", "spicy", "quick", "kid-friendly"],
     nutrition: { calories: 465, protein: 32, carbs: 38, fat: 20, fiber: 3, sugar: 4, servingSize: "1 wrap" },
@@ -730,7 +750,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Greek",
-    image: placeholderImg,
+    image: quickGreekSaladChickenImg,
     totalTime: 30,
     tags: ["lunch", "healthy", "protein", "low-carb"],
     nutrition: { calories: 395, protein: 36, carbs: 18, fat: 22, fiber: 5, sugar: 8, servingSize: "1 salad" },
@@ -764,7 +784,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 2,
     cuisine: "American",
-    image: placeholderImg,
+    image: quickTurkeyAvocadoClubImg,
     totalTime: 20,
     tags: ["lunch", "sandwich", "classic", "protein"],
     nutrition: { calories: 585, protein: 38, carbs: 42, fat: 28, fiber: 6, sugar: 5, servingSize: "1 sandwich" },
@@ -796,7 +816,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Asian Fusion",
-    image: placeholderImg,
+    image: quickAsianLettuceWrapsImg,
     totalTime: 25,
     tags: ["lunch", "healthy", "low-carb", "gluten-free"],
     nutrition: { calories: 295, protein: 28, carbs: 18, fat: 12, fiber: 3, sugar: 8, servingSize: "3 wraps" },
@@ -830,7 +850,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 2,
     cuisine: "Italian",
-    image: placeholderImg,
+    image: quickCapresePaniniImg,
     totalTime: 18,
     tags: ["lunch", "vegetarian", "italian", "quick"],
     nutrition: { calories: 485, protein: 22, carbs: 38, fat: 28, fiber: 3, sugar: 6, servingSize: "1 panini" },
@@ -928,7 +948,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "American",
-    image: placeholderImg,
+    image: quickBbqPulledPorkImg,
     totalTime: 20,
     tags: ["lunch", "bbq", "sandwich", "comfort-food"],
     nutrition: { calories: 565, protein: 38, carbs: 52, fat: 22, fiber: 4, sugar: 18, servingSize: "1 sandwich" },
@@ -956,7 +976,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Middle Eastern",
-    image: placeholderImg,
+    image: quickFalafelPitaImg,
     totalTime: 30,
     tags: ["lunch", "vegetarian", "healthy", "protein"],
     nutrition: { calories: 425, protein: 16, carbs: 62, fat: 14, fiber: 12, sugar: 8, servingSize: "1 pita" },
@@ -988,7 +1008,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "American",
-    image: placeholderImg,
+    image: quickChickenCaesarImg,
     totalTime: 25,
     tags: ["lunch", "salad", "protein", "classic"],
     nutrition: { calories: 485, protein: 38, carbs: 22, fat: 28, fiber: 3, sugar: 3, servingSize: "1 salad" },
@@ -1085,7 +1105,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Italian",
-    image: placeholderImg,
+    image: quickMargheritaFlatbreadImg,
     totalTime: 22,
     tags: ["lunch", "vegetarian", "italian", "quick"],
     nutrition: { calories: 365, protein: 16, carbs: 42, fat: 16, fiber: 3, sugar: 5, servingSize: "1/4 flatbread" },
@@ -1117,7 +1137,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "American",
-    image: placeholderImg,
+    image: quickCobbSaladImg,
     totalTime: 30,
     tags: ["lunch", "salad", "protein", "classic"],
     nutrition: { calories: 525, protein: 42, carbs: 18, fat: 34, fiber: 5, sugar: 8, servingSize: "1 salad" },
@@ -1147,7 +1167,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Italian",
-    image: placeholderImg,
+    image: quickPestoPastaSaladImg,
     totalTime: 22,
     tags: ["lunch", "vegetarian", "pasta", "meal-prep"],
     nutrition: { calories: 385, protein: 12, carbs: 42, fat: 19, fiber: 3, sugar: 4, servingSize: "1 serving" },
@@ -1176,7 +1196,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Korean",
-    image: placeholderImg,
+    image: quickKoreanBbqBowlImg,
     totalTime: 30,
     tags: ["lunch", "asian", "bowl", "spicy"],
     nutrition: { calories: 525, protein: 38, carbs: 56, fat: 16, fiber: 4, sugar: 12, servingSize: "1 bowl" },
@@ -1209,7 +1229,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Cajun",
-    image: placeholderImg,
+    image: quickShrimpPoBoyImg,
     totalTime: 30,
     tags: ["lunch", "seafood", "sandwich", "southern"],
     nutrition: { calories: 585, protein: 32, carbs: 62, fat: 24, fiber: 3, sugar: 8, servingSize: "1 sandwich" },
@@ -1274,7 +1294,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "American",
-    image: placeholderImg,
+    image: quickTomatoSoupGrilledCheeseImg,
     totalTime: 30,
     tags: ["lunch", "comfort-food", "classic", "vegetarian"],
     nutrition: { calories: 525, protein: 18, carbs: 58, fat: 26, fiber: 6, sugar: 18, servingSize: "1 serving" },
