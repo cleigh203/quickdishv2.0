@@ -75,7 +75,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Italian",
-    image: "/lovable-uploads/dessert-tiramisu.png",
+    image: <img src="https://images.unsplash.com/photo-1714385905983-6f8e06fffae1?fm=jpg&amp;q=60&amp;w=3000&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8dGlyYW1hc3V8ZW58MHx8MHx8fDA%3D" alt="a piece of cake sitting on top of a white plate"/>",
     totalTime: 240,
     tags: ["dessert", "italian", "coffee", "no-bake"],
     nutrition: {
@@ -291,7 +291,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "French",
-    image: "https://images.unsplash.com/photo-1673551490812-eaee2e9bf0ef?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: https://unsplash.com/photos/a-white-plate-topped-with-a-piece-of-cake-and-ice-cream-8lPKzLSWNgM,
     totalTime: 27,
     tags: ["dessert", "chocolate", "elegant", "quick"],
     ingredients: [
