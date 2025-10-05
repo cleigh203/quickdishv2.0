@@ -34,6 +34,7 @@ export const useVerifiedRecipes = () => {
         ingredients: (Array.isArray(dbRecipe.ingredients) ? dbRecipe.ingredients : []) as any[],
         instructions: (Array.isArray(dbRecipe.instructions) ? dbRecipe.instructions : []) as string[],
         cuisine: dbRecipe.cuisine || 'International',
+        image: dbRecipe.image_url,
         imageUrl: dbRecipe.image_url,
         nutrition: dbRecipe.nutrition as any,
         tags: dbRecipe.tags || [],
