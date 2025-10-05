@@ -36,8 +36,27 @@ const Generate = () => {
   const collectionParam = searchParams.get('collection');
   const ingredientsParam = searchParams.get('ingredients');
   
-  // Combine verified database recipes, static recipes, and user's generated recipes
-  const combinedRecipes = [...verifiedRecipes, ...allRecipes, ...generatedRecipes];
+  // Combine recipes, deduplicating by recipe_id and prioritizing DB recipes over static ones
+  const combinedRecipes = (() => {
+    const recipeMap = new Map<string, Recipe>();
+    
+    // Add static recipes first
+    allRecipes.forEach(recipe => {
+      recipeMap.set(recipe.id, recipe);
+    });
+    
+    // Override with verified DB recipes (these have priority)
+    verifiedRecipes.forEach(recipe => {
+      recipeMap.set(recipe.id, recipe);
+    });
+    
+    // Add user's generated recipes
+    generatedRecipes.forEach(recipe => {
+      recipeMap.set(recipe.id, recipe);
+    });
+    
+    return Array.from(recipeMap.values());
+  })();
 
   // Load all recipes into storage on mount
   useEffect(() => {
