@@ -23,7 +23,7 @@ import honeyGarlicChickenImg from "@/assets/recipes/quick-honey-garlic-chicken.j
 import pizzaFrittataImg from "@/assets/recipes/leftover-pizza-frittata.jpg";
 import witchFingersImg from "@/assets/recipes/witch-finger-cookies.jpg";
 import alfredoImg from "@/assets/recipes/olive-garden-alfredo.jpg";
-import shrimpStirfryImg from "@/assets/recipes/quick-shrimp-stirfry.jpg";
+import shrimpStirfryImg from "@/assets/recipes/shrimp-stirfry.jpg";
 import chickenTacosImg from "@/assets/recipes/rotisserie-chicken-tacos.jpg";
 import bloodyMaryEggsImg from "@/assets/recipes/bloody-mary-eggs.jpg";
 import crunchwrapImg from "@/assets/recipes/crunchwrap-supreme.jpg";
@@ -76,11 +76,16 @@ import hashbrownCasseroleImg from "@/assets/recipes/copycat-hashbrown-casserole.
 import greekChickenImg from "@/assets/recipes/quick-greek-chicken.jpg";
 import brisketMacImg from "@/assets/recipes/leftover-brisket-mac.jpg";
 import mcgriddlesImg from "@/assets/recipes/copycat-mcgriddles.jpg";
-import steakBitesImg from "@/assets/recipes/garlic-butter-steak-bites.jpg";
+import steakBitesImg from "@/assets/recipes/garlic-steak-bites.jpg";
 import stuffingMuffinsImg from "@/assets/recipes/leftover-stuffing-muffins.jpg";
 import meatballSubImg from "@/assets/recipes/copycat-meatball-sub.jpg";
 import padThaiImg from "@/assets/recipes/quick-pad-thai.jpg";
 import salmonSaladImg from "@/assets/recipes/leftover-salmon-salad.jpg";
+import cajunJambalayaImg from "@/assets/recipes/cajun-jambalaya.jpg";
+import beefStroganoffImg from "@/assets/recipes/beef-stroganoff.jpg";
+import chickenFajitaRiceImg from "@/assets/recipes/chicken-fajita-rice.jpg";
+import breadPuddingImg from "@/assets/recipes/bread-pudding.jpg";
+import applePieImg from "@/assets/recipes/apple-pie.jpg";
 
 // Dessert images are served from Lovable uploads
 
@@ -279,7 +284,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "American",
-    image: "/lovable-uploads/dessert-apple-pie.png",
+    image: applePieImg,
     totalTime: 80,
     tags: ["dessert", "baked", "american", "fruit"],
     ingredients: [
@@ -494,7 +499,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "American",
-    image: "/lovable-uploads/dessert-bread-pudding.png",
+    image: breadPuddingImg,
     totalTime: 60,
     tags: ["dessert", "comfort", "baked", "warm"],
     ingredients: [
@@ -3625,7 +3630,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "Cajun",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d",
+    image: cajunJambalayaImg,
     totalTime: 55,
     tags: ["cajun", "spicy", "rice-dish", "one-pot"],
     nutrition: {
@@ -3671,7 +3676,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Russian",
-    image: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
+    image: beefStroganoffImg,
     totalTime: 35,
     tags: ["comfort-food", "creamy", "pasta", "one-pot"],
     nutrition: {
@@ -3716,7 +3721,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Mexican",
-    image: "https://images.unsplash.com/photo-1604909052743-94e838986d24",
+    image: chickenFajitaRiceImg,
     totalTime: 35,
     tags: ["mexican", "rice-dish", "family-friendly", "one-pot"],
     nutrition: {
