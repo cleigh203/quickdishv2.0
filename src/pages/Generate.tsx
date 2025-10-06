@@ -153,7 +153,9 @@ const Generate = () => {
         return combinedRecipes.filter(recipe =>
           (recipe.tags?.includes('kid-friendly') || 
            recipe.tags?.includes('family') || 
-           recipe.difficulty.toLowerCase() === 'easy') && !isHalloweenRecipe(recipe)
+           recipe.difficulty.toLowerCase() === 'easy') && 
+          !isHalloweenRecipe(recipe) &&
+          !recipe.tags?.includes('dessert')
         );
       
       case 'copycat':
