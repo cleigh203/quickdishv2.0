@@ -459,7 +459,7 @@ const Generate = () => {
                       onClick={(e) => addToFavorites(recipe, e)}
                       className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
                     >
-                      <Plus className="w-4 h-4 text-foreground" />
+                      <Plus className="w-4 h-4 text-black" />
                     </button>
                   </div>
                   <p className="mt-2 font-medium text-sm line-clamp-2">
@@ -621,7 +621,7 @@ const Generate = () => {
                     onClick={(e) => addToFavorites(recipe, e)}
                     className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
                   >
-                    <Plus className="w-4 h-4 text-foreground" />
+                    <Plus className="w-4 h-4 text-black" />
                   </button>
                 </div>
                 <p className="mt-2 font-medium text-sm line-clamp-2">
@@ -735,7 +735,7 @@ const Generate = () => {
                           onClick={(e) => addToFavorites(recipe, e)}
                           className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
                         >
-                          <Plus className="w-4 h-4 text-foreground" />
+                          <Plus className="w-4 h-4 text-black" />
                         </button>
                       </div>
                       <p className="mt-2 font-medium text-sm line-clamp-2">
