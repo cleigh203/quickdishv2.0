@@ -237,6 +237,26 @@ import breakfastProteinPancakesImg from "@/assets/recipes/breakfast-protein-panc
 import breakfastTacosClassicImg from "@/assets/recipes/breakfast-tacos-classic.jpg";
 import breakfastShakshukaClassicImg from "@/assets/recipes/breakfast-shakshuka-classic.jpg";
 import breakfastBlueberryMuffinsImg from "@/assets/recipes/breakfast-blueberry-muffins.jpg";
+import bakedChickenMeatballsImg from "@/assets/recipes/baked-chicken-meatballs.jpg";
+import sheetPanChickenVegetablesImg from "@/assets/recipes/sheet-pan-chicken-vegetables.jpg";
+import sheetPanChickenFajitasImg from "@/assets/recipes/sheet-pan-chicken-fajitas.jpg";
+import grilledChickenCapreseImg from "@/assets/recipes/grilled-chicken-caprese.jpg";
+import slowCookerWhiteChickenChiliImg from "@/assets/recipes/slow-cooker-white-chicken-chili.jpg";
+import tacoSkilletImg from "@/assets/recipes/taco-skillet.jpg";
+import cheeseburgerBowlsImg from "@/assets/recipes/cheeseburger-bowls.jpg";
+import onePanBeefPotatoesImg from "@/assets/recipes/one-pan-beef-potatoes.jpg";
+import turkeyMeatloafImg from "@/assets/recipes/turkey-meatloaf.jpg";
+import stuffedBellPeppersProteinImg from "@/assets/recipes/stuffed-bell-peppers-protein.jpg";
+import bakedSalmonLemonImg from "@/assets/recipes/baked-salmon-lemon.jpg";
+import sheetPanShrimpFajitasImg from "@/assets/recipes/sheet-pan-shrimp-fajitas.jpg";
+import pestoBakedSalmonImg from "@/assets/recipes/pesto-baked-salmon.jpg";
+import cottageCheeseBakedZitiImg from "@/assets/recipes/cottage-cheese-baked-ziti.jpg";
+import slowCookerLasagnaImg from "@/assets/recipes/slow-cooker-lasagna.jpg";
+import beefStroganoffProteinImg from "@/assets/recipes/beef-stroganoff-protein.jpg";
+import chickenQuesadillasImg from "@/assets/recipes/chicken-quesadillas.jpg";
+import chickenStirFryBroccoliImg from "@/assets/recipes/chicken-stir-fry-broccoli.jpg";
+import bbqPulledPorkBowlsImg from "@/assets/recipes/bbq-pulled-pork-bowls.jpg";
+import eggRollBowlsImg from "@/assets/recipes/egg-roll-bowls.jpg";
 
 // Restaurant Copycats (20)
 import copycatChickFilASandwichImg from "@/assets/recipes/copycat-chick-fil-a-sandwich.jpg";
@@ -5978,6 +5998,713 @@ export const allRecipes: Recipe[] = [
       "Fill muffin cups 3/4 full.",
       "Bake 20-25 minutes until golden brown and toothpick comes clean.",
       "Cool in pan 5 minutes, then transfer to wire rack."
+    ]
+  },
+  {
+    id: "protein-baked-chicken-meatballs",
+    name: "Baked Chicken Meatballs",
+    description: "Juicy baked chicken meatballs packed with 32g protein per serving. Kid-approved and perfect for meal prep.",
+    cookTime: "25 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: bakedChickenMeatballsImg,
+    totalTime: 40,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "meal-prep"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "ground chicken" },
+      { amount: "1/2", unit: "cup", item: "breadcrumbs" },
+      { amount: "1/4", unit: "cup", item: "grated Parmesan cheese" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "3", unit: "cloves", item: "minced garlic" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/2", unit: "tsp", item: "salt" },
+      { amount: "1/4", unit: "tsp", item: "black pepper" },
+      { amount: "2", unit: "cups", item: "marinara sauce" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F. Line baking sheet with parchment paper.",
+      "Mix ground chicken, breadcrumbs, Parmesan, eggs, garlic, Italian seasoning, salt, and pepper in large bowl.",
+      "Form mixture into 20-24 meatballs (about 1.5 inches each).",
+      "Place meatballs on prepared baking sheet.",
+      "Bake 20-25 minutes until golden brown and cooked through (internal temp 165°F).",
+      "Warm marinara sauce in skillet.",
+      "Add cooked meatballs to sauce and simmer 5 minutes.",
+      "Serve over pasta, zoodles, or with crusty bread."
+    ]
+  },
+  {
+    id: "protein-sheet-pan-chicken-vegetables",
+    name: "Sheet Pan Chicken and Vegetables",
+    description: "One-pan wonder with 35g protein per serving. Perfectly roasted chicken with colorful veggies.",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: sheetPanChickenVegetablesImg,
+    totalTime: 40,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "meal-prep", "one-pan"],
+    ingredients: [
+      { amount: "4", unit: "", item: "boneless chicken breasts" },
+      { amount: "2", unit: "cups", item: "broccoli florets" },
+      { amount: "2", unit: "", item: "bell peppers, chopped" },
+      { amount: "2", unit: "cups", item: "baby carrots" },
+      { amount: "3", unit: "tbsp", item: "olive oil" },
+      { amount: "2", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "tsp", item: "paprika" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "black pepper" }
+    ],
+    instructions: [
+      "Preheat oven to 425°F.",
+      "Place chicken breasts on large sheet pan.",
+      "Arrange vegetables around chicken.",
+      "Drizzle everything with olive oil.",
+      "Mix garlic powder, paprika, Italian seasoning, salt, and pepper in small bowl.",
+      "Sprinkle seasoning mixture over chicken and vegetables.",
+      "Bake 25-30 minutes until chicken reaches 165°F and vegetables are tender.",
+      "Let rest 5 minutes before serving."
+    ]
+  },
+  {
+    id: "protein-sheet-pan-chicken-fajitas",
+    name: "Sheet Pan Chicken Fajitas",
+    description: "Sizzling fajitas with 30g protein per serving. Family favorite that's ready in 30 minutes.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Mexican",
+    image: sheetPanChickenFajitasImg,
+    totalTime: 30,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "one-pan"],
+    ingredients: [
+      { amount: "2", unit: "lbs", item: "chicken breast, sliced" },
+      { amount: "3", unit: "", item: "bell peppers, sliced" },
+      { amount: "1", unit: "large", item: "onion, sliced" },
+      { amount: "3", unit: "tbsp", item: "olive oil" },
+      { amount: "2", unit: "tsp", item: "chili powder" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "tsp", item: "paprika" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "12", unit: "", item: "tortillas" }
+    ],
+    instructions: [
+      "Preheat oven to 425°F.",
+      "Place sliced chicken, bell peppers, and onion on large sheet pan.",
+      "Drizzle with olive oil.",
+      "Mix chili powder, cumin, garlic powder, paprika, and salt in small bowl.",
+      "Sprinkle seasoning over chicken and vegetables, toss to coat.",
+      "Spread in single layer.",
+      "Bake 18-20 minutes, stirring halfway through.",
+      "Serve with warm tortillas and your favorite toppings."
+    ]
+  },
+  {
+    id: "protein-grilled-chicken-caprese",
+    name: "Grilled Chicken Caprese",
+    description: "Italian-inspired chicken with 38g protein per serving. Fresh mozzarella and tomatoes make it special.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: grilledChickenCapreseImg,
+    totalTime: 25,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "quick"],
+    ingredients: [
+      { amount: "4", unit: "", item: "boneless chicken breasts" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "black pepper" },
+      { amount: "8", unit: "oz", item: "fresh mozzarella, sliced" },
+      { amount: "2", unit: "large", item: "tomatoes, sliced" },
+      { amount: "1/4", unit: "cup", item: "fresh basil leaves" },
+      { amount: "2", unit: "tbsp", item: "balsamic glaze" }
+    ],
+    instructions: [
+      "Preheat grill or grill pan to medium-high heat.",
+      "Brush chicken with olive oil and season with Italian seasoning, salt, and pepper.",
+      "Grill chicken 6-7 minutes per side until internal temp reaches 165°F.",
+      "Top each chicken breast with mozzarella slices during last 2 minutes of cooking.",
+      "Remove from grill and let rest 5 minutes.",
+      "Top with tomato slices and fresh basil.",
+      "Drizzle with balsamic glaze.",
+      "Serve immediately with side salad or roasted vegetables."
+    ]
+  },
+  {
+    id: "protein-slow-cooker-white-chicken-chili",
+    name: "Slow Cooker White Chicken Chili",
+    description: "Creamy comfort food with 28g protein per serving. Set it and forget it family dinner.",
+    cookTime: "4 hours",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: slowCookerWhiteChickenChiliImg,
+    totalTime: 255,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "slow-cooker"],
+    ingredients: [
+      { amount: "2", unit: "lbs", item: "boneless chicken breasts" },
+      { amount: "3", unit: "cans", item: "white beans (15 oz each)" },
+      { amount: "4", unit: "cups", item: "chicken broth" },
+      { amount: "2", unit: "cans", item: "diced green chilies (4 oz each)" },
+      { amount: "1", unit: "large", item: "onion, diced" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "tsp", item: "oregano" },
+      { amount: "1", unit: "cup", item: "sour cream" },
+      { amount: "2", unit: "cups", item: "shredded cheese" }
+    ],
+    instructions: [
+      "Place chicken breasts in slow cooker.",
+      "Add white beans (drained), chicken broth, green chilies, onion, and garlic.",
+      "Stir in cumin and oregano.",
+      "Cover and cook on high 4 hours or low 6-7 hours.",
+      "Remove chicken and shred with two forks.",
+      "Return chicken to slow cooker.",
+      "Stir in sour cream.",
+      "Serve topped with shredded cheese, cilantro, and tortilla chips."
+    ]
+  },
+  {
+    id: "protein-taco-skillet",
+    name: "Taco Skillet",
+    description: "One-pan taco dinner with 30g protein per serving. Ready in 20 minutes, kids love it!",
+    cookTime: "15 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican",
+    image: tacoSkilletImg,
+    totalTime: 20,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "one-pan"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "ground beef (93% lean)" },
+      { amount: "1", unit: "packet", item: "taco seasoning" },
+      { amount: "1", unit: "cup", item: "water" },
+      { amount: "1", unit: "cup", item: "salsa" },
+      { amount: "2", unit: "cups", item: "shredded lettuce" },
+      { amount: "1", unit: "cup", item: "diced tomatoes" },
+      { amount: "2", unit: "cups", item: "shredded cheese" },
+      { amount: "1/2", unit: "cup", item: "sour cream" },
+      { amount: "1", unit: "cup", item: "crushed tortilla chips" }
+    ],
+    instructions: [
+      "Brown ground beef in large skillet over medium-high heat, breaking up as it cooks (6-8 minutes).",
+      "Drain excess fat.",
+      "Add taco seasoning and water, simmer 5 minutes until thickened.",
+      "Stir in salsa.",
+      "Top with shredded cheese, cover and let melt (2 minutes).",
+      "Remove from heat.",
+      "Top with lettuce, tomatoes, sour cream, and crushed chips.",
+      "Serve immediately with optional toppings like guacamole or jalapeños."
+    ]
+  },
+  {
+    id: "protein-cheeseburger-bowls",
+    name: "Cheeseburger Bowls",
+    description: "Low-carb burger bowls with 32g protein per serving. All the flavor without the bun!",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: cheeseburgerBowlsImg,
+    totalTime: 25,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "low-carb"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "ground beef (90% lean)" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "tsp", item: "onion powder" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "black pepper" },
+      { amount: "4", unit: "cups", item: "shredded lettuce" },
+      { amount: "1", unit: "cup", item: "diced tomatoes" },
+      { amount: "1/2", unit: "cup", item: "diced pickles" },
+      { amount: "2", unit: "cups", item: "shredded cheddar cheese" },
+      { amount: "1/2", unit: "cup", item: "burger sauce or thousand island" }
+    ],
+    instructions: [
+      "Brown ground beef in large skillet over medium-high heat (8-10 minutes).",
+      "Season with garlic powder, onion powder, salt, and pepper.",
+      "Drain excess fat if needed.",
+      "Divide lettuce among 4 bowls.",
+      "Top each with seasoned ground beef.",
+      "Add tomatoes, pickles, and shredded cheese.",
+      "Drizzle with burger sauce.",
+      "Serve immediately with optional toppings like onions or bacon."
+    ]
+  },
+  {
+    id: "protein-one-pan-beef-potatoes",
+    name: "One Pan Ground Beef and Potatoes",
+    description: "Hearty comfort food with 28g protein per serving. Golden potatoes and seasoned beef in one skillet.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: onePanBeefPotatoesImg,
+    totalTime: 35,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "one-pan"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "ground beef" },
+      { amount: "4", unit: "large", item: "potatoes, diced" },
+      { amount: "1", unit: "large", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tsp", item: "paprika" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "tsp", item: "onion powder" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "black pepper" },
+      { amount: "2", unit: "tbsp", item: "olive oil" }
+    ],
+    instructions: [
+      "Heat olive oil in large cast iron skillet over medium-high heat.",
+      "Add diced potatoes, cook 15 minutes stirring occasionally until golden and crispy.",
+      "Push potatoes to sides of skillet.",
+      "Add ground beef to center, break up and brown (6-8 minutes).",
+      "Add onion and garlic, cook 3 minutes.",
+      "Season everything with paprika, garlic powder, onion powder, salt, and pepper.",
+      "Mix everything together and cook 2 more minutes.",
+      "Serve hot, optionally topped with cheese or green onions."
+    ]
+  },
+  {
+    id: "protein-turkey-meatloaf",
+    name: "Turkey Meatloaf",
+    description: "Lean turkey meatloaf with 35g protein per serving. Moist, flavorful, and kid-approved.",
+    cookTime: "50 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: turkeyMeatloafImg,
+    totalTime: 65,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "meal-prep"],
+    ingredients: [
+      { amount: "2", unit: "lbs", item: "ground turkey (93% lean)" },
+      { amount: "1", unit: "cup", item: "breadcrumbs" },
+      { amount: "1/2", unit: "cup", item: "milk" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1", unit: "small", item: "onion, finely diced" },
+      { amount: "2", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "black pepper" },
+      { amount: "1/2", unit: "cup", item: "ketchup" },
+      { amount: "2", unit: "tbsp", item: "brown sugar" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F.",
+      "Mix ground turkey, breadcrumbs, milk, eggs, onion, garlic, salt, and pepper in large bowl.",
+      "Form mixture into loaf shape and place in 9x5 inch loaf pan.",
+      "Mix ketchup and brown sugar in small bowl.",
+      "Spread half the ketchup mixture over top of meatloaf.",
+      "Bake 40 minutes.",
+      "Spread remaining ketchup mixture on top.",
+      "Bake 10 more minutes until internal temp reaches 165°F.",
+      "Let rest 10 minutes before slicing."
+    ]
+  },
+  {
+    id: "protein-stuffed-bell-peppers",
+    name: "Stuffed Bell Peppers",
+    description: "Colorful peppers stuffed with beef and rice, 26g protein per serving. Classic family dinner.",
+    cookTime: "35 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "American",
+    image: stuffedBellPeppersProteinImg,
+    totalTime: 50,
+    tags: ["high-protein", "family-friendly", "easy-dinner"],
+    ingredients: [
+      { amount: "4", unit: "large", item: "bell peppers (any color)" },
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "cup", item: "cooked rice" },
+      { amount: "1", unit: "can", item: "diced tomatoes (14 oz)" },
+      { amount: "1", unit: "small", item: "onion, diced" },
+      { amount: "2", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "black pepper" },
+      { amount: "1.5", unit: "cups", item: "shredded mozzarella cheese" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F.",
+      "Cut tops off peppers and remove seeds.",
+      "Brown ground beef with onion and garlic in skillet (8 minutes).",
+      "Drain fat.",
+      "Stir in cooked rice, diced tomatoes, Italian seasoning, salt, and pepper.",
+      "Stuff peppers with beef mixture.",
+      "Place in baking dish, add 1/4 inch water to bottom.",
+      "Cover with foil, bake 25 minutes.",
+      "Remove foil, top with cheese, bake 10 more minutes until cheese melts."
+    ]
+  },
+  {
+    id: "protein-baked-salmon-lemon",
+    name: "Baked Salmon with Lemon",
+    description: "Omega-3 rich salmon with 34g protein per serving. Simple, elegant, and healthy.",
+    cookTime: "15 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: bakedSalmonLemonImg,
+    totalTime: 20,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "healthy"],
+    ingredients: [
+      { amount: "4", unit: "", item: "salmon fillets (6 oz each)" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "2", unit: "", item: "lemons (1 juiced, 1 sliced)" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tsp", item: "dried dill" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "black pepper" },
+      { amount: "2", unit: "tbsp", item: "fresh parsley, chopped" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F. Line baking sheet with parchment paper.",
+      "Place salmon fillets on prepared sheet.",
+      "Mix olive oil, lemon juice, garlic, dill, salt, and pepper in small bowl.",
+      "Brush mixture over salmon.",
+      "Top each fillet with lemon slices.",
+      "Bake 12-15 minutes until salmon flakes easily with fork.",
+      "Garnish with fresh parsley.",
+      "Serve with roasted asparagus or rice."
+    ]
+  },
+  {
+    id: "protein-sheet-pan-shrimp-fajitas",
+    name: "Sheet Pan Shrimp Fajitas",
+    description: "Quick shrimp fajitas with 28g protein per serving. Ready in 20 minutes!",
+    cookTime: "10 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican",
+    image: sheetPanShrimpFajitasImg,
+    totalTime: 20,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "one-pan"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "large shrimp, peeled and deveined" },
+      { amount: "3", unit: "", item: "bell peppers, sliced" },
+      { amount: "1", unit: "large", item: "onion, sliced" },
+      { amount: "3", unit: "tbsp", item: "olive oil" },
+      { amount: "2", unit: "tsp", item: "chili powder" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "2", unit: "", item: "limes" },
+      { amount: "8", unit: "", item: "tortillas" }
+    ],
+    instructions: [
+      "Preheat oven to 425°F.",
+      "Place shrimp, bell peppers, and onion on large sheet pan.",
+      "Drizzle with olive oil.",
+      "Mix chili powder, cumin, garlic powder, and salt in small bowl.",
+      "Sprinkle seasoning over everything, toss to coat.",
+      "Spread in single layer.",
+      "Bake 8-10 minutes until shrimp are pink and cooked through.",
+      "Squeeze fresh lime juice over top and serve with warm tortillas."
+    ]
+  },
+  {
+    id: "protein-pesto-baked-salmon",
+    name: "Pesto Baked Salmon",
+    description: "Flavorful pesto salmon with 36g protein per serving. Restaurant quality at home.",
+    cookTime: "15 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: pestoBakedSalmonImg,
+    totalTime: 20,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "quick"],
+    ingredients: [
+      { amount: "4", unit: "", item: "salmon fillets (6 oz each)" },
+      { amount: "1/2", unit: "cup", item: "basil pesto" },
+      { amount: "1/4", unit: "cup", item: "grated Parmesan cheese" },
+      { amount: "2", unit: "tbsp", item: "pine nuts" },
+      { amount: "1", unit: "tbsp", item: "olive oil" },
+      { amount: "1/2", unit: "tsp", item: "salt" },
+      { amount: "1/4", unit: "tsp", item: "black pepper" },
+      { amount: "1", unit: "", item: "lemon, sliced" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F. Line baking sheet with parchment paper.",
+      "Place salmon fillets on prepared sheet.",
+      "Season with salt and pepper.",
+      "Spread pesto evenly over each fillet.",
+      "Sprinkle with Parmesan cheese and pine nuts.",
+      "Drizzle with olive oil.",
+      "Bake 12-15 minutes until salmon flakes easily.",
+      "Serve with lemon slices and roasted vegetables."
+    ]
+  },
+  {
+    id: "protein-cottage-cheese-baked-ziti",
+    name: "Cottage Cheese Baked Ziti",
+    description: "Protein-packed pasta with 30g protein per serving thanks to cottage cheese. Family favorite!",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Italian",
+    image: cottageCheeseBakedZitiImg,
+    totalTime: 45,
+    tags: ["high-protein", "family-friendly", "easy-dinner"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ziti pasta" },
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "24", unit: "oz", item: "marinara sauce" },
+      { amount: "2", unit: "cups", item: "cottage cheese" },
+      { amount: "2", unit: "cups", item: "shredded mozzarella cheese" },
+      { amount: "1/2", unit: "cup", item: "grated Parmesan cheese" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "2", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1", unit: "tsp", item: "salt" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Cook pasta according to package directions, drain.",
+      "Brown ground beef in large skillet, drain fat.",
+      "Stir marinara sauce into beef.",
+      "Mix cottage cheese, 1 cup mozzarella, Parmesan, eggs, Italian seasoning, and salt in bowl.",
+      "Combine cooked pasta with cottage cheese mixture.",
+      "Spread half the pasta in 9x13 baking dish.",
+      "Top with half the meat sauce.",
+      "Repeat layers.",
+      "Top with remaining 1 cup mozzarella.",
+      "Cover with foil, bake 20 minutes.",
+      "Remove foil, bake 10 more minutes until bubbly and golden."
+    ]
+  },
+  {
+    id: "protein-slow-cooker-lasagna",
+    name: "Slow Cooker Lasagna",
+    description: "Easy slow cooker lasagna with 32g protein per serving. No boiling noodles required!",
+    cookTime: "4 hours",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Italian",
+    image: slowCookerLasagnaImg,
+    totalTime: 260,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "slow-cooker"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "jar", item: "marinara sauce (24 oz)" },
+      { amount: "15", unit: "oz", item: "ricotta cheese" },
+      { amount: "2", unit: "cups", item: "shredded mozzarella cheese" },
+      { amount: "1/2", unit: "cup", item: "grated Parmesan cheese" },
+      { amount: "1", unit: "", item: "egg" },
+      { amount: "9", unit: "", item: "lasagna noodles (uncooked)" },
+      { amount: "2", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/2", unit: "tsp", item: "salt" }
+    ],
+    instructions: [
+      "Brown ground beef in skillet, drain fat.",
+      "Mix ricotta, 1 cup mozzarella, Parmesan, egg, Italian seasoning, and salt in bowl.",
+      "Spray slow cooker with cooking spray.",
+      "Spread 1/3 of meat sauce in bottom.",
+      "Break lasagna noodles to fit, layer 1/3 over sauce.",
+      "Spread 1/3 of cheese mixture over noodles.",
+      "Repeat layers twice more.",
+      "Top with remaining 1 cup mozzarella.",
+      "Cover and cook on low 4 hours.",
+      "Let rest 15 minutes before serving."
+    ]
+  },
+  {
+    id: "protein-beef-stroganoff",
+    name: "Beef Stroganoff",
+    description: "Creamy beef stroganoff with 30g protein per serving. Comfort food at its finest.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Russian",
+    image: beefStroganoffProteinImg,
+    totalTime: 35,
+    tags: ["high-protein", "family-friendly", "easy-dinner"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "beef sirloin, sliced thin" },
+      { amount: "8", unit: "oz", item: "mushrooms, sliced" },
+      { amount: "1", unit: "medium", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "cups", item: "beef broth" },
+      { amount: "1", unit: "cup", item: "sour cream" },
+      { amount: "2", unit: "tbsp", item: "flour" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "1", unit: "tsp", item: "paprika" },
+      { amount: "12", unit: "oz", item: "egg noodles" }
+    ],
+    instructions: [
+      "Cook egg noodles according to package directions.",
+      "Season beef with salt and pepper.",
+      "Melt butter in large skillet over medium-high heat.",
+      "Sear beef in batches, 2-3 minutes per side. Set aside.",
+      "Add mushrooms and onion to skillet, cook 5 minutes.",
+      "Add garlic, cook 1 minute.",
+      "Sprinkle flour over vegetables, stir to coat.",
+      "Gradually add beef broth, stirring constantly until thickened.",
+      "Stir in paprika and sour cream.",
+      "Return beef to skillet, simmer 5 minutes.",
+      "Serve over egg noodles."
+    ]
+  },
+  {
+    id: "protein-chicken-quesadillas",
+    name: "Chicken Quesadillas",
+    description: "Crispy quesadillas with 28g protein per serving. Quick weeknight dinner winner.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican",
+    image: chickenQuesadillasImg,
+    totalTime: 25,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "kid-friendly"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "cooked chicken, shredded" },
+      { amount: "2", unit: "cups", item: "shredded Mexican cheese blend" },
+      { amount: "8", unit: "", item: "flour tortillas (8 inch)" },
+      { amount: "1", unit: "", item: "bell pepper, diced" },
+      { amount: "1/2", unit: "cup", item: "diced onion" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "tsp", item: "chili powder" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "1", unit: "cup", item: "salsa" },
+      { amount: "1/2", unit: "cup", item: "sour cream" }
+    ],
+    instructions: [
+      "Mix shredded chicken with bell pepper, onion, cumin, and chili powder.",
+      "Heat large skillet over medium heat.",
+      "Butter one side of tortilla and place butter-side down in skillet.",
+      "Sprinkle 1/4 cup cheese on half the tortilla.",
+      "Add 1/2 cup chicken mixture.",
+      "Top with another 1/4 cup cheese.",
+      "Fold tortilla in half.",
+      "Cook 2-3 minutes per side until golden and cheese melts.",
+      "Repeat with remaining tortillas.",
+      "Cut into triangles and serve with salsa and sour cream."
+    ]
+  },
+  {
+    id: "protein-chicken-stir-fry-broccoli",
+    name: "Chicken Stir Fry with Broccoli",
+    description: "Quick Asian-style stir fry with 32g protein per serving. Better than takeout!",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Asian",
+    image: chickenStirFryBroccoliImg,
+    totalTime: 25,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "quick"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "chicken breast, sliced thin" },
+      { amount: "4", unit: "cups", item: "broccoli florets" },
+      { amount: "1/4", unit: "cup", item: "soy sauce" },
+      { amount: "2", unit: "tbsp", item: "honey" },
+      { amount: "2", unit: "tbsp", item: "cornstarch" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tbsp", item: "fresh ginger, minced" },
+      { amount: "2", unit: "tbsp", item: "vegetable oil" },
+      { amount: "1/4", unit: "cup", item: "water" },
+      { amount: "4", unit: "cups", item: "cooked rice" }
+    ],
+    instructions: [
+      "Mix soy sauce, honey, cornstarch, and water in small bowl. Set aside.",
+      "Heat 1 tbsp oil in large wok or skillet over high heat.",
+      "Add chicken, stir fry 5-6 minutes until cooked through. Remove and set aside.",
+      "Add remaining 1 tbsp oil to wok.",
+      "Add broccoli, stir fry 3-4 minutes until tender-crisp.",
+      "Add garlic and ginger, cook 30 seconds.",
+      "Return chicken to wok.",
+      "Pour sauce over everything, stir to coat.",
+      "Cook 2 minutes until sauce thickens.",
+      "Serve over rice."
+    ]
+  },
+  {
+    id: "protein-bbq-pulled-pork-bowls",
+    name: "BBQ Pulled Pork Bowls",
+    description: "Tender pulled pork bowls with 35g protein per serving. Meal prep favorite!",
+    cookTime: "6 hours",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: bbqPulledPorkBowlsImg,
+    totalTime: 375,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "meal-prep", "slow-cooker"],
+    ingredients: [
+      { amount: "3", unit: "lbs", item: "pork shoulder" },
+      { amount: "1", unit: "cup", item: "BBQ sauce" },
+      { amount: "1/2", unit: "cup", item: "chicken broth" },
+      { amount: "1", unit: "tbsp", item: "paprika" },
+      { amount: "1", unit: "tbsp", item: "brown sugar" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "tsp", item: "onion powder" },
+      { amount: "4", unit: "cups", item: "cooked rice" },
+      { amount: "2", unit: "cups", item: "coleslaw" },
+      { amount: "1", unit: "cup", item: "corn kernels" }
+    ],
+    instructions: [
+      "Mix paprika, brown sugar, garlic powder, and onion powder.",
+      "Rub spice mixture all over pork shoulder.",
+      "Place pork in slow cooker.",
+      "Pour chicken broth around (not over) pork.",
+      "Cover and cook on low 8 hours or high 6 hours until very tender.",
+      "Remove pork, shred with two forks.",
+      "Discard excess liquid from slow cooker.",
+      "Return shredded pork to slow cooker, mix with BBQ sauce.",
+      "Assemble bowls with rice, pulled pork, coleslaw, and corn.",
+      "Serve with extra BBQ sauce if desired."
+    ]
+  },
+  {
+    id: "protein-egg-roll-bowls",
+    name: "Egg Roll Bowls",
+    description: "Deconstructed egg rolls with 26g protein per serving. All the flavor, none of the frying!",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Asian",
+    image: eggRollBowlsImg,
+    totalTime: 25,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "low-carb"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ground pork" },
+      { amount: "1", unit: "bag", item: "coleslaw mix (14 oz)" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tbsp", item: "fresh ginger, minced" },
+      { amount: "3", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "sesame oil" },
+      { amount: "1", unit: "tsp", item: "sriracha (optional)" },
+      { amount: "4", unit: "", item: "green onions, sliced" },
+      { amount: "2", unit: "tbsp", item: "sesame seeds" }
+    ],
+    instructions: [
+      "Heat large skillet over medium-high heat.",
+      "Add ground pork, break up and cook 6-8 minutes until browned.",
+      "Drain excess fat if needed.",
+      "Add garlic and ginger, cook 1 minute.",
+      "Add coleslaw mix to skillet, stir to combine.",
+      "Pour soy sauce and sesame oil over everything.",
+      "Cook 5-7 minutes, stirring occasionally, until cabbage is tender.",
+      "Stir in sriracha if using.",
+      "Serve in bowls topped with green onions and sesame seeds."
     ]
   },
   ...newRecipes
