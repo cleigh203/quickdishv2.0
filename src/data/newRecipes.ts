@@ -6,6 +6,16 @@ const placeholderImg = "https://images.unsplash.com/photo-1546069901-ba9599a7e63
 // Dessert Images
 import dessertChocolateTrufflesImg from "@/assets/recipes/dessert-chocolate-truffles.jpg";
 import dessertChocolateFondueImg from "@/assets/recipes/dessert-chocolate-fondue.jpg";
+import dessertPeachCobblerImg from "@/assets/recipes/dessert-peach-cobbler.jpg";
+import dessertPumpkinCheesecakeImg from "@/assets/recipes/dessert-pumpkin-cheesecake.jpg";
+import dessertBananaBreadChocolateImg from "@/assets/recipes/dessert-banana-bread-chocolate.jpg";
+
+// Lunch Images
+import lunchChickenShawarmaWrapImg from "@/assets/recipes/lunch-chicken-shawarma-wrap.jpg";
+import lunchSouthwestChickenBowlImg from "@/assets/recipes/lunch-southwest-chicken-bowl.jpg";
+import lunchTunaNicoiseSaladImg from "@/assets/recipes/lunch-tuna-nicoise-salad.jpg";
+import lunchCaliforniaRollBowlImg from "@/assets/recipes/lunch-california-roll-bowl.jpg";
+import lunchMediterraneanQuinoaBowlImg from "@/assets/recipes/lunch-mediterranean-quinoa-bowl.jpg";
 
 // Quick & Easy Images
 import quickBuffaloChickenWrapImg from "@/assets/recipes/quick-buffalo-chicken-wrap.jpg";
@@ -303,7 +313,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "American",
-    image: placeholderImg,
+    image: dessertPeachCobblerImg,
     totalTime: 60,
     tags: ["dessert", "fruit", "comfort-food", "summer"],
     nutrition: { calories: 365, protein: 4, carbs: 62, fat: 12, fiber: 3, sugar: 42, servingSize: "1 serving" },
@@ -396,7 +406,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "American",
-    image: placeholderImg,
+    image: dessertPumpkinCheesecakeImg,
     totalTime: 80,
     tags: ["dessert", "fall", "holiday", "showstopper"],
     nutrition: { calories: 425, protein: 7, carbs: 42, fat: 26, fiber: 1, sugar: 32, servingSize: "1 slice" },
@@ -429,7 +439,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 10,
     cuisine: "American",
-    image: placeholderImg,
+    image: dessertBananaBreadChocolateImg,
     totalTime: 75,
     tags: ["dessert", "breakfast", "comfort-food", "kid-friendly"],
     nutrition: { calories: 295, protein: 4, carbs: 42, fat: 12, fiber: 2, sugar: 24, servingSize: "1 slice" },
@@ -688,7 +698,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Mediterranean",
-    image: placeholderImg,
+    image: lunchMediterraneanQuinoaBowlImg,
     totalTime: 35,
     tags: ["lunch", "healthy", "vegetarian", "meal-prep"],
     nutrition: { calories: 385, protein: 14, carbs: 48, fat: 16, fiber: 8, sugar: 6, servingSize: "1 bowl" },
@@ -880,7 +890,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "French",
-    image: placeholderImg,
+    image: lunchTunaNicoiseSaladImg,
     totalTime: 35,
     tags: ["lunch", "healthy", "protein", "elegant"],
     nutrition: { calories: 425, protein: 32, carbs: 28, fat: 22, fiber: 6, sugar: 5, servingSize: "1 salad" },
@@ -914,7 +924,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Japanese Fusion",
-    image: placeholderImg,
+    image: lunchCaliforniaRollBowlImg,
     totalTime: 35,
     tags: ["lunch", "healthy", "seafood", "meal-prep"],
     nutrition: { calories: 385, protein: 18, carbs: 52, fat: 12, fiber: 6, sugar: 8, servingSize: "1 bowl" },
@@ -1071,7 +1081,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Tex-Mex",
-    image: placeholderImg,
+    image: lunchSouthwestChickenBowlImg,
     totalTime: 35,
     tags: ["lunch", "healthy", "bowl", "meal-prep"],
     nutrition: { calories: 485, protein: 36, carbs: 52, fat: 16, fiber: 12, sugar: 6, servingSize: "1 bowl" },
@@ -1262,7 +1272,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Middle Eastern",
-    image: placeholderImg,
+    image: lunchChickenShawarmaWrapImg,
     totalTime: 35,
     tags: ["lunch", "wrap", "protein", "flavorful"],
     nutrition: { calories: 485, protein: 38, carbs: 42, fat: 18, fiber: 5, sugar: 6, servingSize: "1 wrap" },
