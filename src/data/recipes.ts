@@ -63,7 +63,7 @@ import steakQuesadillaImg from "@/assets/recipes/leftover-steak-quesadilla.jpg";
 import roadhouseRollsImg from "@/assets/recipes/copycat-roadhouse-rolls.jpg";
 import kungPaoImg from "@/assets/recipes/quick-kung-pao-chicken.jpg";
 import burgerSlidersImg from "@/assets/recipes/leftover-burger-sliders.jpg";
-import batNachosImg from "@/assets/recipes/bat-wing-nachos.jpg";
+
 import eggBitesImg from "@/assets/recipes/copycat-egg-bites.jpg";
 import shrimpScampiImg from "@/assets/recipes/quick-shrimp-scampi.jpg";
 import sausageBurritoImg from "@/assets/recipes/leftover-sausage-burrito.jpg";
@@ -105,7 +105,7 @@ import halloweenWitchHatCookiesImg from "@/assets/recipes/halloween-witch-hat-co
 import halloweenPumpkinPatchBrowniesImg from "@/assets/recipes/halloween-pumpkin-patch-brownies.jpg";
 import halloweenMonsterEyeTrufflesImg from "@/assets/recipes/halloween-monster-eye-truffles.jpg";
 import halloweenCandyCornFudgeImg from "@/assets/recipes/halloween-candy-corn-fudge.jpg";
-import halloweenBlackCatCookiesImg from "@/assets/recipes/halloween-black-cat-cookies.jpg";
+
 import leftoverChickenEnchiladasImg from "@/assets/recipes/leftover-chicken-enchiladas.jpg";
 import leftoverMashedPotatoPancakesImg from "@/assets/recipes/leftover-mashed-potato-pancakes.jpg";
 import leftoverPotRoastShepherdsPieImg from "@/assets/recipes/leftover-pot-roast-shepherds-pie.jpg";
@@ -272,7 +272,7 @@ import onePotChickenGarlicRiceImg from "@/assets/recipes/one-pot-chicken-garlic-
 import onePotChickenRiceVegetablesImg from "@/assets/recipes/one-pot-chicken-rice-vegetables.jpg";
 import onePotGreekChickenLemonRiceImg from "@/assets/recipes/one-pot-greek-chicken-lemon-rice.jpg";
 import onePotChickenGnocchiSoupImg from "@/assets/recipes/one-pot-chicken-gnocchi-soup.jpg";
-import onePotChiliMacCheeseImg from "@/assets/recipes/one-pot-chili-mac-cheese.jpg";
+
 import onePotSpinachBeefSoupImg from "@/assets/recipes/one-pot-spinach-beef-soup.jpg";
 import onePotCoconutCurryLentilSoupImg from "@/assets/recipes/one-pot-coconut-curry-lentil-soup.jpg";
 import onePotChickenPotPieChowderImg from "@/assets/recipes/one-pot-chicken-pot-pie-chowder.jpg";
@@ -1319,38 +1319,6 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
-    id: "halloween-bat-nachos",
-    name: "Bat Wing Nachos",
-    description: "Black tortilla chips with all the toppings. Spooky and delicious.",
-    cookTime: "10 mins",
-    prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 6,
-    cuisine: "Halloween",
-    image: batNachosImg,
-    totalTime: 25,
-    tags: ["halloween", "appetizer", "party"],
-    ingredients: [
-      { amount: "1", unit: "bag", item: "black tortilla chips" },
-      { amount: "2", unit: "cups", item: "shredded cheddar" },
-      { amount: "1", unit: "lb", item: "ground beef" },
-      { amount: "1", unit: "packet", item: "taco seasoning" },
-      { amount: "1", unit: "cup", item: "black beans" },
-      { amount: "1/2", unit: "cup", item: "jalapeños" },
-      { amount: "1", unit: "cup", item: "sour cream" },
-      { amount: "1", unit: "cup", item: "guacamole" }
-    ],
-    instructions: [
-      "Brown ground beef, add taco seasoning and water per package.",
-      "Simmer until thickened.",
-      "Arrange black chips on large baking sheet.",
-      "Top with seasoned beef, black beans, and cheese.",
-      "Bake at 375°F for 8-10 minutes until cheese melts.",
-      "Top with jalapeños, sour cream, and guacamole.",
-      "Serve immediately while hot."
-    ]
-  },
-  {
     id: "halloween-eyeball-meatballs",
     name: "Eyeball Meatballs",
     description: "Spaghetti with mozzarella and olive eyeballs. Creepy pasta perfection.",
@@ -1680,34 +1648,6 @@ export const allRecipes: Recipe[] = [
       "Melt remaining chocolate with condensed milk. Add vanilla (white layer).",
       "Spread white layer on top. Refrigerate 2 hours until firm.",
       "Cut into squares. Arrange to show candy corn pattern."
-    ]
-  },
-  {
-    id: "halloween-black-cat-cookies",
-    name: "Black Cat Cookies",
-    description: "Chocolate cookies decorated as black cat silhouettes. Purr-fect for Halloween.",
-    cookTime: "12 mins",
-    prepTime: "30 mins",
-    difficulty: "easy",
-    servings: 24,
-    cuisine: "Halloween",
-    image: halloweenBlackCatCookiesImg,
-    totalTime: 42,
-    tags: ["halloween", "dessert", "cookies"],
-    ingredients: [
-      { amount: "1", unit: "package", item: "chocolate cookie mix (plus required ingredients)" },
-      { amount: "2", unit: "cups", item: "black icing" },
-      { amount: "48", unit: "", item: "yellow candy eyes" },
-      { amount: "1/4", unit: "cup", item: "orange icing" }
-    ],
-    instructions: [
-      "Bake chocolate cookies according to package, making them perfectly round. Cool.",
-      "Use black icing to pipe cat silhouette on each cookie with arched back.",
-      "Add pointed ears at top of silhouette.",
-      "Place 2 yellow candy eyes on each cat face.",
-      "Use orange icing to pipe small collar with bell at bottom of each cat.",
-      "Let icing dry completely before handling.",
-      "Arrange on dark platter with Halloween decorations."
     ]
   },
   {
@@ -7180,41 +7120,6 @@ export const allRecipes: Recipe[] = [
       "Return chicken to pot.",
       "Stir in heavy cream and spinach, cook until spinach wilts.",
       "Season with salt and pepper, serve hot."
-    ]
-  },
-  {
-    id: "one-pot-chili-mac-cheese",
-    name: "Chili Mac and Cheese",
-    description: "Two comfort food classics combined! Spicy chili with creamy mac and cheese.",
-    cookTime: "25 mins",
-    prepTime: "10 mins",
-    difficulty: "easy",
-    servings: 6,
-    cuisine: "American",
-    image: onePotChiliMacCheeseImg,
-    totalTime: 35,
-    tags: ["one-pot", "pasta", "beef", "comfort-food"],
-    ingredients: [
-      { amount: "1", unit: "lb", item: "ground beef" },
-      { amount: "12", unit: "oz", item: "elbow macaroni" },
-      { amount: "1", unit: "can", item: "kidney beans, drained" },
-      { amount: "1", unit: "can", item: "diced tomatoes (14 oz)" },
-      { amount: "3", unit: "cups", item: "beef broth" },
-      { amount: "2", unit: "cups", item: "shredded cheddar cheese" },
-      { amount: "1", unit: "onion", item: "diced" },
-      { amount: "2", unit: "tbsp", item: "chili powder" },
-      { amount: "1", unit: "tsp", item: "cumin" },
-      { amount: "4", unit: "", item: "green onions, sliced" }
-    ],
-    instructions: [
-      "Brown ground beef in large pot over medium-high heat. Drain excess fat.",
-      "Add onion, cook 3 minutes.",
-      "Add chili powder and cumin, cook 1 minute.",
-      "Add pasta, kidney beans, diced tomatoes, and beef broth.",
-      "Bring to boil, reduce heat, simmer 12-15 minutes until pasta is tender.",
-      "Stir in 1 cup cheese until melted.",
-      "Top with remaining cheese and green onions.",
-      "Cover until cheese melts, serve."
     ]
   },
   {
