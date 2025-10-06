@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Package, Plus, Search, Trash2, Minus, Camera } from "lucide-react";
+import { Package, Plus, Search, Trash2, Minus, Camera, Barcode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BottomNav } from "@/components/BottomNav";
@@ -25,6 +25,7 @@ import {
 import { PantryItem, PANTRY_CATEGORIES, PantryCategory } from "@/types/pantry";
 import { groupPantryByCategory } from "@/utils/pantryUtils";
 import { BarcodeScanner } from "@/components/BarcodeScanner";
+import { ManualBarcodeEntry } from "@/components/ManualBarcodeEntry";
 import { useProductLookup } from "@/hooks/useProductLookup";
 
 const Pantry = () => {
@@ -42,11 +43,14 @@ const Pantry = () => {
   const [filterCategory, setFilterCategory] = useState<string>("all");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [isManualBarcodeOpen, setIsManualBarcodeOpen] = useState(false);
+  const [scannedBarcode, setScannedBarcode] = useState<string>("");
   const [newItem, setNewItem] = useState({
     name: "",
     quantity: "1",
     unit: "unit",
     category: "other" as PantryCategory,
+    barcode: "",
   });
 
   const { toast } = useToast();
@@ -71,6 +75,7 @@ const Pantry = () => {
       unit: newItem.unit,
       category: newItem.category,
       addedDate: new Date().toISOString(),
+      barcode: newItem.barcode || undefined,
     };
 
     setPantryItems(prev => [...prev, item]);
@@ -82,7 +87,9 @@ const Pantry = () => {
       quantity: "1",
       unit: "unit",
       category: "other",
+      barcode: "",
     });
+    setScannedBarcode("");
     setIsAddDialogOpen(false);
   };
 
@@ -110,7 +117,8 @@ const Pantry = () => {
   };
 
   const handleBarcodeScan = async (barcode: string) => {
-    toast({ title: "Looking up product...", description: "Please wait" });
+    setScannedBarcode(barcode);
+    toast({ title: "Looking up product...", description: `Barcode: ${barcode}` });
 
     const productInfo = await lookupProduct(barcode);
 
@@ -123,11 +131,12 @@ const Pantry = () => {
         quantity: "1",
         unit: "unit",
         category: productInfo.category,
+        barcode: barcode,
       });
       setIsAddDialogOpen(true);
       toast({
-        title: "Product found!",
-        description: `Added ${productInfo.name} to form`,
+        title: "✓ Product found!",
+        description: `${productInfo.name} - Barcode: ${barcode}`,
       });
     } else {
       // Product not found, open dialog with manual entry
@@ -136,11 +145,12 @@ const Pantry = () => {
         quantity: "1",
         unit: "unit",
         category: "other",
+        barcode: barcode,
       });
       setIsAddDialogOpen(true);
       toast({
         title: "Product not found",
-        description: "Please enter details manually",
+        description: `Barcode ${barcode} - Please enter details manually`,
         variant: "destructive",
       });
     }
@@ -211,10 +221,21 @@ const Pantry = () => {
               <DialogHeader>
                 <DialogTitle>Add Pantry Item</DialogTitle>
                 <DialogDescription>
-                  Add an item to your pantry inventory
+                  {scannedBarcode 
+                    ? `Product scanned - Barcode: ${scannedBarcode}`
+                    : "Add an item to your pantry inventory"
+                  }
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4 py-4">
+                {scannedBarcode && (
+                  <div className="p-3 rounded-lg bg-primary/10 border border-primary/20">
+                    <div className="flex items-center gap-2 text-sm">
+                      <Barcode className="w-4 h-4 text-primary" />
+                      <span className="font-mono font-semibold">{scannedBarcode}</span>
+                    </div>
+                  </div>
+                )}
                 <div className="space-y-2">
                   <Label htmlFor="name">Item Name</Label>
                   <Input
@@ -283,6 +304,14 @@ const Pantry = () => {
             Scan Barcode
           </Button>
 
+          <Button
+            variant="outline"
+            onClick={() => setIsManualBarcodeOpen(true)}
+          >
+            <Barcode className="w-4 h-4 mr-2" />
+            Enter Barcode
+          </Button>
+
           {pantryItems.length > 0 && (
             <Button variant="destructive" onClick={handleBulkDelete}>
               <Trash2 className="w-4 h-4 mr-2" />
@@ -296,6 +325,13 @@ const Pantry = () => {
           open={isScannerOpen}
           onOpenChange={setIsScannerOpen}
           onScan={handleBarcodeScan}
+        />
+
+        {/* Manual Barcode Entry */}
+        <ManualBarcodeEntry
+          open={isManualBarcodeOpen}
+          onOpenChange={setIsManualBarcodeOpen}
+          onSubmit={handleBarcodeScan}
         />
 
         {/* Pantry items */}
@@ -329,6 +365,11 @@ const Pantry = () => {
                           <div className="font-medium">{item.name}</div>
                           <div className="text-sm text-muted-foreground">
                             {item.quantity} {item.unit}
+                            {item.barcode && (
+                              <span className="ml-2 text-xs font-mono opacity-60">
+                                • {item.barcode}
+                              </span>
+                            )}
                           </div>
                         </div>
                         <div className="flex items-center gap-2">

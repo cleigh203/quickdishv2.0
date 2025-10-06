@@ -8,6 +8,7 @@ export interface PantryItem {
   category: PantryCategory;
   addedDate: string;
   expiryDate?: string;
+  barcode?: string;
 }
 
 export const PANTRY_CATEGORIES: { value: PantryCategory; label: string }[] = [
