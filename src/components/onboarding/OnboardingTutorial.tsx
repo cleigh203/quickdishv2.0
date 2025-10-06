@@ -14,7 +14,7 @@ export const OnboardingTutorial = () => {
     {
       id: 1,
       title: "Browse Recipes",
-      description: "Browse 350+ recipes and tap any one to see details 🔍",
+      description: "Browse 400+ recipes and tap any one to see details 🔍",
       targetSelector: ".recipe-card, [data-recipe-card]",
       action: () => navigate('/'),
     },
@@ -208,7 +208,7 @@ export const OnboardingTutorial = () => {
           </div>
 
           {/* Step counter */}
-          <p className="text-center text-xs text-muted-foreground mt-4">
+          <p className="text-center text-xs text-gray-900 font-medium mt-4">
             Step {currentStep} of {steps.length}
           </p>
         </div>

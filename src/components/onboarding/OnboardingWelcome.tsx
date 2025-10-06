@@ -6,9 +6,9 @@ export const OnboardingWelcome = () => {
   const { setCurrentStep, skipOnboarding } = useOnboarding();
 
   const benefits = [
-    { icon: ChefHat, text: "350+ tested recipes", color: "bg-orange-100" },
+    { icon: ChefHat, text: "400+ tested recipes", color: "bg-orange-100" },
     { icon: Calendar, text: "Smart meal planning", color: "bg-red-100" },
-    { icon: ShoppingCart, text: "Auto shopping lists", color: "bg-orange-100" },
+    { icon: ShoppingCart, text: "Auto shopping lists with pantry integration", color: "bg-orange-100" },
   ];
 
   return (
@@ -29,7 +29,7 @@ export const OnboardingWelcome = () => {
         </h1>
 
         {/* Tagline */}
-        <p className="text-xl text-muted-foreground mb-8">
+        <p className="text-xl text-gray-900 mb-8 font-medium">
           Cook smarter, not harder
         </p>
 
@@ -60,13 +60,13 @@ export const OnboardingWelcome = () => {
         {/* Secondary Link */}
         <button
           onClick={skipOnboarding}
-          className="text-muted-foreground hover:text-foreground transition-colors font-medium"
+          className="text-gray-900 hover:text-gray-700 transition-colors font-medium"
         >
           Skip Tutorial
         </button>
 
         {/* Small Text */}
-        <p className="text-xs text-muted-foreground mt-6">
+        <p className="text-xs text-gray-900 mt-6">
           You can replay this anytime in Settings
         </p>
       </div>
