@@ -2259,7 +2259,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: eggBitesImg,
     totalTime: 40,
-    tags: ["copycat", "breakfast", "protein", "keto"],
+    tags: ["copycat", "protein", "keto"],
     ingredients: [
       { amount: "8", unit: "", item: "eggs" },
       { amount: "1", unit: "cup", item: "cottage cheese" },
@@ -2321,7 +2321,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: mcgriddlesImg,
     totalTime: 35,
-    tags: ["copycat", "breakfast", "fast-food"],
+    tags: ["copycat", "fast-food"],
     ingredients: [
       { amount: "1", unit: "cup", item: "pancake mix" },
       { amount: "3/4", unit: "cup", item: "water" },
@@ -2350,7 +2350,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Italian",
     image: meatballSubImg,
     totalTime: 45,
-    tags: ["copycat", "sandwich", "italian", "comfort"],
+    tags: ["copycat", "italian", "comfort"],
     ingredients: [
       { amount: "1", unit: "lb", item: "ground beef" },
       { amount: "1/2", unit: "cup", item: "breadcrumbs" },
@@ -2414,7 +2414,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: chickenSandwichImg,
     totalTime: 35,
-    tags: ["copycat", "fast-food", "sandwich"],
+    tags: ["copycat", "fast-food"],
     ingredients: [
       { amount: "4", unit: "", item: "chicken breasts" },
       { amount: "1", unit: "cup", item: "pickle juice" },
