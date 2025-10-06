@@ -60,7 +60,7 @@ export const OnboardingTutorial = () => {
       id: 6,
       title: "Pantry Management 🆕",
       description: "Track what you already have at home 🥫",
-      subtitle: "Add pantry items to avoid buying duplicates. Access from Shopping List or Profile.",
+      subtitle: "Add pantry items to avoid buying duplicates. Access from Profile → My Pantry.",
       targetSelector: "[data-pantry-button], [data-pantry-tab]",
       highlightPulse: true,
     },

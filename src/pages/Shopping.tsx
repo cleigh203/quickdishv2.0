@@ -1,11 +1,9 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import { Printer, Package, Store, Loader2, CheckCircle } from "lucide-react";
+import { Printer, Store, Loader2, CheckCircle } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
-import { PantryDialog } from "@/components/PantryDialog";
 import { StoreSelectionDialog } from "@/components/StoreSelectionDialog";
 import { useToast } from "@/hooks/use-toast";
 import { useShoppingList } from "@/hooks/useShoppingList";
-import { Switch } from "@/components/ui/switch";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,10 +14,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { PantryItem } from "@/types/pantry";
-import { filterShoppingListByPantry, shoppingItemsToPantry } from "@/utils/pantryUtils";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/contexts/AuthContext";
 
 interface ShoppingItem {
   id: number;
@@ -60,88 +54,12 @@ const categorizeItem = (itemName: string): { emoji: string; name: string } => {
 };
 
 const Shopping = () => {
-  const { user } = useAuth();
-  const { shoppingList, loading, saving, toggleItem, removeItem: removeFromList, clearCompleted, clearAll, setList } = useShoppingList();
+  const { shoppingList, loading, toggleItem, removeItem: removeFromList, clearCompleted, clearAll } = useShoppingList();
   
-  const [pantryItems, setPantryItems] = useState<string[]>([]);
   const [showClearDialog, setShowClearDialog] = useState(false);
-  const [hidePantryItems, setHidePantryItems] = useState(false);
-  const [isPantryDialogOpen, setIsPantryDialogOpen] = useState(false);
   const [showStoreDialog, setShowStoreDialog] = useState(false);
   const { toast } = useToast();
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Load pantry items from Supabase
-  useEffect(() => {
-    const loadPantryItems = async () => {
-      if (!user) {
-        setPantryItems([]);
-        return;
-      }
-      
-      try {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('pantry_items')
-          .eq('id', user.id)
-          .single();
-
-        if (error) throw error;
-        setPantryItems(data?.pantry_items || []);
-      } catch (error) {
-        console.error('Error loading pantry items:', error);
-      }
-    };
-
-    loadPantryItems();
-  }, [user]);
-
-  // Reload pantry when dialog closes
-  const handlePantryDialogChange = async (open: boolean) => {
-    setIsPantryDialogOpen(open);
-    
-    if (!open && user) {
-      // Reload pantry items when dialog closes
-      try {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('pantry_items')
-          .eq('id', user.id)
-          .single();
-
-        if (error) throw error;
-        setPantryItems(data?.pantry_items || []);
-      } catch (error) {
-        console.error('Error reloading pantry items:', error);
-      }
-    }
-  };
-
-  // Filter shopping list by pantry using useMemo
-  const { displayList, hiddenCount } = useMemo(() => {
-    if (!hidePantryItems) {
-      return { 
-        displayList: shoppingList, 
-        hiddenCount: 0 
-      };
-    }
-
-    // Convert string array to PantryItem format for filtering
-    const pantryItemsFormatted: PantryItem[] = pantryItems.map(name => ({
-      id: `pantry-${name}`,
-      name,
-      quantity: 1,
-      unit: 'unit',
-      category: 'other' as const,
-      addedDate: new Date().toISOString(),
-    }));
-
-    const { filtered, removed } = filterShoppingListByPantry(shoppingList, pantryItemsFormatted);
-    return { 
-      displayList: filtered, 
-      hiddenCount: removed.length 
-    };
-  }, [shoppingList, pantryItems, hidePantryItems]);
 
   // Check for all items checked with debounce
   useEffect(() => {
@@ -150,7 +68,7 @@ const Shopping = () => {
       clearTimeout(debounceTimerRef.current);
     }
 
-    const allChecked = displayList.length > 0 && displayList.every(item => item.checked);
+    const allChecked = shoppingList.length > 0 && shoppingList.every(item => item.checked);
     
     if (allChecked && !showClearDialog) {
       // Wait 1 second before showing modal
@@ -167,7 +85,7 @@ const Shopping = () => {
         clearTimeout(debounceTimerRef.current);
       }
     };
-  }, [displayList, showClearDialog]);
+  }, [shoppingList, showClearDialog]);
 
   const removeItem = (id: number) => {
     removeFromList(id);
@@ -190,39 +108,6 @@ const Shopping = () => {
     toast({ title: "Print dialog opened" });
   };
 
-  const handleAddAllToPantry = async () => {
-    if (!user) return;
-
-    const checkedItems = shoppingList.filter(item => item.checked);
-    const newPantryItemNames = checkedItems.map(item => item.item);
-    const updatedPantry = [...pantryItems, ...newPantryItemNames];
-    
-    try {
-      const { error } = await supabase
-        .from('profiles')
-        .update({ pantry_items: updatedPantry })
-        .eq('id', user.id);
-
-      if (error) throw error;
-
-      setPantryItems(updatedPantry);
-      
-      // Remove checked items from shopping list
-      setList(shoppingList.filter(item => !item.checked));
-      
-      toast({ 
-        title: `Added ${newPantryItemNames.length} items to pantry`,
-        description: "Checked items removed from shopping list"
-      });
-    } catch (error) {
-      console.error('Error adding to pantry:', error);
-      toast({
-        title: "Failed to add to pantry",
-        variant: "destructive",
-      });
-    }
-  };
-
   const handleShopOnline = () => {
     setShowStoreDialog(true);
   };
@@ -231,7 +116,7 @@ const Shopping = () => {
   const categorizedItems = useMemo(() => {
     const categories: { [key: string]: Category } = {};
     
-    displayList.forEach(item => {
+    shoppingList.forEach(item => {
       const category = categorizeItem(item.item);
       const key = category.name;
       
@@ -246,10 +131,10 @@ const Shopping = () => {
     });
     
     return Object.values(categories).sort((a, b) => a.name.localeCompare(b.name));
-  }, [displayList]);
+  }, [shoppingList]);
 
-  const totalItems = displayList.length;
-  const checkedItems = displayList.filter(item => item.checked).length;
+  const totalItems = shoppingList.length;
+  const checkedItems = shoppingList.filter(item => item.checked).length;
   const progressPercentage = totalItems > 0 ? (checkedItems / totalItems) * 100 : 0;
 
   if (loading) {
@@ -315,154 +200,70 @@ const Shopping = () => {
               </button>
             </div>
 
-            {/* Pantry Toggle */}
-            <div className="bg-orange-50 px-5 py-3.5 border-b border-orange-200 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Switch
-                  id="hide-pantry"
-                  checked={hidePantryItems}
-                  onCheckedChange={setHidePantryItems}
-                  className="data-[state=checked]:bg-[#FF6B35]"
-                />
-                <span className="text-sm font-medium text-orange-800">
-                  Hide pantry items {hiddenCount > 0 && `(${hiddenCount})`}
-                </span>
-              </div>
-              <button
-                onClick={() => setIsPantryDialogOpen(true)}
-                className="text-sm font-medium text-[#FF6B35] hover:text-[#E55A2B] transition-colors"
-              >
-                <Package className="w-4 h-4 inline mr-1" />
-                Manage Pantry
-              </button>
-            </div>
+            {/* Category Sections */}
+            {categorizedItems.map((category) => (
+              <div key={category.name}>
+                {/* Category Header - Sticky */}
+                <div className="bg-gray-50 px-5 py-3 font-bold text-xs uppercase tracking-wide text-gray-600 border-t-2 border-gray-200 border-b border-gray-200 sticky top-0 z-10">
+                  {category.emoji} {category.name} ({category.items.length})
+                </div>
 
-            {displayList.length === 0 ? (
-              <div className="px-5 py-12 text-center">
-                <div className="text-6xl mb-4">✨</div>
-                <p className="text-gray-600 text-lg mb-2">
-                  All items are already in your pantry! 🎉
-                </p>
-                <p className="text-sm text-gray-500">
-                  Toggle off "Hide pantry items" to see all items
-                </p>
-              </div>
-            ) : (
-              <>
-                {/* Category Sections */}
-                {categorizedItems.map((category) => (
-                  <div key={category.name}>
-                    {/* Category Header - Sticky */}
-                    <div className="bg-gray-50 px-5 py-3 font-bold text-xs uppercase tracking-wide text-gray-600 border-t-2 border-gray-200 border-b border-gray-200 sticky top-0 z-10">
-                      {category.emoji} {category.name} ({category.items.length})
-                    </div>
-
-                    {/* Items in Category */}
-                    <div className="bg-white">
-                      {category.items.map((item) => (
-                        <div
-                          key={item.id}
-                          className="flex items-center gap-4 px-5 py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
-                        >
-                          {/* Checkbox - 22px */}
-                          <div
-                            onClick={() => toggleItem(item.id)}
-                            className={`
-                              w-7 h-7 rounded-md border-2 flex items-center justify-center transition-all cursor-pointer flex-shrink-0
-                              ${item.checked 
-                                ? 'bg-[#FF6B35] border-[#FF6B35]' 
-                                : 'border-gray-300 hover:border-[#FF6B35]'
-                              }
-                            `}
-                          >
-                            {item.checked && (
-                              <span className="text-white text-base font-bold">✓</span>
-                            )}
-                          </div>
-                          
-                          {/* Item Content */}
-                          <div className="flex-1 min-w-0">
-                            <div className={`text-base font-medium ${item.checked ? 'line-through text-gray-400' : 'text-gray-900'}`}>
-                              {item.amount && <span className="text-gray-500">{item.amount} </span>}
-                              {item.item}
-                            </div>
-                            {item.recipes && item.recipes.length > 0 && (
-                              <div className="inline-block mt-1 px-2 py-0.5 bg-orange-50 text-orange-600 text-xs rounded">
-                                For: {item.recipes.join(', ')}
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Add to Pantry Button - Only for checked items */}
-                          {item.checked && (
-                            <button
-                              onClick={async () => {
-                                if (!user) return;
-
-                                const updatedPantry = [...pantryItems, item.item];
-                                
-                                try {
-                                  const { error } = await supabase
-                                    .from('profiles')
-                                    .update({ pantry_items: updatedPantry })
-                                    .eq('id', user.id);
-
-                                  if (error) throw error;
-
-                                  setPantryItems(updatedPantry);
-                                  removeItem(item.id);
-                                  toast({ 
-                                    title: "Added to pantry",
-                                    description: `${item.item} moved to your pantry`
-                                  });
-                                } catch (error) {
-                                  console.error('Error adding to pantry:', error);
-                                  toast({
-                                    title: "Failed to add to pantry",
-                                    variant: "destructive",
-                                  });
-                                }
-                              }}
-                              className="text-xs text-[#FF6B35] font-medium hover:text-[#E55A2B] transition-colors flex-shrink-0"
-                            >
-                              <Package className="w-4 h-4 inline" />
-                            </button>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-
-                {/* Quick Actions at Bottom */}
-                {checkedItems > 0 && (
-                  <div className="bg-white px-5 py-4 border-t-2 border-gray-200 flex gap-3">
-                  <button
-                    onClick={handleClearCompleted}
-                    className="flex-1 h-11 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all"
-                  >
-                    Clear Completed ({checkedItems})
-                  </button>
-                    <button
-                      onClick={handleAddAllToPantry}
-                      className="flex-1 h-11 bg-[#FF6B35] text-white rounded-xl font-medium hover:bg-[#E55A2B] transition-all"
+                {/* Items in Category */}
+                <div className="bg-white">
+                  {category.items.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center gap-4 px-5 py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
                     >
-                      <Package className="w-4 h-4 inline mr-2" />
-                      Add All to Pantry
-                    </button>
-                  </div>
-                )}
-              </>
+                      {/* Checkbox - 22px */}
+                      <div
+                        onClick={() => toggleItem(item.id)}
+                        className={`
+                          w-7 h-7 rounded-md border-2 flex items-center justify-center transition-all cursor-pointer flex-shrink-0
+                          ${item.checked 
+                            ? 'bg-[#FF6B35] border-[#FF6B35]' 
+                            : 'border-gray-300 hover:border-[#FF6B35]'
+                          }
+                        `}
+                      >
+                        {item.checked && (
+                          <span className="text-white text-base font-bold">✓</span>
+                        )}
+                      </div>
+                      
+                      {/* Item Content */}
+                      <div className="flex-1 min-w-0">
+                        <div className={`text-base font-medium ${item.checked ? 'line-through text-gray-400' : 'text-gray-900'}`}>
+                          {item.amount && <span className="text-gray-500">{item.amount} </span>}
+                          {item.item}
+                        </div>
+                        {item.recipes && item.recipes.length > 0 && (
+                          <div className="inline-block mt-1 px-2 py-0.5 bg-orange-50 text-orange-600 text-xs rounded">
+                            For: {item.recipes.join(', ')}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Quick Actions at Bottom */}
+            {checkedItems > 0 && (
+              <div className="bg-white px-5 py-4 border-t-2 border-gray-200">
+                <button
+                  onClick={handleClearCompleted}
+                  className="w-full h-11 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all"
+                >
+                  Clear Completed ({checkedItems})
+                </button>
+              </div>
             )}
           </>
         )}
       </div>
       
-      <PantryDialog 
-        open={isPantryDialogOpen} 
-        onOpenChange={handlePantryDialogChange}
-      />
-
       <StoreSelectionDialog
         open={showStoreDialog}
         onOpenChange={setShowStoreDialog}

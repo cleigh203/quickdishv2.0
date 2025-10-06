@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BottomNav } from "@/components/BottomNav";
-import { PantryDialog } from "@/components/PantryDialog";
 import { EditProfileDialog } from "@/components/EditProfileDialog";
 import { EditPreferencesDialog } from "@/components/EditPreferencesDialog";
 import { SubscriptionManagementModal } from "@/components/SubscriptionManagementModal";
@@ -47,7 +46,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const { showOnboarding } = useOnboarding();
-  const [isPantryDialogOpen, setIsPantryDialogOpen] = useState(false);
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [editPreferencesOpen, setEditPreferencesOpen] = useState(false);
   const [deleteAccountOpen, setDeleteAccountOpen] = useState(false);
@@ -335,14 +333,14 @@ const Profile = () => {
           
           <Card 
             className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow cursor-pointer"
-            onClick={() => setIsPantryDialogOpen(true)}
+            onClick={() => navigate('/pantry')}
           >
             <CardContent className="p-6 text-center">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
                 <Package className="w-6 h-6 text-orange-600 dark:text-orange-400" />
               </div>
               <p className="text-4xl font-bold text-foreground mb-1">{profileData?.pantry_items?.length || 0}</p>
-              <p className="text-sm text-muted-foreground">Pantry Items</p>
+              <p className="text-sm text-muted-foreground">My Pantry</p>
             </CardContent>
           </Card>
         </div>
@@ -532,12 +530,6 @@ const Profile = () => {
         </div>
       </div>
       
-      <PantryDialog 
-        open={isPantryDialogOpen} 
-        onOpenChange={setIsPantryDialogOpen}
-        onUpdate={fetchProfile}
-      />
-
       <EditProfileDialog
         open={editProfileOpen}
         onOpenChange={setEditProfileOpen}
