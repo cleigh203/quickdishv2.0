@@ -216,6 +216,28 @@ import breakfastFullEnglishImg from "@/assets/recipes/breakfast-full-english.jpg
 import breakfastSausageCasseroleImg from "@/assets/recipes/breakfast-sausage-casserole.jpg";
 import breakfastGreekYogurtParfaitImg from "@/assets/recipes/breakfast-greek-yogurt-parfait.jpg";
 
+// New Breakfast Recipes (20)
+import breakfastButtermilkPancakesImg from "@/assets/recipes/breakfast-buttermilk-pancakes.jpg";
+import breakfastBelgianWafflesNewImg from "@/assets/recipes/breakfast-belgian-waffles-new.jpg";
+import breakfastFrenchToastClassicImg from "@/assets/recipes/breakfast-french-toast-classic.jpg";
+import breakfastEggsBenedictClassicImg from "@/assets/recipes/breakfast-eggs-benedict-classic.jpg";
+import breakfastClassicOmeletImg from "@/assets/recipes/breakfast-classic-omelet.jpg";
+import breakfastBurritoClassicImg from "@/assets/recipes/breakfast-burrito-classic.jpg";
+import breakfastCasseroleClassicImg from "@/assets/recipes/breakfast-casserole-classic.jpg";
+import breakfastHashbrownCasseroleImg from "@/assets/recipes/breakfast-hashbrown-casserole.jpg";
+import breakfastQuicheLorraineImg from "@/assets/recipes/breakfast-quiche-lorraine.jpg";
+import breakfastBiscuitsGravyClassicImg from "@/assets/recipes/breakfast-biscuits-gravy-classic.jpg";
+import breakfastAvocadoToastClassicImg from "@/assets/recipes/breakfast-avocado-toast-classic.jpg";
+import breakfastOvernightOatsImg from "@/assets/recipes/breakfast-overnight-oats.jpg";
+import breakfastScrambledEggsBaconImg from "@/assets/recipes/breakfast-scrambled-eggs-bacon.jpg";
+import breakfastSandwichClassicImg from "@/assets/recipes/breakfast-sandwich-classic.jpg";
+import breakfastSmoothieBowlClassicImg from "@/assets/recipes/breakfast-smoothie-bowl-classic.jpg";
+import breakfastGreekYogurtParfaitClassicImg from "@/assets/recipes/breakfast-greek-yogurt-parfait-classic.jpg";
+import breakfastProteinPancakesImg from "@/assets/recipes/breakfast-protein-pancakes.jpg";
+import breakfastTacosClassicImg from "@/assets/recipes/breakfast-tacos-classic.jpg";
+import breakfastShakshukaClassicImg from "@/assets/recipes/breakfast-shakshuka-classic.jpg";
+import breakfastBlueberryMuffinsImg from "@/assets/recipes/breakfast-blueberry-muffins.jpg";
+
 // Restaurant Copycats (20)
 import copycatChickFilASandwichImg from "@/assets/recipes/copycat-chick-fil-a-sandwich.jpg";
 import copycatChipotleBurritoBowlImg from "@/assets/recipes/copycat-chipotle-burrito-bowl.jpg";
@@ -5343,6 +5365,619 @@ export const allRecipes: Recipe[] = [
       "Remove from heat and stir in cheese until melted.",
       "Let sit 5 minutes before serving.",
       "Top with sour cream and green onions if desired."
+    ]
+  },
+  
+  // ========== NEW BREAKFAST RECIPES (20) ==========
+  {
+    id: "breakfast-buttermilk-pancakes",
+    name: "Fluffy Buttermilk Pancakes",
+    description: "Light and fluffy pancakes with a golden exterior. Perfect classic breakfast.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: breakfastButtermilkPancakesImg,
+    totalTime: 25,
+    tags: ["breakfast", "quick-breakfast", "easy", "kid-friendly"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "all-purpose flour" },
+      { amount: "2", unit: "tbsp", item: "sugar" },
+      { amount: "2", unit: "tsp", item: "baking powder" },
+      { amount: "1", unit: "tsp", item: "baking soda" },
+      { amount: "1/2", unit: "tsp", item: "salt" },
+      { amount: "2", unit: "cups", item: "buttermilk" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1/4", unit: "cup", item: "melted butter" }
+    ],
+    instructions: [
+      "Mix flour, sugar, baking powder, baking soda, and salt in bowl.",
+      "Whisk buttermilk, eggs, and melted butter together.",
+      "Pour wet into dry ingredients, stir until just combined (lumps okay).",
+      "Heat griddle to 350°F, lightly grease.",
+      "Pour 1/4 cup batter per pancake.",
+      "Cook until bubbles form, flip and cook 1-2 minutes more.",
+      "Serve hot with butter and maple syrup."
+    ]
+  },
+  {
+    id: "breakfast-belgian-waffles-new",
+    name: "Belgian Waffles",
+    description: "Crispy outside, fluffy inside waffles with deep pockets. Breakfast perfection.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Belgian",
+    image: breakfastBelgianWafflesNewImg,
+    totalTime: 25,
+    tags: ["breakfast", "easy", "kid-friendly"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "all-purpose flour" },
+      { amount: "2", unit: "tbsp", item: "sugar" },
+      { amount: "1", unit: "tbsp", item: "baking powder" },
+      { amount: "1/2", unit: "tsp", item: "salt" },
+      { amount: "2", unit: "", item: "eggs, separated" },
+      { amount: "1 3/4", unit: "cups", item: "milk" },
+      { amount: "1/2", unit: "cup", item: "melted butter" },
+      { amount: "1", unit: "tsp", item: "vanilla extract" }
+    ],
+    instructions: [
+      "Preheat waffle iron to medium-high.",
+      "Mix flour, sugar, baking powder, and salt.",
+      "Whisk egg yolks, milk, butter, and vanilla together.",
+      "Beat egg whites until stiff peaks form.",
+      "Combine wet and dry ingredients, fold in egg whites gently.",
+      "Pour batter into waffle iron, cook until golden and crispy.",
+      "Serve with fresh berries, whipped cream, and maple syrup."
+    ]
+  },
+  {
+    id: "breakfast-french-toast-classic",
+    name: "Classic French Toast",
+    description: "Golden brown custard-soaked bread with cinnamon. Weekend breakfast favorite.",
+    cookTime: "10 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "French",
+    image: breakfastFrenchToastClassicImg,
+    totalTime: 15,
+    tags: ["breakfast", "quick-breakfast", "easy", "kid-friendly"],
+    ingredients: [
+      { amount: "8", unit: "slices", item: "thick bread" },
+      { amount: "4", unit: "", item: "eggs" },
+      { amount: "1/2", unit: "cup", item: "milk" },
+      { amount: "1", unit: "tsp", item: "vanilla extract" },
+      { amount: "1", unit: "tsp", item: "cinnamon" },
+      { amount: "2", unit: "tbsp", item: "butter for cooking" }
+    ],
+    instructions: [
+      "Beat eggs, milk, vanilla, and cinnamon in shallow dish.",
+      "Heat butter in skillet over medium heat.",
+      "Dip bread slices in egg mixture, coating both sides.",
+      "Cook 2-3 minutes per side until golden brown.",
+      "Serve hot with powdered sugar, butter, and maple syrup."
+    ]
+  },
+  {
+    id: "breakfast-eggs-benedict-classic",
+    name: "Eggs Benedict",
+    description: "Poached eggs with hollandaise on English muffins. Elegant brunch classic.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "American",
+    image: breakfastEggsBenedictClassicImg,
+    totalTime: 30,
+    tags: ["breakfast", "brunch", "elegant"],
+    ingredients: [
+      { amount: "4", unit: "", item: "English muffins, split" },
+      { amount: "8", unit: "slices", item: "Canadian bacon" },
+      { amount: "8", unit: "", item: "eggs" },
+      { amount: "3", unit: "", item: "egg yolks for hollandaise" },
+      { amount: "1/2", unit: "cup", item: "melted butter" },
+      { amount: "1", unit: "tbsp", item: "lemon juice" },
+      { amount: "1", unit: "tbsp", item: "white vinegar for poaching" }
+    ],
+    instructions: [
+      "Toast English muffins, warm Canadian bacon in skillet.",
+      "Make hollandaise: Whisk yolks and lemon juice in bowl over simmering water.",
+      "Slowly drizzle in melted butter while whisking until thick.",
+      "Poach eggs: Bring water with vinegar to gentle simmer.",
+      "Crack eggs into water, cook 3-4 minutes.",
+      "Assemble: muffin, bacon, poached egg, hollandaise.",
+      "Garnish with paprika and chives."
+    ]
+  },
+  {
+    id: "breakfast-classic-omelet",
+    name: "Classic Three-Egg Omelet",
+    description: "Fluffy folded omelet with cheese and vegetables. Protein-packed breakfast.",
+    cookTime: "5 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 1,
+    cuisine: "French",
+    image: breakfastClassicOmeletImg,
+    totalTime: 10,
+    tags: ["breakfast", "quick-breakfast", "protein", "healthy"],
+    ingredients: [
+      { amount: "3", unit: "", item: "eggs" },
+      { amount: "2", unit: "tbsp", item: "milk" },
+      { amount: "1", unit: "tbsp", item: "butter" },
+      { amount: "1/4", unit: "cup", item: "shredded cheese" },
+      { amount: "1/4", unit: "cup", item: "diced vegetables" },
+      { amount: "1", unit: "pinch", item: "salt and pepper" }
+    ],
+    instructions: [
+      "Beat eggs with milk, salt, and pepper.",
+      "Melt butter in non-stick pan over medium heat.",
+      "Pour in eggs, tilt pan to spread evenly.",
+      "As eggs set, lift edges to let uncooked egg flow underneath.",
+      "When almost set, add cheese and vegetables to one half.",
+      "Fold omelet in half, cook 1 minute more.",
+      "Slide onto plate and serve immediately."
+    ]
+  },
+  {
+    id: "breakfast-burrito-classic",
+    name: "Breakfast Burrito",
+    description: "Flour tortilla packed with eggs, bacon, cheese, and potatoes. Hearty morning fuel.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Tex-Mex",
+    image: breakfastBurritoClassicImg,
+    totalTime: 25,
+    tags: ["breakfast", "portable", "filling"],
+    ingredients: [
+      { amount: "4", unit: "large", item: "flour tortillas" },
+      { amount: "8", unit: "", item: "eggs, scrambled" },
+      { amount: "8", unit: "slices", item: "bacon, cooked and crumbled" },
+      { amount: "1", unit: "cup", item: "shredded cheese" },
+      { amount: "1", unit: "cup", item: "cooked hash browns" },
+      { amount: "1/2", unit: "cup", item: "salsa" },
+      { amount: "1/4", unit: "cup", item: "sour cream" }
+    ],
+    instructions: [
+      "Warm tortillas in microwave 30 seconds.",
+      "Scramble eggs in buttered pan until fluffy.",
+      "Lay tortilla flat, add eggs down center.",
+      "Top with bacon, cheese, hash browns, salsa.",
+      "Fold sides in, then roll tightly from bottom.",
+      "Optional: brown burrito in skillet 2 minutes per side.",
+      "Serve with additional salsa and sour cream."
+    ]
+  },
+  {
+    id: "breakfast-casserole-classic",
+    name: "Breakfast Casserole",
+    description: "Baked egg casserole with sausage and bread cubes. Perfect for feeding a crowd.",
+    cookTime: "45 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "American",
+    image: breakfastCasseroleClassicImg,
+    totalTime: 60,
+    tags: ["breakfast", "make-ahead", "crowd-pleaser"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "breakfast sausage" },
+      { amount: "6", unit: "cups", item: "cubed bread" },
+      { amount: "2", unit: "cups", item: "shredded cheddar cheese" },
+      { amount: "8", unit: "", item: "eggs" },
+      { amount: "2", unit: "cups", item: "milk" },
+      { amount: "1", unit: "tsp", item: "dry mustard" },
+      { amount: "1/2", unit: "tsp", item: "salt" }
+    ],
+    instructions: [
+      "Preheat oven to 350°F. Grease 9x13 baking dish.",
+      "Brown sausage in skillet, drain fat.",
+      "Layer bread cubes, sausage, and cheese in dish.",
+      "Whisk eggs, milk, mustard, and salt.",
+      "Pour egg mixture over casserole.",
+      "Let sit 10 minutes, then bake 45 minutes until golden.",
+      "Let rest 5 minutes before serving."
+    ]
+  },
+  {
+    id: "breakfast-hashbrown-casserole",
+    name: "Hashbrown Casserole",
+    description: "Creamy cheesy potato casserole with crispy top. The ultimate comfort breakfast.",
+    cookTime: "45 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "American",
+    image: breakfastHashbrownCasseroleImg,
+    totalTime: 55,
+    tags: ["breakfast", "comfort-food", "crowd-pleaser"],
+    ingredients: [
+      { amount: "1", unit: "bag", item: "frozen hash browns (30 oz)" },
+      { amount: "1", unit: "can", item: "cream of chicken soup" },
+      { amount: "2", unit: "cups", item: "sour cream" },
+      { amount: "2", unit: "cups", item: "shredded cheddar cheese" },
+      { amount: "1/2", unit: "cup", item: "melted butter" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "2", unit: "cups", item: "cornflakes, crushed" }
+    ],
+    instructions: [
+      "Preheat oven to 350°F. Grease 9x13 dish.",
+      "Mix hash browns, soup, sour cream, cheese, onion, and half the butter.",
+      "Spread in baking dish.",
+      "Mix cornflakes with remaining melted butter.",
+      "Sprinkle cornflake mixture on top.",
+      "Bake 45 minutes until bubbly and golden.",
+      "Let rest 10 minutes before serving."
+    ]
+  },
+  {
+    id: "breakfast-quiche-lorraine",
+    name: "Quiche Lorraine",
+    description: "Classic French quiche with bacon and Gruyere cheese. Elegant brunch centerpiece.",
+    cookTime: "40 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 8,
+    cuisine: "French",
+    image: breakfastQuicheLorraineImg,
+    totalTime: 60,
+    tags: ["breakfast", "brunch", "elegant", "french"],
+    ingredients: [
+      { amount: "1", unit: "", item: "pie crust, unbaked" },
+      { amount: "8", unit: "slices", item: "bacon, cooked and crumbled" },
+      { amount: "1", unit: "cup", item: "Gruyere cheese, shredded" },
+      { amount: "4", unit: "", item: "eggs" },
+      { amount: "1.5", unit: "cups", item: "heavy cream" },
+      { amount: "1/4", unit: "tsp", item: "nutmeg" },
+      { amount: "1/2", unit: "tsp", item: "salt" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F.",
+      "Place pie crust in 9-inch pie pan, crimp edges.",
+      "Sprinkle bacon and cheese in bottom of crust.",
+      "Whisk eggs, cream, nutmeg, and salt.",
+      "Pour egg mixture over bacon and cheese.",
+      "Bake 40-45 minutes until set and golden.",
+      "Cool 10 minutes before slicing."
+    ]
+  },
+  {
+    id: "breakfast-biscuits-gravy-classic",
+    name: "Biscuits and Gravy",
+    description: "Fluffy buttermilk biscuits smothered in creamy sausage gravy. Southern comfort at its best.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Southern",
+    image: breakfastBiscuitsGravyClassicImg,
+    totalTime: 35,
+    tags: ["breakfast", "southern", "comfort-food"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "all-purpose flour" },
+      { amount: "1", unit: "tbsp", item: "baking powder" },
+      { amount: "1/2", unit: "cup", item: "cold butter" },
+      { amount: "3/4", unit: "cup", item: "buttermilk" },
+      { amount: "1", unit: "lb", item: "breakfast sausage" },
+      { amount: "1/3", unit: "cup", item: "flour for gravy" },
+      { amount: "3", unit: "cups", item: "milk" }
+    ],
+    instructions: [
+      "Preheat oven to 450°F. Make biscuits: mix flour and baking powder.",
+      "Cut in butter until crumbly, add buttermilk.",
+      "Pat into 1-inch thickness, cut biscuits, bake 12 minutes.",
+      "Brown sausage in skillet, don't drain.",
+      "Sprinkle flour over sausage, stir and cook 1 minute.",
+      "Gradually add milk, stirring constantly until thick.",
+      "Split biscuits, smother with gravy."
+    ]
+  },
+  {
+    id: "breakfast-avocado-toast-classic",
+    name: "Avocado Toast",
+    description: "Creamy avocado on crispy toast with perfect toppings. Modern breakfast staple.",
+    cookTime: "5 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "Contemporary",
+    image: breakfastAvocadoToastClassicImg,
+    totalTime: 10,
+    tags: ["breakfast", "quick-breakfast", "healthy", "vegetarian"],
+    ingredients: [
+      { amount: "4", unit: "slices", item: "sourdough bread" },
+      { amount: "2", unit: "", item: "ripe avocados" },
+      { amount: "2", unit: "", item: "eggs for poaching" },
+      { amount: "1", unit: "tbsp", item: "lemon juice" },
+      { amount: "1/4", unit: "cup", item: "cherry tomatoes, halved" },
+      { amount: "1", unit: "tbsp", item: "everything bagel seasoning" }
+    ],
+    instructions: [
+      "Toast bread until golden and crispy.",
+      "Mash avocados with lemon juice, salt, and pepper.",
+      "Poach eggs in simmering water, 3-4 minutes.",
+      "Spread mashed avocado generously on toast.",
+      "Top with poached egg, tomatoes, and seasoning.",
+      "Serve immediately while toast is still crispy."
+    ]
+  },
+  {
+    id: "breakfast-overnight-oats",
+    name: "Overnight Oats",
+    description: "No-cook oats with yogurt and fresh fruit. Healthy grab-and-go breakfast.",
+    cookTime: "0 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 1,
+    cuisine: "Contemporary",
+    image: breakfastOvernightOatsImg,
+    totalTime: 5,
+    tags: ["breakfast", "healthy", "make-ahead", "quick-breakfast"],
+    ingredients: [
+      { amount: "1/2", unit: "cup", item: "rolled oats" },
+      { amount: "1/2", unit: "cup", item: "milk" },
+      { amount: "1/4", unit: "cup", item: "Greek yogurt" },
+      { amount: "1", unit: "tbsp", item: "chia seeds" },
+      { amount: "1", unit: "tbsp", item: "honey" },
+      { amount: "1/2", unit: "cup", item: "fresh berries" }
+    ],
+    instructions: [
+      "Combine oats, milk, yogurt, chia seeds, and honey in jar.",
+      "Stir well to combine all ingredients.",
+      "Cover and refrigerate overnight (or minimum 4 hours).",
+      "In morning, stir and add more milk if too thick.",
+      "Top with fresh berries, nuts, or additional honey.",
+      "Enjoy cold straight from the jar."
+    ]
+  },
+  {
+    id: "breakfast-scrambled-eggs-bacon",
+    name: "Scrambled Eggs with Bacon",
+    description: "Perfectly creamy scrambled eggs with crispy bacon. Classic breakfast perfection.",
+    cookTime: "10 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "American",
+    image: breakfastScrambledEggsBaconImg,
+    totalTime: 15,
+    tags: ["breakfast", "quick-breakfast", "protein", "classic"],
+    ingredients: [
+      { amount: "6", unit: "", item: "eggs" },
+      { amount: "2", unit: "tbsp", item: "milk" },
+      { amount: "6", unit: "slices", item: "bacon" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "4", unit: "slices", item: "toast" }
+    ],
+    instructions: [
+      "Cook bacon in skillet until crispy, drain on paper towels.",
+      "Beat eggs with milk, salt, and pepper.",
+      "Melt butter in non-stick pan over medium-low heat.",
+      "Pour in eggs, let sit 20 seconds.",
+      "Gently push eggs from edges to center with spatula.",
+      "Remove from heat when still slightly wet (they'll keep cooking).",
+      "Serve immediately with crispy bacon and toast."
+    ]
+  },
+  {
+    id: "breakfast-sandwich-classic",
+    name: "Breakfast Sandwich",
+    description: "Egg, cheese, and sausage on English muffin. Perfect portable breakfast.",
+    cookTime: "10 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: breakfastSandwichClassicImg,
+    totalTime: 15,
+    tags: ["breakfast", "quick-breakfast", "portable"],
+    ingredients: [
+      { amount: "4", unit: "", item: "English muffins, split" },
+      { amount: "4", unit: "", item: "eggs" },
+      { amount: "4", unit: "slices", item: "American cheese" },
+      { amount: "4", unit: "", item: "sausage patties" },
+      { amount: "2", unit: "tbsp", item: "butter" }
+    ],
+    instructions: [
+      "Cook sausage patties in skillet until browned, keep warm.",
+      "Fry eggs in butter to desired doneness.",
+      "Toast English muffins until golden.",
+      "Place cheese slice on bottom muffin half.",
+      "Top with sausage patty, then fried egg.",
+      "Add top muffin half.",
+      "Serve hot, wrap in foil for on-the-go."
+    ]
+  },
+  {
+    id: "breakfast-smoothie-bowl-classic",
+    name: "Smoothie Bowl",
+    description: "Thick berry smoothie topped with fresh fruit and granola. Instagram-worthy healthy breakfast.",
+    cookTime: "0 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "Contemporary",
+    image: breakfastSmoothieBowlClassicImg,
+    totalTime: 10,
+    tags: ["breakfast", "healthy", "vegan", "quick-breakfast"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "frozen mixed berries" },
+      { amount: "1", unit: "", item: "frozen banana" },
+      { amount: "1/2", unit: "cup", item: "almond milk" },
+      { amount: "1/4", unit: "cup", item: "Greek yogurt" },
+      { amount: "1/2", unit: "cup", item: "granola for topping" },
+      { amount: "1/2", unit: "cup", item: "fresh berries for topping" },
+      { amount: "2", unit: "tbsp", item: "chia seeds" }
+    ],
+    instructions: [
+      "Blend frozen berries, banana, almond milk, and yogurt until thick.",
+      "Pour into bowls (should be thick enough to eat with spoon).",
+      "Arrange fresh berries, banana slices on top.",
+      "Sprinkle with granola and chia seeds.",
+      "Drizzle with honey if desired.",
+      "Serve immediately while cold."
+    ]
+  },
+  {
+    id: "breakfast-greek-yogurt-parfait-classic",
+    name: "Greek Yogurt Parfait",
+    description: "Layers of creamy yogurt, crunchy granola, and fresh berries. Quick healthy breakfast.",
+    cookTime: "0 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "Contemporary",
+    image: breakfastGreekYogurtParfaitClassicImg,
+    totalTime: 5,
+    tags: ["breakfast", "healthy", "quick-breakfast", "protein"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "Greek yogurt" },
+      { amount: "1", unit: "cup", item: "granola" },
+      { amount: "1", unit: "cup", item: "mixed berries" },
+      { amount: "2", unit: "tbsp", item: "honey" },
+      { amount: "2", unit: "tbsp", item: "sliced almonds" }
+    ],
+    instructions: [
+      "Spoon layer of yogurt into bottom of glass or bowl.",
+      "Add layer of granola.",
+      "Add layer of fresh berries.",
+      "Repeat layers until glass is full.",
+      "Drizzle honey over top.",
+      "Garnish with sliced almonds.",
+      "Serve immediately or refrigerate up to 4 hours."
+    ]
+  },
+  {
+    id: "breakfast-protein-pancakes",
+    name: "Protein Pancakes",
+    description: "High-protein pancakes with Greek yogurt and oats. Fuel your workout.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Contemporary",
+    image: breakfastProteinPancakesImg,
+    totalTime: 25,
+    tags: ["breakfast", "healthy", "protein", "fitness"],
+    ingredients: [
+      { amount: "1", unit: "cup", item: "rolled oats" },
+      { amount: "1", unit: "cup", item: "Greek yogurt" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1", unit: "scoop", item: "protein powder" },
+      { amount: "1", unit: "tsp", item: "baking powder" },
+      { amount: "1/2", unit: "tsp", item: "cinnamon" },
+      { amount: "1/2", unit: "cup", item: "fresh berries" }
+    ],
+    instructions: [
+      "Blend oats into flour consistency.",
+      "Mix oat flour, protein powder, baking powder, and cinnamon.",
+      "Whisk yogurt and eggs together.",
+      "Combine wet and dry ingredients, let sit 5 minutes.",
+      "Heat griddle to medium, lightly grease.",
+      "Pour 1/4 cup batter per pancake, cook until bubbles form.",
+      "Flip and cook 2 more minutes. Serve with berries and Greek yogurt."
+    ]
+  },
+  {
+    id: "breakfast-tacos-classic",
+    name: "Breakfast Tacos",
+    description: "Soft tortillas filled with scrambled eggs, chorizo, and fresh toppings. Texas morning tradition.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Tex-Mex",
+    image: breakfastTacosClassicImg,
+    totalTime: 25,
+    tags: ["breakfast", "tex-mex", "quick-breakfast"],
+    ingredients: [
+      { amount: "8", unit: "", item: "small flour tortillas" },
+      { amount: "8", unit: "", item: "eggs" },
+      { amount: "1/2", unit: "lb", item: "chorizo" },
+      { amount: "1", unit: "cup", item: "shredded cheese" },
+      { amount: "1", unit: "", item: "avocado, sliced" },
+      { amount: "1/2", unit: "cup", item: "salsa" },
+      { amount: "1/4", unit: "cup", item: "cilantro, chopped" }
+    ],
+    instructions: [
+      "Cook chorizo in skillet, breaking up as it cooks.",
+      "Scramble eggs in separate pan until fluffy.",
+      "Warm tortillas in dry skillet or microwave.",
+      "Fill tortillas with eggs and chorizo.",
+      "Top with cheese, avocado, salsa, and cilantro.",
+      "Fold and serve immediately.",
+      "Offer hot sauce on the side."
+    ]
+  },
+  {
+    id: "breakfast-shakshuka-classic",
+    name: "Shakshuka",
+    description: "Eggs poached in spiced tomato sauce with peppers. Middle Eastern breakfast masterpiece.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Middle Eastern",
+    image: breakfastShakshukaClassicImg,
+    totalTime: 35,
+    tags: ["breakfast", "middle-eastern", "brunch", "healthy"],
+    ingredients: [
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "1", unit: "", item: "bell pepper, diced" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "can", item: "crushed tomatoes (28 oz)" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "tsp", item: "paprika" },
+      { amount: "6", unit: "", item: "eggs" },
+      { amount: "1/4", unit: "cup", item: "feta cheese, crumbled" }
+    ],
+    instructions: [
+      "Heat oil in large skillet, sauté onion and pepper until soft.",
+      "Add garlic, cumin, and paprika, cook 1 minute.",
+      "Pour in crushed tomatoes, simmer 10 minutes until thick.",
+      "Make 6 wells in sauce, crack egg into each well.",
+      "Cover and cook 5-8 minutes until eggs are set.",
+      "Sprinkle with feta and fresh herbs.",
+      "Serve with crusty bread for dipping."
+    ]
+  },
+  {
+    id: "breakfast-blueberry-muffins",
+    name: "Blueberry Muffins",
+    description: "Tender bakery-style muffins bursting with fresh blueberries. Perfect grab-and-go breakfast.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "American",
+    image: breakfastBlueberryMuffinsImg,
+    totalTime: 30,
+    tags: ["breakfast", "baked", "kid-friendly", "portable"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "all-purpose flour" },
+      { amount: "3/4", unit: "cup", item: "sugar" },
+      { amount: "2", unit: "tsp", item: "baking powder" },
+      { amount: "1/2", unit: "tsp", item: "salt" },
+      { amount: "1/3", unit: "cup", item: "melted butter" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1", unit: "cup", item: "milk" },
+      { amount: "1.5", unit: "cups", item: "fresh blueberries" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F. Line muffin tin with paper liners.",
+      "Mix flour, sugar, baking powder, and salt in large bowl.",
+      "Whisk melted butter, eggs, and milk in separate bowl.",
+      "Pour wet into dry ingredients, stir until just combined.",
+      "Gently fold in blueberries (don't overmix).",
+      "Fill muffin cups 3/4 full.",
+      "Bake 20-25 minutes until golden brown and toothpick comes clean.",
+      "Cool in pan 5 minutes, then transfer to wire rack."
     ]
   },
   ...newRecipes
