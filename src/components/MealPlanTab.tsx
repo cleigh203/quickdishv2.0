@@ -22,10 +22,9 @@ import { useShoppingList } from "@/hooks/useShoppingList";
 import { allRecipes } from "@/data/recipes";
 import { toast } from "@/hooks/use-toast";
 import { format, isToday, isTomorrow, isPast, addDays, startOfDay } from "date-fns";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { PantryItem } from "@/types/pantry";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
+import { usePantryItems } from "@/hooks/usePantryItems";
 
 export const MealPlanTab = () => {
   const navigate = useNavigate();
@@ -33,6 +32,7 @@ export const MealPlanTab = () => {
   const { mealPlans, deleteMealPlan, clearAllMealPlans } = useMealPlan();
   const { incrementTimesCooked } = useSavedRecipes();
   const { addItems } = useShoppingList();
+  const { fetchPantryItems, loading: pantryLoading } = usePantryItems();
   const [mealToDelete, setMealToDelete] = useState<{ id: string; name: string; date: string; type: string } | null>(null);
   const [showClearDialog, setShowClearDialog] = useState(false);
   const [keepPastMeals, setKeepPastMeals] = useState(true);
@@ -77,46 +77,29 @@ export const MealPlanTab = () => {
       }
     });
 
-    // Filter out items already in pantry
+    // Filter out items already in pantry (with caching)
     let itemsToAdd = ingredients;
     let filteredCount = 0;
     
     if (user) {
-      try {
-        const { data } = await supabase
-          .from('profiles')
-          .select('pantry_items')
-          .eq('id', user.id)
-          .single();
-        
-        if (data?.pantry_items && data.pantry_items.length > 0) {
-          const pantryItemsFormatted: PantryItem[] = data.pantry_items.map((name: string) => ({
-            id: `pantry-${name}`,
-            name,
-            quantity: 1,
-            unit: 'unit',
-            category: 'other' as const,
-            addedDate: new Date().toISOString(),
-          }));
+      const pantryItems = await fetchPantryItems();
+      
+      if (pantryItems.length > 0) {
+        const shoppingItems = ingredients.map((ing, idx) => ({
+          id: idx,
+          item: ing.item,
+          amount: ing.amount,
+          checked: false,
+          recipes: ing.recipes,
+        }));
 
-          const shoppingItems = ingredients.map((ing, idx) => ({
-            id: idx,
-            item: ing.item,
-            amount: ing.amount,
-            checked: false,
-            recipes: ing.recipes,
-          }));
-
-          const { filtered } = filterShoppingListByPantry(shoppingItems, pantryItemsFormatted);
-          filteredCount = ingredients.length - filtered.length;
-          itemsToAdd = filtered.map(item => ({
-            item: item.item,
-            amount: item.amount || '',
-            recipes: item.recipes || [],
-          }));
-        }
-      } catch (error) {
-        console.error('Error checking pantry:', error);
+        const { filtered } = filterShoppingListByPantry(shoppingItems, pantryItems);
+        filteredCount = ingredients.length - filtered.length;
+        itemsToAdd = filtered.map(item => ({
+          item: item.item,
+          amount: item.amount || '',
+          recipes: item.recipes || [],
+        }));
       }
     }
 
@@ -211,9 +194,19 @@ export const MealPlanTab = () => {
                   onClick={handleAddToShoppingList} 
                   className="flex-1 bg-primary hover:bg-primary/90"
                   size="sm"
+                  disabled={pantryLoading}
                 >
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  Add to Shopping List
+                  {pantryLoading ? (
+                    <>
+                      <div className="w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Checking pantry...
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart className="w-4 h-4 mr-2" />
+                      Add to Shopping List
+                    </>
+                  )}
                 </Button>
                 <Button 
                   variant="outline" 

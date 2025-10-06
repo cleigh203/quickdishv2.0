@@ -27,8 +27,8 @@ import { useRecipeRating } from "@/hooks/useRecipeRating";
 import { useMealPlan } from "@/hooks/useMealPlan";
 import { MealPlanDialog } from "@/components/MealPlanDialog";
 import { RecipeAIChatDialog } from "@/components/RecipeAIChatDialog";
-import { PantryItem } from "@/types/pantry";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
+import { usePantryItems } from "@/hooks/usePantryItems";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,6 +41,7 @@ const RecipeDetail = () => {
   const { addMealPlan } = useMealPlan();
   const { generatedRecipes } = useGeneratedRecipes();
   const { verifiedRecipes, isLoading: isLoadingVerified } = useVerifiedRecipes();
+  const { fetchPantryItems } = usePantryItems();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [isLoadingRecipe, setIsLoadingRecipe] = useState(true);
   const [servingMultiplier, setServingMultiplier] = useState(1);
@@ -168,41 +169,24 @@ const RecipeDetail = () => {
     // Convert recipe ingredients to shopping items format
     const newItems = ingredientsToShoppingItems(recipe.ingredients, recipe.name);
     
-    // Filter out items already in pantry
+    // Filter out items already in pantry (with caching)
     let itemsToAdd = newItems;
     let filteredCount = 0;
     
-    try {
-      const { data } = await supabase
-        .from('profiles')
-        .select('pantry_items')
-        .eq('id', user.id)
-        .single();
-      
-      if (data?.pantry_items && data.pantry_items.length > 0) {
-        const pantryItemsFormatted: PantryItem[] = data.pantry_items.map((name: string) => ({
-          id: `pantry-${name}`,
-          name,
-          quantity: 1,
-          unit: 'unit',
-          category: 'other' as const,
-          addedDate: new Date().toISOString(),
-        }));
+    const pantryItems = await fetchPantryItems();
+    
+    if (pantryItems.length > 0) {
+      const shoppingItems = newItems.map((item, idx) => ({
+        ...item,
+        id: idx,
+        checked: false,
+      }));
 
-        const shoppingItems = newItems.map((item, idx) => ({
-          ...item,
-          id: idx,
-          checked: false,
-        }));
-
-        const { filtered } = filterShoppingListByPantry(shoppingItems, pantryItemsFormatted);
-        filteredCount = newItems.length - filtered.length;
-        itemsToAdd = newItems.filter(item => 
-          filtered.some(f => f.item === item.item)
-        );
-      }
-    } catch (error) {
-      console.error('Error checking pantry:', error);
+      const { filtered } = filterShoppingListByPantry(shoppingItems, pantryItems);
+      filteredCount = newItems.length - filtered.length;
+      itemsToAdd = newItems.filter(item => 
+        filtered.some(f => f.item === item.item)
+      );
     }
     
     // Add to shopping list via hook
