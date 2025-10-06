@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Package, Plus, Search, Trash2, Minus } from "lucide-react";
+import { Package, Plus, Search, Trash2, Minus, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BottomNav } from "@/components/BottomNav";
@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/dialog";
 import { PantryItem, PANTRY_CATEGORIES, PantryCategory } from "@/types/pantry";
 import { groupPantryByCategory } from "@/utils/pantryUtils";
+import { BarcodeScanner } from "@/components/BarcodeScanner";
+import { useProductLookup } from "@/hooks/useProductLookup";
 
 const Pantry = () => {
   // ✅ Lazy initialization for localStorage (v7 compliant)
@@ -39,6 +41,7 @@ const Pantry = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterCategory, setFilterCategory] = useState<string>("all");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [newItem, setNewItem] = useState({
     name: "",
     quantity: "1",
@@ -47,6 +50,7 @@ const Pantry = () => {
   });
 
   const { toast } = useToast();
+  const { lookupProduct, loading: lookingUpProduct } = useProductLookup();
 
   // ✅ Save to localStorage in useEffect only (v7 compliant)
   useEffect(() => {
@@ -103,6 +107,43 @@ const Pantry = () => {
   const handleBulkDelete = () => {
     setPantryItems([]);
     toast({ title: "Cleared entire pantry" });
+  };
+
+  const handleBarcodeScan = async (barcode: string) => {
+    toast({ title: "Looking up product...", description: "Please wait" });
+
+    const productInfo = await lookupProduct(barcode);
+
+    if (productInfo) {
+      // Auto-fill the form with product info
+      setNewItem({
+        name: productInfo.brand 
+          ? `${productInfo.brand} ${productInfo.name}`
+          : productInfo.name,
+        quantity: "1",
+        unit: "unit",
+        category: productInfo.category,
+      });
+      setIsAddDialogOpen(true);
+      toast({
+        title: "Product found!",
+        description: `Added ${productInfo.name} to form`,
+      });
+    } else {
+      // Product not found, open dialog with manual entry
+      setNewItem({
+        name: "",
+        quantity: "1",
+        unit: "unit",
+        category: "other",
+      });
+      setIsAddDialogOpen(true);
+      toast({
+        title: "Product not found",
+        description: "Please enter details manually",
+        variant: "destructive",
+      });
+    }
   };
 
   // Filter items
@@ -233,6 +274,15 @@ const Pantry = () => {
             </DialogContent>
           </Dialog>
 
+          <Button
+            variant="secondary"
+            onClick={() => setIsScannerOpen(true)}
+            className="flex-1"
+          >
+            <Camera className="w-4 h-4 mr-2" />
+            Scan Barcode
+          </Button>
+
           {pantryItems.length > 0 && (
             <Button variant="destructive" onClick={handleBulkDelete}>
               <Trash2 className="w-4 h-4 mr-2" />
@@ -240,6 +290,13 @@ const Pantry = () => {
             </Button>
           )}
         </div>
+
+        {/* Barcode Scanner */}
+        <BarcodeScanner
+          open={isScannerOpen}
+          onOpenChange={setIsScannerOpen}
+          onScan={handleBarcodeScan}
+        />
 
         {/* Pantry items */}
         {filteredItems.length === 0 ? (
