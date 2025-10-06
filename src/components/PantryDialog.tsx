@@ -113,6 +113,46 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
     }
   };
 
+  const handleScanBarcode = async () => {
+    try {
+      toast({ title: "Requesting camera access..." });
+      
+      // Request camera permission directly in click handler
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { facingMode: "environment" } 
+      });
+      
+      // Stop the stream immediately - we just needed permission
+      stream.getTracks().forEach(track => track.stop());
+      
+      // Now open the scanner
+      setIsScannerOpen(true);
+    } catch (error: any) {
+      if (error.name === 'NotAllowedError') {
+        toast({
+          title: "Camera access denied",
+          description: "Please enable camera in settings or enter barcode manually",
+          variant: "destructive",
+        });
+        setIsManualBarcodeOpen(true);
+      } else if (error.name === 'NotFoundError') {
+        toast({
+          title: "No camera found",
+          description: "Please enter barcode manually",
+          variant: "destructive",
+        });
+        setIsManualBarcodeOpen(true);
+      } else {
+        toast({
+          title: "Camera unavailable",
+          description: "Please enter barcode manually",
+          variant: "destructive",
+        });
+        setIsManualBarcodeOpen(true);
+      }
+    }
+  };
+
   const handleBarcodeScan = async (barcode: string) => {
     toast({ title: "Looking up product...", description: `Barcode: ${barcode}` });
 
@@ -186,7 +226,7 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
                 <Button
                   variant="secondary"
                   size="sm"
-                  onClick={() => setIsScannerOpen(true)}
+                  onClick={handleScanBarcode}
                   disabled={loading}
                   className="flex-1"
                 >

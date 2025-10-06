@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { PantryItem } from "@/types/pantry";
 import { filterShoppingListByPantry, shoppingItemsToPantry } from "@/utils/pantryUtils";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ShoppingItem {
   id: number;
@@ -58,17 +60,10 @@ const categorizeItem = (itemName: string): { emoji: string; name: string } => {
 };
 
 const Shopping = () => {
+  const { user } = useAuth();
   const { shoppingList, loading, saving, toggleItem, removeItem: removeFromList, clearCompleted, clearAll, setList } = useShoppingList();
   
-  const [pantryItems, setPantryItems] = useState<PantryItem[]>(() => {
-    try {
-      const saved = localStorage.getItem('pantryItems');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
-
+  const [pantryItems, setPantryItems] = useState<string[]>([]);
   const [showClearDialog, setShowClearDialog] = useState(false);
   const [hidePantryItems, setHidePantryItems] = useState(false);
   const [isPantryDialogOpen, setIsPantryDialogOpen] = useState(false);
@@ -76,22 +71,51 @@ const Shopping = () => {
   const { toast } = useToast();
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Load pantry changes
+  // Load pantry items from Supabase
   useEffect(() => {
-    const handleStorageChange = () => {
+    const loadPantryItems = async () => {
+      if (!user) {
+        setPantryItems([]);
+        return;
+      }
+      
       try {
-        const saved = localStorage.getItem('pantryItems');
-        if (saved) {
-          setPantryItems(JSON.parse(saved));
-        }
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('pantry_items')
+          .eq('id', user.id)
+          .single();
+
+        if (error) throw error;
+        setPantryItems(data?.pantry_items || []);
       } catch (error) {
-        console.error('Failed to load pantry items:', error);
+        console.error('Error loading pantry items:', error);
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
+    loadPantryItems();
+  }, [user]);
+
+  // Reload pantry when dialog closes
+  const handlePantryDialogChange = async (open: boolean) => {
+    setIsPantryDialogOpen(open);
+    
+    if (!open && user) {
+      // Reload pantry items when dialog closes
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('pantry_items')
+          .eq('id', user.id)
+          .single();
+
+        if (error) throw error;
+        setPantryItems(data?.pantry_items || []);
+      } catch (error) {
+        console.error('Error reloading pantry items:', error);
+      }
+    }
+  };
 
   // Filter shopping list by pantry using useMemo
   const { displayList, hiddenCount } = useMemo(() => {
@@ -102,7 +126,17 @@ const Shopping = () => {
       };
     }
 
-    const { filtered, removed } = filterShoppingListByPantry(shoppingList, pantryItems);
+    // Convert string array to PantryItem format for filtering
+    const pantryItemsFormatted: PantryItem[] = pantryItems.map(name => ({
+      id: `pantry-${name}`,
+      name,
+      quantity: 1,
+      unit: 'unit',
+      category: 'other' as const,
+      addedDate: new Date().toISOString(),
+    }));
+
+    const { filtered, removed } = filterShoppingListByPantry(shoppingList, pantryItemsFormatted);
     return { 
       displayList: filtered, 
       hiddenCount: removed.length 
@@ -156,20 +190,37 @@ const Shopping = () => {
     toast({ title: "Print dialog opened" });
   };
 
-  const handleAddAllToPantry = () => {
-    const newPantryItems = shoppingItemsToPantry(shoppingList.filter(item => item.checked));
-    const updatedPantry = [...pantryItems, ...newPantryItems];
+  const handleAddAllToPantry = async () => {
+    if (!user) return;
+
+    const checkedItems = shoppingList.filter(item => item.checked);
+    const newPantryItemNames = checkedItems.map(item => item.item);
+    const updatedPantry = [...pantryItems, ...newPantryItemNames];
     
-    localStorage.setItem('pantryItems', JSON.stringify(updatedPantry));
-    setPantryItems(updatedPantry);
-    
-    // Remove checked items from shopping list
-    setList(shoppingList.filter(item => !item.checked));
-    
-    toast({ 
-      title: `Added ${newPantryItems.length} items to pantry`,
-      description: "Checked items removed from shopping list"
-    });
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ pantry_items: updatedPantry })
+        .eq('id', user.id);
+
+      if (error) throw error;
+
+      setPantryItems(updatedPantry);
+      
+      // Remove checked items from shopping list
+      setList(shoppingList.filter(item => !item.checked));
+      
+      toast({ 
+        title: `Added ${newPantryItemNames.length} items to pantry`,
+        description: "Checked items removed from shopping list"
+      });
+    } catch (error) {
+      console.error('Error adding to pantry:', error);
+      toast({
+        title: "Failed to add to pantry",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleShopOnline = () => {
@@ -345,16 +396,32 @@ const Shopping = () => {
                           {/* Add to Pantry Button - Only for checked items */}
                           {item.checked && (
                             <button
-                              onClick={() => {
-                                const newPantryItems = shoppingItemsToPantry([item]);
-                                const updatedPantry = [...pantryItems, ...newPantryItems];
-                                localStorage.setItem('pantryItems', JSON.stringify(updatedPantry));
-                                setPantryItems(updatedPantry);
-                                removeItem(item.id);
-                                toast({ 
-                                  title: "Added to pantry",
-                                  description: `${item.item} moved to your pantry`
-                                });
+                              onClick={async () => {
+                                if (!user) return;
+
+                                const updatedPantry = [...pantryItems, item.item];
+                                
+                                try {
+                                  const { error } = await supabase
+                                    .from('profiles')
+                                    .update({ pantry_items: updatedPantry })
+                                    .eq('id', user.id);
+
+                                  if (error) throw error;
+
+                                  setPantryItems(updatedPantry);
+                                  removeItem(item.id);
+                                  toast({ 
+                                    title: "Added to pantry",
+                                    description: `${item.item} moved to your pantry`
+                                  });
+                                } catch (error) {
+                                  console.error('Error adding to pantry:', error);
+                                  toast({
+                                    title: "Failed to add to pantry",
+                                    variant: "destructive",
+                                  });
+                                }
                               }}
                               className="text-xs text-[#FF6B35] font-medium hover:text-[#E55A2B] transition-colors flex-shrink-0"
                             >
@@ -393,7 +460,7 @@ const Shopping = () => {
       
       <PantryDialog 
         open={isPantryDialogOpen} 
-        onOpenChange={setIsPantryDialogOpen}
+        onOpenChange={handlePantryDialogChange}
       />
 
       <StoreSelectionDialog
