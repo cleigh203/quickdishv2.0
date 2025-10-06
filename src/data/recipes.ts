@@ -105,6 +105,13 @@ import halloweenWitchHatCookiesImg from "@/assets/recipes/halloween-witch-hat-co
 import halloweenPumpkinPatchBrowniesImg from "@/assets/recipes/halloween-pumpkin-patch-brownies.jpg";
 import halloweenMonsterEyeTrufflesImg from "@/assets/recipes/halloween-monster-eye-truffles.jpg";
 import halloweenCandyCornFudgeImg from "@/assets/recipes/halloween-candy-corn-fudge.jpg";
+import halloweenCandyCornTreatsImg from "@/assets/recipes/halloween-candy-corn-treats.jpg";
+import halloweenMonsterCookieDipImg from "@/assets/recipes/halloween-monster-cookie-dip.jpg";
+import halloweenGhostStrawberriesImg from "@/assets/recipes/halloween-ghost-strawberries.jpg";
+import halloweenEyeballCakePopsImg from "@/assets/recipes/halloween-eyeball-cake-pops.jpg";
+import halloweenPumpkinMuddyBuddiesImg from "@/assets/recipes/halloween-pumpkin-muddy-buddies.jpg";
+import halloweenCandyBarkImg from "@/assets/recipes/halloween-candy-bark.jpg";
+import halloweenBloodyJelloImg from "@/assets/recipes/halloween-bloody-jello.jpg";
 
 import leftoverChickenEnchiladasImg from "@/assets/recipes/leftover-chicken-enchiladas.jpg";
 import leftoverMashedPotatoPancakesImg from "@/assets/recipes/leftover-mashed-potato-pancakes.jpg";
@@ -1535,29 +1542,28 @@ export const allRecipes: Recipe[] = [
   {
     id: "halloween-witch-hat-cookies",
     name: "Witch Hat Cookies",
-    description: "Chocolate cookies topped with Hershey Kisses. Easy and adorable.",
+    description: "Viral TikTok Halloween treat! Oreo cookies with orange frosting and chocolate kiss witch hats.",
     cookTime: "10 mins",
     prepTime: "15 mins",
     difficulty: "easy",
-    servings: 24,
+    servings: 12,
     cuisine: "Halloween",
     image: halloweenWitchHatCookiesImg,
     totalTime: 25,
-    tags: ["halloween", "dessert", "cookies", "no-bake"],
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral"],
     ingredients: [
-      { amount: "24", unit: "", item: "Keebler Fudge Stripe cookies" },
-      { amount: "24", unit: "", item: "Hershey's Kisses" },
-      { amount: "1/2", unit: "cup", item: "orange icing" },
-      { amount: "1/4", unit: "cup", item: "chocolate frosting" }
+      { amount: "12", unit: "", item: "Oreo cookies" },
+      { amount: "12", unit: "", item: "Hershey's Kisses, unwrapped" },
+      { amount: "1/2", unit: "cup", item: "orange frosting" },
+      { amount: "2", unit: "tbsp", item: "Halloween sprinkles" }
     ],
     instructions: [
-      "Unwrap all Hershey's Kisses.",
-      "Place a small dollop of chocolate frosting in center of each cookie.",
-      "Press Hershey's Kiss onto frosting to create witch hat shape.",
-      "Hold for a few seconds to set.",
-      "Use orange icing to pipe a ribbon around base of each Kiss.",
-      "Let icing set completely before serving.",
-      "Arrange on black serving plate for Halloween effect."
+      "Lay Oreo cookies flat on black plate.",
+      "Pipe generous swirl of orange frosting on top of each cookie.",
+      "Press unwrapped Hershey's Kiss onto frosting to create pointed witch hat.",
+      "Add Halloween sprinkles around base of each hat.",
+      "Refrigerate 10 minutes to set.",
+      "Serve on dark platter for spooky vibes!"
     ]
   },
   {
@@ -1648,6 +1654,217 @@ export const allRecipes: Recipe[] = [
       "Melt remaining chocolate with condensed milk. Add vanilla (white layer).",
       "Spread white layer on top. Refrigerate 2 hours until firm.",
       "Cut into squares. Arrange to show candy corn pattern."
+    ]
+  },
+  {
+    id: "halloween-candy-corn-treats",
+    name: "Candy Corn Rice Krispie Treats",
+    description: "TikTok viral! Layered Rice Krispie treats in candy corn colors - yellow, orange, and white.",
+    cookTime: "15 mins",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "Halloween",
+    image: halloweenCandyCornTreatsImg,
+    totalTime: 35,
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral"],
+    ingredients: [
+      { amount: "6", unit: "cups", item: "Rice Krispies cereal" },
+      { amount: "3", unit: "cups", item: "mini marshmallows" },
+      { amount: "3", unit: "tbsp", item: "butter" },
+      { amount: "10", unit: "drops", item: "yellow food coloring" },
+      { amount: "10", unit: "drops", item: "orange food coloring" }
+    ],
+    instructions: [
+      "Butter 9x13 pan and line with parchment paper.",
+      "Divide cereal into 3 bowls (2 cups each).",
+      "Make yellow layer: Melt 1 tbsp butter + 1 cup marshmallows, add yellow coloring, mix with cereal, press into pan.",
+      "Make orange layer: Repeat with orange coloring, press over yellow.",
+      "Make white layer: Repeat without coloring, press on top.",
+      "Let cool 30 mins, cut into squares showing candy corn layers.",
+      "Stack squares to show off the colorful layers!"
+    ]
+  },
+  {
+    id: "halloween-monster-cookie-dip",
+    name: "Monster Cookie Dough Dip",
+    description: "Edible green monster dip loaded with M&Ms and googly eyes! Perfect for parties.",
+    cookTime: "0 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "Halloween",
+    image: halloweenMonsterCookieDipImg,
+    totalTime: 10,
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake"],
+    ingredients: [
+      { amount: "8", unit: "oz", item: "cream cheese, softened" },
+      { amount: "1/2", unit: "cup", item: "butter, softened" },
+      { amount: "3/4", unit: "cup", item: "brown sugar" },
+      { amount: "1", unit: "tsp", item: "vanilla extract" },
+      { amount: "10", unit: "drops", item: "green food coloring" },
+      { amount: "1", unit: "cup", item: "mini chocolate chips" },
+      { amount: "1/2", unit: "cup", item: "M&Ms" },
+      { amount: "6", unit: "", item: "candy googly eyes" },
+      { amount: "1", unit: "box", item: "graham crackers" }
+    ],
+    instructions: [
+      "Beat cream cheese and butter until fluffy.",
+      "Mix in brown sugar and vanilla until smooth.",
+      "Add green food coloring and mix until monster green.",
+      "Fold in chocolate chips and half the M&Ms.",
+      "Transfer to serving bowl and smooth top.",
+      "Decorate with remaining M&Ms and candy eyes to create monster face.",
+      "Serve with graham crackers for dipping!"
+    ]
+  },
+  {
+    id: "halloween-ghost-strawberries",
+    name: "Ghost Strawberries",
+    description: "Adorable spooky-cute white chocolate dipped strawberries with ghost faces!",
+    cookTime: "0 mins",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "Halloween",
+    image: halloweenGhostStrawberriesImg,
+    totalTime: 20,
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake"],
+    ingredients: [
+      { amount: "12", unit: "", item: "large strawberries, washed and dried" },
+      { amount: "2", unit: "cups", item: "white chocolate chips" },
+      { amount: "1", unit: "tbsp", item: "coconut oil" },
+      { amount: "1/4", unit: "cup", item: "mini chocolate chips for faces" }
+    ],
+    instructions: [
+      "Line baking sheet with parchment paper.",
+      "Melt white chocolate and coconut oil in microwave, stirring every 30 seconds.",
+      "Hold strawberry by stem and dip in white chocolate, coating completely.",
+      "Place on parchment and let chocolate set slightly.",
+      "While still tacky, press mini chocolate chips to create ghost face (two eyes, one mouth).",
+      "Refrigerate 15 minutes until chocolate is firm.",
+      "Arrange on dark plate for spooky presentation!"
+    ]
+  },
+  {
+    id: "halloween-eyeball-cake-pops",
+    name: "Eyeball Cake Pops",
+    description: "Realistic bloodshot eyeball cake pops that are creepy and delicious!",
+    cookTime: "25 mins",
+    prepTime: "30 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "Halloween",
+    image: halloweenEyeballCakePopsImg,
+    totalTime: 55,
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral"],
+    ingredients: [
+      { amount: "1", unit: "box", item: "white cake mix (plus required ingredients)" },
+      { amount: "1/2", unit: "cup", item: "vanilla frosting" },
+      { amount: "2", unit: "cups", item: "white candy melts" },
+      { amount: "12", unit: "", item: "lollipop sticks" },
+      { amount: "1", unit: "tube", item: "blue icing gel" },
+      { amount: "1", unit: "tube", item: "black icing gel" },
+      { amount: "1", unit: "tube", item: "red icing gel" }
+    ],
+    instructions: [
+      "Bake cake according to package, let cool completely, crumble into bowl.",
+      "Mix crumbled cake with vanilla frosting until dough forms.",
+      "Roll into 12 balls and insert lollipop stick in each. Freeze 30 mins.",
+      "Melt white candy melts and dip each cake pop, coating completely.",
+      "Stand pops upright in foam block to dry.",
+      "Use blue icing to draw colored iris circle, black for pupil dot.",
+      "Add red icing veins radiating from center for bloodshot effect. Spooky!"
+    ]
+  },
+  {
+    id: "halloween-pumpkin-muddy-buddies",
+    name: "Pumpkin Spice Muddy Buddies",
+    description: "Addictive orange-coated Chex cereal mix with pumpkin spice and candy corn!",
+    cookTime: "5 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 10,
+    cuisine: "Halloween",
+    image: halloweenPumpkinMuddyBuddiesImg,
+    totalTime: 20,
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral"],
+    ingredients: [
+      { amount: "6", unit: "cups", item: "Rice Chex cereal" },
+      { amount: "1", unit: "cup", item: "white chocolate chips" },
+      { amount: "2", unit: "tbsp", item: "pumpkin spice" },
+      { amount: "10", unit: "drops", item: "orange food coloring" },
+      { amount: "1 1/2", unit: "cups", item: "powdered sugar" },
+      { amount: "1", unit: "cup", item: "candy corn" },
+      { amount: "1/2", unit: "cup", item: "orange M&Ms" }
+    ],
+    instructions: [
+      "Pour Chex cereal into large bowl.",
+      "Melt white chocolate chips in microwave, stir in pumpkin spice and orange coloring.",
+      "Pour melted chocolate over cereal and toss to coat evenly.",
+      "Pour powdered sugar into gallon bag, add coated cereal, shake until covered.",
+      "Spread on parchment paper to cool.",
+      "Once cool, mix in candy corn and orange M&Ms.",
+      "Serve in orange bowl for festive Halloween snacking!"
+    ]
+  },
+  {
+    id: "halloween-candy-bark",
+    name: "Halloween Candy Bark",
+    description: "Marbled chocolate bark loaded with candy corn, M&Ms, and chocolate eyeballs!",
+    cookTime: "0 mins",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "Halloween",
+    image: halloweenCandyBarkImg,
+    totalTime: 20,
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "dark chocolate chips" },
+      { amount: "2", unit: "cups", item: "white chocolate chips" },
+      { amount: "1", unit: "cup", item: "candy corn" },
+      { amount: "1/2", unit: "cup", item: "orange M&Ms" },
+      { amount: "1/2", unit: "cup", item: "black M&Ms" },
+      { amount: "1/4", unit: "cup", item: "chocolate eyeball candies" }
+    ],
+    instructions: [
+      "Line baking sheet with parchment paper.",
+      "Melt dark chocolate and white chocolate separately in microwave.",
+      "Pour both chocolates onto parchment and swirl with knife to create marble effect.",
+      "Immediately sprinkle candy corn, orange M&Ms, black M&Ms, and eyeball candies over top.",
+      "Gently press candies into chocolate to stick.",
+      "Refrigerate 30 minutes until completely set.",
+      "Break into irregular shards and serve on dark platter!"
+    ]
+  },
+  {
+    id: "halloween-bloody-jello",
+    name: "Bloody Broken Glass Jello",
+    description: "Creepy clear gelatin shards with bright red 'blood' sauce - looks so realistic!",
+    cookTime: "0 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "Halloween",
+    image: halloweenBloodyJelloImg,
+    totalTime: 255,
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake"],
+    ingredients: [
+      { amount: "4", unit: "envelopes", item: "unflavored gelatin" },
+      { amount: "4", unit: "cups", item: "water" },
+      { amount: "1/2", unit: "cup", item: "sugar" },
+      { amount: "1/4", unit: "tsp", item: "vanilla extract" },
+      { amount: "1", unit: "cup", item: "strawberry syrup or red fruit punch" }
+    ],
+    instructions: [
+      "In pot, sprinkle gelatin over 1 cup cold water, let bloom 5 minutes.",
+      "Add 3 cups water and sugar, heat and stir until gelatin dissolves.",
+      "Add vanilla, pour into 9x13 pan, refrigerate 4 hours until firm.",
+      "Use knife to cut gelatin into irregular jagged 'glass' shards.",
+      "Transfer shards to white serving bowl.",
+      "Drizzle bright red strawberry syrup over shards for bloody effect.",
+      "Serve with spoon - the broken glass look is so creepy and cool!"
     ]
   },
   {
