@@ -226,6 +226,33 @@ import crackChickenNoodleSoupImg from "@/assets/recipes/crack-chicken-noodle-sou
 // Import new recipes
 import { newRecipes } from "./newRecipes";
 
+// Import new vegan recipe images
+import marryMeTofuImg from "@/assets/recipes/marry-me-tofu.jpg";
+import highProteinCucumberSaladImg from "@/assets/recipes/high-protein-cucumber-salad.jpg";
+import lentilBologneseImg from "@/assets/recipes/lentil-bolognese.jpg";
+import marryMeChickpeasImg from "@/assets/recipes/marry-me-chickpeas.jpg";
+import tofuScrambleImg from "@/assets/recipes/tofu-scramble.jpg";
+import chickpeaCurryImg from "@/assets/recipes/chickpea-curry.jpg";
+import blackBeanRiceBowlImg from "@/assets/recipes/black-bean-rice-bowl.jpg";
+import veganProteinPastaImg from "@/assets/recipes/vegan-protein-pasta.jpg";
+import kingOysterMushroomTacosImg from "@/assets/recipes/king-oyster-mushroom-tacos.jpg";
+import oysterMushroomFriedChickenImg from "@/assets/recipes/oyster-mushroom-fried-chicken.jpg";
+import veganCrunchwrapImg from "@/assets/recipes/vegan-crunchwrap.jpg";
+import smashBurgerTacosImg from "@/assets/recipes/smash-burger-tacos.jpg";
+import charredCabbageCoconutBrothImg from "@/assets/recipes/charred-cabbage-coconut-broth.jpg";
+import hotHoneyTofuTendersImg from "@/assets/recipes/hot-honey-tofu-tenders.jpg";
+import creamyVeganMacCheeseImg from "@/assets/recipes/creamy-vegan-mac-cheese.jpg";
+import turkishPastaImg from "@/assets/recipes/turkish-pasta.jpg";
+import veganSteakBitesImg from "@/assets/recipes/vegan-steak-bites.jpg";
+import pastaChipsVeganFetaDipImg from "@/assets/recipes/pasta-chips-vegan-feta-dip.jpg";
+import airFryerTofuBitesImg from "@/assets/recipes/air-fryer-tofu-bites.jpg";
+import twoIngredientPiciPastaImg from "@/assets/recipes/two-ingredient-pici-pasta.jpg";
+import cucumberSushiSaladImg from "@/assets/recipes/cucumber-sushi-salad.jpg";
+import koreanCornCheeseImg from "@/assets/recipes/korean-corn-cheese.jpg";
+import sesameCarrotRibbonsImg from "@/assets/recipes/sesame-carrot-ribbons.jpg";
+import cloudBreadImg from "@/assets/recipes/cloud-bread.jpg";
+import veganCustardToastImg from "@/assets/recipes/vegan-custard-toast.jpg";
+
 // Dessert images are served from Lovable uploads
 import dessertCremeCaramelImg from "@/assets/recipes/dessert-creme-caramel.jpg";
 import dessertCookieDoughBrowniesImg from "@/assets/recipes/dessert-cookie-dough-brownies.jpg";
@@ -10805,6 +10832,998 @@ export const allRecipes: Recipe[] = [
       "Stir in [8 oz cream cheese] until melted.",
       "Add shredded chicken, bacon, [2 cups cheddar].",
       "Serve hot with extra cheese and bacon."
+    ]
+  },
+  // ONE POT WONDERS - VEGAN RECIPES
+  {
+    id: "one-pot-marry-me-tofu",
+    name: "Marry Me Tofu",
+    description: "TikTok viral! Creamy tomato basil sauce with golden tofu that'll make you propose.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian-American",
+    image: marryMeTofuImg,
+    totalTime: 30,
+    tags: ["One Pot Wonders", "vegan", "vegetarian", "viral", "tofu"],
+    nutrition: {
+      calories: 320,
+      protein: 18,
+      carbs: 24,
+      fat: 16,
+      fiber: 4,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "block", item: "extra-firm tofu (14 oz)" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "can", item: "crushed tomatoes (28 oz)" },
+      { amount: "1", unit: "cup", item: "coconut cream" },
+      { amount: "1/2", unit: "cup", item: "sun-dried tomatoes, chopped" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" },
+      { amount: "", unit: "", item: "salt and pepper to taste" }
+    ],
+    instructions: [
+      "Press [14 oz tofu] for 10 minutes, cube, pan-sear in [2 tbsp olive oil] until golden. Remove.",
+      "In same pan, sauté [4 cloves garlic] for 30 seconds.",
+      "Add [28 oz crushed tomatoes], [1 cup coconut cream], [1/2 cup sun-dried tomatoes].",
+      "Stir in [1 tsp Italian seasoning], simmer 10 minutes.",
+      "Return tofu to pan, coat with sauce.",
+      "Garnish with [1/4 cup basil]. Serve over pasta or rice."
+    ]
+  },
+  {
+    id: "one-pot-high-protein-cucumber-salad",
+    name: "High-Protein Cucumber Salad",
+    description: "Viral recipe with 25g protein! Crunchy cucumbers with chickpeas and edamame.",
+    cookTime: "0 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Asian Fusion",
+    image: highProteinCucumberSaladImg,
+    totalTime: 15,
+    tags: ["One Pot Wonders", "vegan", "vegetarian", "no-cook", "high-protein"],
+    nutrition: {
+      calories: 220,
+      protein: 12,
+      carbs: 28,
+      fat: 8,
+      fiber: 8,
+      sugar: 6,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "3", unit: "", item: "cucumbers, sliced" },
+      { amount: "1", unit: "can", item: "chickpeas, drained (15 oz)" },
+      { amount: "1", unit: "cup", item: "edamame, shelled" },
+      { amount: "1/2", unit: "", item: "red onion, thinly sliced" },
+      { amount: "3", unit: "tbsp", item: "rice vinegar" },
+      { amount: "2", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "sesame oil" },
+      { amount: "2", unit: "tbsp", item: "sesame seeds" },
+      { amount: "2", unit: "", item: "green onions, chopped" }
+    ],
+    instructions: [
+      "In large bowl, combine [3 cucumbers], [15 oz chickpeas], [1 cup edamame], [1/2 red onion].",
+      "Whisk [3 tbsp rice vinegar], [2 tbsp soy sauce], [1 tbsp sesame oil].",
+      "Pour dressing over salad, toss well.",
+      "Top with [2 tbsp sesame seeds] and [2 green onions].",
+      "Serve immediately or chill 30 minutes."
+    ]
+  },
+  {
+    id: "one-pot-lentil-bolognese",
+    name: "Lentil Bolognese",
+    description: "Hearty vegan twist on Italian classic. Red lentils create meaty texture.",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Italian",
+    image: lentilBologneseImg,
+    totalTime: 40,
+    tags: ["One Pot Wonders", "vegan", "vegetarian", "Italian", "pasta"],
+    nutrition: {
+      calories: 380,
+      protein: 16,
+      carbs: 62,
+      fat: 8,
+      fiber: 12,
+      sugar: 10,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "cup", item: "red lentils, dried" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "2", unit: "", item: "carrots, diced" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "can", item: "crushed tomatoes (28 oz)" },
+      { amount: "2", unit: "cups", item: "vegetable broth" },
+      { amount: "2", unit: "tbsp", item: "tomato paste" },
+      { amount: "2", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1", unit: "lb", item: "spaghetti" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" }
+    ],
+    instructions: [
+      "Sauté [1 onion], [2 carrots], [4 cloves garlic] in olive oil until soft.",
+      "Add [1 cup red lentils], [28 oz crushed tomatoes], [2 cups broth], [2 tbsp tomato paste].",
+      "Stir in [2 tsp Italian seasoning], simmer 25 minutes until lentils tender.",
+      "Cook [1 lb spaghetti] according to package.",
+      "Serve sauce over pasta, top with [1/4 cup basil] and vegan parmesan."
+    ]
+  },
+  {
+    id: "one-pot-marry-me-chickpeas",
+    name: "Marry Me Chickpeas",
+    description: "Viral veggie version! Sun-dried tomato cream sauce with protein-packed chickpeas.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mediterranean",
+    image: marryMeChickpeasImg,
+    totalTime: 30,
+    tags: ["One Pot Wonders", "vegan", "vegetarian", "viral", "Mediterranean"],
+    nutrition: {
+      calories: 340,
+      protein: 14,
+      carbs: 42,
+      fat: 14,
+      fiber: 10,
+      sugar: 6,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "2", unit: "cans", item: "chickpeas, drained (30 oz)" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "1/2", unit: "cup", item: "sun-dried tomatoes, chopped" },
+      { amount: "1", unit: "can", item: "diced tomatoes (14 oz)" },
+      { amount: "1", unit: "cup", item: "coconut cream" },
+      { amount: "1/2", unit: "cup", item: "vegetable broth" },
+      { amount: "2", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/4", unit: "tsp", item: "red pepper flakes" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" }
+    ],
+    instructions: [
+      "In large skillet, sauté [4 cloves garlic] until fragrant.",
+      "Add [30 oz chickpeas], [1/2 cup sun-dried tomatoes], [14 oz diced tomatoes].",
+      "Stir in [1 cup coconut cream], [1/2 cup broth], [2 tsp Italian seasoning], [1/4 tsp red pepper flakes].",
+      "Simmer 15 minutes until sauce thickens.",
+      "Garnish with [1/4 cup basil]. Serve with crusty bread."
+    ]
+  },
+  {
+    id: "one-pot-tofu-scramble",
+    name: "Tofu Scramble",
+    description: "Better than eggs! Golden turmeric scramble packed with veggies.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: tofuScrambleImg,
+    totalTime: 25,
+    tags: ["One Pot Wonders", "vegan", "vegetarian", "breakfast", "high-protein"],
+    nutrition: {
+      calories: 220,
+      protein: 16,
+      carbs: 14,
+      fat: 12,
+      fiber: 4,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "block", item: "extra-firm tofu (14 oz)" },
+      { amount: "1", unit: "", item: "bell pepper, diced" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "2", unit: "cups", item: "spinach" },
+      { amount: "1", unit: "tsp", item: "turmeric" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1/4", unit: "tsp", item: "black salt (kala namak)" },
+      { amount: "2", unit: "tbsp", item: "nutritional yeast" },
+      { amount: "", unit: "", item: "salt and pepper to taste" }
+    ],
+    instructions: [
+      "Crumble [14 oz tofu] with hands into scrambled egg-sized pieces.",
+      "In large pan, sauté [1 bell pepper] and [1 onion] until soft.",
+      "Add crumbled tofu, [1 tsp turmeric], [1 tsp garlic powder], [1/4 tsp black salt].",
+      "Cook 5-7 minutes, stirring occasionally.",
+      "Add [2 cups spinach], cook until wilted.",
+      "Stir in [2 tbsp nutritional yeast]. Season with salt and pepper."
+    ]
+  },
+  {
+    id: "one-pot-chickpea-curry",
+    name: "Chickpea Curry",
+    description: "Creamy coconut curry ready in 25 minutes. Comfort food at its finest.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Indian",
+    image: chickpeaCurryImg,
+    totalTime: 30,
+    tags: ["One Pot Wonders", "vegan", "vegetarian", "Indian", "curry"],
+    nutrition: {
+      calories: 380,
+      protein: 14,
+      carbs: 48,
+      fat: 16,
+      fiber: 12,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "2", unit: "cans", item: "chickpeas, drained (30 oz)" },
+      { amount: "1", unit: "can", item: "coconut milk (14 oz)" },
+      { amount: "1", unit: "can", item: "diced tomatoes (14 oz)" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "curry powder" },
+      { amount: "1", unit: "tsp", item: "garam masala" },
+      { amount: "1", unit: "tsp", item: "ginger, minced" },
+      { amount: "1/4", unit: "cup", item: "cilantro" }
+    ],
+    instructions: [
+      "Sauté [1 onion], [4 cloves garlic], [1 tsp ginger] until fragrant.",
+      "Add [2 tbsp curry powder] and [1 tsp garam masala], toast 1 minute.",
+      "Stir in [30 oz chickpeas], [14 oz coconut milk], [14 oz tomatoes].",
+      "Simmer 15 minutes until sauce thickens.",
+      "Garnish with [1/4 cup cilantro]. Serve over rice."
+    ]
+  },
+  {
+    id: "one-pot-black-bean-rice-bowl",
+    name: "Black Bean & Rice Bowl",
+    description: "Cilantro-lime rice bowl with black beans, avocado, and fresh salsa.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican",
+    image: blackBeanRiceBowlImg,
+    totalTime: 35,
+    tags: ["One Pot Wonders", "vegan", "vegetarian", "Mexican", "bowl"],
+    nutrition: {
+      calories: 420,
+      protein: 14,
+      carbs: 68,
+      fat: 12,
+      fiber: 14,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "white rice" },
+      { amount: "1", unit: "can", item: "black beans (15 oz)" },
+      { amount: "1", unit: "cup", item: "corn kernels" },
+      { amount: "2", unit: "", item: "avocados, sliced" },
+      { amount: "1", unit: "cup", item: "cherry tomatoes, halved" },
+      { amount: "1/4", unit: "cup", item: "cilantro, chopped" },
+      { amount: "2", unit: "", item: "limes, juiced" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "", unit: "", item: "salt to taste" }
+    ],
+    instructions: [
+      "Cook [2 cups rice] according to package. Stir in [2 limes juice] and [1/4 cup cilantro].",
+      "Heat [15 oz black beans] with [1 tsp cumin].",
+      "Divide rice into 4 bowls.",
+      "Top with black beans, [1 cup corn], [2 avocados], [1 cup tomatoes].",
+      "Season with salt and extra lime juice."
+    ]
+  },
+  {
+    id: "one-pot-vegan-protein-pasta",
+    name: "Vegan Protein Pasta",
+    description: "Whole wheat pasta with white beans and spinach. 20g protein per serving!",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: veganProteinPastaImg,
+    totalTime: 25,
+    tags: ["One Pot Wonders", "vegan", "vegetarian", "pasta", "high-protein"],
+    nutrition: {
+      calories: 420,
+      protein: 20,
+      carbs: 68,
+      fat: 8,
+      fiber: 14,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "whole wheat pasta" },
+      { amount: "1", unit: "can", item: "white beans, drained (15 oz)" },
+      { amount: "4", unit: "cups", item: "spinach" },
+      { amount: "1", unit: "cup", item: "cherry tomatoes, halved" },
+      { amount: "6", unit: "cloves", item: "garlic, minced" },
+      { amount: "1/4", unit: "cup", item: "olive oil" },
+      { amount: "1/4", unit: "cup", item: "nutritional yeast" },
+      { amount: "1/4", unit: "tsp", item: "red pepper flakes" },
+      { amount: "", unit: "", item: "salt and pepper to taste" }
+    ],
+    instructions: [
+      "Cook [1 lb pasta] according to package, reserve 1 cup pasta water.",
+      "In large pan, heat [1/4 cup olive oil] with [6 cloves garlic].",
+      "Add [15 oz white beans], [1 cup cherry tomatoes], [1/4 tsp red pepper flakes].",
+      "Toss in cooked pasta and [4 cups spinach] with reserved pasta water.",
+      "Stir in [1/4 cup nutritional yeast]. Season with salt and pepper."
+    ]
+  },
+  // LUNCH IDEAS - VEGAN RECIPES
+  {
+    id: "lunch-king-oyster-mushroom-tacos",
+    name: "King Oyster Mushroom Tacos",
+    description: "TikTok sensation! Mushrooms that taste like carnitas. Mind-blowing texture.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican",
+    image: kingOysterMushroomTacosImg,
+    totalTime: 35,
+    tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "tacos"],
+    nutrition: {
+      calories: 280,
+      protein: 8,
+      carbs: 42,
+      fat: 10,
+      fiber: 6,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "king oyster mushrooms" },
+      { amount: "2", unit: "tbsp", item: "avocado oil" },
+      { amount: "1", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "lime juice" },
+      { amount: "1", unit: "tsp", item: "smoked paprika" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "8", unit: "", item: "corn tortillas" },
+      { amount: "1", unit: "cup", item: "purple cabbage slaw" },
+      { amount: "1/4", unit: "cup", item: "cilantro" }
+    ],
+    instructions: [
+      "Score [1 lb mushrooms] lengthwise, tear into strips.",
+      "Mix [2 tbsp oil], [1 tbsp soy sauce], [1 tbsp lime juice], [1 tsp paprika], [1 tsp cumin].",
+      "Toss mushrooms in marinade, let sit 10 minutes.",
+      "Grill or pan-fry mushrooms until charred and tender, 8-10 minutes.",
+      "Warm [8 tortillas], fill with mushrooms, [1 cup slaw], [1/4 cup cilantro]."
+    ]
+  },
+  {
+    id: "lunch-oyster-mushroom-fried-chicken",
+    name: "Oyster Mushroom Fried 'Chicken'",
+    description: "Viral recipe! Crispy breaded mushrooms that fool carnivores every time.",
+    cookTime: "20 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "American",
+    image: oysterMushroomFriedChickenImg,
+    totalTime: 40,
+    tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "fried"],
+    nutrition: {
+      calories: 340,
+      protein: 10,
+      carbs: 48,
+      fat: 14,
+      fiber: 4,
+      sugar: 2,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "oyster mushrooms" },
+      { amount: "1", unit: "cup", item: "plant milk" },
+      { amount: "1", unit: "tbsp", item: "hot sauce" },
+      { amount: "1", unit: "cup", item: "flour" },
+      { amount: "1", unit: "cup", item: "panko breadcrumbs" },
+      { amount: "1", unit: "tbsp", item: "paprika" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "tsp", item: "onion powder" },
+      { amount: "", unit: "", item: "oil for frying" }
+    ],
+    instructions: [
+      "Tear [1 lb mushrooms] into chicken-tender-sized pieces.",
+      "Mix [1 cup plant milk] with [1 tbsp hot sauce].",
+      "Combine [1 cup flour], [1 cup panko], [1 tbsp paprika], [1 tsp garlic powder], [1 tsp onion powder].",
+      "Dip mushrooms in milk, then breadcrumb mixture. Double coat for extra crispy.",
+      "Fry in 350°F oil until golden, 3-4 minutes per side.",
+      "Serve with vegan ranch and pickles."
+    ]
+  },
+  {
+    id: "lunch-vegan-crunchwrap",
+    name: "Vegan Crunchwrap",
+    description: "TikTok famous! All the layers, all the crunch. Better than the original.",
+    cookTime: "15 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Mexican",
+    image: veganCrunchwrapImg,
+    totalTime: 30,
+    tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "wrap"],
+    nutrition: {
+      calories: 480,
+      protein: 16,
+      carbs: 62,
+      fat: 18,
+      fiber: 12,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "4", unit: "", item: "large flour tortillas" },
+      { amount: "4", unit: "", item: "small flour tortillas" },
+      { amount: "1", unit: "lb", item: "seasoned black beans" },
+      { amount: "1", unit: "cup", item: "vegan cheese shreds" },
+      { amount: "1", unit: "cup", item: "lettuce, shredded" },
+      { amount: "1", unit: "cup", item: "tomatoes, diced" },
+      { amount: "1/2", unit: "cup", item: "vegan sour cream" },
+      { amount: "4", unit: "", item: "tostada shells" }
+    ],
+    instructions: [
+      "On [1 large tortilla], layer [1/4 lb beans], [1/4 cup cheese], [1 tostada shell].",
+      "Top with lettuce, tomatoes, vegan sour cream.",
+      "Place [1 small tortilla] on top, fold edges of large tortilla over.",
+      "Grill seam-side down in hot pan until crispy, 3-4 minutes per side.",
+      "Repeat for remaining 3 crunchwraps. Cut in half and serve."
+    ]
+  },
+  {
+    id: "lunch-smash-burger-tacos",
+    name: "Smash Burger Tacos",
+    description: "Viral fusion! Smashed plant-based patties in tortillas. Genius combo.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican-American Fusion",
+    image: smashBurgerTacosImg,
+    totalTime: 25,
+    tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "fusion"],
+    nutrition: {
+      calories: 420,
+      protein: 22,
+      carbs: 46,
+      fat: 18,
+      fiber: 8,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "plant-based ground" },
+      { amount: "8", unit: "", item: "street taco tortillas" },
+      { amount: "8", unit: "slices", item: "vegan cheese" },
+      { amount: "1", unit: "cup", item: "lettuce, shredded" },
+      { amount: "1", unit: "", item: "tomato, diced" },
+      { amount: "1/4", unit: "cup", item: "pickles" },
+      { amount: "1/4", unit: "cup", item: "vegan special sauce" },
+      { amount: "", unit: "", item: "salt and pepper" }
+    ],
+    instructions: [
+      "Form [1 lb plant-based ground] into 8 small balls.",
+      "Heat griddle to high. Place ball on tortilla, smash flat with spatula.",
+      "Season with salt and pepper, cook 2 minutes.",
+      "Flip, add vegan cheese slice, cook 2 more minutes.",
+      "Top with lettuce, tomato, pickles, special sauce.",
+      "Repeat for all 8 tacos."
+    ]
+  },
+  {
+    id: "lunch-charred-cabbage-coconut-broth",
+    name: "Charred Cabbage with Coconut Broth",
+    description: "TikTok viral elegance! Restaurant-quality vegan dish that looks stunning.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Asian Fusion",
+    image: charredCabbageCoconutBrothImg,
+    totalTime: 35,
+    tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "elegant"],
+    nutrition: {
+      calories: 280,
+      protein: 6,
+      carbs: 24,
+      fat: 18,
+      fiber: 8,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "head", item: "napa cabbage" },
+      { amount: "1", unit: "can", item: "coconut milk (14 oz)" },
+      { amount: "2", unit: "cups", item: "vegetable broth" },
+      { amount: "2", unit: "tbsp", item: "red curry paste" },
+      { amount: "1", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "lime juice" },
+      { amount: "2", unit: "tbsp", item: "sesame seeds" },
+      { amount: "1/4", unit: "cup", item: "fresh herbs (cilantro, basil)" }
+    ],
+    instructions: [
+      "Cut [1 head cabbage] into 4 wedges, keeping core intact.",
+      "Char cabbage wedges in hot pan, 4 minutes per side.",
+      "Whisk [14 oz coconut milk], [2 cups broth], [2 tbsp curry paste], [1 tbsp soy sauce].",
+      "Simmer broth 10 minutes.",
+      "Place charred cabbage in shallow bowls, pour broth around.",
+      "Garnish with [1 tbsp lime juice], [2 tbsp sesame seeds], [1/4 cup herbs]."
+    ]
+  },
+  {
+    id: "lunch-hot-honey-tofu-tenders",
+    name: "Hot Honey Tofu Tenders",
+    description: "Sweet, spicy, crispy perfection. Viral recipe that converts tofu skeptics.",
+    cookTime: "25 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "American",
+    image: hotHoneyTofuTendersImg,
+    totalTime: 40,
+    tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "spicy"],
+    nutrition: {
+      calories: 380,
+      protein: 18,
+      carbs: 46,
+      fat: 14,
+      fiber: 3,
+      sugar: 18,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "block", item: "extra-firm tofu (14 oz)" },
+      { amount: "1", unit: "cup", item: "cornstarch" },
+      { amount: "1/2", unit: "cup", item: "agave nectar" },
+      { amount: "2", unit: "tbsp", item: "hot sauce" },
+      { amount: "1", unit: "tbsp", item: "apple cider vinegar" },
+      { amount: "1/2", unit: "tsp", item: "cayenne pepper" },
+      { amount: "", unit: "", item: "oil for frying" },
+      { amount: "2", unit: "tbsp", item: "sesame seeds" }
+    ],
+    instructions: [
+      "Press [14 oz tofu], cut into tender-sized strips.",
+      "Toss in [1 cup cornstarch] until fully coated.",
+      "Fry in 350°F oil until golden and crispy, 4-5 minutes.",
+      "Mix [1/2 cup agave], [2 tbsp hot sauce], [1 tbsp vinegar], [1/2 tsp cayenne].",
+      "Toss fried tofu in hot honey sauce.",
+      "Sprinkle with [2 tbsp sesame seeds]. Serve with vegan ranch."
+    ]
+  },
+  {
+    id: "lunch-creamy-vegan-mac-cheese",
+    name: "Creamy Vegan Mac & Cheese",
+    description: "Ultra-creamy cashew sauce that rivals the real thing. TikTok approved!",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: creamyVeganMacCheeseImg,
+    totalTime: 25,
+    tags: ["Lunch Ideas", "vegan", "vegetarian", "comfort", "pasta"],
+    nutrition: {
+      calories: 420,
+      protein: 14,
+      carbs: 58,
+      fat: 16,
+      fiber: 4,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "elbow macaroni" },
+      { amount: "1", unit: "cup", item: "raw cashews, soaked" },
+      { amount: "1", unit: "cup", item: "plant milk" },
+      { amount: "1/4", unit: "cup", item: "nutritional yeast" },
+      { amount: "2", unit: "tbsp", item: "lemon juice" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "tsp", item: "onion powder" },
+      { amount: "1/2", unit: "cup", item: "breadcrumbs (optional)" }
+    ],
+    instructions: [
+      "Cook [1 lb macaroni] according to package.",
+      "Blend [1 cup soaked cashews], [1 cup plant milk], [1/4 cup nutritional yeast], [2 tbsp lemon juice], [1 tsp garlic powder], [1 tsp onion powder] until smooth.",
+      "Heat sauce in pot until warm and thickened.",
+      "Toss cooked pasta with cheese sauce.",
+      "Optional: Top with [1/2 cup breadcrumbs], broil until golden."
+    ]
+  },
+  {
+    id: "lunch-turkish-pasta",
+    name: "Turkish Pasta",
+    description: "Viral TikTok recipe! Angel hair with spiced tomato sauce and yogurt dollops.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Turkish",
+    image: turkishPastaImg,
+    totalTime: 30,
+    tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "Turkish"],
+    nutrition: {
+      calories: 380,
+      protein: 12,
+      carbs: 64,
+      fat: 10,
+      fiber: 6,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "angel hair pasta" },
+      { amount: "1", unit: "can", item: "tomato sauce (15 oz)" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tsp", item: "paprika" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1/2", unit: "cup", item: "vegan yogurt" },
+      { amount: "3", unit: "tbsp", item: "vegan butter" },
+      { amount: "1", unit: "tbsp", item: "dried mint" },
+      { amount: "1", unit: "tsp", item: "red pepper flakes" }
+    ],
+    instructions: [
+      "Cook [1 lb angel hair] according to package.",
+      "Sauté [4 cloves garlic] in oil, add [15 oz tomato sauce], [2 tsp paprika], [1 tsp cumin].",
+      "Simmer sauce 10 minutes.",
+      "Toss pasta with sauce, divide into bowls.",
+      "Top each with dollop of [vegan yogurt].",
+      "Brown [3 tbsp butter] with [1 tbsp mint] and [1 tsp red pepper flakes], drizzle over pasta."
+    ]
+  },
+  {
+    id: "lunch-vegan-steak-bites",
+    name: "Vegan Steak Bites",
+    description: "Marinated mushrooms or seitan that taste like real steak. Jaw-dropping texture.",
+    cookTime: "15 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "American",
+    image: veganSteakBitesImg,
+    totalTime: 35,
+    tags: ["Lunch Ideas", "vegan", "vegetarian", "high-protein", "viral"],
+    nutrition: {
+      calories: 280,
+      protein: 24,
+      carbs: 18,
+      fat: 12,
+      fiber: 4,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "king oyster mushrooms or seitan" },
+      { amount: "1/4", unit: "cup", item: "soy sauce" },
+      { amount: "2", unit: "tbsp", item: "balsamic vinegar" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tsp", item: "smoked paprika" },
+      { amount: "1/4", unit: "cup", item: "chimichurri sauce" },
+      { amount: "", unit: "", item: "black pepper to taste" }
+    ],
+    instructions: [
+      "Cut [1 lb mushrooms/seitan] into bite-sized chunks.",
+      "Mix [1/4 cup soy sauce], [2 tbsp balsamic], [2 tbsp oil], [4 cloves garlic], [1 tsp paprika], pepper.",
+      "Marinate 15 minutes minimum.",
+      "Thread onto skewers if desired.",
+      "Sear in hot pan 3-4 minutes per side until charred.",
+      "Drizzle with [1/4 cup chimichurri]. Serve immediately."
+    ]
+  },
+  // QUICK AND EASY - VEGAN RECIPES
+  {
+    id: "quick-pasta-chips-vegan-feta-dip",
+    name: "Pasta Chips with Vegan Feta Dip",
+    description: "TikTok's most viral snack! Crispy baked pasta with creamy dip.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Fusion",
+    image: pastaChipsVeganFetaDipImg,
+    totalTime: 25,
+    tags: ["Quick and Easy", "vegan", "vegetarian", "viral", "snack"],
+    nutrition: {
+      calories: 320,
+      protein: 10,
+      carbs: 42,
+      fat: 14,
+      fiber: 3,
+      sugar: 3,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "8", unit: "oz", item: "rigatoni or penne, cooked" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1/4", unit: "cup", item: "parmesan (vegan)" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "cup", item: "vegan feta, crumbled" },
+      { amount: "1/2", unit: "cup", item: "vegan cream cheese" },
+      { amount: "2", unit: "tbsp", item: "lemon juice" },
+      { amount: "1/4", unit: "cup", item: "fresh herbs" }
+    ],
+    instructions: [
+      "Toss [8 oz cooked pasta] with [2 tbsp oil], [1/4 cup vegan parm], [1 tsp garlic powder].",
+      "Spread on baking sheet, bake at 400°F for 12-15 minutes until crispy.",
+      "Blend [1 cup vegan feta], [1/2 cup cream cheese], [2 tbsp lemon juice] until smooth.",
+      "Top dip with [1/4 cup herbs] and olive oil.",
+      "Serve pasta chips with dip."
+    ]
+  },
+  {
+    id: "quick-air-fryer-tofu-bites",
+    name: "Air Fryer Tofu Bites",
+    description: "Perfectly crispy without the oil! Addictive snack ready in 20 minutes.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Asian",
+    image: airFryerTofuBitesImg,
+    totalTime: 25,
+    tags: ["Quick and Easy", "vegan", "vegetarian", "air-fryer", "snack"],
+    nutrition: {
+      calories: 240,
+      protein: 16,
+      carbs: 24,
+      fat: 10,
+      fiber: 2,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "block", item: "extra-firm tofu (14 oz)" },
+      { amount: "2", unit: "tbsp", item: "cornstarch" },
+      { amount: "2", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "sesame oil" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1/4", unit: "cup", item: "sweet chili sauce" },
+      { amount: "2", unit: "tbsp", item: "sesame seeds" },
+      { amount: "2", unit: "", item: "green onions, sliced" }
+    ],
+    instructions: [
+      "Press [14 oz tofu], cube into bite-sized pieces.",
+      "Toss with [2 tbsp cornstarch], [2 tbsp soy sauce], [1 tbsp sesame oil], [1 tsp garlic powder].",
+      "Air fry at 400°F for 15 minutes, shaking halfway.",
+      "Toss with [1/4 cup sweet chili sauce].",
+      "Top with [2 tbsp sesame seeds] and [2 green onions]."
+    ]
+  },
+  {
+    id: "quick-two-ingredient-pici-pasta",
+    name: "2-Ingredient Pici Pasta",
+    description: "TikTok viral! Just flour and water make authentic Italian pasta.",
+    cookTime: "5 mins",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: twoIngredientPiciPastaImg,
+    totalTime: 25,
+    tags: ["Quick and Easy", "vegan", "vegetarian", "viral", "homemade"],
+    nutrition: {
+      calories: 320,
+      protein: 10,
+      carbs: 64,
+      fat: 2,
+      fiber: 3,
+      sugar: 2,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "all-purpose flour" },
+      { amount: "3/4", unit: "cup", item: "warm water" },
+      { amount: "1", unit: "jar", item: "marinara sauce (24 oz)" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" },
+      { amount: "", unit: "", item: "vegan parmesan" }
+    ],
+    instructions: [
+      "Mix [2 cups flour] and [3/4 cup water] until dough forms.",
+      "Knead 5 minutes, rest 10 minutes.",
+      "Roll small pieces into thick spaghetti-like strands.",
+      "Boil in salted water 3-4 minutes until tender.",
+      "Toss with [24 oz marinara], [1/4 cup basil], vegan parmesan."
+    ]
+  },
+  {
+    id: "quick-cucumber-sushi-salad",
+    name: "Cucumber Sushi Salad",
+    description: "Viral deconstructed sushi! All the flavors, none of the rolling.",
+    cookTime: "0 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Japanese Fusion",
+    image: cucumberSushiSaladImg,
+    totalTime: 15,
+    tags: ["Quick and Easy", "vegan", "vegetarian", "no-cook", "viral"],
+    nutrition: {
+      calories: 220,
+      protein: 8,
+      carbs: 32,
+      fat: 8,
+      fiber: 6,
+      sugar: 6,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "3", unit: "", item: "cucumbers, sliced" },
+      { amount: "2", unit: "", item: "avocados, cubed" },
+      { amount: "1", unit: "cup", item: "edamame, shelled" },
+      { amount: "1", unit: "", item: "carrot, ribboned" },
+      { amount: "3", unit: "tbsp", item: "rice vinegar" },
+      { amount: "2", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "sesame oil" },
+      { amount: "2", unit: "tbsp", item: "sesame seeds" }
+    ],
+    instructions: [
+      "In large bowl, combine [3 cucumbers], [2 avocados], [1 cup edamame], [1 carrot].",
+      "Whisk [3 tbsp rice vinegar], [2 tbsp soy sauce], [1 tbsp sesame oil].",
+      "Pour dressing over salad, toss gently.",
+      "Top with [2 tbsp sesame seeds].",
+      "Serve immediately or chill."
+    ]
+  },
+  {
+    id: "quick-korean-corn-cheese",
+    name: "Korean Corn Cheese",
+    description: "TikTok viral Korean side! Bubbling corn with melty cheese in minutes.",
+    cookTime: "10 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Korean",
+    image: koreanCornCheeseImg,
+    totalTime: 15,
+    tags: ["Quick and Easy", "vegan", "vegetarian", "viral", "Korean"],
+    nutrition: {
+      calories: 280,
+      protein: 8,
+      carbs: 38,
+      fat: 12,
+      fiber: 4,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "3", unit: "cups", item: "corn kernels (frozen or canned)" },
+      { amount: "1", unit: "cup", item: "vegan mozzarella, shredded" },
+      { amount: "2", unit: "tbsp", item: "vegan mayo" },
+      { amount: "1", unit: "tbsp", item: "sugar" },
+      { amount: "1/4", unit: "tsp", item: "salt" },
+      { amount: "2", unit: "tbsp", item: "parsley, chopped" }
+    ],
+    instructions: [
+      "In cast iron skillet, mix [3 cups corn], [1 cup vegan mozzarella], [2 tbsp mayo], [1 tbsp sugar], [1/4 tsp salt].",
+      "Bake at 400°F for 10 minutes until bubbly and golden.",
+      "Or broil for 5 minutes watching carefully.",
+      "Garnish with [2 tbsp parsley].",
+      "Serve hot with spoon."
+    ]
+  },
+  {
+    id: "quick-sesame-carrot-ribbons",
+    name: "Sesame Carrot Ribbons",
+    description: "Elegant side dish ready in 10 minutes. Restaurant-quality presentation.",
+    cookTime: "5 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Asian",
+    image: sesameCarrotRibbonsImg,
+    totalTime: 15,
+    tags: ["Quick and Easy", "vegan", "vegetarian", "side", "elegant"],
+    nutrition: {
+      calories: 140,
+      protein: 3,
+      carbs: 18,
+      fat: 7,
+      fiber: 4,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "6", unit: "", item: "large carrots" },
+      { amount: "2", unit: "tbsp", item: "rice vinegar" },
+      { amount: "1", unit: "tbsp", item: "sesame oil" },
+      { amount: "1", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tsp", item: "agave nectar" },
+      { amount: "2", unit: "tbsp", item: "sesame seeds" },
+      { amount: "1/4", unit: "cup", item: "cilantro, chopped" }
+    ],
+    instructions: [
+      "Use vegetable peeler to create ribbons from [6 carrots].",
+      "Whisk [2 tbsp rice vinegar], [1 tbsp sesame oil], [1 tbsp soy sauce], [1 tsp agave].",
+      "Toss carrot ribbons with dressing.",
+      "Top with [2 tbsp sesame seeds] and [1/4 cup cilantro].",
+      "Serve immediately or chill."
+    ]
+  },
+  {
+    id: "quick-cloud-bread",
+    name: "Cloud Bread",
+    description: "TikTok viral! Fluffy, airy bread that melts in your mouth. So aesthetic!",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "Fusion",
+    image: cloudBreadImg,
+    totalTime: 35,
+    tags: ["Quick and Easy", "vegan", "vegetarian", "viral", "bread"],
+    nutrition: {
+      calories: 180,
+      protein: 6,
+      carbs: 32,
+      fat: 4,
+      fiber: 2,
+      sugar: 8,
+      servingSize: "1 piece"
+    },
+    ingredients: [
+      { amount: "3", unit: "tbsp", item: "aquafaba (chickpea liquid)" },
+      { amount: "1/4", unit: "tsp", item: "cream of tartar" },
+      { amount: "3", unit: "tbsp", item: "sugar" },
+      { amount: "1", unit: "cup", item: "flour" },
+      { amount: "1/2", unit: "tsp", item: "baking powder" },
+      { amount: "1/4", unit: "cup", item: "plant milk" },
+      { amount: "", unit: "", item: "food coloring (optional)" }
+    ],
+    instructions: [
+      "Whip [3 tbsp aquafaba] with [1/4 tsp cream of tartar] to stiff peaks.",
+      "Gradually add [3 tbsp sugar], whip until glossy.",
+      "Fold in [1 cup flour], [1/2 tsp baking powder], [1/4 cup plant milk].",
+      "Add food coloring if desired.",
+      "Pipe into rounds on parchment, bake at 300°F for 25 minutes.",
+      "Cool completely before eating - they're cloud-light!"
+    ]
+  },
+  {
+    id: "quick-vegan-custard-toast",
+    name: "Vegan Custard Toast",
+    description: "Viral breakfast! Caramelized custard top with fluffy interior. Pure magic.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "Korean Fusion",
+    image: veganCustardToastImg,
+    totalTime: 25,
+    tags: ["Quick and Easy", "vegan", "vegetarian", "viral", "breakfast"],
+    nutrition: {
+      calories: 380,
+      protein: 8,
+      carbs: 56,
+      fat: 14,
+      fiber: 3,
+      sugar: 24,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "2", unit: "slices", item: "thick bread" },
+      { amount: "1/2", unit: "cup", item: "plant milk" },
+      { amount: "2", unit: "tbsp", item: "cornstarch" },
+      { amount: "3", unit: "tbsp", item: "sugar" },
+      { amount: "1", unit: "tsp", item: "vanilla extract" },
+      { amount: "2", unit: "tbsp", item: "vegan butter" },
+      { amount: "1/4", unit: "cup", item: "berries" },
+      { amount: "", unit: "", item: "powdered sugar" }
+    ],
+    instructions: [
+      "Cut pocket in [2 slices bread], toast lightly.",
+      "Whisk [1/2 cup plant milk], [2 tbsp cornstarch], [3 tbsp sugar], [1 tsp vanilla].",
+      "Pour custard into bread pockets, press to seal.",
+      "Melt [2 tbsp butter] in pan, fry toast until golden and caramelized, 3-4 minutes per side.",
+      "Top with [1/4 cup berries] and powdered sugar."
     ]
   },
   
