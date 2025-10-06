@@ -258,6 +258,28 @@ import chickenStirFryBroccoliImg from "@/assets/recipes/chicken-stir-fry-broccol
 import bbqPulledPorkBowlsImg from "@/assets/recipes/bbq-pulled-pork-bowls.jpg";
 import eggRollBowlsImg from "@/assets/recipes/egg-roll-bowls.jpg";
 
+// One Pot Wonders (20)
+import onePotMarryMeChickenPastaImg from "@/assets/recipes/one-pot-marry-me-chicken-pasta.jpg";
+import onePotFrenchOnionPastaImg from "@/assets/recipes/one-pot-french-onion-pasta.jpg";
+import onePotCreamyTomatoBeefPastaImg from "@/assets/recipes/one-pot-creamy-tomato-beef-pasta.jpg";
+import onePotCajunShrimpPastaImg from "@/assets/recipes/one-pot-cajun-shrimp-pasta.jpg";
+import onePotPastaPuttanescaImg from "@/assets/recipes/one-pot-pasta-puttanesca.jpg";
+import onePotPastaPrimaveraImg from "@/assets/recipes/one-pot-pasta-primavera.jpg";
+import onePotSpanishChickenRiceImg from "@/assets/recipes/one-pot-spanish-chicken-rice.jpg";
+import onePotMexicanChickenRiceImg from "@/assets/recipes/one-pot-mexican-chicken-rice.jpg";
+import onePotMarryMeChickenImg from "@/assets/recipes/one-pot-marry-me-chicken.jpg";
+import onePotChickenGarlicRiceImg from "@/assets/recipes/one-pot-chicken-garlic-rice.jpg";
+import onePotChickenRiceVegetablesImg from "@/assets/recipes/one-pot-chicken-rice-vegetables.jpg";
+import onePotGreekChickenLemonRiceImg from "@/assets/recipes/one-pot-greek-chicken-lemon-rice.jpg";
+import onePotChickenGnocchiSoupImg from "@/assets/recipes/one-pot-chicken-gnocchi-soup.jpg";
+import onePotChiliMacCheeseImg from "@/assets/recipes/one-pot-chili-mac-cheese.jpg";
+import onePotSpinachBeefSoupImg from "@/assets/recipes/one-pot-spinach-beef-soup.jpg";
+import onePotCoconutCurryLentilSoupImg from "@/assets/recipes/one-pot-coconut-curry-lentil-soup.jpg";
+import onePotChickenPotPieChowderImg from "@/assets/recipes/one-pot-chicken-pot-pie-chowder.jpg";
+import onePotBraisedShortRibsImg from "@/assets/recipes/one-pot-braised-short-ribs.jpg";
+import onePotSausagePotatoGravyImg from "@/assets/recipes/one-pot-sausage-potato-gravy.jpg";
+import onePotBeefTacoSkilletImg from "@/assets/recipes/one-pot-beef-taco-skillet.jpg";
+
 // Restaurant Copycats (20)
 import copycatChickFilASandwichImg from "@/assets/recipes/copycat-chick-fil-a-sandwich.jpg";
 import copycatChipotleBurritoBowlImg from "@/assets/recipes/copycat-chipotle-burrito-bowl.jpg";
@@ -6705,6 +6727,711 @@ export const allRecipes: Recipe[] = [
       "Cook 5-7 minutes, stirring occasionally, until cabbage is tender.",
       "Stir in sriracha if using.",
       "Serve in bowls topped with green onions and sesame seeds."
+    ]
+  },
+  {
+    id: "one-pot-marry-me-chicken-pasta",
+    name: "Marry Me Chicken Pasta",
+    description: "Creamy sun-dried tomato pasta with tender chicken. So good, it'll make them propose!",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: onePotMarryMeChickenPastaImg,
+    totalTime: 35,
+    tags: ["one-pot", "pasta", "chicken", "creamy"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "chicken breast, cut into pieces" },
+      { amount: "12", unit: "oz", item: "penne pasta" },
+      { amount: "3", unit: "cups", item: "chicken broth" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1/2", unit: "cup", item: "sun-dried tomatoes, chopped" },
+      { amount: "1/2", unit: "cup", item: "parmesan cheese, grated" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/4", unit: "cup", item: "fresh basil, chopped" }
+    ],
+    instructions: [
+      "Heat olive oil in large pot over medium-high heat.",
+      "Season chicken with salt and pepper, cook until golden, about 5-6 minutes. Remove and set aside.",
+      "Add garlic to pot, sauté 1 minute.",
+      "Add pasta, chicken broth, and sun-dried tomatoes.",
+      "Bring to boil, reduce heat, cover and simmer 12-15 minutes until pasta is tender.",
+      "Stir in heavy cream, parmesan, and Italian seasoning.",
+      "Return chicken to pot, cook 2-3 minutes until heated through.",
+      "Garnish with fresh basil and serve."
+    ]
+  },
+  {
+    id: "one-pot-french-onion-pasta",
+    name: "One Pot French Onion Pasta",
+    description: "All the flavors of French onion soup in a creamy pasta dish. Topped with melted gruyere.",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "French",
+    image: onePotFrenchOnionPastaImg,
+    totalTime: 40,
+    tags: ["one-pot", "pasta", "vegetarian"],
+    ingredients: [
+      { amount: "3", unit: "large", item: "onions, thinly sliced" },
+      { amount: "12", unit: "oz", item: "pasta" },
+      { amount: "4", unit: "cups", item: "beef or vegetable broth" },
+      { amount: "1", unit: "cup", item: "gruyere cheese, shredded" },
+      { amount: "3", unit: "tbsp", item: "butter" },
+      { amount: "2", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tbsp", item: "flour" },
+      { amount: "1", unit: "tsp", item: "thyme" },
+      { amount: "1/4", unit: "cup", item: "white wine (optional)" }
+    ],
+    instructions: [
+      "Melt butter in large pot over medium heat.",
+      "Add onions, cook 15-20 minutes until deeply caramelized, stirring occasionally.",
+      "Add garlic and flour, cook 1 minute.",
+      "Add wine (if using), cook until reduced by half.",
+      "Add pasta, broth, and thyme.",
+      "Bring to boil, reduce heat, simmer 10-12 minutes until pasta is tender.",
+      "Top with gruyere cheese, cover until melted.",
+      "Stir and serve."
+    ]
+  },
+  {
+    id: "one-pot-creamy-tomato-beef-pasta",
+    name: "Creamy Tomato Beef Pasta",
+    description: "Rich and creamy tomato sauce with seasoned ground beef. Comfort food at its finest.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: onePotCreamyTomatoBeefPastaImg,
+    totalTime: 35,
+    tags: ["one-pot", "pasta", "beef"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "12", unit: "oz", item: "penne pasta" },
+      { amount: "1", unit: "can", item: "crushed tomatoes (28 oz)" },
+      { amount: "2", unit: "cups", item: "beef broth" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1", unit: "onion", item: "diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "1/2", unit: "cup", item: "parmesan cheese" },
+      { amount: "2", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" }
+    ],
+    instructions: [
+      "Brown ground beef in large pot over medium-high heat, breaking it up. Drain excess fat.",
+      "Add onion and garlic, cook 3 minutes until softened.",
+      "Add pasta, crushed tomatoes, broth, and Italian seasoning.",
+      "Bring to boil, reduce heat, cover and simmer 12-15 minutes until pasta is tender.",
+      "Stir in heavy cream and parmesan cheese.",
+      "Cook 2-3 minutes until creamy and heated through.",
+      "Garnish with fresh basil and serve."
+    ]
+  },
+  {
+    id: "one-pot-cajun-shrimp-pasta",
+    name: "Cajun Shrimp Pasta",
+    description: "Spicy and creamy Cajun pasta with perfectly seasoned shrimp. Restaurant quality at home.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Cajun",
+    image: onePotCajunShrimpPastaImg,
+    totalTime: 30,
+    tags: ["one-pot", "pasta", "seafood", "spicy"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "large shrimp, peeled and deveined" },
+      { amount: "12", unit: "oz", item: "linguine" },
+      { amount: "3", unit: "cups", item: "chicken broth" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1", unit: "bell pepper", item: "diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "Cajun seasoning" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "1/4", unit: "cup", item: "parmesan cheese" },
+      { amount: "2", unit: "tbsp", item: "fresh parsley" }
+    ],
+    instructions: [
+      "Season shrimp with 1 tbsp Cajun seasoning.",
+      "Melt butter in large pot, cook shrimp 2-3 minutes per side. Remove and set aside.",
+      "Add bell pepper and garlic to pot, sauté 2 minutes.",
+      "Add pasta, broth, and remaining Cajun seasoning.",
+      "Bring to boil, reduce heat, simmer 10-12 minutes until pasta is tender.",
+      "Stir in heavy cream and parmesan.",
+      "Return shrimp to pot, cook 2 minutes until heated through.",
+      "Garnish with parsley and serve."
+    ]
+  },
+  {
+    id: "one-pot-pasta-puttanesca",
+    name: "One Pan Pasta Puttanesca",
+    description: "Bold Italian pasta with olives, capers, and anchovies. Packed with flavor!",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: onePotPastaPuttanescaImg,
+    totalTime: 30,
+    tags: ["one-pot", "pasta", "vegetarian"],
+    ingredients: [
+      { amount: "12", unit: "oz", item: "spaghetti" },
+      { amount: "1", unit: "can", item: "crushed tomatoes (28 oz)" },
+      { amount: "2", unit: "cups", item: "water" },
+      { amount: "1/2", unit: "cup", item: "kalamata olives, pitted and halved" },
+      { amount: "1/4", unit: "cup", item: "capers" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "4", unit: "anchovy fillets", item: "chopped (optional)" },
+      { amount: "1/4", unit: "cup", item: "olive oil" },
+      { amount: "1", unit: "tsp", item: "red pepper flakes" },
+      { amount: "1/4", unit: "cup", item: "fresh parsley" }
+    ],
+    instructions: [
+      "Heat olive oil in large pot over medium heat.",
+      "Add garlic, anchovies, and red pepper flakes, cook 2 minutes.",
+      "Add spaghetti, crushed tomatoes, and water.",
+      "Bring to boil, reduce heat, simmer 10-12 minutes, stirring occasionally.",
+      "Add olives and capers, cook 2 more minutes.",
+      "Garnish with fresh parsley and serve."
+    ]
+  },
+  {
+    id: "one-pot-pasta-primavera",
+    name: "Pasta Primavera",
+    description: "Light and fresh pasta with colorful spring vegetables. Healthy and delicious!",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: onePotPastaPrimaveraImg,
+    totalTime: 30,
+    tags: ["one-pot", "pasta", "vegetarian", "healthy"],
+    ingredients: [
+      { amount: "12", unit: "oz", item: "penne pasta" },
+      { amount: "3", unit: "cups", item: "vegetable broth" },
+      { amount: "1", unit: "cup", item: "cherry tomatoes, halved" },
+      { amount: "1", unit: "zucchini", item: "diced" },
+      { amount: "1", unit: "bell pepper", item: "diced" },
+      { amount: "1", unit: "cup", item: "broccoli florets" },
+      { amount: "1/2", unit: "cup", item: "peas" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "3", unit: "tbsp", item: "olive oil" },
+      { amount: "1/2", unit: "cup", item: "parmesan cheese" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" }
+    ],
+    instructions: [
+      "Heat olive oil in large pot over medium heat.",
+      "Add garlic, cook 1 minute.",
+      "Add pasta, broth, and all vegetables except peas.",
+      "Bring to boil, reduce heat, simmer 12-15 minutes until pasta and vegetables are tender.",
+      "Stir in peas and parmesan cheese.",
+      "Cook 2 minutes until heated through.",
+      "Garnish with fresh basil and serve."
+    ]
+  },
+  {
+    id: "one-pot-spanish-chicken-rice",
+    name: "One Pot Spanish Chicken and Rice",
+    description: "Saffron-infused rice with tender chicken, olives, and peppers. Spanish comfort food!",
+    cookTime: "35 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Spanish",
+    image: onePotSpanishChickenRiceImg,
+    totalTime: 50,
+    tags: ["one-pot", "chicken", "rice"],
+    ingredients: [
+      { amount: "6", unit: "", item: "chicken thighs, bone-in" },
+      { amount: "2", unit: "cups", item: "long-grain rice" },
+      { amount: "4", unit: "cups", item: "chicken broth" },
+      { amount: "1", unit: "bell pepper", item: "diced" },
+      { amount: "1", unit: "onion", item: "diced" },
+      { amount: "1/2", unit: "cup", item: "green olives" },
+      { amount: "1", unit: "cup", item: "peas" },
+      { amount: "pinch", unit: "", item: "saffron threads" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tsp", item: "paprika" },
+      { amount: "3", unit: "tbsp", item: "olive oil" }
+    ],
+    instructions: [
+      "Heat olive oil in large pot or paella pan over medium-high heat.",
+      "Season chicken with salt, pepper, and paprika. Brown on both sides, about 5 minutes per side. Remove.",
+      "Add onion and bell pepper, sauté 5 minutes.",
+      "Add garlic, cook 1 minute.",
+      "Add rice, stir to coat with oil.",
+      "Add saffron to broth, then pour over rice.",
+      "Nestle chicken pieces into rice.",
+      "Bring to boil, reduce heat to low, cover and simmer 25-30 minutes.",
+      "Add olives and peas in last 5 minutes.",
+      "Let rest 5 minutes before serving."
+    ]
+  },
+  {
+    id: "one-pot-mexican-chicken-rice",
+    name: "Mexican Chicken & Rice",
+    description: "Seasoned chicken with rice, black beans, and corn. Topped with cheese and avocado!",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican",
+    image: onePotMexicanChickenRiceImg,
+    totalTime: 40,
+    tags: ["one-pot", "chicken", "rice", "mexican"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "chicken breast, diced" },
+      { amount: "2", unit: "cups", item: "long-grain rice" },
+      { amount: "3.5", unit: "cups", item: "chicken broth" },
+      { amount: "1", unit: "can", item: "black beans, drained" },
+      { amount: "1", unit: "cup", item: "corn kernels" },
+      { amount: "1", unit: "can", item: "diced tomatoes with green chiles" },
+      { amount: "1", unit: "cup", item: "shredded cheddar cheese" },
+      { amount: "2", unit: "tbsp", item: "taco seasoning" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "", item: "avocado, sliced" },
+      { amount: "1/4", unit: "cup", item: "fresh cilantro" }
+    ],
+    instructions: [
+      "Heat olive oil in large pot over medium-high heat.",
+      "Season chicken with taco seasoning, cook until browned, about 6-7 minutes.",
+      "Add rice, stir to coat.",
+      "Add broth, black beans, corn, and diced tomatoes.",
+      "Bring to boil, reduce heat to low, cover and simmer 20 minutes.",
+      "Sprinkle cheese on top, cover until melted.",
+      "Top with avocado slices and cilantro before serving."
+    ]
+  },
+  {
+    id: "one-pot-marry-me-chicken",
+    name: "Marry Me Chicken",
+    description: "The original! Pan-seared chicken in creamy sun-dried tomato sauce. Legendary.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: onePotMarryMeChickenImg,
+    totalTime: 35,
+    tags: ["one-pot", "chicken", "creamy"],
+    ingredients: [
+      { amount: "4", unit: "", item: "chicken breasts" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1/2", unit: "cup", item: "chicken broth" },
+      { amount: "1/2", unit: "cup", item: "sun-dried tomatoes, chopped" },
+      { amount: "1/2", unit: "cup", item: "parmesan cheese, grated" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1", unit: "tsp", item: "red pepper flakes" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" }
+    ],
+    instructions: [
+      "Heat olive oil in large skillet over medium-high heat.",
+      "Season chicken with salt and pepper, cook 5-6 minutes per side until golden. Remove.",
+      "Add garlic to skillet, sauté 1 minute.",
+      "Add sun-dried tomatoes, chicken broth, and Italian seasoning.",
+      "Stir in heavy cream and parmesan, bring to simmer.",
+      "Return chicken to skillet, spoon sauce over chicken.",
+      "Simmer 10 minutes until chicken is cooked through and sauce thickens.",
+      "Garnish with basil and red pepper flakes, serve."
+    ]
+  },
+  {
+    id: "one-pot-chicken-garlic-rice",
+    name: "One Pot Chicken and Garlic Rice",
+    description: "Simple yet flavorful chicken over perfectly cooked garlic-infused rice.",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Asian",
+    image: onePotChickenGarlicRiceImg,
+    totalTime: 40,
+    tags: ["one-pot", "chicken", "rice"],
+    ingredients: [
+      { amount: "6", unit: "", item: "chicken thighs, bone-in" },
+      { amount: "2", unit: "cups", item: "jasmine rice" },
+      { amount: "3", unit: "cups", item: "chicken broth" },
+      { amount: "8", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "2", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "sesame oil" },
+      { amount: "4", unit: "", item: "green onions, sliced" }
+    ],
+    instructions: [
+      "Heat butter in large pot over medium-high heat.",
+      "Season chicken with salt and pepper, brown on both sides. Remove.",
+      "Add garlic to pot, sauté 2 minutes until fragrant.",
+      "Add rice, stir to coat with garlic butter.",
+      "Add chicken broth, soy sauce, and sesame oil.",
+      "Nestle chicken pieces into rice.",
+      "Bring to boil, reduce heat to low, cover and simmer 25-30 minutes.",
+      "Let rest 5 minutes, garnish with green onions and serve."
+    ]
+  },
+  {
+    id: "one-pot-chicken-rice-vegetables",
+    name: "Chicken and Rice with Vegetables",
+    description: "Complete one-pot meal with chicken, rice, and colorful veggies. Healthy and easy!",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: onePotChickenRiceVegetablesImg,
+    totalTime: 40,
+    tags: ["one-pot", "chicken", "rice", "healthy"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "chicken breast, diced" },
+      { amount: "2", unit: "cups", item: "long-grain rice" },
+      { amount: "3.5", unit: "cups", item: "chicken broth" },
+      { amount: "2", unit: "cups", item: "broccoli florets" },
+      { amount: "2", unit: "", item: "carrots, sliced" },
+      { amount: "1", unit: "cup", item: "peas" },
+      { amount: "1", unit: "onion", item: "diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "tsp", item: "thyme" }
+    ],
+    instructions: [
+      "Heat olive oil in large pot over medium-high heat.",
+      "Season chicken with salt, pepper, and thyme. Cook until browned.",
+      "Add onion and garlic, sauté 3 minutes.",
+      "Add rice, stir to coat.",
+      "Add chicken broth and carrots.",
+      "Bring to boil, reduce heat to low, cover and simmer 15 minutes.",
+      "Add broccoli and peas, cook 5 more minutes until rice is tender.",
+      "Let rest 5 minutes before serving."
+    ]
+  },
+  {
+    id: "one-pot-greek-chicken-lemon-rice",
+    name: "Greek Chicken and Lemon Rice",
+    description: "Bright Mediterranean flavors with lemon, olives, and feta. Transport yourself to Greece!",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Greek",
+    image: onePotGreekChickenLemonRiceImg,
+    totalTime: 40,
+    tags: ["one-pot", "chicken", "rice", "mediterranean"],
+    ingredients: [
+      { amount: "6", unit: "", item: "chicken thighs" },
+      { amount: "2", unit: "cups", item: "long-grain rice" },
+      { amount: "3.5", unit: "cups", item: "chicken broth" },
+      { amount: "1/2", unit: "cup", item: "kalamata olives" },
+      { amount: "1/2", unit: "cup", item: "feta cheese, crumbled" },
+      { amount: "2", unit: "", item: "lemons (juice and zest)" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "2", unit: "tsp", item: "oregano" },
+      { amount: "1/4", unit: "cup", item: "fresh dill" }
+    ],
+    instructions: [
+      "Heat olive oil in large pot over medium-high heat.",
+      "Season chicken with oregano, salt, and pepper. Brown on both sides. Remove.",
+      "Add garlic, sauté 1 minute.",
+      "Add rice, stir to coat.",
+      "Add chicken broth, lemon juice, and lemon zest.",
+      "Nestle chicken into rice.",
+      "Bring to boil, reduce heat to low, cover and simmer 25 minutes.",
+      "Add olives in last 5 minutes.",
+      "Top with feta and fresh dill before serving."
+    ]
+  },
+  {
+    id: "one-pot-chicken-gnocchi-soup",
+    name: "Chicken Gnocchi Soup",
+    description: "Creamy, comforting soup with pillowy gnocchi and tender chicken. Better than Olive Garden!",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Italian",
+    image: onePotChickenGnocchiSoupImg,
+    totalTime: 35,
+    tags: ["one-pot", "soup", "chicken", "creamy"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "chicken breast, diced" },
+      { amount: "1", unit: "package", item: "potato gnocchi (16 oz)" },
+      { amount: "4", unit: "cups", item: "chicken broth" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "2", unit: "cups", item: "fresh spinach" },
+      { amount: "2", unit: "", item: "carrots, diced" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "1", unit: "tsp", item: "thyme" }
+    ],
+    instructions: [
+      "Melt butter in large pot over medium heat.",
+      "Add chicken, cook until browned. Remove.",
+      "Add onion, carrots, and garlic, sauté 5 minutes.",
+      "Add chicken broth and thyme, bring to boil.",
+      "Add gnocchi, cook 3-4 minutes until they float.",
+      "Return chicken to pot.",
+      "Stir in heavy cream and spinach, cook until spinach wilts.",
+      "Season with salt and pepper, serve hot."
+    ]
+  },
+  {
+    id: "one-pot-chili-mac-cheese",
+    name: "Chili Mac and Cheese",
+    description: "Two comfort food classics combined! Spicy chili with creamy mac and cheese.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: onePotChiliMacCheeseImg,
+    totalTime: 35,
+    tags: ["one-pot", "pasta", "beef", "comfort-food"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "12", unit: "oz", item: "elbow macaroni" },
+      { amount: "1", unit: "can", item: "kidney beans, drained" },
+      { amount: "1", unit: "can", item: "diced tomatoes (14 oz)" },
+      { amount: "3", unit: "cups", item: "beef broth" },
+      { amount: "2", unit: "cups", item: "shredded cheddar cheese" },
+      { amount: "1", unit: "onion", item: "diced" },
+      { amount: "2", unit: "tbsp", item: "chili powder" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "4", unit: "", item: "green onions, sliced" }
+    ],
+    instructions: [
+      "Brown ground beef in large pot over medium-high heat. Drain excess fat.",
+      "Add onion, cook 3 minutes.",
+      "Add chili powder and cumin, cook 1 minute.",
+      "Add pasta, kidney beans, diced tomatoes, and beef broth.",
+      "Bring to boil, reduce heat, simmer 12-15 minutes until pasta is tender.",
+      "Stir in 1 cup cheese until melted.",
+      "Top with remaining cheese and green onions.",
+      "Cover until cheese melts, serve."
+    ]
+  },
+  {
+    id: "one-pot-spinach-beef-soup",
+    name: "Spinach Beef Soup",
+    description: "Hearty Italian soup with ground beef, fresh spinach, and pasta in rich tomato broth.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Italian",
+    image: onePotSpinachBeefSoupImg,
+    totalTime: 35,
+    tags: ["one-pot", "soup", "beef"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "cup", item: "ditalini or small pasta" },
+      { amount: "4", unit: "cups", item: "beef broth" },
+      { amount: "1", unit: "can", item: "diced tomatoes (14 oz)" },
+      { amount: "4", unit: "cups", item: "fresh spinach" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/2", unit: "cup", item: "parmesan cheese" }
+    ],
+    instructions: [
+      "Brown ground beef in large pot over medium-high heat. Drain excess fat.",
+      "Add onion and garlic, cook 3 minutes.",
+      "Add beef broth, diced tomatoes, and Italian seasoning.",
+      "Bring to boil, add pasta.",
+      "Reduce heat, simmer 10 minutes until pasta is tender.",
+      "Stir in spinach, cook until wilted.",
+      "Serve topped with parmesan cheese."
+    ]
+  },
+  {
+    id: "one-pot-coconut-curry-lentil-soup",
+    name: "Coconut Curry Lentil Soup",
+    description: "Creamy and spiced lentil soup with coconut milk. Vegan and absolutely delicious!",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Indian",
+    image: onePotCoconutCurryLentilSoupImg,
+    totalTime: 40,
+    tags: ["one-pot", "soup", "vegan", "healthy"],
+    ingredients: [
+      { amount: "1.5", unit: "cups", item: "red lentils" },
+      { amount: "1", unit: "can", item: "coconut milk (14 oz)" },
+      { amount: "4", unit: "cups", item: "vegetable broth" },
+      { amount: "2", unit: "cups", item: "spinach" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tbsp", item: "fresh ginger, minced" },
+      { amount: "2", unit: "tbsp", item: "curry powder" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "", item: "lime, juiced" },
+      { amount: "1/4", unit: "cup", item: "fresh cilantro" }
+    ],
+    instructions: [
+      "Heat olive oil in large pot over medium heat.",
+      "Add onion, garlic, and ginger, sauté 5 minutes.",
+      "Add curry powder, cook 1 minute until fragrant.",
+      "Add lentils and vegetable broth.",
+      "Bring to boil, reduce heat, simmer 20 minutes until lentils are tender.",
+      "Stir in coconut milk and spinach, cook until spinach wilts.",
+      "Add lime juice, season with salt and pepper.",
+      "Garnish with cilantro and serve."
+    ]
+  },
+  {
+    id: "one-pot-chicken-pot-pie-chowder",
+    name: "Chicken Pot Pie Chowder",
+    description: "All the comfort of chicken pot pie in soup form. Topped with flaky pastry!",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "American",
+    image: onePotChickenPotPieChowderImg,
+    totalTime: 45,
+    tags: ["one-pot", "soup", "chicken", "comfort-food"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "chicken breast, diced" },
+      { amount: "4", unit: "cups", item: "chicken broth" },
+      { amount: "2", unit: "cups", item: "heavy cream" },
+      { amount: "3", unit: "", item: "potatoes, diced" },
+      { amount: "2", unit: "", item: "carrots, diced" },
+      { amount: "1", unit: "cup", item: "peas" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "3", unit: "tbsp", item: "butter" },
+      { amount: "1/4", unit: "cup", item: "flour" },
+      { amount: "1", unit: "sheet", item: "puff pastry" },
+      { amount: "1", unit: "tsp", item: "thyme" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F. Cut puff pastry into rounds, bake 15 minutes until golden.",
+      "Melt butter in large pot over medium heat.",
+      "Add chicken, cook until browned. Remove.",
+      "Add onion and garlic, sauté 3 minutes.",
+      "Sprinkle flour, stir and cook 2 minutes.",
+      "Gradually add chicken broth, stirring constantly.",
+      "Add potatoes, carrots, and thyme. Simmer 15 minutes until vegetables are tender.",
+      "Return chicken to pot, add peas and heavy cream.",
+      "Cook 5 minutes until heated through.",
+      "Serve in bowls topped with puff pastry rounds."
+    ]
+  },
+  {
+    id: "one-pot-braised-short-ribs",
+    name: "Braised Short Ribs",
+    description: "Fall-off-the-bone tender short ribs in rich red wine sauce. Special occasion worthy!",
+    cookTime: "2.5 hours",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "French",
+    image: onePotBraisedShortRibsImg,
+    totalTime: 170,
+    tags: ["one-pot", "beef", "slow-cooked"],
+    ingredients: [
+      { amount: "3", unit: "lbs", item: "beef short ribs" },
+      { amount: "2", unit: "cups", item: "red wine" },
+      { amount: "2", unit: "cups", item: "beef broth" },
+      { amount: "3", unit: "", item: "carrots, cut into chunks" },
+      { amount: "2", unit: "", item: "onions, quartered" },
+      { amount: "4", unit: "cloves", item: "garlic, crushed" },
+      { amount: "2", unit: "tbsp", item: "tomato paste" },
+      { amount: "2", unit: "sprigs", item: "fresh thyme" },
+      { amount: "2", unit: "", item: "bay leaves" },
+      { amount: "3", unit: "tbsp", item: "olive oil" }
+    ],
+    instructions: [
+      "Season short ribs generously with salt and pepper.",
+      "Heat olive oil in large Dutch oven over medium-high heat.",
+      "Brown short ribs on all sides, about 10 minutes total. Remove.",
+      "Add onions and carrots, cook 5 minutes.",
+      "Add garlic and tomato paste, cook 2 minutes.",
+      "Add red wine, scrape up browned bits, simmer 5 minutes.",
+      "Add beef broth, thyme, and bay leaves.",
+      "Return ribs to pot, liquid should come halfway up the ribs.",
+      "Bring to boil, cover, transfer to 325°F oven or reduce heat to low.",
+      "Braise 2.5-3 hours until meat is fall-apart tender.",
+      "Remove thyme sprigs and bay leaves before serving."
+    ]
+  },
+  {
+    id: "one-pot-sausage-potato-gravy",
+    name: "Sausage Bake with Potatoes and Gravy",
+    description: "Hearty one-pan dinner with sausages, potatoes, and rich gravy. Pure comfort!",
+    cookTime: "40 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "British",
+    image: onePotSausagePotatoGravyImg,
+    totalTime: 55,
+    tags: ["one-pot", "sausage", "comfort-food"],
+    ingredients: [
+      { amount: "6", unit: "", item: "large sausages" },
+      { amount: "6", unit: "", item: "potatoes, quartered" },
+      { amount: "2", unit: "", item: "onions, sliced" },
+      { amount: "2", unit: "cups", item: "beef broth" },
+      { amount: "2", unit: "tbsp", item: "flour" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "1", unit: "tbsp", item: "Worcestershire sauce" },
+      { amount: "2", unit: "tsp", item: "thyme" },
+      { amount: "2", unit: "tbsp", item: "olive oil" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F.",
+      "Heat olive oil in large oven-safe skillet or roasting pan.",
+      "Brown sausages on all sides, about 8 minutes. Remove.",
+      "Add potatoes and onions to pan, season with salt, pepper, and thyme.",
+      "Roast 20 minutes, stirring once.",
+      "Return sausages to pan, roast 15 more minutes.",
+      "Meanwhile, melt butter in small saucepan, whisk in flour.",
+      "Gradually add beef broth, whisking constantly.",
+      "Add Worcestershire sauce, simmer until thickened.",
+      "Pour gravy over sausages and potatoes, serve hot."
+    ]
+  },
+  {
+    id: "one-pot-beef-taco-skillet",
+    name: "Beef Taco Skillet",
+    description: "One-pan taco night with seasoned beef, rice, beans, and all the toppings!",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Mexican",
+    image: onePotBeefTacoSkilletImg,
+    totalTime: 35,
+    tags: ["one-pot", "beef", "mexican", "easy-dinner"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "2", unit: "cups", item: "long-grain rice" },
+      { amount: "3", unit: "cups", item: "beef broth" },
+      { amount: "1", unit: "can", item: "black beans, drained" },
+      { amount: "1", unit: "can", item: "corn, drained" },
+      { amount: "1", unit: "can", item: "diced tomatoes with green chiles" },
+      { amount: "2", unit: "cups", item: "shredded cheddar cheese" },
+      { amount: "2", unit: "tbsp", item: "taco seasoning" },
+      { amount: "1", unit: "cup", item: "lettuce, shredded" },
+      { amount: "1", unit: "cup", item: "tomatoes, diced" },
+      { amount: "1/2", unit: "cup", item: "sour cream" }
+    ],
+    instructions: [
+      "Brown ground beef in large skillet over medium-high heat. Drain excess fat.",
+      "Add taco seasoning, stir to coat beef.",
+      "Add rice, stir to coat.",
+      "Add beef broth, black beans, corn, and diced tomatoes.",
+      "Bring to boil, reduce heat to low, cover and simmer 20 minutes.",
+      "Sprinkle cheese on top, cover until melted.",
+      "Top with lettuce, tomatoes, and sour cream before serving."
     ]
   },
   ...newRecipes
