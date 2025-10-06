@@ -12,7 +12,6 @@ interface AuthContextType {
   checkSubscription: () => Promise<void>;
   signUp: (email: string, password: string, displayName: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signInWithGoogle: () => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: any }>;
 }
@@ -174,26 +173,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const signInWithGoogle = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/`
-        }
-      });
-      
-      if (error) {
-        // User-friendly error message
-        return { error: { message: 'Google sign-in failed. Please try again or use email.' } };
-      }
-      
-      return { error: null };
-    } catch (error: any) {
-      return { error: { message: 'Google sign-in failed. Please try again or use email.' } };
-    }
-  };
-
   const signOut = async () => {
     try {
       await supabase.auth.signOut();
@@ -231,7 +210,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkSubscription,
     signUp,
     signIn,
-    signInWithGoogle,
     signOut,
     resetPassword,
   };
