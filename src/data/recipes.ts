@@ -241,6 +241,33 @@ import veganCrunchwrapImg from "@/assets/recipes/vegan-crunchwrap.jpg";
 import smashBurgerTacosImg from "@/assets/recipes/smash-burger-tacos.jpg";
 import charredCabbageCoconutBrothImg from "@/assets/recipes/charred-cabbage-coconut-broth.jpg";
 import hotHoneyTofuTendersImg from "@/assets/recipes/hot-honey-tofu-tenders.jpg";
+
+// Import new dinner recipe images
+import smashBurgerTacosDinnerImg from "@/assets/recipes/smash-burger-tacos-dinner.jpg";
+import garlicParmAccordionPotatoesImg from "@/assets/recipes/garlic-parm-accordion-potatoes.jpg";
+import cornRibsEloteSauceImg from "@/assets/recipes/corn-ribs-elote-sauce.jpg";
+import bakedFetaPastaImg from "@/assets/recipes/baked-feta-pasta.jpg";
+import millionDollarSpaghettiImg from "@/assets/recipes/million-dollar-spaghetti.jpg";
+import groundBeefTortelliniImg from "@/assets/recipes/ground-beef-tortellini.jpg";
+import chickenParmesanImg from "@/assets/recipes/chicken-parmesan.jpg";
+import gardenFocacciaImg from "@/assets/recipes/garden-focaccia.jpg";
+import turkishLayeredPastaImg from "@/assets/recipes/turkish-layered-pasta.jpg";
+import gigiHadidVodkaPastaImg from "@/assets/recipes/gigi-hadid-vodka-pasta.jpg";
+import onePanChickenGravyImg from "@/assets/recipes/one-pan-chicken-gravy.jpg";
+import garlicParmChickenPotatoSkilletImg from "@/assets/recipes/garlic-parm-chicken-potato-skillet.jpg";
+import bbqCheeseburgerSlidersImg from "@/assets/recipes/bbq-cheeseburger-sliders.jpg";
+import hotHoneyChickenSheetPanImg from "@/assets/recipes/hot-honey-chicken-sheet-pan.jpg";
+import loadedChickenTwiceBakedPotatoImg from "@/assets/recipes/loaded-chicken-twice-baked-potato.jpg";
+import roastedGarlicParmChickenImg from "@/assets/recipes/roasted-garlic-parm-chicken.jpg";
+import easyChickenPotPieImg from "@/assets/recipes/easy-chicken-pot-pie.jpg";
+import vodkaTortiglionieBurrataImg from "@/assets/recipes/vodka-tortiglioni-burrata.jpg";
+import pizzaPancakesImg from "@/assets/recipes/pizza-pancakes.jpg";
+import friedChickenRamenImg from "@/assets/recipes/fried-chicken-ramen.jpg";
+import turkeyGrilledCheeseImg from "@/assets/recipes/turkey-grilled-cheese.jpg";
+import loadedRanchPotatoesImg from "@/assets/recipes/loaded-ranch-potatoes.jpg";
+import marryMeChickenImg from "@/assets/recipes/marry-me-chicken.jpg";
+import creamyTuscanChickenImg from "@/assets/recipes/creamy-tuscan-chicken.jpg";
+import stuffedBellPeppersDinnerImg from "@/assets/recipes/stuffed-bell-peppers.jpg";
 import creamyVeganMacCheeseImg from "@/assets/recipes/creamy-vegan-mac-cheese.jpg";
 import turkishPastaImg from "@/assets/recipes/turkish-pasta.jpg";
 import veganSteakBitesImg from "@/assets/recipes/vegan-steak-bites.jpg";
@@ -11824,6 +11851,750 @@ export const allRecipes: Recipe[] = [
       "Pour custard into bread pockets, press to seal.",
       "Melt [2 tbsp butter] in pan, fry toast until golden and caramelized, 3-4 minutes per side.",
       "Top with [1/4 cup berries] and powdered sugar."
+    ]
+  },
+  
+  // Dinner Recipes
+  {
+    id: "dinner-smash-burger-tacos",
+    name: "Smash Burger Tacos",
+    description: "Viral TikTok hit! Crispy smashed beef patties in tortillas with all the burger fixings.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American Fusion",
+    image: smashBurgerTacosDinnerImg,
+    totalTime: 25,
+    tags: ["Dinner", "viral", "beef"],
+    nutrition: { calories: 520, protein: 28, carbs: 42, fat: 26, fiber: 3, sugar: 6, servingSize: "2 tacos" },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "8", unit: "", item: "small flour tortillas" },
+      { amount: "8", unit: "slices", item: "American cheese" },
+      { amount: "1", unit: "cup", item: "shredded lettuce" },
+      { amount: "1", unit: "", item: "tomato, diced" },
+      { amount: "1/4", unit: "cup", item: "pickles" },
+      { amount: "1/4", unit: "cup", item: "special sauce" },
+      { amount: "", unit: "", item: "salt and pepper" }
+    ],
+    instructions: [
+      "Heat skillet over high heat. Form [1 lb ground beef] into 8 balls.",
+      "Place ball on [tortilla], smash flat with spatula. Season with salt and pepper.",
+      "Cook 2-3 minutes until crispy, flip with tortilla attached.",
+      "Add [cheese slice], cook 1 minute more.",
+      "Top with [lettuce], [tomato], [pickles], and [special sauce].",
+      "Fold and serve immediately while crispy!"
+    ]
+  },
+  {
+    id: "dinner-garlic-parm-accordion-potatoes",
+    name: "Garlic Parm Accordion Potatoes",
+    description: "TikTok viral! Hasselback potatoes loaded with garlic butter and parmesan.",
+    cookTime: "50 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "American",
+    image: garlicParmAccordionPotatoesImg,
+    totalTime: 65,
+    tags: ["Dinner", "viral", "vegetarian", "side dish"],
+    nutrition: { calories: 340, protein: 9, carbs: 48, fat: 14, fiber: 4, sugar: 2, servingSize: "1 potato" },
+    ingredients: [
+      { amount: "4", unit: "", item: "large russet potatoes" },
+      { amount: "4", unit: "tbsp", item: "butter, melted" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "1/2", unit: "cup", item: "grated parmesan" },
+      { amount: "2", unit: "tbsp", item: "fresh parsley" },
+      { amount: "", unit: "", item: "salt and pepper" }
+    ],
+    instructions: [
+      "Preheat oven to 425°F. Slice [4 potatoes] thinly but not all the way through.",
+      "Mix [4 tbsp butter] with [4 cloves garlic]. Brush over potatoes.",
+      "Season with salt and pepper. Bake 45 minutes.",
+      "Sprinkle [1/2 cup parmesan] between slices. Bake 5 more minutes.",
+      "Garnish with [2 tbsp parsley]. Serve hot!"
+    ]
+  },
+  {
+    id: "dinner-corn-ribs-elote",
+    name: "Corn Ribs with Elote Sauce",
+    description: "Viral corn ribs! Corn cut like ribs, charred and drizzled with creamy elote sauce.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Mexican Fusion",
+    image: cornRibsEloteSauceImg,
+    totalTime: 35,
+    tags: ["Dinner", "viral", "vegetarian"],
+    nutrition: { calories: 280, protein: 7, carbs: 36, fat: 14, fiber: 4, sugar: 8, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "4", unit: "", item: "corn cobs" },
+      { amount: "1/2", unit: "cup", item: "mayo" },
+      { amount: "1/4", unit: "cup", item: "sour cream" },
+      { amount: "1/4", unit: "cup", item: "cotija cheese" },
+      { amount: "1", unit: "tsp", item: "chili powder" },
+      { amount: "1", unit: "", item: "lime, juiced" },
+      { amount: "2", unit: "tbsp", item: "cilantro" }
+    ],
+    instructions: [
+      "Cut [4 corn cobs] lengthwise into quarters to create 'ribs'.",
+      "Brush with oil, air fry at 400°F for 15 minutes until charred.",
+      "Mix [1/2 cup mayo], [1/4 cup sour cream], [1 lime juice], [1 tsp chili powder].",
+      "Drizzle elote sauce over corn ribs.",
+      "Top with [1/4 cup cotija] and [2 tbsp cilantro]. Serve immediately!"
+    ]
+  },
+  {
+    id: "dinner-baked-feta-pasta",
+    name: "Baked Feta Pasta",
+    description: "The viral TikTok recipe! Whole feta block baked with tomatoes creates creamy sauce.",
+    cookTime: "30 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mediterranean",
+    image: bakedFetaPastaImg,
+    totalTime: 35,
+    tags: ["Dinner", "viral", "vegetarian", "pasta"],
+    nutrition: { calories: 480, protein: 16, carbs: 54, fat: 22, fiber: 4, sugar: 6, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "1", unit: "block (8oz)", item: "feta cheese" },
+      { amount: "2", unit: "pints", item: "cherry tomatoes" },
+      { amount: "1/4", unit: "cup", item: "olive oil" },
+      { amount: "4", unit: "cloves", item: "garlic" },
+      { amount: "12", unit: "oz", item: "pasta" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" },
+      { amount: "", unit: "", item: "red pepper flakes" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F. Place [feta block] in center of baking dish.",
+      "Surround with [2 pints tomatoes] and [4 cloves garlic]. Drizzle with [1/4 cup olive oil].",
+      "Bake 30 minutes until tomatoes burst and feta is golden.",
+      "Cook [12 oz pasta] according to package directions.",
+      "Mash feta and tomatoes together, mix with pasta.",
+      "Top with [fresh basil] and red pepper flakes. Serve warm!"
+    ]
+  },
+  {
+    id: "dinner-million-dollar-spaghetti",
+    name: "Million Dollar Spaghetti",
+    description: "Viral baked pasta! Layered spaghetti with cream cheese and meat sauce.",
+    cookTime: "40 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 8,
+    cuisine: "American",
+    image: millionDollarSpaghettiImg,
+    totalTime: 60,
+    tags: ["Dinner", "viral", "pasta", "casserole"],
+    nutrition: { calories: 580, protein: 32, carbs: 48, fat: 28, fiber: 3, sugar: 8, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "spaghetti" },
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "24", unit: "oz", item: "marinara sauce" },
+      { amount: "8", unit: "oz", item: "cream cheese" },
+      { amount: "1", unit: "cup", item: "sour cream" },
+      { amount: "2", unit: "cups", item: "mozzarella, shredded" },
+      { amount: "1/2", unit: "cup", item: "parmesan" }
+    ],
+    instructions: [
+      "Cook [1 lb spaghetti], drain. Brown [1 lb ground beef], add [24 oz marinara].",
+      "Mix [8 oz cream cheese] with [1 cup sour cream] until smooth.",
+      "Layer half spaghetti in 9x13 dish, spread cream cheese mixture.",
+      "Top with remaining spaghetti, then meat sauce.",
+      "Sprinkle [2 cups mozzarella] and [1/2 cup parmesan].",
+      "Bake at 350°F for 30 minutes until bubbly and golden."
+    ]
+  },
+  {
+    id: "dinner-ground-beef-tortellini",
+    name: "Ground Beef Tortellini",
+    description: "Viral comfort food! Cheese tortellini in rich meat sauce, ready in 20 minutes.",
+    cookTime: "15 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian-American",
+    image: groundBeefTortelliniImg,
+    totalTime: 20,
+    tags: ["Dinner", "quick", "pasta"],
+    nutrition: { calories: 520, protein: 28, carbs: 52, fat: 20, fiber: 3, sugar: 6, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "20", unit: "oz", item: "cheese tortellini" },
+      { amount: "24", unit: "oz", item: "marinara sauce" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1/2", unit: "cup", item: "parmesan" },
+      { amount: "2", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" }
+    ],
+    instructions: [
+      "Brown [1 lb ground beef], drain. Add [24 oz marinara] and [2 tsp Italian seasoning].",
+      "Cook [20 oz tortellini] according to package, drain.",
+      "Stir [1 cup cream] into meat sauce, simmer 3 minutes.",
+      "Add tortellini to sauce, toss to coat.",
+      "Top with [1/2 cup parmesan] and [fresh basil]. Serve hot!"
+    ]
+  },
+  {
+    id: "dinner-chicken-parmesan",
+    name: "Chicken Parmesan",
+    description: "Classic Italian-American! Breaded chicken with marinara and melted mozzarella.",
+    cookTime: "25 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Italian-American",
+    image: chickenParmesanImg,
+    totalTime: 40,
+    tags: ["Dinner", "chicken", "classic"],
+    nutrition: { calories: 620, protein: 48, carbs: 42, fat: 28, fiber: 3, sugar: 6, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "4", unit: "", item: "chicken breasts" },
+      { amount: "1", unit: "cup", item: "breadcrumbs" },
+      { amount: "1/2", unit: "cup", item: "parmesan, grated" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "2", unit: "cups", item: "marinara sauce" },
+      { amount: "1", unit: "cup", item: "mozzarella, shredded" },
+      { amount: "8", unit: "oz", item: "spaghetti" }
+    ],
+    instructions: [
+      "Pound [4 chicken breasts] to even thickness. Mix [1 cup breadcrumbs] and [1/2 cup parmesan].",
+      "Dip chicken in [2 beaten eggs], then breadcrumb mixture.",
+      "Pan-fry in oil until golden, 4-5 minutes per side.",
+      "Top with [marinara] and [mozzarella], broil until melted.",
+      "Serve over cooked [spaghetti]. Garnish with basil!"
+    ]
+  },
+  {
+    id: "dinner-garden-focaccia",
+    name: "Garden Focaccia",
+    description: "Viral art bread! Vegetables arranged to look like a garden on fluffy focaccia.",
+    cookTime: "25 mins",
+    prepTime: "2 hours",
+    difficulty: "hard",
+    servings: 8,
+    cuisine: "Italian",
+    image: gardenFocacciaImg,
+    totalTime: 145,
+    tags: ["Dinner", "viral", "bread", "vegetarian"],
+    nutrition: { calories: 280, protein: 7, carbs: 48, fat: 8, fiber: 2, sugar: 2, servingSize: "1 slice" },
+    ingredients: [
+      { amount: "4", unit: "cups", item: "bread flour" },
+      { amount: "2", unit: "tsp", item: "yeast" },
+      { amount: "1", unit: "tbsp", item: "honey" },
+      { amount: "1/4", unit: "cup", item: "olive oil" },
+      { amount: "1", unit: "cup", item: "cherry tomatoes" },
+      { amount: "1", unit: "", item: "bell pepper" },
+      { amount: "", unit: "", item: "fresh herbs" }
+    ],
+    instructions: [
+      "Mix [4 cups flour], [2 tsp yeast], [1 tbsp honey], water. Let rise 2 hours.",
+      "Spread dough in oiled pan, dimple with fingers.",
+      "Arrange [tomatoes], [bell pepper], [herbs] in garden design.",
+      "Drizzle with [olive oil], season with salt.",
+      "Bake at 425°F for 20-25 minutes until golden. Cool and serve!"
+    ]
+  },
+  {
+    id: "dinner-turkish-layered-pasta",
+    name: "Turkish Layered Pasta",
+    description: "Viral Ottoman dish! Layers of pasta, meat sauce, and béchamel baked to perfection.",
+    cookTime: "45 mins",
+    prepTime: "30 mins",
+    difficulty: "hard",
+    servings: 8,
+    cuisine: "Turkish",
+    image: turkishLayeredPastaImg,
+    totalTime: 75,
+    tags: ["Dinner", "viral", "pasta"],
+    nutrition: { calories: 540, protein: 26, carbs: 54, fat: 24, fiber: 3, sugar: 6, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "pasta" },
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "2", unit: "cups", item: "milk" },
+      { amount: "4", unit: "tbsp", item: "butter" },
+      { amount: "4", unit: "tbsp", item: "flour" },
+      { amount: "2", unit: "cups", item: "mozzarella" }
+    ],
+    instructions: [
+      "Cook [1 lb pasta], drain. Brown [1 lb beef] with [onion].",
+      "Make béchamel: melt [4 tbsp butter], whisk in [4 tbsp flour], add [2 cups milk].",
+      "Layer half pasta, all meat, remaining pasta in baking dish.",
+      "Pour béchamel over top, sprinkle with [2 cups mozzarella].",
+      "Bake at 375°F for 35-40 minutes until golden. Let rest 10 minutes before serving!"
+    ]
+  },
+  {
+    id: "dinner-gigi-hadid-vodka-pasta",
+    name: "Gigi Hadid's Vodka Pasta",
+    description: "Viral celebrity recipe! Creamy pink vodka sauce that's rich and delicious.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian-American",
+    image: gigiHadidVodkaPastaImg,
+    totalTime: 30,
+    tags: ["Dinner", "viral", "pasta", "celebrity"],
+    nutrition: { calories: 520, protein: 14, carbs: 58, fat: 26, fiber: 3, sugar: 6, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "penne pasta" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "1/4", unit: "cup", item: "vodka" },
+      { amount: "1", unit: "cup", item: "tomato paste" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1/2", unit: "cup", item: "parmesan" },
+      { amount: "", unit: "", item: "red pepper flakes" }
+    ],
+    instructions: [
+      "Cook [1 lb penne] until al dente. Reserve 1 cup pasta water.",
+      "Sauté [3 cloves garlic] in [2 tbsp olive oil]. Add [1 cup tomato paste].",
+      "Add [1/4 cup vodka], cook 2 minutes. Stir in [1 cup cream].",
+      "Add pasta with reserved water, toss until creamy.",
+      "Stir in [1/2 cup parmesan]. Top with red pepper flakes and serve!"
+    ]
+  },
+  {
+    id: "dinner-one-pan-chicken-gravy",
+    name: "One Pan Chicken & Gravy",
+    description: "Viral 30-minute meal! Juicy chicken in creamy brown gravy, all in one pan.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: onePanChickenGravyImg,
+    totalTime: 30,
+    tags: ["Dinner", "quick", "chicken", "one-pot"],
+    nutrition: { calories: 380, protein: 42, carbs: 12, fat: 18, fiber: 1, sugar: 2, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "4", unit: "", item: "chicken breasts" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "2", unit: "tbsp", item: "flour" },
+      { amount: "2", unit: "cups", item: "chicken broth" },
+      { amount: "1/2", unit: "cup", item: "heavy cream" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "", unit: "", item: "fresh thyme" }
+    ],
+    instructions: [
+      "Season [4 chicken breasts], pan-sear until golden, remove.",
+      "Melt [2 tbsp butter], whisk in [2 tbsp flour]. Cook 1 minute.",
+      "Slowly add [2 cups broth], whisking constantly.",
+      "Stir in [1/2 cup cream] and [1 tsp garlic powder].",
+      "Return chicken to pan, simmer 10 minutes. Garnish with [thyme]!"
+    ]
+  },
+  {
+    id: "dinner-garlic-parm-chicken-potato-skillet",
+    name: "Garlic Parmesan Chicken & Potato Skillet",
+    description: "One-pan wonder! Crispy chicken and roasted potatoes in garlic parmesan sauce.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "American",
+    image: garlicParmChickenPotatoSkilletImg,
+    totalTime: 45,
+    tags: ["Dinner", "chicken", "one-pot"],
+    nutrition: { calories: 520, protein: 38, carbs: 42, fat: 22, fiber: 4, sugar: 2, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "chicken thighs" },
+      { amount: "1", unit: "lb", item: "baby potatoes, halved" },
+      { amount: "4", unit: "tbsp", item: "butter" },
+      { amount: "6", unit: "cloves", item: "garlic, minced" },
+      { amount: "1/2", unit: "cup", item: "parmesan" },
+      { amount: "2", unit: "tbsp", item: "fresh parsley" }
+    ],
+    instructions: [
+      "Sear [1.5 lbs chicken] skin-side down until golden, remove.",
+      "Add [1 lb potatoes] to skillet, cook until golden.",
+      "Melt [4 tbsp butter], add [6 cloves garlic]. Cook 1 minute.",
+      "Return chicken, sprinkle [1/2 cup parmesan]. Bake at 400°F for 20 minutes.",
+      "Garnish with [2 tbsp parsley]. Serve hot!"
+    ]
+  },
+  {
+    id: "dinner-bbq-cheeseburger-sliders",
+    name: "BBQ Cheeseburger Sliders",
+    description: "Party favorite! Mini burgers on Hawaiian rolls with BBQ sauce and melted cheese.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "American",
+    image: bbqCheeseburgerSlidersImg,
+    totalTime: 35,
+    tags: ["Dinner", "beef", "party food"],
+    nutrition: { calories: 340, protein: 18, carbs: 28, fat: 18, fiber: 1, sugar: 8, servingSize: "2 sliders" },
+    ingredients: [
+      { amount: "12", unit: "", item: "Hawaiian sweet rolls" },
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1/2", unit: "cup", item: "BBQ sauce" },
+      { amount: "12", unit: "slices", item: "cheddar cheese" },
+      { amount: "1/4", unit: "cup", item: "pickles" },
+      { amount: "3", unit: "tbsp", item: "butter, melted" }
+    ],
+    instructions: [
+      "Brown [1 lb ground beef], mix with [1/2 cup BBQ sauce].",
+      "Slice [12 Hawaiian rolls] in half, place bottoms in baking dish.",
+      "Layer beef mixture, [12 cheese slices], [pickles].",
+      "Top with roll tops, brush with [3 tbsp melted butter].",
+      "Bake at 350°F for 15 minutes until cheese melts. Serve warm!"
+    ]
+  },
+  {
+    id: "dinner-hot-honey-chicken-sheet-pan",
+    name: "Hot Honey Chicken Sheet Pan Dinner",
+    description: "Sweet and spicy! Crispy chicken with hot honey glaze and roasted vegetables.",
+    cookTime: "35 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: hotHoneyChickenSheetPanImg,
+    totalTime: 50,
+    tags: ["Dinner", "chicken", "sheet pan"],
+    nutrition: { calories: 480, protein: 38, carbs: 42, fat: 18, fiber: 5, sugar: 24, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "chicken thighs" },
+      { amount: "2", unit: "cups", item: "broccoli florets" },
+      { amount: "2", unit: "cups", item: "bell peppers, sliced" },
+      { amount: "1/3", unit: "cup", item: "honey" },
+      { amount: "2", unit: "tbsp", item: "hot sauce" },
+      { amount: "2", unit: "tbsp", item: "olive oil" }
+    ],
+    instructions: [
+      "Preheat oven to 425°F. Season [1.5 lbs chicken].",
+      "Toss [2 cups broccoli] and [2 cups peppers] with [2 tbsp oil].",
+      "Arrange chicken and vegetables on sheet pan.",
+      "Mix [1/3 cup honey] with [2 tbsp hot sauce], brush on chicken.",
+      "Bake 30-35 minutes, brushing with more hot honey halfway. Serve!"
+    ]
+  },
+  {
+    id: "dinner-loaded-chicken-twice-baked-potato",
+    name: "Loaded Chicken Twice Baked Potato",
+    description: "Ultimate comfort! Potato skins filled with creamy mashed potatoes, chicken, cheese, and bacon.",
+    cookTime: "1 hour",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "American",
+    image: loadedChickenTwiceBakedPotatoImg,
+    totalTime: 80,
+    tags: ["Dinner", "chicken", "comfort food"],
+    nutrition: { calories: 580, protein: 32, carbs: 52, fat: 26, fiber: 5, sugar: 3, servingSize: "1 potato" },
+    ingredients: [
+      { amount: "4", unit: "", item: "large russet potatoes" },
+      { amount: "2", unit: "cups", item: "cooked chicken, shredded" },
+      { amount: "1/2", unit: "cup", item: "sour cream" },
+      { amount: "4", unit: "tbsp", item: "butter" },
+      { amount: "1.5", unit: "cups", item: "cheddar, shredded" },
+      { amount: "6", unit: "slices", item: "bacon, cooked" },
+      { amount: "1/4", unit: "cup", item: "green onions" }
+    ],
+    instructions: [
+      "Bake [4 potatoes] at 400°F for 50 minutes. Cut in half, scoop out insides.",
+      "Mash potato with [4 tbsp butter], [1/2 cup sour cream], [1 cup cheddar].",
+      "Mix in [2 cups chicken]. Refill potato skins.",
+      "Top with remaining [cheese] and [bacon]. Bake 15 minutes.",
+      "Garnish with [green onions]. Serve hot!"
+    ]
+  },
+  {
+    id: "dinner-roasted-garlic-parm-chicken",
+    name: "Roasted Garlic Parmesan Chicken",
+    description: "Herb-crusted perfection! Golden parmesan crust with roasted garlic and fresh herbs.",
+    cookTime: "35 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Italian-American",
+    image: roastedGarlicParmChickenImg,
+    totalTime: 50,
+    tags: ["Dinner", "chicken"],
+    nutrition: { calories: 420, protein: 46, carbs: 8, fat: 22, fiber: 1, sugar: 1, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "4", unit: "", item: "chicken breasts" },
+      { amount: "1", unit: "cup", item: "parmesan, grated" },
+      { amount: "1/2", unit: "cup", item: "breadcrumbs" },
+      { amount: "8", unit: "cloves", item: "garlic, whole" },
+      { amount: "2", unit: "tbsp", item: "fresh rosemary" },
+      { amount: "3", unit: "tbsp", item: "olive oil" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F. Mix [1 cup parmesan], [1/2 cup breadcrumbs], [2 tbsp rosemary].",
+      "Brush [4 chicken breasts] with [3 tbsp oil], coat with parmesan mixture.",
+      "Scatter [8 garlic cloves] around chicken in baking dish.",
+      "Roast 30-35 minutes until golden and cooked through.",
+      "Squeeze roasted garlic over chicken. Serve with fresh herbs!"
+    ]
+  },
+  {
+    id: "dinner-easy-chicken-pot-pie",
+    name: "Easy Chicken Pot Pie",
+    description: "Classic comfort! Creamy chicken and vegetables topped with golden puff pastry.",
+    cookTime: "35 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "American",
+    image: easyChickenPotPieImg,
+    totalTime: 55,
+    tags: ["Dinner", "chicken", "comfort food"],
+    nutrition: { calories: 520, protein: 28, carbs: 42, fat: 26, fiber: 4, sugar: 4, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "3", unit: "cups", item: "cooked chicken, diced" },
+      { amount: "2", unit: "cups", item: "mixed vegetables" },
+      { amount: "1", unit: "can", item: "cream of chicken soup" },
+      { amount: "1", unit: "cup", item: "chicken broth" },
+      { amount: "1", unit: "sheet", item: "puff pastry" },
+      { amount: "2", unit: "tbsp", item: "butter" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F. Mix [3 cups chicken], [2 cups vegetables], [cream soup], [1 cup broth].",
+      "Pour into pie dish or casserole.",
+      "Top with [puff pastry], cut slits for steam.",
+      "Brush with melted [2 tbsp butter].",
+      "Bake 30-35 minutes until golden and bubbling. Let rest 10 minutes!"
+    ]
+  },
+  {
+    id: "dinner-vodka-tortiglioni-burrata",
+    name: "Vodka Tortiglioni & Burrata",
+    description: "Restaurant-quality! Creamy vodka sauce with torn burrata and fresh basil.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: vodkaTortiglionieBurrataImg,
+    totalTime: 30,
+    tags: ["Dinner", "pasta", "vegetarian"],
+    nutrition: { calories: 580, protein: 18, carbs: 62, fat: 28, fiber: 3, sugar: 6, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "tortiglioni pasta" },
+      { amount: "1/4", unit: "cup", item: "vodka" },
+      { amount: "1", unit: "cup", item: "tomato sauce" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "8", unit: "oz", item: "burrata cheese" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" },
+      { amount: "", unit: "", item: "red pepper flakes" }
+    ],
+    instructions: [
+      "Cook [1 lb tortiglioni] until al dente.",
+      "Simmer [1 cup tomato sauce] with [1/4 cup vodka] for 3 minutes.",
+      "Stir in [1 cup cream], simmer until thickened.",
+      "Toss pasta with sauce.",
+      "Tear [8 oz burrata] over top, garnish with [basil] and red pepper flakes!"
+    ]
+  },
+  {
+    id: "dinner-pizza-pancakes",
+    name: "Pizza Pancakes",
+    description: "Viral savory breakfast-for-dinner! Fluffy pancakes with pizza toppings.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American Fusion",
+    image: pizzaPancakesImg,
+    totalTime: 25,
+    tags: ["Dinner", "viral", "fun"],
+    nutrition: { calories: 420, protein: 18, carbs: 48, fat: 18, fiber: 2, sugar: 6, servingSize: "2 pancakes" },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "pancake mix" },
+      { amount: "1", unit: "cup", item: "marinara sauce" },
+      { amount: "1", unit: "cup", item: "mozzarella, shredded" },
+      { amount: "1/4", unit: "cup", item: "mini pepperoni" },
+      { amount: "2", unit: "tbsp", item: "Italian seasoning" },
+      { amount: "1/4", unit: "cup", item: "parmesan" }
+    ],
+    instructions: [
+      "Make [pancake mix] batter, stir in [2 tbsp Italian seasoning].",
+      "Cook pancakes on griddle until golden.",
+      "Top each with [marinara], [mozzarella], and [pepperoni].",
+      "Cover and cook until cheese melts.",
+      "Stack and serve with [parmesan]!"
+    ]
+  },
+  {
+    id: "dinner-fried-chicken-ramen",
+    name: "Fried Chicken Ramen",
+    description: "Viral upgrade! Crispy fried chicken tops rich ramen with soft-boiled egg.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 2,
+    cuisine: "Asian Fusion",
+    image: friedChickenRamenImg,
+    totalTime: 35,
+    tags: ["Dinner", "viral", "ramen", "chicken"],
+    nutrition: { calories: 680, protein: 38, carbs: 72, fat: 28, fiber: 4, sugar: 4, servingSize: "1 bowl" },
+    ingredients: [
+      { amount: "2", unit: "packs", item: "instant ramen" },
+      { amount: "2", unit: "", item: "chicken cutlets" },
+      { amount: "1", unit: "cup", item: "panko breadcrumbs" },
+      { amount: "2", unit: "", item: "soft-boiled eggs" },
+      { amount: "1/4", unit: "cup", item: "green onions" },
+      { amount: "2", unit: "sheets", item: "nori" }
+    ],
+    instructions: [
+      "Bread [2 chicken cutlets] in [panko], fry until crispy.",
+      "Prepare [2 ramen packs] with extra water for broth.",
+      "Top ramen with sliced fried chicken, [soft-boiled eggs].",
+      "Garnish with [green onions] and [nori].",
+      "Serve immediately while chicken is crispy!"
+    ]
+  },
+  {
+    id: "dinner-turkey-grilled-cheese",
+    name: "Turkey Grilled Cheese",
+    description: "Elevated classic! Turkey, cranberry sauce, and melty cheese on sourdough.",
+    cookTime: "10 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "American",
+    image: turkeyGrilledCheeseImg,
+    totalTime: 15,
+    tags: ["Dinner", "quick", "sandwich"],
+    nutrition: { calories: 520, protein: 32, carbs: 48, fat: 22, fiber: 3, sugar: 12, servingSize: "1 sandwich" },
+    ingredients: [
+      { amount: "4", unit: "slices", item: "sourdough bread" },
+      { amount: "8", unit: "oz", item: "turkey, sliced" },
+      { amount: "4", unit: "slices", item: "cheddar cheese" },
+      { amount: "1/4", unit: "cup", item: "cranberry sauce" },
+      { amount: "2", unit: "tbsp", item: "butter" }
+    ],
+    instructions: [
+      "Spread [cranberry sauce] on 2 slices of [sourdough].",
+      "Layer [turkey] and [cheddar] on each.",
+      "Top with remaining bread slices.",
+      "Butter outside of sandwiches with [2 tbsp butter].",
+      "Grill until golden and cheese melts. Cut and serve!"
+    ]
+  },
+  {
+    id: "dinner-loaded-ranch-potatoes",
+    name: "Loaded Ranch Potatoes",
+    description: "Addictive side! Crispy roasted potato wedges loaded with ranch, cheese, and bacon.",
+    cookTime: "35 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: loadedRanchPotatoesImg,
+    totalTime: 45,
+    tags: ["Dinner", "side dish", "potatoes"],
+    nutrition: { calories: 380, protein: 12, carbs: 48, fat: 18, fiber: 5, sugar: 2, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "2", unit: "lbs", item: "russet potatoes, cut into wedges" },
+      { amount: "3", unit: "tbsp", item: "ranch seasoning" },
+      { amount: "3", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "cup", item: "cheddar, shredded" },
+      { amount: "6", unit: "slices", item: "bacon, cooked" },
+      { amount: "1/4", unit: "cup", item: "green onions" }
+    ],
+    instructions: [
+      "Toss [2 lbs potato wedges] with [3 tbsp oil] and [3 tbsp ranch seasoning].",
+      "Roast at 425°F for 30-35 minutes until crispy.",
+      "Top with [1 cup cheddar], return to oven until melted.",
+      "Sprinkle with [bacon] and [green onions].",
+      "Serve hot with extra ranch dressing!"
+    ]
+  },
+  {
+    id: "dinner-marry-me-chicken",
+    name: "Marry Me Chicken",
+    description: "Viral sensation! Creamy sun-dried tomato sauce so good you'll propose.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian-American",
+    image: marryMeChickenImg,
+    totalTime: 35,
+    tags: ["Dinner", "viral", "chicken"],
+    nutrition: { calories: 480, protein: 42, carbs: 12, fat: 32, fiber: 2, sugar: 6, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "4", unit: "", item: "chicken breasts" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1/2", unit: "cup", item: "sun-dried tomatoes" },
+      { amount: "1/2", unit: "cup", item: "parmesan, grated" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" }
+    ],
+    instructions: [
+      "Sear [4 chicken breasts] until golden, remove from pan.",
+      "Sauté [3 cloves garlic] and [sun-dried tomatoes].",
+      "Add [1 cup cream], [1/2 cup parmesan], [1 tsp Italian seasoning].",
+      "Return chicken, simmer 10 minutes until cooked through.",
+      "Garnish with [fresh basil]. Serve over pasta or rice!"
+    ]
+  },
+  {
+    id: "dinner-creamy-tuscan-chicken",
+    name: "Creamy Tuscan Chicken",
+    description: "Restaurant-quality! Chicken in rich cream sauce with sun-dried tomatoes and spinach.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: creamyTuscanChickenImg,
+    totalTime: 35,
+    tags: ["Dinner", "chicken"],
+    nutrition: { calories: 520, protein: 44, carbs: 14, fat: 34, fiber: 2, sugar: 4, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "4", unit: "", item: "chicken breasts" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1/2", unit: "cup", item: "sun-dried tomatoes" },
+      { amount: "2", unit: "cups", item: "fresh spinach" },
+      { amount: "1/2", unit: "cup", item: "parmesan" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" }
+    ],
+    instructions: [
+      "Season and sear [4 chicken breasts], remove.",
+      "Sauté [4 cloves garlic] and [sun-dried tomatoes].",
+      "Add [1 cup cream] and [1/2 cup parmesan], simmer.",
+      "Stir in [2 cups spinach] until wilted.",
+      "Return chicken, cook 8-10 minutes. Serve hot!"
+    ]
+  },
+  {
+    id: "dinner-stuffed-bell-peppers",
+    name: "Stuffed Bell Peppers",
+    description: "Classic comfort! Colorful peppers filled with seasoned beef and rice, topped with cheese.",
+    cookTime: "40 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "American",
+    image: stuffedBellPeppersDinnerImg,
+    totalTime: 60,
+    tags: ["Dinner", "beef", "healthy"],
+    nutrition: { calories: 420, protein: 28, carbs: 42, fat: 16, fiber: 6, sugar: 8, servingSize: "1 pepper" },
+    ingredients: [
+      { amount: "4", unit: "", item: "large bell peppers" },
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "cup", item: "cooked rice" },
+      { amount: "1", unit: "can", item: "diced tomatoes" },
+      { amount: "1", unit: "cup", item: "mozzarella, shredded" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" }
+    ],
+    instructions: [
+      "Cut tops off [4 peppers], remove seeds.",
+      "Brown [1 lb beef], mix with [1 cup rice], [tomatoes], [1 tsp Italian seasoning].",
+      "Stuff peppers with beef mixture.",
+      "Place in baking dish with 1/2 cup water. Cover with foil.",
+      "Bake at 375°F for 35 minutes. Top with [mozzarella], bake 5 more minutes!"
     ]
   },
   
