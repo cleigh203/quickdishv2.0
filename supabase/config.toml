@@ -47,3 +47,6 @@ verify_jwt = true
 
 [functions.generate-gemini-recipe-images]
 verify_jwt = true
+
+[functions.batch-generate-images]
+verify_jwt = false

@@ -29,6 +29,7 @@ import BatchRegenerateImages from "./pages/BatchRegenerateImages";
 import MigrateRecipes from "./pages/MigrateRecipes";
 import RegenerateImages from "./pages/RegenerateImages";
 import GenerateRecipeImages from "./pages/GenerateRecipeImages";
+import ExecuteImageGeneration from "./pages/ExecuteImageGeneration";
 
 import NotFound from "./pages/NotFound";
 
@@ -64,6 +65,7 @@ const App = () => (
             <Route path="/migrate-recipes" element={<MigrateRecipes />} />
             <Route path="/regenerate-images" element={<RegenerateImages />} />
             <Route path="/generate-recipe-images" element={<GenerateRecipeImages />} />
+            <Route path="/execute-image-generation" element={<ExecuteImageGeneration />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
