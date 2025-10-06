@@ -161,6 +161,32 @@ import leftoverPotRoastRamenImg from "@/assets/recipes/leftover-pot-roast-ramen.
 import leftoverTacoStuffedPeppersImg from "@/assets/recipes/leftover-taco-stuffed-peppers.jpg";
 import leftoverTikkaMasalaPotPieImg from "@/assets/recipes/leftover-tikka-masala-pot-pie.jpg";
 
+// Import new vegetarian/vegan recipes
+import vegetarianLasagnaImg from "@/assets/recipes/vegetarian-lasagna.jpg";
+import vegetarianChiliImg from "@/assets/recipes/vegetarian-chili.jpg";
+import veggieBurgersImg from "@/assets/recipes/veggie-burgers.jpg";
+import eggplantParmesanImg from "@/assets/recipes/eggplant-parmesan.jpg";
+import butterChickpeasImg from "@/assets/recipes/butter-chickpeas.jpg";
+import misoMushroomRiceImg from "@/assets/recipes/miso-mushroom-rice.jpg";
+import coconutVegetableCurryImg from "@/assets/recipes/coconut-vegetable-curry.jpg";
+import broccoliCheddarChickpeaSkilletImg from "@/assets/recipes/broccoli-cheddar-chickpea-skillet.jpg";
+import mushroomRamenImg from "@/assets/recipes/mushroom-ramen.jpg";
+import veggieStuffedPeppersImg from "@/assets/recipes/veggie-stuffed-peppers.jpg";
+import blackBeanTacosImg from "@/assets/recipes/black-bean-tacos.jpg";
+import crispyBakedFalafelImg from "@/assets/recipes/crispy-baked-falafel.jpg";
+import redLentilDahlImg from "@/assets/recipes/red-lentil-dahl.jpg";
+import veganNachosImg from "@/assets/recipes/vegan-nachos.jpg";
+import mushroomWalnutVeggieBurgerImg from "@/assets/recipes/mushroom-walnut-veggie-burger.jpg";
+import cauliflowerShawarmaImg from "@/assets/recipes/cauliflower-shawarma.jpg";
+import sesameTofuBroccoliImg from "@/assets/recipes/sesame-tofu-broccoli.jpg";
+import chipotlePortobelloTacosImg from "@/assets/recipes/chipotle-portobello-tacos.jpg";
+import spicedCarrotParsnipSoupImg from "@/assets/recipes/spiced-carrot-parsnip-soup.jpg";
+import veganMacCheeseImg from "@/assets/recipes/vegan-mac-cheese.jpg";
+import coconutMilkTomatoSoupImg from "@/assets/recipes/coconut-milk-tomato-soup.jpg";
+import coconutRiceBowlsImg from "@/assets/recipes/coconut-rice-bowls.jpg";
+import veganMugCakesImg from "@/assets/recipes/vegan-mug-cakes.jpg";
+import veganCoconutBaconImg from "@/assets/recipes/vegan-coconut-bacon.jpg";
+
 // Import new recipes
 import { newRecipes } from "./newRecipes";
 
@@ -8405,6 +8431,1015 @@ export const allRecipes: Recipe[] = [
       "Top with lettuce, tomatoes, and sour cream before serving."
     ]
   },
+  
+  // ========== VEGETARIAN/VEGAN RECIPES (24) ==========
+  // DINNER (13)
+  {
+    id: "dinner-vegetarian-lasagna",
+    name: "Vegetarian Lasagna",
+    description: "Layers of pasta with ricotta, vegetables, and melted cheese. Comfort food perfected.",
+    cookTime: "45 mins",
+    prepTime: "30 mins",
+    difficulty: "medium",
+    servings: 8,
+    cuisine: "Italian",
+    image: vegetarianLasagnaImg,
+    totalTime: 75,
+    tags: ["dinner", "vegetarian", "italian", "comfort-food", "plant-based"],
+    nutrition: {
+      calories: 420,
+      protein: 22,
+      carbs: 48,
+      fat: 16,
+      fiber: 6,
+      sugar: 8,
+      servingSize: "1 slice"
+    },
+    ingredients: [
+      { amount: "12", unit: "", item: "lasagna noodles" },
+      { amount: "2", unit: "cups", item: "ricotta cheese" },
+      { amount: "2", unit: "cups", item: "shredded mozzarella" },
+      { amount: "1", unit: "cup", item: "parmesan cheese" },
+      { amount: "4", unit: "cups", item: "marinara sauce" },
+      { amount: "2", unit: "cups", item: "fresh spinach, chopped" },
+      { amount: "1", unit: "", item: "zucchini, sliced" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1/4", unit: "cup", item: "fresh basil, chopped" },
+      { amount: "2", unit: "tsp", item: "Italian seasoning" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Cook [12 lasagna noodles] according to package.",
+      "Mix [2 cups ricotta], [2 eggs], [1/4 cup basil], and [2 tsp Italian seasoning].",
+      "Spread 1 cup [marinara sauce] in 9x13 baking dish.",
+      "Layer: 4 noodles, half ricotta mixture, [1 cup spinach], [zucchini], [1 cup mozzarella], 1 cup sauce.",
+      "Repeat layers once more.",
+      "Top with remaining 4 noodles, sauce, [1 cup parmesan].",
+      "Cover with foil, bake 30 minutes. Remove foil, bake 15 more minutes until golden.",
+      "Let rest 10 minutes before serving."
+    ]
+  },
+  {
+    id: "dinner-vegetarian-chili",
+    name: "Vegetarian Chili",
+    description: "Hearty bean chili packed with vegetables and bold spices. Crowd-pleaser.",
+    cookTime: "40 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: vegetarianChiliImg,
+    totalTime: 55,
+    tags: ["dinner", "vegetarian", "healthy", "comfort-food", "plant-based"],
+    nutrition: {
+      calories: 320,
+      protein: 18,
+      carbs: 52,
+      fat: 6,
+      fiber: 16,
+      sugar: 10,
+      servingSize: "1.5 cups"
+    },
+    ingredients: [
+      { amount: "2", unit: "cans", item: "kidney beans, drained" },
+      { amount: "1", unit: "can", item: "black beans, drained" },
+      { amount: "1", unit: "can", item: "diced tomatoes" },
+      { amount: "2", unit: "", item: "bell peppers, diced" },
+      { amount: "1", unit: "", item: "large onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "chili powder" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "cup", item: "vegetable broth" },
+      { amount: "", unit: "", item: "Toppings: sour cream, cilantro, cheese" }
+    ],
+    instructions: [
+      "Sauté [onion] and [bell peppers] in large pot for 5 minutes.",
+      "Add [garlic], [2 tbsp chili powder], [1 tsp cumin], cook 1 minute.",
+      "Add [kidney beans], [black beans], [tomatoes], [1 cup broth].",
+      "Bring to boil, reduce heat, simmer 30 minutes stirring occasionally.",
+      "Season with salt and pepper to taste.",
+      "Serve hot with [sour cream], [cilantro], and [cheese]."
+    ]
+  },
+  {
+    id: "dinner-veggie-burgers",
+    name: "Veggie Burgers",
+    description: "Homemade veggie patties that actually hold together. Better than store-bought.",
+    cookTime: "15 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "American",
+    image: veggieBurgersImg,
+    totalTime: 35,
+    tags: ["dinner", "vegetarian", "plant-based", "healthy"],
+    nutrition: {
+      calories: 380,
+      protein: 16,
+      carbs: 48,
+      fat: 14,
+      fiber: 8,
+      sugar: 6,
+      servingSize: "1 burger"
+    },
+    ingredients: [
+      { amount: "1", unit: "can", item: "black beans, drained" },
+      { amount: "1", unit: "cup", item: "cooked quinoa" },
+      { amount: "1/2", unit: "cup", item: "breadcrumbs" },
+      { amount: "1", unit: "", item: "egg" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "tsp", item: "paprika" },
+      { amount: "1/2", unit: "cup", item: "diced onion" },
+      { amount: "6", unit: "", item: "burger buns" },
+      { amount: "", unit: "", item: "Toppings: lettuce, tomato, onion, pickles" }
+    ],
+    instructions: [
+      "Mash [black beans] in bowl, leave some chunks.",
+      "Mix in [1 cup quinoa], [breadcrumbs], [egg], [cumin], [paprika], [onion].",
+      "Form into 6 patties. Refrigerate 15 minutes to firm up.",
+      "Heat oil in skillet over medium heat.",
+      "Cook patties 5-7 minutes per side until golden and crispy.",
+      "Toast [buns] if desired.",
+      "Serve on buns with [lettuce], [tomato], [onion], and [pickles]."
+    ]
+  },
+  {
+    id: "dinner-eggplant-parmesan",
+    name: "Eggplant Parmesan",
+    description: "Breaded eggplant with marinara and melted cheese. Italian classic.",
+    cookTime: "35 mins",
+    prepTime: "25 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Italian",
+    image: eggplantParmesanImg,
+    totalTime: 60,
+    tags: ["dinner", "vegetarian", "italian", "comfort-food"],
+    nutrition: {
+      calories: 390,
+      protein: 18,
+      carbs: 38,
+      fat: 18,
+      fiber: 8,
+      sugar: 10,
+      servingSize: "2 slices"
+    },
+    ingredients: [
+      { amount: "2", unit: "", item: "large eggplants, sliced 1/2 inch" },
+      { amount: "2", unit: "cups", item: "breadcrumbs" },
+      { amount: "1", unit: "cup", item: "parmesan cheese, divided" },
+      { amount: "3", unit: "", item: "eggs, beaten" },
+      { amount: "3", unit: "cups", item: "marinara sauce" },
+      { amount: "2", unit: "cups", item: "shredded mozzarella" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" },
+      { amount: "1", unit: "cup", item: "flour" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F. Salt [eggplant slices], let sit 20 minutes, pat dry.",
+      "Set up breading station: [flour], [eggs], [breadcrumbs] mixed with [1/2 cup parmesan].",
+      "Coat each eggplant slice in flour, egg, then breadcrumb mixture.",
+      "Place on baking sheet, bake 20 minutes until golden.",
+      "Spread 1 cup [marinara] in baking dish.",
+      "Layer eggplant, remaining [marinara], [mozzarella], [1/2 cup parmesan].",
+      "Bake 15 minutes until cheese is bubbly and golden.",
+      "Garnish with [fresh basil] before serving."
+    ]
+  },
+  {
+    id: "dinner-butter-chickpeas",
+    name: "Indian Butter Chickpeas",
+    description: "Creamy tomato curry with tender chickpeas. Restaurant-quality flavor.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Indian",
+    image: butterChickpeasImg,
+    totalTime: 35,
+    tags: ["dinner", "vegetarian", "indian", "healthy", "plant-based"],
+    nutrition: {
+      calories: 340,
+      protein: 14,
+      carbs: 42,
+      fat: 14,
+      fiber: 10,
+      sugar: 8,
+      servingSize: "1.5 cups"
+    },
+    ingredients: [
+      { amount: "2", unit: "cans", item: "chickpeas, drained" },
+      { amount: "1", unit: "can", item: "tomato sauce" },
+      { amount: "1", unit: "cup", item: "coconut cream" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "garam masala" },
+      { amount: "1", unit: "tsp", item: "turmeric" },
+      { amount: "1/4", unit: "cup", item: "cilantro" }
+    ],
+    instructions: [
+      "Melt [2 tbsp butter] in large pan, sauté [onion] until soft.",
+      "Add [garlic], [2 tbsp garam masala], [1 tsp turmeric], cook 1 minute.",
+      "Pour in [tomato sauce], simmer 5 minutes.",
+      "Add [chickpeas] and [coconut cream], stir well.",
+      "Simmer 15 minutes until sauce thickens.",
+      "Season with salt to taste.",
+      "Garnish with [cilantro], serve with rice and naan."
+    ]
+  },
+  {
+    id: "dinner-miso-mushroom-rice",
+    name: "Miso Mushroom Crispy Rice",
+    description: "Pan-fried rice with umami mushrooms. Japanese-inspired perfection.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Japanese",
+    image: misoMushroomRiceImg,
+    totalTime: 35,
+    tags: ["dinner", "vegetarian", "asian", "healthy"],
+    nutrition: {
+      calories: 380,
+      protein: 12,
+      carbs: 58,
+      fat: 12,
+      fiber: 4,
+      sugar: 6,
+      servingSize: "1.5 cups"
+    },
+    ingredients: [
+      { amount: "3", unit: "cups", item: "cooked rice, day-old preferred" },
+      { amount: "8", unit: "oz", item: "mixed mushrooms, sliced" },
+      { amount: "3", unit: "tbsp", item: "white miso paste" },
+      { amount: "2", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "sesame oil" },
+      { amount: "2", unit: "", item: "green onions, sliced" },
+      { amount: "1", unit: "tbsp", item: "sesame seeds" },
+      { amount: "2", unit: "tbsp", item: "vegetable oil" }
+    ],
+    instructions: [
+      "Mix [3 tbsp miso] with [2 tbsp soy sauce] and 2 tbsp water.",
+      "Heat [2 tbsp oil] in large skillet over high heat.",
+      "Add [rice], press down, cook 5 minutes without stirring until crispy bottom forms.",
+      "Add [mushrooms], cook 5 minutes until golden.",
+      "Drizzle [sesame oil] and miso mixture, toss to coat.",
+      "Cook 2 more minutes until heated through.",
+      "Top with [green onions] and [sesame seeds] before serving."
+    ]
+  },
+  {
+    id: "dinner-coconut-vegetable-curry",
+    name: "Coconut Vegetable Curry",
+    description: "Creamy Thai curry with colorful vegetables. Restaurant quality at home.",
+    cookTime: "25 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Thai",
+    image: coconutVegetableCurryImg,
+    totalTime: 40,
+    tags: ["dinner", "vegetarian", "thai", "healthy", "plant-based"],
+    nutrition: {
+      calories: 320,
+      protein: 8,
+      carbs: 38,
+      fat: 16,
+      fiber: 6,
+      sugar: 10,
+      servingSize: "1.5 cups"
+    },
+    ingredients: [
+      { amount: "1", unit: "can", item: "coconut milk" },
+      { amount: "2", unit: "tbsp", item: "red curry paste" },
+      { amount: "2", unit: "", item: "bell peppers, sliced" },
+      { amount: "2", unit: "", item: "carrots, sliced" },
+      { amount: "1", unit: "", item: "cauliflower, florets" },
+      { amount: "2", unit: "", item: "potatoes, cubed" },
+      { amount: "1", unit: "cup", item: "vegetable broth" },
+      { amount: "2", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "brown sugar" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" }
+    ],
+    instructions: [
+      "Heat [curry paste] in large pot for 1 minute until fragrant.",
+      "Add [coconut milk], [1 cup broth], [2 tbsp soy sauce], [1 tbsp sugar].",
+      "Bring to simmer, add [potatoes], cook 10 minutes.",
+      "Add [bell peppers], [carrots], [cauliflower], simmer 15 minutes.",
+      "Vegetables should be tender but not mushy.",
+      "Stir in [fresh basil].",
+      "Serve over jasmine rice."
+    ]
+  },
+  {
+    id: "dinner-broccoli-cheddar-chickpea-skillet",
+    name: "Broccoli Cheddar Chickpea Skillet",
+    description: "One-pan wonder with roasted broccoli and melted cheese. Quick and satisfying.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: broccoliCheddarChickpeaSkilletImg,
+    totalTime: 30,
+    tags: ["dinner", "vegetarian", "healthy", "quick", "plant-based"],
+    nutrition: {
+      calories: 340,
+      protein: 18,
+      carbs: 32,
+      fat: 16,
+      fiber: 10,
+      sugar: 4,
+      servingSize: "1.5 cups"
+    },
+    ingredients: [
+      { amount: "1", unit: "", item: "large head broccoli, florets" },
+      { amount: "2", unit: "cans", item: "chickpeas, drained" },
+      { amount: "2", unit: "cups", item: "sharp cheddar, shredded" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "tsp", item: "paprika" },
+      { amount: "1/2", unit: "tsp", item: "red pepper flakes" }
+    ],
+    instructions: [
+      "Heat [2 tbsp oil] in large oven-safe skillet over medium-high heat.",
+      "Add [broccoli] and [chickpeas], season with [paprika] and [pepper flakes].",
+      "Cook 10 minutes, stirring occasionally, until broccoli is tender-crisp.",
+      "Add [garlic], cook 1 minute.",
+      "Top with [cheddar cheese].",
+      "Place under broiler 3-5 minutes until cheese is bubbly and golden.",
+      "Serve immediately."
+    ]
+  },
+  {
+    id: "dinner-mushroom-ramen",
+    name: "Mushroom Ramen",
+    description: "Rich broth with noodles and umami mushrooms. Comfort in a bowl.",
+    cookTime: "25 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Japanese",
+    image: mushroomRamenImg,
+    totalTime: 40,
+    tags: ["dinner", "vegetarian", "asian", "comfort-food"],
+    nutrition: {
+      calories: 380,
+      protein: 16,
+      carbs: 52,
+      fat: 12,
+      fiber: 6,
+      sugar: 6,
+      servingSize: "1 large bowl"
+    },
+    ingredients: [
+      { amount: "6", unit: "cups", item: "vegetable broth" },
+      { amount: "8", unit: "oz", item: "ramen noodles" },
+      { amount: "8", unit: "oz", item: "shiitake mushrooms, sliced" },
+      { amount: "4", unit: "oz", item: "oyster mushrooms" },
+      { amount: "4", unit: "", item: "eggs" },
+      { amount: "3", unit: "tbsp", item: "soy sauce" },
+      { amount: "2", unit: "tbsp", item: "miso paste" },
+      { amount: "2", unit: "", item: "green onions, sliced" },
+      { amount: "1", unit: "sheet", item: "nori seaweed" }
+    ],
+    instructions: [
+      "Bring [6 cups broth] to boil. Whisk in [2 tbsp miso] and [3 tbsp soy sauce].",
+      "Add [mushrooms], simmer 10 minutes.",
+      "Cook [ramen noodles] according to package, drain.",
+      "Soft boil [eggs] 6 minutes, peel and halve.",
+      "Divide noodles into bowls.",
+      "Ladle hot broth and mushrooms over noodles.",
+      "Top each bowl with [egg], [green onions], and [nori].",
+      "Serve immediately."
+    ]
+  },
+  {
+    id: "dinner-veggie-stuffed-peppers",
+    name: "Veggie Stuffed Peppers",
+    description: "Bell peppers filled with quinoa, beans, and melted cheese. Colorful and healthy.",
+    cookTime: "40 mins",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: veggieStuffedPeppersImg,
+    totalTime: 60,
+    tags: ["dinner", "vegetarian", "healthy", "plant-based"],
+    nutrition: {
+      calories: 320,
+      protein: 14,
+      carbs: 42,
+      fat: 10,
+      fiber: 10,
+      sugar: 8,
+      servingSize: "1 stuffed pepper"
+    },
+    ingredients: [
+      { amount: "6", unit: "", item: "bell peppers, tops removed" },
+      { amount: "2", unit: "cups", item: "cooked quinoa" },
+      { amount: "1", unit: "can", item: "black beans, drained" },
+      { amount: "1", unit: "cup", item: "corn kernels" },
+      { amount: "1", unit: "can", item: "diced tomatoes" },
+      { amount: "1", unit: "cup", item: "shredded cheddar" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "tsp", item: "chili powder" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Cut tops off [peppers], remove seeds.",
+      "Mix [2 cups quinoa], [black beans], [corn], [tomatoes], [cumin], [chili powder].",
+      "Stuff [peppers] with quinoa mixture.",
+      "Place in baking dish, add 1/4 cup water to bottom.",
+      "Cover with foil, bake 30 minutes.",
+      "Remove foil, top with [cheddar].",
+      "Bake 10 more minutes until cheese melts.",
+      "Let cool 5 minutes before serving."
+    ]
+  },
+  {
+    id: "dinner-black-bean-tacos",
+    name: "Black Bean Tacos",
+    description: "Seasoned black beans with fresh toppings. Mexican street food at home.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican",
+    image: blackBeanTacosImg,
+    totalTime: 25,
+    tags: ["dinner", "vegetarian", "mexican", "quick", "plant-based"],
+    nutrition: {
+      calories: 380,
+      protein: 16,
+      carbs: 58,
+      fat: 10,
+      fiber: 14,
+      sugar: 4,
+      servingSize: "3 tacos"
+    },
+    ingredients: [
+      { amount: "2", unit: "cans", item: "black beans, drained" },
+      { amount: "12", unit: "", item: "corn tortillas" },
+      { amount: "1", unit: "cup", item: "pico de gallo" },
+      { amount: "1", unit: "", item: "avocado, sliced" },
+      { amount: "1", unit: "cup", item: "shredded lettuce" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "tsp", item: "chili powder" },
+      { amount: "2", unit: "", item: "limes, cut into wedges" }
+    ],
+    instructions: [
+      "Heat [black beans] in pot with [cumin] and [chili powder].",
+      "Mash about half the beans with fork for creamy texture.",
+      "Warm [tortillas] in dry skillet or microwave.",
+      "Divide bean mixture among tortillas.",
+      "Top with [lettuce], [pico de gallo], and [avocado].",
+      "Serve with [lime wedges] on the side.",
+      "Add hot sauce if desired."
+    ]
+  },
+  {
+    id: "dinner-crispy-baked-falafel",
+    name: "Crispy Baked Falafel",
+    description: "Golden falafel balls with tahini sauce. Middle Eastern classic.",
+    cookTime: "25 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Middle Eastern",
+    image: crispyBakedFalafelImg,
+    totalTime: 45,
+    tags: ["dinner", "vegetarian", "middle-eastern", "healthy", "plant-based"],
+    nutrition: {
+      calories: 340,
+      protein: 14,
+      carbs: 42,
+      fat: 14,
+      fiber: 10,
+      sugar: 4,
+      servingSize: "4 falafel"
+    },
+    ingredients: [
+      { amount: "2", unit: "cans", item: "chickpeas, drained" },
+      { amount: "1", unit: "", item: "onion, chopped" },
+      { amount: "4", unit: "cloves", item: "garlic" },
+      { amount: "1", unit: "cup", item: "fresh parsley" },
+      { amount: "2", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "tsp", item: "coriander" },
+      { amount: "1/4", unit: "cup", item: "flour" },
+      { amount: "1/2", unit: "cup", item: "tahini sauce" },
+      { amount: "2", unit: "", item: "lemons, juiced" }
+    ],
+    instructions: [
+      "Preheat oven to 400°F. Line baking sheet with parchment.",
+      "Pulse [chickpeas], [onion], [garlic], [parsley], [cumin], [coriander] in food processor.",
+      "Add [flour], pulse until mixture holds together.",
+      "Form into 24 small balls, place on baking sheet.",
+      "Brush with oil, bake 25 minutes, flipping halfway, until golden.",
+      "Mix [tahini] with [lemon juice] and water for sauce.",
+      "Serve falafel with tahini sauce and vegetables."
+    ]
+  },
+  {
+    id: "dinner-red-lentil-dahl",
+    name: "Red Lentil Dahl",
+    description: "Creamy spiced lentils with aromatic flavors. Indian comfort food.",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Indian",
+    image: redLentilDahlImg,
+    totalTime: 40,
+    tags: ["dinner", "vegetarian", "indian", "healthy", "plant-based"],
+    nutrition: {
+      calories: 280,
+      protein: 16,
+      carbs: 46,
+      fat: 4,
+      fiber: 12,
+      sugar: 6,
+      servingSize: "1.5 cups"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "red lentils, rinsed" },
+      { amount: "4", unit: "cups", item: "vegetable broth" },
+      { amount: "1", unit: "can", item: "coconut milk" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tsp", item: "curry powder" },
+      { amount: "1", unit: "tsp", item: "turmeric" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1/4", unit: "cup", item: "cilantro" }
+    ],
+    instructions: [
+      "Sauté [onion] in large pot until soft, add [garlic].",
+      "Add [curry powder], [turmeric], [cumin], cook 1 minute.",
+      "Add [2 cups lentils] and [4 cups broth], bring to boil.",
+      "Reduce heat, simmer 20 minutes until lentils are soft.",
+      "Stir in [coconut milk], simmer 5 more minutes.",
+      "Season with salt and pepper.",
+      "Garnish with [cilantro], serve with rice and naan."
+    ]
+  },
+  
+  // QUICK AND EASY (1)
+  {
+    id: "quick-vegan-nachos",
+    name: "Vegan Nachos",
+    description: "Loaded nachos with vegan cheese and all the toppings. Party-ready.",
+    cookTime: "10 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Mexican",
+    image: veganNachosImg,
+    totalTime: 25,
+    tags: ["quick-and-easy", "vegan", "mexican", "plant-based"],
+    nutrition: {
+      calories: 420,
+      protein: 12,
+      carbs: 52,
+      fat: 18,
+      fiber: 10,
+      sugar: 4,
+      servingSize: "1/6 platter"
+    },
+    ingredients: [
+      { amount: "1", unit: "bag", item: "tortilla chips" },
+      { amount: "1", unit: "can", item: "black beans, drained" },
+      { amount: "1", unit: "cup", item: "vegan cheese sauce" },
+      { amount: "1/2", unit: "cup", item: "sliced jalapeños" },
+      { amount: "1", unit: "cup", item: "guacamole" },
+      { amount: "1", unit: "cup", item: "salsa" },
+      { amount: "1/4", unit: "cup", item: "fresh cilantro" },
+      { amount: "1", unit: "", item: "lime, cut into wedges" }
+    ],
+    instructions: [
+      "Preheat oven to 350°F. Spread [tortilla chips] on large baking sheet.",
+      "Warm [black beans] in microwave.",
+      "Scatter [black beans] over chips.",
+      "Drizzle [vegan cheese sauce] over everything.",
+      "Bake 10 minutes until heated through.",
+      "Top with [jalapeños], [guacamole], and [salsa].",
+      "Garnish with [cilantro], serve with [lime wedges]."
+    ]
+  },
+  
+  // LUNCH IDEAS (4)
+  {
+    id: "lunch-mushroom-walnut-veggie-burger",
+    name: "Mushroom Walnut Veggie Burger",
+    description: "Gourmet veggie burger with earthy mushrooms and walnuts. Restaurant quality.",
+    cookTime: "15 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "American",
+    image: mushroomWalnutVeggieBurgerImg,
+    totalTime: 35,
+    tags: ["lunch", "dinner", "vegetarian", "plant-based", "healthy"],
+    nutrition: {
+      calories: 420,
+      protein: 18,
+      carbs: 46,
+      fat: 20,
+      fiber: 8,
+      sugar: 8,
+      servingSize: "1 burger"
+    },
+    ingredients: [
+      { amount: "8", unit: "oz", item: "mushrooms, finely chopped" },
+      { amount: "1", unit: "cup", item: "walnuts, chopped" },
+      { amount: "1", unit: "cup", item: "breadcrumbs" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1", unit: "", item: "onion, caramelized" },
+      { amount: "2", unit: "tbsp", item: "soy sauce" },
+      { amount: "4", unit: "", item: "brioche buns" },
+      { amount: "", unit: "", item: "Toppings: lettuce, tomato" }
+    ],
+    instructions: [
+      "Sauté [mushrooms] until liquid evaporates, about 8 minutes.",
+      "Pulse [walnuts] in food processor until finely ground.",
+      "Mix mushrooms, walnuts, [breadcrumbs], [eggs], [soy sauce] in bowl.",
+      "Form into 4 patties, refrigerate 15 minutes.",
+      "Cook patties in oiled skillet 5 minutes per side until golden.",
+      "Toast [buns], top with [caramelized onion].",
+      "Serve burgers on buns with [lettuce] and [tomato]."
+    ]
+  },
+  {
+    id: "lunch-cauliflower-shawarma",
+    name: "Cauliflower Shawarma",
+    description: "Roasted spiced cauliflower in pita. Middle Eastern street food magic.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Middle Eastern",
+    image: cauliflowerShawarmaImg,
+    totalTime: 45,
+    tags: ["lunch", "vegetarian", "middle-eastern", "healthy", "plant-based"],
+    nutrition: {
+      calories: 340,
+      protein: 12,
+      carbs: 48,
+      fat: 12,
+      fiber: 8,
+      sugar: 8,
+      servingSize: "1 wrap"
+    },
+    ingredients: [
+      { amount: "1", unit: "", item: "large cauliflower, florets" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "2", unit: "tsp", item: "cumin" },
+      { amount: "2", unit: "tsp", item: "paprika" },
+      { amount: "1", unit: "tsp", item: "turmeric" },
+      { amount: "4", unit: "", item: "pita breads" },
+      { amount: "1/2", unit: "cup", item: "tahini sauce" },
+      { amount: "1", unit: "cup", item: "pickled vegetables" },
+      { amount: "1/4", unit: "cup", item: "fresh parsley" }
+    ],
+    instructions: [
+      "Preheat oven to 425°F. Toss [cauliflower] with [2 tbsp oil], [cumin], [paprika], [turmeric].",
+      "Spread on baking sheet, roast 30 minutes until golden and tender.",
+      "Warm [pita breads].",
+      "Spread [tahini sauce] inside each pita.",
+      "Fill with roasted cauliflower and [pickled vegetables].",
+      "Top with [fresh parsley].",
+      "Serve immediately."
+    ]
+  },
+  {
+    id: "lunch-sesame-tofu-broccoli",
+    name: "Sesame Tofu and Broccoli",
+    description: "Crispy tofu with tender broccoli in sesame sauce. Asian takeout at home.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Asian",
+    image: sesameTofuBroccoliImg,
+    totalTime: 35,
+    tags: ["lunch", "vegetarian", "asian", "healthy", "plant-based"],
+    nutrition: {
+      calories: 320,
+      protein: 18,
+      carbs: 28,
+      fat: 16,
+      fiber: 6,
+      sugar: 8,
+      servingSize: "1.5 cups"
+    },
+    ingredients: [
+      { amount: "14", unit: "oz", item: "firm tofu, cubed" },
+      { amount: "1", unit: "", item: "large head broccoli, florets" },
+      { amount: "3", unit: "tbsp", item: "soy sauce" },
+      { amount: "2", unit: "tbsp", item: "sesame oil" },
+      { amount: "2", unit: "tbsp", item: "honey" },
+      { amount: "2", unit: "tbsp", item: "sesame seeds" },
+      { amount: "2", unit: "", item: "green onions, sliced" },
+      { amount: "2", unit: "tbsp", item: "cornstarch" }
+    ],
+    instructions: [
+      "Press [tofu] to remove excess water, coat in [cornstarch].",
+      "Heat oil in large skillet, cook tofu until golden on all sides, about 10 minutes.",
+      "Remove tofu, add [broccoli] to pan with 2 tbsp water.",
+      "Cook covered 5 minutes until tender-crisp.",
+      "Mix [3 tbsp soy sauce], [2 tbsp sesame oil], [2 tbsp honey].",
+      "Return tofu to pan, add sauce, toss to coat.",
+      "Top with [sesame seeds] and [green onions], serve over rice."
+    ]
+  },
+  {
+    id: "lunch-chipotle-portobello-tacos",
+    name: "Chipotle Portobello Mushroom Tacos",
+    description: "Smoky grilled mushrooms in soft tacos. Mexican street food perfection.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican",
+    image: chipotlePortobelloTacosImg,
+    totalTime: 25,
+    tags: ["lunch", "vegetarian", "mexican", "quick", "plant-based"],
+    nutrition: {
+      calories: 280,
+      protein: 10,
+      carbs: 42,
+      fat: 10,
+      fiber: 6,
+      sugar: 6,
+      servingSize: "3 tacos"
+    },
+    ingredients: [
+      { amount: "4", unit: "", item: "portobello mushrooms, sliced" },
+      { amount: "2", unit: "tbsp", item: "chipotle sauce" },
+      { amount: "12", unit: "", item: "corn tortillas" },
+      { amount: "1", unit: "cup", item: "cabbage slaw" },
+      { amount: "1", unit: "", item: "avocado, sliced" },
+      { amount: "1/4", unit: "cup", item: "cilantro" },
+      { amount: "2", unit: "", item: "limes, cut into wedges" }
+    ],
+    instructions: [
+      "Brush [portobello slices] with [chipotle sauce].",
+      "Grill or pan-fry mushrooms 3-4 minutes per side until tender.",
+      "Warm [tortillas] in dry skillet.",
+      "Divide mushrooms among tortillas.",
+      "Top with [cabbage slaw], [avocado], and [cilantro].",
+      "Serve with [lime wedges].",
+      "Add extra chipotle sauce if desired."
+    ]
+  },
+  
+  // ONE POT WONDERS (3)
+  {
+    id: "one-pot-spiced-carrot-parsnip-soup",
+    name: "Spiced Carrot and Parsnip Soup",
+    description: "Creamy root vegetable soup with warming spices. Cozy comfort.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: spicedCarrotParsnipSoupImg,
+    totalTime: 45,
+    tags: ["one-pot", "vegetarian", "soup", "healthy", "plant-based"],
+    nutrition: {
+      calories: 180,
+      protein: 4,
+      carbs: 32,
+      fat: 6,
+      fiber: 8,
+      sugar: 14,
+      servingSize: "1.5 cups"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "carrots, peeled and chopped" },
+      { amount: "1", unit: "lb", item: "parsnips, peeled and chopped" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "4", unit: "cups", item: "vegetable broth" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1/2", unit: "tsp", item: "coriander" },
+      { amount: "1/2", unit: "cup", item: "coconut cream" },
+      { amount: "2", unit: "tbsp", item: "olive oil" }
+    ],
+    instructions: [
+      "Heat [2 tbsp oil] in large pot, sauté [onion] until soft.",
+      "Add [cumin] and [coriander], cook 1 minute.",
+      "Add [carrots], [parsnips], and [4 cups broth].",
+      "Bring to boil, reduce heat, simmer 25 minutes until vegetables are tender.",
+      "Blend soup until smooth using immersion blender.",
+      "Stir in [coconut cream].",
+      "Season with salt and pepper, serve hot."
+    ]
+  },
+  {
+    id: "one-pot-vegan-mac-cheese",
+    name: "Vegan Mac and Cheese",
+    description: "Creamy cashew cheese sauce with tender pasta. Plant-based comfort.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: veganMacCheeseImg,
+    totalTime: 25,
+    tags: ["one-pot", "vegan", "comfort-food", "quick", "plant-based"],
+    nutrition: {
+      calories: 380,
+      protein: 12,
+      carbs: 52,
+      fat: 14,
+      fiber: 4,
+      sugar: 4,
+      servingSize: "1.5 cups"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "elbow macaroni" },
+      { amount: "1", unit: "cup", item: "raw cashews, soaked" },
+      { amount: "1/4", unit: "cup", item: "nutritional yeast" },
+      { amount: "2", unit: "cups", item: "vegetable broth" },
+      { amount: "2", unit: "tbsp", item: "lemon juice" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1/2", unit: "cup", item: "breadcrumbs" },
+      { amount: "2", unit: "tbsp", item: "parsley" }
+    ],
+    instructions: [
+      "Cook [macaroni] according to package, drain.",
+      "Blend [cashews], [nutritional yeast], [2 cups broth], [lemon juice], [garlic powder] until smooth.",
+      "Return pasta to pot, pour cashew cheese sauce over.",
+      "Heat over medium, stirring until sauce thickens, about 5 minutes.",
+      "Top with [breadcrumbs] if desired.",
+      "Garnish with [parsley].",
+      "Serve immediately."
+    ]
+  },
+  {
+    id: "one-pot-coconut-milk-tomato-soup",
+    name: "Coconut Milk Tomato Soup",
+    description: "Creamy tomato soup with coconut milk. Vegan twist on classic.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: coconutMilkTomatoSoupImg,
+    totalTime: 30,
+    tags: ["one-pot", "vegan", "soup", "quick", "plant-based"],
+    nutrition: {
+      calories: 220,
+      protein: 4,
+      carbs: 24,
+      fat: 12,
+      fiber: 6,
+      sugar: 14,
+      servingSize: "1.5 cups"
+    },
+    ingredients: [
+      { amount: "2", unit: "cans", item: "crushed tomatoes" },
+      { amount: "1", unit: "can", item: "coconut milk" },
+      { amount: "2", unit: "cups", item: "vegetable broth" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tsp", item: "dried basil" },
+      { amount: "1/4", unit: "cup", item: "fresh basil" }
+    ],
+    instructions: [
+      "Sauté [onion] in large pot until soft, add [garlic].",
+      "Add [crushed tomatoes], [2 cups broth], [dried basil].",
+      "Bring to boil, reduce heat, simmer 15 minutes.",
+      "Blend soup until smooth using immersion blender.",
+      "Stir in [coconut milk], heat through.",
+      "Season with salt and pepper.",
+      "Garnish with [fresh basil], serve with crusty bread."
+    ]
+  },
+  
+  // HEALTHY BOWLS (1)
+  {
+    id: "bowl-coconut-rice-bowls",
+    name: "Coconut Rice Bowls",
+    description: "Fluffy coconut rice with colorful vegetables. Tropical and healthy.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Asian",
+    image: coconutRiceBowlsImg,
+    totalTime: 35,
+    tags: ["healthy-bowls", "vegetarian", "asian", "healthy", "plant-based"],
+    nutrition: {
+      calories: 380,
+      protein: 12,
+      carbs: 58,
+      fat: 12,
+      fiber: 8,
+      sugar: 6,
+      servingSize: "1 bowl"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "jasmine rice" },
+      { amount: "1", unit: "can", item: "coconut milk" },
+      { amount: "1", unit: "cup", item: "edamame" },
+      { amount: "1", unit: "", item: "avocado, sliced" },
+      { amount: "1", unit: "cup", item: "shredded carrots" },
+      { amount: "1", unit: "cup", item: "cucumber, sliced" },
+      { amount: "2", unit: "tbsp", item: "sesame seeds" },
+      { amount: "2", unit: "", item: "limes, cut into wedges" }
+    ],
+    instructions: [
+      "Cook [2 cups rice] with [coconut milk] and 1 cup water.",
+      "Steam [edamame] according to package.",
+      "Divide coconut rice into 4 bowls.",
+      "Top each bowl with [edamame], [avocado], [carrots], and [cucumber].",
+      "Sprinkle with [sesame seeds].",
+      "Serve with [lime wedges].",
+      "Drizzle with soy sauce or Asian dressing if desired."
+    ]
+  },
+  
+  // DESSERTS (1)
+  {
+    id: "dessert-vegan-mug-cakes",
+    name: "Vegan Mug Cakes",
+    description: "Rich chocolate cake ready in minutes. Single-serve indulgence.",
+    cookTime: "2 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "American",
+    image: veganMugCakesImg,
+    totalTime: 7,
+    tags: ["dessert", "vegan", "quick", "plant-based"],
+    nutrition: {
+      calories: 280,
+      protein: 4,
+      carbs: 42,
+      fat: 12,
+      fiber: 3,
+      sugar: 24,
+      servingSize: "1 mug cake"
+    },
+    ingredients: [
+      { amount: "6", unit: "tbsp", item: "all-purpose flour" },
+      { amount: "4", unit: "tbsp", item: "sugar" },
+      { amount: "2", unit: "tbsp", item: "cocoa powder" },
+      { amount: "1/4", unit: "tsp", item: "baking powder" },
+      { amount: "6", unit: "tbsp", item: "plant milk" },
+      { amount: "2", unit: "tbsp", item: "vegetable oil" },
+      { amount: "1/2", unit: "tsp", item: "vanilla extract" },
+      { amount: "", unit: "", item: "Vegan whipped cream and berries for topping" }
+    ],
+    instructions: [
+      "Mix [6 tbsp flour], [4 tbsp sugar], [2 tbsp cocoa], [1/4 tsp baking powder] in bowl.",
+      "Add [6 tbsp milk], [2 tbsp oil], [1/2 tsp vanilla], stir until smooth.",
+      "Divide batter between 2 microwave-safe mugs.",
+      "Microwave each mug 60-90 seconds until cake rises and sets.",
+      "Let cool 1 minute.",
+      "Top with [vegan whipped cream] and [berries].",
+      "Serve immediately."
+    ]
+  },
+  
+  // BREAKFAST (1)
+  {
+    id: "breakfast-vegan-coconut-bacon",
+    name: "Vegan Coconut Bacon",
+    description: "Crispy coconut flakes seasoned like bacon. Plant-based breakfast magic.",
+    cookTime: "15 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: veganCoconutBaconImg,
+    totalTime: 20,
+    tags: ["breakfast", "vegan", "quick", "plant-based"],
+    nutrition: {
+      calories: 180,
+      protein: 2,
+      carbs: 12,
+      fat: 14,
+      fiber: 4,
+      sugar: 6,
+      servingSize: "1/4 cup"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "large coconut flakes" },
+      { amount: "2", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "maple syrup" },
+      { amount: "1", unit: "tsp", item: "liquid smoke" },
+      { amount: "1/2", unit: "tsp", item: "paprika" }
+    ],
+    instructions: [
+      "Preheat oven to 325°F. Line baking sheet with parchment.",
+      "Mix [2 tbsp soy sauce], [1 tbsp maple syrup], [1 tsp liquid smoke], [1/2 tsp paprika].",
+      "Toss [2 cups coconut flakes] with sauce mixture.",
+      "Spread in single layer on baking sheet.",
+      "Bake 12-15 minutes, stirring every 5 minutes, until golden and crispy.",
+      "Watch carefully to prevent burning.",
+      "Let cool completely to crisp up more. Use as topping for avocado toast, salads, or breakfast bowls."
+    ]
+  },
+  
   ...newRecipes
 ];
 
