@@ -187,6 +187,28 @@ import coconutRiceBowlsImg from "@/assets/recipes/coconut-rice-bowls.jpg";
 import veganMugCakesImg from "@/assets/recipes/vegan-mug-cakes.jpg";
 import veganCoconutBaconImg from "@/assets/recipes/vegan-coconut-bacon.jpg";
 
+// Import fall favorites recipes
+import pumpkinCreamCheeseMuffinsImg from "@/assets/recipes/pumpkin-cream-cheese-muffins.jpg";
+import pumpkinSpiceLatteOatsImg from "@/assets/recipes/pumpkin-spice-latte-oats.jpg";
+import pumpkinCinnamonRollsImg from "@/assets/recipes/pumpkin-cinnamon-rolls.jpg";
+import pumpkinCheesecakeBarsImg from "@/assets/recipes/pumpkin-cheesecake-bars.jpg";
+import pumpkinSoupBreadBowlImg from "@/assets/recipes/pumpkin-soup-bread-bowl.jpg";
+import pumpkinPastaSauceImg from "@/assets/recipes/pumpkin-pasta-sauce.jpg";
+import pumpkinChocolateChipCookiesImg from "@/assets/recipes/pumpkin-chocolate-chip-cookies.jpg";
+import pumpkinFrenchToastCasseroleImg from "@/assets/recipes/pumpkin-french-toast-casserole.jpg";
+import pumpkinCurryImg from "@/assets/recipes/pumpkin-curry.jpg";
+import pumpkinBreadPuddingImg from "@/assets/recipes/pumpkin-bread-pudding.jpg";
+import pumpkinRavioliImg from "@/assets/recipes/pumpkin-ravioli.jpg";
+import pumpkinBananaBreadImg from "@/assets/recipes/pumpkin-banana-bread.jpg";
+import applePieEggRollsImg from "@/assets/recipes/apple-pie-egg-rolls.jpg";
+import stuffedBakedApplesImg from "@/assets/recipes/stuffed-baked-apples.jpg";
+import pumpkinDumpCakeImg from "@/assets/recipes/pumpkin-dump-cake.jpg";
+import cinnamonRollApplePieImg from "@/assets/recipes/cinnamon-roll-apple-pie.jpg";
+import appleCrispMugImg from "@/assets/recipes/apple-crisp-mug.jpg";
+import appleCiderDonutsImg from "@/assets/recipes/apple-cider-donuts.jpg";
+import honeyCrispAppleSaladImg from "@/assets/recipes/honey-crisp-apple-salad.jpg";
+import appleButterChickenImg from "@/assets/recipes/apple-butter-chicken.jpg";
+
 // Import new recipes
 import { newRecipes } from "./newRecipes";
 
@@ -9437,6 +9459,860 @@ export const allRecipes: Recipe[] = [
       "Bake 12-15 minutes, stirring every 5 minutes, until golden and crispy.",
       "Watch carefully to prevent burning.",
       "Let cool completely to crisp up more. Use as topping for avocado toast, salads, or breakfast bowls."
+    ]
+  },
+
+  // ========== FALL FAVORITES (20) ==========
+  {
+    id: "fall-pumpkin-cream-cheese-muffins",
+    name: "Pumpkin Cream Cheese Muffins",
+    description: "Moist pumpkin muffins with cream cheese swirl. Perfect fall breakfast treat.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "American",
+    image: pumpkinCreamCheeseMuffinsImg,
+    totalTime: 35,
+    tags: ["Fall Favorites", "breakfast", "baking", "pumpkin"],
+    nutrition: {
+      calories: 220,
+      protein: 4,
+      carbs: 32,
+      fat: 9,
+      fiber: 2,
+      sugar: 18,
+      servingSize: "1 muffin"
+    },
+    ingredients: [
+      { amount: "1.5", unit: "cups", item: "all-purpose flour" },
+      { amount: "1", unit: "tsp", item: "baking powder" },
+      { amount: "1/2", unit: "tsp", item: "baking soda" },
+      { amount: "1", unit: "tsp", item: "pumpkin pie spice" },
+      { amount: "1/4", unit: "tsp", item: "salt" },
+      { amount: "1", unit: "cup", item: "pumpkin puree" },
+      { amount: "1/2", unit: "cup", item: "vegetable oil" },
+      { amount: "3/4", unit: "cup", item: "sugar" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1", unit: "tsp", item: "vanilla extract" },
+      { amount: "8", unit: "oz", item: "cream cheese, softened" },
+      { amount: "1/4", unit: "cup", item: "sugar (for swirl)" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Line muffin tin with paper liners.",
+      "Mix [1.5 cups flour], [1 tsp baking powder], [1/2 tsp baking soda], [1 tsp pumpkin spice], [1/4 tsp salt].",
+      "In separate bowl, whisk [1 cup pumpkin], [1/2 cup oil], [3/4 cup sugar], [2 eggs], [1 tsp vanilla].",
+      "Combine wet and dry ingredients, mix until just combined.",
+      "Beat [8 oz cream cheese] with [1/4 cup sugar] until smooth.",
+      "Fill muffin cups 2/3 full with pumpkin batter.",
+      "Add spoonful of cream cheese mixture on top, swirl with toothpick.",
+      "Bake 20-22 minutes until toothpick comes out clean. Cool before serving."
+    ]
+  },
+  {
+    id: "fall-pumpkin-spice-latte-oats",
+    name: "Pumpkin Spice Latte Overnight Oats",
+    description: "Creamy overnight oats with pumpkin and coffee. Easy make-ahead breakfast.",
+    cookTime: "0 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "American",
+    image: pumpkinSpiceLatteOatsImg,
+    totalTime: 5,
+    tags: ["Fall Favorites", "breakfast", "no-cook", "healthy"],
+    nutrition: {
+      calories: 280,
+      protein: 8,
+      carbs: 42,
+      fat: 8,
+      fiber: 6,
+      sugar: 12,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "cup", item: "rolled oats" },
+      { amount: "1", unit: "cup", item: "milk" },
+      { amount: "1/2", unit: "cup", item: "pumpkin puree" },
+      { amount: "2", unit: "tbsp", item: "maple syrup" },
+      { amount: "1", unit: "tsp", item: "pumpkin pie spice" },
+      { amount: "1", unit: "shot", item: "espresso or strong coffee" },
+      { amount: "1", unit: "tsp", item: "vanilla extract" },
+      { amount: "", unit: "", item: "whipped cream for topping" }
+    ],
+    instructions: [
+      "In mason jar, combine [1 cup oats], [1 cup milk], [1/2 cup pumpkin puree].",
+      "Add [2 tbsp maple syrup], [1 tsp pumpkin spice], [1 shot espresso], [1 tsp vanilla].",
+      "Stir well to combine all ingredients.",
+      "Cover and refrigerate overnight (at least 6 hours).",
+      "In morning, stir and add more milk if needed.",
+      "Top with whipped cream and sprinkle of cinnamon before serving."
+    ]
+  },
+  {
+    id: "fall-pumpkin-cinnamon-rolls",
+    name: "Pumpkin Cinnamon Rolls",
+    description: "Fluffy pumpkin rolls with cinnamon swirl and cream cheese frosting.",
+    cookTime: "25 mins",
+    prepTime: "30 mins",
+    difficulty: "medium",
+    servings: 12,
+    cuisine: "American",
+    image: pumpkinCinnamonRollsImg,
+    totalTime: 145,
+    tags: ["Fall Favorites", "breakfast", "baking", "pumpkin"],
+    nutrition: {
+      calories: 320,
+      protein: 5,
+      carbs: 48,
+      fat: 12,
+      fiber: 2,
+      sugar: 22,
+      servingSize: "1 roll"
+    },
+    ingredients: [
+      { amount: "3.5", unit: "cups", item: "all-purpose flour" },
+      { amount: "1/4", unit: "cup", item: "sugar" },
+      { amount: "1", unit: "packet", item: "instant yeast" },
+      { amount: "3/4", unit: "cup", item: "pumpkin puree" },
+      { amount: "1/4", unit: "cup", item: "milk, warm" },
+      { amount: "1/4", unit: "cup", item: "butter, melted" },
+      { amount: "1", unit: "", item: "egg" },
+      { amount: "1/2", unit: "cup", item: "brown sugar" },
+      { amount: "2", unit: "tbsp", item: "cinnamon" },
+      { amount: "8", unit: "oz", item: "cream cheese" },
+      { amount: "2", unit: "cups", item: "powdered sugar" }
+    ],
+    instructions: [
+      "Mix [3.5 cups flour], [1/4 cup sugar], [1 packet yeast] in bowl.",
+      "Add [3/4 cup pumpkin], [1/4 cup warm milk], [1/4 cup melted butter], [1 egg].",
+      "Knead until smooth dough forms, let rise 1 hour.",
+      "Roll dough into rectangle, brush with melted butter.",
+      "Mix [1/2 cup brown sugar] with [2 tbsp cinnamon], sprinkle over dough.",
+      "Roll up tightly, cut into 12 rolls.",
+      "Place in greased pan, let rise 30 minutes.",
+      "Bake at 350°F for 25 minutes. Make frosting with [8 oz cream cheese] and [2 cups powdered sugar]. Frost warm rolls."
+    ]
+  },
+  {
+    id: "fall-pumpkin-cheesecake-bars",
+    name: "Pumpkin Cheesecake Bars",
+    description: "Creamy pumpkin cheesecake on graham cracker crust. Perfect fall dessert.",
+    cookTime: "45 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 16,
+    cuisine: "American",
+    image: pumpkinCheesecakeBarsImg,
+    totalTime: 180,
+    tags: ["Fall Favorites", "dessert", "baking", "pumpkin"],
+    nutrition: {
+      calories: 280,
+      protein: 5,
+      carbs: 32,
+      fat: 15,
+      fiber: 1,
+      sugar: 24,
+      servingSize: "1 bar"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "graham cracker crumbs" },
+      { amount: "1/2", unit: "cup", item: "butter, melted" },
+      { amount: "16", unit: "oz", item: "cream cheese, softened" },
+      { amount: "3/4", unit: "cup", item: "sugar" },
+      { amount: "1", unit: "cup", item: "pumpkin puree" },
+      { amount: "3", unit: "", item: "eggs" },
+      { amount: "1", unit: "tsp", item: "pumpkin pie spice" },
+      { amount: "1", unit: "tsp", item: "vanilla extract" }
+    ],
+    instructions: [
+      "Preheat oven to 325°F. Line 9x13 pan with parchment.",
+      "Mix [2 cups graham crumbs] with [1/2 cup melted butter], press into pan.",
+      "Beat [16 oz cream cheese] with [3/4 cup sugar] until smooth.",
+      "Add [1 cup pumpkin], [3 eggs], [1 tsp pumpkin spice], [1 tsp vanilla].",
+      "Pour over crust, smooth top.",
+      "Bake 45 minutes until center is set.",
+      "Cool completely, refrigerate 2 hours.",
+      "Cut into 16 bars before serving."
+    ]
+  },
+  {
+    id: "fall-pumpkin-soup-bread-bowl",
+    name: "Pumpkin Soup in a Bread Bowl",
+    description: "Creamy pumpkin soup served in rustic bread bowl. Cozy fall comfort.",
+    cookTime: "25 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: pumpkinSoupBreadBowlImg,
+    totalTime: 40,
+    tags: ["Fall Favorites", "soup", "comfort food", "pumpkin"],
+    nutrition: {
+      calories: 380,
+      protein: 8,
+      carbs: 52,
+      fat: 16,
+      fiber: 6,
+      sugar: 12,
+      servingSize: "1 bowl"
+    },
+    ingredients: [
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "2", unit: "cloves", item: "garlic, minced" },
+      { amount: "3", unit: "cups", item: "pumpkin puree" },
+      { amount: "3", unit: "cups", item: "vegetable broth" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1", unit: "tsp", item: "pumpkin pie spice" },
+      { amount: "4", unit: "", item: "bread bowls" },
+      { amount: "", unit: "", item: "pumpkin seeds for garnish" }
+    ],
+    instructions: [
+      "In large pot, melt [2 tbsp butter], sauté [1 diced onion] and [2 cloves garlic].",
+      "Add [3 cups pumpkin puree], [3 cups broth], [1 tsp pumpkin spice].",
+      "Simmer 15 minutes.",
+      "Stir in [1 cup cream], heat through.",
+      "Use immersion blender for smooth texture.",
+      "Cut tops off [4 bread bowls], hollow out centers.",
+      "Ladle hot soup into bread bowls.",
+      "Garnish with pumpkin seeds and cream drizzle."
+    ]
+  },
+  {
+    id: "fall-pumpkin-pasta-sauce",
+    name: "Pumpkin Pasta Sauce",
+    description: "Creamy pumpkin alfredo sauce with sage. Fall twist on classic pasta.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Italian-American",
+    image: pumpkinPastaSauceImg,
+    totalTime: 25,
+    tags: ["Fall Favorites", "pasta", "dinner", "pumpkin"],
+    nutrition: {
+      calories: 420,
+      protein: 12,
+      carbs: 58,
+      fat: 16,
+      fiber: 4,
+      sugar: 6,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "fettuccine" },
+      { amount: "3", unit: "tbsp", item: "butter" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "1.5", unit: "cups", item: "pumpkin puree" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1", unit: "cup", item: "parmesan cheese" },
+      { amount: "8", unit: "leaves", item: "fresh sage" },
+      { amount: "1/2", unit: "tsp", item: "nutmeg" },
+      { amount: "", unit: "", item: "salt and pepper" }
+    ],
+    instructions: [
+      "Cook [1 lb fettuccine] according to package directions.",
+      "In large pan, melt [3 tbsp butter], sauté [3 cloves garlic] and [8 sage leaves].",
+      "Add [1.5 cups pumpkin puree], [1 cup cream], [1 cup parmesan], [1/2 tsp nutmeg].",
+      "Simmer 10 minutes, stirring until smooth.",
+      "Season with salt and pepper.",
+      "Toss hot pasta with sauce.",
+      "Garnish with extra parmesan and crispy sage."
+    ]
+  },
+  {
+    id: "fall-pumpkin-chocolate-chip-cookies",
+    name: "Pumpkin Chocolate Chip Cookies",
+    description: "Soft pumpkin cookies loaded with chocolate chips. Fall baking favorite.",
+    cookTime: "12 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 24,
+    cuisine: "American",
+    image: pumpkinChocolateChipCookiesImg,
+    totalTime: 27,
+    tags: ["Fall Favorites", "dessert", "cookies", "pumpkin"],
+    nutrition: {
+      calories: 140,
+      protein: 2,
+      carbs: 20,
+      fat: 6,
+      fiber: 1,
+      sugar: 12,
+      servingSize: "1 cookie"
+    },
+    ingredients: [
+      { amount: "2.5", unit: "cups", item: "all-purpose flour" },
+      { amount: "1", unit: "tsp", item: "baking soda" },
+      { amount: "1", unit: "tsp", item: "pumpkin pie spice" },
+      { amount: "1/2", unit: "tsp", item: "salt" },
+      { amount: "1", unit: "cup", item: "butter, softened" },
+      { amount: "1", unit: "cup", item: "sugar" },
+      { amount: "1", unit: "cup", item: "pumpkin puree" },
+      { amount: "1", unit: "", item: "egg" },
+      { amount: "1", unit: "tsp", item: "vanilla" },
+      { amount: "2", unit: "cups", item: "chocolate chips" }
+    ],
+    instructions: [
+      "Preheat oven to 350°F. Line baking sheets.",
+      "Mix [2.5 cups flour], [1 tsp baking soda], [1 tsp pumpkin spice], [1/2 tsp salt].",
+      "Cream [1 cup butter] and [1 cup sugar] until fluffy.",
+      "Beat in [1 cup pumpkin], [1 egg], [1 tsp vanilla].",
+      "Gradually mix in dry ingredients.",
+      "Fold in [2 cups chocolate chips].",
+      "Drop tablespoons of dough onto sheets.",
+      "Bake 12 minutes until edges are set. Cool on wire rack."
+    ]
+  },
+  {
+    id: "fall-pumpkin-french-toast-casserole",
+    name: "Pumpkin French Toast Casserole",
+    description: "Make-ahead breakfast casserole with pumpkin and cinnamon. Perfect for fall mornings.",
+    cookTime: "45 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "American",
+    image: pumpkinFrenchToastCasseroleImg,
+    totalTime: 540,
+    tags: ["Fall Favorites", "breakfast", "casserole", "pumpkin"],
+    nutrition: {
+      calories: 340,
+      protein: 10,
+      carbs: 48,
+      fat: 12,
+      fiber: 3,
+      sugar: 22,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "loaf", item: "French bread, cubed" },
+      { amount: "6", unit: "", item: "eggs" },
+      { amount: "1", unit: "cup", item: "pumpkin puree" },
+      { amount: "2", unit: "cups", item: "milk" },
+      { amount: "1/2", unit: "cup", item: "brown sugar" },
+      { amount: "1", unit: "tsp", item: "pumpkin pie spice" },
+      { amount: "1", unit: "tsp", item: "vanilla" },
+      { amount: "1/2", unit: "cup", item: "butter, melted" },
+      { amount: "", unit: "", item: "maple syrup for serving" }
+    ],
+    instructions: [
+      "Grease 9x13 baking dish. Add [1 loaf cubed bread].",
+      "Whisk [6 eggs], [1 cup pumpkin], [2 cups milk], [1/2 cup brown sugar].",
+      "Add [1 tsp pumpkin spice], [1 tsp vanilla], [1/2 cup melted butter].",
+      "Pour mixture over bread, press down gently.",
+      "Cover and refrigerate overnight (or at least 2 hours).",
+      "Preheat oven to 350°F.",
+      "Bake uncovered 45 minutes until golden and set.",
+      "Serve warm with maple syrup."
+    ]
+  },
+  {
+    id: "fall-pumpkin-curry",
+    name: "Pumpkin Curry",
+    description: "Creamy coconut curry with pumpkin and chickpeas. Warming fall dinner.",
+    cookTime: "25 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Indian-Fusion",
+    image: pumpkinCurryImg,
+    totalTime: 40,
+    tags: ["Fall Favorites", "dinner", "curry", "vegetarian"],
+    nutrition: {
+      calories: 320,
+      protein: 10,
+      carbs: 42,
+      fat: 14,
+      fiber: 8,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "2", unit: "tbsp", item: "coconut oil" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "curry powder" },
+      { amount: "3", unit: "cups", item: "pumpkin, cubed" },
+      { amount: "1", unit: "can", item: "chickpeas, drained" },
+      { amount: "1", unit: "can", item: "coconut milk" },
+      { amount: "1", unit: "cup", item: "vegetable broth" },
+      { amount: "2", unit: "cups", item: "spinach" },
+      { amount: "", unit: "", item: "cilantro for garnish" }
+    ],
+    instructions: [
+      "Heat [2 tbsp coconut oil], sauté [1 diced onion] and [3 cloves garlic].",
+      "Add [2 tbsp curry powder], cook 1 minute.",
+      "Add [3 cups pumpkin cubes], [1 can chickpeas], [1 can coconut milk], [1 cup broth].",
+      "Simmer 20 minutes until pumpkin is tender.",
+      "Stir in [2 cups spinach] until wilted.",
+      "Season with salt and pepper.",
+      "Garnish with cilantro, serve over rice."
+    ]
+  },
+  {
+    id: "fall-pumpkin-bread-pudding",
+    name: "Pumpkin Bread Pudding",
+    description: "Warm spiced bread pudding with pumpkin and caramel sauce. Ultimate fall dessert.",
+    cookTime: "45 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 10,
+    cuisine: "American",
+    image: pumpkinBreadPuddingImg,
+    totalTime: 65,
+    tags: ["Fall Favorites", "dessert", "baking", "pumpkin"],
+    nutrition: {
+      calories: 380,
+      protein: 8,
+      carbs: 54,
+      fat: 16,
+      fiber: 2,
+      sugar: 32,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "loaf", item: "challah bread, cubed" },
+      { amount: "6", unit: "", item: "eggs" },
+      { amount: "1", unit: "cup", item: "pumpkin puree" },
+      { amount: "2", unit: "cups", item: "heavy cream" },
+      { amount: "1", unit: "cup", item: "milk" },
+      { amount: "1", unit: "cup", item: "brown sugar" },
+      { amount: "2", unit: "tsp", item: "pumpkin pie spice" },
+      { amount: "1", unit: "tsp", item: "vanilla" },
+      { amount: "1", unit: "cup", item: "caramel sauce" }
+    ],
+    instructions: [
+      "Grease 9x13 baking dish. Add [1 loaf cubed bread].",
+      "Whisk [6 eggs], [1 cup pumpkin], [2 cups cream], [1 cup milk].",
+      "Add [1 cup brown sugar], [2 tsp pumpkin spice], [1 tsp vanilla].",
+      "Pour over bread, press gently. Let soak 30 minutes.",
+      "Preheat oven to 350°F.",
+      "Bake 45 minutes until golden and set.",
+      "Warm [1 cup caramel sauce], drizzle over servings.",
+      "Serve warm with whipped cream or ice cream."
+    ]
+  },
+  {
+    id: "fall-pumpkin-ravioli",
+    name: "Pumpkin Ravioli",
+    description: "Homemade ravioli filled with pumpkin ricotta, served with sage butter.",
+    cookTime: "8 mins",
+    prepTime: "60 mins",
+    difficulty: "hard",
+    servings: 4,
+    cuisine: "Italian",
+    image: pumpkinRavioliImg,
+    totalTime: 68,
+    tags: ["Fall Favorites", "pasta", "dinner", "pumpkin"],
+    nutrition: {
+      calories: 480,
+      protein: 16,
+      carbs: 62,
+      fat: 18,
+      fiber: 4,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "flour" },
+      { amount: "3", unit: "", item: "eggs" },
+      { amount: "1", unit: "cup", item: "pumpkin puree" },
+      { amount: "1", unit: "cup", item: "ricotta cheese" },
+      { amount: "1/2", unit: "cup", item: "parmesan" },
+      { amount: "1/4", unit: "tsp", item: "nutmeg" },
+      { amount: "1/2", unit: "cup", item: "butter" },
+      { amount: "12", unit: "leaves", item: "fresh sage" },
+      { amount: "", unit: "", item: "salt and pepper" }
+    ],
+    instructions: [
+      "Make pasta dough with [2 cups flour] and [3 eggs], rest 30 minutes.",
+      "Mix filling: [1 cup pumpkin], [1 cup ricotta], [1/2 cup parmesan], [1/4 tsp nutmeg].",
+      "Roll pasta thin, cut into squares.",
+      "Place spoonful of filling on half the squares.",
+      "Top with remaining squares, seal edges with fork.",
+      "Boil ravioli 6-8 minutes until they float.",
+      "In pan, brown [1/2 cup butter] with [12 sage leaves].",
+      "Toss cooked ravioli in sage butter. Serve with extra parmesan."
+    ]
+  },
+  {
+    id: "fall-pumpkin-banana-bread",
+    name: "Pumpkin Banana Bread",
+    description: "Moist bread combining pumpkin and banana. Best of both worlds.",
+    cookTime: "60 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "American",
+    image: pumpkinBananaBreadImg,
+    totalTime: 75,
+    tags: ["Fall Favorites", "breakfast", "baking", "pumpkin"],
+    nutrition: {
+      calories: 240,
+      protein: 4,
+      carbs: 38,
+      fat: 8,
+      fiber: 2,
+      sugar: 20,
+      servingSize: "1 slice"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "all-purpose flour" },
+      { amount: "1", unit: "tsp", item: "baking soda" },
+      { amount: "1", unit: "tsp", item: "pumpkin pie spice" },
+      { amount: "1/2", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "cup", item: "butter, melted" },
+      { amount: "3/4", unit: "cup", item: "sugar" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1", unit: "cup", item: "mashed banana" },
+      { amount: "1/2", unit: "cup", item: "pumpkin puree" },
+      { amount: "1", unit: "tsp", item: "vanilla" }
+    ],
+    instructions: [
+      "Preheat oven to 350°F. Grease 9x5 loaf pan.",
+      "Mix [2 cups flour], [1 tsp baking soda], [1 tsp pumpkin spice], [1/2 tsp salt].",
+      "In bowl, whisk [1/2 cup melted butter], [3/4 cup sugar], [2 eggs].",
+      "Stir in [1 cup mashed banana], [1/2 cup pumpkin], [1 tsp vanilla].",
+      "Fold in dry ingredients until just combined.",
+      "Pour into prepared pan.",
+      "Bake 60 minutes until toothpick comes out clean.",
+      "Cool 10 minutes in pan, then turn out onto rack."
+    ]
+  },
+  {
+    id: "fall-apple-pie-egg-rolls",
+    name: "Apple Pie Egg Rolls",
+    description: "Crispy egg rolls filled with apple pie filling. Fun fall dessert twist.",
+    cookTime: "15 mins",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "American-Asian Fusion",
+    image: applePieEggRollsImg,
+    totalTime: 35,
+    tags: ["Fall Favorites", "dessert", "fried", "apples"],
+    nutrition: {
+      calories: 180,
+      protein: 3,
+      carbs: 28,
+      fat: 6,
+      fiber: 2,
+      sugar: 14,
+      servingSize: "1 egg roll"
+    },
+    ingredients: [
+      { amount: "4", unit: "", item: "apples, peeled and diced" },
+      { amount: "1/2", unit: "cup", item: "brown sugar" },
+      { amount: "2", unit: "tsp", item: "cinnamon" },
+      { amount: "1", unit: "tbsp", item: "cornstarch" },
+      { amount: "12", unit: "", item: "egg roll wrappers" },
+      { amount: "", unit: "", item: "oil for frying" },
+      { amount: "1/4", unit: "cup", item: "cinnamon sugar" },
+      { amount: "1", unit: "cup", item: "caramel sauce" }
+    ],
+    instructions: [
+      "Cook [4 diced apples], [1/2 cup brown sugar], [2 tsp cinnamon] until soft.",
+      "Stir in [1 tbsp cornstarch], cook until thickened. Cool completely.",
+      "Place spoonful of filling on [12 egg roll wrappers].",
+      "Roll tightly, seal edges with water.",
+      "Heat oil to 350°F.",
+      "Fry egg rolls 2-3 minutes per side until golden.",
+      "Drain on paper towels, roll in [1/4 cup cinnamon sugar].",
+      "Serve warm with [1 cup caramel sauce] for dipping."
+    ]
+  },
+  {
+    id: "fall-stuffed-baked-apples",
+    name: "Stuffed Baked Apples",
+    description: "Warm baked apples stuffed with oat crumble. Classic fall comfort dessert.",
+    cookTime: "45 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: stuffedBakedApplesImg,
+    totalTime: 60,
+    tags: ["Fall Favorites", "dessert", "baking", "apples"],
+    nutrition: {
+      calories: 220,
+      protein: 2,
+      carbs: 42,
+      fat: 6,
+      fiber: 5,
+      sugar: 28,
+      servingSize: "1 apple"
+    },
+    ingredients: [
+      { amount: "6", unit: "", item: "large apples" },
+      { amount: "1/2", unit: "cup", item: "rolled oats" },
+      { amount: "1/4", unit: "cup", item: "brown sugar" },
+      { amount: "1/4", unit: "cup", item: "chopped pecans" },
+      { amount: "1/4", unit: "cup", item: "raisins" },
+      { amount: "2", unit: "tsp", item: "cinnamon" },
+      { amount: "1/4", unit: "cup", item: "butter, melted" },
+      { amount: "1/2", unit: "cup", item: "apple juice" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Core [6 apples], leaving bottom intact.",
+      "Mix [1/2 cup oats], [1/4 cup brown sugar], [1/4 cup pecans], [1/4 cup raisins], [2 tsp cinnamon].",
+      "Stir in [1/4 cup melted butter].",
+      "Stuff mixture into apple centers.",
+      "Place apples in baking dish, pour [1/2 cup apple juice] around them.",
+      "Cover with foil, bake 30 minutes.",
+      "Uncover, bake 15 more minutes until tender.",
+      "Serve warm with vanilla ice cream or whipped cream."
+    ]
+  },
+  {
+    id: "fall-pumpkin-dump-cake",
+    name: "Pumpkin Dump Cake",
+    description: "Easy dump cake with pumpkin and cake mix. Minimal effort, maximum flavor.",
+    cookTime: "50 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "American",
+    image: pumpkinDumpCakeImg,
+    totalTime: 55,
+    tags: ["Fall Favorites", "dessert", "easy", "pumpkin"],
+    nutrition: {
+      calories: 340,
+      protein: 4,
+      carbs: 52,
+      fat: 14,
+      fiber: 2,
+      sugar: 36,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "can", item: "pumpkin puree (15 oz)" },
+      { amount: "1", unit: "can", item: "evaporated milk (12 oz)" },
+      { amount: "3", unit: "", item: "eggs" },
+      { amount: "1.5", unit: "cups", item: "sugar" },
+      { amount: "2", unit: "tsp", item: "pumpkin pie spice" },
+      { amount: "1", unit: "box", item: "yellow cake mix" },
+      { amount: "1", unit: "cup", item: "butter, melted" },
+      { amount: "1", unit: "cup", item: "chopped pecans" }
+    ],
+    instructions: [
+      "Preheat oven to 350°F. Grease 9x13 baking dish.",
+      "Mix [1 can pumpkin], [1 can evaporated milk], [3 eggs], [1.5 cups sugar], [2 tsp pumpkin spice].",
+      "Pour into baking dish.",
+      "Sprinkle [1 box cake mix] evenly over pumpkin layer (don't stir).",
+      "Drizzle [1 cup melted butter] over cake mix.",
+      "Top with [1 cup chopped pecans].",
+      "Bake 50 minutes until golden and bubbly.",
+      "Serve warm with whipped cream or ice cream."
+    ]
+  },
+  {
+    id: "fall-cinnamon-roll-apple-pie",
+    name: "Cinnamon Roll Apple Pie",
+    description: "Apple pie topped with cinnamon roll dough. Best of both desserts.",
+    cookTime: "45 mins",
+    prepTime: "30 mins",
+    difficulty: "medium",
+    servings: 8,
+    cuisine: "American",
+    image: cinnamonRollApplePieImg,
+    totalTime: 75,
+    tags: ["Fall Favorites", "dessert", "baking", "apples"],
+    nutrition: {
+      calories: 420,
+      protein: 5,
+      carbs: 64,
+      fat: 18,
+      fiber: 3,
+      sugar: 38,
+      servingSize: "1 slice"
+    },
+    ingredients: [
+      { amount: "6", unit: "cups", item: "apples, sliced" },
+      { amount: "1/2", unit: "cup", item: "sugar" },
+      { amount: "2", unit: "tbsp", item: "flour" },
+      { amount: "2", unit: "tsp", item: "cinnamon" },
+      { amount: "1", unit: "can", item: "refrigerated cinnamon rolls" },
+      { amount: "4", unit: "oz", item: "cream cheese" },
+      { amount: "1", unit: "cup", item: "powdered sugar" },
+      { amount: "2", unit: "tbsp", item: "milk" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Grease 9-inch pie dish.",
+      "Mix [6 cups sliced apples], [1/2 cup sugar], [2 tbsp flour], [2 tsp cinnamon].",
+      "Pour apple mixture into pie dish.",
+      "Separate [1 can cinnamon rolls], arrange on top of apples in spiral pattern.",
+      "Bake 45 minutes until cinnamon rolls are golden and apples are tender.",
+      "Make frosting: beat [4 oz cream cheese], [1 cup powdered sugar], [2 tbsp milk].",
+      "Drizzle frosting over warm pie.",
+      "Let cool 15 minutes before serving."
+    ]
+  },
+  {
+    id: "fall-apple-crisp-mug",
+    name: "Apple Crisp in a Mug",
+    description: "Single-serve apple crisp ready in minutes. Perfect fall comfort in a mug.",
+    cookTime: "2 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 1,
+    cuisine: "American",
+    image: appleCrispMugImg,
+    totalTime: 7,
+    tags: ["Fall Favorites", "dessert", "microwave", "apples"],
+    nutrition: {
+      calories: 280,
+      protein: 3,
+      carbs: 48,
+      fat: 10,
+      fiber: 4,
+      sugar: 32,
+      servingSize: "1 mug"
+    },
+    ingredients: [
+      { amount: "1", unit: "", item: "apple, diced" },
+      { amount: "1", unit: "tbsp", item: "brown sugar" },
+      { amount: "1/2", unit: "tsp", item: "cinnamon" },
+      { amount: "3", unit: "tbsp", item: "oats" },
+      { amount: "2", unit: "tbsp", item: "flour" },
+      { amount: "2", unit: "tbsp", item: "brown sugar (for topping)" },
+      { amount: "2", unit: "tbsp", item: "butter, melted" },
+      { amount: "", unit: "", item: "vanilla ice cream" }
+    ],
+    instructions: [
+      "In microwave-safe mug, combine [1 diced apple], [1 tbsp brown sugar], [1/2 tsp cinnamon].",
+      "In small bowl, mix [3 tbsp oats], [2 tbsp flour], [2 tbsp brown sugar].",
+      "Stir in [2 tbsp melted butter] until crumbly.",
+      "Sprinkle topping over apple mixture in mug.",
+      "Microwave on high 2 minutes until apple is tender.",
+      "Let cool 1 minute.",
+      "Top with vanilla ice cream and serve immediately."
+    ]
+  },
+  {
+    id: "fall-apple-cider-donuts",
+    name: "Baked Apple Cider Donuts",
+    description: "Soft baked donuts with apple cider and cinnamon sugar. Fall bakery favorite.",
+    cookTime: "12 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "American",
+    image: appleCiderDonutsImg,
+    totalTime: 27,
+    tags: ["Fall Favorites", "breakfast", "baking", "apples"],
+    nutrition: {
+      calories: 190,
+      protein: 3,
+      carbs: 32,
+      fat: 6,
+      fiber: 1,
+      sugar: 18,
+      servingSize: "1 donut"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "flour" },
+      { amount: "1", unit: "tsp", item: "baking powder" },
+      { amount: "1/2", unit: "tsp", item: "baking soda" },
+      { amount: "1.5", unit: "tsp", item: "cinnamon" },
+      { amount: "3/4", unit: "cup", item: "apple cider" },
+      { amount: "1/3", unit: "cup", item: "butter, melted" },
+      { amount: "1/2", unit: "cup", item: "sugar" },
+      { amount: "1", unit: "", item: "egg" },
+      { amount: "1/2", unit: "cup", item: "cinnamon sugar" }
+    ],
+    instructions: [
+      "Preheat oven to 350°F. Grease donut pan.",
+      "Mix [2 cups flour], [1 tsp baking powder], [1/2 tsp baking soda], [1.5 tsp cinnamon].",
+      "In bowl, whisk [3/4 cup apple cider], [1/3 cup melted butter], [1/2 cup sugar], [1 egg].",
+      "Combine wet and dry ingredients until just mixed.",
+      "Pipe batter into donut pan.",
+      "Bake 12 minutes until golden.",
+      "Cool 2 minutes, remove from pan.",
+      "Brush with melted butter, roll in [1/2 cup cinnamon sugar]."
+    ]
+  },
+  {
+    id: "fall-honey-crisp-apple-salad",
+    name: "Honey Crisp Apple Salad",
+    description: "Fresh salad with apples, goat cheese, and candied pecans. Perfect fall lunch.",
+    cookTime: "0 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: honeyCrispAppleSaladImg,
+    totalTime: 15,
+    tags: ["Fall Favorites", "salad", "healthy", "apples"],
+    nutrition: {
+      calories: 280,
+      protein: 6,
+      carbs: 24,
+      fat: 18,
+      fiber: 4,
+      sugar: 16,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "8", unit: "cups", item: "mixed greens" },
+      { amount: "2", unit: "", item: "honeycrisp apples, sliced" },
+      { amount: "1/2", unit: "cup", item: "dried cranberries" },
+      { amount: "1/2", unit: "cup", item: "candied pecans" },
+      { amount: "4", unit: "oz", item: "goat cheese, crumbled" },
+      { amount: "1/4", unit: "cup", item: "olive oil" },
+      { amount: "2", unit: "tbsp", item: "apple cider vinegar" },
+      { amount: "1", unit: "tbsp", item: "maple syrup" },
+      { amount: "1", unit: "tsp", item: "dijon mustard" }
+    ],
+    instructions: [
+      "In large bowl, combine [8 cups mixed greens], [2 sliced apples].",
+      "Add [1/2 cup dried cranberries], [1/2 cup candied pecans], [4 oz goat cheese].",
+      "In small jar, shake [1/4 cup olive oil], [2 tbsp apple cider vinegar], [1 tbsp maple syrup], [1 tsp dijon].",
+      "Drizzle dressing over salad just before serving.",
+      "Toss gently and serve immediately."
+    ]
+  },
+  {
+    id: "fall-apple-butter-chicken",
+    name: "Apple Butter Chicken",
+    description: "Savory chicken with sweet apple butter glaze. Fall dinner with a twist.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: appleButterChickenImg,
+    totalTime: 35,
+    tags: ["Fall Favorites", "dinner", "chicken", "apples"],
+    nutrition: {
+      calories: 380,
+      protein: 36,
+      carbs: 28,
+      fat: 14,
+      fiber: 2,
+      sugar: 20,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "4", unit: "", item: "chicken breasts" },
+      { amount: "1", unit: "cup", item: "apple butter" },
+      { amount: "1/4", unit: "cup", item: "chicken broth" },
+      { amount: "2", unit: "tbsp", item: "apple cider vinegar" },
+      { amount: "1", unit: "tsp", item: "thyme" },
+      { amount: "2", unit: "", item: "apples, sliced" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "", unit: "", item: "salt and pepper" }
+    ],
+    instructions: [
+      "Season [4 chicken breasts] with salt, pepper.",
+      "In pan, brown chicken 5 minutes per side, remove.",
+      "Add [2 tbsp butter], sauté [2 sliced apples] until golden.",
+      "Mix [1 cup apple butter], [1/4 cup broth], [2 tbsp vinegar], [1 tsp thyme].",
+      "Pour sauce over apples, return chicken to pan.",
+      "Simmer 10 minutes until chicken reaches 165°F.",
+      "Serve chicken topped with caramelized apples and sauce.",
+      "Pairs well with rice or roasted vegetables."
     ]
   },
   
