@@ -433,7 +433,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: "/lovable-uploads/dessert-brownies.png",
     totalTime: 45,
-    tags: ["dessert", "chocolate", "baked", "easy"],
+    tags: ["dessert", "chocolate", "baked"],
     nutrition: {
       calories: 240,
       protein: 3,
@@ -1060,7 +1060,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: "/lovable-uploads/dessert-key-lime-pie.png",
     totalTime: 135,
-    tags: ["dessert", "citrus", "pie", "easy"],
+    tags: ["dessert", "citrus", "pie"],
     ingredients: [
       { amount: "1.5", unit: "cups", item: "graham cracker crumbs" },
       { amount: "1/3", unit: "cup", item: "butter, melted" },
@@ -6428,7 +6428,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: breakfastButtermilkPancakesImg,
     totalTime: 25,
-    tags: ["breakfast", "quick-breakfast", "easy", "kid-friendly"],
+    tags: ["breakfast", "quick-breakfast", "kid-friendly"],
     ingredients: [
       { amount: "2", unit: "cups", item: "all-purpose flour" },
       { amount: "2", unit: "tbsp", item: "sugar" },
@@ -6460,7 +6460,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Belgian",
     image: breakfastBelgianWafflesNewImg,
     totalTime: 25,
-    tags: ["breakfast", "easy", "kid-friendly"],
+    tags: ["breakfast", "kid-friendly"],
     ingredients: [
       { amount: "2", unit: "cups", item: "all-purpose flour" },
       { amount: "2", unit: "tbsp", item: "sugar" },
@@ -6492,7 +6492,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "French",
     image: breakfastFrenchToastClassicImg,
     totalTime: 15,
-    tags: ["breakfast", "quick-breakfast", "easy", "kid-friendly"],
+    tags: ["breakfast", "quick-breakfast", "kid-friendly"],
     ingredients: [
       { amount: "8", unit: "slices", item: "thick bread" },
       { amount: "4", unit: "", item: "eggs" },
