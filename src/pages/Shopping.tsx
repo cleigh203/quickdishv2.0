@@ -71,8 +71,10 @@ const Shopping = () => {
   const { toast } = useToast();
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Load pantry items from Supabase
+  // Load pantry items from Supabase (with timeout)
   useEffect(() => {
+    let isMounted = true;
+    
     const loadPantryItems = async () => {
       if (!user) {
         setPantryItems([]);
@@ -80,20 +82,37 @@ const Shopping = () => {
       }
       
       try {
-        const { data, error } = await supabase
+        // Add timeout to prevent hanging
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Pantry query timeout')), 5000)
+        );
+        
+        const queryPromise = supabase
           .from('profiles')
           .select('pantry_items')
           .eq('id', user.id)
           .single();
 
+        const { data, error } = await Promise.race([queryPromise, timeoutPromise]) as any;
+
         if (error) throw error;
-        setPantryItems(data?.pantry_items || []);
+        
+        if (isMounted) {
+          setPantryItems(data?.pantry_items || []);
+        }
       } catch (error) {
         console.error('Error loading pantry items:', error);
+        if (isMounted) {
+          setPantryItems([]);
+        }
       }
     };
 
     loadPantryItems();
+    
+    return () => {
+      isMounted = false;
+    };
   }, [user]);
 
   // Filter shopping list by pantry using useMemo
@@ -122,23 +141,23 @@ const Shopping = () => {
     };
   }, [shoppingList, pantryItems, hidePantryItems]);
 
-  // Check for all items checked with debounce
+  // Check for all items checked with debounce (memoized to prevent loops)
+  const allChecked = useMemo(() => 
+    displayList.length > 0 && displayList.every(item => item.checked),
+    [displayList]
+  );
+
   useEffect(() => {
     // Clear any existing timer
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
 
-    const allChecked = displayList.length > 0 && displayList.every(item => item.checked);
-    
     if (allChecked && !showClearDialog) {
       // Wait 1 second before showing modal
       debounceTimerRef.current = setTimeout(() => {
         setShowClearDialog(true);
       }, 1000);
-    } else if (!allChecked && showClearDialog) {
-      // Auto-close modal if user unchecks an item
-      setShowClearDialog(false);
     }
 
     return () => {
@@ -146,7 +165,7 @@ const Shopping = () => {
         clearTimeout(debounceTimerRef.current);
       }
     };
-  }, [displayList, showClearDialog]);
+  }, [allChecked]); // Only depend on allChecked, not showClearDialog to prevent loop
 
   const removeItem = (id: number) => {
     removeFromList(id);
