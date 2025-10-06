@@ -7,7 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
-import { Lock, ChefHat } from 'lucide-react';
+import { Lock } from 'lucide-react';
+import logo from '@/assets/logo.png';
 
 const passwordSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters').max(100, 'Password too long'),
@@ -75,9 +76,11 @@ const ResetPassword = () => {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
-            <div className="bg-primary rounded-full p-3">
-              <ChefHat className="h-8 w-8 text-white" />
-            </div>
+            <img 
+              src={logo} 
+              alt="QuickDish AI" 
+              className="h-20 w-20 object-contain"
+            />
           </div>
           <CardTitle>Set New Password</CardTitle>
           <CardDescription>Enter your new password below</CardDescription>

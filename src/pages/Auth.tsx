@@ -7,7 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
-import { ChefHat, Mail, Lock, User } from 'lucide-react';
+import { Mail, Lock, User } from 'lucide-react';
+import logo from '@/assets/logo.png';
 
 const signUpSchema = z.object({
   email: z.string().trim().email('Invalid email address').max(255, 'Email too long'),
@@ -188,9 +189,11 @@ const Auth = () => {
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-4">
-              <div className="bg-primary rounded-full p-3">
-                <ChefHat className="h-8 w-8 text-white" />
-              </div>
+              <img 
+                src={logo} 
+                alt="QuickDish AI" 
+                className="h-24 w-24 object-contain"
+              />
             </div>
             <CardTitle className="text-3xl">Welcome to QuickDish AI</CardTitle>
             <CardDescription>Your personal cooking companion</CardDescription>
