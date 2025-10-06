@@ -541,6 +541,22 @@ const Profile = () => {
           </CardContent>
         </Card>
 
+        {/* Legal */}
+        <Card className="rounded-xl shadow-sm bg-card">
+          <CardHeader>
+            <CardTitle>Legal</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Button
+              variant="outline"
+              className="w-full justify-start rounded-lg hover:bg-muted"
+              onClick={() => navigate('/privacy')}
+            >
+              Privacy Policy
+            </Button>
+          </CardContent>
+        </Card>
+
         {/* Developer Tools - Test Premium Mode */}
         {import.meta.env.DEV && (
           <Card className="p-4 border-2 border-orange-500 bg-orange-50 dark:bg-orange-950/20 rounded-xl shadow-sm">

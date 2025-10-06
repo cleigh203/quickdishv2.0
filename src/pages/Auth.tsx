@@ -289,6 +289,13 @@ const Auth = () => {
                 {loading ? 'Creating account...' : 'Sign Up'}
               </Button>
 
+              <p className="text-center text-xs text-muted-foreground">
+                By signing up, you agree to our{' '}
+                <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  Privacy Policy
+                </a>
+              </p>
+
               <div className="relative my-4">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />

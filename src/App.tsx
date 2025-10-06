@@ -18,6 +18,7 @@ import SavedRecipes from "./pages/SavedRecipes";
 import Shopping from "./pages/Shopping";
 import Pantry from "./pages/Pantry";
 import Profile from "./pages/Profile";
+import Privacy from "./pages/Privacy";
 import Premium from "./pages/Premium";
 import PremiumSuccess from "./pages/PremiumSuccess";
 import Admin from "./pages/Admin";
@@ -62,6 +63,7 @@ const App = () => (
           <Route path="/shopping" element={<ProtectedRoute><Shopping /></ProtectedRoute>} />
           <Route path="/pantry" element={<ProtectedRoute><Pantry /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/privacy" element={<Privacy />} />
           <Route path="/premium" element={<ProtectedRoute allowGuest><Premium /></ProtectedRoute>} />
           <Route path="/premium/success" element={<ProtectedRoute><PremiumSuccess /></ProtectedRoute>} />
           <Route path="/admin" element={<Admin />} />

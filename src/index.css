@@ -197,3 +197,26 @@ All colors MUST be HSL.
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
+
+/* Print-friendly styles */
+@media print {
+  body {
+    @apply bg-white text-black;
+  }
+
+  .print\\:hidden {
+    display: none !important;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+
+  section {
+    page-break-inside: avoid;
+  }
+}
