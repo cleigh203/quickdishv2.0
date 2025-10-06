@@ -310,7 +310,7 @@ export const SearchOverlay = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3 pt-4 sticky bottom-0 bg-background py-4">
+        <div className="flex gap-3 pt-4 py-4">
           <Button
             variant="outline"
             onClick={() => {
