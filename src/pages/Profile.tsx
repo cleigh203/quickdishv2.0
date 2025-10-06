@@ -506,6 +506,13 @@ const Profile = () => {
             <Button
               variant="outline"
               className="w-full justify-start rounded-lg hover:bg-muted"
+              onClick={() => navigate('/about')}
+            >
+              About QuickDish
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full justify-start rounded-lg hover:bg-muted"
               onClick={() => navigate('/terms')}
             >
               Terms of Service

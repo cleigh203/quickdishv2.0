@@ -213,6 +213,21 @@ const Auth = () => {
             <Button onClick={handleContinueAsGuest} variant="ghost" className="w-full" size="lg">
               Continue as Guest
             </Button>
+            
+            {/* Footer Links */}
+            <div className="pt-4 border-t mt-4 flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
+              <a href="/about" className="hover:text-primary hover:underline">
+                About
+              </a>
+              <span>•</span>
+              <a href="/terms" className="hover:text-primary hover:underline">
+                Terms
+              </a>
+              <span>•</span>
+              <a href="/privacy" className="hover:text-primary hover:underline">
+                Privacy
+              </a>
+            </div>
           </CardContent>
         </Card>
       </div>
