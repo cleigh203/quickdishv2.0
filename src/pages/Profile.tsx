@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle } from "lucide-react";
+import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import { EditProfileDialog } from "@/components/EditProfileDialog";
 import { EditPreferencesDialog } from "@/components/EditPreferencesDialog";
 import { SubscriptionManagementModal } from "@/components/SubscriptionManagementModal";
 import { InstallButton } from "@/components/InstallButton";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -38,6 +39,7 @@ interface ProfileData {
   is_premium: boolean;
   pantry_items: string[] | null;
   has_completed_onboarding: boolean;
+  theme_preference: string | null;
 }
 
 const Profile = () => {
@@ -331,21 +333,21 @@ const Profile = () => {
         <div className="grid grid-cols-3 gap-4">
           <Card className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow">
             <CardContent className="p-6 text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 mb-3">
-                <ChefHat className="w-6 h-6 text-orange-600" />
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
+                <ChefHat className="w-6 h-6 text-orange-600 dark:text-orange-400" />
               </div>
-              <p className="text-4xl font-bold text-gray-900 mb-1">{recipes.length}</p>
-              <p className="text-sm text-gray-600">Generated</p>
+              <p className="text-4xl font-bold text-foreground mb-1">{recipes.length}</p>
+              <p className="text-sm text-muted-foreground">Generated</p>
             </CardContent>
           </Card>
           
           <Card className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow">
             <CardContent className="p-6 text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 mb-3">
-                <Heart className="w-6 h-6 text-orange-600 fill-orange-600" />
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
+                <Heart className="w-6 h-6 text-orange-600 dark:text-orange-400 fill-orange-600 dark:fill-orange-400" />
               </div>
-              <p className="text-4xl font-bold text-gray-900 mb-1">{savedRecipes.length}</p>
-              <p className="text-sm text-gray-600">Saved</p>
+              <p className="text-4xl font-bold text-foreground mb-1">{savedRecipes.length}</p>
+              <p className="text-sm text-muted-foreground">Saved</p>
             </CardContent>
           </Card>
           
@@ -354,11 +356,11 @@ const Profile = () => {
             onClick={() => setIsPantryDialogOpen(true)}
           >
             <CardContent className="p-6 text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 mb-3">
-                <Package className="w-6 h-6 text-orange-600" />
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
+                <Package className="w-6 h-6 text-orange-600 dark:text-orange-400" />
               </div>
-              <p className="text-4xl font-bold text-gray-900 mb-1">{profileData?.pantry_items?.length || 0}</p>
-              <p className="text-sm text-gray-600">Pantry Items</p>
+              <p className="text-4xl font-bold text-foreground mb-1">{profileData?.pantry_items?.length || 0}</p>
+              <p className="text-sm text-muted-foreground">Pantry Items</p>
             </CardContent>
           </Card>
         </div>
@@ -377,18 +379,18 @@ const Profile = () => {
           </CardHeader>
           <CardContent className="space-y-6">
             <div>
-              <p className="text-sm font-medium text-gray-600 mb-3">Skill Level</p>
-              <Badge className="rounded-full px-4 py-2 font-medium bg-green-100 text-green-700 hover:bg-green-100 capitalize">
+              <p className="text-sm font-medium text-muted-foreground mb-3">Skill Level</p>
+              <Badge className="rounded-full px-4 py-2 font-medium bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-950/30 capitalize">
                 {profileData?.skill_level || 'Not set'}
               </Badge>
             </div>
             
             {profileData?.favorite_cuisines && profileData.favorite_cuisines.length > 0 && (
               <div>
-                <p className="text-sm font-medium text-gray-600 mb-3">Favorite Cuisines</p>
+                <p className="text-sm font-medium text-muted-foreground mb-3">Favorite Cuisines</p>
                 <div className="flex flex-wrap gap-2">
                   {profileData.favorite_cuisines.map((cuisine) => (
-                    <Badge key={cuisine} className="rounded-full px-4 py-2 font-medium bg-orange-100 text-orange-700 hover:bg-orange-100">
+                    <Badge key={cuisine} className="rounded-full px-4 py-2 font-medium bg-orange-100 dark:bg-orange-950/30 text-orange-700 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-950/30">
                       {cuisine}
                     </Badge>
                   ))}
@@ -398,16 +400,32 @@ const Profile = () => {
             
             {profileData?.learning_goals && profileData.learning_goals.length > 0 && (
               <div>
-                <p className="text-sm font-medium text-gray-600 mb-3">Learning Goals</p>
+                <p className="text-sm font-medium text-muted-foreground mb-3">Learning Goals</p>
                 <div className="flex flex-wrap gap-2">
                   {profileData.learning_goals.map((goal) => (
-                    <Badge key={goal} className="rounded-full px-4 py-2 font-medium bg-orange-100 text-orange-700 hover:bg-orange-100">
+                    <Badge key={goal} className="rounded-full px-4 py-2 font-medium bg-orange-100 dark:bg-orange-950/30 text-orange-700 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-950/30">
                       {goal}
                     </Badge>
                   ))}
                 </div>
               </div>
             )}
+          </CardContent>
+        </Card>
+
+        {/* Appearance Section */}
+        <Card className="rounded-xl shadow-sm bg-card">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Palette className="w-5 h-5 text-primary" />
+              Appearance
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground mb-4">Choose your theme</p>
+              <ThemeToggle />
+            </div>
           </CardContent>
         </Card>
 

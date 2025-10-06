@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { OnboardingProvider } from "@/contexts/OnboardingContext";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { OfflineBanner } from "@/components/OfflineBanner";
 import { InstallPrompt } from "@/components/InstallPrompt";
@@ -39,15 +40,16 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <AuthProvider>
-        <OnboardingProvider>
-          <OfflineBanner />
-          <InstallPrompt />
-          <OnboardingFlow />
-          <Toaster />
-          <Sonner />
-          <Routes>
+    <ThemeProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <OnboardingProvider>
+            <OfflineBanner />
+            <InstallPrompt />
+            <OnboardingFlow />
+            <Toaster />
+            <Sonner />
+            <Routes>
           <Route path="/auth" element={<Auth />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
           <Route path="/profile-setup" element={<ProtectedRoute><ProfileSetup /></ProtectedRoute>} />
@@ -76,6 +78,7 @@ const App = () => (
         </OnboardingProvider>
       </AuthProvider>
     </BrowserRouter>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

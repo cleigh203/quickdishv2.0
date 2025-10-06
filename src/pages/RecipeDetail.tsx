@@ -434,9 +434,9 @@ const RecipeDetail = () => {
           />
           
           {/* Menu Panel - z-[70] is above overlay */}
-          <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-[70] p-6 max-h-[80vh] overflow-y-auto pb-24">
+          <div className="fixed bottom-0 left-0 right-0 bg-card rounded-t-3xl z-[70] p-6 max-h-[80vh] overflow-y-auto pb-24 border-t border-border">
             {/* Handle Bar */}
-            <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-6" />
+            <div className="w-10 h-1 bg-border rounded-full mx-auto mb-6" />
             
             {/* Add to Shopping List */}
             <button
@@ -444,15 +444,15 @@ const RecipeDetail = () => {
                 addToShoppingList();
                 setMenuOpen(false);
               }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
               data-menu-shopping
             >
-              <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center text-xl">
+              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center text-xl">
                 🛒
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900">Add to Shopping List</div>
-                <div className="text-sm text-gray-500">Add all ingredients</div>
+                <div className="font-semibold text-foreground">Add to Shopping List</div>
+                <div className="text-sm text-muted-foreground">Add all ingredients</div>
               </div>
             </button>
             
@@ -462,15 +462,15 @@ const RecipeDetail = () => {
                 toggleFavorite();
                 setMenuOpen(false);
               }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
               data-menu-favorites
             >
-              <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center text-xl">
+              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center text-xl">
                 {recipe && isSaved(recipe.id) ? '❤️' : '🤍'}
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900">{recipe && isSaved(recipe.id) ? 'Remove from' : 'Add to'} Saved</div>
-                <div className="text-sm text-gray-500">Save for later</div>
+                <div className="font-semibold text-foreground">{recipe && isSaved(recipe.id) ? 'Remove from' : 'Add to'} Saved</div>
+                <div className="text-sm text-muted-foreground">Save for later</div>
               </div>
             </button>
             
@@ -497,15 +497,15 @@ const RecipeDetail = () => {
                 setCookingMode(true);
                 setMenuOpen(false);
               }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
               data-menu-cooking-mode
             >
-              <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-xl">
+              <div className="w-10 h-10 bg-green-50 dark:bg-green-950/30 rounded-full flex items-center justify-center text-xl">
                 👨‍🍳
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900">Start Cooking Mode</div>
-                <div className="text-sm text-gray-500">Step-by-step with voice control</div>
+                <div className="font-semibold text-foreground">Start Cooking Mode</div>
+                <div className="text-sm text-muted-foreground">Step-by-step with voice control</div>
               </div>
             </button>
             
@@ -550,17 +550,17 @@ const RecipeDetail = () => {
                   setMenuOpen(false);
                 }
               }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
             >
-              <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center text-xl">
+              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center text-xl">
                 📊
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900 flex items-center gap-2">
+                <div className="font-semibold text-foreground flex items-center gap-2">
                   Nutritional Facts
                   {isPremium && <span className="text-xs">👑</span>}
                 </div>
-                <div className="text-sm text-gray-500">Calories, macros, vitamins</div>
+                <div className="text-sm text-muted-foreground">Calories, macros, vitamins</div>
               </div>
               {!isPremium && (
                 <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
@@ -602,17 +602,17 @@ const RecipeDetail = () => {
                 setAiChatOpen(true);
                 setMenuOpen(false);
               }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
             >
-              <div className="w-10 h-10 bg-purple-50 rounded-full flex items-center justify-center text-xl">
+              <div className="w-10 h-10 bg-purple-50 dark:bg-purple-950/30 rounded-full flex items-center justify-center text-xl">
                 💬
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900 flex items-center gap-2">
+                <div className="font-semibold text-foreground flex items-center gap-2">
                   Ask AI About This Recipe
                   {isPremium && <span className="text-xs">👑</span>}
                 </div>
-                <div className="text-sm text-gray-500">Chat with AI Chef</div>
+                <div className="text-sm text-muted-foreground">Chat with AI Chef</div>
               </div>
               {!isPremium && (
                 <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
@@ -628,16 +628,16 @@ const RecipeDetail = () => {
                 setMenuOpen(false);
               }}
               disabled={isGeneratingPDF}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl">
+              <div className="w-10 h-10 bg-blue-50 dark:bg-blue-950/30 rounded-full flex items-center justify-center text-xl">
                 📄
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900">
+                <div className="font-semibold text-foreground">
                   {isGeneratingPDF ? 'Generating...' : 'Export as PDF'}
                 </div>
-                <div className="text-sm text-gray-500">Download recipe as PDF</div>
+                <div className="text-sm text-muted-foreground">Download recipe as PDF</div>
               </div>
             </button>
             
@@ -647,16 +647,16 @@ const RecipeDetail = () => {
                 setNotesDialogOpen(true);
                 setMenuOpen(false);
               }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
             >
-              <div className="w-10 h-10 bg-purple-50 rounded-full flex items-center justify-center text-xl">
+              <div className="w-10 h-10 bg-purple-50 dark:bg-purple-950/30 rounded-full flex items-center justify-center text-xl">
                 📝
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900">
+                <div className="font-semibold text-foreground">
                   {currentSavedRecipe?.notes ? 'Edit Notes' : 'Add Notes'}
                 </div>
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-muted-foreground">
                   {currentSavedRecipe?.notes ? 'Update your notes' : 'Personal recipe notes'}
                 </div>
               </div>
@@ -688,14 +688,14 @@ const RecipeDetail = () => {
                 setRatingModalOpen(true);
                 setMenuOpen(false);
               }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
             >
-              <div className="w-10 h-10 bg-yellow-50 rounded-full flex items-center justify-center text-xl">
+              <div className="w-10 h-10 bg-yellow-50 dark:bg-yellow-950/30 rounded-full flex items-center justify-center text-xl">
                 ⭐
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900">Rate Recipe</div>
-                <div className="text-sm text-gray-500">
+                <div className="font-semibold text-foreground">Rate Recipe</div>
+                <div className="text-sm text-muted-foreground">
                   {user ? 'Share your rating' : 'Sign in to rate'}
                 </div>
               </div>
@@ -724,15 +724,15 @@ const RecipeDetail = () => {
                 setMealPlanDialogOpen(true);
                 setMenuOpen(false);
               }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50"
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent"
               data-menu-meal-plan
             >
-              <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-xl">
+              <div className="w-10 h-10 bg-green-50 dark:bg-green-950/30 rounded-full flex items-center justify-center text-xl">
                 📅
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-900">Add to Meal Plan</div>
-                <div className="text-sm text-gray-500">
+                <div className="font-semibold text-foreground">Add to Meal Plan</div>
+                <div className="text-sm text-muted-foreground">
                   {user ? 'Schedule this meal' : 'Sign in to plan meals'}
                 </div>
               </div>

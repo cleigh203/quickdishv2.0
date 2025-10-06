@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Premium light theme */
+    /* Light theme */
     --background: 0 0% 98%;
     --foreground: 0 0% 10%;
 
@@ -42,19 +42,58 @@ All colors MUST be HSL.
     --radius: 1.5rem;
 
     /* Spacing system */
-    --space-xs: 0.5rem;    /* 8px */
-    --space-sm: 0.75rem;   /* 12px */
-    --space-md: 1rem;      /* 16px */
-    --space-lg: 1.5rem;    /* 24px */
-    --space-xl: 2rem;      /* 32px */
-    --space-2xl: 3rem;     /* 48px */
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
 
-    /* Premium design tokens */
+    /* Light mode shadows */
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
     --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.08);
     --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
     --shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.15);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    /* Dark theme */
+    --background: 0 0% 10%;
+    --foreground: 0 0% 98%;
+
+    /* Dark cards */
+    --card: 0 0% 14%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 14%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Keep orange accent but adjust slightly for dark mode */
+    --primary: 16 100% 60%;
+    --primary-foreground: 0 0% 10%;
+
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 16 100% 60%;
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 16 100% 60%;
+
+    /* Dark mode shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+    --shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.6);
   }
 }
 
@@ -64,26 +103,12 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply text-foreground bg-background;
+    @apply text-foreground bg-background transition-colors duration-300;
   }
 
-  /* Premium card styles */
-  .premium-card {
-    @apply rounded-3xl bg-card;
-    box-shadow: var(--shadow-md);
-    transition: var(--transition-smooth);
-  }
-
-  .premium-card:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-4px);
-  }
-
-  /* Glass card for overlays */
+  /* Glass card for overlays - adapts to theme */
   .glass-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    @apply bg-card/95 backdrop-blur-xl border border-border;
   }
 
   /* Standardized recipe cards */

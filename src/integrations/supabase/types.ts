@@ -203,6 +203,7 @@ export type Database = {
           stripe_product_id: string | null
           stripe_subscription_id: string | null
           subscription_status: string | null
+          theme_preference: string | null
         }
         Insert: {
           ai_generations_today?: number | null
@@ -222,6 +223,7 @@ export type Database = {
           stripe_product_id?: string | null
           stripe_subscription_id?: string | null
           subscription_status?: string | null
+          theme_preference?: string | null
         }
         Update: {
           ai_generations_today?: number | null
@@ -241,6 +243,7 @@ export type Database = {
           stripe_product_id?: string | null
           stripe_subscription_id?: string | null
           subscription_status?: string | null
+          theme_preference?: string | null
         }
         Relationships: []
       }
