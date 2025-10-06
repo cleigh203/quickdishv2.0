@@ -25,19 +25,26 @@ export const useMealPlan = () => {
     }
 
     try {
-      const { data, error } = await supabase
+      // Add 5-second timeout
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Request timed out')), 5000)
+      );
+
+      const fetchPromise = supabase
         .from('meal_plans')
         .select('*')
         .eq('user_id', user.id)
         .order('scheduled_date', { ascending: true });
 
+      const { data, error } = await Promise.race([fetchPromise, timeoutPromise]) as any;
+
       if (error) throw error;
       setMealPlans(data || []);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching meal plans:', error);
       toast({
         title: "Error",
-        description: "Failed to load meal plans",
+        description: error.message === 'Request timed out' ? 'Request timed out. Try again?' : "Failed to load meal plans",
         variant: "destructive",
       });
     } finally {

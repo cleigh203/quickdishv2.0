@@ -2,12 +2,13 @@ import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { BottomNav } from "@/components/BottomNav";
 import { RecipeCard } from "@/components/RecipeCard";
+import { RecipeCardSkeleton } from "@/components/RecipeCardSkeleton";
 import { CustomRecipeForm } from "@/components/CustomRecipeForm";
 import { MealPlanTab } from "@/components/MealPlanTab";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Search, X, Heart, Calendar } from "lucide-react";
+import { Plus, Search, X, Heart, Calendar, RefreshCw } from "lucide-react";
 import { allRecipes } from "@/data/recipes";
 import { Recipe } from "@/types/recipe";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
@@ -17,7 +18,7 @@ import { Input } from "@/components/ui/input";
 
 export const SavedRecipes = () => {
   const navigate = useNavigate();
-  const { savedRecipes, loading } = useSavedRecipes();
+  const { savedRecipes, loading, error, refetch } = useSavedRecipes();
   const { mealPlans } = useMealPlan();
   const [activeTab, setActiveTab] = useState("saved");
   const [customRecipes, setCustomRecipes] = useState<Recipe[]>([]);
@@ -151,14 +152,6 @@ export const SavedRecipes = () => {
     [savedRecipesList, searchQuery, activeFilters]
   );
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Loading your recipes...</p>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen pb-20">
       {/* Header */}
@@ -253,8 +246,33 @@ export const SavedRecipes = () => {
                 Create Your Own Recipe
               </Button>
 
+              {/* Error State */}
+              {error && (
+                <div className="text-center py-8 space-y-4">
+                  <p className="text-destructive">{error}</p>
+                  <Button onClick={refetch} variant="outline" size="sm">
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                    Try Again
+                  </Button>
+                </div>
+              )}
+
+              {/* Loading State */}
+              {loading && !error && (
+                <>
+                  <section>
+                    <h2 className="text-lg font-semibold mb-4">Saved from QuickDish</h2>
+                    <div className="grid grid-cols-2 gap-3">
+                      {[...Array(4)].map((_, i) => (
+                        <RecipeCardSkeleton key={i} />
+                      ))}
+                    </div>
+                  </section>
+                </>
+              )}
+
               {/* My Recipes Section */}
-              {filteredCustomRecipes.length > 0 && (
+              {!loading && !error && filteredCustomRecipes.length > 0 && (
                 <section>
                   <h2 className="text-lg font-semibold mb-4">My Recipes</h2>
                   <div className="grid grid-cols-2 gap-3">
@@ -270,7 +288,7 @@ export const SavedRecipes = () => {
               )}
 
               {/* Saved from QuickDish Section */}
-              {filteredSavedRecipes.length > 0 && (
+              {!loading && !error && filteredSavedRecipes.length > 0 && (
                 <section>
                   <h2 className="text-lg font-semibold mb-4">Saved from QuickDish</h2>
                   <div className="grid grid-cols-2 gap-3">
@@ -286,7 +304,7 @@ export const SavedRecipes = () => {
               )}
 
               {/* Empty state */}
-              {filteredCustomRecipes.length === 0 && filteredSavedRecipes.length === 0 && (
+              {!loading && !error && filteredCustomRecipes.length === 0 && filteredSavedRecipes.length === 0 && (
                 <div className="text-center py-12 text-muted-foreground">
                   <p className="mb-2">No saved recipes found</p>
                   <p className="text-sm">

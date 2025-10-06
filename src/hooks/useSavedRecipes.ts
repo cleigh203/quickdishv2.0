@@ -80,7 +80,12 @@ export const useSavedRecipes = () => {
       setLoading(true);
       setError(null);
       
-      const { data, error } = await retryOperation(async () => {
+      // Add 5-second timeout
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Request timed out')), 5000)
+      );
+
+      const fetchPromise = retryOperation(async () => {
         const result = await supabase
           .from('saved_recipes')
           .select('*')
@@ -91,13 +96,15 @@ export const useSavedRecipes = () => {
         return result;
       });
 
+      const { data, error } = await Promise.race([fetchPromise, timeoutPromise]) as any;
+
       if (error) throw error;
       
       setSavedRecipes(data || []);
     } catch (err: any) {
       console.error('Error fetching saved recipes:', err);
       const errorInfo = handleSupabaseError(err);
-      setError(errorInfo.description);
+      setError(err.message === 'Request timed out' ? 'Request timed out. Try again?' : errorInfo.description);
     } finally {
       setLoading(false);
     }
