@@ -56,38 +56,25 @@ const RecipeDetail = () => {
   const { averageRating, totalRatings, refetch: refetchRatings } = useRecipeRating(recipe?.id || '');
 
   useEffect(() => {
-    console.log('🔍 1. RecipeDetail useEffect triggered, ID:', id);
-    console.log('🔍 1.5. isLoadingVerified:', isLoadingVerified);
-    
     if (!id) {
       setIsLoadingRecipe(false);
       return;
     }
     
-    // WAIT for database to finish loading before proceeding
-    if (isLoadingVerified) {
-      console.log('🔍 2. Still loading verified recipes from database...');
-      setIsLoadingRecipe(true);
-      return;
-    }
-    
     let foundRecipe: Recipe | undefined;
     
-    // PRIORITY 1: Check DATABASE FIRST for verified recipes with updated images
+    // PRIORITY 1: Check DATABASE for verified recipes with AI-generated images
     foundRecipe = verifiedRecipes.find(r => r.id === id);
-    console.log('🔍 3. Recipe found in verified DB recipes:', foundRecipe ? 'YES - ' + foundRecipe.name : 'NO');
     
     // PRIORITY 2: Check user's generated recipes
     if (!foundRecipe) {
       foundRecipe = generatedRecipes.find(r => r.id === id);
-      console.log('🔍 4. Recipe found in generated recipes:', foundRecipe ? 'YES - ' + foundRecipe.name : 'NO');
     }
     
     // PRIORITY 3: Check location.state as fallback
     if (!foundRecipe) {
       const passedRecipe = (location.state as any)?.recipe;
       if (passedRecipe) {
-        console.log('🔍 5. Recipe found in location.state:', passedRecipe.name);
         foundRecipe = passedRecipe;
       }
     }
@@ -95,30 +82,24 @@ const RecipeDetail = () => {
     // PRIORITY 4: Search in static recipes
     if (!foundRecipe) {
       foundRecipe = allRecipes.find(r => r.id === id);
-      console.log('🔍 6. Recipe found in static recipes:', foundRecipe ? 'YES - ' + foundRecipe.name : 'NO');
     }
     
     // PRIORITY 5: Check localStorage for user-generated recipes
     if (!foundRecipe) {
-      console.log('🔍 7. Checking localStorage...');
       foundRecipe = recipeStorage.getRecipeById(id);
-      console.log('🔍 8. Recipe found in localStorage:', foundRecipe ? 'YES' : 'NO');
     }
     
     // PRIORITY 6: Check custom recipes in localStorage
     if (!foundRecipe) {
-      console.log('🔍 9. Checking custom recipes...');
       try {
         const customRecipes = JSON.parse(localStorage.getItem('customRecipes') || '[]');
         foundRecipe = customRecipes.find((r: Recipe) => r.id === id);
-        console.log('🔍 10. Recipe found in custom recipes:', foundRecipe ? 'YES' : 'NO');
       } catch (error) {
-        console.error('🔍 Error loading custom recipes:', error);
+        console.error('Error loading custom recipes:', error);
       }
     }
     
     if (foundRecipe) {
-      console.log('🔍 ✅ Setting recipe:', foundRecipe.name);
       setRecipe(foundRecipe);
       setIsLoadingRecipe(false);
       
@@ -129,12 +110,11 @@ const RecipeDetail = () => {
         window.history.replaceState({}, '', `/recipe/${id}`);
       }
     } else {
-      console.log('🔍 ❌ Recipe not found anywhere');
       setRecipe(null);
       setIsLoadingRecipe(false);
       navigate('/generate');
     }
-  }, [id, navigate, generatedRecipes, verifiedRecipes, isLoadingVerified, location.state]);
+  }, [id, navigate, generatedRecipes, verifiedRecipes, location.state]);
 
   const toggleFavorite = async () => {
     if (!recipe) return;
