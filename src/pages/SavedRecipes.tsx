@@ -246,24 +246,13 @@ export const SavedRecipes = () => {
                 Create Your Own Recipe
               </Button>
 
-              {/* Error State */}
-              {error && (
-                <div className="text-center py-8 space-y-4">
-                  <p className="text-destructive">{error}</p>
-                  <Button onClick={refetch} variant="outline" size="sm">
-                    <RefreshCw className="w-4 h-4 mr-2" />
-                    Try Again
-                  </Button>
-                </div>
-              )}
-
-              {/* Loading State */}
-              {loading && !error && (
+              {/* Loading State - Show skeletons while loading */}
+              {loading && (
                 <>
                   <section>
-                    <h2 className="text-lg font-semibold mb-4">Saved from QuickDish</h2>
+                    <h2 className="text-lg font-semibold mb-4">Loading...</h2>
                     <div className="grid grid-cols-2 gap-3">
-                      {[...Array(4)].map((_, i) => (
+                      {[...Array(6)].map((_, i) => (
                         <RecipeCardSkeleton key={i} />
                       ))}
                     </div>
@@ -271,8 +260,19 @@ export const SavedRecipes = () => {
                 </>
               )}
 
+              {/* Error State - Only show if not loading */}
+              {!loading && error && (
+                <div className="text-center py-8 space-y-4">
+                  <p className="text-muted-foreground">{error}</p>
+                  <Button onClick={refetch} variant="outline" size="sm">
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                    Try Again
+                  </Button>
+                </div>
+              )}
+
               {/* My Recipes Section */}
-              {!loading && !error && filteredCustomRecipes.length > 0 && (
+              {!loading && filteredCustomRecipes.length > 0 && (
                 <section>
                   <h2 className="text-lg font-semibold mb-4">My Recipes</h2>
                   <div className="grid grid-cols-2 gap-3">
@@ -288,7 +288,7 @@ export const SavedRecipes = () => {
               )}
 
               {/* Saved from QuickDish Section */}
-              {!loading && !error && filteredSavedRecipes.length > 0 && (
+              {!loading && filteredSavedRecipes.length > 0 && (
                 <section>
                   <h2 className="text-lg font-semibold mb-4">Saved from QuickDish</h2>
                   <div className="grid grid-cols-2 gap-3">
@@ -303,7 +303,7 @@ export const SavedRecipes = () => {
                 </section>
               )}
 
-              {/* Empty state */}
+              {/* Empty state - Only show if not loading and no error */}
               {!loading && !error && filteredCustomRecipes.length === 0 && filteredSavedRecipes.length === 0 && (
                 <div className="text-center py-12 text-muted-foreground">
                   <p className="mb-2">No saved recipes found</p>

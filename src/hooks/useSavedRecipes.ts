@@ -21,13 +21,19 @@ export const useSavedRecipes = () => {
   const [error, setError] = useState<string | null>(null);
   const fetchInProgressRef = useState({ current: false })[0];
   const saveInProgressRef = useState<{ current: Set<string> }>({ current: new Set() })[0];
+  const debounceTimerRef = useState<{ current: NodeJS.Timeout | null }>({ current: null })[0];
+  const initialFetchDoneRef = useState({ current: false })[0];
 
   // Fetch saved recipes on mount and when user changes
   useEffect(() => {
     if (user) {
-      fetchSavedRecipes();
+      // Only fetch on initial mount, not on every navigation
+      if (!initialFetchDoneRef.current) {
+        fetchSavedRecipes();
+        initialFetchDoneRef.current = true;
+      }
       
-      // Set up realtime subscription for saved_recipes
+      // Set up realtime subscription with debouncing
       const channel = supabase
         .channel('saved-recipes-changes')
         .on(
@@ -40,19 +46,33 @@ export const useSavedRecipes = () => {
           },
           (payload) => {
             console.log('Saved recipes changed:', payload);
-            // Refetch when any change occurs
-            fetchSavedRecipes();
+            
+            // Debounce refetch to prevent rapid-fire queries
+            if (debounceTimerRef.current) {
+              clearTimeout(debounceTimerRef.current);
+            }
+            
+            debounceTimerRef.current = setTimeout(() => {
+              // Only refetch if not already fetching and no save in progress
+              if (!fetchInProgressRef.current && saveInProgressRef.current.size === 0) {
+                fetchSavedRecipes();
+              }
+            }, 500); // 500ms debounce
           }
         )
         .subscribe();
 
       return () => {
+        if (debounceTimerRef.current) {
+          clearTimeout(debounceTimerRef.current);
+        }
         supabase.removeChannel(channel);
       };
     } else {
       // For guests, load from localStorage
       loadFromLocalStorage();
       setLoading(false);
+      initialFetchDoneRef.current = true;
     }
   }, [user]);
 
@@ -83,9 +103,9 @@ export const useSavedRecipes = () => {
       setLoading(true);
       setError(null);
       
-      // Add 3-second timeout
+      // Longer timeout - 10 seconds (only for genuine issues)
       const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Request timed out')), 3000)
+        setTimeout(() => reject(new Error('Request timed out')), 10000)
       );
 
       const fetchPromise = retryOperation(async () => {
@@ -97,17 +117,24 @@ export const useSavedRecipes = () => {
         
         if (result.error) throw result.error;
         return result;
-      });
+      }, 2, 1000); // Max 2 retries with 1s delay
 
       const { data, error } = await Promise.race([fetchPromise, timeoutPromise]) as any;
 
       if (error) throw error;
       
       setSavedRecipes(data || []);
+      setError(null); // Clear any previous errors on success
     } catch (err: any) {
       console.error('Error fetching saved recipes:', err);
-      const errorInfo = handleSupabaseError(err);
-      setError(err.message === 'Request timed out' ? 'Request timed out. Try again?' : errorInfo.description);
+      
+      // Only show error for genuine failures, not slow networks
+      if (err.message === 'Request timed out') {
+        setError('Taking longer than usual. Check your connection.');
+      } else {
+        const errorInfo = handleSupabaseError(err);
+        setError(errorInfo.description);
+      }
     } finally {
       setLoading(false);
       fetchInProgressRef.current = false;
