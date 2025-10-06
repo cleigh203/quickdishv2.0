@@ -27,15 +27,26 @@ export const useGeneratedRecipes = () => {
     setIsLoading(true);
     try {
       console.log('🔄 3. Querying generated_recipes table...');
-      const { data, error } = await supabase
+      
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Query timeout after 10s')), 10000)
+      );
+      
+      const queryPromise = supabase
         .from('generated_recipes')
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
-      console.log('🔄 4. Query result:', { data, error });
+      const { data, error } = await Promise.race([queryPromise, timeoutPromise]) as any;
 
-      if (error) throw error;
+      console.log('🔄 4. Query result:', { data, error, dataLength: data?.length });
+
+      if (error) {
+        console.error('🔄 Query error:', error);
+        throw error;
+      }
 
       console.log('🔄 5. Raw database records:', data?.length || 0);
 
@@ -63,8 +74,9 @@ export const useGeneratedRecipes = () => {
       console.log('🔄 7. Recipe IDs:', recipes.map(r => r.id));
 
       setGeneratedRecipes(recipes);
-    } catch (error) {
+    } catch (error: any) {
       console.error('🔄 8. Error fetching generated recipes:', error);
+      console.error('🔄 Error details:', error.message, error.code);
       setGeneratedRecipes([]);
     } finally {
       console.log('🔄 9. Setting isLoading to false');
