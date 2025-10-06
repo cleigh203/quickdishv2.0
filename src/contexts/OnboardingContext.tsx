@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface OnboardingContextType {
   hasSeenOnboarding: boolean;
@@ -14,37 +15,80 @@ interface OnboardingContextType {
 const OnboardingContext = createContext<OnboardingContextType | undefined>(undefined);
 
 export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
-  const [hasSeenOnboarding, setHasSeenOnboarding] = useState(() => {
-    return localStorage.getItem('hasSeenOnboarding') === 'true';
-  });
+  const [hasSeenOnboarding, setHasSeenOnboarding] = useState(true); // Start as true, will be updated from DB
   const [isOnboardingActive, setIsOnboardingActive] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const totalSteps = 5; // Will be updated when user sends rest of steps
+  const totalSteps = 7; // Steps 1-6 + completion screen
 
+  // Check database for onboarding status
   useEffect(() => {
-    // Show onboarding automatically on first visit
-    if (!hasSeenOnboarding) {
-      setIsOnboardingActive(true);
-    }
-  }, [hasSeenOnboarding]);
+    const checkOnboardingStatus = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (user) {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('has_completed_onboarding')
+          .eq('id', user.id)
+          .single();
+        
+        if (!error && data) {
+          const completed = data.has_completed_onboarding || false;
+          setHasSeenOnboarding(completed);
+          
+          // Show onboarding for new users
+          if (!completed) {
+            setIsOnboardingActive(true);
+          }
+        }
+      } else {
+        // Guest users - check localStorage
+        const hasSeenLocal = localStorage.getItem('hasSeenOnboarding') === 'true';
+        setHasSeenOnboarding(hasSeenLocal);
+        if (!hasSeenLocal) {
+          setIsOnboardingActive(true);
+        }
+      }
+    };
+    
+    checkOnboardingStatus();
+  }, []);
 
   const showOnboarding = () => {
     setCurrentStep(0);
     setIsOnboardingActive(true);
   };
 
-  const completeOnboarding = () => {
+  const completeOnboarding = async () => {
     localStorage.setItem('hasSeenOnboarding', 'true');
     setHasSeenOnboarding(true);
     setIsOnboardingActive(false);
     setCurrentStep(0);
+    
+    // Update database if user is logged in
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      await supabase
+        .from('profiles')
+        .update({ has_completed_onboarding: true })
+        .eq('id', user.id);
+    }
   };
 
-  const skipOnboarding = () => {
+  const skipOnboarding = async () => {
     localStorage.setItem('hasSeenOnboarding', 'true');
     setHasSeenOnboarding(true);
     setIsOnboardingActive(false);
     setCurrentStep(0);
+    
+    // Update database if user is logged in
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      await supabase
+        .from('profiles')
+        .update({ has_completed_onboarding: true })
+        .eq('id', user.id);
+    }
   };
 
   return (

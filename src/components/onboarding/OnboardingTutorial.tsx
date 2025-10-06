@@ -58,6 +58,13 @@ export const OnboardingTutorial = () => {
       targetSelector: "[data-menu-shopping]",
       keepMenuOpen: true,
     },
+    {
+      id: 6,
+      title: "Voice Cooking",
+      description: "Follow hands-free, voice-controlled cooking instructions 🎙️",
+      targetSelector: "[data-menu-cooking-mode]",
+      keepMenuOpen: true,
+    },
   ];
 
   const currentStepData = steps[currentStep - 1];

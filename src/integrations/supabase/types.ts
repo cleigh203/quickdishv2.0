@@ -192,6 +192,7 @@ export type Database = {
           dietary_preferences: string[] | null
           display_name: string | null
           favorite_cuisines: string[] | null
+          has_completed_onboarding: boolean | null
           id: string
           is_premium: boolean
           last_generation_date: string | null
@@ -210,6 +211,7 @@ export type Database = {
           dietary_preferences?: string[] | null
           display_name?: string | null
           favorite_cuisines?: string[] | null
+          has_completed_onboarding?: boolean | null
           id: string
           is_premium?: boolean
           last_generation_date?: string | null
@@ -228,6 +230,7 @@ export type Database = {
           dietary_preferences?: string[] | null
           display_name?: string | null
           favorite_cuisines?: string[] | null
+          has_completed_onboarding?: boolean | null
           id?: string
           is_premium?: boolean
           last_generation_date?: string | null

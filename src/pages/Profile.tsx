@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown } from "lucide-react";
+import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import { InstallButton } from "@/components/InstallButton";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useOnboarding } from "@/contexts/OnboardingContext";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useShoppingList } from "@/hooks/useShoppingList";
 import { supabase } from "@/integrations/supabase/client";
@@ -36,12 +37,14 @@ interface ProfileData {
   learning_goals: string[] | null;
   is_premium: boolean;
   pantry_items: string[] | null;
+  has_completed_onboarding: boolean;
 }
 
 const Profile = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
+  const { showOnboarding } = useOnboarding();
   const [isPantryDialogOpen, setIsPantryDialogOpen] = useState(false);
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [editPreferencesOpen, setEditPreferencesOpen] = useState(false);
@@ -466,6 +469,20 @@ const Profile = () => {
             <CardTitle>Account</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
+            <Button
+              variant="outline"
+              className="w-full justify-start rounded-lg hover:bg-muted"
+              onClick={() => {
+                showOnboarding();
+                toast({
+                  title: "Starting tutorial",
+                  description: "Let's review the app features!",
+                });
+              }}
+            >
+              <HelpCircle className="w-4 h-4 mr-2" />
+              Show Tutorial Again
+            </Button>
             <Button
               variant="outline"
               className="w-full justify-start rounded-lg hover:bg-muted"

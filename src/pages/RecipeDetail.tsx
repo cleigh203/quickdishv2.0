@@ -498,6 +498,7 @@ const RecipeDetail = () => {
                 setMenuOpen(false);
               }}
               className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+              data-menu-cooking-mode
             >
               <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-xl">
                 👨‍🍳

@@ -16,9 +16,11 @@ export const OnboardingWelcome = () => {
       <div className="max-w-md w-full text-center animate-fade-in">
         {/* Logo */}
         <div className="mb-6 flex justify-center">
-          <div className="w-24 h-24 bg-gradient-to-br from-primary to-red-600 rounded-3xl flex items-center justify-center shadow-xl transform hover:scale-105 transition-transform">
-            <span className="text-5xl">🍳</span>
-          </div>
+          <img 
+            src="/logo.png" 
+            alt="QuickDish Logo" 
+            className="w-32 h-32 object-contain drop-shadow-2xl transform hover:scale-105 transition-transform"
+          />
         </div>
 
         {/* Headline */}
