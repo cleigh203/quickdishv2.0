@@ -36,7 +36,7 @@ interface ProfileData {
   favorite_cuisines: string[] | null;
   learning_goals: string[] | null;
   is_premium: boolean;
-  pantry_items: string[] | null;
+  pantry_items?: string[] | null;
   has_completed_onboarding: boolean;
   theme_preference: string | null;
 }
@@ -59,6 +59,9 @@ const Profile = () => {
     return localStorage.getItem('premiumUser') === 'true';
   });
 
+  const [pantryItems, setPantryItems] = useState<string[] | null>(null);
+  const [loadingPantry, setLoadingPantry] = useState(false);
+
   const recipes = recipeStorage.getRecipes();
   const { savedRecipes } = useSavedRecipes();
   const { shoppingList } = useShoppingList();
@@ -71,15 +74,16 @@ const Profile = () => {
     }
 
     try {
+      // Exclude pantry_items from initial load for performance
       const { data, error } = await supabase
         .from('profiles')
-        .select('*')
+        .select('id, display_name, avatar_url, dietary_preferences, skill_level, favorite_cuisines, learning_goals, is_premium, stripe_customer_id, stripe_subscription_id, subscription_status, stripe_product_id, theme_preference, has_completed_onboarding, created_at, last_generation_date, ai_generations_today')
         .eq('id', user.id)
         .single();
 
       if (error) throw error;
 
-      setProfileData(data);
+      setProfileData(data as ProfileData);
       // Update premium status from database
       setIsPremium(data?.is_premium || false);
       
@@ -100,6 +104,33 @@ const Profile = () => {
   useEffect(() => {
     fetchProfile();
   }, [user]);
+
+  const loadPantryItems = async () => {
+    // If already loaded, don't refetch
+    if (pantryItems !== null || !user) return;
+
+    setLoadingPantry(true);
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('pantry_items')
+        .eq('id', user.id)
+        .single();
+
+      if (error) throw error;
+      setPantryItems(data?.pantry_items || []);
+    } catch (error: any) {
+      console.error('Error loading pantry items:', error);
+      setPantryItems([]);
+    } finally {
+      setLoadingPantry(false);
+    }
+  };
+
+  const handlePantryClick = () => {
+    loadPantryItems();
+    navigate('/pantry');
+  };
 
   const togglePremium = async () => {
     if (!user) return;
@@ -333,13 +364,17 @@ const Profile = () => {
           
           <Card 
             className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow cursor-pointer"
-            onClick={() => navigate('/pantry')}
+            onClick={handlePantryClick}
           >
             <CardContent className="p-6 text-center">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
                 <Package className="w-6 h-6 text-orange-600 dark:text-orange-400" />
               </div>
-              <p className="text-4xl font-bold text-foreground mb-1">{profileData?.pantry_items?.length || 0}</p>
+              {loadingPantry ? (
+                <Loader2 className="w-8 h-8 mx-auto animate-spin text-primary mb-1" />
+              ) : (
+                <p className="text-4xl font-bold text-foreground mb-1">{pantryItems?.length || 0}</p>
+              )}
               <p className="text-sm text-muted-foreground">My Pantry</p>
             </CardContent>
           </Card>
