@@ -222,28 +222,16 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
                   Add
                 </Button>
               </div>
-              <div className="flex flex-col gap-2">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={handleScanBarcode}
-                  disabled={loading}
-                  className="w-full"
-                >
-                  <Camera className="w-4 h-4 mr-2" />
-                  Scan Barcode
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setIsManualBarcodeOpen(true)}
-                  disabled={loading}
-                  className="w-full"
-                >
-                  <Barcode className="w-4 h-4 mr-2" />
-                  Enter Barcode
-                </Button>
-              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsManualBarcodeOpen(true)}
+                disabled={loading}
+                className="w-full"
+              >
+                <Barcode className="w-4 h-4 mr-2" />
+                Enter Barcode Manually
+              </Button>
               <div className="mt-3 flex flex-wrap gap-2">
                 <span className="text-xs text-muted-foreground">Quick add:</span>
                 {['Flour', 'Sugar', 'Eggs', 'Butter', 'Oil', 'Salt', 'Pepper'].map((item) => (
@@ -314,42 +302,44 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
                     </div>
                   ))}
                 </div>
-                <div className="pt-4 border-t mt-4">
-                  <Button
-                    variant="destructive"
-                    className="w-full"
-                    onClick={async () => {
-                      if (!user) return;
-                      setLoading(true);
-                      try {
-                        await supabase
-                          .from('profiles')
-                          .update({ pantry_items: [] })
-                          .eq('id', user.id);
-                        setPantryItems([]);
-                        toast({
-                          title: "Pantry cleared",
-                          description: "All items have been removed",
-                        });
-                        onUpdate?.();
-                      } catch (error) {
-                        console.error('Error clearing pantry:', error);
-                        toast({
-                          title: "Failed to clear pantry",
-                          variant: "destructive",
-                        });
-                      } finally {
-                        setLoading(false);
-                      }
-                    }}
-                    disabled={loading}
-                  >
-                    <Trash2 className="w-4 h-4 mr-2" />
-                    Clear All Items
-                  </Button>
-                </div>
               </CardContent>
             </Card>
+          )}
+
+          {/* Clear All Button at Bottom */}
+          {filteredItems.length > 0 && (
+            <Button
+              variant="destructive"
+              className="w-full"
+              onClick={async () => {
+                if (!user) return;
+                setLoading(true);
+                try {
+                  await supabase
+                    .from('profiles')
+                    .update({ pantry_items: [] })
+                    .eq('id', user.id);
+                  setPantryItems([]);
+                  toast({
+                    title: "Pantry cleared",
+                    description: "All items have been removed",
+                  });
+                  onUpdate?.();
+                } catch (error) {
+                  console.error('Error clearing pantry:', error);
+                  toast({
+                    title: "Failed to clear pantry",
+                    variant: "destructive",
+                  });
+                } finally {
+                  setLoading(false);
+                }
+              }}
+              disabled={loading}
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              Clear All Items
+            </Button>
           )}
         </div>
       </DialogContent>
