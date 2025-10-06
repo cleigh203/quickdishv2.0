@@ -121,6 +121,25 @@ import halloweenPumpkinHummusImg from "@/assets/recipes/halloween-pumpkin-hummus
 import halloweenBatWingChickenImg from "@/assets/recipes/halloween-bat-wing-chicken-wings.jpg";
 import halloweenFrankensteinGuacamoleImg from "@/assets/recipes/halloween-frankenstein-guacamole-cups.jpg";
 
+// Import new copycat recipe images (non-duplicates only)
+import copycatMcDonaldsBigMacSauceImg from "@/assets/recipes/copycat-mcdonalds-big-mac-sauce.jpg";
+import copycatStarbucksPinkDrinkImg from "@/assets/recipes/copycat-starbucks-pink-drink.jpg";
+import copycatRaisingCanesChickenFingersImg from "@/assets/recipes/copycat-raising-canes-chicken-fingers.jpg";
+import copycatRaisingCanesSauceImg from "@/assets/recipes/copycat-raising-canes-sauce.jpg";
+import copycatPandaExpressOrangeChickenImg from "@/assets/recipes/copycat-panda-express-orange-chicken.jpg";
+import copycatApplebeesQuesadillaBurgerImg from "@/assets/recipes/copycat-applebees-quesadilla-burger.jpg";
+import copycatSonicCherryLimeadeImg from "@/assets/recipes/copycat-sonic-cherry-limeade.jpg";
+import copycatOliveGardenBreadsticksNewImg from "@/assets/recipes/copycat-olive-garden-breadsticks.jpg";
+import copycatShakeShackBurgerImg from "@/assets/recipes/copycat-shake-shack-burger.jpg";
+import copycatFiveGuysCajunFriesImg from "@/assets/recipes/copycat-five-guys-cajun-fries.jpg";
+import copycatWendysChiliNewImg from "@/assets/recipes/copycat-wendys-chili.jpg";
+import copycatChickFilAChickenMinisImg from "@/assets/recipes/copycat-chick-fil-a-chicken-minis.jpg";
+import copycatOliveGardenZuppaToscanaImg from "@/assets/recipes/copycat-olive-garden-zuppa-toscana.jpg";
+import copycatChipotleGuacamoleImg from "@/assets/recipes/copycat-chipotle-guacamole.jpg";
+import copycatAuntieAnnesPretzelBitesImg from "@/assets/recipes/copycat-auntie-annes-pretzel-bites.jpg";
+import copycatChilisSkilletQuesoImg from "@/assets/recipes/copycat-chilis-skillet-queso.jpg";
+import copycatTacoBellMexicanPizzaImg from "@/assets/recipes/copycat-taco-bell-mexican-pizza.jpg";
+
 import leftoverChickenEnchiladasImg from "@/assets/recipes/leftover-chicken-enchiladas.jpg";
 import leftoverMashedPotatoPancakesImg from "@/assets/recipes/leftover-mashed-potato-pancakes.jpg";
 import leftoverPotRoastShepherdsPieImg from "@/assets/recipes/leftover-pot-roast-shepherds-pie.jpg";
@@ -2638,6 +2657,634 @@ export const allRecipes: Recipe[] = [
       "Drain on paper towels.",
       "Butter and toast buns.",
       "Place chicken on bun, top with pickles."
+    ]
+  },
+  {
+    id: "copycat-mcdonalds-big-mac-sauce",
+    name: "McDonald's Big Mac Sauce",
+    description: "The iconic special sauce that makes Big Macs legendary. Perfect for burgers, fries, or dipping!",
+    cookTime: "0 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Restaurant Copycats",
+    image: copycatMcDonaldsBigMacSauceImg,
+    totalTime: 5,
+    tags: ["copycat", "restaurant", "viral", "mcdonalds", "sauce"],
+    ingredients: [
+      { amount: "1", unit: "cup", item: "mayonnaise" },
+      { amount: "2", unit: "tbsp", item: "French dressing" },
+      { amount: "4", unit: "tsp", item: "sweet pickle relish" },
+      { amount: "1", unit: "tbsp", item: "finely minced white onion" },
+      { amount: "1", unit: "tsp", item: "white vinegar" },
+      { amount: "1", unit: "tsp", item: "granulated sugar" },
+      { amount: "1/8", unit: "tsp", item: "salt" }
+    ],
+    instructions: [
+      "Combine all ingredients in a bowl.",
+      "Whisk together until smooth and well combined.",
+      "Cover and refrigerate for at least 30 minutes to let flavors meld.",
+      "Stir before using.",
+      "Store in refrigerator for up to 2 weeks.",
+      "Perfect on burgers, fries, or as a dipping sauce!"
+    ]
+  },
+  {
+    id: "copycat-starbucks-pink-drink",
+    name: "Starbucks Pink Drink",
+    description: "Refreshing strawberry açaí drink with coconut milk. Instagram-famous and delicious!",
+    cookTime: "0 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Restaurant Copycats",
+    image: copycatStarbucksPinkDrinkImg,
+    totalTime: 10,
+    tags: ["copycat", "restaurant", "viral", "starbucks", "beverage"],
+    ingredients: [
+      { amount: "3", unit: "cups", item: "white grape juice" },
+      { amount: "1", unit: "cup", item: "frozen strawberries" },
+      { amount: "1/4", unit: "cup", item: "açaí juice or powder" },
+      { amount: "2", unit: "cups", item: "coconut milk" },
+      { amount: "2", unit: "cups", item: "ice" },
+      { amount: "1", unit: "cup", item: "fresh strawberries, sliced" }
+    ],
+    instructions: [
+      "Blend white grape juice and frozen strawberries until smooth.",
+      "Add açaí juice or powder and blend again.",
+      "Fill glasses with ice.",
+      "Pour strawberry mixture over ice.",
+      "Top with coconut milk (it will create beautiful swirls).",
+      "Add fresh strawberry slices.",
+      "Stir gently before drinking and enjoy!"
+    ]
+  },
+  {
+    id: "copycat-raising-canes-chicken-fingers",
+    name: "Raising Cane's Chicken Fingers",
+    description: "Crispy, juicy chicken tenders better than the restaurant. Perfectly seasoned and tender!",
+    cookTime: "15 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Restaurant Copycats",
+    image: copycatRaisingCanesChickenFingersImg,
+    totalTime: 35,
+    tags: ["copycat", "restaurant", "viral", "raising-canes", "chicken"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "chicken tenderloins" },
+      { amount: "2", unit: "cups", item: "buttermilk" },
+      { amount: "2", unit: "cups", item: "all-purpose flour" },
+      { amount: "2", unit: "tsp", item: "garlic powder" },
+      { amount: "2", unit: "tsp", item: "paprika" },
+      { amount: "1", unit: "tsp", item: "black pepper" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "4", unit: "cups", item: "vegetable oil for frying" }
+    ],
+    instructions: [
+      "Soak chicken in buttermilk for 15-20 minutes.",
+      "Mix flour, garlic powder, paprika, pepper, and salt in a bowl.",
+      "Heat oil to 350°F in a large pot or deep fryer.",
+      "Remove chicken from buttermilk, letting excess drip off.",
+      "Dredge each piece in seasoned flour, coating completely.",
+      "Fry chicken in batches for 5-7 minutes until golden brown.",
+      "Drain on paper towels.",
+      "Serve hot with Cane's sauce!"
+    ]
+  },
+  {
+    id: "copycat-raising-canes-sauce",
+    name: "Raising Cane's Sauce",
+    description: "The famous tangy, creamy dipping sauce. Perfect for chicken tenders, fries, or anything!",
+    cookTime: "0 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "Restaurant Copycats",
+    image: copycatRaisingCanesSauceImg,
+    totalTime: 5,
+    tags: ["copycat", "restaurant", "viral", "raising-canes", "sauce"],
+    ingredients: [
+      { amount: "1/2", unit: "cup", item: "mayonnaise" },
+      { amount: "1/4", unit: "cup", item: "ketchup" },
+      { amount: "1/2", unit: "tsp", item: "garlic powder" },
+      { amount: "1/2", unit: "tsp", item: "Worcestershire sauce" },
+      { amount: "1/4", unit: "tsp", item: "black pepper" },
+      { amount: "1/4", unit: "tsp", item: "salt" }
+    ],
+    instructions: [
+      "Combine all ingredients in a bowl.",
+      "Whisk until smooth and creamy.",
+      "Taste and adjust seasonings if needed.",
+      "Refrigerate for 30 minutes for best flavor.",
+      "Serve with chicken tenders, fries, or as a burger sauce!",
+      "Store in refrigerator for up to 1 week."
+    ]
+  },
+  {
+    id: "copycat-panda-express-orange-chicken",
+    name: "Panda Express Orange Chicken",
+    description: "Sweet, tangy, crispy orange chicken that rivals the original. Restaurant quality at home!",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Restaurant Copycats",
+    image: copycatPandaExpressOrangeChickenImg,
+    totalTime: 35,
+    tags: ["copycat", "restaurant", "viral", "panda-express", "chinese"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "boneless chicken thighs, cubed" },
+      { amount: "1", unit: "cup", item: "cornstarch" },
+      { amount: "2", unit: "", item: "eggs, beaten" },
+      { amount: "1/2", unit: "cup", item: "orange juice" },
+      { amount: "1/4", unit: "cup", item: "sugar" },
+      { amount: "2", unit: "tbsp", item: "soy sauce" },
+      { amount: "2", unit: "tbsp", item: "rice vinegar" },
+      { amount: "1", unit: "tbsp", item: "orange zest" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tsp", item: "ginger, grated" },
+      { amount: "1/4", unit: "tsp", item: "red pepper flakes" },
+      { amount: "3", unit: "cups", item: "vegetable oil for frying" }
+    ],
+    instructions: [
+      "Coat chicken pieces in cornstarch, dip in egg, then coat again in cornstarch.",
+      "Heat oil to 350°F and fry chicken until golden and crispy, about 5-6 minutes.",
+      "Drain on paper towels.",
+      "In a large skillet, combine orange juice, sugar, soy sauce, vinegar, zest, garlic, ginger, and red pepper flakes.",
+      "Bring to a boil, then simmer until slightly thickened, about 5 minutes.",
+      "Toss fried chicken in the orange sauce until well coated.",
+      "Garnish with sesame seeds and green onions.",
+      "Serve over steamed rice!"
+    ]
+  },
+  {
+    id: "copycat-kfc-coleslaw",
+    name: "KFC Coleslaw",
+    description: "Creamy, tangy coleslaw just like KFC's famous side dish. Perfect for any BBQ or picnic!",
+    cookTime: "0 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Restaurant Copycats",
+    image: copycatKfcColeslawImg,
+    totalTime: 15,
+    tags: ["copycat", "restaurant", "viral", "kfc", "side-dish"],
+    ingredients: [
+      { amount: "8", unit: "cups", item: "finely shredded cabbage" },
+      { amount: "1/4", unit: "cup", item: "shredded carrot" },
+      { amount: "2", unit: "tbsp", item: "minced onion" },
+      { amount: "1/3", unit: "cup", item: "sugar" },
+      { amount: "1/2", unit: "tsp", item: "salt" },
+      { amount: "1/8", unit: "tsp", item: "black pepper" },
+      { amount: "1/4", unit: "cup", item: "milk" },
+      { amount: "1/2", unit: "cup", item: "mayonnaise" },
+      { amount: "1/4", unit: "cup", item: "buttermilk" },
+      { amount: "1.5", unit: "tbsp", item: "white vinegar" },
+      { amount: "2.5", unit: "tbsp", item: "lemon juice" }
+    ],
+    instructions: [
+      "Mix cabbage, carrot, and onion in a large bowl.",
+      "In a separate bowl, whisk together sugar, salt, pepper, milk, mayonnaise, buttermilk, vinegar, and lemon juice.",
+      "Pour dressing over cabbage mixture.",
+      "Toss until vegetables are evenly coated.",
+      "Cover and refrigerate for at least 2 hours before serving.",
+      "Toss again before serving for best flavor!"
+    ]
+  },
+  {
+    id: "copycat-applebees-quesadilla-burger",
+    name: "Applebee's Quesadilla Burger",
+    description: "Epic burger with quesadillas instead of buns! Loaded with cheese, bacon, and pico de gallo.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Restaurant Copycats",
+    image: copycatApplebeesQuesadillaBurgerImg,
+    totalTime: 35,
+    tags: ["copycat", "restaurant", "viral", "applebees", "burger"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "8", unit: "", item: "flour tortillas (8-inch)" },
+      { amount: "2", unit: "cups", item: "shredded Monterey Jack cheese" },
+      { amount: "8", unit: "slices", item: "cooked bacon" },
+      { amount: "1", unit: "cup", item: "pico de gallo" },
+      { amount: "1/2", unit: "cup", item: "chipotle mayo" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "black pepper" },
+      { amount: "1/2", unit: "tsp", item: "garlic powder" }
+    ],
+    instructions: [
+      "Season ground beef with salt, pepper, and garlic powder. Form into 4 patties.",
+      "Grill or pan-fry burgers to desired doneness.",
+      "Make quesadillas: place cheese on tortilla, fold in half, and cook in skillet until crispy and cheese melts.",
+      "Repeat to make 8 quesadilla halves.",
+      "Assemble: Place burger patty on one quesadilla half.",
+      "Top with bacon, pico de gallo, and chipotle mayo.",
+      "Top with another quesadilla half.",
+      "Cut in half and serve immediately!"
+    ]
+  },
+  {
+    id: "copycat-sonic-cherry-limeade",
+    name: "Sonic Cherry Limeade",
+    description: "Sweet, tart, and refreshing cherry limeade. Perfect copycat of the Sonic Drive-In favorite!",
+    cookTime: "0 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Restaurant Copycats",
+    image: copycatSonicCherryLimeadeImg,
+    totalTime: 5,
+    tags: ["copycat", "restaurant", "viral", "sonic", "beverage"],
+    ingredients: [
+      { amount: "1/2", unit: "cup", item: "fresh lime juice" },
+      { amount: "1/2", unit: "cup", item: "cherry syrup (or grenadine)" },
+      { amount: "1/4", unit: "cup", item: "sugar" },
+      { amount: "4", unit: "cups", item: "cold water or lemon-lime soda" },
+      { amount: "2", unit: "cups", item: "ice" },
+      { amount: "8", unit: "", item: "maraschino cherries" },
+      { amount: "4", unit: "", item: "lime slices" }
+    ],
+    instructions: [
+      "Mix lime juice, cherry syrup, and sugar in a pitcher.",
+      "Stir until sugar dissolves.",
+      "Add cold water or soda and stir well.",
+      "Fill glasses with ice.",
+      "Pour cherry limeade over ice.",
+      "Garnish with maraschino cherries and lime slices.",
+      "Serve immediately with a straw!"
+    ]
+  },
+  {
+    id: "copycat-olive-garden-breadsticks-new",
+    name: "Olive Garden Breadsticks",
+    description: "Soft, fluffy breadsticks brushed with garlic butter. Just like Olive Garden's famous breadsticks!",
+    cookTime: "15 mins",
+    prepTime: "90 mins",
+    difficulty: "medium",
+    servings: 12,
+    cuisine: "Restaurant Copycats",
+    image: copycatOliveGardenBreadsticksNewImg,
+    totalTime: 105,
+    tags: ["copycat", "restaurant", "viral", "olive-garden", "bread"],
+    ingredients: [
+      { amount: "1", unit: "cup", item: "warm water" },
+      { amount: "2", unit: "tbsp", item: "sugar" },
+      { amount: "2.25", unit: "tsp", item: "active dry yeast" },
+      { amount: "3", unit: "cups", item: "all-purpose flour" },
+      { amount: "2", unit: "tbsp", item: "butter, softened" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "4", unit: "tbsp", item: "butter, melted (for brushing)" },
+      { amount: "1/2", unit: "tsp", item: "garlic powder" },
+      { amount: "1/4", unit: "tsp", item: "salt (for topping)" }
+    ],
+    instructions: [
+      "Mix warm water, sugar, and yeast. Let sit for 5 minutes until foamy.",
+      "Add flour, softened butter, and salt. Mix until dough forms.",
+      "Knead for 5-7 minutes until smooth and elastic.",
+      "Place in greased bowl, cover, and let rise for 1 hour.",
+      "Punch down dough and divide into 12 pieces.",
+      "Roll each into a 7-8 inch breadstick.",
+      "Place on baking sheet, cover, and let rise 30 minutes.",
+      "Bake at 400°F for 12-15 minutes until golden.",
+      "Mix melted butter with garlic powder and salt.",
+      "Brush hot breadsticks with garlic butter immediately!",
+      "Serve warm and enjoy!"
+    ]
+  },
+  {
+    id: "copycat-shake-shack-burger",
+    name: "Shake Shack Burger",
+    description: "Premium fast-casual burger with ShackSauce and perfectly melted cheese. Better than the original!",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Restaurant Copycats",
+    image: copycatShakeShackBurgerImg,
+    totalTime: 25,
+    tags: ["copycat", "restaurant", "viral", "shake-shack", "burger"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "ground beef (80/20)" },
+      { amount: "4", unit: "", item: "potato hamburger buns" },
+      { amount: "8", unit: "slices", item: "American cheese" },
+      { amount: "1/2", unit: "cup", item: "mayonnaise" },
+      { amount: "1", unit: "tbsp", item: "ketchup" },
+      { amount: "1", unit: "tbsp", item: "yellow mustard" },
+      { amount: "4", unit: "slices", item: "dill pickle, chopped" },
+      { amount: "1", unit: "tsp", item: "white vinegar" },
+      { amount: "4", unit: "leaves", item: "lettuce" },
+      { amount: "4", unit: "slices", item: "tomato" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "black pepper" }
+    ],
+    instructions: [
+      "Make ShackSauce: mix mayo, ketchup, mustard, pickles, and vinegar. Refrigerate.",
+      "Divide beef into 4 portions (don't overwork the meat).",
+      "Shape into thin patties slightly larger than buns.",
+      "Season generously with salt and pepper.",
+      "Heat griddle or cast iron skillet over high heat.",
+      "Cook burgers for 2-3 minutes per side, pressing down with spatula.",
+      "Top each burger with 2 cheese slices during last minute.",
+      "Toast buns on griddle.",
+      "Assemble: bottom bun, ShackSauce, lettuce, tomato, burger, more sauce, top bun.",
+      "Serve immediately with crinkle-cut fries!"
+    ]
+  },
+  {
+    id: "copycat-five-guys-cajun-fries",
+    name: "Five Guys Cajun Fries",
+    description: "Hand-cut fries seasoned with spicy Cajun seasoning. Addictively crispy and flavorful!",
+    cookTime: "15 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Restaurant Copycats",
+    image: copycatFiveGuysCajunFriesImg,
+    totalTime: 30,
+    tags: ["copycat", "restaurant", "viral", "five-guys", "side-dish"],
+    ingredients: [
+      { amount: "4", unit: "large", item: "russet potatoes" },
+      { amount: "8", unit: "cups", item: "peanut oil for frying" },
+      { amount: "2", unit: "tbsp", item: "paprika" },
+      { amount: "1", unit: "tbsp", item: "garlic powder" },
+      { amount: "1", unit: "tbsp", item: "onion powder" },
+      { amount: "1", unit: "tbsp", item: "cayenne pepper" },
+      { amount: "1", unit: "tsp", item: "dried oregano" },
+      { amount: "1", unit: "tsp", item: "dried thyme" },
+      { amount: "2", unit: "tsp", item: "salt" },
+      { amount: "1", unit: "tsp", item: "black pepper" }
+    ],
+    instructions: [
+      "Cut potatoes into 1/4-inch thick fries. Soak in cold water for 30 minutes.",
+      "Mix all spices together to make Cajun seasoning.",
+      "Drain and pat potatoes completely dry.",
+      "Heat oil to 325°F. Fry potatoes in batches for 5 minutes (blanching).",
+      "Remove and let rest for 10 minutes.",
+      "Increase oil temperature to 375°F.",
+      "Fry again for 2-3 minutes until golden and crispy.",
+      "Drain on paper towels.",
+      "Toss hot fries with Cajun seasoning.",
+      "Serve immediately in a paper cup for authentic Five Guys experience!"
+    ]
+  },
+  {
+    id: "copycat-wendys-chili-new",
+    name: "Wendy's Chili",
+    description: "Hearty beef chili loaded with beans and topped with cheese. Just like Wendy's famous chili!",
+    cookTime: "45 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Restaurant Copycats",
+    image: copycatWendysChiliNewImg,
+    totalTime: 60,
+    tags: ["copycat", "restaurant", "viral", "wendys", "soup"],
+    ingredients: [
+      { amount: "2", unit: "lbs", item: "ground beef" },
+      { amount: "1", unit: "large", item: "onion, diced" },
+      { amount: "1", unit: "green", item: "bell pepper, diced" },
+      { amount: "3", unit: "stalks", item: "celery, diced" },
+      { amount: "2", unit: "cans", item: "diced tomatoes (14.5 oz each)" },
+      { amount: "1", unit: "can", item: "tomato sauce (15 oz)" },
+      { amount: "1", unit: "can", item: "kidney beans, drained (15 oz)" },
+      { amount: "1", unit: "can", item: "pinto beans, drained (15 oz)" },
+      { amount: "2", unit: "tbsp", item: "chili powder" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "black pepper" },
+      { amount: "1", unit: "cup", item: "shredded cheddar cheese" },
+      { amount: "1/2", unit: "cup", item: "diced onions (for topping)" },
+      { amount: "1/2", unit: "cup", item: "sour cream" }
+    ],
+    instructions: [
+      "Brown ground beef in large pot, breaking it into small pieces.",
+      "Add onion, bell pepper, and celery. Cook until softened, about 5 minutes.",
+      "Add diced tomatoes, tomato sauce, and both beans.",
+      "Stir in chili powder, cumin, garlic powder, salt, and pepper.",
+      "Bring to a boil, then reduce heat and simmer for 30-40 minutes, stirring occasionally.",
+      "Taste and adjust seasonings.",
+      "Serve hot topped with shredded cheese, diced onions, and sour cream.",
+      "Serve with oyster crackers on the side!"
+    ]
+  },
+  {
+    id: "copycat-chick-fil-a-chicken-minis",
+    name: "Chick-fil-A Chicken Minis",
+    description: "Mini chicken sandwiches on sweet yeast rolls. Perfect breakfast or snack!",
+    cookTime: "20 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Restaurant Copycats",
+    image: copycatChickFilAChickenMinisImg,
+    totalTime: 40,
+    tags: ["copycat", "restaurant", "viral", "chick-fil-a", "breakfast"],
+    ingredients: [
+      { amount: "12", unit: "", item: "frozen yeast dinner rolls" },
+      { amount: "1", unit: "lb", item: "chicken breast tenderloins" },
+      { amount: "1", unit: "cup", item: "pickle juice" },
+      { amount: "1", unit: "cup", item: "flour" },
+      { amount: "1", unit: "tbsp", item: "powdered sugar" },
+      { amount: "1", unit: "tsp", item: "paprika" },
+      { amount: "1", unit: "", item: "egg" },
+      { amount: "1/2", unit: "cup", item: "milk" },
+      { amount: "2", unit: "cups", item: "peanut oil for frying" },
+      { amount: "2", unit: "tbsp", item: "melted butter" },
+      { amount: "1", unit: "tbsp", item: "honey" }
+    ],
+    instructions: [
+      "Thaw and bake dinner rolls according to package directions.",
+      "Marinate chicken in pickle juice for at least 1 hour.",
+      "Mix flour, powdered sugar, and paprika.",
+      "Whisk egg and milk together.",
+      "Dredge chicken in flour, dip in egg wash, then flour again.",
+      "Heat oil to 350°F and fry chicken until golden, about 5-6 minutes.",
+      "Cut each chicken piece to fit rolls.",
+      "Slice rolls horizontally.",
+      "Place chicken inside each roll.",
+      "Mix melted butter and honey, brush on tops of rolls.",
+      "Serve warm!"
+    ]
+  },
+  {
+    id: "copycat-olive-garden-zuppa-toscana",
+    name: "Olive Garden Zuppa Toscana Soup",
+    description: "Creamy Italian sausage soup with kale and potatoes. Restaurant comfort in a bowl!",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Restaurant Copycats",
+    image: copycatOliveGardenZuppaToscanaImg,
+    totalTime: 45,
+    tags: ["copycat", "restaurant", "viral", "olive-garden", "soup"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "Italian sausage" },
+      { amount: "6", unit: "slices", item: "bacon, chopped" },
+      { amount: "1", unit: "large", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "6", unit: "cups", item: "chicken broth" },
+      { amount: "4", unit: "medium", item: "russet potatoes, sliced thin" },
+      { amount: "2", unit: "cups", item: "chopped kale" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1/2", unit: "tsp", item: "red pepper flakes" },
+      { amount: "1/2", unit: "tsp", item: "salt" },
+      { amount: "1/4", unit: "tsp", item: "black pepper" },
+      { amount: "1/4", unit: "cup", item: "grated Parmesan cheese" }
+    ],
+    instructions: [
+      "Cook sausage in large pot until browned. Remove and set aside.",
+      "Cook bacon in same pot until crispy. Remove and set aside.",
+      "Sauté onion and garlic in bacon fat until softened.",
+      "Add chicken broth and potatoes. Bring to boil.",
+      "Reduce heat and simmer for 15 minutes until potatoes are tender.",
+      "Stir in cooked sausage, kale, and cream.",
+      "Simmer for 5 more minutes until kale is wilted.",
+      "Season with red pepper flakes, salt, and pepper.",
+      "Top each bowl with crispy bacon and Parmesan.",
+      "Serve with breadsticks!"
+    ]
+  },
+  {
+    id: "copycat-chipotle-guacamole",
+    name: "Chipotle Guacamole",
+    description: "Fresh, chunky guacamole just like Chipotle's famous recipe. Perfect with chips or on anything!",
+    cookTime: "0 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Restaurant Copycats",
+    image: copycatChipotleGuacamoleImg,
+    totalTime: 10,
+    tags: ["copycat", "restaurant", "viral", "chipotle", "appetizer"],
+    ingredients: [
+      { amount: "4", unit: "ripe", item: "avocados" },
+      { amount: "1/4", unit: "cup", item: "diced red onion" },
+      { amount: "2", unit: "tbsp", item: "fresh cilantro, chopped" },
+      { amount: "1", unit: "medium", item: "jalapeño, seeded and diced" },
+      { amount: "2", unit: "tbsp", item: "fresh lime juice" },
+      { amount: "1/2", unit: "tsp", item: "salt" }
+    ],
+    instructions: [
+      "Cut avocados in half, remove pit, and scoop flesh into bowl.",
+      "Mash avocados with fork, leaving some chunks.",
+      "Add red onion, cilantro, and jalapeño.",
+      "Squeeze lime juice over mixture.",
+      "Add salt and mix well.",
+      "Taste and adjust seasonings as needed.",
+      "Serve immediately with tortilla chips!",
+      "To prevent browning, press plastic wrap directly on surface."
+    ]
+  },
+  {
+    id: "copycat-auntie-annes-pretzel-bites",
+    name: "Auntie Anne's Pretzel Bites",
+    description: "Soft, buttery pretzel bites with cheese sauce. Mall food court favorite at home!",
+    cookTime: "15 mins",
+    prepTime: "90 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Restaurant Copycats",
+    image: copycatAuntieAnnesPretzelBitesImg,
+    totalTime: 105,
+    tags: ["copycat", "restaurant", "viral", "auntie-annes", "snack"],
+    ingredients: [
+      { amount: "1.5", unit: "cups", item: "warm water" },
+      { amount: "2", unit: "tbsp", item: "sugar" },
+      { amount: "2.25", unit: "tsp", item: "active dry yeast" },
+      { amount: "4", unit: "cups", item: "all-purpose flour" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "6", unit: "tbsp", item: "melted butter" },
+      { amount: "10", unit: "cups", item: "water (for boiling)" },
+      { amount: "2/3", unit: "cup", item: "baking soda" },
+      { amount: "Coarse", unit: "", item: "salt for topping" }
+    ],
+    instructions: [
+      "Mix warm water, sugar, and yeast. Let sit 5 minutes.",
+      "Add flour, salt, and 2 tbsp melted butter. Mix until dough forms.",
+      "Knead for 5 minutes until smooth.",
+      "Cover and let rise 1 hour.",
+      "Divide dough into 8 pieces. Roll each into a rope and cut into 1-inch pieces.",
+      "Bring 10 cups water and baking soda to boil.",
+      "Boil pretzel bites in batches for 30 seconds.",
+      "Place on baking sheet, sprinkle with coarse salt.",
+      "Bake at 425°F for 12-15 minutes until golden brown.",
+      "Brush with remaining melted butter while hot.",
+      "Serve with warm cheese sauce!"
+    ]
+  },
+  {
+    id: "copycat-chilis-skillet-queso",
+    name: "Chili's Skillet Queso",
+    description: "Melted white cheese dip with beef and pico de gallo. Perfect appetizer for any occasion!",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Restaurant Copycats",
+    image: copycatChilisSkilletQuesoImg,
+    totalTime: 25,
+    tags: ["copycat", "restaurant", "viral", "chilis", "appetizer"],
+    ingredients: [
+      { amount: "1/2", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "lb", item: "white American cheese, cubed" },
+      { amount: "1/2", unit: "cup", item: "milk" },
+      { amount: "1/2", unit: "cup", item: "pico de gallo" },
+      { amount: "1", unit: "jalapeño", item: "sliced" },
+      { amount: "2", unit: "tbsp", item: "fresh cilantro, chopped" },
+      { amount: "1/2", unit: "tsp", item: "cumin" },
+      { amount: "1/4", unit: "tsp", item: "salt" }
+    ],
+    instructions: [
+      "Brown ground beef in skillet, breaking into small pieces. Drain excess fat.",
+      "In same skillet, add cheese cubes and milk over low heat.",
+      "Stir constantly until cheese is completely melted and smooth.",
+      "Stir in cooked beef, cumin, and salt.",
+      "Transfer to serving skillet or bowl.",
+      "Top with pico de gallo, sliced jalapeños, and cilantro.",
+      "Serve immediately with warm tortilla chips!",
+      "Keep warm in slow cooker for parties."
+    ]
+  },
+  {
+    id: "copycat-taco-bell-mexican-pizza",
+    name: "Taco Bell Mexican Pizza",
+    description: "Crispy layered pizza with beef, beans, cheese, and toppings. Bring back the cult favorite!",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Restaurant Copycats",
+    image: copycatTacoBellMexicanPizzaImg,
+    totalTime: 35,
+    tags: ["copycat", "restaurant", "viral", "taco-bell", "main-dish"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "packet", item: "taco seasoning" },
+      { amount: "1", unit: "can", item: "refried beans (16 oz)" },
+      { amount: "8", unit: "", item: "flour tortillas (8-inch)" },
+      { amount: "1", unit: "cup", item: "Mexican pizza sauce or enchilada sauce" },
+      { amount: "2", unit: "cups", item: "shredded Mexican cheese blend" },
+      { amount: "1/2", unit: "cup", item: "diced tomatoes" },
+      { amount: "1/4", unit: "cup", item: "sliced green onions" },
+      { amount: "Vegetable", unit: "", item: "oil for frying" }
+    ],
+    instructions: [
+      "Brown ground beef and add taco seasoning according to package.",
+      "Heat refried beans in microwave or on stovetop.",
+      "Fry tortillas in hot oil until crispy on both sides. Drain on paper towels.",
+      "Spread beans on 4 tortillas.",
+      "Top beans with seasoned beef.",
+      "Place another crispy tortilla on top of each.",
+      "Spread pizza sauce on top tortilla.",
+      "Sprinkle with cheese.",
+      "Bake at 400°F for 8-10 minutes until cheese melts.",
+      "Top with diced tomatoes and green onions.",
+      "Cut into wedges and serve hot!"
     ]
   },
   // ========== QUICK MEALS UNDER 30 MIN (18) ==========
