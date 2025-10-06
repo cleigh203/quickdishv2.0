@@ -31,6 +31,7 @@ import lunchSouthwestChickenBowlImg from "@/assets/recipes/lunch-southwest-chick
 import lunchTunaNicoiseSaladImg from "@/assets/recipes/lunch-tuna-nicoise-salad.jpg";
 import lunchCaliforniaRollBowlImg from "@/assets/recipes/lunch-california-roll-bowl.jpg";
 import lunchMediterraneanQuinoaBowlImg from "@/assets/recipes/lunch-mediterranean-quinoa-bowl.jpg";
+import lunchBanhMiSandwichImg from "@/assets/recipes/banh-mi-sandwich.jpg";
 
 // Quick & Easy Images
 import quickBuffaloChickenWrapImg from "@/assets/recipes/quick-buffalo-chicken-wrap.jpg";
@@ -1063,7 +1064,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Vietnamese",
-    image: placeholderImg,
+    image: lunchBanhMiSandwichImg,
     totalTime: 35,
     tags: ["lunch", "sandwich", "asian", "fresh"],
     nutrition: { calories: 465, protein: 28, carbs: 52, fat: 16, fiber: 4, sugar: 12, servingSize: "1 sandwich" },

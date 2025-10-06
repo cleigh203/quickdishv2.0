@@ -260,7 +260,7 @@ import lunchFalafelPitaImg from "@/assets/recipes/lunch-falafel-pita.jpg";
 import lunchChickenCaesarSaladImg from "@/assets/recipes/lunch-chicken-caesar-salad.jpg";
 import lunchBanhMiSandwichImg from "@/assets/recipes/banh-mi-sandwich.jpg";
 import lunchSouthwestChickenBowlImg from "@/assets/recipes/lunch-southwest-chicken-bowl.jpg";
-import lunchMargheritaFlatbreadImg from "@/assets/recipes/margherita-flatbread-new.jpg";
+import lunchMargheritaFlatbreadImg from "@/assets/recipes/margherita-flatbread-final.jpg";
 import lunchCobbSaladImg from "@/assets/recipes/lunch-cobb-salad.jpg";
 import lunchPestoPastaSaladImg from "@/assets/recipes/lunch-pesto-pasta-salad.jpg";
 import lunchKoreanBbqBeefBowlImg from "@/assets/recipes/lunch-korean-bbq-beef-bowl.jpg";
@@ -269,7 +269,7 @@ import lunchChickenShawarmaWrapImg from "@/assets/recipes/lunch-chicken-shawarma
 import lunchTomatoSoupGrilledCheeseImg from "@/assets/recipes/lunch-tomato-soup-grilled-cheese.jpg";
 
 // One Pot Wonders (20)
-import onePotChickenDumplingsImg from "@/assets/recipes/chicken-and-dumplings-new.jpg";
+import onePotChickenDumplingsImg from "@/assets/recipes/chicken-and-dumplings-final.jpg";
 import onePotBeefBourguignonImg from "@/assets/recipes/one-pot-beef-bourguignon.jpg";
 import onePotJambalayaImg from "@/assets/recipes/one-pot-jambalaya.jpg";
 import onePotCreamyTuscanChickenImg from "@/assets/recipes/one-pot-creamy-tuscan-chicken.jpg";
@@ -360,7 +360,7 @@ import onePotFrenchOnionPastaImg from "@/assets/recipes/one-pot-french-onion-pas
 import onePotCreamyTomatoBeefPastaImg from "@/assets/recipes/one-pot-creamy-tomato-beef-pasta.jpg";
 import onePotCajunShrimpPastaImg from "@/assets/recipes/one-pot-cajun-shrimp-pasta.jpg";
 import onePotPastaPuttanescaImg from "@/assets/recipes/one-pot-pasta-puttanesca.jpg";
-import onePotPastaPrimaveraImg from "@/assets/recipes/one-pot-pasta-primavera.jpg";
+import onePotPastaPrimaveraImg from "@/assets/recipes/one-pot-pasta-primavera-new.jpg";
 import onePotSpanishChickenRiceImg from "@/assets/recipes/one-pot-spanish-chicken-rice.jpg";
 import onePotMexicanChickenRiceImg from "@/assets/recipes/one-pot-mexican-chicken-rice.jpg";
 import onePotMarryMeChickenImg from "@/assets/recipes/one-pot-marry-me-chicken.jpg";
