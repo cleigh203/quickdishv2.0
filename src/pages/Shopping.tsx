@@ -1,9 +1,15 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import { Printer, Store, Loader2, CheckCircle } from "lucide-react";
+import { Printer, Store, Loader2, CheckCircle, Package } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { BottomNav } from "@/components/BottomNav";
 import { StoreSelectionDialog } from "@/components/StoreSelectionDialog";
 import { useToast } from "@/hooks/use-toast";
 import { useShoppingList } from "@/hooks/useShoppingList";
+import { Switch } from "@/components/ui/switch";
+import { PantryItem } from "@/types/pantry";
+import { filterShoppingListByPantry } from "@/utils/pantryUtils";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -54,12 +60,67 @@ const categorizeItem = (itemName: string): { emoji: string; name: string } => {
 };
 
 const Shopping = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const { shoppingList, loading, toggleItem, removeItem: removeFromList, clearCompleted, clearAll } = useShoppingList();
   
+  const [pantryItems, setPantryItems] = useState<string[]>([]);
   const [showClearDialog, setShowClearDialog] = useState(false);
+  const [hidePantryItems, setHidePantryItems] = useState(false);
   const [showStoreDialog, setShowStoreDialog] = useState(false);
   const { toast } = useToast();
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Load pantry items from Supabase
+  useEffect(() => {
+    const loadPantryItems = async () => {
+      if (!user) {
+        setPantryItems([]);
+        return;
+      }
+      
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('pantry_items')
+          .eq('id', user.id)
+          .single();
+
+        if (error) throw error;
+        setPantryItems(data?.pantry_items || []);
+      } catch (error) {
+        console.error('Error loading pantry items:', error);
+      }
+    };
+
+    loadPantryItems();
+  }, [user]);
+
+  // Filter shopping list by pantry using useMemo
+  const { displayList, hiddenCount } = useMemo(() => {
+    if (!hidePantryItems) {
+      return { 
+        displayList: shoppingList, 
+        hiddenCount: 0 
+      };
+    }
+
+    // Convert string array to PantryItem format for filtering
+    const pantryItemsFormatted: PantryItem[] = pantryItems.map(name => ({
+      id: `pantry-${name}`,
+      name,
+      quantity: 1,
+      unit: 'unit',
+      category: 'other' as const,
+      addedDate: new Date().toISOString(),
+    }));
+
+    const { filtered, removed } = filterShoppingListByPantry(shoppingList, pantryItemsFormatted);
+    return { 
+      displayList: filtered, 
+      hiddenCount: removed.length 
+    };
+  }, [shoppingList, pantryItems, hidePantryItems]);
 
   // Check for all items checked with debounce
   useEffect(() => {
@@ -68,7 +129,7 @@ const Shopping = () => {
       clearTimeout(debounceTimerRef.current);
     }
 
-    const allChecked = shoppingList.length > 0 && shoppingList.every(item => item.checked);
+    const allChecked = displayList.length > 0 && displayList.every(item => item.checked);
     
     if (allChecked && !showClearDialog) {
       // Wait 1 second before showing modal
@@ -85,7 +146,7 @@ const Shopping = () => {
         clearTimeout(debounceTimerRef.current);
       }
     };
-  }, [shoppingList, showClearDialog]);
+  }, [displayList, showClearDialog]);
 
   const removeItem = (id: number) => {
     removeFromList(id);
@@ -116,7 +177,7 @@ const Shopping = () => {
   const categorizedItems = useMemo(() => {
     const categories: { [key: string]: Category } = {};
     
-    shoppingList.forEach(item => {
+    displayList.forEach(item => {
       const category = categorizeItem(item.item);
       const key = category.name;
       
@@ -131,10 +192,10 @@ const Shopping = () => {
     });
     
     return Object.values(categories).sort((a, b) => a.name.localeCompare(b.name));
-  }, [shoppingList]);
+  }, [displayList]);
 
-  const totalItems = shoppingList.length;
-  const checkedItems = shoppingList.filter(item => item.checked).length;
+  const totalItems = displayList.length;
+  const checkedItems = displayList.filter(item => item.checked).length;
   const progressPercentage = totalItems > 0 ? (checkedItems / totalItems) * 100 : 0;
 
   if (loading) {
@@ -200,8 +261,42 @@ const Shopping = () => {
               </button>
             </div>
 
-            {/* Category Sections */}
-            {categorizedItems.map((category) => (
+            {/* Pantry Toggle */}
+            <div className="bg-orange-50 px-5 py-3.5 border-b border-orange-200 flex items-center justify-between" data-pantry-toggle>
+              <div className="flex items-center gap-3">
+                <Switch
+                  id="hide-pantry"
+                  checked={hidePantryItems}
+                  onCheckedChange={setHidePantryItems}
+                  className="data-[state=checked]:bg-[#FF6B35]"
+                />
+                <span className="text-sm font-medium text-orange-800">
+                  Hide pantry items {hiddenCount > 0 && `(${hiddenCount})`}
+                </span>
+              </div>
+              <button
+                onClick={() => navigate('/pantry')}
+                className="text-sm font-medium text-[#FF6B35] hover:text-[#E55A2B] transition-colors"
+              >
+                <Package className="w-4 h-4 inline mr-1" />
+                Adjust in Profile
+              </button>
+            </div>
+
+            {displayList.length === 0 ? (
+              <div className="px-5 py-12 text-center">
+                <div className="text-6xl mb-4">✨</div>
+                <p className="text-gray-600 text-lg mb-2">
+                  All items are already in your pantry! 🎉
+                </p>
+                <p className="text-sm text-gray-500">
+                  Toggle off "Hide pantry items" to see all items
+                </p>
+              </div>
+            ) : (
+              <>
+                {/* Category Sections */}
+                {categorizedItems.map((category) => (
               <div key={category.name}>
                 {/* Category Header - Sticky */}
                 <div className="bg-gray-50 px-5 py-3 font-bold text-xs uppercase tracking-wide text-gray-600 border-t-2 border-gray-200 border-b border-gray-200 sticky top-0 z-10">
@@ -260,6 +355,8 @@ const Shopping = () => {
                 </button>
               </div>
             )}
+          </>
+        )}
           </>
         )}
       </div>

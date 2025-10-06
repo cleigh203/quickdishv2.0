@@ -58,11 +58,12 @@ export const OnboardingTutorial = () => {
     },
     {
       id: 6,
-      title: "Pantry Management 🆕",
+      title: "Pantry Staples 🆕",
       description: "Track what you already have at home 🥫",
-      subtitle: "Add pantry items to avoid buying duplicates. Access from Profile → My Pantry.",
-      targetSelector: "[data-pantry-button], [data-pantry-tab]",
+      subtitle: "Hide items from shopping list that are in your pantry. Edit pantry staples in Profile → My Pantry.",
+      targetSelector: "[data-pantry-toggle]",
       highlightPulse: true,
+      action: () => navigate('/shopping'),
     },
     {
       id: 7,
