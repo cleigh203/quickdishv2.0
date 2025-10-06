@@ -21,6 +21,7 @@ import Profile from "./pages/Profile";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import About from "./pages/About";
+import Help from "./pages/Help";
 import Premium from "./pages/Premium";
 import PremiumSuccess from "./pages/PremiumSuccess";
 import Admin from "./pages/Admin";
@@ -68,6 +69,7 @@ const App = () => (
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/about" element={<About />} />
+          <Route path="/help" element={<Help />} />
           <Route path="/premium" element={<ProtectedRoute allowGuest><Premium /></ProtectedRoute>} />
           <Route path="/premium/success" element={<ProtectedRoute><PremiumSuccess /></ProtectedRoute>} />
           <Route path="/admin" element={<Admin />} />

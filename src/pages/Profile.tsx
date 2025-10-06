@@ -522,6 +522,14 @@ const Profile = () => {
             >
               Privacy Policy
             </Button>
+            <Button
+              variant="outline"
+              className="w-full justify-start rounded-lg hover:bg-muted"
+              onClick={() => navigate('/help')}
+            >
+              <HelpCircle className="w-4 h-4 mr-2" />
+              Help & FAQ
+            </Button>
           </CardContent>
         </Card>
 
