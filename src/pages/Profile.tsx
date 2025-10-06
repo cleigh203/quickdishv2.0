@@ -9,7 +9,7 @@ import { PantryDialog } from "@/components/PantryDialog";
 import { EditProfileDialog } from "@/components/EditProfileDialog";
 import { EditPreferencesDialog } from "@/components/EditPreferencesDialog";
 import { SubscriptionManagementModal } from "@/components/SubscriptionManagementModal";
-import { InstallButton } from "@/components/InstallButton";
+
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { useToast } from "@/hooks/use-toast";
@@ -429,57 +429,6 @@ const Profile = () => {
           </CardContent>
         </Card>
 
-        {/* Subscription Management */}
-        <Card className={`rounded-xl shadow-sm bg-card ${profileData?.is_premium ? 'border-2 border-primary' : ''}`}>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="flex items-center gap-2">
-                <Crown className="w-5 h-5 text-primary" />
-                {profileData?.is_premium ? 'Premium Subscription' : 'Subscription'}
-              </CardTitle>
-              {profileData?.is_premium && (
-                <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-0">
-                  Active
-                </Badge>
-              )}
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {profileData?.is_premium ? (
-              <>
-                <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20 rounded-lg p-4">
-                  <p className="text-sm text-muted-foreground mb-2">
-                    You have access to all premium features including nutritional information, 
-                    meal planning insights, and an ad-free experience.
-                  </p>
-                </div>
-                <Button
-                  variant="outline"
-                  className="w-full justify-start rounded-lg hover:bg-muted"
-                  onClick={handleSubscriptionAction}
-                >
-                  <Settings className="w-4 h-4 mr-2" />
-                  Manage Subscription
-                </Button>
-              </>
-            ) : (
-              <>
-                <div className="bg-gradient-to-br from-muted/50 to-muted/30 rounded-lg p-4">
-                  <p className="text-sm text-muted-foreground mb-2">
-                    Upgrade to Premium to unlock nutritional information, meal planning insights, and an ad-free experience.
-                  </p>
-                </div>
-                <Button
-                  className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:opacity-90"
-                  onClick={handleSubscriptionAction}
-                >
-                  <Crown className="w-4 h-4 mr-2" />
-                  Upgrade to Premium
-                </Button>
-              </>
-            )}
-          </CardContent>
-        </Card>
 
         {/* Account Actions */}
         <Card className="rounded-xl shadow-sm bg-card">
@@ -487,6 +436,44 @@ const Profile = () => {
             <CardTitle>Account</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
+            <div className="flex justify-between items-center p-4 bg-secondary rounded-lg">
+              <span className="font-medium">Email</span>
+              <span className="text-muted-foreground">{user?.email}</span>
+            </div>
+            <div className="flex justify-between items-center p-4 bg-secondary rounded-lg">
+              <span className="font-medium">Member Since</span>
+              <span className="text-muted-foreground">
+                {new Date(user?.created_at || '').toLocaleDateString()}
+              </span>
+            </div>
+            <div className="flex justify-between items-center p-4 bg-secondary rounded-lg">
+              <span className="font-medium">Subscription</span>
+              <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                profileData?.is_premium 
+                  ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white' 
+                  : 'bg-muted text-muted-foreground'
+              }`}>
+                {profileData?.is_premium ? 'Premium' : 'Free'}
+              </span>
+            </div>
+            {profileData?.is_premium ? (
+              <Button 
+                variant="outline" 
+                className="w-full justify-start rounded-lg hover:bg-muted"
+                onClick={handleSubscriptionAction}
+              >
+                <Settings className="w-4 h-4 mr-2" />
+                Manage Subscription
+              </Button>
+            ) : (
+              <Button 
+                className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:opacity-90"
+                onClick={handleSubscriptionAction}
+              >
+                <Crown className="w-4 h-4 mr-2" />
+                Upgrade to Premium
+              </Button>
+            )}
             <Button
               variant="outline"
               className="w-full justify-start rounded-lg hover:bg-muted"
@@ -525,19 +512,6 @@ const Profile = () => {
               <Trash2 className="w-4 h-4 mr-2" />
               Delete Account
             </Button>
-          </CardContent>
-        </Card>
-
-        {/* PWA Install */}
-        <Card className="rounded-xl shadow-sm bg-card">
-          <CardHeader>
-            <CardTitle>Install App</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Install QuickDish on your device for quick access, offline recipes, and a better experience.
-            </p>
-            <InstallButton />
           </CardContent>
         </Card>
 

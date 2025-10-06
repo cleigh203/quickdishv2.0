@@ -16,20 +16,17 @@ export const OnboardingTutorial = () => {
       title: "Browse Recipes",
       description: "Browse 350+ recipes and tap any one to see details 🔍",
       targetSelector: ".recipe-card, [data-recipe-card]",
-      action: () => {
-        // User should click on a recipe to proceed
-      },
+      action: () => navigate('/'),
     },
     {
       id: 2,
-      title: "Recipe Actions Menu",
+      title: "Recipe Actions Menu ⭐",
       description: "Tap these three dots to see all recipe actions",
       subtitle: "This is your recipe action center - everything you need is here!",
       targetSelector: "[data-recipe-menu-button]",
       highlightPulse: true,
       autoOpen: true,
       action: () => {
-        // Auto-open the menu
         const menuButton = document.querySelector('[data-recipe-menu-button]') as HTMLElement;
         if (menuButton && !menuOpened) {
           menuButton.click();
@@ -57,9 +54,18 @@ export const OnboardingTutorial = () => {
       description: "Add all ingredients to your shopping list automatically 🛒",
       targetSelector: "[data-menu-shopping]",
       keepMenuOpen: true,
+      action: () => navigate('/shopping'),
     },
     {
       id: 6,
+      title: "Pantry Management 🆕",
+      description: "Track what you already have at home 🥫",
+      subtitle: "Add pantry items to avoid buying duplicates. Access from Shopping List or Profile.",
+      targetSelector: "[data-pantry-button], [data-pantry-tab]",
+      highlightPulse: true,
+    },
+    {
+      id: 7,
       title: "Voice Cooking",
       description: "Follow hands-free, voice-controlled cooking instructions 🎙️",
       targetSelector: "[data-menu-cooking-mode]",

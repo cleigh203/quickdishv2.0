@@ -18,7 +18,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
   const [hasSeenOnboarding, setHasSeenOnboarding] = useState(true); // Start as true, will be updated from DB
   const [isOnboardingActive, setIsOnboardingActive] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const totalSteps = 7; // Steps 1-6 + completion screen
+  const totalSteps = 8; // Steps 1-7 + completion screen
 
   // Check database for onboarding status
   useEffect(() => {

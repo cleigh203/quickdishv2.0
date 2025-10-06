@@ -21,20 +21,32 @@ export const OnboardingCompletion = () => {
         </h1>
 
         {/* Description */}
-        <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-          Remember: Tap the <span className="font-bold text-primary">•••</span> button on any recipe to access all actions
+        <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+          Remember: Tap the <span className="font-bold text-primary">•••</span> button on any recipe for actions
         </p>
 
-        {/* Visual Reminder */}
-        <div className="bg-white rounded-2xl p-6 shadow-lg mb-8 border-2 border-primary/20">
-          <div className="flex items-center justify-center gap-4 mb-3">
-            <span className="text-3xl">👆</span>
-            <span className="text-6xl font-bold text-primary">•••</span>
-            <span className="text-3xl">🎯</span>
+        {/* Visual Reminders */}
+        <div className="space-y-4 mb-8">
+          <div className="bg-white rounded-2xl p-5 shadow-lg border-2 border-primary/20">
+            <div className="flex items-center justify-center gap-4 mb-2">
+              <span className="text-3xl">👆</span>
+              <span className="text-6xl font-bold text-primary">•••</span>
+              <span className="text-3xl">🎯</span>
+            </div>
+            <p className="text-sm text-muted-foreground text-center">
+              Your quick access to favorites, meal planning, shopping lists, and more!
+            </p>
           </div>
-          <p className="text-sm text-muted-foreground">
-            Your quick access to favorites, meal planning, shopping lists, and more!
-          </p>
+          
+          <div className="bg-white rounded-2xl p-5 shadow-lg border-2 border-orange-200">
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <span className="text-3xl">🥫</span>
+              <span className="text-2xl font-bold text-orange-600">Pantry</span>
+            </div>
+            <p className="text-sm text-muted-foreground text-center">
+              Manage your pantry anytime from Shopping List or Profile
+            </p>
+          </div>
         </div>
 
         {/* CTA Button */}

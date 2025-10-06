@@ -11,13 +11,13 @@ export const OnboardingFlow = () => {
   }
 
   // Step 0 = Welcome screen
-  // Steps 1-6 = Tutorial steps
-  // Step 7 = Completion screen
+  // Steps 1-7 = Tutorial steps
+  // Step 8 = Completion screen
   if (currentStep === 0) {
     return <OnboardingWelcome />;
   }
 
-  if (currentStep === 7) {
+  if (currentStep === 8) {
     return <OnboardingCompletion />;
   }
 
