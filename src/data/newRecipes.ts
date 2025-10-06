@@ -19,6 +19,11 @@ import dessertLemonMeringuePieImg from "@/assets/recipes/dessert-lemon-meringue-
 import dessertBostonCreamPieImg from "@/assets/recipes/dessert-boston-cream-pie.jpg";
 import dessertBiscottiImg from "@/assets/recipes/dessert-biscotti.jpg";
 import dessertSaltedCaramelTartImg from "@/assets/recipes/dessert-salted-caramel-tart.jpg";
+import dessertStickyToffeePuddingImg from "@/assets/recipes/dessert-sticky-toffee-pudding.jpg";
+import dessertOperaCakeImg from "@/assets/recipes/dessert-opera-cake.jpg";
+import dessertRaspberryWhiteChocolateCheesecakeImg from "@/assets/recipes/dessert-raspberry-white-chocolate-cheesecake.jpg";
+import dessertSmoresBarsImg from "@/assets/recipes/dessert-smores-bars.jpg";
+import dessertCoconutCreamPieImg from "@/assets/recipes/dessert-coconut-cream-pie.jpg";
 
 // Lunch Images
 import lunchChickenShawarmaWrapImg from "@/assets/recipes/lunch-chicken-shawarma-wrap.jpg";
@@ -515,7 +520,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "British",
-    image: placeholderImg,
+    image: dessertStickyToffeePuddingImg,
     totalTime: 55,
     tags: ["dessert", "british", "comfort-food", "warm"],
     nutrition: { calories: 485, protein: 5, carbs: 68, fat: 22, fiber: 2, sugar: 52, servingSize: "1 serving" },
@@ -550,7 +555,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "hard",
     servings: 12,
     cuisine: "French",
-    image: placeholderImg,
+    image: dessertOperaCakeImg,
     totalTime: 90,
     tags: ["dessert", "french", "elegant", "showstopper"],
     nutrition: { calories: 485, protein: 7, carbs: 52, fat: 28, fiber: 2, sugar: 36, servingSize: "1 slice" },
@@ -611,7 +616,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "American",
-    image: placeholderImg,
+    image: dessertRaspberryWhiteChocolateCheesecakeImg,
     totalTime: 85,
     tags: ["dessert", "elegant", "berries", "showstopper"],
     nutrition: { calories: 465, protein: 7, carbs: 48, fat: 28, fiber: 1, sugar: 36, servingSize: "1 slice" },
@@ -643,7 +648,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 16,
     cuisine: "American",
-    image: placeholderImg,
+    image: dessertSmoresBarsImg,
     totalTime: 45,
     tags: ["dessert", "chocolate", "kid-friendly", "crowd-pleaser"],
     nutrition: { calories: 325, protein: 4, carbs: 42, fat: 16, fiber: 2, sugar: 28, servingSize: "1 bar" },
@@ -673,7 +678,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "American",
-    image: placeholderImg,
+    image: dessertCoconutCreamPieImg,
     totalTime: 40,
     tags: ["dessert", "coconut", "cream", "classic"],
     nutrition: { calories: 425, protein: 6, carbs: 48, fat: 24, fiber: 2, sugar: 32, servingSize: "1 slice" },
