@@ -6,6 +6,7 @@ import { StoreSelectionDialog } from "@/components/StoreSelectionDialog";
 import { useToast } from "@/hooks/use-toast";
 import { useShoppingList } from "@/hooks/useShoppingList";
 import { Switch } from "@/components/ui/switch";
+import { Skeleton } from "@/components/ui/skeleton";
 import { PantryItem } from "@/types/pantry";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { supabase } from "@/integrations/supabase/client";
@@ -281,17 +282,6 @@ const Shopping = () => {
   const checkedItems = displayList.filter(item => item.checked).length;
   const progressPercentage = totalItems > 0 ? (checkedItems / totalItems) * 100 : 0;
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-12 h-12 text-primary animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading shopping list...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <>
       <div className="min-h-screen pb-20 bg-gray-50">
@@ -366,7 +356,20 @@ const Shopping = () => {
               </button>
             </div>
 
-            {displayList.length === 0 ? (
+            {loading ? (
+              // Show skeleton loaders while loading
+              <div className="px-5 py-4 space-y-4">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="flex items-center gap-4">
+                    <Skeleton className="w-7 h-7 rounded-md flex-shrink-0" />
+                    <div className="flex-1 space-y-2">
+                      <Skeleton className="h-5 w-3/4" />
+                      <Skeleton className="h-4 w-1/2" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : displayList.length === 0 ? (
               <div className="px-5 py-12 text-center">
                 <div className="text-6xl mb-4">✨</div>
                 <p className="text-gray-600 text-lg mb-2">

@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { handleSupabaseError, retryOperation } from '@/utils/errorHandling';
 
 interface ShoppingItem {
   id: number;
@@ -10,6 +9,15 @@ interface ShoppingItem {
   amount?: string;
   checked: boolean;
   recipes?: string[];
+}
+
+const CACHE_DURATION = 30 * 1000; // 30 seconds
+const QUERY_TIMEOUT = 5000; // 5 seconds
+
+interface ShoppingListCache {
+  items: ShoppingItem[];
+  listId: string | null;
+  timestamp: number;
 }
 
 export const useShoppingList = () => {
@@ -23,6 +31,7 @@ export const useShoppingList = () => {
   // Debounce timer ref
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const pendingUpdateRef = useRef<ShoppingItem[] | null>(null);
+  const cacheRef = useRef<ShoppingListCache | null>(null);
 
   // Load from localStorage for guests
   const loadFromLocalStorage = () => {
@@ -40,54 +49,82 @@ export const useShoppingList = () => {
   const fetchShoppingList = async () => {
     if (!user) return;
 
+    // Check cache first
+    const now = Date.now();
+    if (cacheRef.current && (now - cacheRef.current.timestamp) < CACHE_DURATION) {
+      setShoppingList(cacheRef.current.items);
+      setListId(cacheRef.current.listId);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
       
-      // Get or create shopping list for user
-      const { data: lists, error: fetchError } = await retryOperation(async () => {
-        const result = await supabase
-          .from('shopping_lists')
-          .select('*')
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false })
-          .limit(1);
-        
-        if (result.error) throw result.error;
-        return result;
-      });
+      // Create abort controller for timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), QUERY_TIMEOUT);
+      
+      // Get or create shopping list for user - optimized query
+      const { data: lists, error: fetchError } = await supabase
+        .from('shopping_lists')
+        .select('id, items')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .abortSignal(controller.signal);
+
+      clearTimeout(timeoutId);
 
       if (fetchError) throw fetchError;
 
       if (!lists || lists.length === 0) {
         // Create new shopping list
-        const { data: newList, error: createError } = await retryOperation(async () => {
-          const result = await supabase
-            .from('shopping_lists')
-            .insert({
-              user_id: user.id,
-              items: [] as any
-            })
-            .select()
-            .single();
-          
-          if (result.error) throw result.error;
-          return result;
-        });
+        const { data: newList, error: createError } = await supabase
+          .from('shopping_lists')
+          .insert({
+            user_id: user.id,
+            items: [] as any
+          })
+          .select('id, items')
+          .single();
 
         if (createError) throw createError;
         
         setListId(newList.id);
         setShoppingList([]);
+        
+        // Update cache
+        cacheRef.current = {
+          items: [],
+          listId: newList.id,
+          timestamp: now,
+        };
       } else {
         setListId(lists[0].id);
         const items = lists[0].items;
-        setShoppingList(Array.isArray(items) ? items as unknown as ShoppingItem[] : []);
+        const itemsArray = Array.isArray(items) ? items as unknown as ShoppingItem[] : [];
+        setShoppingList(itemsArray);
+        
+        // Update cache
+        cacheRef.current = {
+          items: itemsArray,
+          listId: lists[0].id,
+          timestamp: now,
+        };
       }
     } catch (err: any) {
       console.error('Error fetching shopping list:', err);
+      
+      // Use cached data if available, even if stale
+      if (cacheRef.current) {
+        setShoppingList(cacheRef.current.items);
+        setListId(cacheRef.current.listId);
+      }
+      
       toast({
         title: "Couldn't load shopping list",
-        description: "Check connection and try again",
+        description: "Using cached data. Check connection.",
         variant: "destructive",
       });
     } finally {
@@ -113,28 +150,34 @@ export const useShoppingList = () => {
 
       setSaving(true);
       try {
-        const { error } = await retryOperation(async () => {
-          const result = await supabase
-            .from('shopping_lists')
-            .update({
-              items: pendingUpdateRef.current as any,
-              updated_at: new Date().toISOString()
-            })
-            .eq('id', listId);
-          
-          if (result.error) throw result.error;
-          return result;
-        });
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), QUERY_TIMEOUT);
+        
+        const { error } = await supabase
+          .from('shopping_lists')
+          .update({
+            items: pendingUpdateRef.current as any,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', listId)
+          .abortSignal(controller.signal);
+
+        clearTimeout(timeoutId);
 
         if (error) throw error;
+        
+        // Update cache
+        if (cacheRef.current) {
+          cacheRef.current.items = pendingUpdateRef.current;
+          cacheRef.current.timestamp = Date.now();
+        }
         
         pendingUpdateRef.current = null;
       } catch (err: any) {
         console.error('Error saving shopping list:', err);
-        const errorInfo = handleSupabaseError(err);
         toast({
-          title: errorInfo.title,
-          description: errorInfo.description,
+          title: "Couldn't save changes",
+          description: "Will retry automatically",
           variant: "destructive",
         });
       } finally {
