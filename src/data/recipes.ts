@@ -112,6 +112,14 @@ import halloweenEyeballCakePopsImg from "@/assets/recipes/halloween-eyeball-cake
 import halloweenPumpkinMuddyBuddiesImg from "@/assets/recipes/halloween-pumpkin-muddy-buddies.jpg";
 import halloweenCandyBarkImg from "@/assets/recipes/halloween-candy-bark.jpg";
 import halloweenBloodyJelloImg from "@/assets/recipes/halloween-bloody-jello.jpg";
+import halloweenMummyJalapenoImg from "@/assets/recipes/halloween-mummy-jalapeno-poppers.jpg";
+import halloweenPumpkinCheeseBallImg from "@/assets/recipes/halloween-pumpkin-cheese-ball.jpg";
+import halloweenGraveyardTacoDipImg from "@/assets/recipes/halloween-graveyard-taco-dip.jpg";
+import halloweenEyeballCapreseImg from "@/assets/recipes/halloween-eyeball-caprese-skewers.jpg";
+import halloweenWitchBroomCheeseImg from "@/assets/recipes/halloween-witch-broom-cheese-sticks.jpg";
+import halloweenPumpkinHummusImg from "@/assets/recipes/halloween-pumpkin-hummus.jpg";
+import halloweenBatWingChickenImg from "@/assets/recipes/halloween-bat-wing-chicken-wings.jpg";
+import halloweenFrankensteinGuacamoleImg from "@/assets/recipes/halloween-frankenstein-guacamole-cups.jpg";
 
 import leftoverChickenEnchiladasImg from "@/assets/recipes/leftover-chicken-enchiladas.jpg";
 import leftoverMashedPotatoPancakesImg from "@/assets/recipes/leftover-mashed-potato-pancakes.jpg";
@@ -1865,6 +1873,259 @@ export const allRecipes: Recipe[] = [
       "Transfer shards to white serving bowl.",
       "Drizzle bright red strawberry syrup over shards for bloody effect.",
       "Serve with spoon - the broken glass look is so creepy and cool!"
+    ]
+  },
+  {
+    id: "halloween-mummy-jalapeno-poppers",
+    name: "Mummy Jalapeño Poppers",
+    description: "Spicy jalapeño poppers wrapped in crescent dough 'bandages' with googly eyes!",
+    cookTime: "25 mins",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "Halloween",
+    image: halloweenMummyJalapenoImg,
+    totalTime: 45,
+    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
+    ingredients: [
+      { amount: "12", unit: "", item: "large jalapeños, halved and seeded" },
+      { amount: "8", unit: "oz", item: "cream cheese, softened" },
+      { amount: "1", unit: "cup", item: "shredded cheddar cheese" },
+      { amount: "1", unit: "can", item: "crescent roll dough" },
+      { amount: "24", unit: "", item: "black sesame seeds" },
+      { amount: "1/4", unit: "tsp", item: "garlic powder" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Line baking sheet with parchment.",
+      "Mix cream cheese, cheddar, and garlic powder. Fill jalapeño halves.",
+      "Cut crescent dough into thin strips.",
+      "Wrap strips around filled jalapeños leaving gap for 'eyes'.",
+      "Bake 20-25 minutes until dough is golden brown.",
+      "While hot, press two black sesame seeds in gap for eyes.",
+      "Let cool 5 minutes before serving. Spooky and delicious!"
+    ]
+  },
+  {
+    id: "halloween-pumpkin-cheese-ball",
+    name: "Pumpkin Cheese Ball",
+    description: "Festive orange cheese ball shaped like a pumpkin - the perfect party centerpiece!",
+    cookTime: "0 mins",
+    prepTime: "30 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "Halloween",
+    image: halloweenPumpkinCheeseBallImg,
+    totalTime: 150,
+    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
+    ingredients: [
+      { amount: "16", unit: "oz", item: "cream cheese, softened" },
+      { amount: "2", unit: "cups", item: "shredded sharp cheddar cheese" },
+      { amount: "1/4", unit: "cup", item: "ranch dressing mix" },
+      { amount: "1/2", unit: "tsp", item: "paprika" },
+      { amount: "1", unit: "tbsp", item: "orange food coloring or paprika for color" },
+      { amount: "1", unit: "", item: "pretzel stick for stem" },
+      { amount: "1", unit: "", item: "green bell pepper piece for leaf" },
+      { amount: "1", unit: "box", item: "crackers for serving" }
+    ],
+    instructions: [
+      "Mix cream cheese, cheddar, ranch mix, paprika, and orange coloring until combined.",
+      "Form into ball and wrap in plastic wrap. Refrigerate 2 hours until firm.",
+      "Use knife to press vertical lines around ball creating pumpkin segments.",
+      "Insert pretzel stick in top as stem.",
+      "Cut small leaf shape from bell pepper and place near stem.",
+      "Place on serving platter surrounded by crackers.",
+      "Perfect Halloween party centerpiece!"
+    ]
+  },
+  {
+    id: "halloween-graveyard-taco-dip",
+    name: "Graveyard Taco Dip",
+    description: "Layered taco dip decorated as a spooky graveyard with tortilla chip tombstones!",
+    cookTime: "15 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 10,
+    cuisine: "Halloween",
+    image: halloweenGraveyardTacoDipImg,
+    totalTime: 35,
+    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "can", item: "refried beans" },
+      { amount: "1", unit: "cup", item: "sour cream" },
+      { amount: "1", unit: "cup", item: "shredded cheese" },
+      { amount: "1", unit: "cup", item: "guacamole" },
+      { amount: "1", unit: "drop", item: "green food coloring" },
+      { amount: "1/2", unit: "cup", item: "diced tomatoes" },
+      { amount: "1/4", unit: "cup", item: "sliced black olives" },
+      { amount: "12", unit: "", item: "tortilla chips" },
+      { amount: "1", unit: "", item: "black food marker" }
+    ],
+    instructions: [
+      "Brown ground beef, drain, season with taco seasoning.",
+      "In 9x13 clear glass dish, layer: refried beans, seasoned beef, sour cream, cheese.",
+      "Mix guacamole with 1 drop green food coloring for 'grass'.",
+      "Spread guacamole on top as cemetery grass.",
+      "Use black marker to write 'RIP' and dates on tortilla chips.",
+      "Stand chips upright in dip as tombstones.",
+      "Garnish with olives and tomatoes. Spooky cemetery complete!"
+    ]
+  },
+  {
+    id: "halloween-eyeball-caprese-skewers",
+    name: "Eyeball Caprese Skewers",
+    description: "Fresh caprese skewers decorated as realistic eyeballs - healthy and spooky!",
+    cookTime: "0 mins",
+    prepTime: "25 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "Halloween",
+    image: halloweenEyeballCapreseImg,
+    totalTime: 25,
+    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
+    ingredients: [
+      { amount: "12", unit: "", item: "cherry tomatoes" },
+      { amount: "12", unit: "", item: "fresh mozzarella balls (bocconcini)" },
+      { amount: "12", unit: "", item: "fresh basil leaves" },
+      { amount: "12", unit: "", item: "black olive slices" },
+      { amount: "1", unit: "tube", item: "blue icing gel" },
+      { amount: "12", unit: "", item: "bamboo skewers" },
+      { amount: "2", unit: "tbsp", item: "balsamic glaze" }
+    ],
+    instructions: [
+      "Thread each skewer with basil leaf, cherry tomato, mozzarella ball.",
+      "Use blue icing gel to draw small colored iris circle on each mozzarella.",
+      "Press small black olive piece in center as pupil.",
+      "Arrange skewers standing upright on serving platter.",
+      "Drizzle with balsamic glaze.",
+      "The realistic eyeball effect is creepy-cool!",
+      "Serve chilled for best flavor."
+    ]
+  },
+  {
+    id: "halloween-witch-broom-cheese-sticks",
+    name: "Witch Broom Cheese Sticks",
+    description: "Adorable string cheese witch brooms - perfect for kids' Halloween parties!",
+    cookTime: "0 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "Halloween",
+    image: halloweenWitchBroomCheeseImg,
+    totalTime: 15,
+    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
+    ingredients: [
+      { amount: "8", unit: "", item: "string cheese sticks" },
+      { amount: "8", unit: "", item: "pretzel sticks" },
+      { amount: "8", unit: "strips", item: "chives or green onion for tying" }
+    ],
+    instructions: [
+      "Cut bottom third of each cheese stick into thin vertical strips (bristles).",
+      "Leave top 2/3 intact.",
+      "Carefully insert pretzel stick through top of cheese as broom handle.",
+      "Tie chive or green onion strip around junction of handle and bristles.",
+      "Arrange standing upright or laying on platter.",
+      "Optional: serve with small bowl of marinara for 'witch's cauldron' dipping!",
+      "Simple, cute, and kids love them!"
+    ]
+  },
+  {
+    id: "halloween-pumpkin-hummus",
+    name: "Pumpkin Hummus",
+    description: "Creamy orange hummus topped with bell pepper 'stem' - festive and healthy!",
+    cookTime: "0 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "Halloween",
+    image: halloweenPumpkinHummusImg,
+    totalTime: 15,
+    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
+    ingredients: [
+      { amount: "1", unit: "can", item: "chickpeas, drained" },
+      { amount: "1/2", unit: "cup", item: "roasted red peppers" },
+      { amount: "3", unit: "tbsp", item: "tahini" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "2", unit: "tbsp", item: "lemon juice" },
+      { amount: "2", unit: "cloves", item: "garlic" },
+      { amount: "1", unit: "tsp", item: "paprika" },
+      { amount: "1", unit: "", item: "small green bell pepper piece for stem" },
+      { amount: "1", unit: "bag", item: "pita chips and vegetables for dipping" }
+    ],
+    instructions: [
+      "In food processor, blend chickpeas, roasted peppers, tahini, olive oil, lemon juice, and garlic until smooth.",
+      "Season with salt and paprika. Blend again.",
+      "Transfer to white serving bowl and smooth top.",
+      "Cut small stem shape from green bell pepper.",
+      "Place pepper stem on top center of hummus.",
+      "Drizzle with olive oil and sprinkle paprika for decoration.",
+      "Serve with pita chips and fresh vegetables. Festive and delicious!"
+    ]
+  },
+  {
+    id: "halloween-bat-wing-chicken-wings",
+    name: "Bat Wing Chicken Wings",
+    description: "Glossy black sesame glazed wings arranged like bat wings - spooky delicious!",
+    cookTime: "35 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 10,
+    cuisine: "Halloween",
+    image: halloweenBatWingChickenImg,
+    totalTime: 50,
+    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
+    ingredients: [
+      { amount: "3", unit: "lbs", item: "chicken wings" },
+      { amount: "1/4", unit: "cup", item: "soy sauce" },
+      { amount: "2", unit: "tbsp", item: "black sesame seeds" },
+      { amount: "2", unit: "tbsp", item: "honey" },
+      { amount: "1", unit: "tbsp", item: "rice vinegar" },
+      { amount: "2", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tsp", item: "black food coloring (optional)" },
+      { amount: "2", unit: "", item: "green onions, sliced" }
+    ],
+    instructions: [
+      "Preheat oven to 425°F. Line baking sheet with foil.",
+      "Arrange wings on sheet, bake 30 minutes until crispy.",
+      "While baking, make glaze: Mix soy sauce, honey, vinegar, garlic, and black food coloring in small pot.",
+      "Simmer glaze 5 minutes until thickened.",
+      "Toss hot wings in black glaze until coated.",
+      "Sprinkle with black sesame seeds.",
+      "Arrange on platter in bat wing pattern. Garnish with green onions. Spooky and savory!"
+    ]
+  },
+  {
+    id: "halloween-frankenstein-guacamole-cups",
+    name: "Frankenstein Guacamole Cups",
+    description: "Individual guacamole cups decorated as cute Frankenstein faces!",
+    cookTime: "0 mins",
+    prepTime: "25 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "Halloween",
+    image: halloweenFrankensteinGuacamoleImg,
+    totalTime: 25,
+    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
+    ingredients: [
+      { amount: "4", unit: "", item: "ripe avocados" },
+      { amount: "1/4", unit: "cup", item: "lime juice" },
+      { amount: "1/4", unit: "cup", item: "diced red onion" },
+      { amount: "1/4", unit: "cup", item: "cilantro, chopped" },
+      { amount: "1", unit: "", item: "jalapeño, diced" },
+      { amount: "8", unit: "", item: "black olive slices for eyes" },
+      { amount: "1", unit: "", item: "red bell pepper for mouths" },
+      { amount: "8", unit: "", item: "pretzel sticks for bolts" },
+      { amount: "8", unit: "", item: "small cups or ramekins" }
+    ],
+    instructions: [
+      "Mash avocados and mix with lime juice, onion, cilantro, jalapeño, and salt.",
+      "Divide guacamole between 8 small cups or ramekins.",
+      "Smooth tops with back of spoon.",
+      "Press two black olive pieces for eyes on each cup.",
+      "Cut small strips of red pepper for zigzag mouth.",
+      "Insert pretzel stick on each side as 'Frankenstein bolts'.",
+      "Serve with tortilla chips. Adorable monster faces!",
+      "Kids will love these spooky guac cups!"
     ]
   },
   {
