@@ -264,7 +264,7 @@ const RecipeDetail = () => {
           }}
         />
         <Button
-          onClick={() => navigate('/generate')}
+          onClick={() => navigate(-1)}
           variant="icon"
           size="icon"
           className="absolute top-4 left-4"
