@@ -261,6 +261,30 @@ export const SearchOverlay = ({
           </div>
         </div>
 
+        {/* Action Buttons */}
+        <div className="flex gap-3 pt-4 py-4">
+          <Button
+            variant="outline"
+            onClick={() => {
+              clearFilters();
+              setSearchQuery('');
+              setIngredientInput('');
+            }}
+            className="flex-1"
+          >
+            Clear All
+          </Button>
+          <Button
+            onClick={() => {
+              onSearch();
+              onClose();
+            }}
+            className="flex-1"
+          >
+            Apply Filters
+          </Button>
+        </div>
+
         {/* Filtered Results */}
         <div>
           <p className="text-sm font-semibold text-foreground mb-3">
@@ -307,30 +331,6 @@ export const SearchOverlay = ({
               ))}
             </div>
           )}
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex gap-3 pt-4 py-4">
-          <Button
-            variant="outline"
-            onClick={() => {
-              clearFilters();
-              setSearchQuery('');
-              setIngredientInput('');
-            }}
-            className="flex-1"
-          >
-            Clear All
-          </Button>
-          <Button
-            onClick={() => {
-              onSearch();
-              onClose();
-            }}
-            className="flex-1"
-          >
-            Apply Filters
-          </Button>
         </div>
       </div>
     </div>
