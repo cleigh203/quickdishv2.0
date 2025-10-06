@@ -212,7 +212,7 @@ const Pantry = () => {
         <div className="flex gap-3 mb-6">
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="flex-1">
+              <Button>
                 <Plus className="w-4 h-4 mr-2" />
                 Add Item
               </Button>
@@ -296,28 +296,12 @@ const Pantry = () => {
           </Dialog>
 
           <Button
-            variant="secondary"
-            onClick={() => setIsScannerOpen(true)}
-            className="flex-1"
-          >
-            <Camera className="w-4 h-4 mr-2" />
-            Scan Barcode
-          </Button>
-
-          <Button
             variant="outline"
             onClick={() => setIsManualBarcodeOpen(true)}
           >
             <Barcode className="w-4 h-4 mr-2" />
             Enter Barcode
           </Button>
-
-          {pantryItems.length > 0 && (
-            <Button variant="destructive" onClick={handleBulkDelete}>
-              <Trash2 className="w-4 h-4 mr-2" />
-              Clear All
-            </Button>
-          )}
         </div>
 
         {/* Barcode Scanner */}
@@ -405,9 +389,21 @@ const Pantry = () => {
         )}
 
         {pantryItems.length > 0 && (
-          <div className="mt-6 text-center text-sm text-muted-foreground">
-            Total items: {pantryItems.length}
-          </div>
+          <>
+            <div className="mt-6 text-center text-sm text-muted-foreground">
+              Total items: {pantryItems.length}
+            </div>
+            <div className="mt-6">
+              <Button 
+                variant="destructive" 
+                onClick={handleBulkDelete}
+                className="w-full"
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+                Clear All Items
+              </Button>
+            </div>
+          </>
         )}
       </div>
 
