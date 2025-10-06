@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
@@ -15,6 +16,9 @@ const signUpSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters').max(100, 'Password too long'),
   confirmPassword: z.string(),
   displayName: z.string().trim().min(1, 'Display name required').max(50, 'Name too long'),
+  agreeToTerms: z.boolean().refine((val) => val === true, {
+    message: 'You must agree to the Terms of Service and Privacy Policy',
+  }),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -43,6 +47,7 @@ const Auth = () => {
     password: '',
     confirmPassword: '',
     displayName: '',
+    agreeToTerms: false,
   });
 
   const [signInData, setSignInData] = useState({
@@ -285,16 +290,30 @@ const Auth = () => {
                 </div>
               </div>
 
+              <div className="flex items-start space-x-2">
+                <Checkbox
+                  id="terms"
+                  checked={signUpData.agreeToTerms}
+                  onCheckedChange={(checked) => 
+                    setSignUpData({ ...signUpData, agreeToTerms: checked as boolean })
+                  }
+                  required
+                />
+                <Label htmlFor="terms" className="text-sm font-normal leading-tight cursor-pointer">
+                  I agree to the{' '}
+                  <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                    Terms of Service
+                  </a>
+                  {' '}and{' '}
+                  <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                    Privacy Policy
+                  </a>
+                </Label>
+              </div>
+
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? 'Creating account...' : 'Sign Up'}
               </Button>
-
-              <p className="text-center text-xs text-muted-foreground">
-                By signing up, you agree to our{' '}
-                <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                  Privacy Policy
-                </a>
-              </p>
 
               <div className="relative my-4">
                 <div className="absolute inset-0 flex items-center">
