@@ -886,7 +886,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: "/lovable-uploads/dessert-cookies.png",
     totalTime: 27,
-    tags: ["dessert", "cookies", "chocolate", "easy"],
+    tags: ["dessert", "cookies", "chocolate"],
     ingredients: [
       { amount: "2.25", unit: "cups", item: "flour" },
       { amount: "1", unit: "tsp", item: "baking soda" },
@@ -1147,38 +1147,6 @@ export const allRecipes: Recipe[] = [
       "Beat egg and brush over dough.",
       "Bake 12-15 minutes until golden brown.",
       "Use mustard to attach candy eyes in the face gap."
-    ]
-  },
-  {
-    id: "halloween-witch-fingers",
-    name: "Witch Finger Cookies",
-    description: "Almond nail cookies with red jam blood. Creepy and delicious.",
-    cookTime: "12 mins",
-    prepTime: "30 mins",
-    difficulty: "medium",
-    servings: 24,
-    cuisine: "Halloween",
-    image: witchFingersImg,
-    totalTime: 42,
-    tags: ["halloween", "dessert", "cookies"],
-    ingredients: [
-      { amount: "2", unit: "cups", item: "flour" },
-      { amount: "1", unit: "cup", item: "butter" },
-      { amount: "1", unit: "cup", item: "powdered sugar" },
-      { amount: "1", unit: "", item: "egg" },
-      { amount: "1", unit: "tsp", item: "vanilla extract" },
-      { amount: "1/2", unit: "cup", item: "sliced almonds" },
-      { amount: "1/4", unit: "cup", item: "raspberry jam" }
-    ],
-    instructions: [
-      "Beat butter and sugar until fluffy.",
-      "Mix in egg and vanilla.",
-      "Add flour gradually, mixing until dough forms.",
-      "Chill dough 30 minutes.",
-      "Roll pieces of dough into finger shapes with knuckle indentations.",
-      "Press almond slice on one end for fingernail.",
-      "Bake at 350°F for 10-12 minutes until edges are golden.",
-      "While warm, add small amount of jam at 'nail' for blood effect."
     ]
   },
   {
@@ -2000,33 +1968,6 @@ export const allRecipes: Recipe[] = [
       "Drizzle with balsamic glaze.",
       "The realistic eyeball effect is creepy-cool!",
       "Serve chilled for best flavor."
-    ]
-  },
-  {
-    id: "halloween-witch-broom-cheese-sticks",
-    name: "Witch Broom Cheese Sticks",
-    description: "Adorable string cheese witch brooms - perfect for kids' Halloween parties!",
-    cookTime: "0 mins",
-    prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 8,
-    cuisine: "Halloween",
-    image: halloweenWitchBroomCheeseImg,
-    totalTime: 15,
-    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
-    ingredients: [
-      { amount: "8", unit: "", item: "string cheese sticks" },
-      { amount: "8", unit: "", item: "pretzel sticks" },
-      { amount: "8", unit: "strips", item: "chives or green onion for tying" }
-    ],
-    instructions: [
-      "Cut bottom third of each cheese stick into thin vertical strips (bristles).",
-      "Leave top 2/3 intact.",
-      "Carefully insert pretzel stick through top of cheese as broom handle.",
-      "Tie chive or green onion strip around junction of handle and bristles.",
-      "Arrange standing upright or laying on platter.",
-      "Optional: serve with small bowl of marinara for 'witch's cauldron' dipping!",
-      "Simple, cute, and kids love them!"
     ]
   },
   {

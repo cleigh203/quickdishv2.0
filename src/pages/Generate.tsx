@@ -160,7 +160,8 @@ const Generate = () => {
            recipe.tags?.includes('family') || 
            recipe.difficulty.toLowerCase() === 'easy') && 
           !isHalloweenRecipe(recipe) &&
-          !recipe.tags?.includes('dessert')
+          !recipe.tags?.includes('dessert') &&
+          !recipe.tags?.includes('copycat')
         );
       
       case 'copycat':
