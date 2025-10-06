@@ -4,9 +4,11 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { OnboardingProvider } from "@/contexts/OnboardingContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { OfflineBanner } from "@/components/OfflineBanner";
 import { InstallPrompt } from "@/components/InstallPrompt";
+import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
 import Index from "./pages/Index";
 import Generate from "./pages/Generate";
 import RecipeDetail from "./pages/RecipeDetail";
@@ -39,11 +41,13 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <AuthProvider>
-        <OfflineBanner />
-        <InstallPrompt />
-        <Toaster />
-        <Sonner />
-        <Routes>
+        <OnboardingProvider>
+          <OfflineBanner />
+          <InstallPrompt />
+          <OnboardingFlow />
+          <Toaster />
+          <Sonner />
+          <Routes>
           <Route path="/auth" element={<Auth />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
           <Route path="/profile-setup" element={<ProtectedRoute><ProfileSetup /></ProtectedRoute>} />
@@ -69,6 +73,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </OnboardingProvider>
       </AuthProvider>
     </BrowserRouter>
   </QueryClientProvider>

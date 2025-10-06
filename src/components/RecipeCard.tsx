@@ -19,6 +19,7 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true }: RecipeCar
       className="recipe-card border-0"
       onClick={onClick}
       style={{ cursor: onClick ? 'pointer' : 'default' }}
+      data-recipe-card
     >
       <div className="relative">
         <img 

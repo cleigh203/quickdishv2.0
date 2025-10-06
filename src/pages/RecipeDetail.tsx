@@ -276,6 +276,7 @@ const RecipeDetail = () => {
             onClick={() => setMenuOpen(true)}
             variant="icon"
             size="icon"
+            data-recipe-menu-button
           >
             <span className="text-xl">⋮</span>
           </Button>
@@ -444,6 +445,7 @@ const RecipeDetail = () => {
                 setMenuOpen(false);
               }}
               className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+              data-menu-shopping
             >
               <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center text-xl">
                 🛒
@@ -461,6 +463,7 @@ const RecipeDetail = () => {
                 setMenuOpen(false);
               }}
               className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 border-b border-gray-100"
+              data-menu-favorites
             >
               <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center text-xl">
                 {recipe && isSaved(recipe.id) ? '❤️' : '🤍'}
@@ -721,6 +724,7 @@ const RecipeDetail = () => {
                 setMenuOpen(false);
               }}
               className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50"
+              data-menu-meal-plan
             >
               <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-xl">
                 📅
