@@ -79,6 +79,7 @@ const Shopping = () => {
   }, [shoppingList]);
 
   // Load pantry items from Supabase (with timeout) + real-time sync
+  // Deferred to prioritize shopping list load
   useEffect(() => {
     let isMounted = true;
     
@@ -89,9 +90,9 @@ const Shopping = () => {
       }
       
       try {
-        // Add timeout to prevent hanging
+        // Shorter timeout for pantry (non-critical data)
         const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Pantry query timeout')), 5000)
+          setTimeout(() => reject(new Error('Pantry query timeout')), 3000)
         );
         
         const queryPromise = supabase
@@ -115,7 +116,8 @@ const Shopping = () => {
       }
     };
 
-    loadPantryItems();
+    // Defer pantry load to prioritize shopping list (critical path)
+    const timer = setTimeout(loadPantryItems, 150);
 
     // Set up real-time subscription for pantry changes
     if (user) {
@@ -167,12 +169,14 @@ const Shopping = () => {
         .subscribe();
 
       return () => {
+        clearTimeout(timer);
         isMounted = false;
         supabase.removeChannel(channel);
       };
     }
     
     return () => {
+      clearTimeout(timer);
       isMounted = false;
     };
   }, [user, toast]);

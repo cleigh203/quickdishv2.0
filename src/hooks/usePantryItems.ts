@@ -14,8 +14,13 @@ export const usePantryItems = () => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const cacheRef = useRef<PantryCache | null>(null);
+  const fetchInProgressRef = useRef(false);
 
   const fetchPantryItems = useCallback(async (): Promise<PantryItem[]> => {
+    // Prevent duplicate simultaneous requests
+    if (fetchInProgressRef.current) {
+      return cacheRef.current?.items || [];
+    }
     if (!user) {
       return [];
     }
@@ -28,12 +33,21 @@ export const usePantryItems = () => {
 
     // Fetch from Supabase
     setLoading(true);
+    fetchInProgressRef.current = true;
+    
     try {
-      const { data, error } = await supabase
+      // Add 3-second timeout (pantry is less critical)
+      const timeoutPromise = new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Request timed out')), 3000)
+      );
+
+      const fetchPromise = supabase
         .from('profiles')
         .select('pantry_items')
         .eq('id', user.id)
         .single();
+
+      const { data, error } = await Promise.race([fetchPromise, timeoutPromise]);
 
       if (error) throw error;
 
@@ -53,10 +67,12 @@ export const usePantryItems = () => {
       };
 
       return pantryItems;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching pantry items:', error);
-      return [];
+      // Return cached items if available on timeout/error
+      return cacheRef.current?.items || [];
     } finally {
+      fetchInProgressRef.current = false;
       setLoading(false);
     }
   }, [user]);

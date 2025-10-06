@@ -32,6 +32,7 @@ export const useShoppingList = () => {
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const pendingUpdateRef = useRef<ShoppingItem[] | null>(null);
   const cacheRef = useRef<ShoppingListCache | null>(null);
+  const fetchInProgressRef = useRef(false);
 
   // Load from localStorage for guests
   const loadFromLocalStorage = () => {
@@ -49,6 +50,9 @@ export const useShoppingList = () => {
   const fetchShoppingList = async () => {
     if (!user) return;
 
+    // Prevent duplicate simultaneous requests
+    if (fetchInProgressRef.current) return;
+
     // Check cache first
     const now = Date.now();
     if (cacheRef.current && (now - cacheRef.current.timestamp) < CACHE_DURATION) {
@@ -60,6 +64,7 @@ export const useShoppingList = () => {
 
     try {
       setLoading(true);
+      fetchInProgressRef.current = true;
       
       // Create abort controller for timeout
       const controller = new AbortController();
@@ -128,6 +133,7 @@ export const useShoppingList = () => {
         variant: "destructive",
       });
     } finally {
+      fetchInProgressRef.current = false;
       setLoading(false);
     }
   };

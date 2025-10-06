@@ -16,8 +16,11 @@ export const useMealPlan = () => {
   const { user } = useAuth();
   const [mealPlans, setMealPlans] = useState<MealPlan[]>([]);
   const [loading, setLoading] = useState(true);
+  const fetchInProgressRef = useState(false)[0];
 
   const fetchMealPlans = async () => {
+    // Prevent duplicate simultaneous requests
+    if (fetchInProgressRef) return;
     if (!user) {
       setMealPlans([]);
       setLoading(false);
@@ -25,6 +28,8 @@ export const useMealPlan = () => {
     }
 
     try {
+      Object.assign(fetchInProgressRef, { current: true });
+      
       // Add 5-second timeout
       const timeoutPromise = new Promise((_, reject) => 
         setTimeout(() => reject(new Error('Request timed out')), 5000)
@@ -48,6 +53,7 @@ export const useMealPlan = () => {
         variant: "destructive",
       });
     } finally {
+      Object.assign(fetchInProgressRef, { current: false });
       setLoading(false);
     }
   };
