@@ -30,9 +30,9 @@ export const useMealPlan = () => {
     try {
       Object.assign(fetchInProgressRef, { current: true });
       
-      // Add 5-second timeout
+      // Add 8-second timeout
       const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Request timed out')), 5000)
+        setTimeout(() => reject(new Error('Request timed out')), 8000)
       );
 
       const fetchPromise = supabase
@@ -95,7 +95,12 @@ export const useMealPlan = () => {
     }
 
     try {
-      const { error } = await supabase
+      // Add 8-second timeout for insert
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Insert timed out')), 8000)
+      );
+
+      const insertPromise = supabase
         .from('meal_plans')
         .insert({
           user_id: user.id,
@@ -104,11 +109,13 @@ export const useMealPlan = () => {
           meal_type: mealType,
         });
 
+      const { error } = await Promise.race([insertPromise, timeoutPromise]) as any;
+
       if (error) {
         console.error('Error adding meal plan:', error);
         toast({
           title: "Couldn't add to meal plan",
-          description: "Try again?",
+          description: error.message === 'Insert timed out' ? 'Request timed out. Try again?' : "Try again?",
           variant: "destructive",
         });
         return false;
@@ -119,11 +126,11 @@ export const useMealPlan = () => {
         description: `Scheduled for ${mealType}`,
       });
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error adding meal plan:', error);
       toast({
         title: "Couldn't add to meal plan",
-        description: "Try again?",
+        description: error.message === 'Insert timed out' ? 'Request timed out. Try again?' : "Try again?",
         variant: "destructive",
       });
       return false;
@@ -132,10 +139,17 @@ export const useMealPlan = () => {
 
   const deleteMealPlan = async (id: string) => {
     try {
-      const { error } = await supabase
+      // Add 8-second timeout for delete
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Delete timed out')), 8000)
+      );
+
+      const deletePromise = supabase
         .from('meal_plans')
         .delete()
         .eq('id', id);
+
+      const { error } = await Promise.race([deletePromise, timeoutPromise]) as any;
 
       if (error) throw error;
 
@@ -143,11 +157,11 @@ export const useMealPlan = () => {
         title: "Success",
         description: "Meal removed from plan",
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error deleting meal plan:', error);
       toast({
         title: "Error",
-        description: "Failed to remove meal",
+        description: error.message === 'Delete timed out' ? 'Request timed out. Try again?' : "Failed to remove meal",
         variant: "destructive",
       });
     }
@@ -164,6 +178,11 @@ export const useMealPlan = () => {
     }
 
     try {
+      // Add 8-second timeout for bulk delete
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Clear timed out')), 8000)
+      );
+
       let query = supabase
         .from('meal_plans')
         .delete()
@@ -174,7 +193,7 @@ export const useMealPlan = () => {
         query = query.gte('scheduled_date', today);
       }
 
-      const { error } = await query;
+      const { error } = await Promise.race([query, timeoutPromise]) as any;
 
       if (error) throw error;
 
@@ -183,11 +202,11 @@ export const useMealPlan = () => {
         description: keepPastMeals ? "Future meals cleared" : "Meal plan cleared",
       });
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error clearing meal plans:', error);
       toast({
         title: "Error",
-        description: "Failed to clear meal plan",
+        description: error.message === 'Clear timed out' ? 'Request timed out. Try again?' : "Failed to clear meal plan",
         variant: "destructive",
       });
       return false;
