@@ -160,9 +160,9 @@ export const useSavedRecipes = () => {
 
       saveInProgressRef.current.add(recipeId);
 
-      // Add 3-second timeout for insert
+      // Add 8-second timeout for insert
       const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Save timed out')), 3000)
+        setTimeout(() => reject(new Error('Save timed out')), 8000)
       );
 
       const insertPromise = retryOperation(async () => {
@@ -227,9 +227,9 @@ export const useSavedRecipes = () => {
     try {
       saveInProgressRef.current.add(recipeId);
 
-      // Add 3-second timeout for delete
+      // Add 8-second timeout for delete
       const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Delete timed out')), 3000)
+        setTimeout(() => reject(new Error('Delete timed out')), 8000)
       );
 
       const deletePromise = retryOperation(async () => {
