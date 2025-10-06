@@ -108,7 +108,12 @@ const Generate = () => {
       
       case 'quick':
         return combinedRecipes.filter(recipe => {
-          return (recipe.totalTime <= 30 || recipe.tags?.includes('quick')) && !isHalloweenRecipe(recipe);
+          const isCopycatRecipe = recipe.tags?.includes('copycat') || 
+            recipe.cuisine.toLowerCase().includes('copycat') ||
+            recipe.name.toLowerCase().includes('copycat');
+          return (recipe.totalTime <= 30 || recipe.tags?.includes('quick')) && 
+                 !isHalloweenRecipe(recipe) && 
+                 !isCopycatRecipe;
         });
       
       case 'breakfast':
