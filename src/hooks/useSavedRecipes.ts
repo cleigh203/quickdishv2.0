@@ -160,6 +160,22 @@ export const useSavedRecipes = () => {
 
       saveInProgressRef.current.add(recipeId);
 
+      // Optimistically update local state immediately
+      const newRecipe: SavedRecipe = {
+        id: `temp-${recipeId}`,
+        recipe_id: recipeId,
+        notes: null,
+        rating: null,
+        times_cooked: 0,
+        saved_at: new Date().toISOString(),
+      };
+      setSavedRecipes(prev => [newRecipe, ...prev]);
+
+      toast({
+        title: "Saved!",
+        description: "Recipe added to favorites",
+      });
+
       // Add 8-second timeout for insert
       const timeoutPromise = new Promise((_, reject) =>
         setTimeout(() => reject(new Error('Save timed out')), 8000)
@@ -177,21 +193,17 @@ export const useSavedRecipes = () => {
         return result;
       });
 
-      const { error } = await Promise.race([insertPromise, timeoutPromise]) as any;
+      await Promise.race([insertPromise, timeoutPromise]);
 
-      if (error) throw error;
-
-      // Refresh the list
-      await fetchSavedRecipes();
-      
-      toast({
-        title: "Saved!",
-        description: "Recipe added to favorites",
-      });
+      // Realtime subscription will update with actual DB data
       
       return { success: true };
     } catch (error: any) {
       console.error('Failed to save recipe:', error);
+      
+      // Rollback optimistic update on error
+      setSavedRecipes(prev => prev.filter(r => r.recipe_id !== recipeId));
+      
       toast({
         title: "Couldn't save recipe",
         description: error.message === 'Save timed out' ? 'Request timed out. Try again?' : "Try again?",
@@ -224,8 +236,19 @@ export const useSavedRecipes = () => {
       return { success: false, message: 'Operation in progress' };
     }
 
+    // Store previous state for rollback
+    const previousRecipes = savedRecipes;
+
     try {
       saveInProgressRef.current.add(recipeId);
+
+      // Optimistically remove from local state immediately
+      setSavedRecipes(prev => prev.filter(r => r.recipe_id !== recipeId));
+
+      toast({
+        title: "Removed",
+        description: "Recipe removed from favorites",
+      });
 
       // Add 8-second timeout for delete
       const timeoutPromise = new Promise((_, reject) =>
@@ -243,21 +266,17 @@ export const useSavedRecipes = () => {
         return result;
       });
 
-      const { error } = await Promise.race([deletePromise, timeoutPromise]) as any;
+      await Promise.race([deletePromise, timeoutPromise]);
 
-      if (error) throw error;
-
-      // Refresh the list
-      await fetchSavedRecipes();
-
-      toast({
-        title: "Removed",
-        description: "Recipe removed from favorites",
-      });
-
+      // Realtime subscription will confirm the deletion
+      
       return { success: true };
     } catch (err: any) {
       console.error('Error removing recipe:', err);
+      
+      // Rollback optimistic update on error
+      setSavedRecipes(previousRecipes);
+      
       const errorInfo = handleSupabaseError(err);
       toast({
         title: errorInfo.title,
