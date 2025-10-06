@@ -22,9 +22,14 @@ import { useShoppingList } from "@/hooks/useShoppingList";
 import { allRecipes } from "@/data/recipes";
 import { toast } from "@/hooks/use-toast";
 import { format, isToday, isTomorrow, isPast, addDays, startOfDay } from "date-fns";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { PantryItem } from "@/types/pantry";
+import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 
 export const MealPlanTab = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { mealPlans, deleteMealPlan, clearAllMealPlans } = useMealPlan();
   const { incrementTimesCooked } = useSavedRecipes();
   const { addItems } = useShoppingList();
@@ -72,11 +77,61 @@ export const MealPlanTab = () => {
       }
     });
 
-    if (ingredients.length > 0) {
-      await addItems(ingredients);
+    // Filter out items already in pantry
+    let itemsToAdd = ingredients;
+    let filteredCount = 0;
+    
+    if (user) {
+      try {
+        const { data } = await supabase
+          .from('profiles')
+          .select('pantry_items')
+          .eq('id', user.id)
+          .single();
+        
+        if (data?.pantry_items && data.pantry_items.length > 0) {
+          const pantryItemsFormatted: PantryItem[] = data.pantry_items.map((name: string) => ({
+            id: `pantry-${name}`,
+            name,
+            quantity: 1,
+            unit: 'unit',
+            category: 'other' as const,
+            addedDate: new Date().toISOString(),
+          }));
+
+          const shoppingItems = ingredients.map((ing, idx) => ({
+            id: idx,
+            item: ing.item,
+            amount: ing.amount,
+            checked: false,
+            recipes: ing.recipes,
+          }));
+
+          const { filtered } = filterShoppingListByPantry(shoppingItems, pantryItemsFormatted);
+          filteredCount = ingredients.length - filtered.length;
+          itemsToAdd = filtered.map(item => ({
+            item: item.item,
+            amount: item.amount || '',
+            recipes: item.recipes || [],
+          }));
+        }
+      } catch (error) {
+        console.error('Error checking pantry:', error);
+      }
+    }
+
+    if (itemsToAdd.length > 0) {
+      await addItems(itemsToAdd);
       toast({
         title: "Success",
-        description: `${ingredients.length} ingredients added to shopping list`,
+        description: filteredCount > 0 
+          ? `${itemsToAdd.length} ingredients added (${filteredCount} already in pantry)`
+          : `${itemsToAdd.length} ingredients added to shopping list`,
+      });
+    } else if (filteredCount > 0) {
+      toast({
+        title: "All items in pantry",
+        description: "All ingredients are already in your pantry!",
       });
     }
   };

@@ -27,6 +27,8 @@ import { useRecipeRating } from "@/hooks/useRecipeRating";
 import { useMealPlan } from "@/hooks/useMealPlan";
 import { MealPlanDialog } from "@/components/MealPlanDialog";
 import { RecipeAIChatDialog } from "@/components/RecipeAIChatDialog";
+import { PantryItem } from "@/types/pantry";
+import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -143,7 +145,7 @@ const RecipeDetail = () => {
     }
   };
 
-  const addToShoppingList = () => {
+  const addToShoppingList = async () => {
     if (!recipe) return;
     
     if (!user) {
@@ -166,13 +168,59 @@ const RecipeDetail = () => {
     // Convert recipe ingredients to shopping items format
     const newItems = ingredientsToShoppingItems(recipe.ingredients, recipe.name);
     
-    // Add to shopping list via hook
-    addItems(newItems);
+    // Filter out items already in pantry
+    let itemsToAdd = newItems;
+    let filteredCount = 0;
     
-    toast({
-      title: "Added to shopping list! 🛒",
-      description: `${recipe.name} ingredients added`,
-    });
+    try {
+      const { data } = await supabase
+        .from('profiles')
+        .select('pantry_items')
+        .eq('id', user.id)
+        .single();
+      
+      if (data?.pantry_items && data.pantry_items.length > 0) {
+        const pantryItemsFormatted: PantryItem[] = data.pantry_items.map((name: string) => ({
+          id: `pantry-${name}`,
+          name,
+          quantity: 1,
+          unit: 'unit',
+          category: 'other' as const,
+          addedDate: new Date().toISOString(),
+        }));
+
+        const shoppingItems = newItems.map((item, idx) => ({
+          ...item,
+          id: idx,
+          checked: false,
+        }));
+
+        const { filtered } = filterShoppingListByPantry(shoppingItems, pantryItemsFormatted);
+        filteredCount = newItems.length - filtered.length;
+        itemsToAdd = newItems.filter(item => 
+          filtered.some(f => f.item === item.item)
+        );
+      }
+    } catch (error) {
+      console.error('Error checking pantry:', error);
+    }
+    
+    // Add to shopping list via hook
+    if (itemsToAdd.length > 0) {
+      addItems(itemsToAdd);
+      
+      toast({
+        title: "Added to shopping list! 🛒",
+        description: filteredCount > 0
+          ? `${itemsToAdd.length} ingredients added (${filteredCount} already in pantry)`
+          : `${recipe.name} ingredients added`,
+      });
+    } else if (filteredCount > 0) {
+      toast({
+        title: "All items in pantry! ✨",
+        description: "All ingredients are already in your pantry",
+      });
+    }
   };
 
   const handleSaveNotes = async (notes: string) => {

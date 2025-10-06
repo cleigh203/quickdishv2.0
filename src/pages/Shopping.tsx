@@ -62,7 +62,7 @@ const categorizeItem = (itemName: string): { emoji: string; name: string } => {
 const Shopping = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { shoppingList, loading, toggleItem, removeItem: removeFromList, clearCompleted, clearAll } = useShoppingList();
+  const { shoppingList, loading, toggleItem, removeItem: removeFromList, clearCompleted, clearAll, setList } = useShoppingList();
   
   const [pantryItems, setPantryItems] = useState<string[]>([]);
   const [showClearDialog, setShowClearDialog] = useState(false);
@@ -70,8 +70,14 @@ const Shopping = () => {
   const [showStoreDialog, setShowStoreDialog] = useState(false);
   const { toast } = useToast();
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const shoppingListRef = useRef(shoppingList);
 
-  // Load pantry items from Supabase (with timeout)
+  // Keep ref in sync with shopping list
+  useEffect(() => {
+    shoppingListRef.current = shoppingList;
+  }, [shoppingList]);
+
+  // Load pantry items from Supabase (with timeout) + real-time sync
   useEffect(() => {
     let isMounted = true;
     
@@ -109,22 +115,70 @@ const Shopping = () => {
     };
 
     loadPantryItems();
+
+    // Set up real-time subscription for pantry changes
+    if (user) {
+      const channel = supabase
+        .channel('pantry-changes')
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'profiles',
+            filter: `id=eq.${user.id}`
+          },
+          (payload) => {
+            console.log('Pantry updated:', payload);
+            if (payload.new && isMounted) {
+              const newPantryItems = (payload.new as any).pantry_items || [];
+              const oldPantryItems = pantryItems;
+              
+              setPantryItems(newPantryItems);
+              
+              // Auto-remove matching items from shopping list
+              if (newPantryItems.length > oldPantryItems.length) {
+                // Items were added to pantry, remove them from shopping list
+                const pantryItemsFormatted: PantryItem[] = newPantryItems.map((name: string) => ({
+                  id: `pantry-${name}`,
+                  name,
+                  quantity: 1,
+                  unit: 'unit',
+                  category: 'other' as const,
+                  addedDate: new Date().toISOString(),
+                }));
+
+                const { filtered, removed } = filterShoppingListByPantry(shoppingListRef.current, pantryItemsFormatted);
+                
+                if (removed.length > 0) {
+                  // Update shopping list to remove pantry items
+                  setList(filtered);
+                  
+                  toast({
+                    title: "Shopping list updated",
+                    description: `Removed ${removed.length} item${removed.length > 1 ? 's' : ''} already in pantry`,
+                  });
+                }
+              }
+            }
+          }
+        )
+        .subscribe();
+
+      return () => {
+        isMounted = false;
+        supabase.removeChannel(channel);
+      };
+    }
     
     return () => {
       isMounted = false;
     };
-  }, [user]);
+  }, [user, toast]);
 
-  // Filter shopping list by pantry using useMemo
+  // Auto-filter shopping list by pantry (always on) + track hidden count
   const { displayList, hiddenCount } = useMemo(() => {
-    if (!hidePantryItems) {
-      return { 
-        displayList: shoppingList, 
-        hiddenCount: 0 
-      };
-    }
-
-    // Convert string array to PantryItem format for filtering
+    // Always filter pantry items by default
     const pantryItemsFormatted: PantryItem[] = pantryItems.map(name => ({
       id: `pantry-${name}`,
       name,
@@ -135,6 +189,16 @@ const Shopping = () => {
     }));
 
     const { filtered, removed } = filterShoppingListByPantry(shoppingList, pantryItemsFormatted);
+    
+    // If toggle is OFF, show all items but still track what could be hidden
+    if (!hidePantryItems) {
+      return { 
+        displayList: shoppingList, 
+        hiddenCount: removed.length 
+      };
+    }
+
+    // If toggle is ON, actually filter them out
     return { 
       displayList: filtered, 
       hiddenCount: removed.length 
