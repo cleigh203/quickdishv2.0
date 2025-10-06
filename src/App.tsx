@@ -28,6 +28,7 @@ import ProfileSetup from "./pages/ProfileSetup";
 import BatchRegenerateImages from "./pages/BatchRegenerateImages";
 import MigrateRecipes from "./pages/MigrateRecipes";
 import RegenerateImages from "./pages/RegenerateImages";
+import GenerateRecipeImages from "./pages/GenerateRecipeImages";
 
 import NotFound from "./pages/NotFound";
 
@@ -62,6 +63,7 @@ const App = () => (
           <Route path="/admin/generate-onepot-images" element={<GenerateNewRecipeImages />} />
             <Route path="/migrate-recipes" element={<MigrateRecipes />} />
             <Route path="/regenerate-images" element={<RegenerateImages />} />
+            <Route path="/generate-recipe-images" element={<GenerateRecipeImages />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

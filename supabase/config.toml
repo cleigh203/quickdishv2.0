@@ -44,3 +44,6 @@ verify_jwt = true
 
 [functions.migrate-static-recipes]
 verify_jwt = true
+
+[functions.generate-gemini-recipe-images]
+verify_jwt = true
