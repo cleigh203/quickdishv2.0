@@ -111,9 +111,11 @@ const Generate = () => {
           const isCopycatRecipe = recipe.tags?.includes('copycat') || 
             recipe.cuisine.toLowerCase().includes('copycat') ||
             recipe.name.toLowerCase().includes('copycat');
+          const isDessert = recipe.tags?.includes('dessert');
           return (recipe.totalTime <= 30 || recipe.tags?.includes('quick')) && 
                  !isHalloweenRecipe(recipe) && 
-                 !isCopycatRecipe;
+                 !isCopycatRecipe &&
+                 !isDessert;
         });
       
       case 'breakfast':
