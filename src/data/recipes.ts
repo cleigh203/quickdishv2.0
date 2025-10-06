@@ -209,6 +209,20 @@ import appleCiderDonutsImg from "@/assets/recipes/apple-cider-donuts.jpg";
 import honeyCrispAppleSaladImg from "@/assets/recipes/honey-crisp-apple-salad.jpg";
 import appleButterChickenImg from "@/assets/recipes/apple-butter-chicken.jpg";
 
+// Import One Pot Wonders recipes
+import creamyTortelliniSoupImg from "@/assets/recipes/creamy-tortellini-soup.jpg";
+import butternutSquashMacCheeseImg from "@/assets/recipes/butternut-squash-mac-cheese.jpg";
+import loadedBakedPotatoSoupImg from "@/assets/recipes/loaded-baked-potato-soup.jpg";
+import beefStewPumpkinImg from "@/assets/recipes/beef-stew-pumpkin.jpg";
+import frenchOnionSoupBakeImg from "@/assets/recipes/french-onion-soup-bake.jpg";
+import chickenPotPieBiscuitImg from "@/assets/recipes/chicken-pot-pie-biscuit.jpg";
+import sausageKaleSoupImg from "@/assets/recipes/sausage-kale-soup.jpg";
+import shepherdsPieTwiceBakedImg from "@/assets/recipes/shepherds-pie-twice-baked.jpg";
+import mushroomWildRiceSoupImg from "@/assets/recipes/mushroom-wild-rice-soup.jpg";
+import chiliCheeseFriesCasseroleImg from "@/assets/recipes/chili-cheese-fries-casserole.jpg";
+import meatballSubCasseroleImg from "@/assets/recipes/meatball-sub-casserole.jpg";
+import crackChickenNoodleSoupImg from "@/assets/recipes/crack-chicken-noodle-soup.jpg";
+
 // Import new recipes
 import { newRecipes } from "./newRecipes";
 
@@ -10313,6 +10327,525 @@ export const allRecipes: Recipe[] = [
       "Simmer 10 minutes until chicken reaches 165°F.",
       "Serve chicken topped with caramelized apples and sauce.",
       "Pairs well with rice or roasted vegetables."
+    ]
+  },
+
+  // ========== ONE POT WONDERS (12 additional recipes) ==========
+  {
+    id: "one-pot-creamy-tortellini-soup",
+    name: "Creamy Tortellini Soup",
+    description: "One pot soup with cheese tortellini in creamy broth. Easy weeknight dinner.",
+    cookTime: "20 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Italian-American",
+    image: creamyTortelliniSoupImg,
+    totalTime: 30,
+    tags: ["One Pot Wonders", "soup", "pasta", "comfort food"],
+    nutrition: {
+      calories: 340,
+      protein: 14,
+      carbs: 38,
+      fat: 14,
+      fiber: 3,
+      sugar: 6,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "6", unit: "cups", item: "chicken broth" },
+      { amount: "1", unit: "can", item: "diced tomatoes (14 oz)" },
+      { amount: "1", unit: "lb", item: "cheese tortellini" },
+      { amount: "2", unit: "cups", item: "spinach" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/2", unit: "cup", item: "parmesan cheese" }
+    ],
+    instructions: [
+      "In large pot, heat [2 tbsp olive oil], sauté [1 diced onion] and [3 cloves garlic].",
+      "Add [6 cups chicken broth], [1 can diced tomatoes], [1 tsp Italian seasoning].",
+      "Bring to boil, add [1 lb cheese tortellini].",
+      "Cook 8 minutes until tortellini is tender.",
+      "Stir in [2 cups spinach] and [1 cup heavy cream].",
+      "Simmer 5 minutes until spinach wilts.",
+      "Top with [1/2 cup parmesan cheese].",
+      "Serve hot with crusty bread."
+    ]
+  },
+  {
+    id: "one-pot-butternut-squash-mac-cheese",
+    name: "Butternut Squash Mac and Cheese",
+    description: "Creamy mac and cheese with butternut squash. Fall twist on comfort classic.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "American",
+    image: butternutSquashMacCheeseImg,
+    totalTime: 35,
+    tags: ["One Pot Wonders", "pasta", "vegetarian", "comfort food"],
+    nutrition: {
+      calories: 420,
+      protein: 16,
+      carbs: 52,
+      fat: 18,
+      fiber: 4,
+      sugar: 6,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "elbow macaroni" },
+      { amount: "2", unit: "cups", item: "butternut squash puree" },
+      { amount: "2", unit: "cups", item: "milk" },
+      { amount: "2", unit: "cups", item: "cheddar cheese, shredded" },
+      { amount: "1", unit: "cup", item: "gruyere cheese, shredded" },
+      { amount: "3", unit: "tbsp", item: "butter" },
+      { amount: "1/4", unit: "tsp", item: "nutmeg" },
+      { amount: "1", unit: "cup", item: "panko breadcrumbs" },
+      { amount: "", unit: "", item: "salt and pepper" }
+    ],
+    instructions: [
+      "Cook [1 lb macaroni] according to package, drain.",
+      "In same pot, melt [3 tbsp butter], add [2 cups squash puree] and [2 cups milk].",
+      "Stir in [2 cups cheddar] and [1 cup gruyere] until melted.",
+      "Add [1/4 tsp nutmeg], salt, pepper.",
+      "Fold in cooked pasta.",
+      "Transfer to baking dish, top with [1 cup panko].",
+      "Broil 3 minutes until golden and crispy.",
+      "Let stand 5 minutes before serving."
+    ]
+  },
+  {
+    id: "one-pot-loaded-baked-potato-soup",
+    name: "Loaded Baked Potato Soup",
+    description: "Creamy potato soup with bacon and cheese. All the toppings in one pot.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "American",
+    image: loadedBakedPotatoSoupImg,
+    totalTime: 45,
+    tags: ["One Pot Wonders", "soup", "comfort food", "bacon"],
+    nutrition: {
+      calories: 380,
+      protein: 12,
+      carbs: 38,
+      fat: 20,
+      fiber: 3,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "8", unit: "slices", item: "bacon, chopped" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "6", unit: "", item: "russet potatoes, diced" },
+      { amount: "6", unit: "cups", item: "chicken broth" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "2", unit: "cups", item: "cheddar cheese, shredded" },
+      { amount: "1/2", unit: "cup", item: "sour cream" },
+      { amount: "1/4", unit: "cup", item: "chives, chopped" }
+    ],
+    instructions: [
+      "In large pot, cook [8 slices chopped bacon] until crispy. Remove and set aside.",
+      "In bacon fat, sauté [1 diced onion] and [3 cloves garlic].",
+      "Add [6 diced potatoes] and [6 cups broth].",
+      "Simmer 20 minutes until potatoes are tender.",
+      "Mash some potatoes in pot for thickness.",
+      "Stir in [1 cup heavy cream], [2 cups cheddar], [1/2 cup sour cream].",
+      "Top with reserved bacon and [1/4 cup chives].",
+      "Serve hot with extra cheese and sour cream."
+    ]
+  },
+  {
+    id: "one-pot-beef-stew-pumpkin",
+    name: "Beef Stew in Pumpkin",
+    description: "Hearty beef stew served in roasted pumpkin. Showstopping fall presentation.",
+    cookTime: "90 mins",
+    prepTime: "30 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "American",
+    image: beefStewPumpkinImg,
+    totalTime: 120,
+    tags: ["One Pot Wonders", "beef", "stew", "fall"],
+    nutrition: {
+      calories: 420,
+      protein: 32,
+      carbs: 38,
+      fat: 16,
+      fiber: 6,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "", item: "large pumpkin (8-10 lbs)" },
+      { amount: "2", unit: "lbs", item: "beef stew meat" },
+      { amount: "3", unit: "tbsp", item: "flour" },
+      { amount: "2", unit: "tbsp", item: "oil" },
+      { amount: "1", unit: "", item: "onion, chopped" },
+      { amount: "4", unit: "", item: "carrots, chopped" },
+      { amount: "4", unit: "", item: "potatoes, cubed" },
+      { amount: "4", unit: "cups", item: "beef broth" },
+      { amount: "2", unit: "tsp", item: "thyme" },
+      { amount: "2", unit: "", item: "bay leaves" }
+    ],
+    instructions: [
+      "Preheat oven to 350°F. Cut top off [1 large pumpkin], scoop out seeds.",
+      "Toss [2 lbs beef] with [3 tbsp flour], salt, pepper.",
+      "Heat [2 tbsp oil] in pot, brown beef. Remove.",
+      "Sauté [1 onion], [4 carrots], [4 potatoes].",
+      "Return beef, add [4 cups broth], [2 tsp thyme], [2 bay leaves].",
+      "Simmer 1 hour until beef is tender.",
+      "Place pumpkin on baking sheet, bake 45 minutes until tender.",
+      "Ladle stew into pumpkin, serve immediately."
+    ]
+  },
+  {
+    id: "one-pot-french-onion-soup-bake",
+    name: "French Onion Soup Bake",
+    description: "Classic French onion soup transformed into casserole. Cheese-topped perfection.",
+    cookTime: "60 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 8,
+    cuisine: "French",
+    image: frenchOnionSoupBakeImg,
+    totalTime: 80,
+    tags: ["One Pot Wonders", "casserole", "cheese", "comfort food"],
+    nutrition: {
+      calories: 360,
+      protein: 14,
+      carbs: 32,
+      fat: 18,
+      fiber: 3,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "6", unit: "", item: "large onions, thinly sliced" },
+      { amount: "1/4", unit: "cup", item: "butter" },
+      { amount: "2", unit: "tbsp", item: "brown sugar" },
+      { amount: "6", unit: "cups", item: "beef broth" },
+      { amount: "1/2", unit: "cup", item: "red wine" },
+      { amount: "2", unit: "tsp", item: "thyme" },
+      { amount: "1", unit: "loaf", item: "French bread, cubed" },
+      { amount: "3", unit: "cups", item: "gruyere cheese, shredded" },
+      { amount: "1", unit: "cup", item: "parmesan cheese" }
+    ],
+    instructions: [
+      "In large oven-safe pot, melt [1/4 cup butter], add [6 sliced onions].",
+      "Cook 30 minutes, stirring often, until caramelized.",
+      "Add [2 tbsp brown sugar], cook 5 more minutes.",
+      "Pour in [6 cups broth], [1/2 cup wine], [2 tsp thyme].",
+      "Simmer 20 minutes.",
+      "Top with [1 loaf bread cubes].",
+      "Cover with [3 cups gruyere] and [1 cup parmesan].",
+      "Broil until cheese is melted and bubbly. Serve hot."
+    ]
+  },
+  {
+    id: "one-pot-chicken-pot-pie-biscuit",
+    name: "Chicken Pot Pie with Biscuit Topping",
+    description: "One pot chicken pot pie with drop biscuits. Comfort food made easy.",
+    cookTime: "35 mins",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "American",
+    image: chickenPotPieBiscuitImg,
+    totalTime: 55,
+    tags: ["One Pot Wonders", "chicken", "comfort food", "biscuits"],
+    nutrition: {
+      calories: 420,
+      protein: 28,
+      carbs: 38,
+      fat: 18,
+      fiber: 4,
+      sugar: 6,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "3", unit: "tbsp", item: "butter" },
+      { amount: "2", unit: "lbs", item: "chicken breast, cubed" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "", item: "carrots, diced" },
+      { amount: "2", unit: "cups", item: "frozen peas" },
+      { amount: "1/4", unit: "cup", item: "flour" },
+      { amount: "3", unit: "cups", item: "chicken broth" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1", unit: "can", item: "refrigerated biscuits (8 count)" }
+    ],
+    instructions: [
+      "In large oven-safe skillet, melt [3 tbsp butter], cook [2 lbs chicken] until done.",
+      "Add [1 onion], [3 carrots], sauté 5 minutes.",
+      "Sprinkle [1/4 cup flour], cook 2 minutes.",
+      "Stir in [3 cups broth] and [1 cup cream], simmer until thick.",
+      "Add [2 cups peas], season with salt and pepper.",
+      "Top with [1 can biscuits], torn into pieces.",
+      "Bake at 375°F for 20 minutes until biscuits are golden.",
+      "Let cool 5 minutes before serving."
+    ]
+  },
+  {
+    id: "one-pot-sausage-kale-soup",
+    name: "Sausage and Kale Soup",
+    description: "Italian sausage and kale in hearty broth. Tuscan-inspired one pot meal.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Italian",
+    image: sausageKaleSoupImg,
+    totalTime: 35,
+    tags: ["One Pot Wonders", "soup", "sausage", "healthy"],
+    nutrition: {
+      calories: 340,
+      protein: 18,
+      carbs: 28,
+      fat: 16,
+      fiber: 4,
+      sugar: 3,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "Italian sausage, sliced" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "6", unit: "cups", item: "chicken broth" },
+      { amount: "1", unit: "can", item: "white beans, drained" },
+      { amount: "4", unit: "cups", item: "kale, chopped" },
+      { amount: "1/2", unit: "tsp", item: "red pepper flakes" },
+      { amount: "1/2", unit: "cup", item: "parmesan cheese" },
+      { amount: "", unit: "", item: "crusty bread for serving" }
+    ],
+    instructions: [
+      "In large pot, brown [1 lb sliced sausage], remove.",
+      "In drippings, sauté [1 onion] and [4 cloves garlic].",
+      "Add [6 cups broth], [1 can white beans], [1/2 tsp red pepper flakes].",
+      "Bring to boil, simmer 10 minutes.",
+      "Return sausage to pot, add [4 cups kale].",
+      "Cook 5 minutes until kale wilts.",
+      "Serve topped with [1/2 cup parmesan].",
+      "Serve with crusty bread for dipping."
+    ]
+  },
+  {
+    id: "one-pot-shepherds-pie-twice-baked",
+    name: "Shepherd's Pie Twice-Baked Potatoes",
+    description: "Individual shepherd's pies in potato boats. Fun twist on classic.",
+    cookTime: "75 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "British-American",
+    image: shepherdsPieTwiceBakedImg,
+    totalTime: 95,
+    tags: ["One Pot Wonders", "beef", "potatoes", "comfort food"],
+    nutrition: {
+      calories: 420,
+      protein: 24,
+      carbs: 48,
+      fat: 14,
+      fiber: 6,
+      sugar: 4,
+      servingSize: "1 potato"
+    },
+    ingredients: [
+      { amount: "6", unit: "", item: "large russet potatoes" },
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "2", unit: "", item: "carrots, diced" },
+      { amount: "1", unit: "cup", item: "frozen peas" },
+      { amount: "2", unit: "tbsp", item: "tomato paste" },
+      { amount: "1", unit: "cup", item: "beef broth" },
+      { amount: "1/2", unit: "cup", item: "cheddar cheese" },
+      { amount: "1/4", unit: "cup", item: "butter" }
+    ],
+    instructions: [
+      "Bake [6 potatoes] at 400°F for 60 minutes until tender.",
+      "Meanwhile, brown [1 lb ground beef] with [1 onion], [2 carrots].",
+      "Add [2 tbsp tomato paste], [1 cup broth], [1 cup peas]. Simmer 10 minutes.",
+      "Cut potatoes in half, scoop out centers leaving shell.",
+      "Mash potato centers with [1/4 cup butter].",
+      "Fill potato shells with beef mixture.",
+      "Top with mashed potato and [1/2 cup cheddar].",
+      "Bake 15 minutes until cheese melts. Serve hot."
+    ]
+  },
+  {
+    id: "one-pot-mushroom-wild-rice-soup",
+    name: "Creamy Mushroom Wild Rice Soup",
+    description: "Earthy mushrooms and wild rice in creamy broth. Cozy fall soup.",
+    cookTime: "45 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: mushroomWildRiceSoupImg,
+    totalTime: 60,
+    tags: ["One Pot Wonders", "soup", "vegetarian", "mushrooms"],
+    nutrition: {
+      calories: 280,
+      protein: 8,
+      carbs: 32,
+      fat: 14,
+      fiber: 4,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "4", unit: "tbsp", item: "butter" },
+      { amount: "1", unit: "lb", item: "mushrooms, sliced" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "cup", item: "wild rice" },
+      { amount: "6", unit: "cups", item: "vegetable broth" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "2", unit: "tsp", item: "thyme" },
+      { amount: "1/4", unit: "cup", item: "fresh parsley" }
+    ],
+    instructions: [
+      "In large pot, melt [4 tbsp butter], sauté [1 lb mushrooms] until golden.",
+      "Add [1 onion] and [3 cloves garlic], cook 5 minutes.",
+      "Stir in [1 cup wild rice] and [6 cups broth].",
+      "Add [2 tsp thyme], bring to boil.",
+      "Reduce heat, simmer 40 minutes until rice is tender.",
+      "Stir in [1 cup heavy cream], heat through.",
+      "Garnish with [1/4 cup parsley].",
+      "Serve hot with crusty bread."
+    ]
+  },
+  {
+    id: "one-pot-chili-cheese-fries-casserole",
+    name: "Chili Cheese Fries Casserole",
+    description: "Loaded fries with chili and cheese baked to perfection. Ultimate comfort food.",
+    cookTime: "35 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "American",
+    image: chiliCheeseFriesCasseroleImg,
+    totalTime: 50,
+    tags: ["One Pot Wonders", "casserole", "beef", "cheese"],
+    nutrition: {
+      calories: 480,
+      protein: 22,
+      carbs: 42,
+      fat: 24,
+      fiber: 4,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "bag", item: "frozen fries (2 lbs)" },
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "1", unit: "can", item: "kidney beans (15 oz)" },
+      { amount: "1", unit: "can", item: "diced tomatoes (15 oz)" },
+      { amount: "2", unit: "tbsp", item: "chili powder" },
+      { amount: "3", unit: "cups", item: "cheddar cheese, shredded" },
+      { amount: "1/2", unit: "cup", item: "sour cream" },
+      { amount: "1/4", unit: "cup", item: "green onions" }
+    ],
+    instructions: [
+      "Bake [1 bag frozen fries] according to package until crispy.",
+      "In skillet, brown [1 lb ground beef] with [1 onion].",
+      "Add [1 can beans], [1 can tomatoes], [2 tbsp chili powder]. Simmer 10 minutes.",
+      "In 9x13 dish, layer half the fries.",
+      "Top with chili, then [2 cups cheddar].",
+      "Add remaining fries and [1 cup cheddar].",
+      "Bake at 375°F for 15 minutes until cheese melts.",
+      "Top with [1/2 cup sour cream] and [1/4 cup green onions]."
+    ]
+  },
+  {
+    id: "one-pot-meatball-sub-casserole",
+    name: "Meatball Sub Casserole",
+    description: "All the flavors of meatball sub in casserole form. Crowd-pleasing dinner.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "Italian-American",
+    image: meatballSubCasseroleImg,
+    totalTime: 45,
+    tags: ["One Pot Wonders", "casserole", "meatballs", "Italian"],
+    nutrition: {
+      calories: 420,
+      protein: 26,
+      carbs: 38,
+      fat: 18,
+      fiber: 3,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "bag", item: "frozen meatballs (2 lbs)" },
+      { amount: "1", unit: "jar", item: "marinara sauce (24 oz)" },
+      { amount: "1", unit: "loaf", item: "French bread, cubed" },
+      { amount: "2", unit: "cups", item: "mozzarella cheese, shredded" },
+      { amount: "1", unit: "cup", item: "parmesan cheese" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/4", unit: "cup", item: "fresh basil, chopped" },
+      { amount: "", unit: "", item: "garlic butter for bread" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Grease 9x13 baking dish.",
+      "Heat [1 bag frozen meatballs] with [1 jar marinara] until warm.",
+      "Toast [1 loaf bread cubes] with garlic butter until golden.",
+      "Layer half the bread in dish.",
+      "Top with meatball mixture and [1 cup mozzarella].",
+      "Add remaining bread, [1 cup mozzarella], [1 cup parmesan].",
+      "Sprinkle [1 tsp Italian seasoning].",
+      "Bake 25 minutes. Garnish with [1/4 cup basil]."
+    ]
+  },
+  {
+    id: "one-pot-crack-chicken-noodle-soup",
+    name: "Crack Chicken Noodle Soup",
+    description: "Addictive soup with chicken, bacon, and ranch. Viral recipe made easy.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: crackChickenNoodleSoupImg,
+    totalTime: 35,
+    tags: ["One Pot Wonders", "soup", "chicken", "bacon"],
+    nutrition: {
+      calories: 380,
+      protein: 28,
+      carbs: 32,
+      fat: 16,
+      fiber: 2,
+      sugar: 3,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "8", unit: "slices", item: "bacon, chopped" },
+      { amount: "2", unit: "lbs", item: "chicken breast" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "6", unit: "cups", item: "chicken broth" },
+      { amount: "8", unit: "oz", item: "egg noodles" },
+      { amount: "1", unit: "packet", item: "ranch seasoning" },
+      { amount: "8", unit: "oz", item: "cream cheese" },
+      { amount: "2", unit: "cups", item: "cheddar cheese, shredded" }
+    ],
+    instructions: [
+      "In large pot, cook [8 slices chopped bacon] until crispy. Remove.",
+      "In bacon fat, cook [2 lbs chicken] until done. Shred and set aside.",
+      "Sauté [1 onion] and [3 cloves garlic].",
+      "Add [6 cups broth], [1 packet ranch seasoning]. Bring to boil.",
+      "Add [8 oz noodles], cook 8 minutes.",
+      "Stir in [8 oz cream cheese] until melted.",
+      "Add shredded chicken, bacon, [2 cups cheddar].",
+      "Serve hot with extra cheese and bacon."
     ]
   },
   
