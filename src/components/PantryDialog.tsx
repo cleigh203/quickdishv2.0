@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Package, Plus, Trash2, Search } from "lucide-react";
+import { Package, Plus, Trash2, Search, Camera, Barcode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,6 +13,9 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { BarcodeScanner } from "@/components/BarcodeScanner";
+import { ManualBarcodeEntry } from "@/components/ManualBarcodeEntry";
+import { useProductLookup } from "@/hooks/useProductLookup";
 
 interface PantryDialogProps {
   open: boolean;
@@ -27,6 +30,9 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
   const [searchQuery, setSearchQuery] = useState("");
   const [newItemName, setNewItemName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [isManualBarcodeOpen, setIsManualBarcodeOpen] = useState(false);
+  const { lookupProduct } = useProductLookup();
 
   useEffect(() => {
     if (open && user) {
@@ -107,6 +113,31 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
     }
   };
 
+  const handleBarcodeScan = async (barcode: string) => {
+    toast({ title: "Looking up product...", description: `Barcode: ${barcode}` });
+
+    const productInfo = await lookupProduct(barcode);
+
+    if (productInfo) {
+      // Auto-fill with product name
+      const productName = productInfo.brand 
+        ? `${productInfo.brand} ${productInfo.name}`
+        : productInfo.name;
+      
+      setNewItemName(productName);
+      toast({
+        title: "✓ Product found!",
+        description: `${productInfo.name} - Ready to add`,
+      });
+    } else {
+      toast({
+        title: "Product not found",
+        description: `Barcode ${barcode} - Please enter manually`,
+        variant: "destructive",
+      });
+    }
+  };
+
   const filteredItems = pantryItems.filter(item =>
     item.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -137,7 +168,7 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
           <Card>
             <CardContent className="p-4">
               <h3 className="font-semibold mb-3">Add New Item</h3>
-              <div className="flex gap-2">
+              <div className="flex gap-2 mb-3">
                 <Input
                   placeholder="Item name (e.g., flour, eggs, butter)"
                   value={newItemName}
@@ -149,6 +180,28 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
                 <Button onClick={handleAddItem} disabled={loading}>
                   <Plus className="w-4 h-4 mr-2" />
                   Add
+                </Button>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setIsScannerOpen(true)}
+                  disabled={loading}
+                  className="flex-1"
+                >
+                  <Camera className="w-4 h-4 mr-2" />
+                  Scan Barcode
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsManualBarcodeOpen(true)}
+                  disabled={loading}
+                  className="flex-1"
+                >
+                  <Barcode className="w-4 h-4 mr-2" />
+                  Enter Barcode
                 </Button>
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -171,6 +224,20 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
               </div>
             </CardContent>
           </Card>
+
+          {/* Barcode Scanner */}
+          <BarcodeScanner
+            open={isScannerOpen}
+            onOpenChange={setIsScannerOpen}
+            onScan={handleBarcodeScan}
+          />
+
+          {/* Manual Barcode Entry */}
+          <ManualBarcodeEntry
+            open={isManualBarcodeOpen}
+            onOpenChange={setIsManualBarcodeOpen}
+            onSubmit={handleBarcodeScan}
+          />
 
           {/* Pantry Items List */}
           {filteredItems.length === 0 ? (
