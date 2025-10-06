@@ -132,7 +132,7 @@ import copycatSonicCherryLimeadeImg from "@/assets/recipes/copycat-sonic-cherry-
 import copycatOliveGardenBreadsticksNewImg from "@/assets/recipes/copycat-olive-garden-breadsticks.jpg";
 import copycatShakeShackBurgerImg from "@/assets/recipes/copycat-shake-shack-burger.jpg";
 import copycatFiveGuysCajunFriesImg from "@/assets/recipes/copycat-five-guys-cajun-fries.jpg";
-import copycatWendysChiliNewImg from "@/assets/recipes/copycat-wendys-chili.jpg";
+// Removed: import copycatWendysChiliNewImg from "@/assets/recipes/copycat-wendys-chili.jpg";
 import copycatChickFilAChickenMinisImg from "@/assets/recipes/copycat-chick-fil-a-chicken-minis.jpg";
 import copycatOliveGardenZuppaToscanaImg from "@/assets/recipes/copycat-olive-garden-zuppa-toscana.jpg";
 import copycatChipotleGuacamoleImg from "@/assets/recipes/copycat-chipotle-guacamole.jpg";
@@ -258,9 +258,9 @@ import lunchCaliforniaRollBowlImg from "@/assets/recipes/lunch-california-roll-b
 import lunchBbqPulledPorkSandwichImg from "@/assets/recipes/lunch-bbq-pulled-pork-sandwich.jpg";
 import lunchFalafelPitaImg from "@/assets/recipes/lunch-falafel-pita.jpg";
 import lunchChickenCaesarSaladImg from "@/assets/recipes/lunch-chicken-caesar-salad.jpg";
-import lunchBanhMiSandwichImg from "@/assets/recipes/lunch-banh-mi-sandwich.jpg";
+import lunchBanhMiSandwichImg from "@/assets/recipes/banh-mi-sandwich.jpg";
 import lunchSouthwestChickenBowlImg from "@/assets/recipes/lunch-southwest-chicken-bowl.jpg";
-import lunchMargheritaFlatbreadImg from "@/assets/recipes/lunch-margherita-flatbread.jpg";
+import lunchMargheritaFlatbreadImg from "@/assets/recipes/margherita-flatbread-new.jpg";
 import lunchCobbSaladImg from "@/assets/recipes/lunch-cobb-salad.jpg";
 import lunchPestoPastaSaladImg from "@/assets/recipes/lunch-pesto-pasta-salad.jpg";
 import lunchKoreanBbqBeefBowlImg from "@/assets/recipes/lunch-korean-bbq-beef-bowl.jpg";
@@ -269,7 +269,7 @@ import lunchChickenShawarmaWrapImg from "@/assets/recipes/lunch-chicken-shawarma
 import lunchTomatoSoupGrilledCheeseImg from "@/assets/recipes/lunch-tomato-soup-grilled-cheese.jpg";
 
 // One Pot Wonders (20)
-import onePotChickenDumplingsImg from "@/assets/recipes/one-pot-chicken-dumplings.jpg";
+import onePotChickenDumplingsImg from "@/assets/recipes/chicken-and-dumplings-new.jpg";
 import onePotBeefBourguignonImg from "@/assets/recipes/one-pot-beef-bourguignon.jpg";
 import onePotJambalayaImg from "@/assets/recipes/one-pot-jambalaya.jpg";
 import onePotCreamyTuscanChickenImg from "@/assets/recipes/one-pot-creamy-tuscan-chicken.jpg";
@@ -3093,47 +3093,6 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
-    id: "copycat-wendys-chili-new",
-    name: "Wendy's Chili",
-    description: "Hearty beef chili loaded with beans and topped with cheese. Just like Wendy's famous chili!",
-    cookTime: "45 mins",
-    prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 6,
-    cuisine: "Restaurant Copycats",
-    image: copycatWendysChiliNewImg,
-    totalTime: 60,
-    tags: ["copycat", "restaurant", "viral", "wendys", "soup"],
-    ingredients: [
-      { amount: "2", unit: "lbs", item: "ground beef" },
-      { amount: "1", unit: "large", item: "onion, diced" },
-      { amount: "1", unit: "green", item: "bell pepper, diced" },
-      { amount: "3", unit: "stalks", item: "celery, diced" },
-      { amount: "2", unit: "cans", item: "diced tomatoes (14.5 oz each)" },
-      { amount: "1", unit: "can", item: "tomato sauce (15 oz)" },
-      { amount: "1", unit: "can", item: "kidney beans, drained (15 oz)" },
-      { amount: "1", unit: "can", item: "pinto beans, drained (15 oz)" },
-      { amount: "2", unit: "tbsp", item: "chili powder" },
-      { amount: "1", unit: "tsp", item: "cumin" },
-      { amount: "1", unit: "tsp", item: "garlic powder" },
-      { amount: "1", unit: "tsp", item: "salt" },
-      { amount: "1/2", unit: "tsp", item: "black pepper" },
-      { amount: "1", unit: "cup", item: "shredded cheddar cheese" },
-      { amount: "1/2", unit: "cup", item: "diced onions (for topping)" },
-      { amount: "1/2", unit: "cup", item: "sour cream" }
-    ],
-    instructions: [
-      "Brown ground beef in large pot, breaking it into small pieces.",
-      "Add onion, bell pepper, and celery. Cook until softened, about 5 minutes.",
-      "Add diced tomatoes, tomato sauce, and both beans.",
-      "Stir in chili powder, cumin, garlic powder, salt, and pepper.",
-      "Bring to a boil, then reduce heat and simmer for 30-40 minutes, stirring occasionally.",
-      "Taste and adjust seasonings.",
-      "Serve hot topped with shredded cheese, diced onions, and sour cream.",
-      "Serve with oyster crackers on the side!"
-    ]
-  },
-  {
     id: "copycat-chick-fil-a-chicken-minis",
     name: "Chick-fil-A Chicken Minis",
     description: "Mini chicken sandwiches on sweet yeast rolls. Perfect breakfast or snack!",
@@ -4504,10 +4463,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "Vietnamese",
+    cuisine: "One Pot Wonders",
     image: leftoverChickenPhoImg,
     totalTime: 30,
-    tags: ["leftover", "soup", "asian", "healthy"],
+    tags: ["One Pot Wonders", "soup", "asian", "healthy"],
     ingredients: [
       { amount: "2", unit: "cups", item: "leftover rotisserie chicken, shredded" },
       { amount: "8", unit: "cups", item: "chicken broth" },
@@ -6551,7 +6510,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "5 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "French",
+    cuisine: "Breakfast",
     image: breakfastFrenchToastClassicImg,
     totalTime: 15,
     tags: ["breakfast", "quick-breakfast", "kid-friendly"],
@@ -6970,7 +6929,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "Contemporary",
+    cuisine: "Breakfast",
     image: breakfastProteinPancakesImg,
     totalTime: 25,
     tags: ["breakfast", "healthy", "protein", "fitness"],
