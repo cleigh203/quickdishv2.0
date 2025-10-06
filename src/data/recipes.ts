@@ -49,7 +49,7 @@ import lettuceWrapsImg from "@/assets/recipes/copycat-lettuce-wraps.jpg";
 import capreseChickenImg from "@/assets/recipes/quick-caprese-chicken.jpg";
 import turkeyQuesadillasImg from "@/assets/recipes/leftover-turkey-quesadillas.jpg";
 import frankensteinTreatsImg from "@/assets/recipes/frankenstein-treats.jpg";
-import cheddarBiscuitsImg from "@/assets/recipes/copycat-cheddar-biscuits.jpg";
+import cheddarBiscuitsImg from "@/assets/recipes/copycat-red-lobster-cheddar-bay-biscuits.jpg";
 import teriyakiSalmonImg from "@/assets/recipes/teriyaki-salmon-bowl.jpg";
 import frenchDipImg from "@/assets/recipes/leftover-french-dip.jpg";
 import pumpkinDonutsImg from "@/assets/recipes/pumpkin-donuts.jpg";
