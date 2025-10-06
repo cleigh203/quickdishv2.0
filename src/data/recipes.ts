@@ -511,7 +511,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "French",
     image: chocolateLavaCakeImg,
     totalTime: 27,
-    tags: ["dessert", "chocolate", "elegant", "quick"],
+    tags: ["dessert", "chocolate", "elegant"],
     ingredients: [
       { amount: "6", unit: "oz", item: "dark chocolate" },
       { amount: "1/2", unit: "cup", item: "butter" },
@@ -1033,7 +1033,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: bananasFosterImg,
     totalTime: 15,
-    tags: ["dessert", "quick", "fruit", "warm"],
+    tags: ["dessert", "fruit", "warm"],
     ingredients: [
       { amount: "1/4", unit: "cup", item: "butter" },
       { amount: "1/2", unit: "cup", item: "brown sugar" },
