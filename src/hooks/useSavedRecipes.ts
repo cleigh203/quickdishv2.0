@@ -19,6 +19,8 @@ export const useSavedRecipes = () => {
   const [savedRecipes, setSavedRecipes] = useState<SavedRecipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const fetchInProgressRef = useState({ current: false })[0];
+  const saveInProgressRef = useState<{ current: Set<string> }>({ current: new Set() })[0];
 
   // Fetch saved recipes on mount and when user changes
   useEffect(() => {
@@ -74,15 +76,16 @@ export const useSavedRecipes = () => {
   };
 
   const fetchSavedRecipes = async () => {
-    if (!user) return;
+    if (!user || fetchInProgressRef.current) return;
 
     try {
+      fetchInProgressRef.current = true;
       setLoading(true);
       setError(null);
       
-      // Add 5-second timeout
+      // Add 3-second timeout
       const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Request timed out')), 5000)
+        setTimeout(() => reject(new Error('Request timed out')), 3000)
       );
 
       const fetchPromise = retryOperation(async () => {
@@ -107,6 +110,7 @@ export const useSavedRecipes = () => {
       setError(err.message === 'Request timed out' ? 'Request timed out. Try again?' : errorInfo.description);
     } finally {
       setLoading(false);
+      fetchInProgressRef.current = false;
     }
   };
 
@@ -138,6 +142,11 @@ export const useSavedRecipes = () => {
       }
     }
 
+    // Prevent duplicate save attempts
+    if (saveInProgressRef.current.has(recipeId)) {
+      return { success: false, message: 'Save in progress' };
+    }
+
     try {
       // Check if already saved
       const existing = savedRecipes.find(r => r.recipe_id === recipeId);
@@ -149,7 +158,14 @@ export const useSavedRecipes = () => {
         return { success: false, message: 'Already saved' };
       }
 
-      const { error } = await retryOperation(async () => {
+      saveInProgressRef.current.add(recipeId);
+
+      // Add 3-second timeout for insert
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Save timed out')), 3000)
+      );
+
+      const insertPromise = retryOperation(async () => {
         const result = await supabase
           .from('saved_recipes')
           .insert({
@@ -160,6 +176,8 @@ export const useSavedRecipes = () => {
         if (result.error) throw result.error;
         return result;
       });
+
+      const { error } = await Promise.race([insertPromise, timeoutPromise]) as any;
 
       if (error) throw error;
 
@@ -172,14 +190,16 @@ export const useSavedRecipes = () => {
       });
       
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to save recipe:', error);
       toast({
         title: "Couldn't save recipe",
-        description: "Try again?",
+        description: error.message === 'Save timed out' ? 'Request timed out. Try again?' : "Try again?",
         variant: "destructive",
       });
       return { success: false, message: 'Failed to save' };
+    } finally {
+      saveInProgressRef.current.delete(recipeId);
     }
   };
 
@@ -199,8 +219,20 @@ export const useSavedRecipes = () => {
       }
     }
 
+    // Prevent duplicate unsave attempts
+    if (saveInProgressRef.current.has(recipeId)) {
+      return { success: false, message: 'Operation in progress' };
+    }
+
     try {
-      const { error } = await retryOperation(async () => {
+      saveInProgressRef.current.add(recipeId);
+
+      // Add 3-second timeout for delete
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Delete timed out')), 3000)
+      );
+
+      const deletePromise = retryOperation(async () => {
         const result = await supabase
           .from('saved_recipes')
           .delete()
@@ -210,6 +242,8 @@ export const useSavedRecipes = () => {
         if (result.error) throw result.error;
         return result;
       });
+
+      const { error } = await Promise.race([deletePromise, timeoutPromise]) as any;
 
       if (error) throw error;
 
@@ -227,10 +261,12 @@ export const useSavedRecipes = () => {
       const errorInfo = handleSupabaseError(err);
       toast({
         title: errorInfo.title,
-        description: errorInfo.description,
+        description: err.message === 'Delete timed out' ? 'Request timed out. Try again?' : errorInfo.description,
         variant: "destructive",
       });
       return { success: false, message: errorInfo.description };
+    } finally {
+      saveInProgressRef.current.delete(recipeId);
     }
   };
 
