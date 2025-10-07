@@ -20,6 +20,8 @@ import { useMealPlan } from "@/hooks/useMealPlan";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useShoppingList } from "@/hooks/useShoppingList";
 import { allRecipes } from "@/data/recipes";
+import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
+import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
 import { toast } from "@/hooks/use-toast";
 import { format, isToday, isTomorrow, isPast, addDays, startOfDay } from "date-fns";
 import { useAuth } from "@/contexts/AuthContext";
@@ -33,9 +35,16 @@ export const MealPlanTab = () => {
   const { incrementTimesCooked } = useSavedRecipes();
   const { replaceList } = useShoppingList();
   const { fetchPantryItems, loading: pantryLoading } = usePantryItems();
+  const { generatedRecipes } = useGeneratedRecipes();
+  const { verifiedRecipes } = useVerifiedRecipes();
   const [mealToDelete, setMealToDelete] = useState<{ id: string; name: string; date: string; type: string } | null>(null);
   const [showClearDialog, setShowClearDialog] = useState(false);
   const [keepPastMeals, setKeepPastMeals] = useState(true);
+
+  // Combine all recipe sources
+  const allAvailableRecipes = useMemo(() => {
+    return [...allRecipes, ...generatedRecipes, ...verifiedRecipes];
+  }, [generatedRecipes, verifiedRecipes]);
 
   const sortedMealPlans = useMemo(() => {
     return [...mealPlans].sort((a, b) => 
@@ -75,7 +84,7 @@ export const MealPlanTab = () => {
     const ingredients: { item: string; amount: string; recipes: string[] }[] = [];
 
     upcomingMeals.forEach(meal => {
-      const recipe = allRecipes.find(r => r.id === meal.recipe_id);
+      const recipe = allAvailableRecipes.find(r => r.id === meal.recipe_id);
       if (recipe) {
         recipe.ingredients.forEach(ingredient => {
           const existingItem = ingredients.find(i => 
@@ -252,7 +261,7 @@ export const MealPlanTab = () => {
 
       <div className="space-y-3">
         {sortedMealPlans.map(meal => {
-          const recipe = allRecipes.find(r => r.id === meal.recipe_id);
+          const recipe = allAvailableRecipes.find(r => r.id === meal.recipe_id);
           if (!recipe) return null;
 
           // Use startOfDay for proper local timezone comparison
