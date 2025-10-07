@@ -13,7 +13,7 @@ interface ShoppingItem {
 }
 
 const CACHE_DURATION = 30 * 1000; // 30 seconds
-const QUERY_TIMEOUT = 5000; // 5 seconds
+const QUERY_TIMEOUT = 10000; // 10 seconds
 
 interface ShoppingListCache {
   items: ShoppingItem[];
