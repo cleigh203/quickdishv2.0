@@ -78,8 +78,7 @@ const Shopping = () => {
     shoppingListRef.current = shoppingList;
   }, [shoppingList]);
 
-  // Load pantry items from Supabase (with timeout) + real-time sync
-  // Deferred to prioritize shopping list load
+  // Load pantry items AFTER shopping list loads (non-blocking)
   useEffect(() => {
     let isMounted = true;
     
@@ -88,6 +87,9 @@ const Shopping = () => {
         setPantryItems([]);
         return;
       }
+      
+      // Wait until shopping list finishes loading
+      if (loading) return;
       
       try {
         // Shorter timeout for pantry (non-critical data)
@@ -116,8 +118,8 @@ const Shopping = () => {
       }
     };
 
-    // Defer pantry load to prioritize shopping list (critical path)
-    const timer = setTimeout(loadPantryItems, 150);
+    // Only load pantry after shopping list completes
+    loadPantryItems();
 
     // Set up real-time subscription for pantry changes
     if (user) {
@@ -169,17 +171,15 @@ const Shopping = () => {
         .subscribe();
 
       return () => {
-        clearTimeout(timer);
         isMounted = false;
         supabase.removeChannel(channel);
       };
     }
     
     return () => {
-      clearTimeout(timer);
       isMounted = false;
     };
-  }, [user, toast]);
+  }, [user, loading, toast]);
 
   // Auto-filter shopping list by pantry (always on) + track hidden count
   const { displayList, hiddenCount } = useMemo(() => {

@@ -12,8 +12,9 @@ interface ShoppingItem {
   recipes?: string[];
 }
 
-const CACHE_DURATION = 30 * 1000; // 30 seconds
+const CACHE_DURATION = 60 * 1000; // 60 seconds (improved cache)
 const QUERY_TIMEOUT = 10000; // 10 seconds
+const REALTIME_DEBOUNCE = 500; // 500ms debounce for realtime updates
 
 interface ShoppingListCache {
   items: ShoppingItem[];
@@ -34,6 +35,11 @@ export const useShoppingList = () => {
   const pendingUpdateRef = useRef<ShoppingItem[] | null>(null);
   const cacheRef = useRef<ShoppingListCache | null>(null);
   const fetchInProgressRef = useRef(false);
+  
+  // Request queue for serializing updates
+  const updateQueueRef = useRef<Promise<void>>(Promise.resolve());
+  const realtimeDebounceRef = useRef<NodeJS.Timeout | null>(null);
+  const hasPendingLocalChangesRef = useRef(false);
 
   // Load from localStorage for guests
   const loadFromLocalStorage = () => {
@@ -139,11 +145,14 @@ export const useShoppingList = () => {
     }
   };
 
-  // Debounced save to Supabase
-  const debouncedSave = useCallback(async (items: ShoppingItem[]) => {
+  // Serialized save with request queue
+  const queuedSave = useCallback(async (items: ShoppingItem[]) => {
     if (!user || !listId) return;
 
-    // Clear existing timer
+    // Mark that we have pending local changes
+    hasPendingLocalChangesRef.current = true;
+
+    // Clear existing debounce timer
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
@@ -151,45 +160,56 @@ export const useShoppingList = () => {
     // Store pending update
     pendingUpdateRef.current = items;
 
-    // Set new timer
-    debounceTimerRef.current = setTimeout(async () => {
-      if (!pendingUpdateRef.current) return;
+    // Debounce the actual save
+    debounceTimerRef.current = setTimeout(() => {
+      // Add to queue to serialize requests
+      updateQueueRef.current = updateQueueRef.current.then(async () => {
+        if (!pendingUpdateRef.current) return;
 
-      setSaving(true);
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), QUERY_TIMEOUT);
-        
-        const { error } = await supabase
-          .from('shopping_lists')
-          .update({
-            items: pendingUpdateRef.current as any,
-            updated_at: new Date().toISOString()
-          })
-          .eq('id', listId)
-          .abortSignal(controller.signal);
-
-        clearTimeout(timeoutId);
-
-        if (error) throw error;
-        
-        // Update cache
-        if (cacheRef.current) {
-          cacheRef.current.items = pendingUpdateRef.current;
-          cacheRef.current.timestamp = Date.now();
-        }
-        
+        const itemsToSave = pendingUpdateRef.current;
         pendingUpdateRef.current = null;
-      } catch (err: any) {
-        console.error('Error saving shopping list:', err);
-        toast({
-          title: "Couldn't save changes",
-          description: "Will retry automatically",
-          variant: "destructive",
-        });
-      } finally {
-        setSaving(false);
-      }
+
+        setSaving(true);
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), QUERY_TIMEOUT);
+          
+          const { error } = await supabase
+            .from('shopping_lists')
+            .update({
+              items: itemsToSave as any,
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', listId)
+            .abortSignal(controller.signal);
+
+          clearTimeout(timeoutId);
+
+          if (error) throw error;
+          
+          // Update cache on success
+          if (cacheRef.current) {
+            cacheRef.current.items = itemsToSave;
+            cacheRef.current.timestamp = Date.now();
+          }
+          
+          hasPendingLocalChangesRef.current = false;
+        } catch (err: any) {
+          console.error('Error saving shopping list:', err);
+          
+          // Rollback on error - restore from cache
+          if (cacheRef.current) {
+            setShoppingList(cacheRef.current.items);
+            toast({
+              title: "Couldn't save changes",
+              description: "Changes reverted. Check connection.",
+              variant: "destructive",
+            });
+          }
+        } finally {
+          setSaving(false);
+        }
+      });
     }, 1000); // 1 second debounce
   }, [user, listId, toast]);
 
@@ -198,7 +218,7 @@ export const useShoppingList = () => {
     if (user) {
       fetchShoppingList();
       
-      // Set up realtime subscription
+      // Set up realtime subscription with debouncing
       const channel = supabase
         .channel('shopping-list-changes')
         .on(
@@ -211,9 +231,26 @@ export const useShoppingList = () => {
           },
           (payload) => {
             console.log('Shopping list changed:', payload);
-            if (payload.eventType === 'UPDATE' && payload.new) {
-              setShoppingList((payload.new as any).items || []);
+            
+            // Clear existing debounce timer
+            if (realtimeDebounceRef.current) {
+              clearTimeout(realtimeDebounceRef.current);
             }
+            
+            // Debounce realtime updates to prevent rapid-fire overwrites
+            realtimeDebounceRef.current = setTimeout(() => {
+              // Only apply remote changes if no local changes are pending
+              if (!hasPendingLocalChangesRef.current && payload.eventType === 'UPDATE' && payload.new) {
+                const newItems = (payload.new as any).items || [];
+                setShoppingList(newItems);
+                
+                // Update cache
+                if (cacheRef.current) {
+                  cacheRef.current.items = newItems;
+                  cacheRef.current.timestamp = Date.now();
+                }
+              }
+            }, REALTIME_DEBOUNCE);
           }
         )
         .subscribe();
@@ -223,6 +260,9 @@ export const useShoppingList = () => {
         if (debounceTimerRef.current) {
           clearTimeout(debounceTimerRef.current);
         }
+        if (realtimeDebounceRef.current) {
+          clearTimeout(realtimeDebounceRef.current);
+        }
       };
     } else {
       loadFromLocalStorage();
@@ -230,16 +270,16 @@ export const useShoppingList = () => {
     }
   }, [user]);
 
-  // Update shopping list (with debounce for Supabase, immediate for localStorage)
+  // Optimistic update with rollback on error
   const updateShoppingList = useCallback((updater: (prev: ShoppingItem[]) => ShoppingItem[]) => {
     setShoppingList(prev => {
       const newList = updater(prev);
       
       if (user) {
-        // Debounced save to Supabase
-        debouncedSave(newList);
+        // Optimistic UI: Update immediately, queue save
+        queuedSave(newList);
       } else {
-        // Immediate save to localStorage
+        // Immediate save to localStorage for guests
         try {
           localStorage.setItem('shoppingList', JSON.stringify(newList));
         } catch (error) {
@@ -249,7 +289,7 @@ export const useShoppingList = () => {
       
       return newList;
     });
-  }, [user, debouncedSave]);
+  }, [user, queuedSave]);
 
   // Add items to shopping list
   const addItems = useCallback((newItems: Omit<ShoppingItem, 'id' | 'checked'>[]) => {
