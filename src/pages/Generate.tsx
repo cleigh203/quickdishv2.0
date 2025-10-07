@@ -109,7 +109,7 @@ const Generate = () => {
           'copycat-roadhouse-rolls',
           'leftover-chicken-pho'
         ];
-        return combinedRecipes.filter(recipe => {
+        const fallRecipes = combinedRecipes.filter(recipe => {
           if (excludedFallRecipes.includes(recipe.id)) return false;
           const ingredients = recipe.ingredients.map(i => i.item.toLowerCase()).join(' ');
           const hasFallIngredient = ingredients.includes('pumpkin') || 
@@ -117,8 +117,18 @@ const Generate = () => {
             ingredients.includes('squash') || 
             ingredients.includes('cinnamon') ||
             ingredients.includes('nutmeg');
-          return (hasFallIngredient || recipe.tags?.includes('fall')) && !isHalloweenRecipe(recipe);
+          const hasFallTag = recipe.tags?.includes('fall');
+          const matches = (hasFallIngredient || hasFallTag) && !isHalloweenRecipe(recipe);
+          
+          // Debug logging
+          if (hasFallTag) {
+            console.log('✅ Fall recipe found:', recipe.name, '| tags:', recipe.tags);
+          }
+          
+          return matches;
         });
+        console.log(`🍂 Total Fall Favorites: ${fallRecipes.length}`);
+        return fallRecipes;
       
       case 'quick':
         return combinedRecipes.filter(recipe => {
