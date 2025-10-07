@@ -282,6 +282,17 @@ const Shopping = () => {
     };
   }, [allChecked]); // Only depend on allChecked, not showClearDialog to prevent loop
 
+  const handleSelectAll = () => {
+    const allItemsChecked = displayList.every(item => item.checked);
+    displayList.forEach(item => {
+      if (allItemsChecked && item.checked) {
+        toggleItem(item.id); // Uncheck all
+      } else if (!allItemsChecked && !item.checked) {
+        toggleItem(item.id); // Check all
+      }
+    });
+  };
+
   const removeItem = (id: number) => {
     removeFromList(id);
     toast({ title: "Removed from shopping list" });
@@ -331,6 +342,8 @@ const Shopping = () => {
   const totalItems = displayList.length;
   const checkedItems = displayList.filter(item => item.checked).length;
   const progressPercentage = totalItems > 0 ? (checkedItems / totalItems) * 100 : 0;
+  const isIndeterminate = checkedItems > 0 && checkedItems < totalItems;
+  const isAllChecked = totalItems > 0 && checkedItems === totalItems;
 
   return (
     <>
@@ -469,6 +482,39 @@ const Shopping = () => {
               </div>
             ) : (
               <>
+                {/* Select All Checkbox */}
+                <div className="bg-white px-5 py-4 border-b-2 border-gray-200 sticky top-0 z-20">
+                  <div 
+                    onClick={handleSelectAll}
+                    className="flex items-center gap-3 cursor-pointer group"
+                  >
+                    <div
+                      className={`
+                        w-7 h-7 rounded-md border-2 flex items-center justify-center transition-all flex-shrink-0
+                        ${isAllChecked
+                          ? 'bg-[#FF6B35] border-[#FF6B35]' 
+                          : isIndeterminate
+                          ? 'bg-[#FF6B35]/50 border-[#FF6B35]'
+                          : 'border-gray-300 group-hover:border-[#FF6B35]'
+                        }
+                      `}
+                    >
+                      {isAllChecked && (
+                        <span className="text-white text-base font-bold">✓</span>
+                      )}
+                      {isIndeterminate && (
+                        <span className="text-white text-base font-bold">−</span>
+                      )}
+                    </div>
+                    <span className="text-base font-semibold text-gray-700">
+                      {isAllChecked ? 'Uncheck All' : 'Check All'}
+                    </span>
+                    <span className="text-sm text-gray-500 ml-auto">
+                      {checkedItems}/{totalItems}
+                    </span>
+                  </div>
+                </div>
+
                 {/* Category Sections */}
                 {categorizedItems.map((category) => (
               <div key={category.name}>
