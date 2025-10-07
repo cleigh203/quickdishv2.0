@@ -148,6 +148,9 @@ export const useMealPlan = () => {
 
   const deleteMealPlan = async (id: string) => {
     try {
+      // Optimistically update UI
+      setMealPlans(prev => prev.filter(plan => plan.id !== id));
+
       // Add 8-second timeout for delete
       const timeoutPromise = new Promise((_, reject) =>
         setTimeout(() => reject(new Error('Delete timed out')), 8000)
@@ -168,6 +171,8 @@ export const useMealPlan = () => {
       });
     } catch (error: any) {
       console.error('Error deleting meal plan:', error);
+      // Revert optimistic update on error
+      fetchMealPlans();
       // Don't show timeout errors
       if (error.message !== 'Delete timed out') {
         toast({
