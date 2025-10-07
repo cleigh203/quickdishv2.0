@@ -63,26 +63,46 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
       return;
     }
 
-    if (!user) return;
+    if (!user) {
+      console.error('❌ No user found - cannot add to pantry');
+      toast({ title: "Not logged in", variant: "destructive" });
+      return;
+    }
 
     setLoading(true);
     try {
-      const updatedItems = [...pantryItems, newItemName.trim()];
+      console.log('🔵 Adding pantry item:', newItemName.trim());
+      console.log('🔵 Current pantry items:', pantryItems);
+      console.log('🔵 User ID:', user.id);
       
-      const { error } = await supabase
+      const updatedItems = [...pantryItems, newItemName.trim()];
+      console.log('🔵 Updated pantry items:', updatedItems);
+      
+      const { data, error } = await supabase
         .from('profiles')
         .update({ pantry_items: updatedItems })
-        .eq('id', user.id);
+        .eq('id', user.id)
+        .select();
 
-      if (error) throw error;
+      console.log('🔵 Supabase update result:', { data, error });
 
+      if (error) {
+        console.error('❌ Supabase error:', error);
+        throw error;
+      }
+
+      console.log('✅ Successfully saved pantry items to database');
       setPantryItems(updatedItems);
       setNewItemName("");
       toast({ title: "Item added to pantry" });
       onUpdate?.();
     } catch (error) {
-      console.error('Error adding item:', error);
-      toast({ title: "Failed to add item", variant: "destructive" });
+      console.error('❌ Error adding item:', error);
+      toast({ 
+        title: "Failed to add item", 
+        description: error instanceof Error ? error.message : 'Unknown error',
+        variant: "destructive" 
+      });
     } finally {
       setLoading(false);
     }
