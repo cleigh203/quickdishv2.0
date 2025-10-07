@@ -31,7 +31,7 @@ export const MealPlanTab = () => {
   const { user } = useAuth();
   const { mealPlans, deleteMealPlan, clearAllMealPlans, refreshMealPlans } = useMealPlan();
   const { incrementTimesCooked } = useSavedRecipes();
-  const { addItems } = useShoppingList();
+  const { addItems, setList } = useShoppingList();
   const { fetchPantryItems, loading: pantryLoading } = usePantryItems();
   const [mealToDelete, setMealToDelete] = useState<{ id: string; name: string; date: string; type: string } | null>(null);
   const [showClearDialog, setShowClearDialog] = useState(false);
@@ -69,7 +69,7 @@ export const MealPlanTab = () => {
           } else {
             ingredients.push({
               item: ingredient.item,
-              amount: ingredient.amount,
+              amount: `${ingredient.amount || ''} ${ingredient.unit || ''}`.trim(),
               recipes: [recipe.name],
             });
           }
@@ -104,7 +104,15 @@ export const MealPlanTab = () => {
     }
 
     if (itemsToAdd.length > 0) {
-      await addItems(itemsToAdd);
+      // Replace entire shopping list to prevent old items from persisting
+      const newShoppingList = itemsToAdd.map((item, idx) => ({
+        id: Date.now() + idx,
+        item: item.item,
+        amount: item.amount,
+        checked: false,
+        recipes: item.recipes,
+      }));
+      await setList(newShoppingList);
       toast({
         title: "Success",
         description: filteredCount > 0 

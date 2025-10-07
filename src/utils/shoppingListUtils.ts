@@ -136,7 +136,7 @@ export const ingredientsToShoppingItems = (
   return ingredients.map((ing, index) => ({
     id: startId + index,
     item: ing.item,
-    amount: ing.amount ? `${ing.amount} ${ing.unit || ''}`.trim() : ing.unit,
+    amount: `${ing.amount || ''} ${ing.unit || ''}`.trim(),
     checked: false,
     recipes: [recipeName]
   }));
