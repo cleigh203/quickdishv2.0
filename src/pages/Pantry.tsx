@@ -27,18 +27,16 @@ import { groupPantryByCategory } from "@/utils/pantryUtils";
 import { BarcodeScanner } from "@/components/BarcodeScanner";
 import { ManualBarcodeEntry } from "@/components/ManualBarcodeEntry";
 import { useProductLookup } from "@/hooks/useProductLookup";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Pantry = () => {
-  // ✅ Lazy initialization for localStorage (v7 compliant)
-  const [pantryItems, setPantryItems] = useState<PantryItem[]>(() => {
-    try {
-      const saved = localStorage.getItem('pantryItems');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const { lookupProduct, loading: lookingUpProduct } = useProductLookup();
 
+  const [pantryItems, setPantryItems] = useState<PantryItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterCategory, setFilterCategory] = useState<string>("all");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -53,13 +51,83 @@ const Pantry = () => {
     barcode: "",
   });
 
-  const { toast } = useToast();
-  const { lookupProduct, loading: lookingUpProduct } = useProductLookup();
-
-  // ✅ Save to localStorage in useEffect only (v7 compliant)
+  // Load pantry items from Supabase on mount
   useEffect(() => {
-    localStorage.setItem('pantryItems', JSON.stringify(pantryItems));
-  }, [pantryItems]);
+    const loadPantryItems = async () => {
+      if (!user) {
+        setPantryItems([]);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        console.log('🔄 Loading pantry items from database for user:', user.id);
+        
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('pantry_items')
+          .eq('id', user.id)
+          .single();
+
+        console.log('📦 Raw pantry data from DB:', data);
+
+        if (error) throw error;
+
+        // Convert string array from DB to PantryItem objects
+        const items = (data?.pantry_items || []).map((name: string, index: number) => ({
+          id: `pantry-${Date.now()}-${index}`,
+          name,
+          quantity: 1,
+          unit: 'unit',
+          category: 'other' as PantryCategory,
+          addedDate: new Date().toISOString(),
+        }));
+
+        console.log('✅ Loaded pantry items:', items.length, 'items');
+        setPantryItems(items);
+      } catch (error) {
+        console.error('❌ Error loading pantry items:', error);
+        setPantryItems([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPantryItems();
+  }, [user]);
+
+  // Save pantry items to Supabase whenever they change
+  useEffect(() => {
+    const savePantryItems = async () => {
+      if (!user || loading) return; // Don't save during initial load
+
+      try {
+        // Convert PantryItem objects to simple string array for DB
+        const itemNames = pantryItems.map(item => item.name);
+        
+        console.log('💾 Saving pantry items to DB:', itemNames);
+
+        const { data, error } = await supabase
+          .from('profiles')
+          .update({ pantry_items: itemNames })
+          .eq('id', user.id)
+          .select();
+
+        if (error) throw error;
+
+        console.log('💾 Save result - success:', data);
+      } catch (error) {
+        console.error('❌ Error saving pantry items:', error);
+        toast({
+          title: "Error saving pantry",
+          description: "Your changes may not be saved. Please try again.",
+          variant: "destructive",
+        });
+      }
+    };
+
+    savePantryItems();
+  }, [pantryItems, user, loading]);
 
   // Event handlers
   const handleAddItem = () => {
@@ -78,6 +146,7 @@ const Pantry = () => {
       barcode: newItem.barcode || undefined,
     };
 
+    console.log('➕ Adding item to pantry:', item.name);
     setPantryItems(prev => [...prev, item]);
     toast({ title: `Added ${item.name} to pantry` });
 
@@ -94,6 +163,8 @@ const Pantry = () => {
   };
 
   const handleDeleteItem = (id: string) => {
+    const item = pantryItems.find(i => i.id === id);
+    console.log('🗑️ Removing item from pantry:', item?.name);
     setPantryItems(prev => prev.filter(item => item.id !== id));
     toast({ title: "Removed from pantry" });
   };
@@ -112,6 +183,7 @@ const Pantry = () => {
   };
 
   const handleBulkDelete = () => {
+    console.log('🗑️ Clearing entire pantry');
     setPantryItems([]);
     toast({ title: "Cleared entire pantry" });
   };
@@ -319,7 +391,14 @@ const Pantry = () => {
         />
 
         {/* Pantry items */}
-        {filteredItems.length === 0 ? (
+        {loading ? (
+          <Card>
+            <CardContent className="p-8 text-center">
+              <Package className="w-12 h-12 text-muted-foreground mx-auto mb-4 animate-pulse" />
+              <p className="text-muted-foreground">Loading pantry items...</p>
+            </CardContent>
+          </Card>
+        ) : filteredItems.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center">
               <Package className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
