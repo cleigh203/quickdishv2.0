@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useOnboarding } from "@/contexts/OnboardingContext";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useShoppingList } from "@/hooks/useShoppingList";
+import { useMealPlan } from "@/hooks/useMealPlan";
 import { supabase } from "@/integrations/supabase/client";
 import {
   AlertDialog,
@@ -65,6 +66,26 @@ const Profile = () => {
   const recipes = recipeStorage.getRecipes();
   const { savedRecipes } = useSavedRecipes();
   const { shoppingList } = useShoppingList();
+  const { mealPlans } = useMealPlan();
+
+  // Calculate current week's meal plans count
+  const currentWeekMealPlansCount = useMemo(() => {
+    if (!mealPlans?.length) return 0;
+    
+    const now = new Date();
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay()); // Sunday
+    startOfWeek.setHours(0, 0, 0, 0);
+    
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6); // Saturday
+    endOfWeek.setHours(23, 59, 59, 999);
+    
+    return mealPlans.filter(plan => {
+      const planDate = new Date(plan.scheduled_date);
+      return planDate >= startOfWeek && planDate <= endOfWeek;
+    }).length;
+  }, [mealPlans]);
 
   // Fetch profile data
   const fetchProfile = async () => {
@@ -342,17 +363,11 @@ const Profile = () => {
 
         {/* Stats Dashboard */}
         <div className="grid grid-cols-3 gap-4">
-          <Card className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow">
-            <CardContent className="p-6 text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
-                <ChefHat className="w-6 h-6 text-orange-600 dark:text-orange-400" />
-              </div>
-              <p className="text-4xl font-bold text-foreground mb-1">{recipes.length}</p>
-              <p className="text-sm text-muted-foreground">Generated</p>
-            </CardContent>
-          </Card>
-          
-          <Card className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow">
+          {/* Saved Recipes */}
+          <Card 
+            className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => navigate('/favorites')}
+          >
             <CardContent className="p-6 text-center">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
                 <Heart className="w-6 h-6 text-orange-600 dark:text-orange-400 fill-orange-600 dark:fill-orange-400" />
@@ -362,6 +377,21 @@ const Profile = () => {
             </CardContent>
           </Card>
           
+          {/* Meal Plans (Current Week) */}
+          <Card 
+            className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => navigate('/meal-plan')}
+          >
+            <CardContent className="p-6 text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
+                <Calendar className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+              </div>
+              <p className="text-4xl font-bold text-foreground mb-1">{currentWeekMealPlansCount}</p>
+              <p className="text-sm text-muted-foreground">This Week</p>
+            </CardContent>
+          </Card>
+          
+          {/* Pantry Items */}
           <Card 
             className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow cursor-pointer"
             onClick={handlePantryClick}
