@@ -90,6 +90,24 @@ const Shopping = () => {
     shoppingListRef.current = shoppingList;
   }, [shoppingList]);
 
+  // Auto-remove specific recipes on mount
+  useEffect(() => {
+    const recipesToRemove = [
+      "20 minute beef and broccoli recipe",
+      "stuffed bell peppers x2"
+    ];
+    
+    recipesToRemove.forEach(recipeTitle => {
+      const itemsToRemove = shoppingList.filter(item => 
+        item.recipes?.includes(recipeTitle)
+      );
+      
+      if (itemsToRemove.length > 0) {
+        itemsToRemove.forEach(item => removeFromList(item.id));
+      }
+    });
+  }, []);
+
   // Load pantry items immediately (in parallel with shopping list)
   useEffect(() => {
     let isMounted = true;
@@ -296,6 +314,19 @@ const Shopping = () => {
   const removeItem = (id: number) => {
     removeFromList(id);
     toast({ title: "Removed from shopping list" });
+  };
+
+  const removeRecipe = (recipeTitle: string) => {
+    const itemsToRemove = shoppingList.filter(item => 
+      item.recipes?.includes(recipeTitle)
+    );
+    
+    itemsToRemove.forEach(item => removeFromList(item.id));
+    
+    toast({ 
+      title: `Removed ${recipeTitle}`, 
+      description: `${itemsToRemove.length} ingredient${itemsToRemove.length !== 1 ? 's' : ''} removed`
+    });
   };
 
   const handleClearCompleted = () => {
