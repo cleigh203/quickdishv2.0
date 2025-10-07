@@ -96,7 +96,21 @@ const Generate = () => {
         return combinedRecipes.filter(isHalloweenRecipe);
       
       case 'fall':
+        const excludedFallRecipes = [
+          'dessert-baklava',
+          'dessert-churros',
+          'dessert-cinnamon-rolls',
+          'dessert-carrot-cake',
+          'dessert-bananas-foster',
+          'breakfast-french-toast-classic',
+          'breakfast-protein-pancakes',
+          'lunch-hot-honey-tofu-tenders',
+          'copycat-broccoli-soup',
+          'copycat-roadhouse-rolls',
+          'leftover-chicken-pho'
+        ];
         return combinedRecipes.filter(recipe => {
+          if (excludedFallRecipes.includes(recipe.id)) return false;
           const ingredients = recipe.ingredients.map(i => i.item.toLowerCase()).join(' ');
           const hasFallIngredient = ingredients.includes('pumpkin') || 
             ingredients.includes('apple') || 
