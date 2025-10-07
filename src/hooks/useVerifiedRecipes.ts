@@ -15,14 +15,14 @@ export const useVerifiedRecipes = () => {
     try {
       setIsLoading(true);
       
-      // Use retry logic for network resilience
+      // Use retry logic for network resilience - reduced limit to prevent timeout
       const data = await retryOperation(async () => {
         const { data, error } = await supabase
           .from('recipes')
-          .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, nutrition, tags, ai_generated, generated_at, category')
+          .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category')
           .eq('verified', true)
           .order('created_at', { ascending: false })
-          .limit(500); // Limit to prevent timeout
+          .limit(100); // Reduced from 500 to prevent timeout
 
         if (error) throw error;
         return data;
@@ -42,10 +42,7 @@ export const useVerifiedRecipes = () => {
         cuisine: dbRecipe.cuisine || 'International',
         image: dbRecipe.image_url,
         imageUrl: dbRecipe.image_url,
-        nutrition: dbRecipe.nutrition as any,
         tags: dbRecipe.tags || [],
-        isAiGenerated: dbRecipe.ai_generated || false,
-        generatedAt: dbRecipe.generated_at,
       }));
 
       setVerifiedRecipes(transformedRecipes);

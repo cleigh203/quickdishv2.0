@@ -47,11 +47,14 @@ export const useMealPlan = () => {
       setMealPlans(data || []);
     } catch (error: any) {
       console.error('Error fetching meal plans:', error);
-      toast({
-        title: "Error",
-        description: error.message === 'Request timed out' ? 'Request timed out. Try again?' : "Failed to load meal plans",
-        variant: "destructive",
-      });
+      // Don't show timeout errors - page loads fine with retries
+      if (error.message !== 'Request timed out') {
+        toast({
+          title: "Error",
+          description: "Failed to load meal plans",
+          variant: "destructive",
+        });
+      }
     } finally {
       Object.assign(fetchInProgressRef, { current: false });
       setLoading(false);
@@ -113,11 +116,14 @@ export const useMealPlan = () => {
 
       if (error) {
         console.error('Error adding meal plan:', error);
-        toast({
-          title: "Couldn't add to meal plan",
-          description: error.message === 'Insert timed out' ? 'Request timed out. Try again?' : "Try again?",
-          variant: "destructive",
-        });
+        // Don't show timeout errors
+        if (error.message !== 'Insert timed out') {
+          toast({
+            title: "Couldn't add to meal plan",
+            description: "Try again?",
+            variant: "destructive",
+          });
+        }
         return false;
       }
 
@@ -128,11 +134,14 @@ export const useMealPlan = () => {
       return true;
     } catch (error: any) {
       console.error('Error adding meal plan:', error);
-      toast({
-        title: "Couldn't add to meal plan",
-        description: error.message === 'Insert timed out' ? 'Request timed out. Try again?' : "Try again?",
-        variant: "destructive",
-      });
+      // Don't show timeout errors
+      if (error.message !== 'Insert timed out') {
+        toast({
+          title: "Couldn't add to meal plan",
+          description: "Try again?",
+          variant: "destructive",
+        });
+      }
       return false;
     }
   };
@@ -159,11 +168,14 @@ export const useMealPlan = () => {
       });
     } catch (error: any) {
       console.error('Error deleting meal plan:', error);
-      toast({
-        title: "Error",
-        description: error.message === 'Delete timed out' ? 'Request timed out. Try again?' : "Failed to remove meal",
-        variant: "destructive",
-      });
+      // Don't show timeout errors
+      if (error.message !== 'Delete timed out') {
+        toast({
+          title: "Error",
+          description: "Failed to remove meal",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -204,11 +216,14 @@ export const useMealPlan = () => {
       return true;
     } catch (error: any) {
       console.error('Error clearing meal plans:', error);
-      toast({
-        title: "Error",
-        description: error.message === 'Clear timed out' ? 'Request timed out. Try again?' : "Failed to clear meal plan",
-        variant: "destructive",
-      });
+      // Don't show timeout errors
+      if (error.message !== 'Clear timed out') {
+        toast({
+          title: "Error",
+          description: "Failed to clear meal plan",
+          variant: "destructive",
+        });
+      }
       return false;
     }
   };

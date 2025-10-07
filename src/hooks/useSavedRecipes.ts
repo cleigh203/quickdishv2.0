@@ -230,11 +230,14 @@ export const useSavedRecipes = () => {
       // Rollback optimistic update on error
       setSavedRecipes(prev => prev.filter(r => r.recipe_id !== recipeId));
       
-      toast({
-        title: "Couldn't save recipe",
-        description: error.message === 'Save timed out' ? 'Request timed out. Try again?' : "Try again?",
-        variant: "destructive",
-      });
+      // Don't show timeout errors
+      if (error.message !== 'Save timed out') {
+        toast({
+          title: "Couldn't save recipe",
+          description: "Try again?",
+          variant: "destructive",
+        });
+      }
       return { success: false, message: 'Failed to save' };
     } finally {
       saveInProgressRef.current.delete(recipeId);
@@ -304,11 +307,14 @@ export const useSavedRecipes = () => {
       setSavedRecipes(previousRecipes);
       
       const errorInfo = handleSupabaseError(err);
-      toast({
-        title: errorInfo.title,
-        description: err.message === 'Delete timed out' ? 'Request timed out. Try again?' : errorInfo.description,
-        variant: "destructive",
-      });
+      // Don't show timeout errors
+      if (err.message !== 'Delete timed out') {
+        toast({
+          title: errorInfo.title,
+          description: errorInfo.description,
+          variant: "destructive",
+        });
+      }
       return { success: false, message: errorInfo.description };
     } finally {
       saveInProgressRef.current.delete(recipeId);

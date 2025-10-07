@@ -12,8 +12,16 @@ interface MealPlanDialogProps {
   recipeName: string;
 }
 
+const getLocalDateString = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 export const MealPlanDialog = ({ open, onOpenChange, onSave, recipeName }: MealPlanDialogProps) => {
-  const [scheduledDate, setScheduledDate] = useState(new Date().toISOString().split('T')[0]);
+  const [scheduledDate, setScheduledDate] = useState(getLocalDateString());
   const [mealType, setMealType] = useState<string>('dinner');
 
   const handleSave = () => {
@@ -35,7 +43,7 @@ export const MealPlanDialog = ({ open, onOpenChange, onSave, recipeName }: MealP
               type="date"
               value={scheduledDate}
               onChange={(e) => setScheduledDate(e.target.value)}
-              min={new Date().toISOString().split('T')[0]}
+              min={getLocalDateString()}
             />
           </div>
           <div className="space-y-2">
