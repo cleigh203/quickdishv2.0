@@ -113,7 +113,10 @@ export const deduplicateShoppingList = (items: ShoppingItem[]): ShoppingItem[] =
           existing.amount = `${existing.amount}, ${item.amount}`;
         }
       } else if (item.amount && !existing.amount) {
+        // New item has amount, existing doesn't - use new
         existing.amount = item.amount;
+      } else if (!item.amount && existing.amount) {
+        // Existing has amount, new doesn't - keep existing (already set)
       }
       
       itemMap.set(normalizedName, existing);

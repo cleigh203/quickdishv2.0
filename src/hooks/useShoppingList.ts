@@ -460,6 +460,60 @@ export const useShoppingList = () => {
     updateShoppingList(() => newList);
   }, [updateShoppingList]);
 
+  // Replace list completely - bypasses version checking for full replacements
+  const replaceList = useCallback(async (newList: ShoppingItem[]) => {
+    if (!user || !listId) {
+      // For guests, just use setList
+      setList(newList);
+      return;
+    }
+
+    setSaving(true);
+    try {
+      // Deduplicate before saving
+      const deduplicatedItems = deduplicateShoppingList(newList);
+      
+      // Direct update without version check - this is a full replacement
+      const { data, error } = await supabase
+        .from('shopping_lists')
+        .update({
+          items: deduplicatedItems as any,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', listId)
+        .eq('user_id', user.id) // Security: only update own list
+        .select('version');
+
+      if (error) throw error;
+      if (!data || data.length === 0) throw new Error('Failed to replace list');
+
+      // Update local state and version
+      const newVersion = data[0].version;
+      console.log('✅ Shopping list replaced - New version:', newVersion);
+      setShoppingList(deduplicatedItems);
+      currentVersionRef.current = newVersion;
+      setSyncError(null);
+
+      // Update cache
+      if (cacheRef.current) {
+        cacheRef.current.items = deduplicatedItems;
+        cacheRef.current.timestamp = Date.now();
+        cacheRef.current.version = newVersion;
+      }
+    } catch (err: any) {
+      console.error('Error replacing shopping list:', err);
+      toast({
+        title: "Couldn't update shopping list",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+      // Refetch on error
+      await fetchShoppingList();
+    } finally {
+      setSaving(false);
+    }
+  }, [user, listId, toast, fetchShoppingList, setList]);
+
   // CRITICAL FIX #2: Force sync to clear cache and refetch
   const forceSync = useCallback(async () => {
     console.log('Force sync initiated - clearing cache');
@@ -483,6 +537,7 @@ export const useShoppingList = () => {
     clearCompleted,
     clearAll,
     setList,
+    replaceList,
     refetch: fetchShoppingList,
     forceSync,
   };
