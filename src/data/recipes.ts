@@ -9523,7 +9523,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: pumpkinCreamCheeseMuffinsImg,
     totalTime: 35,
-    tags: ["Fall Favorites", "breakfast", "baking", "pumpkin"],
+    tags: ["fall", "breakfast", "baking", "pumpkin"],
     nutrition: {
       calories: 220,
       protein: 4,
@@ -9569,7 +9569,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: pumpkinSpiceLatteOatsImg,
     totalTime: 5,
-    tags: ["Fall Favorites", "breakfast", "no-cook", "healthy"],
+    tags: ["fall", "breakfast", "no-cook", "healthy"],
     nutrition: {
       calories: 280,
       protein: 8,
@@ -9609,7 +9609,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: pumpkinCinnamonRollsImg,
     totalTime: 145,
-    tags: ["Fall Favorites", "breakfast", "baking", "pumpkin"],
+    tags: ["fall", "breakfast", "baking", "pumpkin"],
     nutrition: {
       calories: 320,
       protein: 5,
@@ -9654,7 +9654,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Italian",
     image: pumpkinRavioliImg,
     totalTime: 68,
-    tags: ["Fall Favorites", "pasta", "dinner", "pumpkin"],
+    tags: ["fall", "pasta", "dinner", "pumpkin"],
     nutrition: {
       calories: 480,
       protein: 16,
@@ -9697,7 +9697,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: pumpkinBananaBreadImg,
     totalTime: 75,
-    tags: ["Fall Favorites", "breakfast", "baking", "pumpkin"],
+    tags: ["fall", "breakfast", "baking", "pumpkin"],
     nutrition: {
       calories: 240,
       protein: 4,
@@ -9741,7 +9741,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American-Asian Fusion",
     image: applePieEggRollsImg,
     totalTime: 35,
-    tags: ["Fall Favorites", "dessert", "fried", "apples"],
+    tags: ["fall", "dessert", "fried", "apples"],
     nutrition: {
       calories: 180,
       protein: 3,
@@ -9783,7 +9783,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: stuffedBakedApplesImg,
     totalTime: 60,
-    tags: ["Fall Favorites", "dessert", "baking", "apples"],
+    tags: ["fall", "dessert", "baking", "apples"],
     nutrition: {
       calories: 220,
       protein: 2,
@@ -9825,7 +9825,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: pumpkinDumpCakeImg,
     totalTime: 55,
-    tags: ["Fall Favorites", "dessert", "easy", "pumpkin"],
+    tags: ["fall", "dessert", "easy", "pumpkin"],
     nutrition: {
       calories: 340,
       protein: 4,
@@ -9867,7 +9867,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: cinnamonRollApplePieImg,
     totalTime: 75,
-    tags: ["Fall Favorites", "dessert", "baking", "apples"],
+    tags: ["fall", "dessert", "baking", "apples"],
     nutrition: {
       calories: 420,
       protein: 5,
@@ -9909,7 +9909,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: appleCrispMugImg,
     totalTime: 7,
-    tags: ["Fall Favorites", "dessert", "microwave", "apples"],
+    tags: ["fall", "dessert", "microwave", "apples"],
     nutrition: {
       calories: 280,
       protein: 3,
@@ -9950,7 +9950,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: appleCiderDonutsImg,
     totalTime: 27,
-    tags: ["Fall Favorites", "breakfast", "baking", "apples"],
+    tags: ["fall", "breakfast", "baking", "apples"],
     nutrition: {
       calories: 190,
       protein: 3,
@@ -9993,7 +9993,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: honeyCrispAppleSaladImg,
     totalTime: 15,
-    tags: ["Fall Favorites", "salad", "healthy", "apples"],
+    tags: ["fall", "salad", "healthy", "apples"],
     nutrition: {
       calories: 280,
       protein: 6,
@@ -10033,7 +10033,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: appleButterChickenImg,
     totalTime: 35,
-    tags: ["Fall Favorites", "dinner", "chicken", "apples"],
+    tags: ["fall", "dinner", "chicken", "apples"],
     nutrition: {
       calories: 380,
       protein: 36,
