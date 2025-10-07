@@ -198,6 +198,28 @@ import pumpkinChocolateChipCookiesImg from "@/assets/recipes/pumpkin-chocolate-c
 import pumpkinFrenchToastCasseroleImg from "@/assets/recipes/pumpkin-french-toast-casserole.jpg";
 import pumpkinCurryImg from "@/assets/recipes/pumpkin-curry.jpg";
 import pumpkinBreadPuddingImg from "@/assets/recipes/pumpkin-bread-pudding.jpg";
+
+// Import NEW fall favorites recipes (20 new items)
+import fallPumpkinSpiceLatteImg from "@/assets/recipes/fall-pumpkin-spice-latte.jpg";
+import fallCaramelAppleCiderImg from "@/assets/recipes/fall-caramel-apple-cider.jpg";
+import fallPumpkinCinnamonRollsImg from "@/assets/recipes/fall-pumpkin-cinnamon-rolls.jpg";
+import fallMapleBrownButterCookiesImg from "@/assets/recipes/fall-maple-brown-butter-cookies.jpg";
+import fallPumpkinCheesecakeBarsNewImg from "@/assets/recipes/fall-pumpkin-cheesecake-bars-new.jpg";
+import fallChaiHotChocolateImg from "@/assets/recipes/fall-chai-hot-chocolate.jpg";
+import fallPumpkinOvernightOatsNewImg from "@/assets/recipes/fall-pumpkin-overnight-oats-new.jpg";
+import fallCaramelAppleBarsImg from "@/assets/recipes/fall-caramel-apple-bars.jpg";
+import fallMulledWineImg from "@/assets/recipes/fall-mulled-wine.jpg";
+import fallAppleButterImg from "@/assets/recipes/fall-apple-butter.jpg";
+import fallPumpkinDumpCakeImg from "@/assets/recipes/fall-pumpkin-dump-cake.jpg";
+import fallBrownButterPumpkinCookiesImg from "@/assets/recipes/fall-brown-butter-pumpkin-cookies.jpg";
+import fallGreenBeanCasseroleImg from "@/assets/recipes/fall-green-bean-casserole.jpg";
+import fallSweetPotatoCasseroleNewImg from "@/assets/recipes/fall-sweet-potato-casserole-new.jpg";
+import fallTurkeyBreastImg from "@/assets/recipes/fall-turkey-breast.jpg";
+import fallCornbreadStuffingImg from "@/assets/recipes/fall-cornbread-stuffing.jpg";
+import fallCranberrySauceImg from "@/assets/recipes/fall-cranberry-sauce.jpg";
+import fallMashedPotatoesImg from "@/assets/recipes/fall-mashed-potatoes.jpg";
+import fallBrusselsSproutsBaconImg from "@/assets/recipes/fall-brussels-sprouts-bacon.jpg";
+import fallButternutSquashSoupNewImg from "@/assets/recipes/fall-butternut-squash-soup-new.jpg";
 import pumpkinRavioliImg from "@/assets/recipes/pumpkin-ravioli.jpg";
 import pumpkinBananaBreadImg from "@/assets/recipes/pumpkin-banana-bread.jpg";
 import applePieEggRollsImg from "@/assets/recipes/apple-pie-egg-rolls.jpg";
