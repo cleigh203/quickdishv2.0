@@ -77,21 +77,37 @@ const Profile = () => {
     }
 
     try {
-      // Exclude pantry_items from initial load for performance
-      const { data, error } = await supabase
+      // Fetch profile data (without sensitive payment info)
+      const { data: profileData, error: profileError } = await supabase
         .from('profiles')
-        .select('id, display_name, avatar_url, dietary_preferences, skill_level, favorite_cuisines, learning_goals, is_premium, stripe_customer_id, stripe_subscription_id, subscription_status, stripe_product_id, theme_preference, has_completed_onboarding, created_at, last_generation_date, ai_generations_today')
+        .select('id, display_name, avatar_url, dietary_preferences, skill_level, favorite_cuisines, learning_goals, is_premium, theme_preference, has_completed_onboarding, created_at, last_generation_date, ai_generations_today')
         .eq('id', user.id)
         .single();
 
-      if (error) throw error;
+      if (profileError) throw profileError;
 
-      setProfileData(data as ProfileData);
+      // Fetch subscription data separately (more secure)
+      const { data: subscriptionData } = await supabase
+        .from('user_subscriptions')
+        .select('stripe_customer_id, stripe_subscription_id, subscription_status, stripe_product_id')
+        .eq('user_id', user.id)
+        .single();
+
+      // Combine data for ProfileData type
+      const combinedData = {
+        ...profileData,
+        stripe_customer_id: subscriptionData?.stripe_customer_id || null,
+        stripe_subscription_id: subscriptionData?.stripe_subscription_id || null,
+        subscription_status: subscriptionData?.subscription_status || null,
+        stripe_product_id: subscriptionData?.stripe_product_id || null,
+      };
+
+      setProfileData(combinedData as ProfileData);
       // Update premium status from database
-      setIsPremium(data?.is_premium || false);
+      setIsPremium(profileData?.is_premium || false);
       
       // Get subscription end date if premium
-      if (data?.is_premium) {
+      if (profileData?.is_premium) {
         const { data: subData } = await supabase.functions.invoke('check-subscription');
         if (subData?.subscription_end) {
           setSubscriptionEnd(subData.subscription_end);

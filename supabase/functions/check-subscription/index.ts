@@ -51,14 +51,14 @@ serve(async (req) => {
       // Update profile to remove premium status
       await supabaseClient
         .from('profiles')
-        .update({ 
-          is_premium: false,
-          stripe_customer_id: null,
-          stripe_subscription_id: null,
-          subscription_status: null,
-          stripe_product_id: null
-        })
+        .update({ is_premium: false })
         .eq('id', user.id);
+
+      // Delete subscription record if exists
+      await supabaseClient
+        .from('user_subscriptions')
+        .delete()
+        .eq('user_id', user.id);
       
       return new Response(JSON.stringify({ subscribed: false }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -92,25 +92,36 @@ serve(async (req) => {
       // Update profile with premium status
       await supabaseClient
         .from('profiles')
-        .update({ 
-          is_premium: true,
+        .update({ is_premium: true })
+        .eq('id', user.id);
+
+      // Update/insert subscription data in separate table
+      await supabaseClient
+        .from('user_subscriptions')
+        .upsert({ 
+          user_id: user.id,
           stripe_customer_id: customerId,
           stripe_subscription_id: subscriptionId,
           subscription_status: subscriptionStatus,
-          stripe_product_id: productId
-        })
-        .eq('id', user.id);
+          stripe_product_id: productId,
+          subscription_end_date: subscriptionEnd
+        }, { onConflict: 'user_id' });
     } else {
       logStep("No active subscription found");
       
       // Update profile to remove premium status
       await supabaseClient
         .from('profiles')
-        .update({ 
-          is_premium: false,
-          subscription_status: 'canceled'
-        })
+        .update({ is_premium: false })
         .eq('id', user.id);
+
+      // Update subscription status to canceled
+      await supabaseClient
+        .from('user_subscriptions')
+        .upsert({ 
+          user_id: user.id,
+          subscription_status: 'canceled'
+        }, { onConflict: 'user_id' });
     }
 
     return new Response(JSON.stringify({

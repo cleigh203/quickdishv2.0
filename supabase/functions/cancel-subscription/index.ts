@@ -76,14 +76,12 @@ serve(async (req) => {
 
     // Update database - keep premium active until period end
     const { error: updateError } = await supabaseClient
-      .from('profiles')
-      .update({ 
-        subscription_status: 'canceling'
-      })
-      .eq('id', user.id);
+      .from('user_subscriptions')
+      .update({ subscription_status: 'canceling' })
+      .eq('user_id', user.id);
 
     if (updateError) {
-      logStep("Error updating profile", { error: updateError });
+      logStep("Error updating subscription", { error: updateError });
       throw updateError;
     }
     logStep("Profile updated with canceling status");

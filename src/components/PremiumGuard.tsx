@@ -27,14 +27,21 @@ export const PremiumGuard = ({ children }: PremiumGuardProps) => {
 
       try {
         const { data, error } = await supabase
-          .from("profiles")
+          .from("user_subscriptions")
           .select("subscription_status")
-          .eq("id", user.id)
+          .eq("user_id", user.id)
           .single();
 
-        if (error) throw error;
-
-        setIsPremium(data?.subscription_status === "active");
+        if (error) {
+          // If no subscription record exists, user is not premium
+          if (error.code === 'PGRST116') {
+            setIsPremium(false);
+          } else {
+            throw error;
+          }
+        } else {
+          setIsPremium(data?.subscription_status === "active");
+        }
       } catch (error) {
         console.error("Error checking premium status:", error);
         setIsPremium(false);
