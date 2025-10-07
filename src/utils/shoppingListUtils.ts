@@ -13,6 +13,43 @@ interface Ingredient {
 }
 
 /**
+ * Parses amount string to extract number and unit
+ * Handles fractions like "1/2" and decimals like "1.5"
+ */
+const parseAmount = (amountStr: string): { value: number; unit: string } | null => {
+  if (!amountStr) return null;
+  
+  const cleaned = amountStr.trim();
+  
+  // Try to match number patterns: "1", "1.5", "1/2", "1 1/2"
+  const fractionMatch = cleaned.match(/^(\d+)?\s*(\d+)\/(\d+)/); // Matches "1/2" or "1 1/2"
+  const decimalMatch = cleaned.match(/^(\d+\.?\d*)/); // Matches "1" or "1.5"
+  
+  let value = 0;
+  let restOfString = cleaned;
+  
+  if (fractionMatch) {
+    // Handle fractions like "1/2" or "1 1/2"
+    const whole = fractionMatch[1] ? parseInt(fractionMatch[1]) : 0;
+    const numerator = parseInt(fractionMatch[2]);
+    const denominator = parseInt(fractionMatch[3]);
+    value = whole + numerator / denominator;
+    restOfString = cleaned.substring(fractionMatch[0].length).trim();
+  } else if (decimalMatch) {
+    // Handle decimals and whole numbers
+    value = parseFloat(decimalMatch[1]);
+    restOfString = cleaned.substring(decimalMatch[0].length).trim();
+  } else {
+    return null; // Can't parse number
+  }
+  
+  // Extract unit (everything after the number)
+  const unit = restOfString.trim();
+  
+  return { value, unit };
+};
+
+/**
  * Deduplicates shopping list items by combining duplicate ingredients
  * Sums quantities when possible and merges recipe associations
  */
@@ -32,17 +69,47 @@ export const deduplicateShoppingList = (items: ShoppingItem[]): ShoppingItem[] =
       ];
       existing.recipes = [...new Set(combinedRecipes)];
       
-      // Try to sum amounts if both have numeric amounts
+      // Try to sum amounts if both have amounts
       if (existing.amount && item.amount) {
-        const existingNum = parseFloat(existing.amount);
-        const itemNum = parseFloat(item.amount);
+        const existingParsed = parseAmount(existing.amount);
+        const itemParsed = parseAmount(item.amount);
         
-        if (!isNaN(existingNum) && !isNaN(itemNum)) {
-          const total = existingNum + itemNum;
-          const unit = existing.amount.replace(/[\d\s.]+/, '').trim();
-          existing.amount = `${total} ${unit}`.trim();
+        if (existingParsed && itemParsed) {
+          // Check if units match (ignoring plural/singular differences)
+          const normalizeUnit = (u: string) => u.toLowerCase().replace(/s$/, '');
+          const existingUnit = normalizeUnit(existingParsed.unit);
+          const itemUnit = normalizeUnit(itemParsed.unit);
+          
+          if (existingUnit === itemUnit || !existingParsed.unit || !itemParsed.unit) {
+            // Units match or one is missing - sum the values
+            const total = existingParsed.value + itemParsed.value;
+            const unit = existingParsed.unit || itemParsed.unit;
+            
+            // Format nicely: use fractions if result is a common fraction
+            let displayValue: string;
+            if (total % 1 === 0) {
+              displayValue = total.toString();
+            } else if (total === 0.25) {
+              displayValue = '1/4';
+            } else if (total === 0.5) {
+              displayValue = '1/2';
+            } else if (total === 0.75) {
+              displayValue = '3/4';
+            } else if (total === 0.33 || total === 0.333) {
+              displayValue = '1/3';
+            } else if (total === 0.67 || total === 0.667) {
+              displayValue = '2/3';
+            } else {
+              displayValue = total.toFixed(2).replace(/\.?0+$/, '');
+            }
+            
+            existing.amount = unit ? `${displayValue} ${unit}` : displayValue;
+          } else {
+            // Units don't match - keep both
+            existing.amount = `${existing.amount}, ${item.amount}`;
+          }
         } else {
-          // Can't sum, keep original
+          // Can't parse - keep both
           existing.amount = `${existing.amount}, ${item.amount}`;
         }
       } else if (item.amount && !existing.amount) {
