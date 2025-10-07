@@ -46,10 +46,29 @@ export const MealPlanTab = () => {
   const upcomingMeals = useMemo(() => {
     const today = startOfDay(new Date());
     const nextWeek = addDays(today, 7);
-    return sortedMealPlans.filter(meal => {
-      const mealDate = startOfDay(new Date(meal.scheduled_date));
-      return mealDate >= today && mealDate < nextWeek;
+    
+    console.log('📅 Calculating upcoming meals:', {
+      today: today.toISOString(),
+      nextWeek: nextWeek.toISOString(),
+      totalMealPlans: sortedMealPlans.length
     });
+    
+    const filtered = sortedMealPlans.filter(meal => {
+      const mealDate = startOfDay(new Date(meal.scheduled_date + 'T00:00:00'));
+      const isUpcoming = mealDate >= today && mealDate < nextWeek;
+      
+      console.log(`  Meal: ${meal.recipe_id}`, {
+        scheduledDate: meal.scheduled_date,
+        mealDate: mealDate.toISOString(),
+        isUpcoming,
+        reason: !isUpcoming ? (mealDate < today ? 'past' : 'beyond 7 days') : 'included'
+      });
+      
+      return isUpcoming;
+    });
+    
+    console.log('✅ Upcoming meals count:', filtered.length);
+    return filtered;
   }, [sortedMealPlans]);
 
   const handleAddToShoppingList = async () => {
