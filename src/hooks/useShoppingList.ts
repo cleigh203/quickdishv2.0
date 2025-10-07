@@ -32,8 +32,10 @@ export const useShoppingList = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [listId, setListId] = useState<string | null>(null);
-  const [currentVersion, setCurrentVersion] = useState<number>(1);
   const [syncError, setSyncError] = useState<string | null>(null);
+  
+  // Use ref instead of state to prevent stale closures
+  const currentVersionRef = useRef<number>(1);
   
   // Debounce timer ref
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -137,9 +139,10 @@ export const useShoppingList = () => {
 
         if (createError) throw createError;
         
+        console.log('✨ Created new shopping list - Version:', newList.version || 1);
         setListId(newList.id);
         setShoppingList([]);
-        setCurrentVersion(newList.version || 1);
+        currentVersionRef.current = newList.version || 1;
         setSyncError(null);
         
         // Update cache
@@ -157,8 +160,9 @@ export const useShoppingList = () => {
         // CRITICAL FIX #3: Apply deduplication when loading FROM database
         itemsArray = deduplicateShoppingList(itemsArray);
         
+        console.log('📥 Loaded shopping list from DB - Version:', lists[0].version || 1);
         setShoppingList(itemsArray);
-        setCurrentVersion(lists[0].version || 1);
+        currentVersionRef.current = lists[0].version || 1;
         setSyncError(null);
         
         // Update cache
@@ -177,9 +181,10 @@ export const useShoppingList = () => {
       
       if (cacheRef.current) {
         // Use cached data but warn user
+        console.log('📦 Using cached data - Version:', cacheRef.current.version);
         setShoppingList(cacheRef.current.items);
         setListId(cacheRef.current.listId);
-        setCurrentVersion(cacheRef.current.version);
+        currentVersionRef.current = cacheRef.current.version;
         setSyncError(isTimeout ? 'timeout' : 'error');
         
         toast({
@@ -265,7 +270,8 @@ export const useShoppingList = () => {
           
           // Update version and cache on success
           const newVersion = result[0].version;
-          setCurrentVersion(newVersion);
+          console.log('✅ Shopping list saved - New version:', newVersion, '(was:', expectedVersion, ')');
+          currentVersionRef.current = newVersion;
           setSyncError(null);
           
           if (cacheRef.current) {
@@ -283,6 +289,7 @@ export const useShoppingList = () => {
           
           if (isVersionConflict) {
             // CRITICAL FIX #4: Handle version conflict - refetch and merge
+            console.error('⚠️ Version conflict - Expected:', expectedVersion, 'Current:', currentVersionRef.current);
             setSyncError('conflict');
             toast({
               title: "List changed by another device",
@@ -345,14 +352,14 @@ export const useShoppingList = () => {
                 const remoteItems = (payload.new as any).items || [];
                 
                 // Only apply if remote version is newer
-                if (remoteVersion > currentVersion) {
-                  console.log(`Applying remote update (v${currentVersion} → v${remoteVersion})`);
+                if (remoteVersion > currentVersionRef.current) {
+                  console.log(`📡 Realtime update - Remote version: ${remoteVersion}, Local version: ${currentVersionRef.current}`);
                   
                   // Apply deduplication to remote data
                   const deduplicatedRemoteItems = deduplicateShoppingList(remoteItems);
                   
                   setShoppingList(deduplicatedRemoteItems);
-                  setCurrentVersion(remoteVersion);
+                  currentVersionRef.current = remoteVersion;
                   
                   // Update cache
                   if (cacheRef.current) {
@@ -361,7 +368,7 @@ export const useShoppingList = () => {
                     cacheRef.current.version = remoteVersion;
                   }
                 } else {
-                  console.log(`Ignoring stale remote update (v${remoteVersion} <= v${currentVersion})`);
+                  console.log(`⏭️ Skipping stale remote update - Remote: ${remoteVersion}, Local: ${currentVersionRef.current}`);
                 }
               }
             }, REALTIME_DEBOUNCE);
@@ -390,8 +397,9 @@ export const useShoppingList = () => {
       const newList = updater(prev);
       
       if (user) {
-        // Capture current version at time of change
-        const versionAtChange = currentVersion;
+        // Capture current version at time of change (using ref to get fresh value)
+        const versionAtChange = currentVersionRef.current;
+        console.log('🔄 Local change - Capturing version:', versionAtChange);
         // Optimistic UI: Update immediately, queue save with captured version
         queuedSave(newList, versionAtChange);
       } else {
@@ -405,7 +413,7 @@ export const useShoppingList = () => {
       
       return newList;
     });
-  }, [user, queuedSave, currentVersion]);
+  }, [user, queuedSave]); // Removed currentVersion from dependencies - using ref instead
 
   // Add items to shopping list
   const addItems = useCallback((newItems: Omit<ShoppingItem, 'id' | 'checked'>[]) => {
