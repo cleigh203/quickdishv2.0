@@ -9644,306 +9644,6 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
-    id: "fall-pumpkin-cheesecake-bars",
-    name: "Pumpkin Cheesecake Bars",
-    description: "Creamy pumpkin cheesecake on graham cracker crust. Perfect fall dessert.",
-    cookTime: "45 mins",
-    prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 16,
-    cuisine: "American",
-    image: pumpkinCheesecakeBarsImg,
-    totalTime: 180,
-    tags: ["Fall Favorites", "dessert", "baking", "pumpkin"],
-    nutrition: {
-      calories: 280,
-      protein: 5,
-      carbs: 32,
-      fat: 15,
-      fiber: 1,
-      sugar: 24,
-      servingSize: "1 bar"
-    },
-    ingredients: [
-      { amount: "2", unit: "cups", item: "graham cracker crumbs" },
-      { amount: "1/2", unit: "cup", item: "butter, melted" },
-      { amount: "16", unit: "oz", item: "cream cheese, softened" },
-      { amount: "3/4", unit: "cup", item: "sugar" },
-      { amount: "1", unit: "cup", item: "pumpkin puree" },
-      { amount: "3", unit: "", item: "eggs" },
-      { amount: "1", unit: "tsp", item: "pumpkin pie spice" },
-      { amount: "1", unit: "tsp", item: "vanilla extract" }
-    ],
-    instructions: [
-      "Preheat oven to 325°F. Line 9x13 pan with parchment.",
-      "Mix [2 cups graham crumbs] with [1/2 cup melted butter], press into pan.",
-      "Beat [16 oz cream cheese] with [3/4 cup sugar] until smooth.",
-      "Add [1 cup pumpkin], [3 eggs], [1 tsp pumpkin spice], [1 tsp vanilla].",
-      "Pour over crust, smooth top.",
-      "Bake 45 minutes until center is set.",
-      "Cool completely, refrigerate 2 hours.",
-      "Cut into 16 bars before serving."
-    ]
-  },
-  {
-    id: "fall-pumpkin-soup-bread-bowl",
-    name: "Pumpkin Soup in a Bread Bowl",
-    description: "Creamy pumpkin soup served in rustic bread bowl. Cozy fall comfort.",
-    cookTime: "25 mins",
-    prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 4,
-    cuisine: "American",
-    image: pumpkinSoupBreadBowlImg,
-    totalTime: 40,
-    tags: ["Fall Favorites", "soup", "comfort food", "pumpkin"],
-    nutrition: {
-      calories: 380,
-      protein: 8,
-      carbs: 52,
-      fat: 16,
-      fiber: 6,
-      sugar: 12,
-      servingSize: "1 bowl"
-    },
-    ingredients: [
-      { amount: "2", unit: "tbsp", item: "butter" },
-      { amount: "1", unit: "", item: "onion, diced" },
-      { amount: "2", unit: "cloves", item: "garlic, minced" },
-      { amount: "3", unit: "cups", item: "pumpkin puree" },
-      { amount: "3", unit: "cups", item: "vegetable broth" },
-      { amount: "1", unit: "cup", item: "heavy cream" },
-      { amount: "1", unit: "tsp", item: "pumpkin pie spice" },
-      { amount: "4", unit: "", item: "bread bowls" },
-      { amount: "", unit: "", item: "pumpkin seeds for garnish" }
-    ],
-    instructions: [
-      "In large pot, melt [2 tbsp butter], sauté [1 diced onion] and [2 cloves garlic].",
-      "Add [3 cups pumpkin puree], [3 cups broth], [1 tsp pumpkin spice].",
-      "Simmer 15 minutes.",
-      "Stir in [1 cup cream], heat through.",
-      "Use immersion blender for smooth texture.",
-      "Cut tops off [4 bread bowls], hollow out centers.",
-      "Ladle hot soup into bread bowls.",
-      "Garnish with pumpkin seeds and cream drizzle."
-    ]
-  },
-  {
-    id: "fall-pumpkin-pasta-sauce",
-    name: "Pumpkin Pasta Sauce",
-    description: "Creamy pumpkin alfredo sauce with sage. Fall twist on classic pasta.",
-    cookTime: "15 mins",
-    prepTime: "10 mins",
-    difficulty: "easy",
-    servings: 6,
-    cuisine: "Italian-American",
-    image: pumpkinPastaSauceImg,
-    totalTime: 25,
-    tags: ["Fall Favorites", "pasta", "dinner", "pumpkin"],
-    nutrition: {
-      calories: 420,
-      protein: 12,
-      carbs: 58,
-      fat: 16,
-      fiber: 4,
-      sugar: 6,
-      servingSize: "1 serving"
-    },
-    ingredients: [
-      { amount: "1", unit: "lb", item: "fettuccine" },
-      { amount: "3", unit: "tbsp", item: "butter" },
-      { amount: "3", unit: "cloves", item: "garlic, minced" },
-      { amount: "1.5", unit: "cups", item: "pumpkin puree" },
-      { amount: "1", unit: "cup", item: "heavy cream" },
-      { amount: "1", unit: "cup", item: "parmesan cheese" },
-      { amount: "8", unit: "leaves", item: "fresh sage" },
-      { amount: "1/2", unit: "tsp", item: "nutmeg" },
-      { amount: "", unit: "", item: "salt and pepper" }
-    ],
-    instructions: [
-      "Cook [1 lb fettuccine] according to package directions.",
-      "In large pan, melt [3 tbsp butter], sauté [3 cloves garlic] and [8 sage leaves].",
-      "Add [1.5 cups pumpkin puree], [1 cup cream], [1 cup parmesan], [1/2 tsp nutmeg].",
-      "Simmer 10 minutes, stirring until smooth.",
-      "Season with salt and pepper.",
-      "Toss hot pasta with sauce.",
-      "Garnish with extra parmesan and crispy sage."
-    ]
-  },
-  {
-    id: "fall-pumpkin-chocolate-chip-cookies",
-    name: "Pumpkin Chocolate Chip Cookies",
-    description: "Soft pumpkin cookies loaded with chocolate chips. Fall baking favorite.",
-    cookTime: "12 mins",
-    prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 24,
-    cuisine: "American",
-    image: pumpkinChocolateChipCookiesImg,
-    totalTime: 27,
-    tags: ["Fall Favorites", "dessert", "cookies", "pumpkin"],
-    nutrition: {
-      calories: 140,
-      protein: 2,
-      carbs: 20,
-      fat: 6,
-      fiber: 1,
-      sugar: 12,
-      servingSize: "1 cookie"
-    },
-    ingredients: [
-      { amount: "2.5", unit: "cups", item: "all-purpose flour" },
-      { amount: "1", unit: "tsp", item: "baking soda" },
-      { amount: "1", unit: "tsp", item: "pumpkin pie spice" },
-      { amount: "1/2", unit: "tsp", item: "salt" },
-      { amount: "1", unit: "cup", item: "butter, softened" },
-      { amount: "1", unit: "cup", item: "sugar" },
-      { amount: "1", unit: "cup", item: "pumpkin puree" },
-      { amount: "1", unit: "", item: "egg" },
-      { amount: "1", unit: "tsp", item: "vanilla" },
-      { amount: "2", unit: "cups", item: "chocolate chips" }
-    ],
-    instructions: [
-      "Preheat oven to 350°F. Line baking sheets.",
-      "Mix [2.5 cups flour], [1 tsp baking soda], [1 tsp pumpkin spice], [1/2 tsp salt].",
-      "Cream [1 cup butter] and [1 cup sugar] until fluffy.",
-      "Beat in [1 cup pumpkin], [1 egg], [1 tsp vanilla].",
-      "Gradually mix in dry ingredients.",
-      "Fold in [2 cups chocolate chips].",
-      "Drop tablespoons of dough onto sheets.",
-      "Bake 12 minutes until edges are set. Cool on wire rack."
-    ]
-  },
-  {
-    id: "fall-pumpkin-french-toast-casserole",
-    name: "Pumpkin French Toast Casserole",
-    description: "Make-ahead breakfast casserole with pumpkin and cinnamon. Perfect for fall mornings.",
-    cookTime: "45 mins",
-    prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 8,
-    cuisine: "American",
-    image: pumpkinFrenchToastCasseroleImg,
-    totalTime: 540,
-    tags: ["Fall Favorites", "breakfast", "casserole", "pumpkin"],
-    nutrition: {
-      calories: 340,
-      protein: 10,
-      carbs: 48,
-      fat: 12,
-      fiber: 3,
-      sugar: 22,
-      servingSize: "1 serving"
-    },
-    ingredients: [
-      { amount: "1", unit: "loaf", item: "French bread, cubed" },
-      { amount: "6", unit: "", item: "eggs" },
-      { amount: "1", unit: "cup", item: "pumpkin puree" },
-      { amount: "2", unit: "cups", item: "milk" },
-      { amount: "1/2", unit: "cup", item: "brown sugar" },
-      { amount: "1", unit: "tsp", item: "pumpkin pie spice" },
-      { amount: "1", unit: "tsp", item: "vanilla" },
-      { amount: "1/2", unit: "cup", item: "butter, melted" },
-      { amount: "", unit: "", item: "maple syrup for serving" }
-    ],
-    instructions: [
-      "Grease 9x13 baking dish. Add [1 loaf cubed bread].",
-      "Whisk [6 eggs], [1 cup pumpkin], [2 cups milk], [1/2 cup brown sugar].",
-      "Add [1 tsp pumpkin spice], [1 tsp vanilla], [1/2 cup melted butter].",
-      "Pour mixture over bread, press down gently.",
-      "Cover and refrigerate overnight (or at least 2 hours).",
-      "Preheat oven to 350°F.",
-      "Bake uncovered 45 minutes until golden and set.",
-      "Serve warm with maple syrup."
-    ]
-  },
-  {
-    id: "fall-pumpkin-curry",
-    name: "Pumpkin Curry",
-    description: "Creamy coconut curry with pumpkin and chickpeas. Warming fall dinner.",
-    cookTime: "25 mins",
-    prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 6,
-    cuisine: "Indian-Fusion",
-    image: pumpkinCurryImg,
-    totalTime: 40,
-    tags: ["Fall Favorites", "dinner", "curry", "vegetarian"],
-    nutrition: {
-      calories: 320,
-      protein: 10,
-      carbs: 42,
-      fat: 14,
-      fiber: 8,
-      sugar: 8,
-      servingSize: "1 serving"
-    },
-    ingredients: [
-      { amount: "2", unit: "tbsp", item: "coconut oil" },
-      { amount: "1", unit: "", item: "onion, diced" },
-      { amount: "3", unit: "cloves", item: "garlic, minced" },
-      { amount: "2", unit: "tbsp", item: "curry powder" },
-      { amount: "3", unit: "cups", item: "pumpkin, cubed" },
-      { amount: "1", unit: "can", item: "chickpeas, drained" },
-      { amount: "1", unit: "can", item: "coconut milk" },
-      { amount: "1", unit: "cup", item: "vegetable broth" },
-      { amount: "2", unit: "cups", item: "spinach" },
-      { amount: "", unit: "", item: "cilantro for garnish" }
-    ],
-    instructions: [
-      "Heat [2 tbsp coconut oil], sauté [1 diced onion] and [3 cloves garlic].",
-      "Add [2 tbsp curry powder], cook 1 minute.",
-      "Add [3 cups pumpkin cubes], [1 can chickpeas], [1 can coconut milk], [1 cup broth].",
-      "Simmer 20 minutes until pumpkin is tender.",
-      "Stir in [2 cups spinach] until wilted.",
-      "Season with salt and pepper.",
-      "Garnish with cilantro, serve over rice."
-    ]
-  },
-  {
-    id: "fall-pumpkin-bread-pudding",
-    name: "Pumpkin Bread Pudding",
-    description: "Warm spiced bread pudding with pumpkin and caramel sauce. Ultimate fall dessert.",
-    cookTime: "45 mins",
-    prepTime: "20 mins",
-    difficulty: "medium",
-    servings: 10,
-    cuisine: "American",
-    image: pumpkinBreadPuddingImg,
-    totalTime: 65,
-    tags: ["Fall Favorites", "dessert", "baking", "pumpkin"],
-    nutrition: {
-      calories: 380,
-      protein: 8,
-      carbs: 54,
-      fat: 16,
-      fiber: 2,
-      sugar: 32,
-      servingSize: "1 serving"
-    },
-    ingredients: [
-      { amount: "1", unit: "loaf", item: "challah bread, cubed" },
-      { amount: "6", unit: "", item: "eggs" },
-      { amount: "1", unit: "cup", item: "pumpkin puree" },
-      { amount: "2", unit: "cups", item: "heavy cream" },
-      { amount: "1", unit: "cup", item: "milk" },
-      { amount: "1", unit: "cup", item: "brown sugar" },
-      { amount: "2", unit: "tsp", item: "pumpkin pie spice" },
-      { amount: "1", unit: "tsp", item: "vanilla" },
-      { amount: "1", unit: "cup", item: "caramel sauce" }
-    ],
-    instructions: [
-      "Grease 9x13 baking dish. Add [1 loaf cubed bread].",
-      "Whisk [6 eggs], [1 cup pumpkin], [2 cups cream], [1 cup milk].",
-      "Add [1 cup brown sugar], [2 tsp pumpkin spice], [1 tsp vanilla].",
-      "Pour over bread, press gently. Let soak 30 minutes.",
-      "Preheat oven to 350°F.",
-      "Bake 45 minutes until golden and set.",
-      "Warm [1 cup caramel sauce], drizzle over servings.",
-      "Serve warm with whipped cream or ice cream."
-    ]
-  },
-  {
     id: "fall-pumpkin-ravioli",
     name: "Pumpkin Ravioli",
     description: "Homemade ravioli filled with pumpkin ricotta, served with sage butter.",
@@ -10377,7 +10077,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallPumpkinSpiceLatteImg,
     totalTime: 10,
-    tags: ["Fall Favorites", "drinks", "coffee", "pumpkin"],
+    tags: ["fall", "drinks", "coffee", "pumpkin"],
     nutrition: {
       calories: 240,
       protein: 6,
@@ -10418,7 +10118,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallCaramelAppleCiderImg,
     totalTime: 15,
-    tags: ["Fall Favorites", "drinks", "apples", "kid-friendly"],
+    tags: ["fall", "drinks", "apples", "kid-friendly"],
     nutrition: {
       calories: 180,
       protein: 0,
@@ -10457,7 +10157,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallPumpkinCinnamonRollsImg,
     totalTime: 145,
-    tags: ["Fall Favorites", "breakfast", "baking", "pumpkin"],
+    tags: ["fall", "breakfast", "baking", "pumpkin"],
     nutrition: {
       calories: 380,
       protein: 6,
@@ -10503,7 +10203,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallMapleBrownButterCookiesImg,
     totalTime: 27,
-    tags: ["Fall Favorites", "dessert", "cookies", "maple"],
+    tags: ["fall", "dessert", "cookies", "maple"],
     nutrition: {
       calories: 140,
       protein: 2,
@@ -10546,7 +10246,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallPumpkinCheesecakeBarsNewImg,
     totalTime: 180,
-    tags: ["Fall Favorites", "dessert", "cheesecake", "pumpkin"],
+    tags: ["fall", "dessert", "cheesecake", "pumpkin"],
     nutrition: {
       calories: 310,
       protein: 5,
@@ -10589,7 +10289,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallChaiHotChocolateImg,
     totalTime: 15,
-    tags: ["Fall Favorites", "drinks", "chocolate", "spiced"],
+    tags: ["fall", "drinks", "chocolate", "spiced"],
     nutrition: {
       calories: 280,
       protein: 8,
@@ -10631,7 +10331,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallPumpkinOvernightOatsNewImg,
     totalTime: 5,
-    tags: ["Fall Favorites", "breakfast", "no-cook", "healthy", "pumpkin"],
+    tags: ["fall", "breakfast", "no-cook", "healthy", "pumpkin"],
     nutrition: {
       calories: 320,
       protein: 12,
@@ -10672,7 +10372,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallCaramelAppleBarsImg,
     totalTime: 65,
-    tags: ["Fall Favorites", "dessert", "baking", "apples", "caramel"],
+    tags: ["fall", "dessert", "baking", "apples", "caramel"],
     nutrition: {
       calories: 280,
       protein: 3,
@@ -10715,7 +10415,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "European",
     image: fallMulledWineImg,
     totalTime: 125,
-    tags: ["Fall Favorites", "drinks", "wine", "slow cooker"],
+    tags: ["fall", "drinks", "wine", "slow cooker"],
     nutrition: {
       calories: 150,
       protein: 0,
@@ -10757,7 +10457,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallAppleButterImg,
     totalTime: 495,
-    tags: ["Fall Favorites", "spread", "apples", "slow cooker"],
+    tags: ["fall", "spread", "apples", "slow cooker"],
     nutrition: {
       calories: 50,
       protein: 0,
@@ -10798,7 +10498,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallPumpkinDumpCakeImg,
     totalTime: 55,
-    tags: ["Fall Favorites", "dessert", "easy", "pumpkin"],
+    tags: ["fall", "dessert", "easy", "pumpkin"],
     nutrition: {
       calories: 380,
       protein: 4,
@@ -10841,7 +10541,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallBrownButterPumpkinCookiesImg,
     totalTime: 32,
-    tags: ["Fall Favorites", "dessert", "cookies", "pumpkin"],
+    tags: ["fall", "dessert", "cookies", "pumpkin"],
     nutrition: {
       calories: 120,
       protein: 1,
@@ -10885,7 +10585,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallGreenBeanCasseroleImg,
     totalTime: 40,
-    tags: ["Fall Favorites", "side dish", "casserole", "thanksgiving"],
+    tags: ["fall", "side dish", "casserole", "thanksgiving"],
     nutrition: {
       calories: 180,
       protein: 4,
@@ -10927,7 +10627,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallSweetPotatoCasseroleNewImg,
     totalTime: 50,
-    tags: ["Fall Favorites", "side dish", "sweet potatoes", "thanksgiving"],
+    tags: ["fall", "side dish", "sweet potatoes", "thanksgiving"],
     nutrition: {
       calories: 320,
       protein: 3,
@@ -10970,7 +10670,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallTurkeyBreastImg,
     totalTime: 135,
-    tags: ["Fall Favorites", "main dish", "turkey", "thanksgiving"],
+    tags: ["fall", "main dish", "turkey", "thanksgiving"],
     nutrition: {
       calories: 320,
       protein: 48,
@@ -11013,7 +10713,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallCornbreadStuffingImg,
     totalTime: 60,
-    tags: ["Fall Favorites", "side dish", "stuffing", "thanksgiving"],
+    tags: ["fall", "side dish", "stuffing", "thanksgiving"],
     nutrition: {
       calories: 280,
       protein: 10,
@@ -11057,7 +10757,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallCranberrySauceImg,
     totalTime: 20,
-    tags: ["Fall Favorites", "side dish", "cranberries", "thanksgiving"],
+    tags: ["fall", "side dish", "cranberries", "thanksgiving"],
     nutrition: {
       calories: 90,
       protein: 0,
@@ -11098,7 +10798,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallMashedPotatoesImg,
     totalTime: 35,
-    tags: ["Fall Favorites", "side dish", "potatoes", "thanksgiving"],
+    tags: ["fall", "side dish", "potatoes", "thanksgiving"],
     nutrition: {
       calories: 220,
       protein: 4,
@@ -11140,7 +10840,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallBrusselsSproutsBaconImg,
     totalTime: 35,
-    tags: ["Fall Favorites", "side dish", "vegetables", "thanksgiving"],
+    tags: ["fall", "side dish", "vegetables", "thanksgiving"],
     nutrition: {
       calories: 180,
       protein: 8,
@@ -11182,7 +10882,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "American",
     image: fallButternutSquashSoupNewImg,
     totalTime: 45,
-    tags: ["Fall Favorites", "soup", "vegetarian", "thanksgiving"],
+    tags: ["fall", "soup", "vegetarian", "thanksgiving"],
     nutrition: {
       calories: 180,
       protein: 3,
