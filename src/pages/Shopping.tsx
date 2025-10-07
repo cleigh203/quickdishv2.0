@@ -94,7 +94,11 @@ const Shopping = () => {
     let isMounted = true;
     
     const loadPantryItems = async () => {
+      console.log('🔄 === LOADING PANTRY ITEMS ===');
+      console.log('🔄 User:', user?.id);
+      
       if (!user) {
+        console.log('❌ No user, clearing pantry');
         setPantryItems([]);
         setPantryLoading(false);
         return;
@@ -102,13 +106,17 @@ const Shopping = () => {
       
       setPantryLoading(true);
       try {
-        console.log('🔍 Loading pantry items for user:', user.id);
+        console.log('🔍 Fetching pantry from DB for user:', user.id);
         
         const { data, error } = await supabase
           .from('profiles')
           .select('pantry_items')
           .eq('id', user.id)
           .single();
+
+        console.log('📦 Raw DB response:', data);
+        console.log('📦 Raw pantry_items from DB:', data?.pantry_items);
+        console.log('📦 DB error:', error);
 
         if (error) {
           console.error('❌ Error loading pantry:', error);
@@ -117,10 +125,15 @@ const Shopping = () => {
         
         if (isMounted) {
           const items = data?.pantry_items || [];
-          console.log('✅ Loaded pantry items:', items);
-          console.log('📦 Pantry items type:', typeof items, 'isArray:', Array.isArray(items));
-          console.log('📦 Pantry items length:', items.length);
+          console.log('✅ Extracted items array:', items);
+          console.log('✅ Items type:', typeof items, 'isArray:', Array.isArray(items));
+          console.log('✅ Items length:', items.length);
+          console.log('✅ Items contents:', JSON.stringify(items));
+          
+          console.log('🎯 CALLING setPantryItems with:', items);
           setPantryItems(items);
+          
+          console.log('🎯 CALLING setPantryLoading(false)');
           setPantryLoading(false);
         }
       } catch (error) {
@@ -195,12 +208,16 @@ const Shopping = () => {
 
   // Auto-filter shopping list by pantry (always on) + track hidden count
   const { displayList, hiddenCount } = useMemo(() => {
-    console.log('🔄 RE-FILTERING SHOPPING LIST');
-    console.log('🏪 Pantry items count:', pantryItems.length);
-    console.log('📝 Shopping list count:', shoppingList.length);
-    console.log('🔍 FILTERING DEBUG:');
-    console.log('📝 Shopping List Items:', shoppingList.length, shoppingList.map(i => i.item));
-    console.log('🏪 Pantry Items (raw):', pantryItems.length, pantryItems);
+    console.log('');
+    console.log('=== 📊 SHOPPING LIST FILTERING useMemo TRIGGERED ===');
+    console.log('📊 pantryItems state:', pantryItems);
+    console.log('📊 pantryItems length:', pantryItems?.length);
+    console.log('📊 pantryItems type:', typeof pantryItems);
+    console.log('📊 pantryItems is array?:', Array.isArray(pantryItems));
+    console.log('📊 pantryItems contents:', JSON.stringify(pantryItems));
+    console.log('📊 shoppingList length:', shoppingList?.length);
+    console.log('📊 shoppingList items:', shoppingList.map(i => i.item));
+    console.log('📊 hidePantryItems toggle:', hidePantryItems);
     
     // Always filter pantry items by default
     const pantryItemsFormatted: PantryItem[] = pantryItems.map(name => ({
@@ -212,12 +229,16 @@ const Shopping = () => {
       addedDate: new Date().toISOString(),
     }));
 
-    console.log('🏪 Pantry Items (formatted):', pantryItemsFormatted.map(p => p.name));
+    console.log('🏪 Formatted pantry items:', pantryItemsFormatted.length, 'items');
+    console.log('🏪 Formatted pantry names:', pantryItemsFormatted.map(p => p.name));
 
+    console.log('🔧 Calling filterShoppingListByPantry...');
     const { filtered, removed } = filterShoppingListByPantry(shoppingList, pantryItemsFormatted);
     
-    console.log('✅ Filtered List:', filtered.length, filtered.map(i => i.item));
-    console.log('❌ Removed Items:', removed.length, removed.map(i => i.item));
+    console.log('✅ Filter result - Kept:', filtered.length, filtered.map(i => i.item));
+    console.log('❌ Filter result - Removed:', removed.length, removed.map(i => i.item));
+    console.log('=== 📊 END FILTERING ===');
+    console.log('');
     
     // If toggle is OFF, show all items but still track what could be hidden
     if (!hidePantryItems) {
