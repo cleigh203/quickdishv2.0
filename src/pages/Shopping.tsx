@@ -115,6 +115,8 @@ const Shopping = () => {
         if (isMounted) {
           const items = data?.pantry_items || [];
           console.log('✅ Loaded pantry items:', items);
+          console.log('📦 Pantry items type:', typeof items, 'isArray:', Array.isArray(items));
+          console.log('📦 Pantry items length:', items.length);
           setPantryItems(items);
         }
       } catch (error) {
@@ -188,6 +190,10 @@ const Shopping = () => {
 
   // Auto-filter shopping list by pantry (always on) + track hidden count
   const { displayList, hiddenCount } = useMemo(() => {
+    console.log('🔍 FILTERING DEBUG:');
+    console.log('📝 Shopping List Items:', shoppingList.length, shoppingList.map(i => i.item));
+    console.log('🏪 Pantry Items (raw):', pantryItems.length, pantryItems);
+    
     // Always filter pantry items by default
     const pantryItemsFormatted: PantryItem[] = pantryItems.map(name => ({
       id: `pantry-${name}`,
@@ -198,7 +204,12 @@ const Shopping = () => {
       addedDate: new Date().toISOString(),
     }));
 
+    console.log('🏪 Pantry Items (formatted):', pantryItemsFormatted.map(p => p.name));
+
     const { filtered, removed } = filterShoppingListByPantry(shoppingList, pantryItemsFormatted);
+    
+    console.log('✅ Filtered List:', filtered.length, filtered.map(i => i.item));
+    console.log('❌ Removed Items:', removed.length, removed.map(i => i.item));
     
     // If toggle is OFF, show all items but still track what could be hidden
     if (!hidePantryItems) {
