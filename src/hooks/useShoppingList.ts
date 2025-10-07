@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { deduplicateShoppingList } from '@/utils/shoppingListUtils';
 
 interface ShoppingItem {
   id: number;
@@ -259,7 +260,10 @@ export const useShoppingList = () => {
         id: maxId + index + 1,
         checked: false,
       }));
-      return [...prev, ...itemsWithIds];
+      // Combine and deduplicate
+      const combined = [...prev, ...itemsWithIds];
+      const deduplicated = deduplicateShoppingList(combined);
+      return deduplicated;
     });
   }, [updateShoppingList]);
 
