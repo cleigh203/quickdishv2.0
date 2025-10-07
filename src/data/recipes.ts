@@ -10365,6 +10365,856 @@ export const allRecipes: Recipe[] = [
     ]
   },
 
+  // ========== NEW FALL FAVORITES (20 additional recipes) ==========
+  {
+    id: "fall-pumpkin-spice-latte",
+    name: "Pumpkin Spice Latte (Starbucks Copycat)",
+    description: "Homemade PSL with real pumpkin, warm spices, and espresso. Hot or iced! Better than Starbucks.",
+    cookTime: "5 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "American",
+    image: fallPumpkinSpiceLatteImg,
+    totalTime: 10,
+    tags: ["Fall Favorites", "drinks", "coffee", "pumpkin"],
+    nutrition: {
+      calories: 240,
+      protein: 6,
+      carbs: 38,
+      fat: 8,
+      fiber: 1,
+      sugar: 32,
+      servingSize: "1 drink (16 oz)"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "milk (any kind)" },
+      { amount: "2", unit: "tbsp", item: "pumpkin puree" },
+      { amount: "2", unit: "tbsp", item: "sugar" },
+      { amount: "1", unit: "tsp", item: "vanilla extract" },
+      { amount: "1/2", unit: "tsp", item: "pumpkin pie spice" },
+      { amount: "2", unit: "shots", item: "espresso or 1/2 cup strong coffee" },
+      { amount: "", unit: "", item: "whipped cream for topping" }
+    ],
+    instructions: [
+      "In saucepan, whisk [2 cups milk], [2 tbsp pumpkin], [2 tbsp sugar], [1/2 tsp pumpkin spice].",
+      "Heat over medium, stirring constantly until steaming (don't boil).",
+      "Remove from heat, stir in [1 tsp vanilla].",
+      "Brew [2 shots espresso] or make strong coffee.",
+      "Divide espresso between 2 mugs, pour pumpkin milk over.",
+      "Top with whipped cream and extra pumpkin spice.",
+      "For iced: Let mixture cool, pour over ice with espresso."
+    ]
+  },
+
+  {
+    id: "fall-caramel-apple-cider",
+    name: "Caramel Apple Cider (Hot & Cold)",
+    description: "Sweet caramel apple cider perfect for fall. Serve hot or cold with caramel drizzle.",
+    cookTime: "10 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: fallCaramelAppleCiderImg,
+    totalTime: 15,
+    tags: ["Fall Favorites", "drinks", "apples", "kid-friendly"],
+    nutrition: {
+      calories: 180,
+      protein: 0,
+      carbs: 46,
+      fat: 0,
+      fiber: 0,
+      sugar: 42,
+      servingSize: "1 cup"
+    },
+    ingredients: [
+      { amount: "4", unit: "cups", item: "apple cider" },
+      { amount: "1/4", unit: "cup", item: "caramel sauce" },
+      { amount: "1", unit: "tsp", item: "vanilla extract" },
+      { amount: "1/4", unit: "tsp", item: "cinnamon" },
+      { amount: "", unit: "", item: "whipped cream" },
+      { amount: "", unit: "", item: "extra caramel for drizzle" }
+    ],
+    instructions: [
+      "Heat [4 cups cider] in pot over medium heat until warm.",
+      "Whisk in [1/4 cup caramel sauce], [1 tsp vanilla], [1/4 tsp cinnamon].",
+      "Simmer 5 minutes, stirring occasionally.",
+      "Pour into mugs, top with whipped cream.",
+      "Drizzle extra caramel on top.",
+      "For cold: Let cool completely, serve over ice with whipped cream."
+    ]
+  },
+
+  {
+    id: "fall-pumpkin-cinnamon-rolls",
+    name: "Pumpkin Cinnamon Rolls with Cream Cheese Frosting",
+    description: "Fluffy pumpkin cinnamon rolls with rich cream cheese frosting. Perfect fall breakfast!",
+    cookTime: "25 mins",
+    prepTime: "2 hrs",
+    difficulty: "medium",
+    servings: 12,
+    cuisine: "American",
+    image: fallPumpkinCinnamonRollsImg,
+    totalTime: 145,
+    tags: ["Fall Favorites", "breakfast", "baking", "pumpkin"],
+    nutrition: {
+      calories: 380,
+      protein: 6,
+      carbs: 58,
+      fat: 14,
+      fiber: 2,
+      sugar: 28,
+      servingSize: "1 roll"
+    },
+    ingredients: [
+      { amount: "3 1/2", unit: "cups", item: "all-purpose flour" },
+      { amount: "1/4", unit: "cup", item: "sugar" },
+      { amount: "1", unit: "packet", item: "instant yeast" },
+      { amount: "3/4", unit: "cup", item: "milk, warm" },
+      { amount: "1/4", unit: "cup", item: "butter, melted" },
+      { amount: "1/2", unit: "cup", item: "pumpkin puree" },
+      { amount: "1", unit: "", item: "egg" },
+      { amount: "1", unit: "cup", item: "brown sugar" },
+      { amount: "2", unit: "tbsp", item: "pumpkin pie spice" },
+      { amount: "4", unit: "oz", item: "cream cheese" },
+      { amount: "2", unit: "cups", item: "powdered sugar" }
+    ],
+    instructions: [
+      "Mix [3 1/2 cups flour], [1/4 cup sugar], [yeast]. Add [3/4 cup warm milk], [1/4 cup melted butter], [1/2 cup pumpkin], [1 egg].",
+      "Knead 5 minutes until smooth. Let rise 1 hour until doubled.",
+      "Roll dough into 15x10 inch rectangle.",
+      "Spread with softened butter, sprinkle [1 cup brown sugar] mixed with [2 tbsp pumpkin spice].",
+      "Roll up tightly, cut into 12 rolls. Place in greased pan.",
+      "Let rise 30 minutes. Bake at 350°F for 25 minutes until golden.",
+      "Beat [4 oz cream cheese] with [2 cups powdered sugar] and 2 tbsp milk.",
+      "Frost warm rolls generously."
+    ]
+  },
+
+  {
+    id: "fall-maple-brown-butter-cookies",
+    name: "Maple Brown Butter Cookies",
+    description: "Chewy cookies with nutty brown butter and sweet maple flavor. Fall perfection!",
+    cookTime: "12 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 24,
+    cuisine: "American",
+    image: fallMapleBrownButterCookiesImg,
+    totalTime: 27,
+    tags: ["Fall Favorites", "dessert", "cookies", "maple"],
+    nutrition: {
+      calories: 140,
+      protein: 2,
+      carbs: 18,
+      fat: 7,
+      fiber: 0,
+      sugar: 10,
+      servingSize: "1 cookie"
+    },
+    ingredients: [
+      { amount: "1", unit: "cup", item: "butter" },
+      { amount: "1", unit: "cup", item: "brown sugar" },
+      { amount: "1/2", unit: "cup", item: "sugar" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1/4", unit: "cup", item: "maple syrup" },
+      { amount: "2 1/2", unit: "cups", item: "flour" },
+      { amount: "1", unit: "tsp", item: "baking soda" },
+      { amount: "1/2", unit: "tsp", item: "salt" }
+    ],
+    instructions: [
+      "Brown [1 cup butter] in pan over medium heat until golden and nutty, about 5 minutes. Cool 10 minutes.",
+      "Beat browned butter with [1 cup brown sugar] and [1/2 cup sugar].",
+      "Mix in [2 eggs] and [1/4 cup maple syrup].",
+      "In separate bowl, whisk [2 1/2 cups flour], [1 tsp baking soda], [1/2 tsp salt].",
+      "Combine wet and dry ingredients.",
+      "Drop tablespoon-sized balls onto baking sheet.",
+      "Bake at 350°F for 10-12 minutes until edges are golden.",
+      "Cool on pan 5 minutes. Enjoy warm!"
+    ]
+  },
+
+  {
+    id: "fall-pumpkin-cheesecake-bars",
+    name: "Pumpkin Cheesecake Bars",
+    description: "Creamy pumpkin cheesecake bars with graham cracker crust. Perfect for Thanksgiving!",
+    cookTime: "50 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 16,
+    cuisine: "American",
+    image: fallPumpkinCheesecakeBarsNewImg,
+    totalTime: 180,
+    tags: ["Fall Favorites", "dessert", "cheesecake", "pumpkin"],
+    nutrition: {
+      calories: 310,
+      protein: 5,
+      carbs: 32,
+      fat: 18,
+      fiber: 1,
+      sugar: 24,
+      servingSize: "1 bar"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "graham cracker crumbs" },
+      { amount: "1/2", unit: "cup", item: "butter, melted" },
+      { amount: "16", unit: "oz", item: "cream cheese, softened" },
+      { amount: "3/4", unit: "cup", item: "sugar" },
+      { amount: "1", unit: "cup", item: "pumpkin puree" },
+      { amount: "3", unit: "", item: "eggs" },
+      { amount: "1", unit: "tsp", item: "vanilla" },
+      { amount: "2", unit: "tsp", item: "pumpkin pie spice" }
+    ],
+    instructions: [
+      "Mix [2 cups graham crumbs] with [1/2 cup melted butter]. Press into 9x13 pan.",
+      "Bake crust at 350°F for 8 minutes.",
+      "Beat [16 oz cream cheese] with [3/4 cup sugar] until smooth.",
+      "Mix in [1 cup pumpkin], [3 eggs], [1 tsp vanilla], [2 tsp pumpkin spice].",
+      "Pour over crust. Bake 40-45 minutes until center barely jiggles.",
+      "Cool completely, then refrigerate 2 hours.",
+      "Cut into 16 bars. Top with whipped cream if desired.",
+      "Perfect for Thanksgiving!"
+    ]
+  },
+
+  {
+    id: "fall-chai-hot-chocolate",
+    name: "Chai Spiced Hot Chocolate",
+    description: "Rich hot chocolate infused with warming chai spices. Cozy fall drink!",
+    cookTime: "10 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "American",
+    image: fallChaiHotChocolateImg,
+    totalTime: 15,
+    tags: ["Fall Favorites", "drinks", "chocolate", "spiced"],
+    nutrition: {
+      calories: 280,
+      protein: 8,
+      carbs: 42,
+      fat: 10,
+      fiber: 3,
+      sugar: 34,
+      servingSize: "1 cup"
+    },
+    ingredients: [
+      { amount: "4", unit: "cups", item: "milk" },
+      { amount: "1/2", unit: "cup", item: "chocolate chips" },
+      { amount: "2", unit: "tbsp", item: "cocoa powder" },
+      { amount: "3", unit: "tbsp", item: "sugar" },
+      { amount: "1", unit: "tsp", item: "vanilla" },
+      { amount: "1/2", unit: "tsp", item: "cinnamon" },
+      { amount: "1/4", unit: "tsp", item: "ginger" },
+      { amount: "1/4", unit: "tsp", item: "cardamom" },
+      { amount: "1/8", unit: "tsp", item: "cloves" }
+    ],
+    instructions: [
+      "Heat [4 cups milk] in pot over medium heat.",
+      "Whisk in [1/2 cup chocolate chips], [2 tbsp cocoa], [3 tbsp sugar].",
+      "Add [1/2 tsp cinnamon], [1/4 tsp ginger], [1/4 tsp cardamom], [1/8 tsp cloves].",
+      "Simmer 5 minutes, whisking frequently.",
+      "Remove from heat, stir in [1 tsp vanilla].",
+      "Pour into mugs, top with whipped cream and cinnamon."
+    ]
+  },
+
+  {
+    id: "fall-pumpkin-overnight-oats",
+    name: "Pumpkin Spice Overnight Oats",
+    description: "Easy make-ahead breakfast with pumpkin and fall spices. Healthy and delicious!",
+    cookTime: "0 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "American",
+    image: fallPumpkinOvernightOatsNewImg,
+    totalTime: 5,
+    tags: ["Fall Favorites", "breakfast", "no-cook", "healthy", "pumpkin"],
+    nutrition: {
+      calories: 320,
+      protein: 12,
+      carbs: 52,
+      fat: 8,
+      fiber: 8,
+      sugar: 16,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "cup", item: "rolled oats" },
+      { amount: "1", unit: "cup", item: "milk" },
+      { amount: "1/2", unit: "cup", item: "pumpkin puree" },
+      { amount: "2", unit: "tbsp", item: "maple syrup" },
+      { amount: "1", unit: "tsp", item: "pumpkin pie spice" },
+      { amount: "1", unit: "tsp", item: "vanilla" },
+      { amount: "2", unit: "tbsp", item: "chia seeds" },
+      { amount: "", unit: "", item: "toppings: pecans, granola" }
+    ],
+    instructions: [
+      "In jar or container, mix [1 cup oats], [1 cup milk], [1/2 cup pumpkin].",
+      "Add [2 tbsp maple syrup], [1 tsp pumpkin spice], [1 tsp vanilla], [2 tbsp chia seeds].",
+      "Stir well, cover, refrigerate overnight (or at least 4 hours).",
+      "In morning, stir and add milk if too thick.",
+      "Top with pecans, granola, or extra maple syrup.",
+      "Enjoy cold or warm in microwave 1 minute!"
+    ]
+  },
+
+  {
+    id: "fall-salted-caramel-apple-bars",
+    name: "Salted Caramel Apple Bars",
+    description: "Buttery shortbread, spiced apples, and salted caramel. Fall dessert perfection!",
+    cookTime: "45 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 16,
+    cuisine: "American",
+    image: fallCaramelAppleBarsImg,
+    totalTime: 65,
+    tags: ["Fall Favorites", "dessert", "baking", "apples", "caramel"],
+    nutrition: {
+      calories: 280,
+      protein: 3,
+      carbs: 38,
+      fat: 13,
+      fiber: 2,
+      sugar: 22,
+      servingSize: "1 bar"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "flour" },
+      { amount: "1/2", unit: "cup", item: "sugar" },
+      { amount: "1", unit: "cup", item: "butter, cold" },
+      { amount: "4", unit: "", item: "apples, peeled and diced" },
+      { amount: "1/3", unit: "cup", item: "brown sugar" },
+      { amount: "2", unit: "tsp", item: "cinnamon" },
+      { amount: "1", unit: "cup", item: "caramel sauce" },
+      { amount: "1/2", unit: "tsp", item: "sea salt" }
+    ],
+    instructions: [
+      "Mix [2 cups flour] and [1/2 cup sugar]. Cut in [1 cup cold butter] until crumbly.",
+      "Press 2/3 of mixture into greased 9x13 pan. Bake at 350°F for 15 minutes.",
+      "Toss [4 diced apples] with [1/3 cup brown sugar] and [2 tsp cinnamon].",
+      "Spread apples over crust. Drizzle [1 cup caramel sauce] over apples.",
+      "Sprinkle remaining crumb mixture on top.",
+      "Bake 30 minutes until golden and bubbling.",
+      "Cool completely. Sprinkle [1/2 tsp sea salt] over top.",
+      "Cut into 16 bars. Serve with ice cream!"
+    ]
+  },
+
+  {
+    id: "fall-mulled-wine",
+    name: "Mulled Wine (Slow Cooker)",
+    description: "Warm spiced wine with orange and cinnamon. Perfect for fall gatherings!",
+    cookTime: "2 hrs",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "European",
+    image: fallMulledWineImg,
+    totalTime: 125,
+    tags: ["Fall Favorites", "drinks", "wine", "slow cooker"],
+    nutrition: {
+      calories: 150,
+      protein: 0,
+      carbs: 18,
+      fat: 0,
+      fiber: 0,
+      sugar: 14,
+      servingSize: "1 cup"
+    },
+    ingredients: [
+      { amount: "2", unit: "bottles", item: "red wine (750ml each)" },
+      { amount: "1/4", unit: "cup", item: "brandy" },
+      { amount: "1/4", unit: "cup", item: "honey" },
+      { amount: "1", unit: "", item: "orange, sliced" },
+      { amount: "3", unit: "", item: "cinnamon sticks" },
+      { amount: "6", unit: "", item: "whole cloves" },
+      { amount: "3", unit: "", item: "star anise" },
+      { amount: "1", unit: "tsp", item: "vanilla extract" }
+    ],
+    instructions: [
+      "Add [2 bottles red wine], [1/4 cup brandy], [1/4 cup honey] to slow cooker.",
+      "Add [1 sliced orange], [3 cinnamon sticks], [6 cloves], [3 star anise].",
+      "Cover and cook on LOW 2-3 hours (don't boil).",
+      "Stir in [1 tsp vanilla] before serving.",
+      "Ladle into mugs, include an orange slice.",
+      "Can keep warm in slow cooker on LOW for serving.",
+      "Serve hot. Perfect for parties!"
+    ]
+  },
+
+  {
+    id: "fall-apple-butter",
+    name: "Apple Butter (Slow Cooker)",
+    description: "Rich, spiced apple butter made easy in the slow cooker. Perfect on everything!",
+    cookTime: "8 hrs",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 32,
+    cuisine: "American",
+    image: fallAppleButterImg,
+    totalTime: 495,
+    tags: ["Fall Favorites", "spread", "apples", "slow cooker"],
+    nutrition: {
+      calories: 50,
+      protein: 0,
+      carbs: 13,
+      fat: 0,
+      fiber: 1,
+      sugar: 11,
+      servingSize: "2 tbsp"
+    },
+    ingredients: [
+      { amount: "6", unit: "lbs", item: "apples, peeled and chopped" },
+      { amount: "1", unit: "cup", item: "sugar" },
+      { amount: "1/2", unit: "cup", item: "brown sugar" },
+      { amount: "2", unit: "tsp", item: "cinnamon" },
+      { amount: "1/2", unit: "tsp", item: "nutmeg" },
+      { amount: "1/4", unit: "tsp", item: "cloves" },
+      { amount: "1/4", unit: "tsp", item: "salt" }
+    ],
+    instructions: [
+      "Place [6 lbs chopped apples] in slow cooker.",
+      "Add [1 cup sugar], [1/2 cup brown sugar], [2 tsp cinnamon], [1/2 tsp nutmeg], [1/4 tsp cloves], [1/4 tsp salt].",
+      "Stir well. Cover and cook on LOW 8-10 hours, stirring occasionally.",
+      "After cooking, use immersion blender to puree until smooth.",
+      "Leave lid slightly open, cook on LOW 1-2 more hours to thicken.",
+      "Cool and store in jars. Refrigerate up to 2 weeks.",
+      "Perfect on toast, biscuits, or pancakes!"
+    ]
+  },
+
+  {
+    id: "fall-pumpkin-dump-cake",
+    name: "Pumpkin Dump Cake",
+    description: "Easy 4-ingredient pumpkin dump cake. No mixing required! Serve warm with ice cream.",
+    cookTime: "50 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "American",
+    image: fallPumpkinDumpCakeImg,
+    totalTime: 55,
+    tags: ["Fall Favorites", "dessert", "easy", "pumpkin"],
+    nutrition: {
+      calories: 380,
+      protein: 4,
+      carbs: 52,
+      fat: 18,
+      fiber: 2,
+      sugar: 34,
+      servingSize: "1 slice"
+    },
+    ingredients: [
+      { amount: "1", unit: "can", item: "pumpkin puree (15 oz)" },
+      { amount: "1", unit: "can", item: "evaporated milk (12 oz)" },
+      { amount: "1 1/2", unit: "cups", item: "sugar" },
+      { amount: "3", unit: "", item: "eggs" },
+      { amount: "2", unit: "tsp", item: "pumpkin pie spice" },
+      { amount: "1", unit: "box", item: "yellow cake mix" },
+      { amount: "1", unit: "cup", item: "butter, melted" },
+      { amount: "1", unit: "cup", item: "pecans, chopped" }
+    ],
+    instructions: [
+      "Spray 9x13 pan with cooking spray.",
+      "Mix [1 can pumpkin], [1 can evaporated milk], [1 1/2 cups sugar], [3 eggs], [2 tsp pumpkin spice].",
+      "Pour into pan.",
+      "Sprinkle [1 box cake mix] evenly over pumpkin (don't mix!).",
+      "Drizzle [1 cup melted butter] all over cake mix.",
+      "Top with [1 cup pecans].",
+      "Bake at 350°F for 50-55 minutes until golden.",
+      "Serve warm with vanilla ice cream!"
+    ]
+  },
+
+  {
+    id: "fall-brown-butter-pumpkin-cookies",
+    name: "Brown Butter Pumpkin Cookies",
+    description: "Soft pumpkin cookies with nutty brown butter flavor. Fall favorite!",
+    cookTime: "12 mins",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 36,
+    cuisine: "American",
+    image: fallBrownButterPumpkinCookiesImg,
+    totalTime: 32,
+    tags: ["Fall Favorites", "dessert", "cookies", "pumpkin"],
+    nutrition: {
+      calories: 120,
+      protein: 1,
+      carbs: 16,
+      fat: 6,
+      fiber: 0,
+      sugar: 9,
+      servingSize: "1 cookie"
+    },
+    ingredients: [
+      { amount: "3/4", unit: "cup", item: "butter" },
+      { amount: "1 1/2", unit: "cups", item: "brown sugar" },
+      { amount: "1", unit: "cup", item: "pumpkin puree" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1", unit: "tsp", item: "vanilla" },
+      { amount: "3", unit: "cups", item: "flour" },
+      { amount: "1", unit: "tsp", item: "baking soda" },
+      { amount: "2", unit: "tsp", item: "pumpkin pie spice" },
+      { amount: "1/2", unit: "tsp", item: "salt" }
+    ],
+    instructions: [
+      "Brown [3/4 cup butter] in saucepan until golden, about 5 minutes. Cool 15 minutes.",
+      "Beat browned butter with [1 1/2 cups brown sugar].",
+      "Mix in [1 cup pumpkin], [2 eggs], [1 tsp vanilla].",
+      "In bowl, whisk [3 cups flour], [1 tsp baking soda], [2 tsp pumpkin spice], [1/2 tsp salt].",
+      "Combine wet and dry ingredients.",
+      "Drop tablespoon-sized dough onto baking sheets.",
+      "Bake at 350°F for 10-12 minutes until edges set.",
+      "Cool and enjoy! Store in airtight container."
+    ]
+  },
+
+  {
+    id: "fall-green-bean-casserole",
+    name: "Classic Green Bean Casserole",
+    description: "Traditional green bean casserole with crispy onions. Perfect for Thanksgiving!",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "American",
+    image: fallGreenBeanCasseroleImg,
+    totalTime: 40,
+    tags: ["Fall Favorites", "side dish", "casserole", "thanksgiving"],
+    nutrition: {
+      calories: 180,
+      protein: 4,
+      carbs: 16,
+      fat: 12,
+      fiber: 3,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "2", unit: "lbs", item: "fresh green beans, trimmed" },
+      { amount: "2", unit: "cans", item: "cream of mushroom soup (10.5 oz each)" },
+      { amount: "1", unit: "cup", item: "milk" },
+      { amount: "1", unit: "tsp", item: "soy sauce" },
+      { amount: "1/4", unit: "tsp", item: "black pepper" },
+      { amount: "2 2/3", unit: "cups", item: "french fried onions" },
+      { amount: "", unit: "", item: "salt to taste" }
+    ],
+    instructions: [
+      "Boil [2 lbs green beans] in salted water 5 minutes. Drain well.",
+      "Mix [2 cans mushroom soup], [1 cup milk], [1 tsp soy sauce], [1/4 tsp pepper].",
+      "Stir in beans and 1 1/3 cups [fried onions].",
+      "Pour into greased 9x13 baking dish.",
+      "Bake at 350°F for 25 minutes.",
+      "Top with remaining 1 1/3 cups [fried onions].",
+      "Bake 5 more minutes until onions are golden.",
+      "Perfect for Thanksgiving!"
+    ]
+  },
+
+  {
+    id: "fall-sweet-potato-casserole",
+    name: "Sweet Potato Casserole with Marshmallows",
+    description: "Classic sweet potato casserole topped with toasted marshmallows. Perfect for Thanksgiving!",
+    cookTime: "30 mins",
+    prepTime: "20 mins",
+    difficulty: "easy",
+    servings: 10,
+    cuisine: "American",
+    image: fallSweetPotatoCasseroleNewImg,
+    totalTime: 50,
+    tags: ["Fall Favorites", "side dish", "sweet potatoes", "thanksgiving"],
+    nutrition: {
+      calories: 320,
+      protein: 3,
+      carbs: 58,
+      fat: 9,
+      fiber: 4,
+      sugar: 36,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "4", unit: "lbs", item: "sweet potatoes" },
+      { amount: "1/2", unit: "cup", item: "butter, melted" },
+      { amount: "1/2", unit: "cup", item: "brown sugar" },
+      { amount: "1/2", unit: "cup", item: "milk" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1", unit: "tsp", item: "vanilla" },
+      { amount: "1", unit: "tsp", item: "cinnamon" },
+      { amount: "4", unit: "cups", item: "mini marshmallows" }
+    ],
+    instructions: [
+      "Bake [4 lbs sweet potatoes] at 400°F for 45 minutes until soft. Cool, peel.",
+      "Mash potatoes until smooth.",
+      "Mix in [1/2 cup melted butter], [1/2 cup brown sugar], [1/2 cup milk], [2 eggs], [1 tsp vanilla], [1 tsp cinnamon].",
+      "Spread into greased 9x13 dish.",
+      "Bake at 350°F for 25 minutes.",
+      "Top with [4 cups mini marshmallows].",
+      "Bake 5 more minutes until marshmallows are golden.",
+      "Perfect for Thanksgiving!"
+    ]
+  },
+
+  {
+    id: "fall-herb-butter-turkey-breast",
+    name: "Herb Butter Roasted Turkey Breast",
+    description: "Juicy herb butter turkey breast. Perfect for small Thanksgiving gatherings!",
+    cookTime: "2 hrs",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 8,
+    cuisine: "American",
+    image: fallTurkeyBreastImg,
+    totalTime: 135,
+    tags: ["Fall Favorites", "main dish", "turkey", "thanksgiving"],
+    nutrition: {
+      calories: 320,
+      protein: 48,
+      carbs: 2,
+      fat: 13,
+      fiber: 0,
+      sugar: 1,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "", item: "turkey breast (5-6 lbs)" },
+      { amount: "1/2", unit: "cup", item: "butter, softened" },
+      { amount: "2", unit: "tbsp", item: "fresh rosemary, chopped" },
+      { amount: "2", unit: "tbsp", item: "fresh thyme, chopped" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "black pepper" },
+      { amount: "1", unit: "cup", item: "chicken broth" }
+    ],
+    instructions: [
+      "Pat [turkey breast] dry. Mix [1/2 cup butter], [2 tbsp rosemary], [2 tbsp thyme], [4 cloves garlic], [1 tsp salt], [1/2 tsp pepper].",
+      "Carefully loosen skin from turkey. Spread half of herb butter under skin.",
+      "Rub remaining butter over outside of turkey.",
+      "Place in roasting pan. Pour [1 cup broth] around turkey.",
+      "Roast at 350°F for 1.5-2 hours (20 min per pound) until 165°F internal temp.",
+      "Baste every 30 minutes with pan juices.",
+      "Let rest 15 minutes before carving.",
+      "Perfect for Thanksgiving!"
+    ]
+  },
+
+  {
+    id: "fall-cornbread-stuffing",
+    name: "Cornbread Stuffing with Sausage & Sage",
+    description: "Classic cornbread stuffing with sausage and fresh herbs. Perfect for Thanksgiving!",
+    cookTime: "45 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "American",
+    image: fallCornbreadStuffingImg,
+    totalTime: 60,
+    tags: ["Fall Favorites", "side dish", "stuffing", "thanksgiving"],
+    nutrition: {
+      calories: 280,
+      protein: 10,
+      carbs: 32,
+      fat: 13,
+      fiber: 2,
+      sugar: 6,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "", item: "cornbread (9x9 pan), cubed and dried" },
+      { amount: "1", unit: "lb", item: "breakfast sausage" },
+      { amount: "1", unit: "cup", item: "onion, diced" },
+      { amount: "1", unit: "cup", item: "celery, diced" },
+      { amount: "2", unit: "tbsp", item: "fresh sage, chopped" },
+      { amount: "2", unit: "tbsp", item: "fresh thyme" },
+      { amount: "2 1/2", unit: "cups", item: "chicken broth" },
+      { amount: "2", unit: "", item: "eggs, beaten" },
+      { amount: "1/2", unit: "cup", item: "butter" }
+    ],
+    instructions: [
+      "Cook [1 lb sausage] in large skillet until browned. Remove.",
+      "In same pan, sauté [1 cup onion] and [1 cup celery] in [1/2 cup butter] until soft.",
+      "Add [2 tbsp sage] and [2 tbsp thyme], cook 1 minute.",
+      "In large bowl, combine [cubed cornbread], sausage, veggie mixture.",
+      "Pour [2 1/2 cups broth] and [2 beaten eggs] over mixture. Toss gently.",
+      "Transfer to greased 9x13 dish.",
+      "Bake at 350°F for 40-45 minutes until golden and crispy on top.",
+      "Perfect for Thanksgiving!"
+    ]
+  },
+
+  {
+    id: "fall-cranberry-sauce",
+    name: "Cranberry Sauce (Fresh & Easy)",
+    description: "Homemade cranberry sauce with orange zest. Way better than canned! Perfect for Thanksgiving!",
+    cookTime: "15 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 10,
+    cuisine: "American",
+    image: fallCranberrySauceImg,
+    totalTime: 20,
+    tags: ["Fall Favorites", "side dish", "cranberries", "thanksgiving"],
+    nutrition: {
+      calories: 90,
+      protein: 0,
+      carbs: 23,
+      fat: 0,
+      fiber: 2,
+      sugar: 20,
+      servingSize: "1/4 cup"
+    },
+    ingredients: [
+      { amount: "12", unit: "oz", item: "fresh cranberries" },
+      { amount: "1", unit: "cup", item: "sugar" },
+      { amount: "1", unit: "cup", item: "water" },
+      { amount: "1", unit: "", item: "orange, zested" },
+      { amount: "1/4", unit: "cup", item: "orange juice" },
+      { amount: "1", unit: "stick", item: "cinnamon" }
+    ],
+    instructions: [
+      "In saucepan, combine [12 oz cranberries], [1 cup sugar], [1 cup water].",
+      "Add [orange zest], [1/4 cup orange juice], [cinnamon stick].",
+      "Bring to boil, then reduce to simmer.",
+      "Cook 10-15 minutes, stirring occasionally, until cranberries burst.",
+      "Remove cinnamon stick.",
+      "Sauce will thicken as it cools.",
+      "Refrigerate at least 2 hours before serving.",
+      "Perfect for Thanksgiving!"
+    ]
+  },
+
+  {
+    id: "fall-creamy-mashed-potatoes",
+    name: "Creamy Mashed Potatoes with Garlic",
+    description: "Ultra creamy garlic mashed potatoes. The perfect side dish for Thanksgiving!",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 10,
+    cuisine: "American",
+    image: fallMashedPotatoesImg,
+    totalTime: 35,
+    tags: ["Fall Favorites", "side dish", "potatoes", "thanksgiving"],
+    nutrition: {
+      calories: 220,
+      protein: 4,
+      carbs: 32,
+      fat: 9,
+      fiber: 3,
+      sugar: 2,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "5", unit: "lbs", item: "russet potatoes, peeled and cubed" },
+      { amount: "1", unit: "cup", item: "butter" },
+      { amount: "1", unit: "cup", item: "heavy cream, warm" },
+      { amount: "1/2", unit: "cup", item: "sour cream" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "black pepper" }
+    ],
+    instructions: [
+      "Boil [5 lbs cubed potatoes] in salted water 15-20 minutes until fork-tender.",
+      "Meanwhile, melt [1 cup butter] with [4 cloves garlic] in small pan. Cook 2 minutes.",
+      "Drain potatoes well, return to pot.",
+      "Mash potatoes until smooth.",
+      "Stir in garlic butter, [1 cup warm cream], [1/2 cup sour cream].",
+      "Season with [2 tsp salt] and [1/2 tsp pepper].",
+      "Whip with electric mixer until fluffy and creamy.",
+      "Perfect for Thanksgiving!"
+    ]
+  },
+
+  {
+    id: "fall-brussels-sprouts-bacon",
+    name: "Roasted Brussels Sprouts with Bacon",
+    description: "Crispy roasted Brussels sprouts with bacon and balsamic glaze. Perfect for Thanksgiving!",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: fallBrusselsSproutsBaconImg,
+    totalTime: 35,
+    tags: ["Fall Favorites", "side dish", "vegetables", "thanksgiving"],
+    nutrition: {
+      calories: 180,
+      protein: 8,
+      carbs: 14,
+      fat: 11,
+      fiber: 5,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "2", unit: "lbs", item: "Brussels sprouts, halved" },
+      { amount: "6", unit: "slices", item: "bacon, chopped" },
+      { amount: "3", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1/2", unit: "tsp", item: "salt" },
+      { amount: "1/4", unit: "tsp", item: "black pepper" },
+      { amount: "2", unit: "tbsp", item: "balsamic glaze" }
+    ],
+    instructions: [
+      "Toss [2 lbs halved Brussels sprouts] with [3 tbsp olive oil], [1 tsp garlic powder], [1/2 tsp salt], [1/4 tsp pepper].",
+      "Spread on baking sheet. Scatter [6 slices chopped bacon] over top.",
+      "Roast at 400°F for 25 minutes, stirring halfway.",
+      "Brussels should be crispy and caramelized, bacon crispy.",
+      "Transfer to serving dish.",
+      "Drizzle [2 tbsp balsamic glaze] over top.",
+      "Serve immediately.",
+      "Perfect for Thanksgiving!"
+    ]
+  },
+
+  {
+    id: "fall-butternut-squash-soup",
+    name: "Butternut Squash Soup (Creamy)",
+    description: "Velvety smooth butternut squash soup with warm spices. Cozy fall comfort! Perfect for Thanksgiving!",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "American",
+    image: fallButternutSquashSoupNewImg,
+    totalTime: 45,
+    tags: ["Fall Favorites", "soup", "vegetarian", "thanksgiving"],
+    nutrition: {
+      calories: 180,
+      protein: 3,
+      carbs: 28,
+      fat: 7,
+      fiber: 4,
+      sugar: 6,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "", item: "butternut squash (3 lbs), peeled and cubed" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "4", unit: "cups", item: "vegetable broth" },
+      { amount: "1/2", unit: "cup", item: "heavy cream" },
+      { amount: "1", unit: "tsp", item: "cinnamon" },
+      { amount: "1/2", unit: "tsp", item: "nutmeg" },
+      { amount: "1", unit: "tsp", item: "salt" }
+    ],
+    instructions: [
+      "Heat [2 tbsp olive oil] in large pot. Sauté [1 diced onion] until soft, 5 minutes.",
+      "Add [3 cloves garlic], cook 1 minute.",
+      "Add [3 lbs cubed squash] and [4 cups broth]. Bring to boil.",
+      "Reduce heat, simmer 20 minutes until squash is very tender.",
+      "Use immersion blender to puree until smooth.",
+      "Stir in [1/2 cup cream], [1 tsp cinnamon], [1/2 tsp nutmeg], [1 tsp salt].",
+      "Simmer 5 more minutes. Adjust seasoning.",
+      "Serve with crusty bread. Perfect for Thanksgiving!"
+    ]
+  },
+
   // ========== ONE POT WONDERS (12 additional recipes) ==========
   {
     id: "one-pot-creamy-tortellini-soup",
