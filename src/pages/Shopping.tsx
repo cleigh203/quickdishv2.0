@@ -88,7 +88,7 @@ const Shopping = () => {
     shoppingListRef.current = shoppingList;
   }, [shoppingList]);
 
-  // Load pantry items AFTER shopping list loads (non-blocking)
+  // Load pantry items immediately (in parallel with shopping list)
   useEffect(() => {
     let isMounted = true;
     
@@ -98,37 +98,33 @@ const Shopping = () => {
         return;
       }
       
-      // Wait until shopping list finishes loading
-      if (loading) return;
-      
       try {
-        // Shorter timeout for pantry (non-critical data)
-        const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Pantry query timeout')), 3000)
-        );
+        console.log('🔍 Loading pantry items for user:', user.id);
         
-        const queryPromise = supabase
+        const { data, error } = await supabase
           .from('profiles')
           .select('pantry_items')
           .eq('id', user.id)
           .single();
 
-        const { data, error } = await Promise.race([queryPromise, timeoutPromise]) as any;
-
-        if (error) throw error;
+        if (error) {
+          console.error('❌ Error loading pantry:', error);
+          throw error;
+        }
         
         if (isMounted) {
-          setPantryItems(data?.pantry_items || []);
+          const items = data?.pantry_items || [];
+          console.log('✅ Loaded pantry items:', items);
+          setPantryItems(items);
         }
       } catch (error) {
-        console.error('Error loading pantry items:', error);
+        console.error('❌ Failed to load pantry items:', error);
         if (isMounted) {
           setPantryItems([]);
         }
       }
     };
 
-    // Only load pantry after shopping list completes
     loadPantryItems();
 
     // Set up real-time subscription for pantry changes
@@ -188,7 +184,7 @@ const Shopping = () => {
     return () => {
       isMounted = false;
     };
-  }, [user, loading, toast]);
+  }, [user, toast, setList]);
 
   // Auto-filter shopping list by pantry (always on) + track hidden count
   const { displayList, hiddenCount } = useMemo(() => {
