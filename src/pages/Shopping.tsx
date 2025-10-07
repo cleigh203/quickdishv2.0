@@ -76,6 +76,7 @@ const Shopping = () => {
   } = useShoppingList();
   
   const [pantryItems, setPantryItems] = useState<string[]>([]);
+  const [pantryLoading, setPantryLoading] = useState(true);
   const [showClearDialog, setShowClearDialog] = useState(false);
   const [hidePantryItems, setHidePantryItems] = useState(true);
   const [showStoreDialog, setShowStoreDialog] = useState(false);
@@ -95,9 +96,11 @@ const Shopping = () => {
     const loadPantryItems = async () => {
       if (!user) {
         setPantryItems([]);
+        setPantryLoading(false);
         return;
       }
       
+      setPantryLoading(true);
       try {
         console.log('🔍 Loading pantry items for user:', user.id);
         
@@ -118,11 +121,13 @@ const Shopping = () => {
           console.log('📦 Pantry items type:', typeof items, 'isArray:', Array.isArray(items));
           console.log('📦 Pantry items length:', items.length);
           setPantryItems(items);
+          setPantryLoading(false);
         }
       } catch (error) {
         console.error('❌ Failed to load pantry items:', error);
         if (isMounted) {
           setPantryItems([]);
+          setPantryLoading(false);
         }
       }
     };
@@ -190,6 +195,9 @@ const Shopping = () => {
 
   // Auto-filter shopping list by pantry (always on) + track hidden count
   const { displayList, hiddenCount } = useMemo(() => {
+    console.log('🔄 RE-FILTERING SHOPPING LIST');
+    console.log('🏪 Pantry items count:', pantryItems.length);
+    console.log('📝 Shopping list count:', shoppingList.length);
     console.log('🔍 FILTERING DEBUG:');
     console.log('📝 Shopping List Items:', shoppingList.length, shoppingList.map(i => i.item));
     console.log('🏪 Pantry Items (raw):', pantryItems.length, pantryItems);
@@ -410,6 +418,15 @@ const Shopping = () => {
                 Adjust in Profile
               </button>
             </div>
+
+            {/* Pantry Loading Indicator */}
+            {pantryLoading && user && (
+              <div className="bg-orange-100/50 px-5 py-2 border-b border-orange-200 text-center">
+                <span className="text-sm text-orange-700 animate-pulse">
+                  Loading pantry items...
+                </span>
+              </div>
+            )}
 
             {loading ? (
               // Show skeleton loaders while loading
