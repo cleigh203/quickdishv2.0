@@ -11,6 +11,7 @@ import { PantryItem } from "@/types/pantry";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { LoadingScreen } from "@/components/LoadingScreen";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -440,14 +441,8 @@ const Shopping = () => {
               </button>
             </div>
 
-            {/* Pantry Loading Indicator */}
-            {pantryLoading && user && (
-              <div className="bg-orange-100/50 px-5 py-2 border-b border-orange-200 text-center">
-                <span className="text-sm text-orange-700 animate-pulse">
-                  Loading pantry items...
-                </span>
-              </div>
-            )}
+            {/* Pantry Loading Screen */}
+            {pantryLoading && user && <LoadingScreen message="Loading your pantry..." delay={300} />}
 
             {loading ? (
               // Show skeleton loaders while loading

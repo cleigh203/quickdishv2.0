@@ -29,6 +29,7 @@ import { ManualBarcodeEntry } from "@/components/ManualBarcodeEntry";
 import { useProductLookup } from "@/hooks/useProductLookup";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { LoadingScreen } from "@/components/LoadingScreen";
 
 const Pantry = () => {
   const { user } = useAuth();
@@ -392,12 +393,7 @@ const Pantry = () => {
 
         {/* Pantry items */}
         {loading ? (
-          <Card>
-            <CardContent className="p-8 text-center">
-              <Package className="w-12 h-12 text-muted-foreground mx-auto mb-4 animate-pulse" />
-              <p className="text-muted-foreground">Loading pantry items...</p>
-            </CardContent>
-          </Card>
+          <LoadingScreen message="Loading your pantry..." />
         ) : filteredItems.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center">

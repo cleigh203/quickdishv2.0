@@ -14,6 +14,7 @@ import { allRecipes } from "@/data/recipes";
 // import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
+import { LoadingScreen } from "@/components/LoadingScreen";
 
 const Generate = () => {
   const [searchParams] = useSearchParams();

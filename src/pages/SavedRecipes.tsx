@@ -15,6 +15,8 @@ import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useMealPlan } from "@/hooks/useMealPlan";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { LoadingScreen } from "@/components/LoadingScreen";
 
 export const SavedRecipes = () => {
   const navigate = useNavigate();
@@ -246,19 +248,8 @@ export const SavedRecipes = () => {
                 Create Your Own Recipe
               </Button>
 
-              {/* Loading State - Show skeletons while loading */}
-              {loading && (
-                <>
-                  <section>
-                    <h2 className="text-lg font-semibold mb-4">Loading...</h2>
-                    <div className="grid grid-cols-2 gap-3">
-                      {[...Array(6)].map((_, i) => (
-                        <RecipeCardSkeleton key={i} />
-                      ))}
-                    </div>
-                  </section>
-                </>
-              )}
+              {/* Loading State */}
+              {loading && <LoadingScreen message="Loading your saved recipes..." />}
 
               {/* Error State - Only show if not loading */}
               {!loading && error && (

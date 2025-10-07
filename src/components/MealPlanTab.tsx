@@ -27,6 +27,7 @@ import { format, isToday, isTomorrow, isPast, addDays, startOfDay } from "date-f
 import { useAuth } from "@/contexts/AuthContext";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { usePantryItems } from "@/hooks/usePantryItems";
+import { LoadingScreen } from "@/components/LoadingScreen";
 
 export const MealPlanTab = () => {
   const navigate = useNavigate();
