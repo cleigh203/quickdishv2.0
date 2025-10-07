@@ -77,7 +77,7 @@ const Shopping = () => {
   
   const [pantryItems, setPantryItems] = useState<string[]>([]);
   const [showClearDialog, setShowClearDialog] = useState(false);
-  const [hidePantryItems, setHidePantryItems] = useState(false);
+  const [hidePantryItems, setHidePantryItems] = useState(true);
   const [showStoreDialog, setShowStoreDialog] = useState(false);
   const { toast } = useToast();
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
