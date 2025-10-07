@@ -205,7 +205,7 @@ export const useShoppingList = () => {
   };
 
   // Serialized save with request queue
-  const queuedSave = useCallback(async (items: ShoppingItem[]) => {
+  const queuedSave = useCallback(async (items: ShoppingItem[], expectedVersion: number) => {
     if (!user || !listId) return;
 
     // Mark that we have pending local changes
@@ -246,7 +246,7 @@ export const useShoppingList = () => {
                 updated_at: new Date().toISOString()
               })
               .eq('id', listId)
-              .eq('version', currentVersion) // Check version to prevent conflicts
+              .eq('version', expectedVersion) // Use the version from when change was made
               .select('version')
               .abortSignal(controller.signal);
 
@@ -390,8 +390,10 @@ export const useShoppingList = () => {
       const newList = updater(prev);
       
       if (user) {
-        // Optimistic UI: Update immediately, queue save
-        queuedSave(newList);
+        // Capture current version at time of change
+        const versionAtChange = currentVersion;
+        // Optimistic UI: Update immediately, queue save with captured version
+        queuedSave(newList, versionAtChange);
       } else {
         // Immediate save to localStorage for guests
         try {
@@ -403,7 +405,7 @@ export const useShoppingList = () => {
       
       return newList;
     });
-  }, [user, queuedSave]);
+  }, [user, queuedSave, currentVersion]);
 
   // Add items to shopping list
   const addItems = useCallback((newItems: Omit<ShoppingItem, 'id' | 'checked'>[]) => {

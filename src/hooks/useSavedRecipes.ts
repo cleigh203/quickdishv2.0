@@ -128,10 +128,9 @@ export const useSavedRecipes = () => {
     } catch (err: any) {
       console.error('Error fetching saved recipes:', err);
       
-      // Only show error for genuine failures, not slow networks
-      if (err.message === 'Request timed out') {
-        setError('Taking longer than usual. Check your connection.');
-      } else {
+      // Don't show timeout errors to users - page loads fine with cached/retried data
+      // Only log for debugging
+      if (err.message !== 'Request timed out') {
         const errorInfo = handleSupabaseError(err);
         setError(errorInfo.description);
       }

@@ -29,7 +29,7 @@ import { usePantryItems } from "@/hooks/usePantryItems";
 export const MealPlanTab = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { mealPlans, deleteMealPlan, clearAllMealPlans } = useMealPlan();
+  const { mealPlans, deleteMealPlan, clearAllMealPlans, refreshMealPlans } = useMealPlan();
   const { incrementTimesCooked } = useSavedRecipes();
   const { addItems } = useShoppingList();
   const { fetchPantryItems, loading: pantryLoading } = usePantryItems();
@@ -122,6 +122,7 @@ export const MealPlanTab = () => {
   const handleMarkAsCooked = async (recipeId: string, mealPlanId: string) => {
     await incrementTimesCooked(recipeId);
     await deleteMealPlan(mealPlanId);
+    await refreshMealPlans(); // Immediately refresh to remove the meal
     toast({
       title: "Success",
       description: "Marked as cooked!",
