@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
-import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette, Calendar } from "lucide-react";
+import { useState, useEffect } from "react";
+import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useOnboarding } from "@/contexts/OnboardingContext";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useShoppingList } from "@/hooks/useShoppingList";
-import { useMealPlan } from "@/hooks/useMealPlan";
+import { usePantryItems } from "@/hooks/usePantryItems";
 import { supabase } from "@/integrations/supabase/client";
 import {
   AlertDialog,
@@ -66,26 +66,8 @@ const Profile = () => {
   const recipes = recipeStorage.getRecipes();
   const { savedRecipes } = useSavedRecipes();
   const { shoppingList } = useShoppingList();
-  const { mealPlans } = useMealPlan();
-
-  // Calculate current week's meal plans count
-  const currentWeekMealPlansCount = useMemo(() => {
-    if (!mealPlans?.length) return 0;
-    
-    const now = new Date();
-    const startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - now.getDay()); // Sunday
-    startOfWeek.setHours(0, 0, 0, 0);
-    
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6); // Saturday
-    endOfWeek.setHours(23, 59, 59, 999);
-    
-    return mealPlans.filter(plan => {
-      const planDate = new Date(plan.scheduled_date);
-      return planDate >= startOfWeek && planDate <= endOfWeek;
-    }).length;
-  }, [mealPlans]);
+  const { fetchPantryItems } = usePantryItems();
+  const [pantryCount, setPantryCount] = useState(0);
 
   // Fetch profile data
   const fetchProfile = async () => {
@@ -126,23 +108,36 @@ const Profile = () => {
     fetchProfile();
   }, [user]);
 
+  // Load pantry count on mount
+  useEffect(() => {
+    const loadInitialPantryCount = async () => {
+      if (!user) return;
+      
+      try {
+        const items = await fetchPantryItems();
+        setPantryCount(items.length);
+      } catch (error) {
+        console.error('Error loading initial pantry count:', error);
+        setPantryCount(0);
+      }
+    };
+    
+    loadInitialPantryCount();
+  }, [user, fetchPantryItems]);
+
   const loadPantryItems = async () => {
     // If already loaded, don't refetch
     if (pantryItems !== null || !user) return;
 
     setLoadingPantry(true);
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('pantry_items')
-        .eq('id', user.id)
-        .single();
-
-      if (error) throw error;
-      setPantryItems(data?.pantry_items || []);
+      const items = await fetchPantryItems();
+      setPantryItems(items.map(item => item.name));
+      setPantryCount(items.length);
     } catch (error: any) {
       console.error('Error loading pantry items:', error);
       setPantryItems([]);
+      setPantryCount(0);
     } finally {
       setLoadingPantry(false);
     }
@@ -362,7 +357,7 @@ const Profile = () => {
         </Card>
 
         {/* Stats Dashboard */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           {/* Saved Recipes */}
           <Card 
             className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow cursor-pointer"
@@ -374,20 +369,6 @@ const Profile = () => {
               </div>
               <p className="text-4xl font-bold text-foreground mb-1">{savedRecipes.length}</p>
               <p className="text-sm text-muted-foreground">Saved</p>
-            </CardContent>
-          </Card>
-          
-          {/* Meal Plans (Current Week) */}
-          <Card 
-            className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow cursor-pointer"
-            onClick={() => navigate('/meal-plan')}
-          >
-            <CardContent className="p-6 text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
-                <Calendar className="w-6 h-6 text-orange-600 dark:text-orange-400" />
-              </div>
-              <p className="text-4xl font-bold text-foreground mb-1">{currentWeekMealPlansCount}</p>
-              <p className="text-sm text-muted-foreground">This Week</p>
             </CardContent>
           </Card>
           
@@ -403,7 +384,7 @@ const Profile = () => {
               {loadingPantry ? (
                 <Loader2 className="w-8 h-8 mx-auto animate-spin text-primary mb-1" />
               ) : (
-                <p className="text-4xl font-bold text-foreground mb-1">{pantryItems?.length || 0}</p>
+                <p className="text-4xl font-bold text-foreground mb-1">{pantryCount}</p>
               )}
               <p className="text-sm text-muted-foreground">My Pantry</p>
             </CardContent>
