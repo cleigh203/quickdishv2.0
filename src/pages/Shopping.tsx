@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import { Printer, Store, Loader2, CheckCircle, Package } from "lucide-react";
+import { Printer, Store, Loader2, CheckCircle, Package, RefreshCw, AlertTriangle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { BottomNav } from "@/components/BottomNav";
 import { StoreSelectionDialog } from "@/components/StoreSelectionDialog";
@@ -63,7 +63,17 @@ const categorizeItem = (itemName: string): { emoji: string; name: string } => {
 const Shopping = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { shoppingList, loading, toggleItem, removeItem: removeFromList, clearCompleted, clearAll, setList } = useShoppingList();
+  const { 
+    shoppingList, 
+    loading, 
+    syncError, 
+    toggleItem, 
+    removeItem: removeFromList, 
+    clearCompleted, 
+    clearAll, 
+    setList,
+    forceSync 
+  } = useShoppingList();
   
   const [pantryItems, setPantryItems] = useState<string[]>([]);
   const [showClearDialog, setShowClearDialog] = useState(false);
@@ -291,7 +301,42 @@ const Shopping = () => {
       <div className="min-h-screen pb-20 bg-gray-50">
         {/* Header with Orange Gradient */}
         <div className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C5A] text-white px-5 py-6">
-          <h1 className="text-3xl font-bold mb-3">Shopping List</h1>
+          <div className="flex items-center justify-between mb-3">
+            <h1 className="text-3xl font-bold">Shopping List</h1>
+            
+            {/* Force Sync Button - shows when there's a sync error */}
+            {syncError && (
+              <button
+                onClick={forceSync}
+                className="flex items-center gap-2 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-all"
+                title="Force refresh from database"
+              >
+                <RefreshCw className="w-4 h-4" />
+                Force Sync
+              </button>
+            )}
+          </div>
+          
+          {/* Sync Error Warning */}
+          {syncError && (
+            <div className="mb-3 p-2.5 bg-red-500/20 border border-red-300/30 rounded-lg flex items-start gap-2 text-sm">
+              <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+              <div>
+                <div className="font-semibold">
+                  {syncError === 'timeout' && 'Database Timeout'}
+                  {syncError === 'conflict' && 'Data Conflict Detected'}
+                  {syncError === 'error' && 'Sync Error'}
+                  {syncError === 'no-cache' && 'No Cached Data'}
+                </div>
+                <div className="text-xs opacity-90">
+                  {syncError === 'timeout' && 'Using cached data. Click Force Sync to retry.'}
+                  {syncError === 'conflict' && 'List was modified on another device.'}
+                  {syncError === 'error' && 'Changes may not be saved. Check connection.'}
+                  {syncError === 'no-cache' && 'Unable to load list. Check connection and retry.'}
+                </div>
+              </div>
+            </div>
+          )}
           
           {/* Progress Bar */}
           {totalItems > 0 && (

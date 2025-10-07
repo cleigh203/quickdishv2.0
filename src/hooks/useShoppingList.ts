@@ -12,14 +12,17 @@ interface ShoppingItem {
   recipes?: string[];
 }
 
-const CACHE_DURATION = 60 * 1000; // 60 seconds (improved cache)
-const QUERY_TIMEOUT = 10000; // 10 seconds
+const CACHE_DURATION = 60 * 1000; // 60 seconds
+const QUERY_TIMEOUT = 30000; // 30 seconds (increased for critical data)
 const REALTIME_DEBOUNCE = 500; // 500ms debounce for realtime updates
+const MAX_RETRIES = 3; // Maximum retry attempts
+const RETRY_BASE_DELAY = 2000; // 2 seconds base delay for exponential backoff
 
 interface ShoppingListCache {
   items: ShoppingItem[];
   listId: string | null;
   timestamp: number;
+  version: number; // Track version for conflict detection
 }
 
 export const useShoppingList = () => {
@@ -29,6 +32,8 @@ export const useShoppingList = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [listId, setListId] = useState<string | null>(null);
+  const [currentVersion, setCurrentVersion] = useState<number>(1);
+  const [syncError, setSyncError] = useState<string | null>(null);
   
   // Debounce timer ref
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -40,6 +45,31 @@ export const useShoppingList = () => {
   const updateQueueRef = useRef<Promise<void>>(Promise.resolve());
   const realtimeDebounceRef = useRef<NodeJS.Timeout | null>(null);
   const hasPendingLocalChangesRef = useRef(false);
+
+  // Retry logic with exponential backoff
+  const retryWithBackoff = async <T,>(
+    operation: () => Promise<T>,
+    retries = MAX_RETRIES
+  ): Promise<T> => {
+    for (let attempt = 0; attempt < retries; attempt++) {
+      try {
+        return await operation();
+      } catch (error: any) {
+        const isLastAttempt = attempt === retries - 1;
+        const isTimeout = error?.message?.includes('timeout') || error?.code === '57014';
+        
+        if (isLastAttempt || !isTimeout) {
+          throw error;
+        }
+        
+        // Exponential backoff: 2s, 4s, 8s
+        const delay = RETRY_BASE_DELAY * Math.pow(2, attempt);
+        console.log(`Retry attempt ${attempt + 1}/${retries} after ${delay}ms`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+    throw new Error('Max retries exceeded');
+  };
 
   // Load from localStorage for guests
   const loadFromLocalStorage = () => {
@@ -77,18 +107,22 @@ export const useShoppingList = () => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), QUERY_TIMEOUT);
       
-      // Get or create shopping list for user - optimized query
-      const { data: lists, error: fetchError } = await supabase
-        .from('shopping_lists')
-        .select('id, items')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .abortSignal(controller.signal);
+      // Get or create shopping list for user - with retry logic
+      const fetchOperation = async () => {
+        const { data: lists, error: fetchError } = await supabase
+          .from('shopping_lists')
+          .select('id, items, version')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .abortSignal(controller.signal);
 
+        if (fetchError) throw fetchError;
+        return lists;
+      };
+
+      const lists = await retryWithBackoff(fetchOperation);
       clearTimeout(timeoutId);
-
-      if (fetchError) throw fetchError;
 
       if (!lists || lists.length === 0) {
         // Create new shopping list
@@ -98,47 +132,72 @@ export const useShoppingList = () => {
             user_id: user.id,
             items: [] as any
           })
-          .select('id, items')
+          .select('id, items, version')
           .single();
 
         if (createError) throw createError;
         
         setListId(newList.id);
         setShoppingList([]);
+        setCurrentVersion(newList.version || 1);
+        setSyncError(null);
         
         // Update cache
         cacheRef.current = {
           items: [],
           listId: newList.id,
           timestamp: now,
+          version: newList.version || 1,
         };
       } else {
         setListId(lists[0].id);
         const items = lists[0].items;
-        const itemsArray = Array.isArray(items) ? items as unknown as ShoppingItem[] : [];
+        let itemsArray = Array.isArray(items) ? items as unknown as ShoppingItem[] : [];
+        
+        // CRITICAL FIX #3: Apply deduplication when loading FROM database
+        itemsArray = deduplicateShoppingList(itemsArray);
+        
         setShoppingList(itemsArray);
+        setCurrentVersion(lists[0].version || 1);
+        setSyncError(null);
         
         // Update cache
         cacheRef.current = {
           items: itemsArray,
           listId: lists[0].id,
           timestamp: now,
+          version: lists[0].version || 1,
         };
       }
     } catch (err: any) {
       console.error('Error fetching shopping list:', err);
       
-      // Use cached data if available, even if stale
+      // CRITICAL FIX #2: Check for data corruption
+      const isTimeout = err?.code === '57014' || err?.message?.includes('timeout');
+      
       if (cacheRef.current) {
+        // Use cached data but warn user
         setShoppingList(cacheRef.current.items);
         setListId(cacheRef.current.listId);
+        setCurrentVersion(cacheRef.current.version);
+        setSyncError(isTimeout ? 'timeout' : 'error');
+        
+        toast({
+          title: "Couldn't load shopping list",
+          description: isTimeout 
+            ? "Database timeout. Using cached data. Try Force Sync." 
+            : "Using cached data. Check connection.",
+          variant: "destructive",
+        });
+      } else {
+        // No cache available - critical error
+        setSyncError('no-cache');
+        toast({
+          title: "Failed to load shopping list",
+          description: "No cached data available. Check connection and try again.",
+          variant: "destructive",
+        });
       }
-      
-      toast({
-        title: "Couldn't load shopping list",
-        description: "Using cached data. Check connection.",
-        variant: "destructive",
-      });
     } finally {
       fetchInProgressRef.current = false;
       setLoading(false);
@@ -171,40 +230,81 @@ export const useShoppingList = () => {
 
         setSaving(true);
         try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), QUERY_TIMEOUT);
+          // CRITICAL FIX #3: Apply deduplication before saving TO database
+          const deduplicatedItems = deduplicateShoppingList(itemsToSave);
           
-          const { error } = await supabase
-            .from('shopping_lists')
-            .update({
-              items: itemsToSave as any,
-              updated_at: new Date().toISOString()
-            })
-            .eq('id', listId)
-            .abortSignal(controller.signal);
+          // CRITICAL FIX #5: Retry with exponential backoff
+          const saveOperation = async () => {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), QUERY_TIMEOUT);
+            
+            // CRITICAL FIX #4: Version-based conflict detection
+            const { data, error } = await supabase
+              .from('shopping_lists')
+              .update({
+                items: deduplicatedItems as any,
+                updated_at: new Date().toISOString()
+              })
+              .eq('id', listId)
+              .eq('version', currentVersion) // Check version to prevent conflicts
+              .select('version')
+              .abortSignal(controller.signal);
 
-          clearTimeout(timeoutId);
+            clearTimeout(timeoutId);
 
-          if (error) throw error;
+            if (error) throw error;
+            return data;
+          };
+
+          const result = await retryWithBackoff(saveOperation);
           
-          // Update cache on success
+          if (!result || result.length === 0) {
+            // Version conflict detected - data changed by another client
+            throw new Error('Version conflict');
+          }
+          
+          // Update version and cache on success
+          const newVersion = result[0].version;
+          setCurrentVersion(newVersion);
+          setSyncError(null);
+          
           if (cacheRef.current) {
-            cacheRef.current.items = itemsToSave;
+            cacheRef.current.items = deduplicatedItems;
             cacheRef.current.timestamp = Date.now();
+            cacheRef.current.version = newVersion;
           }
           
           hasPendingLocalChangesRef.current = false;
         } catch (err: any) {
           console.error('Error saving shopping list:', err);
           
-          // Rollback on error - restore from cache
-          if (cacheRef.current) {
-            setShoppingList(cacheRef.current.items);
+          const isVersionConflict = err?.message === 'Version conflict';
+          const isTimeout = err?.code === '57014' || err?.message?.includes('timeout');
+          
+          if (isVersionConflict) {
+            // CRITICAL FIX #4: Handle version conflict - refetch and merge
+            setSyncError('conflict');
             toast({
-              title: "Couldn't save changes",
-              description: "Changes reverted. Check connection.",
+              title: "List changed by another device",
+              description: "Refreshing to get latest version...",
               variant: "destructive",
             });
+            // Force refetch to get latest version
+            await fetchShoppingList();
+          } else {
+            // CRITICAL FIX #2: Rollback on error with clear messaging
+            if (cacheRef.current) {
+              setShoppingList(cacheRef.current.items);
+              setSyncError(isTimeout ? 'timeout' : 'error');
+              
+              toast({
+                title: "Couldn't save changes",
+                description: isTimeout 
+                  ? "Database timeout. Changes reverted. Try Force Sync."
+                  : "Changes reverted. Check connection.",
+                variant: "destructive",
+              });
+            }
           }
         } finally {
           setSaving(false);
@@ -239,15 +339,29 @@ export const useShoppingList = () => {
             
             // Debounce realtime updates to prevent rapid-fire overwrites
             realtimeDebounceRef.current = setTimeout(() => {
-              // Only apply remote changes if no local changes are pending
+              // CRITICAL FIX #4: Version-based conflict detection for realtime
               if (!hasPendingLocalChangesRef.current && payload.eventType === 'UPDATE' && payload.new) {
-                const newItems = (payload.new as any).items || [];
-                setShoppingList(newItems);
+                const remoteVersion = (payload.new as any).version || 1;
+                const remoteItems = (payload.new as any).items || [];
                 
-                // Update cache
-                if (cacheRef.current) {
-                  cacheRef.current.items = newItems;
-                  cacheRef.current.timestamp = Date.now();
+                // Only apply if remote version is newer
+                if (remoteVersion > currentVersion) {
+                  console.log(`Applying remote update (v${currentVersion} → v${remoteVersion})`);
+                  
+                  // Apply deduplication to remote data
+                  const deduplicatedRemoteItems = deduplicateShoppingList(remoteItems);
+                  
+                  setShoppingList(deduplicatedRemoteItems);
+                  setCurrentVersion(remoteVersion);
+                  
+                  // Update cache
+                  if (cacheRef.current) {
+                    cacheRef.current.items = deduplicatedRemoteItems;
+                    cacheRef.current.timestamp = Date.now();
+                    cacheRef.current.version = remoteVersion;
+                  }
+                } else {
+                  console.log(`Ignoring stale remote update (v${remoteVersion} <= v${currentVersion})`);
                 }
               }
             }, REALTIME_DEBOUNCE);
@@ -336,10 +450,23 @@ export const useShoppingList = () => {
     updateShoppingList(() => newList);
   }, [updateShoppingList]);
 
+  // CRITICAL FIX #2: Force sync to clear cache and refetch
+  const forceSync = useCallback(async () => {
+    console.log('Force sync initiated - clearing cache');
+    cacheRef.current = null;
+    setSyncError(null);
+    await fetchShoppingList();
+    toast({
+      title: "Synced successfully",
+      description: "Shopping list refreshed from database",
+    });
+  }, [fetchShoppingList, toast]);
+
   return {
     shoppingList,
     loading,
     saving,
+    syncError,
     addItems,
     toggleItem,
     removeItem,
@@ -347,5 +474,6 @@ export const useShoppingList = () => {
     clearAll,
     setList,
     refetch: fetchShoppingList,
+    forceSync,
   };
 };
