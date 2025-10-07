@@ -151,7 +151,8 @@ export const MealPlanTab = () => {
   };
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
+    // Force local timezone by appending time component
+    const date = new Date(dateString + 'T00:00:00');
     if (isToday(date)) return `Today - ${format(date, 'MMM d')}`;
     if (isTomorrow(date)) return `Tomorrow - ${format(date, 'MMM d')}`;
     return format(date, 'EEEE - MMM d');
@@ -227,7 +228,10 @@ export const MealPlanTab = () => {
           const recipe = allRecipes.find(r => r.id === meal.recipe_id);
           if (!recipe) return null;
 
-          const isPastMeal = isPast(new Date(meal.scheduled_date)) && !isToday(new Date(meal.scheduled_date));
+          // Use startOfDay for proper local timezone comparison
+          const mealDate = startOfDay(new Date(meal.scheduled_date + 'T00:00:00'));
+          const today = startOfDay(new Date());
+          const isPastMeal = mealDate < today;
 
           return (
             <Card 

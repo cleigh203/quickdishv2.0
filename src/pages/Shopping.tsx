@@ -151,29 +151,28 @@ const Shopping = () => {
               
               setPantryItems(newPantryItems);
               
-              // Auto-remove matching items from shopping list
-              if (newPantryItems.length > oldPantryItems.length) {
-                // Items were added to pantry, remove them from shopping list
-                const pantryItemsFormatted: PantryItem[] = newPantryItems.map((name: string) => ({
-                  id: `pantry-${name}`,
-                  name,
-                  quantity: 1,
-                  unit: 'unit',
-                  category: 'other' as const,
-                  addedDate: new Date().toISOString(),
-                }));
+              // Auto-remove matching items from shopping list (always sync on any pantry change)
+              const pantryItemsFormatted: PantryItem[] = newPantryItems.map((name: string) => ({
+                id: `pantry-${name}`,
+                name,
+                quantity: 1,
+                unit: 'unit',
+                category: 'other' as const,
+                addedDate: new Date().toISOString(),
+              }));
 
-                const { filtered, removed } = filterShoppingListByPantry(shoppingListRef.current, pantryItemsFormatted);
+              const { filtered, removed } = filterShoppingListByPantry(shoppingListRef.current, pantryItemsFormatted);
+              
+              if (removed.length > 0) {
+                // Update shopping list to remove pantry items
+                setList(filtered);
                 
-                if (removed.length > 0) {
-                  // Update shopping list to remove pantry items
-                  setList(filtered);
-                  
-                  toast({
-                    title: "Shopping list updated",
-                    description: `Removed ${removed.length} item${removed.length > 1 ? 's' : ''} already in pantry`,
-                  });
-                }
+                console.log(`Shopping list synced: removed ${removed.length} pantry items`);
+                
+                toast({
+                  title: "Shopping list updated",
+                  description: `Removed ${removed.length} item${removed.length > 1 ? 's' : ''} already in pantry`,
+                });
               }
             }
           }
