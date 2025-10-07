@@ -468,6 +468,8 @@ export const useShoppingList = () => {
       return;
     }
 
+    // CRITICAL: Set flag to prevent realtime subscription from interfering
+    hasPendingLocalChangesRef.current = true;
     setSaving(true);
     try {
       // Deduplicate before saving
@@ -510,6 +512,8 @@ export const useShoppingList = () => {
       // Refetch on error
       await fetchShoppingList();
     } finally {
+      // CRITICAL: Clear flag AFTER version is safely updated
+      hasPendingLocalChangesRef.current = false;
       setSaving(false);
     }
   }, [user, listId, toast, fetchShoppingList, setList]);
