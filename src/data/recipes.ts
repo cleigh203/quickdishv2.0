@@ -8133,7 +8133,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "Healthy Bowls",
+    cuisine: "Dinner",
     image: chickenStirFryBroccoliImg,
     totalTime: 25,
     tags: ["high-protein", "family-friendly", "easy-dinner", "quick"],
