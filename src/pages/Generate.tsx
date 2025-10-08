@@ -613,7 +613,7 @@ const Generate = () => {
                   className={`shrink-0 px-4 py-2 rounded-full font-medium text-sm transition-colors ${
                     isActive 
                       ? 'bg-primary text-white' 
-                      : 'bg-white border border-border text-foreground hover:bg-primary hover:text-white'
+                      : 'bg-white border border-border text-[#2C3E50] hover:bg-primary hover:text-white'
                   }`}
                 >
                   {category.emoji} {category.name}
@@ -710,7 +710,7 @@ const Generate = () => {
                 navigate(`/discover?collection=${encodeURIComponent(category.name)}`);
                 window.scrollTo(0, 0);
               }}
-              className="shrink-0 px-4 py-2 rounded-full font-medium text-sm transition-colors bg-white border border-border text-foreground hover:bg-primary hover:text-white"
+              className="shrink-0 px-4 py-2 rounded-full font-medium text-sm transition-colors bg-white border border-border text-[#2C3E50] hover:bg-primary hover:text-white"
             >
               {category.emoji} {category.name}
             </button>
