@@ -20,6 +20,11 @@ const RECIPES_TO_REGENERATE = [
     recipeId: "copycat-chipotle-chicken-avocado-melt",
     recipeName: "Panera Chipotle Chicken Avocado Melt",
     prompt: "Professional food photography. The sandwich features toasted sourdough bread with visible grill marks, layers of seasoned grilled chicken breast, fresh avocado slices, melted white cheese, sun-dried tomatoes or roasted red peppers, and fresh greens. The sandwich is cut in half and stacked to showcase the colorful layers. Soft natural lighting from the side, cream and white background, minimalist styling with a halved avocado visible in the soft-focus background. Ultra high resolution."
+  },
+  {
+    recipeId: "copycat-olive-garden-5-cheese-ziti",
+    recipeName: "Olive Garden 5-Cheese Ziti Al Forno",
+    prompt: "Professional food photography of Olive Garden 5-Cheese Ziti Al Forno. Baked ziti pasta tubes with grilled chicken pieces, covered in rich marinara sauce, dollops of creamy ricotta cheese, and melted mozzarella on top. Served in a rustic baking dish, garnished with fresh basil. Cheese is bubbling and golden brown on the edges. Warm, appetizing colors with soft natural lighting. Ultra high resolution."
   }
 ];
 
