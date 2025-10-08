@@ -304,11 +304,11 @@ const About = () => {
             </p>
             <div className="space-y-4">
               <a 
-                href="mailto:questions@quickdish.com"
+                href="mailto:info@quickdishco.com"
                 className="flex items-center justify-center gap-3 p-4 bg-secondary rounded-lg hover:bg-secondary/80 transition-colors"
               >
                 <Mail className="w-5 h-5 text-primary" />
-                <span className="font-medium">questions@quickdish.com</span>
+                <span className="font-medium">info@quickdishco.com</span>
               </a>
               <a 
                 href="https://instagram.com/quickdishapp"

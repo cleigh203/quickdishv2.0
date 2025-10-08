@@ -31,7 +31,9 @@ interface LoadingScreenProps {
 
 export const LoadingScreen = ({ message = "Loading recipes...", delay = 500 }: LoadingScreenProps) => {
   const [showLoading, setShowLoading] = useState(false);
-  const [currentTip, setCurrentTip] = useState(0);
+  const [currentTip, setCurrentTip] = useState(() => 
+    Math.floor(Math.random() * COOKING_TIPS.length)
+  );
   const [fadeIn, setFadeIn] = useState(true);
 
   useEffect(() => {

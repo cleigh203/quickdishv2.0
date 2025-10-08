@@ -267,7 +267,7 @@ const Terms = () => {
             <h2 className="text-2xl font-semibold mb-3">15. Contact Information</h2>
             <p className="mb-3 text-foreground/90">Questions about these Terms?</p>
             <p className="text-foreground/90 mb-2">
-              <strong>Email:</strong> [your-email@quickdish.com]
+              <strong>Email:</strong> info@quickdishco.com
             </p>
             <p className="text-foreground/90">
               <strong>Mail:</strong> [Your Business Address]
