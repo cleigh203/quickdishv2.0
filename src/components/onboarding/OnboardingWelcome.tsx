@@ -25,12 +25,12 @@ export const OnboardingWelcome = () => {
   ];
 
   return (
-    <div className="fixed inset-0 z-[100] bg-[#FAF9F6] flex items-center justify-center p-6 overflow-y-auto">
+    <div className="fixed inset-0 z-[100] bg-[#FAF9F6] flex items-start justify-center p-6 overflow-y-auto pt-20">
       <div className="max-w-md w-full py-8">
         {/* Top Section */}
         <div className="text-center mb-8 animate-fade-in">
           {/* Logo */}
-          <div className="mb-6 flex justify-center">
+          <div className="mb-6 flex justify-center mt-10">
             <div className="w-[100px] h-[100px] rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FF4500] flex items-center justify-center shadow-2xl">
               <img 
                 src="/logo.png" 
