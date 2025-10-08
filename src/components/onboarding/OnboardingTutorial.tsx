@@ -169,15 +169,15 @@ export const OnboardingTutorial = () => {
           {/* Content */}
           <div className="mb-6">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-xl font-bold text-foreground">{currentStepData?.title}</h3>
+              <h3 className="text-xl font-bold text-[#2C3E50]">{currentStepData?.title}</h3>
               <button
                 onClick={handleSkip}
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-muted-foreground hover:text-[#2C3E50] transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <p className="text-foreground mb-2">{currentStepData?.description}</p>
+            <p className="text-[#2C3E50] mb-2">{currentStepData?.description}</p>
             {currentStepData?.subtitle && (
               <p className="text-sm text-primary font-semibold">{currentStepData.subtitle}</p>
             )}
