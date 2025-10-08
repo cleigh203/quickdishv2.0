@@ -33,6 +33,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ProfileSetup from "./pages/ProfileSetup";
 
 import BatchRegenerateImages from "./pages/BatchRegenerateImages";
+import CustomRegenerateImages from "./pages/CustomRegenerateImages";
 import MigrateRecipes from "./pages/MigrateRecipes";
 import RegenerateImages from "./pages/RegenerateImages";
 import GenerateRecipeImages from "./pages/GenerateRecipeImages";
@@ -78,6 +79,8 @@ const App = () => (
           <Route path="/admin/generate-onepot-images" element={<GenerateNewRecipeImages />} />
             <Route path="/migrate-recipes" element={<MigrateRecipes />} />
             <Route path="/regenerate-images" element={<RegenerateImages />} />
+            <Route path="/batch-regenerate-images" element={<BatchRegenerateImages />} />
+            <Route path="/custom-regenerate-images" element={<CustomRegenerateImages />} />
             <Route path="/generate-recipe-images" element={<GenerateRecipeImages />} />
             <Route path="/execute-image-generation" element={<ExecuteImageGeneration />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
