@@ -39,7 +39,7 @@ export const RecipeAIChatDialog: React.FC<RecipeAIChatDialogProps> = ({ recipe, 
       // Initialize with recipe context
       setMessages([{
         role: 'assistant',
-        content: `I'm ready to help with "${recipe.name}"! Ask me about ingredients, cooking techniques, substitutions, or anything else.`
+        content: `Hi! I'm Chef Quinn, your AI sous chef. Ask me anything about "${recipe.name}" - ingredients, cooking techniques, substitutions, or tips!`
       }]);
     }
   }, [open, recipe.name]);
@@ -137,7 +137,7 @@ export const RecipeAIChatDialog: React.FC<RecipeAIChatDialogProps> = ({ recipe, 
                 <Sparkles className="w-5 h-5 text-primary" />
               </div>
               <div className="min-w-0 flex-1">
-                <h2 className="text-lg font-semibold truncate">Chat About Recipe</h2>
+                <h2 className="text-lg font-semibold truncate">Chef Quinn</h2>
                 <p className="text-sm text-muted-foreground truncate">{recipe.name}</p>
               </div>
             </div>

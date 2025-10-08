@@ -470,41 +470,7 @@ const RecipeDetail = () => {
             {/* Handle Bar */}
             <div className="w-10 h-1 bg-border rounded-full mx-auto mb-6" />
             
-            {/* Add to Shopping List */}
-            <button
-              onClick={() => {
-                addToShoppingList();
-                setMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
-              data-menu-shopping
-            >
-              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center text-xl">
-                🛒
-              </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground">Add to Shopping List</div>
-                <div className="text-sm text-muted-foreground">Add all ingredients</div>
-              </div>
-            </button>
-            
-            {/* Add to Saved */}
-            <button
-              onClick={() => {
-                toggleFavorite();
-                setMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
-              data-menu-favorites
-            >
-              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center text-xl">
-                {recipe && isSaved(recipe.id) ? '❤️' : '🤍'}
-              </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground">{recipe && isSaved(recipe.id) ? 'Remove from' : 'Add to'} Saved</div>
-                <div className="text-sm text-muted-foreground">Save for later</div>
-              </div>
-            </button>
+            {/* PRIMARY ACTIONS GROUP */}
             
             {/* Start Cooking Mode */}
             <button
@@ -533,12 +499,144 @@ const RecipeDetail = () => {
               data-menu-cooking-mode
             >
               <div className="w-10 h-10 bg-green-50 dark:bg-green-950/30 rounded-full flex items-center justify-center text-xl">
-                👨‍🍳
+                🍳
               </div>
               <div className="flex-1 text-left">
                 <div className="font-semibold text-foreground">Start Cooking Mode</div>
                 <div className="text-sm text-muted-foreground">Step-by-step with voice control</div>
               </div>
+            </button>
+            
+            {/* Add to Saved */}
+            <button
+              onClick={() => {
+                toggleFavorite();
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
+              data-menu-favorites
+            >
+              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center text-xl">
+                {recipe && isSaved(recipe.id) ? '❤️' : '🤍'}
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-foreground">{recipe && isSaved(recipe.id) ? 'Remove from' : 'Save to'} Favorites</div>
+                <div className="text-sm text-muted-foreground">Save for later</div>
+              </div>
+            </button>
+
+            {/* Add to Meal Plan */}
+            <button
+              onClick={() => {
+                if (!user) {
+                  toast({
+                    title: "Sign in to use meal planning",
+                    description: "Create an account to plan your meals",
+                    action: (
+                      <Button
+                        size="sm"
+                        onClick={() => navigate('/auth')}
+                        className="bg-primary hover:bg-primary/90"
+                      >
+                        Sign In
+                      </Button>
+                    ),
+                  });
+                  setMenuOpen(false);
+                  return;
+                }
+                setMealPlanDialogOpen(true);
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
+              data-menu-meal-plan
+            >
+              <div className="w-10 h-10 bg-green-50 dark:bg-green-950/30 rounded-full flex items-center justify-center text-xl">
+                📅
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-foreground">Add to Meal Plan</div>
+                <div className="text-sm text-muted-foreground">
+                  {user ? 'Schedule this meal' : 'Sign in to plan meals'}
+                </div>
+              </div>
+            </button>
+            
+            {/* Add to Shopping List */}
+            <button
+              onClick={() => {
+                addToShoppingList();
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
+              data-menu-shopping
+            >
+              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center text-xl">
+                🛒
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-foreground">Add to Shopping List</div>
+                <div className="text-sm text-muted-foreground">Add all ingredients</div>
+              </div>
+            </button>
+
+            {/* Visual Divider */}
+            <div className="my-4">
+              <div className="h-px bg-border/50" />
+            </div>
+
+            {/* SECONDARY ACTIONS GROUP */}
+
+            {/* Ask Chef Quinn - Premium */}
+            <button
+              onClick={() => {
+                // Guest users: show sign up prompt
+                if (!user) {
+                  toast({
+                    title: "Sign up to chat with Chef Quinn",
+                    description: "Create an account to ask Chef Quinn about recipes",
+                    action: (
+                      <Button
+                        size="sm"
+                        onClick={() => navigate('/auth')}
+                        className="bg-primary hover:bg-primary/90"
+                      >
+                        Sign Up
+                      </Button>
+                    ),
+                  });
+                  setMenuOpen(false);
+                  return;
+                }
+
+                // Authenticated users: check premium status
+                if (!isPremium) {
+                  setPremiumPaywallOpen(true);
+                  setMenuOpen(false);
+                  return;
+                }
+
+                // Premium users: open AI chat
+                setAiChatOpen(true);
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
+            >
+              <div className="w-10 h-10 bg-purple-50 dark:bg-purple-950/30 rounded-full flex items-center justify-center text-xl">
+                👨‍🍳
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-foreground flex items-center gap-2">
+                  Ask Chef Quinn
+                  {isPremium && <span className="text-xs">👑</span>}
+                </div>
+                <div className="text-sm text-muted-foreground">Chat with your AI sous chef</div>
+              </div>
+              {!isPremium && (
+                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  PREMIUM
+                </div>
+              )}
             </button>
             
             {/* Nutritional Facts - Premium */}
@@ -601,78 +699,6 @@ const RecipeDetail = () => {
               )}
             </button>
             
-            {/* Ask AI About This Recipe - Premium */}
-            <button
-              onClick={() => {
-                // Guest users: show sign up prompt
-                if (!user) {
-                  toast({
-                    title: "Sign up to chat with AI",
-                    description: "Create an account to ask AI about recipes",
-                    action: (
-                      <Button
-                        size="sm"
-                        onClick={() => navigate('/auth')}
-                        className="bg-primary hover:bg-primary/90"
-                      >
-                        Sign Up
-                      </Button>
-                    ),
-                  });
-                  setMenuOpen(false);
-                  return;
-                }
-
-                // Authenticated users: check premium status
-                if (!isPremium) {
-                  setPremiumPaywallOpen(true);
-                  setMenuOpen(false);
-                  return;
-                }
-
-                // Premium users: open AI chat
-                setAiChatOpen(true);
-                setMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
-            >
-              <div className="w-10 h-10 bg-purple-50 dark:bg-purple-950/30 rounded-full flex items-center justify-center text-xl">
-                💬
-              </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground flex items-center gap-2">
-                  Ask AI About This Recipe
-                  {isPremium && <span className="text-xs">👑</span>}
-                </div>
-                <div className="text-sm text-muted-foreground">Chat with AI Chef</div>
-              </div>
-              {!isPremium && (
-                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  PREMIUM
-                </div>
-              )}
-            </button>
-            
-            {/* Export as PDF */}
-            <button
-              onClick={() => {
-                handleExportPDF();
-                setMenuOpen(false);
-              }}
-              disabled={isGeneratingPDF}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <div className="w-10 h-10 bg-blue-50 dark:bg-blue-950/30 rounded-full flex items-center justify-center text-xl">
-                📄
-              </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground">
-                  {isGeneratingPDF ? 'Generating...' : 'Export as PDF'}
-                </div>
-                <div className="text-sm text-muted-foreground">Download recipe as PDF</div>
-              </div>
-            </button>
-            
             {/* Add Notes */}
             <button
               onClick={() => {
@@ -732,41 +758,24 @@ const RecipeDetail = () => {
                 </div>
               </div>
             </button>
-
-            {/* Add to Meal Plan */}
+            
+            {/* Export as PDF */}
             <button
               onClick={() => {
-                if (!user) {
-                  toast({
-                    title: "Sign in to use meal planning",
-                    description: "Create an account to plan your meals",
-                    action: (
-                      <Button
-                        size="sm"
-                        onClick={() => navigate('/auth')}
-                        className="bg-primary hover:bg-primary/90"
-                      >
-                        Sign In
-                      </Button>
-                    ),
-                  });
-                  setMenuOpen(false);
-                  return;
-                }
-                setMealPlanDialogOpen(true);
+                handleExportPDF();
                 setMenuOpen(false);
               }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent"
-              data-menu-meal-plan
+              disabled={isGeneratingPDF}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <div className="w-10 h-10 bg-green-50 dark:bg-green-950/30 rounded-full flex items-center justify-center text-xl">
-                📅
+              <div className="w-10 h-10 bg-blue-50 dark:bg-blue-950/30 rounded-full flex items-center justify-center text-xl">
+                📄
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground">Add to Meal Plan</div>
-                <div className="text-sm text-muted-foreground">
-                  {user ? 'Schedule this meal' : 'Sign in to plan meals'}
+                <div className="font-semibold text-foreground">
+                  {isGeneratingPDF ? 'Generating...' : 'Export as PDF'}
                 </div>
+                <div className="text-sm text-muted-foreground">Download recipe as PDF</div>
               </div>
             </button>
           </div>
