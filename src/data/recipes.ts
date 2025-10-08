@@ -3384,6 +3384,408 @@ export const allRecipes: Recipe[] = [
       "Cut into wedges and serve hot!"
     ]
   },
+  {
+    id: "copycat-chipotle-chicken-avocado-melt",
+    name: "Panera Chipotle Chicken Avocado Melt",
+    description: "Grilled chicken sandwich with smoked Gouda, cilantro-lime aioli, and chipotle mayo.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Restaurant Copycats",
+    image: chickenSandwichImg,
+    totalTime: 25,
+    tags: ["copycat", "restaurant", "panera", "sandwich", "lunch"],
+    nutrition: {
+      calories: 520,
+      protein: 38,
+      carbs: 42,
+      fat: 22,
+      fiber: 5,
+      sugar: 6,
+      servingSize: "1 sandwich"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "chicken breast, grilled and sliced" },
+      { amount: "8", unit: "slices", item: "sourdough bread" },
+      { amount: "8", unit: "slices", item: "smoked Gouda cheese" },
+      { amount: "1", unit: "", item: "avocado, sliced" },
+      { amount: "1", unit: "cup", item: "baby spinach" },
+      { amount: "1/4", unit: "cup", item: "red onion, thinly sliced" },
+      { amount: "1/4", unit: "cup", item: "mayo" },
+      { amount: "2", unit: "tbsp", item: "chipotle peppers in adobo, minced" },
+      { amount: "2", unit: "tbsp", item: "cilantro, chopped" },
+      { amount: "1", unit: "tbsp", item: "lime juice" },
+      { amount: "2", unit: "tbsp", item: "butter, softened" }
+    ],
+    instructions: [
+      "Mix [1/4 cup mayo] with [2 tbsp chipotle peppers], [2 tbsp cilantro], [1 tbsp lime juice].",
+      "Butter one side of each bread slice.",
+      "On unbuttered side, spread chipotle mayo.",
+      "Layer [sliced chicken], [2 cheese slices], [avocado], [spinach], [red onion].",
+      "Top with another bread slice, buttered side out.",
+      "Grill in pan over medium heat 3-4 minutes per side until golden and cheese melts.",
+      "Slice diagonally and serve hot."
+    ]
+  },
+  {
+    id: "copycat-olive-garden-5-cheese-ziti",
+    name: "Olive Garden 5-Cheese Ziti Al Forno",
+    description: "Baked ziti with five Italian cheeses and marinara sauce.",
+    cookTime: "25 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Restaurant Copycats",
+    image: tuscanChickenPastaImg,
+    totalTime: 40,
+    tags: ["copycat", "restaurant", "olive-garden", "pasta", "dinner"],
+    nutrition: {
+      calories: 680,
+      protein: 32,
+      carbs: 58,
+      fat: 34,
+      fiber: 4,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ziti pasta" },
+      { amount: "24", unit: "oz", item: "marinara sauce" },
+      { amount: "15", unit: "oz", item: "ricotta cheese" },
+      { amount: "1", unit: "cup", item: "mozzarella cheese, shredded" },
+      { amount: "1", unit: "cup", item: "provolone cheese, shredded" },
+      { amount: "1/2", unit: "cup", item: "Romano cheese, grated" },
+      { amount: "1/2", unit: "cup", item: "fontina cheese, shredded" },
+      { amount: "2", unit: "cups", item: "Alfredo sauce" },
+      { amount: "1/2", unit: "cup", item: "Parmesan cheese, grated" }
+    ],
+    instructions: [
+      "Cook [1 lb ziti] according to package directions. Drain.",
+      "Mix [15 oz ricotta], [1/2 cup mozzarella], [1/2 cup provolone], [1/4 cup Romano].",
+      "In large bowl, combine cooked pasta, [24 oz marinara], and ricotta mixture.",
+      "Pour half into greased 9x13 pan.",
+      "Drizzle [1 cup Alfredo sauce] over pasta.",
+      "Add remaining pasta mixture. Top with [2 cups Alfredo].",
+      "Sprinkle remaining cheeses on top.",
+      "Bake at 375°F for 25 minutes until bubbly and golden.",
+      "Let rest 5 minutes before serving."
+    ]
+  },
+  {
+    id: "copycat-starbucks-pumpkin-bread",
+    name: "Starbucks Pumpkin Bread",
+    description: "Moist pumpkin spice quick bread with pepita topping, just like Starbucks.",
+    cookTime: "65 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 12,
+    cuisine: "Restaurant Copycats",
+    image: pumpkinBananaBreadImg,
+    totalTime: 80,
+    tags: ["copycat", "restaurant", "starbucks", "breakfast", "baking"],
+    nutrition: {
+      calories: 310,
+      protein: 4,
+      carbs: 46,
+      fat: 13,
+      fiber: 2,
+      sugar: 28,
+      servingSize: "1 slice"
+    },
+    ingredients: [
+      { amount: "1 2/3", unit: "cups", item: "all-purpose flour" },
+      { amount: "1 1/2", unit: "cups", item: "sugar" },
+      { amount: "1", unit: "tsp", item: "baking soda" },
+      { amount: "3/4", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "baking powder" },
+      { amount: "1", unit: "tsp", item: "cinnamon" },
+      { amount: "1", unit: "tsp", item: "nutmeg" },
+      { amount: "1/2", unit: "tsp", item: "cloves" },
+      { amount: "1/2", unit: "tsp", item: "ginger" },
+      { amount: "1", unit: "can", item: "pumpkin puree (15 oz)" },
+      { amount: "1/2", unit: "cup", item: "vegetable oil" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1/4", unit: "cup", item: "water" },
+      { amount: "1/4", unit: "cup", item: "pepitas (pumpkin seeds)" }
+    ],
+    instructions: [
+      "Preheat oven to 350°F. Grease 9x5 loaf pan.",
+      "Mix [1 2/3 cups flour], [1 1/2 cups sugar], [1 tsp baking soda], [3/4 tsp salt], [1/2 tsp baking powder], all spices.",
+      "In separate bowl, whisk [1 can pumpkin], [1/2 cup oil], [2 eggs], [1/4 cup water].",
+      "Combine wet and dry ingredients, mix until just combined.",
+      "Pour into prepared pan. Sprinkle [1/4 cup pepitas] on top.",
+      "Bake 65-70 minutes until toothpick comes out clean.",
+      "Cool in pan 10 minutes, then remove to wire rack.",
+      "Slice and serve warm or at room temperature."
+    ]
+  },
+  {
+    id: "copycat-kfc-fried-chicken",
+    name: "KFC Original Fried Chicken",
+    description: "Crispy fried chicken with the secret blend of 11 herbs and spices.",
+    cookTime: "20 mins",
+    prepTime: "30 mins",
+    difficulty: "medium",
+    servings: 8,
+    cuisine: "Restaurant Copycats",
+    image: chickenSandwichImg,
+    totalTime: 50,
+    tags: ["copycat", "restaurant", "kfc", "chicken", "dinner"],
+    nutrition: {
+      calories: 480,
+      protein: 36,
+      carbs: 18,
+      fat: 28,
+      fiber: 1,
+      sugar: 0,
+      servingSize: "1 piece"
+    },
+    ingredients: [
+      { amount: "1", unit: "whole", item: "chicken, cut into pieces (3-4 lbs)" },
+      { amount: "2", unit: "cups", item: "buttermilk" },
+      { amount: "2", unit: "cups", item: "all-purpose flour" },
+      { amount: "2", unit: "tsp", item: "salt" },
+      { amount: "1", unit: "tsp", item: "black pepper" },
+      { amount: "1", unit: "tsp", item: "paprika" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "tsp", item: "onion powder" },
+      { amount: "1/2", unit: "tsp", item: "cayenne pepper" },
+      { amount: "1/2", unit: "tsp", item: "dried oregano" },
+      { amount: "1/2", unit: "tsp", item: "dried basil" },
+      { amount: "1/2", unit: "tsp", item: "dried thyme" },
+      { amount: "Vegetable", unit: "", item: "oil for frying" }
+    ],
+    instructions: [
+      "Soak [chicken pieces] in [2 cups buttermilk] for 30 minutes.",
+      "Mix [2 cups flour] with all spices and seasonings.",
+      "Heat oil to 350°F in large heavy pot or deep fryer.",
+      "Remove chicken from buttermilk, let excess drip off.",
+      "Dredge each piece in seasoned flour, coating completely.",
+      "Fry chicken in batches 12-15 minutes, turning once, until golden brown and internal temp reaches 165°F.",
+      "Drain on paper towels.",
+      "Serve hot with your favorite sides!"
+    ]
+  },
+  {
+    id: "copycat-wendys-chili",
+    name: "Wendy's Chili",
+    description: "Hearty beef and bean chili loaded with tomatoes and spices.",
+    cookTime: "2 hrs",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "Restaurant Copycats",
+    image: chiliMacCheeseImg,
+    totalTime: 135,
+    tags: ["copycat", "restaurant", "wendys", "soup", "comfort-food"],
+    nutrition: {
+      calories: 280,
+      protein: 22,
+      carbs: 24,
+      fat: 10,
+      fiber: 7,
+      sugar: 6,
+      servingSize: "1 cup"
+    },
+    ingredients: [
+      { amount: "2", unit: "lbs", item: "ground beef" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "1", unit: "", item: "green bell pepper, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "can", item: "tomato sauce (29 oz)" },
+      { amount: "1", unit: "can", item: "kidney beans (29 oz)" },
+      { amount: "1", unit: "can", item: "pinto beans (29 oz)" },
+      { amount: "1", unit: "can", item: "diced tomatoes (14.5 oz)" },
+      { amount: "1", unit: "cup", item: "water" },
+      { amount: "2", unit: "tbsp", item: "chili powder" },
+      { amount: "1", unit: "tsp", item: "cumin" },
+      { amount: "1", unit: "tsp", item: "black pepper" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "cayenne pepper" }
+    ],
+    instructions: [
+      "Brown [2 lbs ground beef] in large pot. Drain excess fat.",
+      "Add [diced onion], [bell pepper], [3 cloves garlic]. Cook 5 minutes.",
+      "Add [29 oz tomato sauce], [29 oz kidney beans], [29 oz pinto beans], [14.5 oz diced tomatoes].",
+      "Stir in [1 cup water], [2 tbsp chili powder], [1 tsp cumin], [1 tsp pepper], [1 tsp salt], [1/2 tsp cayenne].",
+      "Bring to boil, then reduce heat to low.",
+      "Simmer uncovered 2 hours, stirring occasionally.",
+      "Serve hot with shredded cheese, sour cream, and oyster crackers."
+    ]
+  },
+  {
+    id: "copycat-mcdonalds-egg-mcmuffin",
+    name: "McDonald's Egg McMuffin",
+    description: "Classic breakfast sandwich with egg, Canadian bacon, and American cheese.",
+    cookTime: "10 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Restaurant Copycats",
+    image: eggBitesImg,
+    totalTime: 15,
+    tags: ["copycat", "restaurant", "mcdonalds", "breakfast", "sandwich"],
+    nutrition: {
+      calories: 300,
+      protein: 18,
+      carbs: 30,
+      fat: 12,
+      fiber: 2,
+      sugar: 3,
+      servingSize: "1 sandwich"
+    },
+    ingredients: [
+      { amount: "4", unit: "", item: "English muffins" },
+      { amount: "4", unit: "", item: "eggs" },
+      { amount: "4", unit: "slices", item: "Canadian bacon" },
+      { amount: "4", unit: "slices", item: "American cheese" },
+      { amount: "1", unit: "tbsp", item: "butter" },
+      { amount: "Cooking", unit: "", item: "spray" }
+    ],
+    instructions: [
+      "Toast [4 English muffins] until golden.",
+      "Heat Canadian bacon slices in pan until lightly browned.",
+      "Spray 4 mason jar rings or round cookie cutters with cooking spray.",
+      "Place rings in buttered pan. Crack [1 egg] into each ring.",
+      "Cover pan and cook over medium-low 3-4 minutes until whites are set.",
+      "Top each egg with [1 cheese slice], cover 30 seconds to melt.",
+      "Assemble: muffin bottom, Canadian bacon, cheesy egg, muffin top.",
+      "Serve immediately while hot!"
+    ]
+  },
+  {
+    id: "copycat-panda-express-fried-rice",
+    name: "Panda Express Fried Rice",
+    description: "Restaurant-style fried rice with eggs, peas, carrots, and soy sauce.",
+    cookTime: "10 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Restaurant Copycats",
+    image: friedRiceImg,
+    totalTime: 20,
+    tags: ["copycat", "restaurant", "panda-express", "rice", "side-dish"],
+    nutrition: {
+      calories: 310,
+      protein: 8,
+      carbs: 52,
+      fat: 8,
+      fiber: 3,
+      sugar: 3,
+      servingSize: "1 cup"
+    },
+    ingredients: [
+      { amount: "4", unit: "cups", item: "cooked white rice, day-old" },
+      { amount: "3", unit: "", item: "eggs, beaten" },
+      { amount: "1", unit: "cup", item: "frozen peas and carrots" },
+      { amount: "1/2", unit: "cup", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "3", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "sesame oil" },
+      { amount: "2", unit: "tbsp", item: "vegetable oil" },
+      { amount: "2", unit: "", item: "green onions, sliced" },
+      { amount: "1/2", unit: "tsp", item: "white pepper" }
+    ],
+    instructions: [
+      "Heat [1 tbsp vegetable oil] in wok or large skillet over high heat.",
+      "Add [3 beaten eggs], scramble quickly, remove and set aside.",
+      "Add [1 tbsp oil], sauté [diced onion] 2 minutes.",
+      "Add [3 cloves garlic], [1 cup peas and carrots], stir-fry 2 minutes.",
+      "Add [4 cups day-old rice], break up clumps.",
+      "Stir-fry 3-4 minutes until rice is hot.",
+      "Add scrambled eggs, [3 tbsp soy sauce], [1 tbsp sesame oil], [1/2 tsp white pepper].",
+      "Toss well. Garnish with [sliced green onions]. Serve hot."
+    ]
+  },
+  {
+    id: "copycat-olive-garden-house-salad",
+    name: "Olive Garden House Salad",
+    description: "Fresh salad with Italian dressing, croutons, and Parmesan cheese.",
+    cookTime: "0 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Restaurant Copycats",
+    image: autumnHarvestSaladImg,
+    totalTime: 15,
+    tags: ["copycat", "restaurant", "olive-garden", "salad", "side-dish"],
+    nutrition: {
+      calories: 150,
+      protein: 3,
+      carbs: 12,
+      fat: 10,
+      fiber: 2,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "head", item: "iceberg lettuce, chopped" },
+      { amount: "1/2", unit: "head", item: "romaine lettuce, chopped" },
+      { amount: "1/4", unit: "", item: "red cabbage, shredded" },
+      { amount: "1", unit: "", item: "red onion, sliced thin" },
+      { amount: "1", unit: "cup", item: "cherry tomatoes, halved" },
+      { amount: "1", unit: "cup", item: "black olives, sliced" },
+      { amount: "1/2", unit: "cup", item: "pepperoncini peppers" },
+      { amount: "1", unit: "cup", item: "croutons" },
+      { amount: "1/2", unit: "cup", item: "Parmesan cheese, shredded" },
+      { amount: "1", unit: "cup", item: "Italian dressing" }
+    ],
+    instructions: [
+      "Chop [iceberg lettuce] and [romaine lettuce]. Place in large bowl.",
+      "Add [shredded red cabbage], [sliced red onion], [cherry tomatoes].",
+      "Add [sliced black olives] and [pepperoncini peppers].",
+      "Toss salad ingredients together.",
+      "Top with [croutons] and [Parmesan cheese].",
+      "Drizzle with [Italian dressing] just before serving.",
+      "Serve immediately with extra dressing on the side."
+    ]
+  },
+  {
+    id: "copycat-red-lobster-coconut-shrimp",
+    name: "Red Lobster Coconut Shrimp",
+    description: "Crispy coconut-crusted shrimp with sweet and tangy pineapple dipping sauce.",
+    cookTime: "10 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Restaurant Copycats",
+    image: lemonGarlicShrimpImg,
+    totalTime: 30,
+    tags: ["copycat", "restaurant", "red-lobster", "seafood", "appetizer"],
+    nutrition: {
+      calories: 420,
+      protein: 24,
+      carbs: 36,
+      fat: 20,
+      fiber: 2,
+      sugar: 14,
+      servingSize: "6 shrimp"
+    },
+    ingredients: [
+      { amount: "1", unit: "lb", item: "large shrimp, peeled and deveined" },
+      { amount: "1/2", unit: "cup", item: "all-purpose flour" },
+      { amount: "2", unit: "", item: "eggs, beaten" },
+      { amount: "1", unit: "cup", item: "panko breadcrumbs" },
+      { amount: "1", unit: "cup", item: "sweetened shredded coconut" },
+      { amount: "1/2", unit: "tsp", item: "salt" },
+      { amount: "1/4", unit: "tsp", item: "cayenne pepper" },
+      { amount: "Vegetable", unit: "", item: "oil for frying" },
+      { amount: "1/2", unit: "cup", item: "orange marmalade" },
+      { amount: "2", unit: "tbsp", item: "pineapple juice" },
+      { amount: "1", unit: "tbsp", item: "honey" },
+      { amount: "1", unit: "tsp", item: "Dijon mustard" }
+    ],
+    instructions: [
+      "Pat [shrimp] dry with paper towels.",
+      "Set up breading station: [flour] in one bowl, [2 beaten eggs] in second, mix [panko], [coconut], [salt], [cayenne] in third.",
+      "Dip each shrimp in flour, then egg, then coconut mixture, pressing to adhere.",
+      "Heat 2 inches oil to 350°F in deep pan.",
+      "Fry shrimp in batches 2-3 minutes until golden brown. Drain on paper towels.",
+      "For sauce: Mix [orange marmalade], [pineapple juice], [honey], [Dijon mustard] in small bowl.",
+      "Serve hot shrimp with dipping sauce."
+    ]
+  },
   // ========== QUICK MEALS UNDER 30 MIN (18) ==========
   {
     id: "quick-honey-garlic-chicken",
@@ -10147,52 +10549,6 @@ export const allRecipes: Recipe[] = [
   },
 
   {
-    id: "fall-pumpkin-cinnamon-rolls",
-    name: "Pumpkin Cinnamon Rolls with Cream Cheese Frosting",
-    description: "Fluffy pumpkin cinnamon rolls with rich cream cheese frosting. Perfect fall breakfast!",
-    cookTime: "25 mins",
-    prepTime: "2 hrs",
-    difficulty: "medium",
-    servings: 12,
-    cuisine: "American",
-    image: fallPumpkinCinnamonRollsImg,
-    totalTime: 145,
-    tags: ["fall", "breakfast", "baking", "pumpkin"],
-    nutrition: {
-      calories: 380,
-      protein: 6,
-      carbs: 58,
-      fat: 14,
-      fiber: 2,
-      sugar: 28,
-      servingSize: "1 roll"
-    },
-    ingredients: [
-      { amount: "3 1/2", unit: "cups", item: "all-purpose flour" },
-      { amount: "1/4", unit: "cup", item: "sugar" },
-      { amount: "1", unit: "packet", item: "instant yeast" },
-      { amount: "3/4", unit: "cup", item: "milk, warm" },
-      { amount: "1/4", unit: "cup", item: "butter, melted" },
-      { amount: "1/2", unit: "cup", item: "pumpkin puree" },
-      { amount: "1", unit: "", item: "egg" },
-      { amount: "1", unit: "cup", item: "brown sugar" },
-      { amount: "2", unit: "tbsp", item: "pumpkin pie spice" },
-      { amount: "4", unit: "oz", item: "cream cheese" },
-      { amount: "2", unit: "cups", item: "powdered sugar" }
-    ],
-    instructions: [
-      "Mix [3 1/2 cups flour], [1/4 cup sugar], [yeast]. Add [3/4 cup warm milk], [1/4 cup melted butter], [1/2 cup pumpkin], [1 egg].",
-      "Knead 5 minutes until smooth. Let rise 1 hour until doubled.",
-      "Roll dough into 15x10 inch rectangle.",
-      "Spread with softened butter, sprinkle [1 cup brown sugar] mixed with [2 tbsp pumpkin spice].",
-      "Roll up tightly, cut into 12 rolls. Place in greased pan.",
-      "Let rise 30 minutes. Bake at 350°F for 25 minutes until golden.",
-      "Beat [4 oz cream cheese] with [2 cups powdered sugar] and 2 tbsp milk.",
-      "Frost warm rolls generously."
-    ]
-  },
-
-  {
     id: "fall-maple-brown-butter-cookies",
     name: "Maple Brown Butter Cookies",
     description: "Chewy cookies with nutty brown butter and sweet maple flavor. Fall perfection!",
@@ -10484,49 +10840,6 @@ export const allRecipes: Recipe[] = [
       "Leave lid slightly open, cook on LOW 1-2 more hours to thicken.",
       "Cool and store in jars. Refrigerate up to 2 weeks.",
       "Perfect on toast, biscuits, or pancakes!"
-    ]
-  },
-
-  {
-    id: "fall-pumpkin-dump-cake",
-    name: "Pumpkin Dump Cake",
-    description: "Easy 4-ingredient pumpkin dump cake. No mixing required! Serve warm with ice cream.",
-    cookTime: "50 mins",
-    prepTime: "5 mins",
-    difficulty: "easy",
-    servings: 12,
-    cuisine: "American",
-    image: fallPumpkinDumpCakeImg,
-    totalTime: 55,
-    tags: ["fall", "dessert", "easy", "pumpkin"],
-    nutrition: {
-      calories: 380,
-      protein: 4,
-      carbs: 52,
-      fat: 18,
-      fiber: 2,
-      sugar: 34,
-      servingSize: "1 slice"
-    },
-    ingredients: [
-      { amount: "1", unit: "can", item: "pumpkin puree (15 oz)" },
-      { amount: "1", unit: "can", item: "evaporated milk (12 oz)" },
-      { amount: "1 1/2", unit: "cups", item: "sugar" },
-      { amount: "3", unit: "", item: "eggs" },
-      { amount: "2", unit: "tsp", item: "pumpkin pie spice" },
-      { amount: "1", unit: "box", item: "yellow cake mix" },
-      { amount: "1", unit: "cup", item: "butter, melted" },
-      { amount: "1", unit: "cup", item: "pecans, chopped" }
-    ],
-    instructions: [
-      "Spray 9x13 pan with cooking spray.",
-      "Mix [1 can pumpkin], [1 can evaporated milk], [1 1/2 cups sugar], [3 eggs], [2 tsp pumpkin spice].",
-      "Pour into pan.",
-      "Sprinkle [1 box cake mix] evenly over pumpkin (don't mix!).",
-      "Drizzle [1 cup melted butter] all over cake mix.",
-      "Top with [1 cup pecans].",
-      "Bake at 350°F for 50-55 minutes until golden.",
-      "Serve warm with vanilla ice cream!"
     ]
   },
 
