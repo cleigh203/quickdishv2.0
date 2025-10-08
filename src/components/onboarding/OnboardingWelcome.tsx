@@ -1,74 +1,100 @@
-import { Button } from "@/components/ui/button";
-import { ChefHat, Calendar, ShoppingCart } from "lucide-react";
 import { useOnboarding } from "@/contexts/OnboardingContext";
 
 export const OnboardingWelcome = () => {
   const { setCurrentStep, skipOnboarding } = useOnboarding();
 
-  const benefits = [
-    { icon: ChefHat, text: "400+ tested recipes", color: "bg-orange-100" },
-    { icon: Calendar, text: "Smart meal planning", color: "bg-red-100" },
-    { icon: ShoppingCart, text: "Auto shopping lists with pantry integration", color: "bg-orange-100" },
+  const features = [
+    {
+      emoji: "👨‍🍳",
+      bgColor: "bg-gradient-to-br from-orange-100 to-orange-200",
+      title: "Chef-Curated Recipes",
+      description: "Professionally tested recipes at your fingertips",
+    },
+    {
+      emoji: "📅",
+      bgColor: "bg-gradient-to-br from-pink-100 to-pink-200",
+      title: "Smart Meal Planning",
+      description: "Plan your entire week in just 5 minutes",
+    },
+    {
+      emoji: "🛒",
+      bgColor: "bg-gradient-to-br from-amber-100 to-yellow-200",
+      title: "Automated Shopping Lists",
+      description: "With smart pantry tracking - never buy duplicates again",
+    },
   ];
 
   return (
-    <div className="fixed inset-0 z-[100] bg-gradient-to-br from-orange-50 via-white to-red-50 flex items-center justify-center p-6">
-      <div className="max-w-md w-full text-center animate-fade-in">
-        {/* Logo */}
-        <div className="mb-6 flex justify-center">
-          <img 
-            src="/logo.png" 
-            alt="QuickDish Logo" 
-            className="w-32 h-32 object-contain drop-shadow-2xl transform hover:scale-105 transition-transform"
-          />
+    <div className="fixed inset-0 z-[100] bg-[#FAF9F6] flex items-center justify-center p-6 overflow-y-auto">
+      <div className="max-w-md w-full py-8">
+        {/* Top Section */}
+        <div className="text-center mb-8 animate-fade-in">
+          {/* Logo */}
+          <div className="mb-6 flex justify-center">
+            <div className="w-[100px] h-[100px] rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FF4500] flex items-center justify-center shadow-2xl">
+              <img 
+                src="/logo.png" 
+                alt="QuickDish Logo" 
+                className="w-16 h-16 object-contain"
+              />
+            </div>
+          </div>
+
+          {/* Headline */}
+          <h1 className="text-[32px] font-bold mb-3 bg-gradient-to-r from-[#FF6B35] to-[#FF4500] bg-clip-text text-transparent">
+            Welcome to QuickDish!
+          </h1>
+
+          {/* Tagline */}
+          <p className="text-[16px] text-[#7F8C8D] font-medium">
+            Cook smarter, not harder
+          </p>
         </div>
 
-        {/* Headline */}
-        <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-primary to-red-600 bg-clip-text text-transparent">
-          Welcome to QuickDish!
-        </h1>
-
-        {/* Tagline */}
-        <p className="text-xl text-gray-900 mb-8 font-medium">
-          Cook smarter, not harder
-        </p>
-
-        {/* Benefits */}
-        <div className="space-y-4 mb-10">
-          {benefits.map((benefit, index) => (
+        {/* Feature Cards */}
+        <div className="space-y-4 mb-8">
+          {features.map((feature, index) => (
             <div
               key={index}
-              className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all hover:scale-[1.02]"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="flex items-center gap-5 p-5 bg-white rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 animate-fade-in"
+              style={{ animationDelay: `${(index + 1) * 150}ms` }}
             >
-              <div className={`${benefit.color} w-12 h-12 rounded-xl flex items-center justify-center`}>
-                <benefit.icon className="w-6 h-6 text-primary" />
+              {/* Icon */}
+              <div className={`${feature.bgColor} w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0`}>
+                <span className="text-3xl">{feature.emoji}</span>
               </div>
-              <span className="text-lg font-semibold text-foreground">{benefit.text}</span>
+
+              {/* Content */}
+              <div className="text-left flex-1">
+                <h3 className="text-[18px] font-bold text-[#2C3E50] mb-1">
+                  {feature.title}
+                </h3>
+                <p className="text-[14px] text-[#7F8C8D] leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Primary Button */}
-        <Button
-          onClick={() => setCurrentStep(1)}
-          className="w-full h-14 text-lg font-bold mb-4 bg-gradient-to-r from-primary to-red-600 hover:from-primary/90 hover:to-red-600/90 shadow-lg hover:shadow-xl transition-all"
-        >
-          Show Me Around
-        </Button>
+        {/* Bottom Section */}
+        <div className="text-center animate-fade-in" style={{ animationDelay: "600ms" }}>
+          {/* Primary Button */}
+          <button
+            onClick={() => setCurrentStep(1)}
+            className="w-full py-[18px] text-[18px] font-bold text-white bg-gradient-to-r from-[#FF6B35] to-[#FF4500] rounded-xl shadow-[0_8px_20px_rgba(255,69,0,0.3)] hover:shadow-[0_12px_28px_rgba(255,69,0,0.4)] hover:-translate-y-0.5 transition-all duration-300 mb-4"
+          >
+            Get Started
+          </button>
 
-        {/* Secondary Link */}
-        <button
-          onClick={skipOnboarding}
-          className="text-gray-900 hover:text-gray-700 transition-colors font-medium"
-        >
-          Skip Tutorial
-        </button>
-
-        {/* Small Text */}
-        <p className="text-xs text-gray-900 mt-6">
-          You can replay this anytime in Settings
-        </p>
+          {/* Secondary Link */}
+          <button
+            onClick={skipOnboarding}
+            className="text-[15px] text-[#7F8C8D] hover:text-[#FF6B35] hover:underline transition-colors duration-200 font-medium"
+          >
+            Skip Tutorial
+          </button>
+        </div>
       </div>
     </div>
   );
