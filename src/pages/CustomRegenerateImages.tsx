@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import { Loader2, CheckCircle, XCircle } from "lucide-react";
+import { updateRecipeImages } from "@/utils/updateRecipeImages";
 
 const RECIPES_TO_REGENERATE = [
   {
@@ -34,28 +34,23 @@ const CustomRegenerateImages = () => {
   const [autoTriggered, setAutoTriggered] = useState(false);
   const { toast } = useToast();
 
-  const handleRegenerate = async () => {
+  const handleRegenerate = useCallback(async () => {
     setIsProcessing(true);
     setResults([]);
 
     try {
       toast({
-        title: "Regenerating images...",
+        title: "Updating images...",
         description: `Processing ${RECIPES_TO_REGENERATE.length} recipes`,
       });
 
-      const { data, error } = await supabase.functions.invoke('batch-custom-regenerate', {
-        body: { recipes: RECIPES_TO_REGENERATE }
-      });
-
-      if (error) throw error;
-
-      setResults(data.results);
+      const updateResults = await updateRecipeImages();
+      setResults(updateResults);
       
-      const successCount = data.results.filter((r: any) => r.success).length;
+      const successCount = updateResults.filter((r: any) => r.success).length;
       toast({
         title: "Complete!",
-        description: `${successCount}/${RECIPES_TO_REGENERATE.length} images regenerated successfully`,
+        description: `${successCount}/${RECIPES_TO_REGENERATE.length} images updated successfully`,
       });
 
       if (successCount > 0) {
@@ -65,16 +60,16 @@ const CustomRegenerateImages = () => {
       }
 
     } catch (error: any) {
-      console.error('Regeneration error:', error);
+      console.error('Update error:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to regenerate images",
+        description: error.message || "Failed to update images",
         variant: "destructive",
       });
     } finally {
       setIsProcessing(false);
     }
-  };
+  }, [toast]);
 
   // Auto-trigger on mount
   useEffect(() => {
@@ -82,16 +77,16 @@ const CustomRegenerateImages = () => {
       setAutoTriggered(true);
       handleRegenerate();
     }
-  }, []);
+  }, [autoTriggered, handleRegenerate]);
 
   return (
     <div className="min-h-screen p-6 bg-background">
       <div className="max-w-4xl mx-auto space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Regenerate Recipe Images</CardTitle>
+            <CardTitle>Update Recipe Images</CardTitle>
             <CardDescription>
-              Custom image generation for {RECIPES_TO_REGENERATE.length} recipes
+              Updating images for {RECIPES_TO_REGENERATE.length} recipes
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -112,10 +107,10 @@ const CustomRegenerateImages = () => {
               {isProcessing ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Regenerating Images...
+                  Updating Images...
                 </>
               ) : (
-                'Regenerate All Images'
+                'Update All Images'
               )}
             </Button>
 
