@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
@@ -7,17 +7,17 @@ import { Loader2, CheckCircle, XCircle } from "lucide-react";
 
 const RECIPES_TO_REGENERATE = [
   {
-    recipeId: "copycat-mcdonalds-egg-mcmuffin",
+    recipeId: "copycat-mcdonald-s-egg-mcmuffin",
     recipeName: "McDonald's Egg McMuffin",
-    prompt: "Professional food photography of a homemade breakfast sandwich styled to look like McDonald's Egg McMuffin - toasted English muffin with round egg, melted cheese, and Canadian bacon. Shot from side angle showing all layers clearly. High-quality restaurant-style presentation. Soft natural lighting, shallow depth of field, appetizing colors. Ultra high resolution."
+    prompt: "Professional food photography of a McDonald's Egg McMuffin copycat. A homemade breakfast sandwich styled to look like McDonald's Egg McMuffin - toasted English muffin with round egg, melted cheese, and Canadian bacon. Shot from side angle showing all layers clearly. Warm, appetizing morning light. Ultra high resolution."
   },
   {
-    recipeId: "copycat-olive-garden-house-salad",
+    recipeId: "copycat-olive-garden-house-salad-with-dressing",
     recipeName: "Olive Garden House Salad",
-    prompt: "Professional food photography of Olive Garden house salad. Fresh mixed greens including romaine and iceberg lettuce, red onion rings, black olives, pepperoncini peppers, cherry tomatoes, and croutons. Italian dressing drizzled on top, sprinkled with grated Parmesan cheese. Served in a large white bowl. Soft natural lighting, shallow depth of field, fresh and appetizing colors. Ultra high resolution."
+    prompt: "Professional food photography of Olive Garden House Salad. Fresh crisp salad with romaine lettuce, red onion slices, black olives, cherry tomatoes, and croutons. Dressed with Italian dressing. Served in a white bowl. Bright, fresh colors with natural lighting. Ultra high resolution."
   },
   {
-    recipeId: "copycat-chipotle-chicken-avocado-melt",
+    recipeId: "copycat-panera-chipotle-chicken-avocado-melt",
     recipeName: "Panera Chipotle Chicken Avocado Melt",
     prompt: "Professional food photography. The sandwich features toasted sourdough bread with visible grill marks, layers of seasoned grilled chicken breast, fresh avocado slices, melted white cheese, sun-dried tomatoes or roasted red peppers, and fresh greens. The sandwich is cut in half and stacked to showcase the colorful layers. Soft natural lighting from the side, cream and white background, minimalist styling with a halved avocado visible in the soft-focus background. Ultra high resolution."
   },
@@ -31,6 +31,7 @@ const RECIPES_TO_REGENERATE = [
 const CustomRegenerateImages = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [results, setResults] = useState<any[]>([]);
+  const [autoTriggered, setAutoTriggered] = useState(false);
   const { toast } = useToast();
 
   const handleRegenerate = async () => {
@@ -59,7 +60,7 @@ const CustomRegenerateImages = () => {
 
       if (successCount > 0) {
         setTimeout(() => {
-          window.location.reload();
+          window.location.href = '/discover?collection=Restaurant%20Copycats';
         }, 2000);
       }
 
@@ -74,6 +75,14 @@ const CustomRegenerateImages = () => {
       setIsProcessing(false);
     }
   };
+
+  // Auto-trigger on mount
+  useEffect(() => {
+    if (!autoTriggered) {
+      setAutoTriggered(true);
+      handleRegenerate();
+    }
+  }, []);
 
   return (
     <div className="min-h-screen p-6 bg-background">
