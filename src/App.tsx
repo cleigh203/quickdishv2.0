@@ -34,6 +34,7 @@ import ProfileSetup from "./pages/ProfileSetup";
 
 import BatchRegenerateImages from "./pages/BatchRegenerateImages";
 import CustomRegenerateImages from "./pages/CustomRegenerateImages";
+import QuickImageUpdate from "./pages/QuickImageUpdate";
 import MigrateRecipes from "./pages/MigrateRecipes";
 import RegenerateImages from "./pages/RegenerateImages";
 import GenerateRecipeImages from "./pages/GenerateRecipeImages";
@@ -81,6 +82,7 @@ const App = () => (
             <Route path="/regenerate-images" element={<RegenerateImages />} />
             <Route path="/batch-regenerate-images" element={<BatchRegenerateImages />} />
             <Route path="/custom-regenerate-images" element={<CustomRegenerateImages />} />
+            <Route path="/quick-image-update" element={<QuickImageUpdate />} />
             <Route path="/generate-recipe-images" element={<GenerateRecipeImages />} />
             <Route path="/execute-image-generation" element={<ExecuteImageGeneration />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
