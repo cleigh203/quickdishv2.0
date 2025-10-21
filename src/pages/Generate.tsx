@@ -114,11 +114,12 @@ const Generate = () => {
         const fallRecipes = combinedRecipes.filter(recipe => {
           if (excludedFallRecipes.includes(recipe.id)) return false;
           const ingredients = recipe.ingredients.map(i => i.item.toLowerCase()).join(' ');
-          const hasFallIngredient = ingredients.includes('pumpkin') || 
-            ingredients.includes('apple') || 
-            ingredients.includes('squash') || 
-            ingredients.includes('cinnamon') ||
-            ingredients.includes('nutmeg');
+          // Use word boundaries to prevent "pineapple" from matching "apple"
+          const hasFallIngredient = /\bpumpkin\b/.test(ingredients) || 
+            /\bapple\b/.test(ingredients) || 
+            /\bsquash\b/.test(ingredients) || 
+            /\bcinnamon\b/.test(ingredients) ||
+            /\bnutmeg\b/.test(ingredients);
           const hasFallTag = recipe.tags?.includes('fall');
           const matches = (hasFallIngredient || hasFallTag) && !isHalloweenRecipe(recipe);
           

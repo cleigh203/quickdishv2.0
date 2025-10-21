@@ -20,7 +20,8 @@ import thaiCoconutCurryImg from "@/assets/recipes/thai-coconut-curry.jpg";
 import beefEnchiladasImg from "@/assets/recipes/beef-enchiladas.jpg";
 import lemonGarlicShrimpImg from "@/assets/recipes/lemon-garlic-shrimp.jpg";
 import mummyDogsImg from "@/assets/recipes/mummy-dogs.jpg";
-import burritoBowlImg from "@/assets/recipes/copycat-burrito-bowl.jpg";
+// burritoBowlImg replaced with imgur URL
+const burritoBowlImg = "https://i.imgur.com/877Y8M2.png";
 import honeyGarlicChickenImg from "@/assets/recipes/quick-honey-garlic-chicken.jpg";
 import pizzaFrittataImg from "@/assets/recipes/leftover-pizza-frittata.jpg";
 import witchFingersImg from "@/assets/recipes/witch-finger-cookies.jpg";
@@ -45,7 +46,8 @@ import bloominOnionImg from "@/assets/recipes/copycat-bloomin-onion.jpg";
 import thaiBasilImg from "@/assets/recipes/quick-thai-basil-chicken.jpg";
 import pastaCarbonaraImg from "@/assets/recipes/pasta-carbonara.jpg";
 import graveyardCupsImg from "@/assets/recipes/graveyard-dirt-cups.jpg";
-import broccoliSoupImg from "@/assets/recipes/copycat-broccoli-soup.jpg";
+// broccoliSoupImg replaced with imgur URL
+const broccoliSoupImg = "https://i.imgur.com/5Wn96I7.png";
 import tuscanShrimpImg from "@/assets/recipes/quick-tuscan-shrimp.jpg";
 import potatoCroquettesImg from "@/assets/recipes/leftover-potato-croquettes.jpg";
 import monsterSmoothieImg from "@/assets/recipes/monster-smoothie-bowl.jpg";
@@ -58,7 +60,8 @@ import cheddarBiscuitsImg from "@/assets/recipes/copycat-red-lobster-cheddar-bay
 import teriyakiSalmonImg from "@/assets/recipes/teriyaki-salmon-bowl.jpg";
 import frenchDipImg from "@/assets/recipes/leftover-french-dip.jpg";
 import pumpkinDonutsImg from "@/assets/recipes/pumpkin-donuts.jpg";
-import chickenSandwichImg from "@/assets/recipes/copycat-chicken-sandwich.jpg";
+// chickenSandwichImg replaced with imgur URL
+const chickenSandwichImg = "https://i.imgur.com/9M80bvv.png";
 import sesameNoodlesImg from "@/assets/recipes/quick-sesame-noodles.jpg";
 import hamHashImg from "@/assets/recipes/leftover-ham-hash.jpg";
 import ghostMeringuesImg from "@/assets/recipes/ghost-meringues.jpg";
@@ -71,15 +74,16 @@ import kungPaoImg from "@/assets/recipes/quick-kung-pao-chicken.jpg";
 // burgerSlidersImg replaced with imgur URL
 const burgerSlidersImg = "https://i.imgur.com/BJ1aRuN.png";
 
-import eggBitesImg from "@/assets/recipes/copycat-egg-bites.jpg";
+// eggBitesImg replaced with imgur URL
+const eggBitesImg = "https://i.imgur.com/u5ZahL2.png";
 import shrimpScampiImg from "@/assets/recipes/quick-shrimp-scampi.jpg";
 // sausageBurritoImg replaced with imgur URL
 const sausageBurritoImg = "https://i.imgur.com/TRWioaz.png";
 import poisonAppleImg from "@/assets/recipes/poison-apple-cocktail.jpg";
-import animalFriesImg from "@/assets/recipes/copycat-animal-fries.jpg";
+// animalFriesImg replaced with imgur URL
+const animalFriesImg = "https://i.imgur.com/R3lKTcY.png";
 import mongolianBeefImg from "@/assets/recipes/quick-mongolian-beef.jpg";
-// porkNachosImg replaced with imgur URL
-const porkNachosImg = "https://i.imgur.com/BJ1aRuN.png";
+import porkNachosImg from "@/assets/recipes/leftover-pork-nachos.jpg";
 import eyeballMeatballsImg from "@/assets/recipes/eyeball-meatballs.jpg";
 import hashbrownCasseroleImg from "@/assets/recipes/copycat-hashbrown-casserole.jpg";
 import greekChickenImg from "@/assets/recipes/quick-greek-chicken.jpg";
@@ -88,7 +92,7 @@ import mcgriddlesImg from "@/assets/recipes/copycat-mcgriddles.jpg";
 import steakBitesImg from "@/assets/recipes/garlic-steak-bites.jpg";
 import stuffingMuffinsImg from "@/assets/recipes/leftover-stuffing-muffins.jpg";
 // meatballSubImg replaced with imgur URL
-const meatballSubImg = "https://i.imgur.com/0C3bIhH.png";
+const meatballSubImg = "https://i.imgur.com/cJ7Z5m8.png";
 import padThaiImg from "@/assets/recipes/quick-pad-thai.jpg";
 import salmonSaladImg from "@/assets/recipes/leftover-salmon-salad.jpg";
 import cajunJambalayaImg from "@/assets/recipes/cajun-jambalaya.jpg";
@@ -343,7 +347,7 @@ import dessertCoconutCreamPieImg from "@/assets/recipes/dessert-coconut-cream-pi
 // Lunch (20)
 import lunchMediterraneanQuinoaBowlImg from "@/assets/recipes/lunch-mediterranean-quinoa-bowl.jpg";
 // lunchBuffaloChickenWrapImg replaced with imgur URL
-const lunchBuffaloChickenWrapImg = "https://i.imgur.com/3xH23cf.png";
+const lunchBuffaloChickenWrapImg = "https://i.imgur.com/wDgcADj.png";
 import lunchGreekSaladChickenImg from "@/assets/recipes/lunch-greek-salad-chicken.jpg";
 import lunchTurkeyAvocadoClubImg from "@/assets/recipes/lunch-turkey-avocado-club.jpg";
 import lunchAsianLettuceWrapsImg from "@/assets/recipes/lunch-asian-lettuce-wraps.jpg";
@@ -355,7 +359,8 @@ import lunchFalafelPitaImg from "@/assets/recipes/lunch-falafel-pita.jpg";
 import lunchChickenCaesarSaladImg from "@/assets/recipes/lunch-chicken-caesar-salad.jpg";
 import lunchBanhMiSandwichImg from "@/assets/recipes/banh-mi-sandwich.jpg";
 import lunchSouthwestChickenBowlImg from "@/assets/recipes/lunch-southwest-chicken-bowl.jpg";
-import lunchMargheritaFlatbreadImg from "@/assets/recipes/margherita-flatbread-final.jpg";
+// lunchMargheritaFlatbreadImg replaced with imgur URL
+const lunchMargheritaFlatbreadImg = "https://i.imgur.com/B8QxTtF.png";
 import lunchCobbSaladImg from "@/assets/recipes/lunch-cobb-salad.jpg";
 import lunchPestoPastaSaladImg from "@/assets/recipes/lunch-pesto-pasta-salad.jpg";
 import lunchKoreanBbqBeefBowlImg from "@/assets/recipes/lunch-korean-bbq-beef-bowl.jpg";
@@ -371,7 +376,8 @@ import onePotCreamyTuscanChickenImg from "@/assets/recipes/one-pot-creamy-tuscan
 import onePotChiliConCarneImg from "@/assets/recipes/one-pot-chili-con-carne.jpg";
 import onePotSeafoodPaellaImg from "@/assets/recipes/one-pot-seafood-paella.jpg";
 import onePotChickenCacciatoreImg from "@/assets/recipes/one-pot-chicken-cacciatore.jpg";
-import onePotMoroccanTagineImg from "@/assets/recipes/one-pot-moroccan-tagine.jpg";
+// onePotMoroccanTagineImg replaced with imgur URL
+const onePotMoroccanTagineImg = "https://i.imgur.com/x93gTnK.png";
 import onePotTuscanWhiteBeanSoupImg from "@/assets/recipes/one-pot-tuscan-white-bean-soup.jpg";
 import onePotChickenTikkaMasalaImg from "@/assets/recipes/one-pot-chicken-tikka-masala.jpg";
 import onePotPotRoastImg from "@/assets/recipes/one-pot-pot-roast.jpg";
@@ -488,19 +494,23 @@ import onePotSausagePotatoGravyImg from "@/assets/recipes/one-pot-sausage-potato
 import onePotBeefTacoSkilletImg from "@/assets/recipes/one-pot-beef-taco-skillet.jpg";
 
 // Restaurant Copycats (20)
-import copycatChickFilASandwichImg from "@/assets/recipes/copycat-chick-fil-a-sandwich.jpg";
+// copycatChickFilASandwichImg replaced with imgur URL
+const copycatChickFilASandwichImg = "https://i.imgur.com/9M80bvv.png";
 // copycatChipotleBurritoBowlImg replaced with imgur URL
-const copycatChipotleBurritoBowlImg = "https://i.imgur.com/dkzk211.png";
+const copycatChipotleBurritoBowlImg = "https://i.imgur.com/877Y8M2.png";
 import copycatOliveGardenBreadsticksImg from "@/assets/recipes/copycat-olive-garden-breadsticks.jpg";
-import copycatPaneraBroccoliSoupImg from "@/assets/recipes/copycat-panera-broccoli-soup.jpg";
+// copycatPaneraBroccoliSoupImg replaced with imgur URL
+const copycatPaneraBroccoliSoupImg = "https://i.imgur.com/5Wn96I7.png";
 import copycatRedLobsterBiscuitsImg from "@/assets/recipes/copycat-red-lobster-biscuits.jpg";
 import copycatCrackerBarrelHashbrownsImg from "@/assets/recipes/copycat-cracker-barrel-hashbrowns.jpg";
 import copycatTexasRoadhouseButterImg from "@/assets/recipes/copycat-texas-roadhouse-butter.jpg";
 import copycatPfChangsWrapsImg from "@/assets/recipes/copycat-pf-changs-wraps.jpg";
 import copycatCheesecakeFactoryAvocadoRollsImg from "@/assets/recipes/copycat-cheesecake-factory-avocado-rolls.jpg";
 import copycatKfcColeslawImg from "@/assets/recipes/copycat-kfc-coleslaw.jpg";
-import copycatSubwayMeatballSubImg from "@/assets/recipes/copycat-subway-meatball-sub.jpg";
-import copycatStarbucksEggBitesImg from "@/assets/recipes/copycat-starbucks-egg-bites.jpg";
+// copycatSubwayMeatballSubImg replaced with imgur URL
+const copycatSubwayMeatballSubImg = "https://i.imgur.com/cJ7Z5m8.png";
+// copycatStarbucksEggBitesImg replaced with imgur URL
+const copycatStarbucksEggBitesImg = "https://i.imgur.com/u5ZahL2.png";
 import copycatWendysChiliImg from "@/assets/recipes/copycat-wendys-chili.jpg";
 import copycatMcdonaldsMcgriddlesImg from "@/assets/recipes/copycat-mcdonalds-mcgriddles.jpg";
 import copycatPizzaHutPanImg from "@/assets/recipes/copycat-pizza-hut-pan.jpg";
@@ -508,7 +518,8 @@ import copycatApplebeesOrientalSaladImg from "@/assets/recipes/copycat-applebees
 import copycatCinnabonRollsImg from "@/assets/recipes/copycat-cinnabon-rolls.jpg";
 import copycatPandaOrangeChickenImg from "@/assets/recipes/copycat-panda-orange-chicken.jpg";
 import copycatChilisMoltenCakeImg from "@/assets/recipes/copycat-chilis-molten-cake.jpg";
-import copycatOutbackBloominOnionImg from "@/assets/recipes/copycat-outback-bloomin-onion.jpg";
+// copycatOutbackBloominOnionImg replaced with imgur URL
+const copycatOutbackBloominOnionImg = "https://i.imgur.com/KnOg2Qw.png";
 
 // Dessert images are served from Lovable uploads
 
@@ -564,7 +575,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 12,
-    cuisine: "One Pot Wonders",
+    cuisine: "Desserts",
     image: "/lovable-uploads/dessert-cheesecake.png",
     totalTime: 180,
     tags: ["dessert", "baked", "american", "rich", "vegetarian", "glutenfree"],
@@ -604,7 +615,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 16,
-    cuisine: "One Pot Wonders",
+    cuisine: "Desserts",
     image: "/lovable-uploads/dessert-brownies.png",
     totalTime: 45,
     tags: ["dessert", "chocolate", "baked", "vegetarian"],
@@ -708,7 +719,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "30 mins",
     difficulty: "medium",
     servings: 8,
-    cuisine: "One Pot Wonders",
+    cuisine: "Desserts",
     image: applePieImg,
     totalTime: 80,
     tags: ["dessert", "baked", "american", "fruit", "vegetarian"],
@@ -930,7 +941,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 8,
-    cuisine: "One Pot Wonders",
+    cuisine: "Desserts",
     image: breadPuddingImg,
     totalTime: 60,
     tags: ["dessert", "comfort", "baked", "warm", "vegetarian"],
@@ -1056,7 +1067,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "40 mins",
     difficulty: "medium",
     servings: 12,
-    cuisine: "One Pot Wonders",
+    cuisine: "Desserts",
     image: "https://i.imgur.com/G37PuDP.png",
     totalTime: 150,
     tags: ["dessert", "breakfast", "baked", "cinnamon", "vegetarian"],
@@ -1090,7 +1101,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 24,
-    cuisine: "One Pot Wonders",
+    cuisine: "Desserts",
     image: "/lovable-uploads/dessert-cookies.png",
     totalTime: 27,
     tags: ["dessert", "cookies", "chocolate"],
@@ -1123,7 +1134,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "easy",
     servings: 12,
-    cuisine: "One Pot Wonders",
+    cuisine: "Desserts",
     image: "/lovable-uploads/dessert-carrot-cake.png",
     totalTime: 55,
     tags: ["dessert", "cake", "spiced", "baked"],
@@ -1217,7 +1228,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 12,
-    cuisine: "One Pot Wonders",
+    cuisine: "Desserts",
     image: "/lovable-uploads/dessert-red-velvet.png",
     totalTime: 50,
     tags: ["dessert", "cake", "american", "baked"],
@@ -1250,7 +1261,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 8,
-    cuisine: "One Pot Wonders",
+    cuisine: "Desserts",
     image: "/lovable-uploads/dessert-key-lime-pie.png",
     totalTime: 135,
     tags: ["dessert", "citrus", "pie", "glutenfree"],
@@ -1280,7 +1291,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "5 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "One Pot Wonders",
+    cuisine: "Desserts",
     image: bananasFosterImg,
     totalTime: 15,
     tags: ["dessert", "fruit", "warm", "glutenfree"],
@@ -1310,7 +1321,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 16,
-    cuisine: "One Pot Wonders",
+    cuisine: "Desserts",
     image: "/lovable-uploads/dessert-lemon-bars.png",
     totalTime: 55,
     tags: ["dessert", "citrus", "baked", "bars"],
@@ -2595,7 +2606,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "hard",
     servings: 4,
     cuisine: "One Pot Wonders",
-    image: "https://i.imgur.com/VivkKhF.jpeg",
+    image: "https://i.imgur.com/KnOg2Qw.png",
     totalTime: 45,
     tags: ["copycat", "appetizer", "fried"],
     ingredients: [
@@ -2701,7 +2712,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 12,
-    cuisine: "One Pot Wonders",
+    cuisine: "Restaurant Copycats",
     image: cheddarBiscuitsImg,
     totalTime: 25,
     tags: ["copycat", "bread", "side", "vegetarian", "glutenfree"],
@@ -2799,7 +2810,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 12,
-    cuisine: "One Pot Wonders",
+    cuisine: "Restaurant Copycats",
     image: eggBitesImg,
     totalTime: 40,
     tags: ["copycat", "protein", "keto", "glutenfree"],
@@ -2831,7 +2842,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 10,
-    cuisine: "One Pot Wonders",
+    cuisine: "Restaurant Copycats",
     image: "https://i.imgur.com/wjoyn9U.jpeg",
     totalTime: 60,
     tags: ["copycat", "side", "comfort", "vegetarian", "glutenfree"],
@@ -2863,7 +2874,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "One Pot Wonders",
+    cuisine: "Restaurant Copycats",
     image: "https://i.imgur.com/tM3AbuP.jpeg",
     totalTime: 35,
     tags: ["copycat", "fast-food", "glutenfree"],
@@ -2959,7 +2970,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "One Pot Wonders",
+    cuisine: "Restaurant Copycats",
     image: chickenSandwichImg,
     totalTime: 35,
     tags: ["copycat", "fast-food"],
@@ -4446,48 +4457,6 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
-    id: "quick-chicken-fajitas",
-    name: "30-Minute Chicken Fajitas",
-    description: "Sizzling peppers and onions with perfectly seasoned chicken. Tex-Mex night done right.",
-    cookTime: "20 mins",
-    prepTime: "10 mins",
-    difficulty: "medium",
-    servings: 4,
-    cuisine: "Quick and Easy",
-    image: chickenFajitasImg,
-    totalTime: 30,
-    tags: ["quick", "mexican", "protein"],
-    nutrition: {
-      calories: 310,
-      protein: 32,
-      carbs: 16,
-      fat: 12,
-      fiber: 3,
-      sugar: 6,
-      servingSize: "1 serving with tortillas"
-    },
-    ingredients: [
-      { amount: "1", unit: "lb", item: "chicken breast, sliced" },
-      { amount: "3", unit: "", item: "bell peppers, sliced" },
-      { amount: "1", unit: "large", item: "onion, sliced" },
-      { amount: "2", unit: "tbsp", item: "fajita seasoning" },
-      { amount: "2", unit: "tbsp", item: "olive oil" },
-      { amount: "8", unit: "", item: "flour tortillas" },
-      { amount: "1", unit: "cup", item: "sour cream" },
-      { amount: "1", unit: "cup", item: "guacamole" },
-      { amount: "1", unit: "cup", item: "shredded cheese" }
-    ],
-    instructions: [
-      "Season chicken with fajita seasoning.",
-      "Heat oil in large cast iron skillet over high heat.",
-      "Cook chicken 5-6 minutes until done. Remove.",
-      "Add peppers and onions, cook 5-7 minutes until charred.",
-      "Return chicken to pan, toss together.",
-      "Warm tortillas.",
-      "Serve fajita mixture with tortillas and toppings."
-    ]
-  },
-  {
     id: "quick-kung-pao-chicken",
     name: "25-Minute Kung Pao Chicken",
     description: "Spicy, sweet, crunchy. Takeout favorite made better at home.",
@@ -5077,7 +5046,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "One Pot Wonders",
-    image: porkNachosImg,
+    image: "https://i.imgur.com/ZUTLFQK.png",
     totalTime: 20,
     tags: ["leftover", "party", "appetizer"],
     ingredients: [
