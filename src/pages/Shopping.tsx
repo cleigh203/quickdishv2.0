@@ -3,8 +3,11 @@ import { Printer, Store, Loader2, CheckCircle, Package, RefreshCw, AlertTriangle
 import { useNavigate } from "react-router-dom";
 import { BottomNav } from "@/components/BottomNav";
 import { StoreSelectionDialog } from "@/components/StoreSelectionDialog";
+import { InstacartButton } from "@/components/InstacartButton";
 import { useToast } from "@/hooks/use-toast";
 import { useShoppingList } from "@/hooks/useShoppingList";
+import { useInstacart } from "@/hooks/useInstacart";
+import { InstacartAttribution } from "@/components/InstacartAttribution";
 import { Switch } from "@/components/ui/switch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PantryItem } from "@/types/pantry";
@@ -73,7 +76,8 @@ const Shopping = () => {
     clearCompleted, 
     clearAll, 
     setList,
-    forceSync 
+    forceSync,
+    addItems
   } = useShoppingList();
   
   const [pantryItems, setPantryItems] = useState<string[]>([]);
@@ -81,7 +85,9 @@ const Shopping = () => {
   const [showClearDialog, setShowClearDialog] = useState(false);
   const [hidePantryItems, setHidePantryItems] = useState(true);
   const [showStoreDialog, setShowStoreDialog] = useState(false);
+  const [creatingInstacartList, setCreatingInstacartList] = useState(false);
   const { toast } = useToast();
+  const { createShoppingListLink } = useInstacart();
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const shoppingListRef = useRef(shoppingList);
 
@@ -345,9 +351,40 @@ const Shopping = () => {
     toast({ title: "Print dialog opened" });
   };
 
-  const handleShopOnline = () => {
+  const handleShopOnline = async () => {
+    // Create Instacart shopping list link
+    if (displayList.length === 0) {
+      toast({
+        title: "Empty list",
+        description: "Add items to your shopping list first",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setCreatingInstacartList(true);
+    try {
+      const instacartUrl = await createShoppingListLink(displayList, "QuickDish Shopping List");
+      
+      if (instacartUrl) {
+        // Open Instacart in new tab
+        window.open(instacartUrl, '_blank');
+        toast({
+          title: "Opening Instacart",
+          description: "Your shopping list has been loaded on Instacart",
+        });
+      }
+    } catch (error) {
+      console.error('Failed to create Instacart list:', error);
+    } finally {
+      setCreatingInstacartList(false);
+    }
+  };
+
+  const handleShopOnlineOtherStores = () => {
     setShowStoreDialog(true);
   };
+
 
   // Group items by category
   const categorizedItems = useMemo(() => {
@@ -376,6 +413,11 @@ const Shopping = () => {
   const isIndeterminate = checkedItems > 0 && checkedItems < totalItems;
   const isAllChecked = totalItems > 0 && checkedItems === totalItems;
 
+  // Show loading screen immediately on first load
+  if (loading && shoppingList.length === 0) {
+    return <LoadingScreen message="Loading your shopping list..." delay={0} />;
+  }
+
   return (
     <>
       <div className="min-h-screen pb-20 bg-gray-50">
@@ -399,20 +441,20 @@ const Shopping = () => {
           
           {/* Sync Error Warning */}
           {syncError && (
-            <div className="mb-3 p-2.5 bg-red-500/20 border border-red-300/30 rounded-lg flex items-start gap-2 text-sm">
+            <div className="mb-3 p-2.5 bg-yellow-500/20 border border-yellow-300/30 rounded-lg flex items-start gap-2 text-sm">
               <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
               <div>
                 <div className="font-semibold">
-                  {syncError === 'timeout' && 'Database Timeout'}
+                  {syncError === 'timeout' && 'Working Offline'}
                   {syncError === 'conflict' && 'Data Conflict Detected'}
-                  {syncError === 'error' && 'Sync Error'}
-                  {syncError === 'no-cache' && 'No Cached Data'}
+                  {syncError === 'error' && 'Working Offline'}
+                  {syncError === 'no-cache' && 'Connection Issue'}
                 </div>
                 <div className="text-xs opacity-90">
-                  {syncError === 'timeout' && 'Using cached data. Click Force Sync to retry.'}
-                  {syncError === 'conflict' && 'List was modified on another device.'}
-                  {syncError === 'error' && 'Changes may not be saved. Check connection.'}
-                  {syncError === 'no-cache' && 'Unable to load list. Check connection and retry.'}
+                  {syncError === 'timeout' && 'Connection slow. Changes will sync when connection improves.'}
+                  {syncError === 'conflict' && 'List was modified on another device. Click Force Sync to reload.'}
+                  {syncError === 'error' && 'Changes will sync when connection improves.'}
+                  {syncError === 'no-cache' && 'You can still add items. They\'ll sync when connection improves.'}
                 </div>
               </div>
             </div>
@@ -447,12 +489,20 @@ const Shopping = () => {
           <>
             {/* Action Bar */}
             <div className="bg-white px-5 py-4 flex gap-3 border-b border-gray-200">
+              <div className="flex-1">
+                <InstacartButton
+                  onClick={handleShopOnline}
+                  loading={creatingInstacartList}
+                  disabled={displayList.length === 0}
+                  className="w-full"
+                />
+              </div>
               <button
-                onClick={handleShopOnline}
+                onClick={handleShopOnlineOtherStores}
                 className="flex-1 h-12 bg-[#FF6B35] text-white rounded-xl font-semibold text-base shadow-md hover:bg-[#E55A2B] transition-all"
               >
                 <Store className="w-4 h-4 inline mr-2" />
-                Shop Online
+                Other Stores
               </button>
               <button
                 onClick={handlePrint}
@@ -461,6 +511,13 @@ const Shopping = () => {
                 <Printer className="w-4 h-4 inline mr-2" />
                 Print
               </button>
+            </div>
+
+            {/* Instacart Attribution */}
+            <div className="bg-gray-50 px-5 py-3 border-b border-gray-200">
+              <div className="flex items-center justify-center">
+                <InstacartAttribution size="sm" />
+              </div>
             </div>
 
             {/* Pantry Toggle */}
@@ -486,7 +543,7 @@ const Shopping = () => {
             </div>
 
             {/* Pantry Loading Screen */}
-            {pantryLoading && user && <LoadingScreen message="Loading your pantry..." delay={300} />}
+            {pantryLoading && user && <LoadingScreen message="Loading your pantry..." delay={0} />}
 
             {loading ? (
               // Show skeleton loaders while loading

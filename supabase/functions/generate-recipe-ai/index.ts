@@ -39,23 +39,23 @@ serve(async (req) => {
     const needsReset = !lastGenDate || lastGenDate !== today;
 
     let currentGenerations = needsReset ? 0 : (profile.ai_generations_today || 0);
-    const limit = profile.is_premium ? 10 : 2;
+    const limit = profile.is_premium ? 5 : 2;
 
     if (currentGenerations >= limit) {
       return new Response(
         JSON.stringify({ 
           error: 'Rate limit exceeded',
           message: profile.is_premium 
-            ? 'Daily limit of 10 AI generations reached. Try again tomorrow!'
-            : 'Daily limit of 2 AI generations reached. Upgrade to Premium for 10 generations/day.'
+            ? 'Daily limit of 5 AI generations reached. Try again tomorrow!'
+            : 'Daily limit of 2 AI generations reached. Upgrade to Premium for 5 generations/day.'
         }),
         { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
-    if (!LOVABLE_API_KEY) {
-      throw new Error('LOVABLE_API_KEY is not configured');
+    const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
+    if (!OPENAI_API_KEY) {
+      throw new Error('OPENAI_API_KEY is not configured');
     }
 
     const systemPrompt = `You are a professional chef AI that creates detailed, delicious recipes. 
@@ -86,41 +86,42 @@ Include specific cooking techniques, temperatures, and timings.
 Calculate accurate nutritional information per serving based on USDA nutritional databases.
 Return ONLY the JSON object, no other text.`;
 
-    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
+        model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
         ],
         temperature: 0.8,
+        max_tokens: 1500,
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('AI gateway error:', response.status, errorText);
+      console.error('OpenAI API error:', response.status, errorText);
       
       if (response.status === 429) {
         return new Response(
-          JSON.stringify({ error: 'AI service rate limit exceeded. Please try again in a moment.' }),
+          JSON.stringify({ error: 'OpenAI rate limit exceeded. Please try again in a moment.' }),
           { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
       
-      if (response.status === 402) {
+      if (response.status === 401) {
         return new Response(
-          JSON.stringify({ error: 'AI service unavailable. Please try again later.' }),
-          { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          JSON.stringify({ error: 'OpenAI API authentication failed. Please contact support.' }),
+          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
       
-      throw new Error(`AI gateway error: ${response.status}`);
+      throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
@@ -140,79 +141,42 @@ Return ONLY the JSON object, no other text.`;
 
     // Add AI-generated flag and ID
     recipe.id = `ai-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    recipe.isAiGenerated = true;
-    recipe.generatedAt = new Date().toISOString();
-
-    // Generate image for the recipe
-    console.log('Generating image for recipe:', recipe.name);
-    let imageUrl = null;
+    recipe.ai_generated = true;
+    recipe.verified = false;
+    recipe.source = 'ai-generated';
     
+    // No image for AI recipes (user doesn't care)
+    recipe.image = null;
+    recipe.imageUrl = null;
+
+    console.log('Recipe generated successfully, inserting for user:', recipe.name);
+
+    // Persist AI recipe for this user so it can be resolved later by Favorites
     try {
-      const imagePrompt = `Professional food photography of ${recipe.name}, beautifully plated on a white dish, studio lighting, high-end restaurant quality, appetizing, detailed, 4k quality`;
-      
-      const imageResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${LOVABLE_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'google/gemini-2.5-flash-image-preview',
-          messages: [
-            {
-              role: 'user',
-              content: imagePrompt
-            }
-          ],
-          modalities: ['image', 'text']
-        }),
-      });
-
-      if (imageResponse.ok) {
-        const imageData = await imageResponse.json();
-        imageUrl = imageData.choices?.[0]?.message?.images?.[0]?.image_url?.url;
-        console.log('Image generated successfully');
-      } else {
-        console.error('Image generation failed:', imageResponse.status);
+      const { error: insertError } = await supabaseClient
+        .from('generated_recipes')
+        .insert({
+          user_id: userId,
+          recipe_id: recipe.id,
+          name: recipe.name,
+          description: recipe.description || '',
+          cook_time: recipe.cookTime || '',
+          prep_time: recipe.prepTime || '',
+          difficulty: recipe.difficulty || 'Medium',
+          servings: recipe.servings || 4,
+          ingredients: recipe.ingredients || [],
+          instructions: recipe.instructions || [],
+          cuisine: recipe.cuisine || '',
+          nutrition: recipe.nutrition || null,
+          tags: recipe.tags || [],
+          image_url: null,
+        });
+      if (insertError) {
+        console.error('Failed to insert generated recipe:', insertError);
       }
-    } catch (imageError) {
-      console.error('Error generating image:', imageError);
-      // Continue without image - don't fail the whole request
+    } catch (e) {
+      console.error('Exception inserting generated recipe:', e);
     }
-
-    // Add image to recipe (or use placeholder if generation failed)
-    recipe.image = imageUrl || `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80`;
-    recipe.imageUrl = recipe.image;
-
-    // Save recipe to database BEFORE returning to user
-    console.log('Saving generated recipe to database...');
-    const { data: savedRecipe, error: saveError } = await supabaseClient
-      .from('generated_recipes')
-      .insert({
-        user_id: userId,
-        recipe_id: recipe.id,
-        name: recipe.name,
-        description: recipe.description,
-        ingredients: recipe.ingredients,
-        instructions: recipe.instructions,
-        prep_time: recipe.prepTime,
-        cook_time: recipe.cookTime,
-        servings: recipe.servings,
-        difficulty: recipe.difficulty,
-        cuisine: recipe.cuisine,
-        image_url: recipe.imageUrl,
-        nutrition: recipe.nutrition || null,
-        tags: recipe.tags || []
-      })
-      .select()
-      .single();
-
-    if (saveError) {
-      console.error('Failed to save generated recipe:', saveError);
-      throw new Error('Failed to save recipe to database');
-    }
-
-    console.log('Recipe saved successfully:', savedRecipe);
 
     // Update user's generation count
     const { error: updateError } = await supabaseClient
@@ -228,7 +192,7 @@ Return ONLY the JSON object, no other text.`;
       // Don't fail the request if counter update fails
     }
 
-    console.log('Successfully generated recipe with image:', recipe.name);
+    console.log('✅ Recipe ready for user (session only):', recipe.name);
 
     return new Response(
       JSON.stringify({ 
@@ -240,8 +204,13 @@ Return ONLY the JSON object, no other text.`;
 
   } catch (error: any) {
     console.error('Error in generate-recipe-ai function:', error);
+    console.error('Error stack:', error.stack);
     return new Response(
-      JSON.stringify({ error: error.message || 'Failed to generate recipe' }),
+      JSON.stringify({ 
+        error: error.message || 'Failed to generate recipe',
+        details: error.stack,
+        timestamp: new Date().toISOString()
+      }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }

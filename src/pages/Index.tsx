@@ -11,6 +11,7 @@ import { RecipeCard } from "@/components/RecipeCard";
 // import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import poisonAppleCocktail from "@/assets/recipes/poison-apple-cocktail.jpg";
 import { allRecipes } from "@/data/recipes";
+import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import type { Recipe } from "@/types/recipe";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
@@ -32,50 +33,84 @@ const Index = () => {
   // Combine verified, generated, and static recipes with proper deduplication
   const combinedRecipes = useMemo(() => {
     const recipeMap = new Map<string, Recipe>();
-    
-    // Add static recipes first
-    allRecipes.forEach(recipe => {
+
+    // Helper: when overriding an existing recipe, preserve any custom imageUrl we set in static data
+    const setWithImagePreserved = (incoming: Recipe) => {
+      const existing = recipeMap.get(incoming.id);
+      if (existing && existing.imageUrl) {
+        recipeMap.set(incoming.id, { ...incoming, imageUrl: existing.imageUrl });
+      } else {
+        recipeMap.set(incoming.id, incoming);
+      }
+    };
+
+    // Add static recipes first (may include curated imageUrl updates)
+    allRecipes.forEach((recipe) => {
       recipeMap.set(recipe.id, recipe);
     });
-    
-    // Override with generated recipes (higher priority)
-    generatedRecipes.forEach(recipe => {
-      recipeMap.set(recipe.id, recipe);
+
+    // Override with generated recipes (higher priority), but keep curated imageUrl if present
+    generatedRecipes.forEach((recipe) => {
+      setWithImagePreserved(recipe as Recipe);
     });
-    
-    // Override with verified recipes (highest priority - these have AI images)
-    verifiedRecipes.forEach(recipe => {
-      recipeMap.set(recipe.id, recipe);
+
+    // Override with verified recipes (highest priority), but keep curated imageUrl if present
+    verifiedRecipes.forEach((recipe) => {
+      setWithImagePreserved(recipe as Recipe);
     });
-    
-    return Array.from(recipeMap.values());
+
+    // Exclude AI-generated (session) recipes from public discovery lists
+    return Array.from(recipeMap.values()).filter(r => !(r as any).isAiGenerated);
   }, [generatedRecipes, verifiedRecipes]);
 
-  // Filter recipes by ingredients
+  // Filter recipes by ingredients (AND logic on ingredients only)
   const filteredRecipes = useMemo(() => {
     if (!isSearching || !searchInput.trim()) return [];
 
+    // Common words to ignore
+    const stopWords = ['and', 'or', 'with', 'the', 'a', 'an', 'in', 'on', 'for'];
+    
     const searchTerms = searchInput
       .toLowerCase()
       .split(/[\s,]+/)
-      .filter(term => term.length > 0);
+      .filter(term => term.length > 0 && !stopWords.includes(term));
 
     if (searchTerms.length === 0) return [];
 
-    return combinedRecipes.filter(recipe => {
-      const recipeIngredients = recipe.ingredients
-        .map(ing => ing.item.toLowerCase())
-        .join(" ");
+    // Require ALL terms be present in the ingredient list with word boundary matching
+    const andMatched = combinedRecipes.filter(recipe => {
+      return searchTerms.every(term => {
+        // Use word boundary regex so "fish" doesn't match "finish"
+        const wordRegex = new RegExp(`\\b${term}`, 'i');
+        
+        // Check if term matches any ingredient as a word
+        return recipe.ingredients.some(ing => wordRegex.test(ing.item));
+      });
+    });
 
-      return searchTerms.every(term =>
-        recipeIngredients.includes(term)
-      );
+    return andMatched.sort((a, b) => {
+      // Sort by number of matching terms (most matches first)
+      const aMatches = searchTerms.filter(term => {
+        const wordRegex = new RegExp(`\\b${term}`, 'i');
+        return a.ingredients.some(ing => wordRegex.test(ing.item));
+      }).length;
+      
+      const bMatches = searchTerms.filter(term => {
+        const wordRegex = new RegExp(`\\b${term}`, 'i');
+        return b.ingredients.some(ing => wordRegex.test(ing.item));
+      }).length;
+      
+      return bMatches - aMatches; // More matches = higher priority
     });
   }, [searchInput, isSearching, combinedRecipes]);
 
-  const handleSearch = () => {
-    console.log('Search button clicked with term:', searchInput);
-    if (searchInput.trim()) {
+  const handleSearch = (searchTerm?: string) => {
+    const term = searchTerm || searchInput;
+    console.log('Search triggered with term:', term);
+    if (term.trim()) {
+      if (searchTerm) {
+        setSearchInput(searchTerm); // Ensure state is updated
+      }
       setIsSearching(true);
     }
   };
@@ -116,6 +151,7 @@ const Index = () => {
               }}
               placeholder="What's in your fridge?"
               className="w-full h-14 px-4 pr-28 bg-transparent border-0 outline-none text-foreground placeholder:text-muted-foreground text-lg"
+              data-search-bar
             />
             <VoiceSearchButton
               onTranscript={(text) => setSearchInput(text)}
@@ -128,7 +164,7 @@ const Index = () => {
               type="button"
               size="icon"
               className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full h-10 w-10 p-3 z-10"
-              onClick={handleSearch}
+              onClick={() => handleSearch()}
             >
               <Sparkles className="w-5 h-5" />
             </Button>
@@ -175,23 +211,29 @@ const Index = () => {
                 ))}
               </div>
             ) : (
-              <div className="max-w-md mx-auto text-center py-12">
-                <div className="text-6xl mb-4">🔍</div>
-                <h3 className="text-2xl font-bold mb-2">
-                  No recipes found for '{searchInput}'
-                </h3>
-                <p className="text-muted-foreground mb-6">
-                  Try different search terms or browse our categories
-                </p>
-                <Button 
-                  size="lg"
-                  onClick={() => {
-                    handleClearSearch();
-                    navigate('/discover');
+              <div className="max-w-md mx-auto text-center py-12 space-y-6">
+                <div>
+                  <div className="text-6xl mb-2">🧪</div>
+                  <h3 className="text-2xl font-bold mb-2">No exact matches</h3>
+                  <p className="text-muted-foreground">We can generate a custom recipe using those ingredients.</p>
+                </div>
+                <AiGenerationPrompt 
+                  searchTerm={searchInput}
+                  onRecipeGenerated={(recipe) => {
+                    navigate(`/recipe/${recipe.id}`, { state: { recipe } });
                   }}
-                >
-                  Browse Recipes
-                </Button>
+                />
+                <div>
+                  <Button 
+                    variant="outline"
+                    onClick={() => {
+                      handleClearSearch();
+                      navigate('/discover');
+                    }}
+                  >
+                    Browse Recipes Instead
+                  </Button>
+                </div>
               </div>
             )}
           </div>

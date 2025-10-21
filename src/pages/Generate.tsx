@@ -10,11 +10,11 @@ import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
 import { allRecipes } from "@/data/recipes";
-// TODO V2.0: Re-enable AI recipe generation with full feature parity
-// import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
+import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
 import { LoadingScreen } from "@/components/LoadingScreen";
+import { getRecipeImage } from "@/utils/recipeImages";
 
 const Generate = () => {
   const [searchParams] = useSearchParams();
@@ -56,7 +56,8 @@ const Generate = () => {
       recipeMap.set(recipe.id, recipe);
     });
     
-    return Array.from(recipeMap.values());
+    // Exclude AI-generated recipes from discovery dataset
+    return Array.from(recipeMap.values()).filter(r => !(r as any).isAiGenerated);
   })();
 
   // Load all recipes into storage on mount
@@ -137,10 +138,23 @@ const Generate = () => {
             recipe.cuisine.toLowerCase().includes('copycat') ||
             recipe.name.toLowerCase().includes('copycat');
           const isDessert = recipe.tags?.includes('dessert');
+          const isBreakfastOnly = recipe.cuisine === "Breakfast" || recipe.tags?.includes('breakfast');
+          const isDinnerOnly = recipe.cuisine === "Dinner";
+          const isLeftoverOnly = recipe.cuisine === "Leftover Magic" || recipe.tags?.includes('leftover');
+          const isFallOnly = recipe.cuisine === "Fall Favorites" && recipe.tags?.includes('fall');
+          const isOnePotOnly = recipe.cuisine === "One Pot Wonders";
+          const isHealthyBowl = recipe.cuisine === "Healthy Bowls" || recipe.tags?.includes('bowls');
+          
           return (recipe.totalTime <= 30 || recipe.tags?.includes('quick')) && 
                  !isHalloweenRecipe(recipe) && 
                  !isCopycatRecipe &&
-                 !isDessert;
+                 !isDessert &&
+                 !isBreakfastOnly &&
+                 !isDinnerOnly &&
+                 !isLeftoverOnly &&
+                 !isFallOnly &&
+                 !isOnePotOnly &&
+                 !isHealthyBowl;
         });
       
       case 'breakfast':
@@ -168,7 +182,8 @@ const Generate = () => {
       
       case 'onepot':
         return combinedRecipes.filter(recipe =>
-          (recipe.tags?.includes('one-pot') || 
+          (recipe.cuisine === "One Pot Wonders" ||
+           recipe.tags?.includes('one-pot') || 
            recipe.tags?.includes('sheet-pan') || 
            recipe.tags?.includes('air-fryer') ||
            recipe.tags?.includes('casserole')) && !isHalloweenRecipe(recipe)
@@ -261,16 +276,26 @@ const Generate = () => {
     await saveRecipe(recipe.id);
   };
 
-  // Filter recipes by ingredients from URL param
+  // Filter recipes by ingredients from URL param (AND logic - must have ALL ingredients with word boundaries)
   const filterByIngredients = (recipes: Recipe[], query: string) => {
     if (!query) return recipes;
     
-    const searchTerms = query.toLowerCase().split(',').map(t => t.trim());
+    // Common words to ignore
+    const stopWords = ['and', 'or', 'with', 'the', 'a', 'an', 'in', 'on', 'for'];
     
+    const searchTerms = query
+      .toLowerCase()
+      .split(/[\s,]+/)
+      .filter(term => term.length > 0 && !stopWords.includes(term));
+    
+    if (searchTerms.length === 0) return recipes;
+    
+    // Require ALL terms be present in the ingredient list with word boundary matching
     return recipes.filter(recipe => {
-      const recipeIngredients = recipe.ingredients.map(ing => ing.item.toLowerCase()).join(' ');
-      // Match if recipe contains ANY of the search terms
-      return searchTerms.some(term => recipeIngredients.includes(term));
+      return searchTerms.every(term => {
+        const wordRegex = new RegExp(`\\b${term}`, 'i');
+        return recipe.ingredients.some(ing => wordRegex.test(ing.item));
+      });
     });
   };
 
@@ -292,10 +317,20 @@ const Generate = () => {
         if (searchMode === 'search') {
           if (!recipe.name.toLowerCase().includes(queryLower)) return false;
         } else {
-          const hasIngredient = recipe.ingredients.some(ing => 
-            ing.item.toLowerCase().includes(queryLower)
-          );
-          if (!hasIngredient) return false;
+          // Ingredient mode: Use AND logic with word boundaries - ALL terms must be present
+          const stopWords = ['and', 'or', 'with', 'the', 'a', 'an', 'in', 'on', 'for'];
+          const searchTerms = query
+            .toLowerCase()
+            .split(/[\s,]+/)
+            .filter(term => term.length > 0 && !stopWords.includes(term));
+          
+          if (searchTerms.length === 0) return false;
+          
+          const hasAllIngredients = searchTerms.every(term => {
+            const wordRegex = new RegExp(`\\b${term}`, 'i');
+            return recipe.ingredients.some(ing => wordRegex.test(ing.item));
+          });
+          if (!hasAllIngredients) return false;
         }
       }
 
@@ -355,6 +390,7 @@ const Generate = () => {
           onSearch={handleSearch}
           recipes={combinedRecipes}
           onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
+          hideAiImages
         />
 
         {/* Header */}
@@ -466,9 +502,15 @@ const Generate = () => {
                 >
                   <div className="relative rounded-xl overflow-hidden">
                     <img
-                      src={recipe.image}
+                      src={getRecipeImage(recipe)}
                       alt={recipe.name}
                       className="w-full h-[220px] object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     {recipe.isAiGenerated && (
@@ -578,6 +620,7 @@ const Generate = () => {
           onSearch={handleSearch}
           recipes={allRecipes}
           onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
+          hideAiImages
         />
 
         {/* Header */}
@@ -637,9 +680,15 @@ const Generate = () => {
               >
                 <div className="relative rounded-xl overflow-hidden">
                   <img
-                    src={recipe.image}
+                    src={getRecipeImage(recipe)}
                     alt={recipe.name}
                     className="w-full h-[220px] object-cover"
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <button
@@ -680,6 +729,7 @@ const Generate = () => {
         onSearch={handleSearch}
         recipes={allRecipes}
         onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
+        hideAiImages
       />
 
       {/* Header */}
@@ -699,6 +749,19 @@ const Generate = () => {
           </Button>
         </div>
       </div>
+
+      {/* AI Generation Section - Only show when there's a search with no results */}
+        {searchQuery && getFilteredRecipes().length === 0 && (
+        <div className="px-4 pt-4 pb-2">
+          <AiGenerationPrompt 
+            searchTerm={searchQuery}
+            onRecipeGenerated={(recipe) => {
+              refetchGeneratedRecipes();
+              navigate(`/recipe/${recipe.id}`, { state: { recipe } });
+            }}
+          />
+        </div>
+      )}
 
       {/* Category Filter Chips */}
       <div className="px-4 pt-4 pb-2">
@@ -751,9 +814,15 @@ const Generate = () => {
                     >
                       <div className="relative rounded-xl overflow-hidden aspect-[3/4]">
                         <img
-                          src={recipe.image}
+                          src={getRecipeImage(recipe)}
                           alt={recipe.name}
                           className="w-full h-full object-cover"
+                          loading="lazy"
+                          decoding="async"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+                          }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         <button

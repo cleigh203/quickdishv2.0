@@ -59,6 +59,10 @@ export const RecipeAIChatDialog: React.FC<RecipeAIChatDialogProps> = ({ recipe, 
     setIsLoading(true);
 
     try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const token = sessionData?.session?.access_token;
+      const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
+
       const { data, error } = await supabase.functions.invoke('ai-recipe-chat', {
         body: {
           message: text,
@@ -74,10 +78,16 @@ export const RecipeAIChatDialog: React.FC<RecipeAIChatDialogProps> = ({ recipe, 
             difficulty: recipe.difficulty
           },
           userId: user?.id
-        }
+        },
+        headers
       });
 
-      if (error) throw error;
+      if (error) {
+        // Surface server error message clearly to user
+        const serverMsg = (error as any)?.message || 'Chat unavailable';
+        toast({ title: 'Chat limit or error', description: serverMsg, variant: 'destructive' });
+        throw error;
+      }
 
       if (data.error) {
         toast({
@@ -99,11 +109,12 @@ export const RecipeAIChatDialog: React.FC<RecipeAIChatDialogProps> = ({ recipe, 
 
     } catch (error: any) {
       console.error('Chat error:', error);
-      toast({
-        title: "Failed to send message",
-        description: "Please try again",
-        variant: "destructive"
-      });
+      // Graceful fallback message
+      const fallback: Message = {
+        role: 'assistant',
+        content: `I'm having trouble reaching the server right now.\n\nHere are quick tips for ${recipe.name}:\n- Check doneness: follow the timer and look for visual cues.\n- Substitutions: swap similar ingredients in equal amounts.\n- Scale servings: multiply ingredient amounts accordingly.\n\nYou can try again in a moment, or continue cooking—I’ve got your back!`
+      };
+      setMessages(prev => [...prev, fallback]);
     } finally {
       setIsLoading(false);
     }

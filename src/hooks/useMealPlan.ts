@@ -98,6 +98,25 @@ export const useMealPlan = () => {
     }
 
     try {
+      // Map app recipeId (static id) to DB UUID from recipes table
+      const { data: dbRecipe, error: lookupError } = await supabase
+        .from('recipes')
+        .select('id')
+        .eq('recipe_id', recipeId)
+        .maybeSingle();
+
+      if (lookupError) {
+        console.error('Recipe lookup error:', lookupError);
+      }
+
+      if (!dbRecipe?.id) {
+        toast({
+          title: 'Recipe not in database',
+          description: 'Please migrate this recipe first, then try again.',
+          variant: 'destructive',
+        });
+        return false;
+      }
       // Add 8-second timeout for insert
       const timeoutPromise = new Promise((_, reject) =>
         setTimeout(() => reject(new Error('Insert timed out')), 8000)
@@ -107,7 +126,10 @@ export const useMealPlan = () => {
         .from('meal_plans')
         .insert({
           user_id: user.id,
-          recipe_id: recipeId,
+          // Use DB UUID for recipe_id to match schema
+          recipe_id: dbRecipe.id,
+          // Provide both fields to satisfy schemas that require `date`
+          date: scheduledDate,
           scheduled_date: scheduledDate,
           meal_type: mealType,
         });
@@ -116,11 +138,12 @@ export const useMealPlan = () => {
 
       if (error) {
         console.error('Error adding meal plan:', error);
+        const msg = error?.message || 'Unknown error';
         // Don't show timeout errors
-        if (error.message !== 'Insert timed out') {
+        if (msg !== 'Insert timed out') {
           toast({
             title: "Couldn't add to meal plan",
-            description: "Try again?",
+            description: msg,
             variant: "destructive",
           });
         }
@@ -213,6 +236,16 @@ export const useMealPlan = () => {
       const { error } = await Promise.race([query, timeoutPromise]) as any;
 
       if (error) throw error;
+
+      // Update local state immediately
+      if (keepPastMeals) {
+        // Filter out past meals from current state
+        const today = new Date().toISOString().split('T')[0];
+        setMealPlans(prev => prev.filter(plan => plan.scheduled_date >= today));
+      } else {
+        // Clear all meal plans
+        setMealPlans([]);
+      }
 
       toast({
         title: "Success",

@@ -1,0 +1,420 @@
+Classic Tiramisu
+New York Cheesecake
+Fudgy Chocolate Brownies
+French Macarons
+Crème Brûlée
+Classic Apple Pie
+Chocolate Lava Cake
+Pavlova
+Baklava
+Churros
+Panna Cotta
+Cannoli
+Bread Pudding
+Flan
+Chocolate Éclairs
+Tres Leches Cake
+Cinnamon Rolls
+Chocolate Chip Cookies
+Carrot Cake
+Chocolate Mousse
+Profiteroles
+Red Velvet Cake
+Key Lime Pie
+Bananas Foster
+Lemon Bars
+Mummy Hot Dogs
+Bloody Mary Deviled Eggs
+Spider Web Pizza
+Graveyard Dirt Cups
+Monster Green Smoothie Bowl
+Frankenstein Rice Krispie Treats
+Eyeball Meatballs
+Pumpkin Spice Donuts
+Mummy Brownies
+Ghost Cupcakes
+Spider Web Cheesecake
+Graveyard Chocolate Cake
+Bloody Red Velvet Cupcakes
+Witch Hat Cookies
+Pumpkin Patch Brownies
+Monster Eye Truffles
+Candy Corn Fudge
+Candy Corn Rice Krispie Treats
+Monster Cookie Dough Dip
+Ghost Strawberries
+Eyeball Cake Pops
+Pumpkin Spice Muddy Buddies
+Halloween Candy Bark
+Bloody Broken Glass Jello
+Mummy Jalapeño Poppers
+Pumpkin Cheese Ball
+Graveyard Taco Dip
+Eyeball Caprese Skewers
+Pumpkin Hummus
+Bat Wing Chicken Wings
+Frankenstein Guacamole Cups
+Poison Apple Cocktail
+Jack-O-Lantern Stuffed Peppers
+Witch Finger Breadsticks
+Chipotle Burrito Bowl
+Olive Garden Chicken Alfredo
+Taco Bell Crunchwrap Supreme
+Cheesecake Factory Avocado Egg Rolls
+Outback Bloomin' Onion
+Panera Broccoli Cheddar Soup
+PF Chang's Lettuce Wraps
+Red Lobster Cheddar Bay Biscuits
+Texas Roadhouse Rolls
+Chipotle Corn Salsa
+Starbucks Egg Bites
+Cracker Barrel Hashbrown Casserole
+McDonald's McGriddles
+Subway Meatball Sub
+In-N-Out Animal Style Fries
+Chick-fil-A Chicken Sandwich
+McDonald's Big Mac Sauce
+Starbucks Pink Drink
+Raising Cane's Chicken Fingers
+Raising Cane's Sauce
+Panda Express Orange Chicken
+KFC Coleslaw
+Applebee's Quesadilla Burger
+Sonic Cherry Limeade
+Olive Garden Breadsticks
+Shake Shack Burger
+Five Guys Cajun Fries
+Chick-fil-A Chicken Minis
+Olive Garden Zuppa Toscana Soup
+Chipotle Guacamole
+Auntie Anne's Pretzel Bites
+Chili's Skillet Queso
+Taco Bell Mexican Pizza
+Panera Chipotle Chicken Avocado Melt
+Olive Garden 5-Cheese Ziti Al Forno
+Starbucks Pumpkin Bread
+KFC Original Fried Chicken
+Wendy's Chili
+Panda Express Fried Rice
+Olive Garden House Salad
+Red Lobster Coconut Shrimp
+Sheet Pan Honey Garlic Chicken
+15-Minute Shrimp Stir Fry
+One-Pan Lemon Herb Salmon
+20-Minute Beef and Broccoli
+30-Minute Thai Basil Chicken
+25-Minute Tuscan Garlic Shrimp
+15-Minute Caprese Chicken
+20-Minute Teriyaki Salmon Bowls
+20-Minute Cold Sesame Noodles
+30-Minute Chicken Fajitas
+25-Minute Kung Pao Chicken
+15-Minute Shrimp Scampi
+20-Minute Mongolian Beef
+25-Minute Greek Chicken Bowls
+15-Minute Garlic Butter Steak Bites
+30-Minute Pad Thai
+Leftover Pizza Frittata
+Rotisserie Chicken Tacos
+Better-Than-Takeout Fried Rice
+Leftover Pasta Carbonara
+Mashed Potato Croquettes
+Turkey Cranberry Quesadillas
+Roast Beef French Dip Sliders
+Ham and Potato Breakfast Hash
+Steak Quesadilla with Chimichurri
+Burger Sliders with Special Sauce
+Pulled Pork Nachos
+Brisket Mac and Cheese
+Sausage Breakfast Burrito
+Leftover Stuffing Muffins
+Salmon Caesar Salad
+Rotisserie Chicken Enchiladas
+Crispy Mashed Potato Pancakes
+Pot Roast Shepherd's Pie
+Chicken Noodle Soup Casserole
+Taco Pizza
+Easy Chicken Pho
+Meatloaf Sliders with Caramelized Onions
+Loaded Chili Cheese Fries
+BBQ Pulled Pork Egg Rolls
+Turkey Tetrazzini
+Roast Beef Poutine
+Chicken Alfredo Stuffed Shells
+BBQ Ribs Mac and Cheese
+Chicken Parmesan Soup
+Fajita Breakfast Hash
+Meatball Sub Casserole
+Lasagna Grilled Cheese
+Pot Roast Ramen
+Taco Stuffed Bell Peppers
+Chicken Tikka Masala Pot Pie
+Honey Garlic Glazed Salmon
+Classic Beef and Broccoli Stir Fry
+Chicken Marsala
+Cilantro Lime Shrimp Tacos
+Italian Stuffed Bell Peppers
+Homemade Teriyaki Chicken
+Pork Chops with Apples and Onions
+Creamy Butternut Squash Soup
+Maple Glazed Salmon
+Apple Cider Pulled Pork
+Cranberry Brie Bites
+Sweet Potato Casserole
+Harvest Chicken with Root Vegetables
+Pecan Crusted Pork Tenderloin
+Caramel Apple Nachos
+Pumpkin Risotto
+Autumn Harvest Salad
+Lemon Herb Roasted Chicken Thighs
+Classic BBQ Meatloaf
+Mediterranean Chicken and Rice
+Cajun Chicken Pasta
+Korean Ground Beef Bowl
+Garlic Butter Baked Tilapia
+Italian Turkey Meatballs
+Sheet Pan Honey Mustard Chicken
+Grilled Steak with Chimichurri
+Thai Coconut Curry Chicken
+Blackened Fish Tacos
+Cheesy Beef Enchiladas
+Lemon Garlic Butter Shrimp
+Cajun Chicken and Sausage Jambalaya
+One-Pot Beef Stroganoff
+One-Pot Chicken Fajita Rice
+One-Pot Tuscan Chicken Pasta
+One-Pot Chili Mac and Cheese
+Fluffy Buttermilk Pancakes
+Belgian Waffles
+Classic French Toast
+Eggs Benedict
+Classic Three-Egg Omelet
+Breakfast Burrito
+Breakfast Casserole
+Hashbrown Casserole
+Quiche Lorraine
+Biscuits and Gravy
+Avocado Toast
+Overnight Oats
+Scrambled Eggs with Bacon
+Breakfast Sandwich
+Smoothie Bowl
+Greek Yogurt Parfait
+Protein Pancakes
+Breakfast Tacos
+Shakshuka
+Egg White Wrap
+Breakfast Burrito Bowl
+Blueberry Muffins
+Baked Chicken Meatballs
+Sheet Pan Chicken and Vegetables
+Sheet Pan Chicken Fajitas
+Grilled Chicken Caprese
+Slow Cooker White Chicken Chili
+Taco Skillet
+Cheeseburger Bowls
+One Pan Ground Beef and Potatoes
+Turkey Meatloaf
+Stuffed Bell Peppers
+Baked Salmon with Lemon
+Sheet Pan Shrimp Fajitas
+Pesto Baked Salmon
+Cottage Cheese Baked Ziti
+Slow Cooker Lasagna
+Beef Stroganoff
+Chicken Quesadillas
+Chicken Stir Fry with Broccoli
+BBQ Pulled Pork Bowls
+Egg Roll Bowls
+Marry Me Chicken Pasta
+One Pot French Onion Pasta
+Creamy Tomato Beef Pasta
+Cajun Shrimp Pasta
+One Pan Pasta Puttanesca
+Pasta Primavera
+One Pot Spanish Chicken and Rice
+Mexican Chicken & Rice
+Marry Me Chicken
+One Pot Chicken and Garlic Rice
+Chicken and Rice with Vegetables
+Greek Chicken and Lemon Rice
+Chicken Gnocchi Soup
+Spinach Beef Soup
+Coconut Curry Lentil Soup
+Chicken Pot Pie Chowder
+Braised Short Ribs
+Sausage Bake with Potatoes and Gravy
+Beef Taco Skillet
+Vegetarian Lasagna
+Vegetarian Chili
+Veggie Burgers
+Eggplant Parmesan
+Indian Butter Chickpeas
+Miso Mushroom Crispy Rice
+Coconut Vegetable Curry
+Broccoli Cheddar Chickpea Skillet
+Mushroom Ramen
+Veggie Stuffed Peppers
+Black Bean Tacos
+Crispy Baked Falafel
+Red Lentil Dahl
+Vegan Nachos
+Mushroom Walnut Veggie Burger
+Cauliflower Shawarma
+Sesame Tofu and Broccoli
+Chipotle Portobello Mushroom Tacos
+Spiced Carrot and Parsnip Soup
+Vegan Mac and Cheese
+Coconut Milk Tomato Soup
+Coconut Rice Bowls
+Vegan Mug Cakes
+Vegan Coconut Bacon
+Pumpkin Cream Cheese Muffins
+Pumpkin Spice Latte Overnight Oats
+Pumpkin Cinnamon Rolls
+Pumpkin Ravioli
+Pumpkin Banana Bread
+Apple Pie Egg Rolls
+Stuffed Baked Apples
+Pumpkin Dump Cake
+Cinnamon Roll Apple Pie
+Apple Crisp in a Mug
+Baked Apple Cider Donuts
+Honey Crisp Apple Salad
+Apple Butter Chicken
+Pumpkin Spice Latte (Starbucks Copycat)
+Caramel Apple Cider (Hot & Cold)
+Maple Brown Butter Cookies
+Pumpkin Cheesecake Bars
+Chai Spiced Hot Chocolate
+Salted Caramel Apple Bars
+Mulled Wine (Slow Cooker)
+Apple Butter (Slow Cooker)
+Brown Butter Pumpkin Cookies
+Classic Green Bean Casserole
+Sweet Potato Casserole with Marshmallows
+Herb Butter Roasted Turkey Breast
+Cornbread Stuffing with Sausage & Sage
+Cranberry Sauce (Fresh & Easy)
+Creamy Mashed Potatoes with Garlic
+Roasted Brussels Sprouts with Bacon
+Butternut Squash Soup (Creamy)
+Creamy Tortellini Soup
+Butternut Squash Mac and Cheese
+Loaded Baked Potato Soup
+Beef Stew in Pumpkin
+French Onion Soup Bake
+Chicken Pot Pie with Biscuit Topping
+Sausage and Kale Soup
+Shepherd's Pie Twice-Baked Potatoes
+Creamy Mushroom Wild Rice Soup
+Chili Cheese Fries Casserole
+Meatball Sub Casserole
+Crack Chicken Noodle Soup
+Marry Me Tofu
+High-Protein Cucumber Salad
+Lentil Bolognese
+Marry Me Chickpeas
+Tofu Scramble
+Chickpea Curry
+Black Bean & Rice Bowl
+Vegan Protein Pasta
+King Oyster Mushroom Tacos
+Oyster Mushroom Fried 'Chicken'
+Vegan Crunchwrap
+Smash Burger Tacos
+Charred Cabbage with Coconut Broth
+Hot Honey Tofu Tenders
+Turkish Pasta
+Vegan Steak Bites
+Pasta Chips with Vegan Feta Dip
+Air Fryer Tofu Bites
+2-Ingredient Pici Pasta
+Cucumber Sushi Salad
+Korean Corn Cheese
+Sesame Carrot Ribbons
+Cloud Bread
+Vegan Custard Toast
+Smash Burger Tacos
+Garlic Parm Accordion Potatoes
+Corn Ribs with Elote Sauce
+Baked Feta Pasta
+Million Dollar Spaghetti
+Ground Beef Tortellini
+Chicken Parmesan
+Garden Focaccia
+Turkish Layered Pasta
+Gigi Hadid's Vodka Pasta
+One Pan Chicken & Gravy
+Garlic Parmesan Chicken & Potato Skillet
+BBQ Cheeseburger Sliders
+Hot Honey Chicken Sheet Pan Dinner
+Loaded Chicken Twice Baked Potato
+Roasted Garlic Parmesan Chicken
+Easy Chicken Pot Pie
+Vodka Tortiglioni & Burrata
+Pizza Pancakes
+Fried Chicken Ramen
+Turkey Grilled Cheese
+Loaded Ranch Potatoes
+Creamy Tuscan Chicken
+Stuffed Bell Peppers
+Chocolate Soufflé
+Strawberry Shortcake
+Crème Caramel
+Cookie Dough Brownies
+Raspberry Tart
+Chocolate Mousse Cake
+Lemon Meringue Pie
+Boston Cream Pie
+Peach Cobbler
+Chocolate Truffles
+Almond Biscotti
+Pumpkin Cheesecake
+Chocolate Chip Banana Bread
+Salted Caramel Tart
+Sticky Toffee Pudding
+Opera Cake
+Chocolate Fondue
+Raspberry White Chocolate Cheesecake
+S'mores Bars
+Coconut Cream Pie
+Mediterranean Quinoa Bowl
+Buffalo Chicken Wrap
+Greek Salad with Grilled Chicken
+Turkey Avocado Club
+Caprese Panini
+Tuna Niçoise Salad
+California Roll Bowl
+BBQ Pulled Pork Sandwich
+Falafel Pita
+Chicken Caesar Salad
+Bánh Mì Sandwich
+Southwest Chicken Bowl
+Margherita Flatbread
+Cobb Salad
+Pesto Pasta Salad
+Korean BBQ Beef Bowl
+Shrimp Po' Boy
+Chicken Shawarma Wrap
+Tomato Soup with Grilled Cheese
+Chicken and Dumplings
+Beef Bourguignon
+Creamy Tuscan Chicken
+Chili Con Carne
+Seafood Paella
+Chicken Cacciatore
+Moroccan Lamb Tagine
+Tuscan White Bean Soup
+Chicken Tikka Masala
+Classic Pot Roast
+Vampire Bite Brownies
+Black Widow Pasta
+Zombie Brain Dip
+Blood Orange Margaritas
+Mummy Hot Dogs
+Witch's Brew Soup
+Spider Web Cookies
+Mini Pumpkin Soup Bowls
+Candy Corn Bark
+Monster Eyeball Deviled Eggs

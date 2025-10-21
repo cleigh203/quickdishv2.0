@@ -1,10 +1,11 @@
 import { Mic, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useVoiceSearch } from "@/hooks/useVoiceSearch";
+import { useRef, useEffect } from "react";
 
 interface VoiceSearchButtonProps {
   onTranscript: (text: string) => void;
-  onSearchTrigger?: () => void;
+  onSearchTrigger?: (text?: string) => void;
   variant?: "default" | "ghost";
   size?: "default" | "sm" | "lg" | "icon";
   className?: string;
@@ -17,17 +18,29 @@ export const VoiceSearchButton = ({
   size = "icon",
   className = ""
 }: VoiceSearchButtonProps) => {
+  const lastTranscriptRef = useRef('');
+  
   const { isListening, isSupported, startListening, stopListening } = useVoiceSearch(
     (text) => {
+      lastTranscriptRef.current = text;
       onTranscript(text);
-      // Auto-trigger search after 2 seconds of silence (handled by recognition.onend)
-      if (onSearchTrigger) {
-        setTimeout(() => {
-          onSearchTrigger();
-        }, 100);
-      }
     }
   );
+
+  // Trigger search when user stops speaking
+  useEffect(() => {
+    if (!isListening && lastTranscriptRef.current && onSearchTrigger) {
+      // Pass the transcript directly to the search function
+      const transcript = lastTranscriptRef.current;
+      console.log('🎤 Voice search triggering with:', transcript);
+      
+      // Small delay to ensure UI updates, then trigger with the transcript
+      setTimeout(() => {
+        onSearchTrigger(transcript);
+        lastTranscriptRef.current = '';
+      }, 300);
+    }
+  }, [isListening, onSearchTrigger]);
 
   if (!isSupported) {
     return null; // Hide button if browser doesn't support speech recognition
@@ -37,6 +50,7 @@ export const VoiceSearchButton = ({
     if (isListening) {
       stopListening();
     } else {
+      lastTranscriptRef.current = ''; // Reset before starting
       startListening();
     }
   };

@@ -3,16 +3,28 @@ import { supabase } from '@/integrations/supabase/client';
 import { Recipe } from '@/types/recipe';
 import { useAuth } from '@/contexts/AuthContext';
 
+// Store AI-generated recipes in memory for the session (not in DB)
+const sessionRecipes: Recipe[] = [];
+
 export const useGeneratedRecipes = () => {
-  const [generatedRecipes, setGeneratedRecipes] = useState<Recipe[]>([]);
+  const [generatedRecipes, setGeneratedRecipes] = useState<Recipe[]>([...sessionRecipes]);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
+
+  // Add a recipe to the session
+  const addGeneratedRecipe = (recipe: Recipe) => {
+    // Add to session storage
+    sessionRecipes.unshift(recipe);
+    // Update state
+    setGeneratedRecipes([...sessionRecipes]);
+  };
 
   useEffect(() => {
     if (user) {
       fetchGeneratedRecipes();
     } else {
-      setGeneratedRecipes([]);
+      // Keep session-generated recipes for guests so Favorites can resolve them
+      setGeneratedRecipes([...sessionRecipes]);
       setIsLoading(false);
     }
   }, [user]);
@@ -87,6 +99,7 @@ export const useGeneratedRecipes = () => {
   return {
     generatedRecipes,
     isLoading,
-    refetch: fetchGeneratedRecipes
+    refetch: fetchGeneratedRecipes,
+    addGeneratedRecipe
   };
 };

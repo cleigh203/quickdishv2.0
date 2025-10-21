@@ -26,17 +26,19 @@ export const trackEvent = async (
   }
 
   try {
-    // Save to analytics_events table
-    const { error } = await supabase
-      .from('analytics_events')
-      .insert({
-        user_id: userId || null,
-        event_name: eventName,
-        event_data: eventData || {},
-      });
-
-    if (error) {
-      console.error('Analytics tracking error:', error);
+    // Only attempt DB write if user is authenticated to avoid RLS errors
+    if (userId) {
+      const { error } = await supabase
+        .from('analytics_events')
+        .insert({
+          user_id: userId,
+          event_name: eventName,
+          event_data: eventData || {},
+        });
+      if (error) {
+        // Log but don't throw—analytics should never block UX
+        console.error('Analytics tracking error:', error);
+      }
     }
   } catch (err) {
     console.error('Failed to track event:', err);

@@ -56,6 +56,16 @@ export function EditProfileDialog({
 
       // Upload new avatar if provided
       if (avatarFile) {
+        // Ensure bucket exists and user has permissions
+        try {
+          const listProbe = await supabase.storage.from('avatars').list('', { limit: 1 });
+          if ((listProbe as any)?.error?.message?.toLowerCase()?.includes('tenant') || (listProbe as any)?.error?.status === 400) {
+            throw new Error('Storage not configured: Missing avatars bucket or tenant config');
+          }
+        } catch (probeErr: any) {
+          console.warn('Storage probe warning:', probeErr?.message || probeErr);
+        }
+
         const fileExt = avatarFile.name.split('.').pop();
         const fileName = `${user.id}-${Date.now()}.${fileExt}`;
         const filePath = `avatars/${fileName}`;
@@ -64,7 +74,13 @@ export function EditProfileDialog({
           .from('avatars')
           .upload(filePath, avatarFile);
 
-        if (uploadError) throw uploadError;
+        if (uploadError) {
+          const message = uploadError.message || 'Avatar upload failed';
+          if (message.toLowerCase().includes('tenant')) {
+            throw new Error('Avatar upload failed: Storage tenant not configured. Create an "avatars" bucket and set policies.');
+          }
+          throw uploadError;
+        }
 
         const { data: { publicUrl } } = supabase.storage
           .from('avatars')

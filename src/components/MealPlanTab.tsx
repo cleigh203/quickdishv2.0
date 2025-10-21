@@ -1,9 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Clock, ChefHat, Trash2, Calendar } from "lucide-react";
+import { ShoppingCart, Clock, ChefHat, Trash2, Calendar, RefreshCw } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,6 +28,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { usePantryItems } from "@/hooks/usePantryItems";
 import { LoadingScreen } from "@/components/LoadingScreen";
+import { supabase } from "@/integrations/supabase/client";
 
 export const MealPlanTab = () => {
   const navigate = useNavigate();
@@ -46,6 +47,32 @@ export const MealPlanTab = () => {
   const allAvailableRecipes = useMemo(() => {
     return [...allRecipes, ...generatedRecipes, ...verifiedRecipes];
   }, [generatedRecipes, verifiedRecipes]);
+
+  // Map of DB recipe UUID -> basic recipe info (from Supabase)
+  const [dbRecipesById, setDbRecipesById] = useState<Record<string, { id: string; recipe_id: string; name: string; image_url: string | null; cook_time: string | null }>>({});
+
+  useEffect(() => {
+    const fetchDbRecipes = async () => {
+      if (!mealPlans || mealPlans.length === 0) return;
+      const ids = Array.from(new Set(mealPlans.map(m => m.recipe_id).filter(Boolean)));
+      // Skip if we already have them all
+      const missing = ids.filter(id => !dbRecipesById[id as string]);
+      if (missing.length === 0) return;
+
+      const { data, error } = await supabase
+        .from('recipes')
+        .select('id, recipe_id, name, image_url, cook_time')
+        .in('id', missing as string[]);
+
+      if (!error && data) {
+        const next: Record<string, any> = { ...dbRecipesById };
+        data.forEach((r) => { next[r.id] = r; });
+        setDbRecipesById(next);
+      }
+    };
+    fetchDbRecipes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mealPlans]);
 
   const sortedMealPlans = useMemo(() => {
     return [...mealPlans].sort((a, b) => 
@@ -177,6 +204,101 @@ export const MealPlanTab = () => {
     }
   };
 
+  // Export upcoming meals to ICS
+  const exportCalendarICS = () => {
+    if (upcomingMeals.length === 0) {
+      toast({ title: 'No upcoming meals', description: 'Add meals to your plan first.' });
+      return;
+    }
+    const lines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//QuickDish//MealPlan//EN'
+    ];
+    upcomingMeals.forEach(meal => {
+      const db = dbRecipesById[meal.recipe_id];
+      const recipe = allAvailableRecipes.find(r => r.id === (db?.recipe_id || meal.recipe_id));
+      const name = (recipe?.name || db?.name || 'Meal').replace(/\r?\n/g, ' ');
+      const dt = new Date(meal.scheduled_date + 'T00:00:00');
+      const y = dt.getUTCFullYear();
+      const m = String(dt.getUTCMonth() + 1).padStart(2, '0');
+      const d = String(dt.getUTCDate()).padStart(2, '0');
+      const dtstamp = `${y}${m}${d}`;
+      lines.push(
+        'BEGIN:VEVENT',
+        `UID:${meal.id}@quickdish`,
+        `DTSTAMP:${dtstamp}T000000Z`,
+        `DTSTART;VALUE=DATE:${dtstamp}`,
+        `SUMMARY:${name} (${meal.meal_type})`,
+        'END:VEVENT'
+      );
+    });
+    lines.push('END:VCALENDAR');
+    const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'quickdish-mealplan.ics';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // Print-friendly meal plan
+  const printMealPlan = () => {
+    const w = window.open('', '_blank');
+    if (!w) return;
+    const rows = sortedMealPlans.map(meal => {
+      const db = dbRecipesById[meal.recipe_id];
+      const recipe = allAvailableRecipes.find(r => r.id === (db?.recipe_id || meal.recipe_id));
+      const name = recipe?.name || db?.name || '';
+      const date = new Date(meal.scheduled_date + 'T00:00:00');
+      const dateText = date.toLocaleDateString();
+      const type = meal.meal_type;
+      return `<tr><td>${dateText}</td><td>${type}</td><td>${name}</td></tr>`;
+    }).join('');
+    w.document.write(`
+      <html><head><title>QuickDish Meal Plan</title>
+      <style>body{font-family:system-ui,Segoe UI,Arial} table{border-collapse:collapse;width:100%} td,th{border:1px solid #ddd;padding:8px} th{background:#f3f4f6;text-align:left}</style>
+      </head><body>
+      <h2>QuickDish Meal Plan</h2>
+      <table>
+        <thead><tr><th>Date</th><th>Meal</th><th>Recipe</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <script>window.onload=() => window.print()</script>
+      </body></html>
+    `);
+    w.document.close();
+  };
+
+  // Open a prefilled Google Calendar event for a single meal
+  const addMealToGoogleCalendar = (meal: { id: string; recipe_id: string; scheduled_date: string; meal_type: string }) => {
+    const db = dbRecipesById[meal.recipe_id];
+    const recipe = allAvailableRecipes.find(r => r.id === (db?.recipe_id || meal.recipe_id));
+    const name = recipe?.name || db?.name || 'Meal';
+    const origin = window.location.origin;
+    const navId = recipe?.id || db?.recipe_id || '';
+    const link = `${origin}/recipe/${navId}`;
+
+    const start = new Date(meal.scheduled_date + 'T00:00:00');
+    const end = new Date(start);
+    end.setDate(end.getDate() + 1); // all-day event end date is exclusive
+
+    const fmt = (d: Date) => {
+      const y = d.getUTCFullYear();
+      const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+      const da = String(d.getUTCDate()).padStart(2, '0');
+      return `${y}${m}${da}`;
+    };
+
+    const text = encodeURIComponent(`${name} (${meal.meal_type})`);
+    const dates = `${fmt(start)}/${fmt(end)}`; // all-day
+    const details = encodeURIComponent(`Planned via QuickDish\n${link}`);
+
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${dates}&details=${details}`;
+    window.open(url, '_blank');
+  };
+
   const handleClearAll = async () => {
     await clearAllMealPlans(keepPastMeals);
     toast({
@@ -228,7 +350,7 @@ export const MealPlanTab = () => {
                 <h3 className="font-semibold">This Week's Meals</h3>
                 <p className="text-sm text-muted-foreground">{upcomingMeals.length} meals planned</p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <Button 
                   onClick={handleAddToShoppingList} 
                   className="flex-1 bg-primary hover:bg-primary/90"
@@ -250,11 +372,36 @@ export const MealPlanTab = () => {
                 <Button 
                   variant="outline" 
                   size="sm"
-                  className="text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground"
-                  onClick={() => setShowClearDialog(true)}
+                  onClick={() => exportCalendarICS()}
                 >
-                  Clear All
+                  Export Calendar (.ics)
                 </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => printMealPlan()}
+                >
+                  Print Plan
+                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={refreshMealPlans}
+                    variant="outline"
+                    size="sm"
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                    Refresh
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground"
+                    onClick={() => setShowClearDialog(true)}
+                  >
+                    Clear All
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -262,8 +409,14 @@ export const MealPlanTab = () => {
 
       <div className="space-y-3">
         {sortedMealPlans.map(meal => {
-          const recipe = allAvailableRecipes.find(r => r.id === meal.recipe_id);
-          if (!recipe) return null;
+          // Try local/static sources first, otherwise fall back to DB recipe by UUID
+          const db = dbRecipesById[meal.recipe_id];
+          const recipe = allAvailableRecipes.find(r => r.id === (db?.recipe_id || meal.recipe_id));
+          const displayName = recipe?.name || db?.name;
+          const displayImage = recipe?.image || db?.image_url || undefined;
+          const cookTime = recipe?.cookTime || db?.cook_time || '';
+          const navigateId = recipe?.id || db?.recipe_id; // use external id for routing
+          if (!displayName || !navigateId) return null;
 
           // Use startOfDay for proper local timezone comparison
           const mealDate = startOfDay(new Date(meal.scheduled_date + 'T00:00:00'));
@@ -274,18 +427,18 @@ export const MealPlanTab = () => {
             <Card 
               key={meal.id} 
               className={`relative border-0 cursor-pointer transition-opacity ${isPastMeal ? 'opacity-60' : ''}`}
-              onClick={() => navigate(`/recipe/${recipe.id}`)}
+              onClick={() => navigate(`/recipe/${navigateId}`)}
             >
               <CardContent className="p-4">
                 <div className="flex gap-4">
                   <img 
-                    src={recipe.image} 
-                    alt={recipe.name}
+                    src={displayImage as string | undefined} 
+                    alt={displayName}
                     className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
                   />
                   <div className="flex-1 min-w-0 pr-10">
                     <p className="text-sm text-muted-foreground mb-1">{formatDate(meal.scheduled_date)}</p>
-                    <h3 className="font-semibold mb-2 line-clamp-1">{recipe.name}</h3>
+                    <h3 className="font-semibold mb-2 line-clamp-1">{displayName}</h3>
                     <div className="flex items-center gap-2 mb-2">
                       <Badge className={getMealTypeColor(meal.meal_type)}>
                         <ChefHat className="w-3 h-3 mr-1" />
@@ -293,7 +446,7 @@ export const MealPlanTab = () => {
                       </Badge>
                       <span className="text-sm text-muted-foreground flex items-center gap-1">
                         <Clock className="w-3 h-3" />
-                        {recipe.cookTime}
+                        {cookTime}
                       </span>
                     </div>
                     {isPastMeal && (
@@ -303,10 +456,23 @@ export const MealPlanTab = () => {
                         className="p-0 h-auto text-primary"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleMarkAsCooked(recipe.id, meal.id);
+                          handleMarkAsCooked(navigateId, meal.id);
                         }}
                       >
                         Mark as Cooked
+                      </Button>
+                    )}
+                    {!isPastMeal && (
+                      <Button
+                        size="sm"
+                        variant="link"
+                        className="p-0 h-auto text-primary"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addMealToGoogleCalendar(meal);
+                        }}
+                      >
+                        Add to Google Calendar
                       </Button>
                     )}
                   </div>

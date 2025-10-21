@@ -156,7 +156,7 @@ export const useShoppingList = () => {
     } catch (err: any) {
       console.error('Error fetching shopping list:', err);
       
-      const isTimeout = err?.code === '57014' || err?.message?.includes('timeout');
+      const isTimeout = err?.code === '57014' || err?.message?.includes('timeout') || err?.name === 'AbortError';
       
       if (cacheRef.current) {
         console.log('📦 Using cached data');
@@ -165,18 +165,24 @@ export const useShoppingList = () => {
         setSyncError(isTimeout ? 'timeout' : 'error');
         
         toast({
-          title: "Couldn't load shopping list",
+          title: "Using offline data",
           description: isTimeout 
-            ? "Database timeout. Using cached data." 
-            : "Using cached data. Check connection.",
-          variant: "destructive",
+            ? "Connection slow. Working offline." 
+            : "Connection issue. Working offline.",
+          variant: "default",
         });
       } else {
+        // Set empty list so user can still add items
+        setShoppingList([]);
+        setListId(null);
         setSyncError('no-cache');
+        
         toast({
-          title: "Failed to load shopping list",
-          description: "No cached data available. Check connection and try again.",
-          variant: "destructive",
+          title: "Connection issue",
+          description: isTimeout 
+            ? "Taking too long to connect. You can still add items, they'll sync when connection improves."
+            : "Couldn't connect. You can still add items, they'll sync when connection improves.",
+          variant: "default",
         });
       }
     } finally {

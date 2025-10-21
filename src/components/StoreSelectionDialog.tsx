@@ -9,7 +9,6 @@ interface Store {
 }
 
 const STORES: Store[] = [
-  { name: "Instacart", url: "https://www.instacart.com/" },
   { name: "Walmart", url: "https://www.walmart.com/grocery" },
   { name: "Target", url: "https://www.target.com/" },
   { name: "Kroger", url: "https://www.kroger.com/" },

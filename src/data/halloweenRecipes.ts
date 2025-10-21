@@ -24,6 +24,15 @@ export const halloweenRecipes: Recipe[] = [
     cuisine: "Halloween",
     isPremium: false,
     imageUrl: vampireBitesImg,
+    nutrition: {
+      calories: 380,
+      protein: 5,
+      carbs: 52,
+      fat: 18,
+      fiber: 3,
+      sugar: 38,
+      servingSize: "1 brownie"
+    },
     ingredients: [
       { amount: "1", unit: "cup", item: "butter" },
       { amount: "2", unit: "cups", item: "dark chocolate chips" },
@@ -58,6 +67,15 @@ export const halloweenRecipes: Recipe[] = [
     cuisine: "Halloween",
     isPremium: true,
     imageUrl: blackPastaImg,
+    nutrition: {
+      calories: 520,
+      protein: 32,
+      carbs: 58,
+      fat: 16,
+      fiber: 3,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "squid ink pasta" },
       { amount: "1", unit: "lb", item: "large shrimp" },
@@ -92,6 +110,15 @@ export const halloweenRecipes: Recipe[] = [
     cuisine: "Halloween",
     isPremium: false,
     imageUrl: zombieBrainImg,
+    nutrition: {
+      calories: 220,
+      protein: 6,
+      carbs: 12,
+      fat: 18,
+      fiber: 4,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "1", unit: "whole", item: "cauliflower" },
       { amount: "1", unit: "cup", item: "buffalo sauce" },
@@ -125,6 +152,15 @@ export const halloweenRecipes: Recipe[] = [
     cuisine: "Halloween",
     isPremium: false,
     imageUrl: bloodOrangeMargImg,
+    nutrition: {
+      calories: 195,
+      protein: 0,
+      carbs: 18,
+      fat: 0,
+      fiber: 0,
+      sugar: 14,
+      servingSize: "1 cocktail"
+    },
     ingredients: [
       { amount: "1", unit: "cup", item: "tequila" },
       { amount: "1/2", unit: "cup", item: "triple sec" },
@@ -159,6 +195,15 @@ export const halloweenRecipes: Recipe[] = [
     cuisine: "Halloween",
     isPremium: false,
     imageUrl: mummyImg,
+    nutrition: {
+      calories: 280,
+      protein: 8,
+      carbs: 26,
+      fat: 16,
+      fiber: 1,
+      sugar: 6,
+      servingSize: "1 mummy dog"
+    },
     ingredients: [
       { amount: "2", unit: "cans", item: "crescent roll dough" },
       { amount: "10", unit: "", item: "hot dogs" },
@@ -190,6 +235,15 @@ export const halloweenRecipes: Recipe[] = [
     cuisine: "Halloween",
     isPremium: false,
     imageUrl: greenSoupImg,
+    nutrition: {
+      calories: 260,
+      protein: 10,
+      carbs: 18,
+      fat: 18,
+      fiber: 5,
+      sugar: 6,
+      servingSize: "1 bowl"
+    },
     ingredients: [
       { amount: "2", unit: "lbs", item: "broccoli florets" },
       { amount: "1", unit: "large", item: "onion" },
@@ -224,6 +278,15 @@ export const halloweenRecipes: Recipe[] = [
     cuisine: "Halloween",
     isPremium: true,
     imageUrl: spiderWebImg,
+    nutrition: {
+      calories: 180,
+      protein: 3,
+      carbs: 24,
+      fat: 9,
+      fiber: 2,
+      sugar: 16,
+      servingSize: "1 cookie"
+    },
     ingredients: [
       { amount: "2", unit: "cups", item: "flour" },
       { amount: "3/4", unit: "cup", item: "cocoa powder" },
@@ -261,6 +324,15 @@ export const halloweenRecipes: Recipe[] = [
     cuisine: "Halloween",
     isPremium: true,
     imageUrl: pumpkinSoupImg,
+    nutrition: {
+      calories: 240,
+      protein: 4,
+      carbs: 36,
+      fat: 10,
+      fiber: 6,
+      sugar: 12,
+      servingSize: "1 pumpkin bowl"
+    },
     ingredients: [
       { amount: "6", unit: "", item: "mini pumpkins" },
       { amount: "2", unit: "lbs", item: "butternut squash" },
@@ -298,6 +370,15 @@ export const halloweenRecipes: Recipe[] = [
     cuisine: "Halloween",
     isPremium: true,
     imageUrl: candyBarkImg,
+    nutrition: {
+      calories: 220,
+      protein: 2,
+      carbs: 28,
+      fat: 12,
+      fiber: 1,
+      sugar: 24,
+      servingSize: "1 piece"
+    },
     ingredients: [
       { amount: "12", unit: "oz", item: "white chocolate chips" },
       { amount: "12", unit: "oz", item: "orange chocolate melts" },
@@ -330,6 +411,15 @@ export const halloweenRecipes: Recipe[] = [
     cuisine: "Halloween",
     isPremium: true,
     imageUrl: eyeballsImg,
+    nutrition: {
+      calories: 120,
+      protein: 7,
+      carbs: 2,
+      fat: 10,
+      fiber: 0,
+      sugar: 1,
+      servingSize: "2 halves"
+    },
     ingredients: [
       { amount: "12", unit: "", item: "eggs" },
       { amount: "1/2", unit: "cup", item: "mayonnaise" },

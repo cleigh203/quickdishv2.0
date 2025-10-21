@@ -11,7 +11,7 @@ import { useAuth } from "@/contexts/AuthContext";
 
 const Premium = () => {
   const navigate = useNavigate();
-  const { user, isPremium } = useAuth();
+  const { user, isPremium, checkSubscription } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const handleSubscribe = async () => {
@@ -20,6 +20,30 @@ const Premium = () => {
       return;
     }
 
+    // DEV MODE: Skip Stripe, directly set premium in database
+    if (import.meta.env.DEV) {
+      try {
+        setLoading(true);
+        const { error } = await supabase
+          .from('profiles')
+          .update({ is_premium: true })
+          .eq('id', user.id);
+        
+        if (error) throw error;
+        
+        toast.success("🧪 Test mode: Premium activated!");
+        await checkSubscription();
+        setTimeout(() => navigate('/'), 1000);
+        return;
+      } catch (error) {
+        console.error('Error activating test premium:', error);
+        toast.error("Failed to activate test premium.");
+        setLoading(false);
+        return;
+      }
+    }
+
+    // PRODUCTION: Use Stripe
     try {
       setLoading(true);
       const { data, error } = await supabase.functions.invoke('create-checkout');
@@ -215,7 +239,7 @@ const Premium = () => {
                     onClick={handleSubscribe}
                     disabled={loading}
                   >
-                    {loading ? "Loading..." : "Start Free Trial"}
+                    {loading ? "Loading..." : import.meta.env.DEV ? "🧪 Activate Test Premium" : "Start Free Trial"}
                   </Button>
                 </div>
               </>

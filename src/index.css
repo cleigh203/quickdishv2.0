@@ -2,6 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Safe area support for native apps (handles notches, status bars, etc) */
+:root {
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  --safe-area-inset-left: env(safe-area-inset-left);
+  --safe-area-inset-right: env(safe-area-inset-right);
+  --status-bar-height: 24px; /* Default Android status bar height */
+}
+
+/* Add safe area padding to the body */
+body {
+  padding-top: var(--safe-area-inset-top);
+  padding-bottom: var(--safe-area-inset-bottom);
+  padding-left: var(--safe-area-inset-left);
+  padding-right: var(--safe-area-inset-right);
+}
+
+/* Force padding for root element in native apps */
+#root {
+  padding-top: max(var(--safe-area-inset-top), var(--status-bar-height));
+  min-height: 100vh;
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */

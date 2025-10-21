@@ -29,19 +29,28 @@ const MigrateRecipes = () => {
     try {
       const names = recipeNames.split('\n').map(n => n.trim()).filter(n => n);
       
-      // Find recipes in static data
+      console.log(`📋 Total names to match: ${names.length}`);
+      console.log(`📚 Total recipes in allRecipes: ${allRecipes.length}`);
+      console.log(`🔍 First few names:`, names.slice(0, 5));
+      console.log(`🔍 First few recipe names:`, allRecipes.slice(0, 5).map(r => r.name));
+      
+      // Find recipes in static data (exact match by name)
       const recipesToMigrate = names.map(name => {
         const recipe = allRecipes.find(r => 
-          r.name.toLowerCase().includes(name.toLowerCase()) ||
-          name.toLowerCase().includes(r.name.toLowerCase())
+          r.name.toLowerCase() === name.toLowerCase()
         );
+        if (!recipe) {
+          console.log(`❌ Not found: "${name}"`);
+        }
         return recipe;
       }).filter(r => r !== undefined);
+
+      console.log(`✅ Found ${recipesToMigrate.length} matching recipes`);
 
       if (recipesToMigrate.length === 0) {
         toast({
           title: "No recipes found",
-          description: "Could not find any matching recipes in the static data",
+          description: `Could not find any matching recipes. Found ${allRecipes.length} total recipes. Check console for details.`,
           variant: "destructive",
         });
         setIsProcessing(false);
@@ -50,20 +59,124 @@ const MigrateRecipes = () => {
 
       toast({
         title: "Processing...",
-        description: `Found ${recipesToMigrate.length} recipes to migrate. This will take several minutes.`,
+        description: `Found ${recipesToMigrate.length} recipes to migrate directly to database.`,
       });
 
-      const { data, error } = await supabase.functions.invoke('migrate-static-recipes', {
-        body: { recipes: recipesToMigrate }
-      });
+      const migrationResults = [];
 
-      if (error) throw error;
+      // Helper: normalize image to absolute URL and avoid placeholders
+      const toAbsoluteImageUrl = (img?: string) => {
+        if (!img) return null;
+        // Already absolute (http/https/data)
+        if (/^(https?:)?\/\//i.test(img) || img.startsWith('data:')) return img;
+        // Vite dev origin for local assets and public files
+        const origin = window.location.origin;
+        // Ensure it starts with a single leading slash
+        const path = img.startsWith('/') ? img : `/${img}`;
+        return `${origin}${path}`;
+      };
 
-      setResults(data.results);
+      // Migrate recipes one by one
+      for (const recipe of recipesToMigrate) {
+        try {
+          console.log(`Migrating: ${recipe.name}`);
+
+          // Check if recipe already exists
+          const { data: existingRecipes } = await supabase
+            .from('recipes')
+            .select('recipe_id')
+            .eq('recipe_id', recipe.id)
+            .limit(1);
+
+          const absoluteImage = toAbsoluteImageUrl(recipe.image) || toAbsoluteImageUrl(recipe.imageUrl);
+
+          const recipeData = {
+            recipe_id: recipe.id,
+            name: recipe.name,
+            description: recipe.description,
+            cook_time: recipe.cookTime,
+            prep_time: recipe.prepTime,
+            difficulty: recipe.difficulty,
+            servings: recipe.servings,
+            ingredients: recipe.ingredients as any,
+            instructions: recipe.instructions as any,
+            cuisine: recipe.cuisine,
+            // Preserve existing images; do NOT use placeholders
+            image_url: absoluteImage,
+            nutrition: recipe.nutrition as any || null,
+            tags: recipe.tags || [],
+            category: recipe.tags?.includes('copycat') ? 'Restaurant Copycats' : 
+                      recipe.tags?.includes('dessert') ? 'Desserts' : 
+                      recipe.tags?.includes('breakfast') ? 'Breakfast' : 
+                      recipe.tags?.includes('lunch') ? 'Lunch' : 
+                      'Dinner',
+            verified: true,
+            ai_generated: false,
+            source: 'curated'
+          };
+
+          if (existingRecipes && existingRecipes.length > 0) {
+            // Update existing recipe (exclude recipe_id from update)
+            const { recipe_id, ...updateData } = recipeData;
+            // Do not overwrite existing DB image with null/undefined
+            if (!absoluteImage) {
+              delete (updateData as any).image_url;
+            }
+            const { error: updateError } = await supabase
+              .from('recipes')
+              .update(updateData)
+              .eq('recipe_id', recipe.id);
+
+            if (updateError) throw updateError;
+
+            migrationResults.push({
+              recipeName: recipe.name,
+              success: true,
+              message: 'Recipe updated successfully'
+            });
+          } else {
+            // Insert new recipe (let database generate id)
+            const insertPayload = { ...recipeData } as any;
+            if (!absoluteImage) {
+              delete insertPayload.image_url;
+            }
+            const { error: insertError } = await supabase
+              .from('recipes')
+              .insert([insertPayload]);
+
+            if (insertError) throw insertError;
+
+            migrationResults.push({
+              recipeName: recipe.name,
+              success: true,
+              message: 'Recipe inserted successfully'
+            });
+          }
+
+          console.log(`✅ ${recipe.name}`);
+
+          // Update results incrementally
+          setResults([...migrationResults]);
+
+        } catch (error: any) {
+          console.error(`❌ Error migrating ${recipe.name}:`, error);
+          migrationResults.push({
+            recipeName: recipe.name,
+            success: false,
+            error: error.message || 'Unknown error'
+          });
+          setResults([...migrationResults]);
+        }
+
+        // Small delay to avoid overwhelming the database
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+
+      const successCount = migrationResults.filter(r => r.success).length;
       
       toast({
-        title: "Migration complete",
-        description: `Successfully processed ${data.successCount} of ${data.totalProcessed} recipes`,
+        title: "Migration complete!",
+        description: `Successfully processed ${successCount} of ${migrationResults.length} recipes`,
       });
 
     } catch (error: any) {
@@ -85,7 +198,7 @@ const MigrateRecipes = () => {
           <CardHeader>
             <CardTitle>Migrate Static Recipes to Database</CardTitle>
             <CardDescription>
-              Enter recipe names (one per line) to migrate them from static data to the database with ultra-realistic AI-generated images
+              Enter recipe names (one per line) to migrate them from static data to the database with their existing images and nutrition data
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -108,10 +221,10 @@ Outback Bloomin Onion
               {isProcessing ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Migrating Recipes... (This may take several minutes)
+                  Migrating Recipes... ({results.length} processed)
                 </>
               ) : (
-                "Migrate Recipes with Ultra-Realistic Images"
+                "Migrate Recipes to Database"
               )}
             </Button>
           </CardContent>

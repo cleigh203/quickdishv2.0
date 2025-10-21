@@ -29,6 +29,10 @@ import { MealPlanDialog } from "@/components/MealPlanDialog";
 import { RecipeAIChatDialog } from "@/components/RecipeAIChatDialog";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { usePantryItems } from "@/hooks/usePantryItems";
+// ShoppingGuide temporarily removed - will use Kroger/Instacart API when ready
+// import { StoreSelection } from "@/components/StoreSelection";
+// import { ShoppingGuide } from "@/components/ShoppingGuide";
+// import { ShoppingListItem, GroceryStore } from "@/types/shopping";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -54,9 +58,17 @@ const RecipeDetail = () => {
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
   const [mealPlanDialogOpen, setMealPlanDialogOpen] = useState(false);
   const [aiChatOpen, setAiChatOpen] = useState(false);
+  // Shopping guide removed - will add back with Kroger/Instacart API
+  // const [showShopping, setShowShopping] = useState(false);
+  // const [selectedStore, setSelectedStore] = useState<GroceryStore | null>(null);
 
   const currentSavedRecipe = recipe ? savedRecipes.find(r => r.recipe_id === recipe.id) : null;
   const { averageRating, totalRatings, refetch: refetchRatings } = useRecipeRating(recipe?.id || '');
+
+  // Always start at top when opening a recipe
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [id]);
 
   useEffect(() => {
     if (!id) {
@@ -142,6 +154,40 @@ const RecipeDetail = () => {
     if (isSaved(recipe.id)) {
       await unsaveRecipe(recipe.id);
     } else {
+      // Workaround: persist AI recipes locally so Favorites can resolve by ID immediately
+      try {
+        const existing = recipeStorage.getRecipes();
+        if (!existing.find(r => r.id === recipe.id)) {
+          recipeStorage.setRecipes([recipe, ...existing]);
+        }
+      } catch {}
+      // Ensure AI recipe exists in Supabase detail table for fallback
+      try {
+        if (recipe.isAiGenerated && user) {
+          const payload: any = {
+            user_id: user.id,
+            recipe_id: recipe.id,
+            name: recipe.name,
+            description: recipe.description || '',
+            cook_time: recipe.cookTime || '',
+            prep_time: recipe.prepTime || '',
+            difficulty: recipe.difficulty || 'Medium',
+            servings: recipe.servings || 4,
+            ingredients: recipe.ingredients || [],
+            instructions: recipe.instructions || [],
+            cuisine: recipe.cuisine || '',
+            nutrition: recipe.nutrition || null,
+            tags: recipe.tags || [],
+            image_url: null,
+          };
+          await supabase
+            .from('generated_recipes')
+            .upsert(payload, { onConflict: 'user_id,recipe_id' });
+        }
+      } catch (e) {
+        console.log('AI recipe upsert skipped/failed:', e);
+      }
+      // Ensure AI recipes can be saved even if not in static list
       await saveRecipe(recipe.id);
     }
   };
@@ -209,9 +255,9 @@ const RecipeDetail = () => {
 
   const handleSaveNotes = async (notes: string) => {
     if (!recipe) return { success: false, message: 'No recipe loaded' };
-    
+
     const result = await updateRecipeNotes(recipe.id, notes);
-    
+
     if (result.success) {
       toast({
         title: "Notes saved!",
@@ -224,9 +270,10 @@ const RecipeDetail = () => {
         variant: "destructive",
       });
     }
-    
+
     return result;
   };
+
 
   const handleExportPDF = async () => {
     if (!recipe) return;
@@ -265,6 +312,14 @@ const RecipeDetail = () => {
     }
   };
 
+  // Image export temporarily disabled
+  const handleExportImage = async () => {
+    toast({
+      title: "Coming soon",
+      description: "Save as Image will return in a future update",
+    });
+  };
+
   if (isLoadingRecipe || !recipe) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -284,41 +339,73 @@ const RecipeDetail = () => {
 
   return (
     <div className="min-h-screen pb-8">
-      <div className="relative min-h-[400px] overflow-hidden">
-        <img 
-          src={recipe.image}
-          alt={recipe.name}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            console.error('Image failed to load for:', recipe.name, 'Original src:', target.src);
-            console.log('Recipe image path:', recipe.image);
-          }}
-        />
-        <Button
-          onClick={() => navigate(-1)}
-          variant="icon"
-          size="icon"
-          className="absolute top-4 left-4"
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <div className="absolute top-4 right-4 flex gap-2">
+      {/* Only show image for non-AI recipes */}
+      {!recipe.isAiGenerated && (
+        <div className="relative min-h-[400px] overflow-hidden">
+          <img 
+            src={getRecipeImage(recipe)}
+            alt={recipe.name}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1200&q=80";
+            }}
+          />
           <Button
-            onClick={() => setMenuOpen(true)}
+            onClick={() => navigate(-1)}
             variant="icon"
             size="icon"
-            data-recipe-menu-button
+            className="absolute top-4 left-4"
           >
-            <span className="text-xl">⋮</span>
+            <ArrowLeft className="h-5 w-5" />
           </Button>
+          <div className="absolute top-4 right-4 flex gap-2">
+            <Button
+              onClick={() => setMenuOpen(true)}
+              variant="icon"
+              size="icon"
+              data-recipe-menu-button
+            >
+              <span className="text-xl">⋮</span>
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
-      <div className="relative -mt-24 bg-white rounded-t-3xl px-5 pt-4 pb-6 shadow-lg">
+      {/* For AI recipes, show simple header with back button */}
+      {recipe.isAiGenerated && (
+        <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-5 py-8">
+          <div className="flex items-center justify-between">
+            <Button
+              onClick={() => navigate(-1)}
+              variant="ghost"
+              size="icon"
+              className="text-white hover:bg-white/20"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+            <Badge variant="secondary" className="bg-white/20 text-white border-0">
+              ✨ AI Generated
+            </Badge>
+            <Button
+              onClick={() => setMenuOpen(true)}
+              variant="ghost"
+              size="icon"
+              className="text-white hover:bg-white/20"
+              data-recipe-menu-button
+            >
+              <span className="text-xl">⋮</span>
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <div className={`relative bg-white px-5 pt-4 pb-6 shadow-lg ${
+        !recipe.isAiGenerated ? '-mt-24 rounded-t-3xl' : 'mt-0'
+      }`}>
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h1 className="text-3xl font-bold mb-2">{recipe.name}</h1>
+                <h1 className="text-3xl font-bold mb-2 text-black">{recipe.name}</h1>
                 
                 {/* Average Rating Display */}
                 {totalRatings > 0 ? (
@@ -362,7 +449,9 @@ const RecipeDetail = () => {
               <Badge variant="secondary" className="bg-primary text-primary-foreground">
                 {recipe.difficulty}
               </Badge>
-              <Badge variant="outline">{recipe.cuisine}</Badge>
+              <Badge variant="secondary" className="bg-[#FF6B35] text-black">
+                {recipe.cuisine}
+              </Badge>
             </div>
 
             <div className="grid grid-cols-3 gap-4 mb-6 text-center">
@@ -399,7 +488,7 @@ const RecipeDetail = () => {
             </div>
 
             <div className="mb-6">
-              <h2 className="text-3xl font-bold mb-4">Ingredients</h2>
+              <h2 className="text-3xl font-bold mb-4 text-black">Ingredients</h2>
               <ul className="space-y-2">
                 {recipe.ingredients.map((ing, index) => {
                   // Always show complete ingredient with measurements
@@ -415,7 +504,7 @@ const RecipeDetail = () => {
                   };
                   
                   return (
-                    <li key={index} className="flex items-start text-foreground">
+                    <li key={index} className="flex items-start text-black">
                       <span className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0">
                         <Checkbox className="w-5 h-5 rounded border-2 border-input checked:bg-primary checked:border-primary transition-all" />
                       </span>
@@ -442,14 +531,14 @@ const RecipeDetail = () => {
             </button>
 
             <div>
-              <h2 className="text-3xl font-bold mb-4">Instructions</h2>
+              <h2 className="text-3xl font-bold mb-4 text-black">Instructions</h2>
               <ol className="space-y-4">
                 {recipe.instructions.map((instruction, index) => (
                   <li key={index} className="flex">
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center mr-4 font-bold">
                       {index + 1}
                     </span>
-                    <p className="flex-1 pt-1">{instruction.replace(/\[|\]/g, '')}</p>
+                    <p className="flex-1 pt-1 text-black">{instruction.replace(/\[|\]/g, '')}</p>
                   </li>
                 ))}
               </ol>
@@ -579,6 +668,7 @@ const RecipeDetail = () => {
                 <div className="text-sm text-muted-foreground">Add all ingredients</div>
               </div>
             </button>
+
 
             {/* Visual Divider */}
             <div className="my-4">
@@ -766,7 +856,7 @@ const RecipeDetail = () => {
                 setMenuOpen(false);
               }}
               disabled={isGeneratingPDF}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed border-b border-border"
             >
               <div className="w-10 h-10 bg-blue-50 dark:bg-blue-950/30 rounded-full flex items-center justify-center text-xl">
                 📄
@@ -778,6 +868,8 @@ const RecipeDetail = () => {
                 <div className="text-sm text-muted-foreground">Download recipe as PDF</div>
               </div>
             </button>
+
+            {/* Save as Image (temporarily removed) */}
           </div>
         </>
       )}
@@ -828,6 +920,37 @@ const RecipeDetail = () => {
         open={aiChatOpen}
         onClose={() => setAiChatOpen(false)}
       />
+
+      {/* Shopping Flow Components - Removed, will add back with Kroger/Instacart API */}
+      {/* {showShopping && !selectedStore && (
+        <StoreSelection
+          onSelectStore={(store) => setSelectedStore(store)}
+          onClose={() => setShowShopping(false)}
+        />
+      )}
+
+      {showShopping && selectedStore && (
+        <ShoppingGuide
+          items={recipe.ingredients.map((ing, idx) => ({
+            id: `${recipe.id}-${idx}`,
+            name: ing.item,
+            amount: ing.amount,
+            unit: ing.unit,
+            completed: false,
+            recipeId: recipe.id
+          }))}
+          store={selectedStore}
+          onComplete={() => {
+            setShowShopping(false);
+            setSelectedStore(null);
+            toast({
+              title: "Shopping Complete! 🎉",
+              description: "Hope you found everything you need!",
+            });
+          }}
+          onBack={() => setSelectedStore(null)}
+        />
+      )} */}
     </div>
   );
 };

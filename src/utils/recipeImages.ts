@@ -1,13 +1,47 @@
 import { Recipe } from "@/types/recipe";
 
 // Smart image mapping based on recipe content
+// Local overrides to immediately reflect updated images on localhost
+const imageOverrides: Record<string, string> = {
+  "quick-tuscan-shrimp": "https://i.imgur.com/DbZzWVl.png",
+  "quick-thai-basil-chicken": "https://i.imgur.com/njeoQZu.png",
+  "quick-shrimp-stirfry": "https://i.imgur.com/laMTVMu.png",
+  "quick-caprese-chicken": "https://i.imgur.com/G4KB35R.png",
+  "quick-shrimp-scampi": "https://i.imgur.com/ry6O5R0.png",
+  "quick-mongolian-beef": "https://i.imgur.com/38vSHb8.png",
+  "quick-greek-chicken": "https://i.imgur.com/gkppx9G.png",
+  "quick-pad-thai": "https://i.imgur.com/OZqGxHF.png",
+  "quick-steak-bites": "https://i.imgur.com/9FOICSU.png",
+  "leftover-fried-rice": "https://i.imgur.com/5jrWKDF.png",
+  "leftover-pasta-carbonara": "https://i.imgur.com/AQ7SNIE.png",
+  "teriyaki-chicken": "https://i.imgur.com/T4OZWKW.png",
+  "maple-glazed-salmon": "https://i.imgur.com/gk4bJTS.png",
+  "quick-two-ingredient-pici-pasta": "https://i.imgur.com/SldTS5S.png",
+};
+
 export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }): string => {
-  // Check for imageUrl first (Halloween recipes), then image (generated recipes)
+  // If AI-generated and no explicit image, return a neutral white placeholder (no random stock)
+  if ((recipe as any).isAiGenerated && !recipe.imageUrl && !recipe.image) {
+    // 1x1 white PNG data URI
+    return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2P8////fwAJ/wP+3YtR6QAAAABJRU5ErkJggg==';
+  }
+  // Force override first so it wins regardless of source (static/DB/cached)
+  if (recipe.id && imageOverrides[recipe.id]) {
+    return imageOverrides[recipe.id];
+  }
+  // Check imageUrl first (Halloween recipes)
   if (recipe.imageUrl && !recipe.imageUrl.includes('undefined')) {
     return recipe.imageUrl;
   }
+  
+  // Check image second (generated recipes)
   if (recipe.image && !recipe.image.includes('undefined')) {
     return recipe.image;
+  }
+
+  // As a fallback, try local dessert asset naming convention if image is missing
+  if ((!recipe.imageUrl && !recipe.image) && recipe.id && recipe.id.startsWith('dessert-')) {
+    return `/lovable-uploads/${recipe.id}.png`;
   }
   
   // Build a combined search string for better matching
@@ -15,7 +49,7 @@ export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }): s
   const ingredients = (recipe.ingredientInput || '').toLowerCase();
   const searchText = `${title} ${ingredients}`;
   
-  // VEGETARIAN/VEGAN dishes first (these were getting wrong images)
+  // VEGETARIAN/VEGAN dishes first
   if (searchText.includes('lentil') || searchText.includes('dal')) {
     return 'https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=600';
   }
@@ -29,12 +63,12 @@ export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }): s
     return 'https://images.pexels.com/photos/6120503/pexels-photo-6120503.jpeg?auto=compress&cs=tinysrgb&w=600';
   }
   
-  // SALADS (only if actually a salad)
+  // SALADS
   if (title.includes('salad')) {
     return 'https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=600';
   }
   
-  // DESSERTS - Specific types first for better matching
+  // DESSERTS
   if (searchText.includes('apple pie')) {
     return 'https://images.pexels.com/photos/6210747/pexels-photo-6210747.jpeg?auto=compress&cs=tinysrgb&w=600';
   }
@@ -94,7 +128,7 @@ export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }): s
     return 'https://images.pexels.com/photos/103124/pexels-photo-103124.jpeg?auto=compress&cs=tinysrgb&w=600';
   }
   
-  // PROTEINS (check these AFTER vegetarian to avoid conflicts)
+  // PROTEINS
   if (searchText.includes('chicken') && !searchText.includes('lentil')) {
     return 'https://images.pexels.com/photos/2994900/pexels-photo-2994900.jpeg?auto=compress&cs=tinysrgb&w=600';
   }
@@ -111,7 +145,7 @@ export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }): s
     return 'https://images.pexels.com/photos/793785/pexels-photo-793785.jpeg?auto=compress&cs=tinysrgb&w=600';
   }
   
-  // Default variety images (rotate through these)
+  // Default variety images
   const defaultImages = [
     'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=600',
     'https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=600',
@@ -121,7 +155,6 @@ export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }): s
     'https://images.pexels.com/photos/1537635/pexels-photo-1537635.jpeg?auto=compress&cs=tinysrgb&w=600'
   ];
   
-  // For generic recipes, use a rotating default based on recipe ID
   const index = recipe.id ? 
     parseInt(recipe.id.toString().slice(-1)) % defaultImages.length : 
     Math.floor(Math.random() * defaultImages.length);

@@ -17,11 +17,14 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { LoadingScreen } from "@/components/LoadingScreen";
+import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
+import { supabase } from "@/integrations/supabase/client";
 
 export const SavedRecipes = () => {
   const navigate = useNavigate();
   const { savedRecipes, loading, error, refetch } = useSavedRecipes();
-  const { mealPlans } = useMealPlan();
+  const { mealPlans, refreshMealPlans } = useMealPlan();
+  const { generatedRecipes } = useGeneratedRecipes();
   const [activeTab, setActiveTab] = useState("saved");
   const [customRecipes, setCustomRecipes] = useState<Recipe[]>([]);
   const [showCustomForm, setShowCustomForm] = useState(false);
@@ -29,6 +32,7 @@ export const SavedRecipes = () => {
   const [deletingRecipeId, setDeletingRecipeId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const [resolvedSavedRecipes, setResolvedSavedRecipes] = useState<Recipe[]>([]);
   const [activeFilters, setActiveFilters] = useState<{
     time: string[];
     difficulty: string[];
@@ -44,11 +48,104 @@ export const SavedRecipes = () => {
     setCustomRecipes(custom);
   }, []);
 
+  // Resolve saved recipes to actual Recipe objects (static + generated + DB fallback + stubs)
+  useEffect(() => {
+    const resolveSaved = async () => {
+      // Map saved recipe IDs to actual recipe objects
+      const genMap = new Map(generatedRecipes.map(r => [r.id, r]));
+      const statMap = new Map(allRecipes.map(r => [r.id, r]));
+
+      const base: Recipe[] = savedRecipes
+        .map(saved => {
+          const gen = genMap.get(saved.recipe_id);
+          if (gen) return gen;
+          const stat = statMap.get(saved.recipe_id);
+          if (stat) return stat;
+          try {
+            const stored = JSON.parse(localStorage.getItem('recipes') || '[]');
+            return stored.find((r: any) => r.id === saved.recipe_id);
+          } catch {
+            return undefined;
+          }
+        })
+        .filter((r): r is Recipe => r !== undefined)
+        .map(r => ({ ...r }));
+
+      // If any missing IDs remain, fetch from generated_recipes table
+      const resolvedIds = new Set(base.map(r => r.id));
+      const missingIds = savedRecipes.map(s => s.recipe_id).filter(id => !resolvedIds.has(id));
+
+      let fetched: Recipe[] = [];
+      if (missingIds.length > 0) {
+        try {
+          const { data, error } = await supabase
+            .from('generated_recipes')
+            .select('*')
+            .in('recipe_id', missingIds);
+          if (!error && Array.isArray(data)) {
+            fetched = data.map((record: any) => ({
+              id: record.recipe_id,
+              name: record.name,
+              description: record.description || '',
+              cookTime: record.cook_time || '',
+              prepTime: record.prep_time || '',
+              difficulty: record.difficulty || 'Medium',
+              servings: record.servings || 4,
+              ingredients: record.ingredients || [],
+              instructions: record.instructions || [],
+              cuisine: record.cuisine || '',
+              imageUrl: record.image_url || '',
+              image: record.image_url || '',
+              nutrition: record.nutrition || undefined,
+              tags: record.tags || [],
+              isAiGenerated: true,
+              generatedAt: record.created_at,
+            } as Recipe));
+          }
+        } catch (e) {
+          console.warn('SavedRecipes fetch fallback failed', e);
+        }
+      }
+
+      // Create stubs for any IDs still unresolved so the user sees items immediately
+      const fetchedIds = new Set(fetched.map(r => r.id));
+      const unresolvedIds = savedRecipes
+        .map(s => s.recipe_id)
+        .filter(id => !resolvedIds.has(id) && !fetchedIds.has(id));
+
+      const stubs: Recipe[] = unresolvedIds.map((id) => ({
+        id,
+        name: 'Saved AI Recipe',
+        description: '',
+        cookTime: '',
+        prepTime: '',
+        difficulty: 'Medium',
+        servings: 1,
+        ingredients: [],
+        instructions: [],
+        cuisine: '',
+        image: '',
+        imageUrl: '',
+        tags: [],
+        isAiGenerated: true,
+      } as Recipe));
+
+      setResolvedSavedRecipes([...base, ...fetched, ...stubs]);
+    };
+
+    resolveSaved();
+  }, [savedRecipes, generatedRecipes]);
+
+  // Refresh meal plans when user navigates to meal plan tab
+  useEffect(() => {
+    if (activeTab === "mealplan") {
+      refreshMealPlans();
+    }
+  }, [activeTab, refreshMealPlans]);
+
   const savedRecipesList = useMemo(() => {
-    return savedRecipes
-      .map(saved => allRecipes.find(r => r.id === saved.recipe_id))
-      .filter((r): r is NonNullable<typeof r> => r !== undefined);
-  }, [savedRecipes]);
+    return resolvedSavedRecipes;
+  }, [resolvedSavedRecipes]);
 
   const handleRecipeClick = (recipeId: string) => {
     navigate(`/recipe/${recipeId}`);

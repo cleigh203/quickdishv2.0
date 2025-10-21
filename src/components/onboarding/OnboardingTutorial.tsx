@@ -72,6 +72,15 @@ export const OnboardingTutorial = () => {
       targetSelector: "[data-menu-cooking-mode]",
       keepMenuOpen: true,
     },
+    {
+      id: 8,
+      title: "AI Recipe Generator 🤖",
+      description: "Search for ingredients you have at home. If no recipes match, AI will create a custom recipe for you!",
+      subtitle: "Free: 2 recipes/day | Premium: 5 recipes/day. Use the search bar on the home page to get started!",
+      targetSelector: "[data-search-bar], .search-input, input[type='search'], input[placeholder*='Search']",
+      highlightPulse: true,
+      action: () => navigate('/'),
+    },
   ];
 
   const currentStepData = steps[currentStep - 1];

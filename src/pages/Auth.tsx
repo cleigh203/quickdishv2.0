@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
 import { Mail, Lock, User } from 'lucide-react';
 import logo from '@/assets/logo.png';
+import { supabase } from '@/integrations/supabase/client';
 
 const signUpSchema = z.object({
   email: z.string().trim().email('Invalid email address').max(255, 'Email too long'),
@@ -33,7 +34,7 @@ const resetPasswordSchema = z.object({
   email: z.string().trim().email('Invalid email address'),
 });
 
-type ViewType = 'welcome' | 'signup' | 'signin' | 'reset';
+type ViewType = 'welcome' | 'signup' | 'signin' | 'reset' | 'verify';
 
 const Auth = () => {
   const [view, setView] = useState<ViewType>('welcome');
@@ -56,6 +57,7 @@ const Auth = () => {
   });
 
   const [resetEmail, setResetEmail] = useState('');
+  const [verifyEmail, setVerifyEmail] = useState('');
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -87,11 +89,12 @@ const Auth = () => {
           });
         }
       } else {
+        setVerifyEmail(validated.email);
+        setView('verify');
         toast({
-          title: 'Account created!',
-          description: 'Welcome to QuickDish AI',
+          title: 'Verify your email',
+          description: 'We sent a confirmation link. Please check your inbox.',
         });
-        navigate('/profile-setup');
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -103,6 +106,20 @@ const Auth = () => {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    if (!verifyEmail) return;
+    try {
+      const { error } = await supabase.auth.resend({ type: 'signup', email: verifyEmail });
+      if (error) {
+        toast({ title: 'Could not resend', description: error.message, variant: 'destructive' });
+      } else {
+        toast({ title: 'Email sent', description: 'Check your inbox for the verification link.' });
+      }
+    } catch (e: any) {
+      toast({ title: 'Could not resend', description: e.message, variant: 'destructive' });
     }
   };
 
@@ -327,6 +344,36 @@ const Auth = () => {
                 </button>
               </p>
             </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (view === 'verify') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-orange-100 p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Check your email</CardTitle>
+            <CardDescription>
+              We sent a verification link to {verifyEmail}. Click the link to activate your account.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Button className="w-full" onClick={handleResendVerification}>
+              Resend verification email
+            </Button>
+            <p className="text-center text-sm text-muted-foreground">
+              Verified already?
+              <button
+                type="button"
+                onClick={() => setView('signin')}
+                className="text-primary hover:underline ml-1"
+              >
+                Sign in
+              </button>
+            </p>
           </CardContent>
         </Card>
       </div>

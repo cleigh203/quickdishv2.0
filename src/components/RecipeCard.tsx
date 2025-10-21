@@ -22,16 +22,22 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true }: RecipeCar
       data-recipe-card
     >
       <div className="relative">
-        <img 
-          src={recipe.image}
-          alt={recipe.name}
-          className="recipe-card-image"
-          loading="lazy"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
-          }}
-        />
+        {recipe.isAiGenerated ? (
+          <div className="recipe-card-image bg-muted flex items-center justify-center text-muted-foreground">
+            <span className="text-sm">AI Recipe</span>
+          </div>
+        ) : (
+          <img 
+            src={getRecipeImage(recipe)}
+            alt={recipe.name}
+            className="recipe-card-image"
+            loading="lazy"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+            }}
+          />
+        )}
         {recipe.isPremium && (
           <div className="absolute top-3 right-3">
             <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">

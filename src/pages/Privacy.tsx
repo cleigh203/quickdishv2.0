@@ -27,7 +27,7 @@ const Privacy = () => {
             </Button>
           </Link>
           <h1 className="text-4xl font-bold mb-2">Privacy Policy</h1>
-          <p className="text-white/90">Last Updated: October 6, 2025</p>
+          <p className="text-white/90">Last Updated: October 20, 2025</p>
         </div>
       </div>
 
@@ -66,7 +66,7 @@ const Privacy = () => {
         {/* Introduction */}
         <div className="prose prose-lg max-w-none mb-8">
           <p className="text-foreground leading-relaxed">
-            QuickDish ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.
+            QuickDish ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our web application.
           </p>
         </div>
 
@@ -83,6 +83,9 @@ const Privacy = () => {
               <li>Password (encrypted)</li>
               <li>Profile preferences</li>
             </ul>
+          <p className="text-sm text-muted-foreground mb-6">
+            We require email verification for new accounts to help secure access.
+          </p>
 
             <h3 className="text-xl font-semibold text-foreground mb-3 mt-6">Usage Data</h3>
             <ul className="list-disc pl-6 space-y-2 text-foreground mb-4">
@@ -116,6 +119,7 @@ const Privacy = () => {
               <li>Provide and maintain the app</li>
               <li>Personalize your recipe recommendations</li>
               <li>Process premium subscriptions</li>
+            <li>Verify your email and secure your account</li>
               <li>Improve app functionality and user experience</li>
               <li>Send service updates and notifications</li>
               <li>Provide customer support</li>
@@ -126,13 +130,12 @@ const Privacy = () => {
 
           {/* Section 3 */}
           <section id="section-3" className="scroll-mt-4">
-            <h2 className="text-2xl font-bold text-foreground mb-4">3. AI and Recipe Generation</h2>
-            <ul className="list-disc pl-6 space-y-2 text-foreground">
-              <li>Our AI chat feature uses Google Gemini AI</li>
-              <li>Recipe-related conversations are processed to provide responses</li>
-              <li>We do not use your conversations to train third-party AI models</li>
-              <li>Chat history is stored in your account and can be deleted</li>
-            </ul>
+          <h2 className="text-2xl font-bold text-foreground mb-4">3. AI and Recipe Generation</h2>
+          <ul className="list-disc pl-6 space-y-2 text-foreground">
+            <li>AI recipe generation uses OpenAI APIs (no training of third‑party models on your data)</li>
+            <li>Recipe prompts and results are processed to provide responses</li>
+            <li>Where applicable, AI history is associated with your account and can be removed by deleting your account</li>
+          </ul>
           </section>
 
           {/* Section 4 */}
@@ -144,8 +147,9 @@ const Privacy = () => {
             <ul className="list-disc pl-6 space-y-2 text-foreground mb-4">
               <li>Supabase (database hosting and authentication)</li>
               <li>Stripe (payment processing)</li>
-              <li>Google Gemini AI (AI chat feature)</li>
-              <li>Analytics providers (app performance)</li>
+              <li>OpenAI (AI recipe generation)</li>
+              <li>Instacart (shopping list integrations and links)</li>
+              <li>Vercel Analytics (app performance analytics)</li>
             </ul>
             <p className="text-foreground mb-4">These providers are bound by confidentiality agreements.</p>
 

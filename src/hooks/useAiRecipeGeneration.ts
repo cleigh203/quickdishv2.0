@@ -3,12 +3,15 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Recipe } from '@/types/recipe';
 import { useAuth } from '@/contexts/AuthContext';
+import { useGeneratedRecipes } from '@/hooks/useGeneratedRecipes';
+import { recipeStorage } from '@/utils/recipeStorage';
 
 export const useAiRecipeGeneration = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationsRemaining, setGenerationsRemaining] = useState<number | null>(null);
   const { toast } = useToast();
   const { user, isPremium } = useAuth();
+  const { addGeneratedRecipe } = useGeneratedRecipes();
 
   const checkRateLimit = async (): Promise<{ allowed: boolean; remaining: number }> => {
     if (!user) {
@@ -30,7 +33,7 @@ export const useAiRecipeGeneration = () => {
       const needsReset = !lastGenDate || lastGenDate !== today;
 
       const currentGenerations = needsReset ? 0 : (profile.ai_generations_today || 0);
-      const limit = profile.is_premium ? 10 : 2;
+      const limit = profile.is_premium ? 5 : 2;
       const remaining = Math.max(0, limit - currentGenerations);
 
       setGenerationsRemaining(remaining);
@@ -65,42 +68,63 @@ export const useAiRecipeGeneration = () => {
     // Show initial loading toast
     const loadingToast = toast({
       title: "Creating your custom recipe...",
-      description: "Generating recipe details and image",
+      description: "Generating recipe with AI",
       duration: Infinity
     });
 
     try {
       console.log('📡 5. Invoking edge function generate-recipe-ai...');
-      const { data, error } = await supabase.functions.invoke('generate-recipe-ai', {
+      const response = await supabase.functions.invoke('generate-recipe-ai', {
         body: { searchTerm, userId: user.id }
       });
 
-      console.log('📡 6. Edge function response:', { data, error });
+      console.log('📡 6. Edge function response:', response);
+      console.log('📡 6a. Response data:', response.data);
+      console.log('📡 6b. Response error:', response.error);
+      
+      const { data, error } = response;
 
       // Dismiss loading toast
       loadingToast.dismiss();
 
       if (error) {
         console.log('📡 7. Error from edge function:', error);
+        console.log('📡 7a. Error message:', error.message);
+        console.log('📡 7b. Full error:', JSON.stringify(error, null, 2));
+        
         if (error.message?.includes('Rate limit')) {
           toast({
             title: "Daily limit reached",
             description: isPremium 
-              ? "You've used all 10 AI generations today. Try again tomorrow!"
-              : "You've used your 2 free AI generations. Upgrade to Premium for 10/day!",
+              ? "You've used all 5 AI generations today. Try again tomorrow!"
+              : "You've used your 2 free AI generations. Upgrade to Premium for 5/day!",
             variant: "destructive"
           });
         } else {
-          throw error;
+          toast({
+            title: "Generation failed",
+            description: error.message || "Failed to generate recipe. Please try again.",
+            variant: "destructive"
+          });
         }
         return null;
       }
 
-      if (data.error) {
+      if (data?.error) {
         console.log('📡 8. Error in response data:', data.error);
         toast({
           title: "Generation failed",
           description: data.error,
+          variant: "destructive"
+        });
+        return null;
+      }
+      
+      if (!data?.recipe) {
+        console.log('📡 8a. No recipe in response data:', data);
+        toast({
+          title: "Generation failed",
+          description: "No recipe returned from AI. Please try again.",
           variant: "destructive"
         });
         return null;
@@ -112,12 +136,28 @@ export const useAiRecipeGeneration = () => {
       
       setGenerationsRemaining(data.generationsRemaining);
       
+      // Normalize AI recipe fields and add to session storage (not database)
+      const aiRecipe: Recipe = {
+        ...data.recipe,
+        isAiGenerated: true,
+        image: data.recipe.image_url || '',
+        imageUrl: data.recipe.image_url || '',
+      } as Recipe;
+      addGeneratedRecipe(aiRecipe);
+      try {
+        const existing = recipeStorage.getRecipes();
+        const withoutDup = existing.filter((r: any) => r.id !== aiRecipe.id);
+        recipeStorage.setRecipes([aiRecipe, ...withoutDup]);
+      } catch (e) {
+        console.warn('Could not persist AI recipe locally', e);
+      }
+      
       toast({
         title: "Recipe created!",
-        description: `${data.recipe.name} has been saved to My Kitchen`
+        description: `${data.recipe.name} - Save it if you like it!`
       });
 
-      return data.recipe;
+      return aiRecipe;
     } catch (error: any) {
       console.error('📡 12. Exception in generateRecipe:', error);
       loadingToast.dismiss();

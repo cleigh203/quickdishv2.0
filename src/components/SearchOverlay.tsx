@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { Recipe } from "@/types/recipe";
+import { getRecipeImage } from "@/utils/recipeImages";
 import { useNavigate } from "react-router-dom";
 
 interface SearchOverlayProps {
@@ -12,16 +13,17 @@ interface SearchOverlayProps {
   onClose: () => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
-  searchMode: 'search' | 'ingredients';
-  setSearchMode: (mode: 'search' | 'ingredients') => void;
-  ingredientInput: string;
-  setIngredientInput: (input: string) => void;
+  searchMode?: 'search' | 'ingredients'; // Optional for backward compatibility
+  setSearchMode?: (mode: 'search' | 'ingredients') => void; // Optional for backward compatibility
+  ingredientInput?: string; // Optional for backward compatibility
+  setIngredientInput?: (input: string) => void; // Optional for backward compatibility
   filters: string[];
   toggleFilter: (filter: string) => void;
   clearFilters: () => void;
   onSearch: () => void;
   recipes: Recipe[];
   onAddToFavorites: (recipe: Recipe) => void;
+  hideAiImages?: boolean;
 }
 
 export const SearchOverlay = ({
@@ -29,16 +31,14 @@ export const SearchOverlay = ({
   onClose,
   searchQuery,
   setSearchQuery,
-  searchMode,
-  setSearchMode,
-  ingredientInput,
-  setIngredientInput,
+  // searchMode, setSearchMode, ingredientInput, setIngredientInput - no longer used
   filters,
   toggleFilter,
   clearFilters,
   onSearch,
   recipes,
-  onAddToFavorites
+  onAddToFavorites,
+  hideAiImages = false
 }: SearchOverlayProps) => {
   const navigate = useNavigate();
   
@@ -59,21 +59,31 @@ export const SearchOverlay = ({
       // Exclude Halloween recipes from search
       if (isHalloweenRecipe(recipe)) return false;
 
-      // Search query filter
-      const query = searchMode === 'search' ? searchQuery : ingredientInput;
-      if (query.trim()) {
-        const queryLower = query.toLowerCase();
+      // Search query filter - search by name AND ingredients with smart word matching
+      if (searchQuery.trim()) {
+        const queryTerms = searchQuery.toLowerCase().split(/[\s,]+/).filter(t => t.length > 0);
         
-        if (searchMode === 'search') {
-          // Search by recipe name
-          if (!recipe.name.toLowerCase().includes(queryLower)) return false;
-        } else {
-          // Search by ingredients
-          const hasIngredient = recipe.ingredients.some(ing => 
-            ing.item.toLowerCase().includes(queryLower)
+        // For each search term, check if it matches as a word (not just substring)
+        const matches = queryTerms.some(term => {
+          // Create regex for word boundary matching
+          // \b matches word boundaries, so "fish" won't match "finish"
+          const wordRegex = new RegExp(`\\b${term}`, 'i');
+          
+          // Search in recipe name
+          const nameMatch = wordRegex.test(recipe.name);
+          
+          // Search in ingredients (each ingredient item)
+          const ingredientMatch = recipe.ingredients.some(ing => 
+            wordRegex.test(ing.item)
           );
-          if (!hasIngredient) return false;
-        }
+          
+          // Search in cuisine
+          const cuisineMatch = wordRegex.test(recipe.cuisine || '');
+          
+          return nameMatch || ingredientMatch || cuisineMatch;
+        });
+        
+        if (!matches) return false;
       }
 
       // Apply all filters (AND logic)
@@ -102,7 +112,7 @@ export const SearchOverlay = ({
         ) || false;
       });
     });
-  }, [recipes, searchQuery, ingredientInput, searchMode, filters]);
+  }, [recipes, searchQuery, filters]);
 
   if (!isOpen) return null;
 
@@ -121,22 +131,14 @@ export const SearchOverlay = ({
         <div className="flex-1 relative">
           <Input
             autoFocus
-            placeholder="Search by name, ingredients, ..."
-            value={searchMode === 'search' ? searchQuery : ingredientInput}
-            onChange={(e) =>
-              searchMode === 'search'
-                ? setSearchQuery(e.target.value)
-                : setIngredientInput(e.target.value)
-            }
+            placeholder="Search by name or ingredients..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="border-0 bg-muted/50 focus-visible:ring-0 pr-12"
           />
           <div className="absolute right-2 top-1/2 -translate-y-1/2">
             <VoiceSearchButton
-              onTranscript={(text) =>
-                searchMode === 'search'
-                  ? setSearchQuery(text)
-                  : setIngredientInput(text)
-              }
+              onTranscript={(text) => setSearchQuery(text)}
               variant="ghost"
               size="sm"
             />
@@ -146,33 +148,6 @@ export const SearchOverlay = ({
 
       {/* Content */}
       <div className="px-4 py-6 space-y-6">
-        {/* Search Mode Toggle */}
-        <div>
-          <p className="text-sm font-semibold text-foreground mb-3">Search Mode</p>
-          <div className="inline-flex gap-2 bg-muted p-1 rounded-lg">
-            <button
-              onClick={() => setSearchMode('search')}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                searchMode === 'search'
-                  ? 'bg-background shadow-sm'
-                  : 'text-muted-foreground'
-              }`}
-            >
-              Search Recipes
-            </button>
-            <button
-              onClick={() => setSearchMode('ingredients')}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                searchMode === 'ingredients'
-                  ? 'bg-background shadow-sm'
-                  : 'text-muted-foreground'
-              }`}
-            >
-              Use My Ingredients
-            </button>
-          </div>
-        </div>
-
         {/* Cook Time */}
         <div>
           <p className="text-sm font-semibold text-foreground mb-3">Cook Time</p>
@@ -268,7 +243,6 @@ export const SearchOverlay = ({
             onClick={() => {
               clearFilters();
               setSearchQuery('');
-              setIngredientInput('');
             }}
             className="flex-1"
           >
@@ -308,11 +282,21 @@ export const SearchOverlay = ({
                   className="relative cursor-pointer"
                 >
                   <div className="relative rounded-xl overflow-hidden aspect-[4/5]">
-                    <img
-                      src={recipe.image || recipe.imageUrl}
-                      alt={recipe.name}
-                      className="w-full h-full object-cover"
-                    />
+                    {hideAiImages && (recipe as any).isAiGenerated ? (
+                      <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground">
+                        <span className="text-sm">AI Recipe</span>
+                      </div>
+                    ) : (
+                      <img
+                        src={getRecipeImage(recipe)}
+                        alt={recipe.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+                        }}
+                      />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     <button
                       onClick={(e) => {

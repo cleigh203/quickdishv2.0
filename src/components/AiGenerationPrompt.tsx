@@ -89,7 +89,7 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
               {isGenerating ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Creating recipe & image...
+                  Creating recipe...
                 </>
               ) : limitReached ? (
                 <>
@@ -110,10 +110,12 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
                   isPremium ? (
                     'Come back tomorrow for more generations'
                   ) : (
-                    'Upgrade to Premium for 10 generations/day'
+                    'Upgrade to Premium for 5 generations/day'
                   )
                 ) : (
-                  `${remaining ?? '...'} AI generation${remaining === 1 ? '' : 's'} remaining today`
+                  isPremium 
+                    ? `${remaining ?? '...'} of 5 AI generation${remaining === 1 ? '' : 's'} remaining today`
+                    : `${remaining ?? '...'} of 2 free generation${remaining === 1 ? '' : 's'} remaining today`
                 )}
               </span>
             </div>
@@ -139,7 +141,7 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
               Sign in to generate recipes
             </Button>
             <p className="text-xs text-muted-foreground">
-              Free: 2 AI generations/day • Premium: 10/day
+              Free: 2 AI generations/day • Premium: 5/day
             </p>
           </>
         )}

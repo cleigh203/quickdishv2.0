@@ -24,7 +24,7 @@ const Terms = () => {
         <div className="bg-card rounded-lg p-6 md:p-10 shadow-sm">
           <h1 className="text-3xl md:text-4xl font-bold mb-2">Terms of Service</h1>
           <p className="text-muted-foreground mb-1">
-            <strong>Last Updated:</strong> October 6, 2025
+            <strong>Last Updated:</strong> October 20, 2025
           </p>
           <p className="text-muted-foreground mb-8">
             <strong>Effective Date:</strong> October 7, 2025
@@ -225,9 +225,11 @@ const Terms = () => {
             <h2 className="text-2xl font-semibold mb-3">12. Third-Party Services</h2>
             <p className="mb-3 text-foreground/90">QuickDish integrates with:</p>
             <ul className="list-disc list-inside space-y-1 text-foreground/90 mb-3">
-              <li>Supabase (hosting)</li>
+              <li>Supabase (database hosting, authentication, storage)</li>
               <li>Stripe (payments)</li>
-              <li>Google Gemini AI (AI features)</li>
+              <li>OpenAI (AI recipe generation)</li>
+              <li>Instacart (shopping list integrations and links)</li>
+              <li>Vercel Analytics (usage analytics)</li>
             </ul>
             <p className="text-foreground/90">
               Use of these services is subject to their own terms.

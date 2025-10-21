@@ -37,7 +37,6 @@ import lunchBanhMiSandwichImg from "@/assets/recipes/banh-mi-sandwich.jpg";
 import quickBuffaloChickenWrapImg from "@/assets/recipes/quick-buffalo-chicken-wrap.jpg";
 import quickGreekSaladChickenImg from "@/assets/recipes/quick-greek-salad-chicken.jpg";
 import quickTurkeyAvocadoClubImg from "@/assets/recipes/quick-turkey-avocado-club.jpg";
-import quickAsianLettuceWrapsImg from "@/assets/recipes/quick-asian-lettuce-wraps.jpg";
 import quickCapresePaniniImg from "@/assets/recipes/quick-caprese-panini.jpg";
 import quickBbqPulledPorkImg from "@/assets/recipes/quick-bbq-pulled-pork.jpg";
 import quickFalafelPitaImg from "@/assets/recipes/quick-falafel-pita.jpg";
@@ -52,7 +51,6 @@ import quickTomatoSoupGrilledCheeseImg from "@/assets/recipes/quick-tomato-soup-
 // One-Pot Wonders Images
 import onePotChickenDumplingsImg from "@/assets/recipes/one-pot-chicken-dumplings.jpg";
 import onePotBeefBourguignonImg from "@/assets/recipes/one-pot-beef-bourguignon.jpg";
-import onePotJambalayaImg from "@/assets/recipes/one-pot-jambalaya.jpg";
 import onePotCreamyTuscanChickenImg from "@/assets/recipes/one-pot-creamy-tuscan-chicken.jpg";
 import onePotChiliConCarneImg from "@/assets/recipes/one-pot-chili-con-carne.jpg";
 import onePotSeafoodPaellaImg from "@/assets/recipes/one-pot-seafood-paella.jpg";
@@ -73,9 +71,9 @@ export const newRecipes: Recipe[] = [
     difficulty: "hard",
     servings: 4,
     cuisine: "French",
-    image: dessertChocolateSouffleImg,
+    image: "https://i.imgur.com/xfbQZnq.png",
     totalTime: 40,
-    tags: ["dessert", "chocolate", "french", "elegant"],
+    tags: ["dessert", "chocolate", "french", "elegant", "vegetarian", "glutenfree"],
     nutrition: { calories: 320, protein: 8, carbs: 38, fat: 16, fiber: 3, sugar: 28, servingSize: "1 soufflé" },
     ingredients: [
       { amount: "4", unit: "oz", item: "dark chocolate, chopped" },
@@ -107,7 +105,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "American",
     image: dessertStrawberryShortcakeImg,
     totalTime: 35,
-    tags: ["dessert", "summer", "berries", "classic"],
+    tags: ["dessert", "summer", "berries", "classic", "vegetarian"],
     nutrition: { calories: 385, protein: 5, carbs: 52, fat: 18, fiber: 3, sugar: 28, servingSize: "1 shortcake" },
     ingredients: [
       { amount: "2", unit: "cups", item: "all-purpose flour" },
@@ -137,9 +135,9 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "French",
-    image: dessertCremeCaramelImg,
+    image: "https://i.imgur.com/TmVkeFb.png",
     totalTime: 60,
-    tags: ["dessert", "custard", "french", "elegant"],
+    tags: ["dessert", "custard", "french", "elegant", "vegetarian", "glutenfree"],
     nutrition: { calories: 295, protein: 7, carbs: 38, fat: 12, fiber: 0, sugar: 35, servingSize: "1 custard" },
     ingredients: [
       { amount: "1", unit: "cup", item: "sugar" },
@@ -169,7 +167,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "American",
     image: dessertCookieDoughBrowniesImg,
     totalTime: 55,
-    tags: ["dessert", "chocolate", "decadent", "crowd-pleaser"],
+    tags: ["dessert", "chocolate", "decadent", "crowd-pleaser", "vegetarian"],
     nutrition: { calories: 425, protein: 5, carbs: 54, fat: 22, fiber: 2, sugar: 38, servingSize: "1 brownie" },
     ingredients: [
       { amount: "1", unit: "box", item: "brownie mix" },
@@ -202,7 +200,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "French",
     image: dessertRaspberryTartImg,
     totalTime: 55,
-    tags: ["dessert", "berries", "french", "elegant"],
+    tags: ["dessert", "berries", "french", "elegant", "vegetarian"],
     nutrition: { calories: 365, protein: 6, carbs: 48, fat: 17, fiber: 4, sugar: 26, servingSize: "1 slice" },
     ingredients: [
       { amount: "1 1/4", unit: "cups", item: "all-purpose flour" },
@@ -235,7 +233,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "French",
     image: dessertChocolateMousseCakeImg,
     totalTime: 65,
-    tags: ["dessert", "chocolate", "elegant", "showstopper"],
+    tags: ["dessert", "chocolate", "elegant", "showstopper", "vegetarian", "glutenfree"],
     nutrition: { calories: 485, protein: 7, carbs: 52, fat: 28, fiber: 3, sugar: 38, servingSize: "1 slice" },
     ingredients: [
       { amount: "1", unit: "box", item: "chocolate cake mix" },
@@ -266,7 +264,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "American",
     image: dessertLemonMeringuePieImg,
     totalTime: 60,
-    tags: ["dessert", "citrus", "classic", "showstopper"],
+    tags: ["dessert", "citrus", "classic", "showstopper", "vegetarian", "glutenfree"],
     nutrition: { calories: 395, protein: 6, carbs: 62, fat: 14, fiber: 1, sugar: 42, servingSize: "1 slice" },
     ingredients: [
       { amount: "1", unit: "", item: "pie crust, pre-baked" },
@@ -301,7 +299,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "American",
     image: dessertBostonCreamPieImg,
     totalTime: 55,
-    tags: ["dessert", "classic", "custard", "chocolate"],
+    tags: ["dessert", "classic", "custard", "chocolate", "vegetarian", "glutenfree"],
     nutrition: { calories: 395, protein: 6, carbs: 54, fat: 17, fiber: 1, sugar: 36, servingSize: "1 slice" },
     ingredients: [
       { amount: "1", unit: "box", item: "yellow cake mix" },
@@ -331,7 +329,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "American",
     image: dessertPeachCobblerImg,
     totalTime: 60,
-    tags: ["dessert", "fruit", "comfort-food", "summer"],
+    tags: ["dessert", "fruit", "comfort-food", "summer", "vegetarian"],
     nutrition: { calories: 365, protein: 4, carbs: 62, fat: 12, fiber: 3, sugar: 42, servingSize: "1 serving" },
     ingredients: [
       { amount: "6", unit: "cups", item: "sliced peaches" },
@@ -363,7 +361,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "French",
     image: dessertChocolateTrufflesImg,
     totalTime: 25,
-    tags: ["dessert", "chocolate", "elegant", "gift-worthy"],
+    tags: ["dessert", "chocolate", "elegant", "gift-worthy", "vegetarian", "glutenfree"],
     nutrition: { calories: 95, protein: 1, carbs: 8, fat: 7, fiber: 1, sugar: 6, servingSize: "1 truffle" },
     ingredients: [
       { amount: "8", unit: "oz", item: "dark chocolate, chopped" },
@@ -392,7 +390,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "Italian",
     image: dessertBiscottiImg,
     totalTime: 60,
-    tags: ["dessert", "cookies", "italian", "gift-worthy"],
+    tags: ["dessert", "cookies", "italian", "gift-worthy", "vegetarian"],
     nutrition: { calories: 125, protein: 3, carbs: 18, fat: 5, fiber: 1, sugar: 8, servingSize: "1 biscotti" },
     ingredients: [
       { amount: "2", unit: "cups", item: "all-purpose flour" },
@@ -424,7 +422,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "American",
     image: dessertPumpkinCheesecakeImg,
     totalTime: 80,
-    tags: ["dessert", "fall", "holiday", "showstopper"],
+    tags: ["dessert", "fall", "holiday", "showstopper", "vegetarian", "glutenfree"],
     nutrition: { calories: 425, protein: 7, carbs: 42, fat: 26, fiber: 1, sugar: 32, servingSize: "1 slice" },
     ingredients: [
       { amount: "2", unit: "cups", item: "graham cracker crumbs" },
@@ -457,7 +455,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "American",
     image: dessertBananaBreadChocolateImg,
     totalTime: 75,
-    tags: ["dessert", "breakfast", "comfort-food", "kid-friendly"],
+    tags: ["dessert", "breakfast", "comfort-food", "kid-friendly", "vegetarian"],
     nutrition: { calories: 295, protein: 4, carbs: 42, fat: 12, fiber: 2, sugar: 24, servingSize: "1 slice" },
     ingredients: [
       { amount: "3", unit: "", item: "ripe bananas, mashed" },
@@ -488,9 +486,9 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "French",
-    image: dessertSaltedCaramelTartImg,
+    image: "https://i.imgur.com/PTKfTA0.png",
     totalTime: 55,
-    tags: ["dessert", "caramel", "elegant", "showstopper"],
+    tags: ["dessert", "caramel", "elegant", "showstopper", "vegetarian"],
     nutrition: { calories: 445, protein: 5, carbs: 54, fat: 24, fiber: 1, sugar: 38, servingSize: "1 slice" },
     ingredients: [
       { amount: "1 1/4", unit: "cups", item: "all-purpose flour" },
@@ -523,7 +521,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "British",
     image: dessertStickyToffeePuddingImg,
     totalTime: 55,
-    tags: ["dessert", "british", "comfort-food", "warm"],
+    tags: ["dessert", "british", "comfort-food", "warm", "vegetarian"],
     nutrition: { calories: 485, protein: 5, carbs: 68, fat: 22, fiber: 2, sugar: 52, servingSize: "1 serving" },
     ingredients: [
       { amount: "1", unit: "cup", item: "chopped dates" },
@@ -558,7 +556,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "French",
     image: dessertOperaCakeImg,
     totalTime: 90,
-    tags: ["dessert", "french", "elegant", "showstopper"],
+    tags: ["dessert", "french", "elegant", "showstopper", "vegetarian"],
     nutrition: { calories: 485, protein: 7, carbs: 52, fat: 28, fiber: 2, sugar: 36, servingSize: "1 slice" },
     ingredients: [
       { amount: "6", unit: "", item: "eggs" },
@@ -591,7 +589,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "Swiss",
     image: dessertChocolateFondueImg,
     totalTime: 20,
-    tags: ["dessert", "chocolate", "interactive", "party"],
+    tags: ["dessert", "chocolate", "interactive", "party", "vegetarian", "glutenfree"],
     nutrition: { calories: 285, protein: 3, carbs: 28, fat: 18, fiber: 2, sugar: 24, servingSize: "1/4 cup" },
     ingredients: [
       { amount: "12", unit: "oz", item: "dark chocolate, chopped" },
@@ -619,7 +617,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "American",
     image: dessertRaspberryWhiteChocolateCheesecakeImg,
     totalTime: 85,
-    tags: ["dessert", "elegant", "berries", "showstopper"],
+    tags: ["dessert", "elegant", "berries", "showstopper", "vegetarian", "glutenfree"],
     nutrition: { calories: 465, protein: 7, carbs: 48, fat: 28, fiber: 1, sugar: 36, servingSize: "1 slice" },
     ingredients: [
       { amount: "2", unit: "cups", item: "graham cracker crumbs" },
@@ -649,9 +647,9 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 16,
     cuisine: "American",
-    image: dessertSmoresBarsImg,
+    image: "https://i.imgur.com/4FBa5A2.png",
     totalTime: 45,
-    tags: ["dessert", "chocolate", "kid-friendly", "crowd-pleaser"],
+    tags: ["dessert", "chocolate", "kid-friendly", "crowd-pleaser", "vegetarian", "glutenfree"],
     nutrition: { calories: 325, protein: 4, carbs: 42, fat: 16, fiber: 2, sugar: 28, servingSize: "1 bar" },
     ingredients: [
       { amount: "2", unit: "cups", item: "graham cracker crumbs" },
@@ -679,9 +677,9 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "American",
-    image: dessertCoconutCreamPieImg,
+    image: "https://i.imgur.com/skgpMgQ.png",
     totalTime: 40,
-    tags: ["dessert", "coconut", "cream", "classic"],
+    tags: ["dessert", "coconut", "cream", "classic", "vegetarian", "glutenfree"],
     nutrition: { calories: 425, protein: 6, carbs: 48, fat: 24, fiber: 2, sugar: 32, servingSize: "1 slice" },
     ingredients: [
       { amount: "1", unit: "", item: "pie crust, pre-baked" },
@@ -716,7 +714,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "Healthy Bowls",
     image: lunchMediterraneanQuinoaBowlImg,
     totalTime: 35,
-    tags: ["lunch", "healthy", "vegetarian", "meal-prep"],
+    tags: ["lunch", "healthy", "vegetarian", "meal-prep", "glutenfree"],
     nutrition: { calories: 385, protein: 14, carbs: 48, fat: 16, fiber: 8, sugar: 6, servingSize: "1 bowl" },
     ingredients: [
       { amount: "2", unit: "cups", item: "cooked quinoa" },
@@ -776,9 +774,9 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Lunch Ideas",
-    image: quickGreekSaladChickenImg,
+    image: "https://i.imgur.com/R80g8Pn.png",
     totalTime: 30,
-    tags: ["lunch", "healthy", "protein", "low-carb"],
+    tags: ["lunch", "healthy", "protein", "low-carb", "glutenfree"],
     nutrition: { calories: 395, protein: 36, carbs: 18, fat: 22, fiber: 5, sugar: 8, servingSize: "1 salad" },
     ingredients: [
       { amount: "1", unit: "lb", item: "chicken breast" },
@@ -834,40 +832,6 @@ export const newRecipes: Recipe[] = [
     ]
   },
   {
-    id: "lunch-asian-lettuce-wraps",
-    name: "Asian Chicken Lettuce Wraps",
-    description: "Seasoned ground chicken in crisp lettuce cups.",
-    cookTime: "15 mins",
-    prepTime: "10 mins",
-    difficulty: "medium",
-    servings: 4,
-    cuisine: "Lunch Ideas",
-    image: quickAsianLettuceWrapsImg,
-    totalTime: 25,
-    tags: ["lunch", "healthy", "low-carb", "gluten-free"],
-    nutrition: { calories: 295, protein: 28, carbs: 18, fat: 12, fiber: 3, sugar: 8, servingSize: "3 wraps" },
-    ingredients: [
-      { amount: "1", unit: "lb", item: "ground chicken" },
-      { amount: "1", unit: "", item: "onion, diced" },
-      { amount: "3", unit: "cloves", item: "garlic, minced" },
-      { amount: "1", unit: "tbsp", item: "ginger, minced" },
-      { amount: "1/4", unit: "cup", item: "hoisin sauce" },
-      { amount: "2", unit: "tbsp", item: "soy sauce" },
-      { amount: "1", unit: "tbsp", item: "rice vinegar" },
-      { amount: "1", unit: "can", item: "water chestnuts, diced" },
-      { amount: "12", unit: "", item: "butter lettuce leaves" },
-      { amount: "2", unit: "", item: "green onions, sliced" }
-    ],
-    instructions: [
-      "Cook ground chicken with onion until browned.",
-      "Add garlic and ginger, cook 1 minute.",
-      "Stir in hoisin, soy sauce, vinegar, water chestnuts.",
-      "Simmer 5 minutes.",
-      "Spoon into lettuce cups.",
-      "Top with green onions."
-    ]
-  },
-  {
     id: "lunch-caprese-panini",
     name: "Caprese Panini",
     description: "Grilled sandwich with mozzarella, tomato, and basil pesto.",
@@ -908,7 +872,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "French",
     image: lunchTunaNicoiseSaladImg,
     totalTime: 35,
-    tags: ["lunch", "healthy", "protein", "elegant"],
+    tags: ["lunch", "healthy", "protein", "elegant", "glutenfree"],
     nutrition: { calories: 425, protein: 32, carbs: 28, fat: 22, fiber: 6, sugar: 5, servingSize: "1 salad" },
     ingredients: [
       { amount: "1", unit: "lb", item: "baby potatoes" },
@@ -1001,10 +965,10 @@ export const newRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "Middle Eastern",
+    cuisine: "Lunch Ideas",
     image: quickFalafelPitaImg,
     totalTime: 30,
-    tags: ["lunch", "vegetarian", "healthy", "protein"],
+    tags: ["lunch", "vegetarian", "protein"],
     nutrition: { calories: 425, protein: 16, carbs: 62, fat: 14, fiber: 12, sugar: 8, servingSize: "1 pita" },
     ingredients: [
       { amount: "1", unit: "can", item: "chickpeas, drained (15 oz)" },
@@ -1034,7 +998,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Lunch Ideas",
-    image: quickChickenCaesarImg,
+    image: "https://i.imgur.com/BtPoTd0.png",
     totalTime: 25,
     tags: ["lunch", "salad", "protein", "classic"],
     nutrition: { calories: 485, protein: 38, carbs: 22, fat: 28, fiber: 3, sugar: 3, servingSize: "1 salad" },
@@ -1057,14 +1021,14 @@ export const newRecipes: Recipe[] = [
   },
   {
     id: "lunch-banh-mi-sandwich",
-    name: "Bánh Mì Sandwich",
+    name: "Banh Mi Sandwich",
     description: "Vietnamese sandwich with pork, pickled vegetables, cilantro.",
     cookTime: "15 mins",
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 4,
     cuisine: "Vietnamese",
-    image: lunchBanhMiSandwichImg,
+    image: "https://i.imgur.com/EBAnX2K.png",
     totalTime: 35,
     tags: ["lunch", "sandwich", "asian", "fresh"],
     nutrition: { calories: 465, protein: 28, carbs: 52, fat: 16, fiber: 4, sugar: 12, servingSize: "1 sandwich" },
@@ -1099,7 +1063,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "Healthy Bowls",
     image: lunchSouthwestChickenBowlImg,
     totalTime: 35,
-    tags: ["lunch", "healthy", "bowl", "meal-prep"],
+    tags: ["lunch", "healthy", "bowl", "meal-prep", "glutenfree"],
     nutrition: { calories: 485, protein: 36, carbs: 52, fat: 16, fiber: 12, sugar: 6, servingSize: "1 bowl" },
     ingredients: [
       { amount: "1", unit: "lb", item: "chicken breast, cubed" },
@@ -1165,7 +1129,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "Lunch Ideas",
     image: quickCobbSaladImg,
     totalTime: 30,
-    tags: ["lunch", "salad", "protein", "classic"],
+    tags: ["lunch", "salad", "protein", "classic", "glutenfree"],
     nutrition: { calories: 525, protein: 42, carbs: 18, fat: 34, fiber: 5, sugar: 8, servingSize: "1 salad" },
     ingredients: [
       { amount: "1", unit: "lb", item: "chicken breast, grilled and diced" },
@@ -1193,7 +1157,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Lunch Ideas",
-    image: quickPestoPastaSaladImg,
+    image: "https://i.imgur.com/6xVhDhZ.png",
     totalTime: 22,
     tags: ["lunch", "vegetarian", "pasta", "meal-prep"],
     nutrition: { calories: 385, protein: 12, carbs: 42, fat: 19, fiber: 3, sugar: 4, servingSize: "1 serving" },
@@ -1224,7 +1188,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "Healthy Bowls",
     image: quickKoreanBbqBowlImg,
     totalTime: 30,
-    tags: ["lunch", "asian", "bowl", "spicy"],
+    tags: ["asian", "bowls", "spicy", "healthy"],
     nutrition: { calories: 525, protein: 38, carbs: 56, fat: 16, fiber: 4, sugar: 12, servingSize: "1 bowl" },
     ingredients: [
       { amount: "1", unit: "lb", item: "beef sirloin, thinly sliced" },
@@ -1353,7 +1317,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "American",
-    image: onePotChickenDumplingsImg,
+    image: "https://i.imgur.com/dt4rUxx.png",
     totalTime: 60,
     tags: ["one-pot", "comfort-food", "chicken", "winter"],
     nutrition: { calories: 525, protein: 38, carbs: 52, fat: 18, fiber: 4, sugar: 6, servingSize: "1 serving" },
@@ -1388,7 +1352,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "French",
     image: onePotBeefBourguignonImg,
     totalTime: 140,
-    tags: ["one-pot", "french", "beef", "elegant"],
+    tags: ["one-pot", "french", "beef", "elegant", "glutenfree"],
     nutrition: { calories: 585, protein: 42, carbs: 24, fat: 32, fiber: 4, sugar: 8, servingSize: "1 serving" },
     ingredients: [
       { amount: "3", unit: "lbs", item: "beef chuck, cubed" },
@@ -1411,41 +1375,6 @@ export const newRecipes: Recipe[] = [
     ]
   },
   {
-    id: "one-pot-jambalaya",
-    name: "Jambalaya",
-    description: "Spicy Louisiana rice with chicken, sausage, and shrimp.",
-    cookTime: "35 mins",
-    prepTime: "15 mins",
-    difficulty: "medium",
-    servings: 6,
-    cuisine: "Cajun",
-    image: onePotJambalayaImg,
-    totalTime: 50,
-    tags: ["one-pot", "cajun", "spicy", "rice"],
-    nutrition: { calories: 565, protein: 42, carbs: 58, fat: 18, fiber: 4, sugar: 6, servingSize: "1 serving" },
-    ingredients: [
-      { amount: "1", unit: "lb", item: "chicken thighs, cubed" },
-      { amount: "1", unit: "lb", item: "andouille sausage, sliced" },
-      { amount: "1", unit: "lb", item: "shrimp, peeled" },
-      { amount: "2", unit: "cups", item: "long-grain rice" },
-      { amount: "1", unit: "can", item: "diced tomatoes" },
-      { amount: "3", unit: "cups", item: "chicken broth" },
-      { amount: "1", unit: "", item: "bell pepper, diced" },
-      { amount: "1", unit: "", item: "onion, diced" },
-      { amount: "3", unit: "cloves", item: "garlic, minced" },
-      { amount: "2", unit: "tbsp", item: "Cajun seasoning" }
-    ],
-    instructions: [
-      "Brown chicken and sausage, remove.",
-      "Sauté vegetables until soft.",
-      "Add rice, toast 2 minutes.",
-      "Add tomatoes, broth, Cajun seasoning.",
-      "Return chicken and sausage, bring to boil.",
-      "Cover, simmer 20 minutes.",
-      "Add shrimp last 5 minutes until pink."
-    ]
-  },
-  {
     id: "one-pot-creamy-tuscan-chicken",
     name: "Creamy Tuscan Chicken",
     description: "Chicken in sun-dried tomato cream sauce with spinach.",
@@ -1456,7 +1385,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "Italian",
     image: onePotCreamyTuscanChickenImg,
     totalTime: 35,
-    tags: ["one-pot", "italian", "creamy", "chicken"],
+    tags: ["one-pot", "italian", "creamy", "chicken", "glutenfree"],
     nutrition: { calories: 485, protein: 42, carbs: 18, fat: 28, fiber: 3, sugar: 6, servingSize: "1 serving" },
     ingredients: [
       { amount: "4", unit: "", item: "chicken breasts" },
@@ -1489,7 +1418,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "Tex-Mex",
     image: onePotChiliConCarneImg,
     totalTime: 60,
-    tags: ["one-pot", "chili", "beef", "comfort-food"],
+    tags: ["one-pot", "chili", "beef", "comfort-food", "glutenfree"],
     nutrition: { calories: 425, protein: 32, carbs: 38, fat: 16, fiber: 12, sugar: 8, servingSize: "1 serving" },
     ingredients: [
       { amount: "2", unit: "lbs", item: "ground beef" },
@@ -1520,9 +1449,9 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Spanish",
-    image: onePotSeafoodPaellaImg,
+    image: "https://i.imgur.com/6yOmyFt.png",
     totalTime: 55,
-    tags: ["one-pot", "seafood", "spanish", "rice"],
+    tags: ["one-pot", "seafood", "spanish", "rice", "glutenfree"],
     nutrition: { calories: 485, protein: 36, carbs: 62, fat: 12, fiber: 4, sugar: 6, servingSize: "1 serving" },
     ingredients: [
       { amount: "1", unit: "lb", item: "shrimp, peeled" },
@@ -1556,9 +1485,9 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Italian",
-    image: onePotChickenCacciatoreImg,
+    image: "https://i.imgur.com/2Mfu90S.png",
     totalTime: 60,
-    tags: ["one-pot", "italian", "chicken", "braised"],
+    tags: ["one-pot", "italian", "chicken", "braised", "glutenfree"],
     nutrition: { calories: 425, protein: 38, carbs: 24, fat: 20, fiber: 6, sugar: 12, servingSize: "1 serving" },
     ingredients: [
       { amount: "3", unit: "lbs", item: "chicken pieces" },
@@ -1593,7 +1522,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "Moroccan",
     image: onePotMoroccanTagineImg,
     totalTime: 140,
-    tags: ["one-pot", "moroccan", "lamb", "exotic"],
+    tags: ["one-pot", "moroccan", "lamb", "exotic", "glutenfree"],
     nutrition: { calories: 565, protein: 42, carbs: 38, fat: 28, fiber: 8, sugar: 18, servingSize: "1 serving" },
     ingredients: [
       { amount: "2", unit: "lbs", item: "lamb shoulder, cubed" },
@@ -1629,7 +1558,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "Italian",
     image: onePotTuscanWhiteBeanSoupImg,
     totalTime: 50,
-    tags: ["one-pot", "soup", "italian", "comfort-food"],
+    tags: ["one-pot", "soup", "italian", "comfort-food", "glutenfree"],
     nutrition: { calories: 385, protein: 24, carbs: 42, fat: 14, fiber: 12, sugar: 6, servingSize: "1 serving" },
     ingredients: [
       { amount: "1", unit: "lb", item: "Italian sausage" },
@@ -1663,7 +1592,7 @@ export const newRecipes: Recipe[] = [
     cuisine: "Indian",
     image: onePotChickenTikkaMasalaImg,
     totalTime: 50,
-    tags: ["one-pot", "indian", "curry", "creamy"],
+    tags: ["one-pot", "indian", "curry", "creamy", "glutenfree"],
     nutrition: { calories: 485, protein: 38, carbs: 28, fat: 26, fiber: 6, sugar: 12, servingSize: "1 serving" },
     ingredients: [
       { amount: "2", unit: "lbs", item: "chicken thighs, cubed" },
@@ -1696,9 +1625,9 @@ export const newRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "American",
-    image: onePotPotRoastImg,
+    image: "https://i.imgur.com/IQHQEXN.png",
     totalTime: 200,
-    tags: ["one-pot", "beef", "comfort-food", "sunday-dinner"],
+    tags: ["one-pot", "beef", "comfort-food", "sunday-dinner", "glutenfree"],
     nutrition: { calories: 525, protein: 48, carbs: 32, fat: 22, fiber: 6, sugar: 8, servingSize: "1 serving" },
     ingredients: [
       { amount: "3", unit: "lbs", item: "beef chuck roast" },

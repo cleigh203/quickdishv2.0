@@ -123,7 +123,29 @@ export const useSavedRecipes = () => {
 
       if (error) throw error;
       
-      setSavedRecipes(data || []);
+      // Merge with any locally saved favorites (acts as a fallback if DB insert fails)
+      let merged: SavedRecipe[] = data || [];
+      try {
+        const local = localStorage.getItem('favorites');
+        const localIds: string[] = local ? JSON.parse(local) : [];
+        const localEntries: SavedRecipe[] = localIds.map(id => ({
+          id: `local-${id}`,
+          recipe_id: id,
+          notes: null,
+          rating: null,
+          times_cooked: 0,
+          saved_at: new Date().toISOString(),
+        }));
+        const seen = new Set(merged.map(r => r.recipe_id));
+        for (const entry of localEntries) {
+          if (!seen.has(entry.recipe_id)) {
+            merged.push(entry);
+            seen.add(entry.recipe_id);
+          }
+        }
+      } catch {}
+
+      setSavedRecipes(merged);
       setError(null); // Clear any previous errors on success
     } catch (err: any) {
       console.error('Error fetching saved recipes:', err);
@@ -221,6 +243,16 @@ export const useSavedRecipes = () => {
 
       await Promise.race([insertPromise, timeoutPromise]);
 
+      // Mirror to localStorage as a safety net (does not affect server truth)
+      try {
+        const saved = localStorage.getItem('favorites');
+        const favorites: string[] = saved ? JSON.parse(saved) : [];
+        if (!favorites.includes(recipeId)) {
+          favorites.push(recipeId);
+          localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+      } catch {}
+
       // Realtime subscription will update with actual DB data
       
       return { success: true };
@@ -267,6 +299,15 @@ export const useSavedRecipes = () => {
 
     // Store previous state for rollback
     const previousRecipes = savedRecipes;
+    // Store previous localStorage for rollback (logged-in users mirror favorites for resilience)
+    const previousLocalFavorites = (() => {
+      try {
+        const saved = localStorage.getItem('favorites');
+        return saved ? JSON.parse(saved) as string[] : [];
+      } catch {
+        return [] as string[];
+      }
+    })();
 
     try {
       saveInProgressRef.current.add(recipeId);
@@ -278,6 +319,14 @@ export const useSavedRecipes = () => {
         title: "Removed",
         description: "Recipe removed from favorites",
       });
+
+      // Also remove from localStorage mirror immediately so it isn't merged back on refetch
+      try {
+        const saved = localStorage.getItem('favorites');
+        const favorites: string[] = saved ? JSON.parse(saved) : [];
+        const updated = favorites.filter(id => id !== recipeId);
+        localStorage.setItem('favorites', JSON.stringify(updated));
+      } catch {}
 
       // Add 8-second timeout for delete
       const timeoutPromise = new Promise((_, reject) =>
@@ -305,6 +354,10 @@ export const useSavedRecipes = () => {
       
       // Rollback optimistic update on error
       setSavedRecipes(previousRecipes);
+      // Rollback localStorage mirror if we changed it
+      try {
+        localStorage.setItem('favorites', JSON.stringify(previousLocalFavorites));
+      } catch {}
       
       const errorInfo = handleSupabaseError(err);
       // Don't show timeout errors

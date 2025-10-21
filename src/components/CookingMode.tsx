@@ -1,10 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { X, List, ChevronLeft, ChevronRight, Mic, MicOff, Clock, Play, Pause, XCircle } from "lucide-react";
+import { X } from "lucide-react";
 import { Recipe } from "@/types/recipe";
 import { useToast } from "@/hooks/use-toast";
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 interface Timer {
   id: string;
@@ -23,57 +20,59 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [showFullRecipe, setShowFullRecipe] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [recognition, setRecognition] = useState<any>(null);
+  const [activeMode, setActiveMode] = useState(false); // Protected Mode by default (wake word required)
   const [lastCommand, setLastCommand] = useState<string>("");
   const [voiceSupported, setVoiceSupported] = useState(false);
-  const [autoRead, setAutoRead] = useState(true);
+  const [isNative, setIsNative] = useState(false);
   const [timers, setTimers] = useState<Timer[]>([]);
-  const [micPermission, setMicPermission] = useState<'pending' | 'granted' | 'denied'>('pending');
+  
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const isListeningRef = useRef(false); // Track voice state for closures
-  const currentStepRef = useRef(currentStep); // Track current step for closures
-  const timersRef = useRef(timers); // Track timers for closures
+  const recognitionRef = useRef<any>(null);
+  const currentStepRef = useRef(currentStep);
+  const isListeningRef = useRef(false);
+  const activeModeRef = useRef(false);
   const { toast } = useToast();
 
-  // Update refs when state changes (for voice command closures)
+  // Update refs
   useEffect(() => {
     currentStepRef.current = currentStep;
   }, [currentStep]);
 
   useEffect(() => {
-    timersRef.current = timers;
-  }, [timers]);
+    isListeningRef.current = isListening;
+  }, [isListening]);
 
-  // Check browser support and mic permission
   useEffect(() => {
-    const hasVoiceRecognition = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
-    const hasSpeechSynthesis = 'speechSynthesis' in window;
-    setVoiceSupported(hasVoiceRecognition && hasSpeechSynthesis);
+    activeModeRef.current = activeMode;
+  }, [activeMode]);
 
-    // Check mic permission
-    if (navigator.permissions && navigator.permissions.query) {
-      navigator.permissions.query({ name: 'microphone' as PermissionName })
-        .then(result => {
-          setMicPermission(result.state === 'granted' ? 'granted' : 'denied');
-          result.onchange = () => {
-            setMicPermission(result.state === 'granted' ? 'granted' : 'denied');
-          };
-        })
-        .catch(() => setMicPermission('pending'));
-    }
+  // Check platform
+  useEffect(() => {
+    const checkPlatform = async () => {
+      try {
+        const { Capacitor } = await import('@capacitor/core');
+        const native = Capacitor.isNativePlatform();
+        setIsNative(native);
+        setVoiceSupported(true);
+        console.log('Platform:', native ? 'NATIVE' : 'WEB');
+      } catch (error) {
+        setIsNative(false);
+        const hasVoice = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+        setVoiceSupported(hasVoice);
+        console.log('Platform: WEB, Voice:', hasVoice);
+      }
+    };
+    checkPlatform();
   }, []);
 
-  // Timer countdown effect
+  // Timer countdown
   useEffect(() => {
     if (timers.some(t => t.isRunning)) {
       timerIntervalRef.current = setInterval(() => {
         setTimers(prevTimers => 
           prevTimers.map(timer => {
             if (!timer.isRunning || timer.remainingSeconds <= 0) return timer;
-            
             const newRemaining = timer.remainingSeconds - 1;
-            
-            // Timer complete
             if (newRemaining <= 0) {
               playTimerSound();
               toast({
@@ -82,60 +81,41 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
               });
               return { ...timer, remainingSeconds: 0, isRunning: false };
             }
-            
             return { ...timer, remainingSeconds: newRemaining };
           })
         );
       }, 1000);
     }
-
     return () => {
-      if (timerIntervalRef.current) {
-        clearInterval(timerIntervalRef.current);
-      }
+      if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
     };
   }, [timers]);
 
-  // Parse ALL times from instruction (handles multiple timers)
   const parseTimeFromInstruction = (instruction: string): number[] => {
     const timesSet = new Set<number>();
-    
-    // Single regex to match ranges AND standalone times
-    // This prevents "12-15 minutes" from being matched as both a range AND as "15 minutes"
     const pattern = /(\d+)(?:-(\d+))?\s*(?:more\s+)?(?:minute|min|mins|minutes|hour|hours|hr|hrs)/gi;
-    
     let match;
     while ((match = pattern.exec(instruction)) !== null) {
       const firstNum = parseInt(match[1]);
       const secondNum = match[2] ? parseInt(match[2]) : null;
       const unit = match[0].toLowerCase();
       const isHour = unit.includes('hour') || unit.includes('hr');
-      
-      // If range exists (like "12-15"), use the higher value
       const value = secondNum ? secondNum : firstNum;
       const minutes = isHour ? value * 60 : value;
-      
       timesSet.add(minutes);
     }
-
-    const times = Array.from(timesSet);
-    console.log('Parsed times from instruction:', instruction, '→', times);
-    return times;
+    return Array.from(timesSet);
   };
 
   const playTimerSound = () => {
-    // Create audio context for beep
     const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
-    
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
-    
     oscillator.frequency.value = 800;
     oscillator.type = 'sine';
     gainNode.gain.value = 0.3;
-    
     oscillator.start();
     setTimeout(() => oscillator.stop(), 300);
   };
@@ -143,7 +123,6 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   const startTimer = (stepNumber: number, minutes: number) => {
     const timerId = `timer-${Date.now()}`;
     const totalSeconds = minutes * 60;
-    
     setTimers(prev => [...prev, {
       id: timerId,
       stepNumber,
@@ -151,7 +130,6 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       remainingSeconds: totalSeconds,
       isRunning: true,
     }]);
-
     toast({
       title: "Timer Started",
       description: `${minutes} minute${minutes > 1 ? 's' : ''} for Step ${stepNumber}`,
@@ -159,15 +137,11 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   };
 
   const pauseTimer = (timerId: string) => {
-    setTimers(prev => prev.map(t => 
-      t.id === timerId ? { ...t, isRunning: false } : t
-    ));
+    setTimers(prev => prev.map(t => t.id === timerId ? { ...t, isRunning: false } : t));
   };
 
   const resumeTimer = (timerId: string) => {
-    setTimers(prev => prev.map(t => 
-      t.id === timerId ? { ...t, isRunning: true } : t
-    ));
+    setTimers(prev => prev.map(t => t.id === timerId ? { ...t, isRunning: true } : t));
   };
 
   const cancelTimer = (timerId: string) => {
@@ -180,297 +154,316 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Auto-read step when it changes (for any navigation method)
-  useEffect(() => {
-    if (!voiceSupported || !autoRead || !isListening) return;
-    if (currentStep < 0 || currentStep >= recipe.instructions.length) return;
+  // Simple text to speech - NO mic stopping
+  const speakText = async (text: string) => {
+    try {
+      console.log('🔊 Speaking:', text.substring(0, 40));
 
-    // Small delay to let UI update first
-    const timer = setTimeout(() => {
-      speakCurrentStep();
-    }, 300);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [currentStep, autoRead, isListening, voiceSupported]);
-
-  // Initialize speech recognition with better error handling
-  useEffect(() => {
-    if (!voiceSupported) return;
-
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    const recognitionInstance = new SpeechRecognition();
-    
-    recognitionInstance.continuous = true;
-    recognitionInstance.interimResults = false;
-    recognitionInstance.lang = 'en-US';
-    recognitionInstance.maxAlternatives = 1;
-
-    recognitionInstance.onstart = () => {
-      console.log('Voice recognition started');
-      setIsListening(true);
-      isListeningRef.current = true;
-    };
-
-    recognitionInstance.onresult = (event: any) => {
-      const command = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
-      console.log('Voice command detected:', command);
-      setLastCommand(command);
-      handleVoiceCommand(command);
-    };
-
-    recognitionInstance.onerror = (event: any) => {
-      console.error('Speech recognition error:', event.error);
-      
-      if (event.error === 'no-speech') {
-        console.log('No speech detected, continuing...');
-        return;
-      }
-      
-      if (event.error === 'not-allowed' || event.error === 'permission-denied') {
-        setMicPermission('denied');
-        setIsListening(false);
-        toast({
-          title: "Microphone access denied",
-          description: "Please enable microphone permissions in your browser settings",
-          variant: "destructive"
+      if (isNative) {
+        const { TextToSpeech } = await import('@capacitor-community/text-to-speech');
+        await TextToSpeech.speak({
+          text: text,
+          lang: 'en-US',
+          rate: 1.0, // Slightly faster for clarity
+          pitch: 1.1, // Slightly higher pitch
+          volume: 1.0, // Max volume
+          category: 'playback', // Changed from 'ambient' for louder output
         });
-        return;
-      }
-
-      if (event.error === 'aborted') {
-        console.log('Recognition aborted, will restart if needed');
-        return;
-      }
-      
-      toast({
-        title: "Voice error",
-        description: `${event.error} - Please try again`,
-        variant: "destructive"
-      });
-    };
-
-    recognitionInstance.onend = () => {
-      console.log('Voice recognition ended, should restart:', isListeningRef.current);
-      // Auto-restart if still supposed to be listening (use ref, not stale state)
-      if (isListeningRef.current) {
-        setTimeout(() => {
-          try {
-            console.log('Restarting voice recognition...');
-            recognitionInstance.start();
-          } catch (error) {
-            console.error('Recognition restart error:', error);
-          }
-        }, 100);
       } else {
-        setIsListening(false);
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+          const speech = new SpeechSynthesisUtterance(text);
+          speech.rate = 1.0;
+          speech.volume = 1.0;
+          speech.pitch = 1.1;
+          window.speechSynthesis.speak(speech);
+        }
       }
-    };
+    } catch (error) {
+      console.error('Speech error:', error);
+    }
+  };
 
-    setRecognition(recognitionInstance);
-
-    return () => {
-      if (recognitionInstance) {
-        recognitionInstance.abort();
-      }
-    };
-  }, [voiceSupported]);
-
+  // Voice command handler
   const handleVoiceCommand = (command: string) => {
-    console.log('Processing voice command:', command);
-    console.log('Current step from ref:', currentStepRef.current);
-    console.log('Active timers from ref:', timersRef.current);
+    const cmd = command.toLowerCase().trim();
+    console.log('🎤 RAW COMMAND:', command);
+    console.log('🎤 PROCESSED:', cmd);
+    console.log('🎤 Active Mode:', activeModeRef.current);
+    
+    setLastCommand(cmd);
+    setTimeout(() => setLastCommand(""), 3000);
+
+    // Check for wake word if NOT in active mode
+    const needsWakeWord = !activeModeRef.current;
+    
+    // More lenient wake word detection (catches speech recognition errors)
+    const hasWakeWord = cmd.includes('quick dish') || 
+                        cmd.includes('quickdish') ||
+                        cmd.includes('quick this') ||
+                        cmd.includes('quick dis') ||
+                        (cmd.includes('quick') && cmd.includes('dish'));
+    
+    if (needsWakeWord && !hasWakeWord) {
+      console.log('❌ REJECTED: Wake word required (heard: "' + cmd + '")');
+      // Don't spam toasts - only show if they said an actual command
+      if (cmd.includes('next') || cmd.includes('back') || cmd.includes('repeat') || cmd.includes('timer')) {
+        toast({
+          title: "🎤 Say 'Quick Dish' first",
+          description: "Or switch to Active Mode",
+          duration: 2000,
+        });
+      }
+      return;
+    }
+
+    console.log('✅ ACCEPTED: Processing command');
 
     // Timer commands
-    if (command.includes('start timer') || command.includes('set timer')) {
+    if (cmd.includes('timer') || cmd.includes('start timer') || cmd.includes('set timer')) {
       const step = currentStepRef.current;
-      const currentInstruction = recipe.instructions[step] || '';
-      const times = parseTimeFromInstruction(currentInstruction);
-      console.log('Detected times:', times);
+      const instruction = recipe.instructions[step] || '';
+      const times = parseTimeFromInstruction(instruction);
       if (times.length > 0) {
-        // Start timer with the first detected time
-        const minutes = times[0];
-        toast({ title: `Heard: "${command}"`, description: `Starting ${minutes} minute timer` });
-        startTimer(step + 1, minutes);
+        startTimer(step + 1, times[0]);
+        speakText(`Timer set for ${times[0]} minutes`);
       } else {
-        toast({ title: "No timer found", description: "This step doesn't have a time" });
+        speakText("No timer found in this step");
       }
       return;
     }
 
-    if (command.includes('pause timer')) {
-      const activeTimers = timersRef.current;
-      const runningTimer = activeTimers.find(t => t.isRunning);
-      if (runningTimer) {
-        toast({ title: `Heard: "${command}"`, description: "Timer paused" });
-        pauseTimer(runningTimer.id);
-      } else {
-        toast({ title: "No running timer", description: "No timer is currently running" });
-      }
-      return;
-    }
-
-    if (command.includes('time left') || command.includes('how much time')) {
-      const activeTimers = timersRef.current.filter(t => t.remainingSeconds > 0);
-      console.log('Checking time left, active timers:', activeTimers);
-      if (activeTimers.length === 0) {
-        speakText("No active timers");
-        toast({ title: "No active timers" });
-      } else {
-        activeTimers.forEach(timer => {
-          const mins = Math.floor(timer.remainingSeconds / 60);
-          const secs = timer.remainingSeconds % 60;
-          speakText(`Step ${timer.stepNumber}: ${mins} minutes ${secs} seconds remaining`);
-        });
-      }
-      return;
-    }
-
-    // Navigation commands - use functional setState to avoid stale closures
-    if (command.includes('next') || command.includes('forward')) {
-      toast({ title: `Heard: "${command}"`, description: "Moving to next step" });
-      setCurrentStep(prev => {
-        console.log('Next: moving from', prev, 'to', prev + 1);
+    // Navigation
+    if (cmd.includes('next')) {
+          setCurrentStep(prev => {
         if (prev >= recipe.instructions.length - 1) {
-          if (isListeningRef.current) {
-            const speech = new SpeechSynthesisUtterance("Cooking complete! Enjoy your meal!");
-            speech.rate = 0.9;
-            window.speechSynthesis.speak(speech);
-          }
-          toast({ title: "Cooking complete! Enjoy! 🎉" });
-          setTimeout(onExit, 2000);
+          speakText("Recipe complete! Enjoy your meal!");
+              // Auto-stop microphone when recipe is done
+              if (isListeningRef.current) {
+                (async () => {
+                  try {
+                    if (isNative) {
+                      const { SpeechRecognition } = await import('@capacitor-community/speech-recognition');
+                      await SpeechRecognition.removeAllListeners();
+                      await SpeechRecognition.stop();
+                    } else if (recognitionRef.current) {
+                      recognitionRef.current.abort();
+                      recognitionRef.current = null;
+                    }
+                  } catch (e) {
+                    console.log('Mic stop error:', e);
+                  }
+                })();
+                setIsListening(false);
+                isListeningRef.current = false;
+              }
+              setTimeout(onExit, 2000);
           return prev;
         }
-        return prev + 1;
+        return prev + 1; // Auto-read handled by useEffect
       });
-    } else if (command.includes('previous') || command.includes('back') || command.includes('last')) {
-      toast({ title: `Heard: "${command}"`, description: "Going back" });
-      setCurrentStep(prev => {
-        console.log('Back: moving from', prev, 'to', Math.max(0, prev - 1));
-        return Math.max(0, prev - 1);
-      });
-    } else if (command.includes('repeat') || command.includes('again') || command.includes('read')) {
-      toast({ title: `Heard: "${command}"`, description: "Repeating step" });
-      // Use ref to read current step
+    } 
+    else if (cmd.includes('previous') || cmd.includes('back')) {
+      setCurrentStep(prev => Math.max(0, prev - 1)); // Auto-read handled by useEffect
+    }
+    else if (cmd.includes('repeat') || cmd.includes('again')) {
       const step = currentStepRef.current;
       const instruction = recipe.instructions[step]?.replace(/^\d+\.\s*/, '').replace(/\[|\]/g, '') || '';
-      const announcement = `Step ${step + 1}. ${instruction}`;
-      speakText(announcement);
-    } else if (command.includes('ingredient')) {
-      toast({ title: `Heard: "${command}"`, description: "Showing ingredients" });
-      setShowFullRecipe(true);
-    } else if (command.includes('recipe') || command.includes('list')) {
-      toast({ title: `Heard: "${command}"`, description: "Showing full recipe" });
-      setShowFullRecipe(true);
-    } else if (command.includes('exit') || command.includes('close') || command.includes('quit')) {
-      toast({ title: `Heard: "${command}"`, description: "Exiting cooking mode" });
-      onExit();
-    } else {
-      console.log('Unknown command:', command);
+      speakText(`Step ${step + 1}. ${instruction}`);
+    }
+    else if (cmd.includes('done') || cmd.includes('finish')) {
+      if (currentStepRef.current === recipe.instructions.length - 1) {
+        speakText("Congratulations! You finished this recipe!");
+        // Auto-stop microphone when user says done on last step
+        if (isListeningRef.current) {
+          (async () => {
+            try {
+              if (isNative) {
+                const { SpeechRecognition } = await import('@capacitor-community/speech-recognition');
+                await SpeechRecognition.removeAllListeners();
+                await SpeechRecognition.stop();
+              } else if (recognitionRef.current) {
+                recognitionRef.current.abort();
+                recognitionRef.current = null;
+              }
+            } catch (e) {
+              console.log('Mic stop error:', e);
+            }
+          })();
+          setIsListening(false);
+          isListeningRef.current = false;
+        }
+        setTimeout(onExit, 3000);
+      } else {
+        speakText("You're not on the last step yet");
+      }
     }
   };
 
-  const speakText = (text: string) => {
-    if (!('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    const speech = new SpeechSynthesisUtterance(text);
-    speech.rate = 0.9;
-    window.speechSynthesis.speak(speech);
-  };
-
-  const speakCurrentStep = () => {
-    if (!('speechSynthesis' in window)) return;
-
-    // Cancel any ongoing speech
-    window.speechSynthesis.cancel();
-
-    const currentInstruction = recipe.instructions[currentStep]?.replace(/^\d+\.\s*/, '').replace(/\[|\]/g, '') || '';
-    const announcement = `Step ${currentStep + 1}. ${currentInstruction}`;
-    
-    const speech = new SpeechSynthesisUtterance(announcement);
-    speech.rate = 0.85;
-    speech.pitch = 1;
-    speech.volume = 1;
-    
-    console.log('Speaking:', announcement);
-    window.speechSynthesis.speak(speech);
-  };
-
-  const announceStep = (step: number) => {
-    if (!('speechSynthesis' in window)) return;
-    if (step < 0 || step >= recipe.instructions.length) return;
-
-    window.speechSynthesis.cancel();
-    
-    const announcement = new SpeechSynthesisUtterance(`Step ${step + 1}`);
-    announcement.rate = 0.9;
-    announcement.volume = 0.7;
-    
-    window.speechSynthesis.speak(announcement);
-  };
-
+  // Voice control toggle
   const toggleVoiceControl = async () => {
     if (!voiceSupported) {
       toast({
-        title: "Voice control not supported",
-        description: "Your browser doesn't support voice commands. Try Chrome, Edge, or Safari.",
+        title: "Voice not supported",
+        description: "Your device doesn't support voice commands",
         variant: "destructive"
       });
       return;
     }
 
     if (isListening) {
+      // STOP LISTENING
       console.log('Stopping voice control');
-      isListeningRef.current = false;
-      recognition?.abort();
       setIsListening(false);
-      window.speechSynthesis.cancel();
-      toast({ title: "Voice control off" });
+      isListeningRef.current = false; // Set ref immediately to prevent race condition
+      
+      if (isNative) {
+        const { SpeechRecognition } = await import('@capacitor-community/speech-recognition');
+        await SpeechRecognition.removeAllListeners(); // Clean up listeners
+        await SpeechRecognition.stop();
+      } else if (recognitionRef.current) {
+        recognitionRef.current.abort();
+        recognitionRef.current = null;
+      }
+      
+      toast({ title: "Voice control stopped" });
     } else {
+      // START LISTENING
       try {
-        // Request microphone permission first
-        console.log('Requesting microphone permission...');
-        await navigator.mediaDevices.getUserMedia({ audio: true })
-          .then(stream => {
-            stream.getTracks().forEach(track => track.stop());
-            setMicPermission('granted');
-            console.log('Microphone permission granted');
-          })
-          .catch(err => {
-            console.error('Microphone permission error:', err);
-            setMicPermission('denied');
-            throw new Error('Microphone access denied');
+        console.log('Starting voice control');
+
+        if (isNative) {
+          // NATIVE
+          const { SpeechRecognition } = await import('@capacitor-community/speech-recognition');
+          
+          await SpeechRecognition.removeAllListeners();
+          await SpeechRecognition.requestPermissions();
+          
+          await SpeechRecognition.addListener('partialResults', (data: any) => {
+            if (data?.matches?.[0]) {
+              handleVoiceCommand(data.matches[0]);
+            }
           });
 
-        console.log('Starting voice recognition...');
-        isListeningRef.current = true;
-        recognition?.start();
-        setIsListening(true);
-        toast({ 
-          title: "🎤 Voice control active",
-          description: "Say: Next, Back, Repeat, Start Timer, Time Left"
-        });
+          await SpeechRecognition.addListener('listeningState', async (state: any) => {
+            if (state?.status === 'stopped' && isListeningRef.current) {
+              console.log('Stopped, restarting...');
+              setTimeout(async () => {
+                // Triple-check before actually restarting
+                if (!isListeningRef.current) {
+                  console.log('Restart cancelled - listening stopped');
+                  return;
+                }
+                try {
+                  await SpeechRecognition.start({
+                    language: 'en-US',
+                    maxResults: 5,
+                    prompt: '',
+                    partialResults: true,
+                    popup: false,
+                  });
+                } catch (e) {
+                  console.log('Restart failed:', e);
+                }
+              }, 1000);
+            }
+          });
+
+          await SpeechRecognition.start({
+            language: 'en-US',
+            maxResults: 5,
+            prompt: '',
+            partialResults: true,
+            popup: false,
+          });
+
+          setIsListening(true);
+          toast({ 
+            title: "🎤 Voice control started",
+            description: activeMode ? 'Just say "Next"' : 'Say "Quick Dish Next"'
+          });
+        } else {
+          // WEB
+          const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+          const recognition = new SpeechRecognition();
+          
+          recognition.continuous = true;
+          recognition.interimResults = true;
+          recognition.lang = 'en-US';
+
+          recognition.onresult = (event: any) => {
+            const last = event.results.length - 1;
+            const command = event.results[last][0].transcript;
+            if (event.results[last].isFinal) {
+              handleVoiceCommand(command);
+            }
+          };
+
+          recognition.onerror = (event: any) => {
+            console.error('Recognition error:', event.error);
+            if (event.error === 'not-allowed') {
+              setIsListening(false);
+              toast({
+                title: "Microphone access denied",
+                description: "Please enable microphone permissions",
+                variant: "destructive"
+              });
+            }
+          };
+
+          recognition.onend = () => {
+            if (isListeningRef.current) {
+              console.log('Restarting...');
+              setTimeout(() => {
+                try {
+                  recognition.start();
+                } catch (e) {
+                  console.log('Restart failed');
+                }
+              }, 100);
+            }
+          };
+
+          recognition.start();
+          recognitionRef.current = recognition;
+          setIsListening(true);
+          
+          toast({ 
+            title: "🎤 Voice control started",
+            description: activeMode ? 'Just say "Next"' : 'Say "Quick Dish Next"'
+          });
+        }
+
       } catch (error) {
-        console.error('Error starting recognition:', error);
-        isListeningRef.current = false;
+        console.error('Voice start error:', error);
         toast({
           title: "Couldn't start voice control",
-          description: error instanceof Error ? error.message : "Please enable microphone access",
+          description: "Please check microphone permissions",
           variant: "destructive"
         });
       }
     }
   };
 
-  // Keep screen awake during cooking
+  // Auto-read step when it changes (if voice is active)
+  useEffect(() => {
+    if (!isListening || currentStep < 0 || currentStep >= recipe.instructions.length) return;
+
+    const timer = setTimeout(() => {
+      const instruction = recipe.instructions[currentStep]?.replace(/^\d+\.\s*/, '').replace(/\[|\]/g, '') || '';
+      speakText(`Step ${currentStep + 1}. ${instruction}`);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [currentStep, isListening, recipe.instructions]);
+
+  // Keep screen awake
   useEffect(() => {
     if ('wakeLock' in navigator) {
       let wakeLock: any = null;
       (navigator as any).wakeLock.request('screen')
         .then((wl: any) => wakeLock = wl)
         .catch((err: any) => console.log('Wake Lock error:', err));
-      
       return () => wakeLock?.release();
     }
   }, []);
@@ -479,7 +472,6 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (showFullRecipe) return;
-      
       if (e.key === 'ArrowRight' || e.key === ' ') {
         e.preventDefault();
         handleNext();
@@ -492,7 +484,6 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
         onExit();
       }
     };
-    
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [currentStep, showFullRecipe]);
@@ -502,13 +493,8 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       if (prev < recipe.instructions.length - 1) {
         return prev + 1;
       } else {
-        if (isListening) {
-          const speech = new SpeechSynthesisUtterance("Cooking complete! Enjoy your meal!");
-          speech.rate = 0.9;
-          window.speechSynthesis.speak(speech);
-        }
         toast({ title: "Cooking complete! Enjoy! 🎉" });
-        setTimeout(onExit, 1000);
+        setTimeout(onExit, 2000);
         return prev;
       }
     });
@@ -518,43 +504,23 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     setCurrentStep(prev => Math.max(0, prev - 1));
   };
 
-  // Extract ingredients mentioned in current step
+  // Extract ingredients needed for current step
   const getStepIngredients = (instruction: string) => {
-    const ingredients: string[] = [];
+    const stepIngredients: Array<{amount: string, unit: string, item: string}> = [];
     const instructionLower = instruction.toLowerCase();
     
     recipe.ingredients.forEach(ing => {
-      const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
       const itemName = ing.item.toLowerCase();
+      // Check if this ingredient is mentioned in the current step
+      const itemWords = itemName.split(/[\s,]+/).filter(w => w.length > 2);
+      const isInStep = itemWords.some(word => instructionLower.includes(word)) || instructionLower.includes(itemName);
       
-      // Match full item name or key words from it
-      const itemWords = itemName.split(/[\s,]+/).filter(w => w.length > 3);
-      const matches = itemWords.some(word => instructionLower.includes(word)) || 
-                     instructionLower.includes(itemName);
-      
-      if (matches) {
-        ingredients.push(ingredientText);
+      if (isInStep) {
+        stepIngredients.push(ing);
       }
     });
-    return ingredients;
-  };
-
-  // Highlight ingredients and measurements in instruction text
-  const renderInstructionWithHighlights = (instruction: string) => {
-    const pattern = /(\d+\.?\d*\s*(?:cup|cups|tbsp|tsp|tablespoon|tablespoons|teaspoon|teaspoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|gram|grams|kg|kilogram|kilograms|ml|milliliter|milliliters|l|liter|liters|minute|minutes|mins?|hour|hours|hrs?|°F|°C|degrees)[s]?(?:\s+[\w\s-]+)?)/gi;
     
-    const parts = instruction.split(pattern);
-    
-    return parts.map((part, index) => {
-      if (pattern.test(part)) {
-        return (
-          <span key={index} className="text-green-600 font-semibold">
-            {part}
-          </span>
-        );
-      }
-      return <span key={index}>{part}</span>;
-    });
+    return stepIngredients;
   };
 
   const currentInstruction = recipe.instructions[currentStep]?.replace(/^\d+\.\s*/, '').replace(/\[|\]/g, '') || '';
@@ -566,51 +532,32 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   if (showFullRecipe) {
     return (
       <div className="fixed inset-0 bg-white z-50 flex flex-col text-black">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-[#10b981] to-[#34d399] text-white px-5 py-6">
+        <div className="bg-gradient-to-r from-[#10b981] to-[#34d399] text-white px-5 py-6 pt-12">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">{recipe.name}</h2>
-            <button
-              onClick={() => setShowFullRecipe(false)}
-              className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-xl hover:bg-white/30 transition-all"
-            >
+            <button onClick={() => setShowFullRecipe(false)} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white text-xl">
               ×
             </button>
           </div>
         </div>
-
-        {/* Full Recipe Content */}
         <div className="flex-1 overflow-y-auto p-6">
-          {/* Ingredients */}
           <div className="mb-8">
             <h3 className="text-2xl font-bold mb-4 text-[#10b981]">Ingredients</h3>
             <ul className="space-y-2">
-              {recipe.ingredients.map((ing, index) => {
-                const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
-                return (
-                  <li key={index} className="flex items-start text-lg">
-                    <span className="text-[#10b981] mr-2">•</span>
-                    <span>{ingredientText}</span>
-                  </li>
-                );
-              })}
+              {recipe.ingredients.map((ing, i) => (
+                <li key={i} className="flex items-start text-lg">
+                  <span className="text-[#10b981] mr-2">•</span>
+                  <span>{`${ing.amount} ${ing.unit} ${ing.item}`.trim()}</span>
+                </li>
+              ))}
             </ul>
           </div>
-
-          {/* Instructions */}
           <div>
             <h3 className="text-2xl font-bold mb-4 text-[#10b981]">Instructions</h3>
             <ol className="space-y-4">
-              {recipe.instructions.map((instruction, index) => (
-                <li
-                  key={index}
-                  className={`flex p-4 rounded-lg ${
-                    index === currentStep ? 'bg-green-100 border-2 border-[#10b981]' : 'bg-gray-50'
-                  }`}
-                >
-                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#10b981] text-white flex items-center justify-center mr-4 font-bold">
-                    {index + 1}
-                  </span>
+              {recipe.instructions.map((instruction, i) => (
+                <li key={i} className={`flex p-4 rounded-lg ${i === currentStep ? 'bg-green-100 border-2 border-[#10b981]' : 'bg-gray-50'}`}>
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#10b981] text-white flex items-center justify-center mr-4 font-bold">{i + 1}</span>
                   <p className="flex-1 pt-1 text-lg">{instruction.replace(/\[|\]/g, '')}</p>
                 </li>
               ))}
@@ -623,136 +570,154 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
 
   return (
     <div className="fixed inset-0 bg-white z-50 flex flex-col text-black">
-      {/* Green Gradient Header with Progress */}
-      <div className="bg-gradient-to-r from-[#10b981] to-[#34d399] text-white px-5 py-6">
-        {/* Top Bar - Back/Close and Menu */}
+      {/* Header */}
+      <div className="bg-gradient-to-r from-[#10b981] to-[#34d399] text-white px-5 py-6 pt-12">
         <div className="flex items-center justify-between mb-4">
-          <button 
-            onClick={onExit}
-            className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-lg hover:bg-white/30 transition-all"
-          >
+          <button onClick={onExit} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white text-lg">
             ←
           </button>
-          <button 
-            onClick={() => setShowFullRecipe(true)}
-            className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-lg hover:bg-white/30 transition-all"
-          >
-            ☰
-          </button>
+          <div className="flex gap-2">
+            <button onClick={onExit} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white">
+              <X size={20} />
+            </button>
+            <button onClick={() => setShowFullRecipe(true)} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white text-lg">
+              ☰
+            </button>
+          </div>
         </div>
-        
-        {/* Recipe Name */}
         <h1 className="text-2xl font-bold mb-2">{recipe.name}</h1>
-        
-        {/* Progress Bar */}
         <div className="bg-white/20 h-1.5 rounded-full overflow-hidden mb-2">
-          <div 
-            className="bg-white h-full transition-all duration-300"
-            style={{ width: `${progress}%` }}
-          />
+          <div className="bg-white h-full transition-all duration-300" style={{ width: `${progress}%` }} />
         </div>
-        
-        {/* Progress Text */}
         <p className="text-sm opacity-90">Step {currentStep + 1} of {recipe.instructions.length}</p>
       </div>
 
       {/* Voice Listening Indicator */}
       {isListening && (
-        <div className="fixed top-24 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-full shadow-xl flex items-center gap-2 z-50 animate-pulse">
-          🎤 Listening...
+        <div className={`fixed top-20 left-1/2 transform -translate-x-1/2 px-6 py-4 rounded-2xl shadow-2xl z-50 text-white ${
+          activeMode ? 'bg-blue-600' : 'bg-green-600'
+        }`}>
+          <div className="flex items-center gap-3">
+            <div className="animate-pulse text-2xl">🎤</div>
+            <div className="flex flex-col">
+              <div className="font-bold text-lg">
+                {activeMode ? 'Active Mode' : 'Protected Mode'}
+              </div>
+              <div className="text-sm opacity-90">
+                {activeMode 
+                  ? 'Say: "Next", "Back", "Repeat"' 
+                  : 'Say: "Quick Dish Next"'
+                }
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
-      {micPermission === 'denied' && !isListening && (
-        <div className="mx-4 mt-4 p-3 bg-red-100 rounded-lg text-center">
-          <p className="text-xs text-red-600 font-medium">
-            ⚠️ Microphone access denied. Enable it in browser settings.
-          </p>
+      {/* Last Command */}
+      {lastCommand && (
+        <div className="bg-blue-500 text-white px-4 py-2 text-center text-sm">
+          Heard: "{lastCommand}"
         </div>
       )}
 
-      {/* Step Content Area */}
+      {/* Step Content */}
       <div className="p-8 bg-white flex-1 overflow-y-auto">
-        {/* Step Header with Large Badge */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 bg-[#10b981] rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-md flex-shrink-0">
+          <div className="w-12 h-12 bg-[#10b981] rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-md">
             {currentStep + 1}
           </div>
-          <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
-            Step {currentStep + 1}
-          </span>
+          <span className="text-sm font-semibold text-gray-500 uppercase">Step {currentStep + 1}</span>
         </div>
-        
-        {/* Instruction - Large Text with Highlights */}
+        {/* Current Step Instruction */}
         <p className="text-2xl leading-relaxed text-gray-900 font-medium mb-7">
-          {renderInstructionWithHighlights(currentInstruction)}
+          {currentInstruction}
         </p>
 
-        {/* Ingredient Amounts - ONLY SHOW ON STEP 1 (PREP) */}
-        {currentStep === 0 && stepIngredients.length > 0 && (
-          <div className="mt-6 p-6 bg-green-50 rounded-xl border-2 border-green-200">
-            <h3 className="text-[#10b981] text-xl font-bold mb-4">You'll need:</h3>
+        {/* Ingredients for this step only */}
+        {stepIngredients.length > 0 && (
+          <div className="mb-6 p-6 bg-green-50 rounded-xl border-2 border-green-200">
+            <h3 className="text-[#10b981] text-xl font-bold mb-4">You'll need for this step:</h3>
             <ul className="space-y-2">
-              {stepIngredients.map((ing, index) => (
-                <li key={index} className="text-lg text-gray-700">
-                  • {ing}
+              {stepIngredients.map((ing, i) => (
+                <li key={i} className="text-lg text-gray-700">
+                  • {ing.amount} {ing.unit} {ing.item}
                 </li>
               ))}
             </ul>
           </div>
         )}
 
-        {/* Timer Button (if step has timing) */}
+        {/* Timer Buttons */}
         {stepTimes.length > 0 && !hasActiveTimerForStep && (
           <div className="mt-6 flex flex-col gap-3">
-            {stepTimes.map((minutes, index) => (
+            {stepTimes.map((minutes, i) => (
               <button
-                key={index}
+                key={i}
                 onClick={() => startTimer(currentStep + 1, minutes)}
-                className="w-full h-14 bg-[#10b981] text-white rounded-xl font-semibold text-lg shadow-lg hover:bg-[#059669] transition-all flex items-center justify-center gap-2"
+                className="w-full h-14 bg-[#10b981] text-white rounded-xl font-semibold text-lg shadow-lg hover:bg-[#059669] transition-all"
               >
-                ⏱️ Start {minutes} Minute Timer {stepTimes.length > 1 ? `(${index + 1}/${stepTimes.length})` : ''}
+                ⏱️ Start {minutes} Minute Timer
               </button>
             ))}
           </div>
         )}
-        
-        {/* Voice Control Button */}
+
+        {/* SIMPLE VOICE CONTROL - ONE TOGGLE */}
         {voiceSupported && (
-          <button 
-            onClick={toggleVoiceControl}
-            className="mt-4 w-full h-12 bg-green-50 text-green-700 rounded-xl font-semibold border-2 border-green-200 hover:bg-green-100 transition-all flex items-center justify-center gap-2"
-          >
-            🎤 {isListening ? 'Voice Control Active' : 'Enable Hands-Free Voice Control'}
-          </button>
+          <div className="mt-6 space-y-3">
+            {/* Main Voice Toggle */}
+            <button 
+              onClick={toggleVoiceControl}
+              className={`w-full h-14 rounded-xl font-semibold text-lg transition-all shadow-lg ${
+                isListening 
+                  ? 'bg-red-500 text-white hover:bg-red-600' 
+                  : 'bg-green-600 text-white hover:bg-green-700'
+              }`}
+            >
+              {isListening ? '🔴 Stop Voice Control' : '🎤 Start Voice Control'}
+            </button>
+
+            {/* Mode Toggle - Only when listening */}
+            {isListening && (
+              <button 
+                onClick={() => setActiveMode(!activeMode)}
+                className={`w-full h-12 rounded-xl font-semibold transition-all ${
+                  activeMode 
+                    ? 'bg-blue-600 text-white shadow-md' 
+                    : 'bg-gray-200 text-gray-700'
+                }`}
+              >
+                {activeMode ? '🔓 ACTIVE MODE (Say "Next")' : '🔒 PROTECTED MODE (Say "Quick Dish Next")'}
+              </button>
+            )}
+
+            {/* Help text */}
+            {isListening && (
+              <p className="text-sm text-gray-600 text-center">
+                Say: {activeMode ? '"Next", "Back", "Repeat", "Timer"' : '"Quick Dish Next", "Quick Dish Back", etc.'}
+              </p>
+            )}
+          </div>
         )}
       </div>
 
-      {/* Active Timers Display */}
+      {/* Active Timers */}
       {timers.length > 0 && (
         <div className="bg-green-50 border-t-2 border-green-200 p-4">
           <div className="text-sm font-semibold text-green-800 mb-2">Active Timers:</div>
           <div className="space-y-2">
             {timers.map(timer => (
-              <div 
-                key={timer.id} 
-                className="bg-white rounded-lg p-3 flex items-center justify-between shadow-sm"
-              >
+              <div key={timer.id} className="bg-white rounded-lg p-3 flex items-center justify-between shadow-sm">
                 <span className="font-medium text-gray-700">Step {timer.stepNumber}</span>
                 <span className="text-2xl font-bold text-green-600">{formatTime(timer.remainingSeconds)}</span>
                 <div className="flex gap-2">
                   {timer.remainingSeconds > 0 && (
                     <>
-                      <button
-                        onClick={() => timer.isRunning ? pauseTimer(timer.id) : resumeTimer(timer.id)}
-                        className="text-sm text-gray-600 hover:text-gray-900 px-2"
-                      >
+                      <button onClick={() => timer.isRunning ? pauseTimer(timer.id) : resumeTimer(timer.id)} className="text-sm text-gray-600 px-2">
                         {timer.isRunning ? 'Pause' : 'Resume'}
                       </button>
-                      <button
-                        onClick={() => cancelTimer(timer.id)}
-                        className="text-sm text-red-600 hover:text-red-800 px-2"
-                      >
+                      <button onClick={() => cancelTimer(timer.id)} className="text-sm text-red-600 px-2">
                         Cancel
                       </button>
                     </>
@@ -765,17 +730,17 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       )}
 
       {/* Bottom Navigation */}
-      <div className="flex gap-3 p-4 bg-white border-t border-gray-200">
+      <div className="flex gap-3 p-4 pb-8 bg-white border-t border-gray-200">
         <button 
           onClick={handlePrevious}
           disabled={currentStep === 0}
-          className="flex-1 h-14 bg-gray-100 text-gray-700 rounded-xl font-semibold text-base hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+          className="flex-1 h-14 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 disabled:opacity-50"
         >
           ← BACK
         </button>
         <button 
           onClick={handleNext}
-          className="flex-1 h-14 bg-[#10b981] text-white rounded-xl font-semibold text-base shadow-md hover:bg-[#059669] transition-all flex items-center justify-center gap-2"
+          className="flex-1 h-14 bg-[#10b981] text-white rounded-xl font-semibold shadow-md hover:bg-[#059669]"
         >
           {currentStep === recipe.instructions.length - 1 ? '✓ DONE!' : 'NEXT →'}
         </button>

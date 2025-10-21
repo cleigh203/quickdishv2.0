@@ -45,7 +45,7 @@ interface ProfileData {
 const Profile = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { user, signOut, checkSubscription } = useAuth();
   const { showOnboarding } = useOnboarding();
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [editPreferencesOpen, setEditPreferencesOpen] = useState(false);
@@ -185,16 +185,19 @@ const Profile = () => {
       if (newStatus) {
         localStorage.setItem('recipesGenerated', '0');
         toast({
-          title: "Premium activated! 👑",
-          description: "Enjoy all premium features for testing",
+          title: "🧪 Test Premium Activated!",
+          description: "All premium features unlocked for testing",
         });
       } else {
         toast({
-          title: "Premium deactivated",
-          description: "Back to free tier",
+          title: "Test Premium Deactivated",
+          description: "Reverted to free tier",
         });
       }
 
+      // Refresh auth context to update isPremium throughout the app
+      await checkSubscription();
+      
       // Refresh profile to confirm
       fetchProfile();
     } catch (error: any) {
@@ -498,6 +501,17 @@ const Profile = () => {
                 {profileData?.is_premium ? 'Premium' : 'Free'}
               </span>
             </div>
+            {/* DEV MODE: Quick premium toggle */}
+            {import.meta.env.DEV && (
+              <Button 
+                variant="outline" 
+                className="w-full justify-start rounded-lg hover:bg-muted border-2 border-dashed border-purple-500 text-purple-700 dark:text-purple-400"
+                onClick={togglePremium}
+              >
+                🧪 {profileData?.is_premium ? 'Deactivate' : 'Activate'} Test Premium
+              </Button>
+            )}
+            
             {profileData?.is_premium ? (
               <Button 
                 variant="outline" 

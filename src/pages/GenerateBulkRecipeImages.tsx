@@ -41,7 +41,7 @@ const recipesToGenerate = [
   { name: "BBQ Pulled Pork Sandwich", description: "Slow-cooked pulled pork with coleslaw on brioche bun", filename: "lunch-bbq-pulled-pork-sandwich.jpg" },
   { name: "Falafel Pita", description: "Crispy falafel in pita with tahini and vegetables", filename: "lunch-falafel-pita.jpg" },
   { name: "Chicken Caesar Salad", description: "Classic Caesar with grilled chicken and parmesan", filename: "lunch-chicken-caesar-salad.jpg" },
-  { name: "Bánh Mì Sandwich", description: "Vietnamese sandwich with pork, pickled vegetables, and cilantro", filename: "lunch-banh-mi-sandwich.jpg" },
+  { name: "Banh Mi Sandwich", description: "Vietnamese sandwich with pork, pickled vegetables, and cilantro", filename: "lunch-banh-mi-sandwich.jpg" },
   { name: "Southwest Chicken Bowl", description: "Rice bowl with chicken, black beans, corn, and avocado", filename: "lunch-southwest-chicken-bowl.jpg" },
   { name: "Margherita Flatbread", description: "Thin crust flatbread with fresh mozzarella and basil", filename: "lunch-margherita-flatbread.jpg" },
   { name: "Cobb Salad", description: "Chopped salad with chicken, bacon, egg, and blue cheese", filename: "lunch-cobb-salad.jpg" },

@@ -2,18 +2,20 @@ import { Recipe } from "@/types/recipe";
 
 // Import AI-generated images
 import chickenMarsalaImg from "@/assets/recipes/chicken-marsala.jpg";
-import beefBroccoliStirfryImg from "@/assets/recipes/beef-broccoli-stirfry.jpg";
 import stuffedBellPeppersImg from "@/assets/recipes/stuffed-bell-peppers.jpg";
 import teriyakiChickenImg from "@/assets/recipes/teriyaki-chicken.jpg";
 import porkChopsApplesImg from "@/assets/recipes/pork-chops-apples.jpg";
-import lemonHerbChickenThighsImg from "@/assets/recipes/lemon-herb-chicken-thighs.jpg";
-import bbqMeatloafImg from "@/assets/recipes/bbq-meatloaf.jpg";
+// lemonHerbChickenThighsImg replaced with imgur URL
+const lemonHerbChickenThighsImg = "https://i.imgur.com/KwNUHAc.png";
+// bbqMeatloafImg replaced with imgur URL
+const bbqMeatloafImg = "https://i.imgur.com/cZ6DgEY.png";
 import frenchDipSlidersImg from "@/assets/recipes/french-dip-sliders.jpg";
 import mediterraneanChickenRiceImg from "@/assets/recipes/mediterranean-chicken-rice.jpg";
 import cajunChickenPastaImg from "@/assets/recipes/cajun-chicken-pasta.jpg";
 import koreanBeefBowlImg from "@/assets/recipes/korean-beef-bowl.jpg";
 import garlicButterTilapiaImg from "@/assets/recipes/garlic-butter-tilapia.jpg";
-import honeyMustardChickenImg from "@/assets/recipes/honey-mustard-chicken.jpg";
+// honeyMustardChickenImg replaced with imgur URL
+const honeyMustardChickenImg = "https://i.imgur.com/UvKDAtR.png";
 import thaiCoconutCurryImg from "@/assets/recipes/thai-coconut-curry.jpg";
 import beefEnchiladasImg from "@/assets/recipes/beef-enchiladas.jpg";
 import lemonGarlicShrimpImg from "@/assets/recipes/lemon-garlic-shrimp.jpg";
@@ -32,11 +34,13 @@ import friedRiceImg from "@/assets/recipes/fried-rice.jpg";
 import chocolateLavaCakeImg from "@/assets/recipes/chocolate-lava-cake.jpg";
 import bananasFosterImg from "@/assets/recipes/bananas-foster.jpg";
 import garlicButterSteakBitesImg from "@/assets/recipes/garlic-butter-steak-bites.jpg";
-import chiliMacCheeseImg from "@/assets/recipes/chili-mac-cheese.jpg";
+// chiliMacCheeseImg replaced with imgur URL
+const chiliMacCheeseImg = "https://i.imgur.com/Iy5HRsX.png";
 import tuscanChickenPastaImg from "@/assets/recipes/tuscan-chicken-pasta.jpg";
 import spiderPizzaImg from "@/assets/recipes/spider-web-pizza-new.jpg";
 import avocadoRollsImg from "@/assets/recipes/copycat-avocado-rolls.jpg";
-import beefBroccoliImg from "@/assets/recipes/quick-beef-broccoli.jpg";
+// beefBroccoliImg replaced with imgur URL
+const beefBroccoliImg = "https://i.imgur.com/lSRdTNS.png";
 import bloominOnionImg from "@/assets/recipes/copycat-bloomin-onion.jpg";
 import thaiBasilImg from "@/assets/recipes/quick-thai-basil-chicken.jpg";
 import pastaCarbonaraImg from "@/assets/recipes/pasta-carbonara.jpg";
@@ -46,7 +50,8 @@ import tuscanShrimpImg from "@/assets/recipes/quick-tuscan-shrimp.jpg";
 import potatoCroquettesImg from "@/assets/recipes/leftover-potato-croquettes.jpg";
 import monsterSmoothieImg from "@/assets/recipes/monster-smoothie-bowl.jpg";
 import lettuceWrapsImg from "@/assets/recipes/copycat-lettuce-wraps.jpg";
-import capreseChickenImg from "@/assets/recipes/quick-caprese-chicken.jpg";
+// capreseChickenImg replaced with imgur URL
+const capreseChickenImg = "https://i.imgur.com/LsSmGYN.png";
 import turkeyQuesadillasImg from "@/assets/recipes/leftover-turkey-quesadillas.jpg";
 import frankensteinTreatsImg from "@/assets/recipes/frankenstein-treats.jpg";
 import cheddarBiscuitsImg from "@/assets/recipes/copycat-red-lobster-cheddar-bay-biscuits.jpg";
@@ -59,18 +64,22 @@ import hamHashImg from "@/assets/recipes/leftover-ham-hash.jpg";
 import ghostMeringuesImg from "@/assets/recipes/ghost-meringues.jpg";
 import cornSalsaImg from "@/assets/recipes/copycat-corn-salsa.jpg";
 import chickenFajitasImg from "@/assets/recipes/quick-chicken-fajitas.jpg";
-import steakQuesadillaImg from "@/assets/recipes/leftover-steak-quesadilla.jpg";
+// steakQuesadillaImg replaced with imgur URL
+const steakQuesadillaImg = "https://i.imgur.com/5ZNF6sl.png";
 import roadhouseRollsImg from "@/assets/recipes/copycat-roadhouse-rolls.jpg";
 import kungPaoImg from "@/assets/recipes/quick-kung-pao-chicken.jpg";
-import burgerSlidersImg from "@/assets/recipes/leftover-burger-sliders.jpg";
+// burgerSlidersImg replaced with imgur URL
+const burgerSlidersImg = "https://i.imgur.com/BJ1aRuN.png";
 
 import eggBitesImg from "@/assets/recipes/copycat-egg-bites.jpg";
 import shrimpScampiImg from "@/assets/recipes/quick-shrimp-scampi.jpg";
-import sausageBurritoImg from "@/assets/recipes/leftover-sausage-burrito.jpg";
+// sausageBurritoImg replaced with imgur URL
+const sausageBurritoImg = "https://i.imgur.com/TRWioaz.png";
 import poisonAppleImg from "@/assets/recipes/poison-apple-cocktail.jpg";
 import animalFriesImg from "@/assets/recipes/copycat-animal-fries.jpg";
 import mongolianBeefImg from "@/assets/recipes/quick-mongolian-beef.jpg";
-import porkNachosImg from "@/assets/recipes/leftover-pork-nachos.jpg";
+// porkNachosImg replaced with imgur URL
+const porkNachosImg = "https://i.imgur.com/BJ1aRuN.png";
 import eyeballMeatballsImg from "@/assets/recipes/eyeball-meatballs.jpg";
 import hashbrownCasseroleImg from "@/assets/recipes/copycat-hashbrown-casserole.jpg";
 import greekChickenImg from "@/assets/recipes/quick-greek-chicken.jpg";
@@ -78,14 +87,16 @@ import brisketMacImg from "@/assets/recipes/leftover-brisket-mac.jpg";
 import mcgriddlesImg from "@/assets/recipes/copycat-mcgriddles.jpg";
 import steakBitesImg from "@/assets/recipes/garlic-steak-bites.jpg";
 import stuffingMuffinsImg from "@/assets/recipes/leftover-stuffing-muffins.jpg";
-import meatballSubImg from "@/assets/recipes/copycat-meatball-sub.jpg";
+// meatballSubImg replaced with imgur URL
+const meatballSubImg = "https://i.imgur.com/0C3bIhH.png";
 import padThaiImg from "@/assets/recipes/quick-pad-thai.jpg";
 import salmonSaladImg from "@/assets/recipes/leftover-salmon-salad.jpg";
 import cajunJambalayaImg from "@/assets/recipes/cajun-jambalaya.jpg";
 import beefStroganoffImg from "@/assets/recipes/beef-stroganoff.jpg";
 import chickenFajitaRiceImg from "@/assets/recipes/chicken-fajita-rice.jpg";
 import breadPuddingImg from "@/assets/recipes/dessert-bread-pudding.jpg";
-import applePieImg from "@/assets/recipes/apple-pie.jpg";
+// applePieImg replaced with imgur URL
+const applePieImg = "https://i.imgur.com/EHVFMzi.png";
 import butternutSquashSoupImg from "@/assets/recipes/butternut-squash-soup.jpg";
 import mapleGlazedSalmonImg from "@/assets/recipes/maple-glazed-salmon.jpg";
 import appleCiderPulledPorkImg from "@/assets/recipes/apple-cider-pulled-pork.jpg";
@@ -234,16 +245,22 @@ import appleButterChickenImg from "@/assets/recipes/apple-butter-chicken.jpg";
 // Import One Pot Wonders recipes
 import creamyTortelliniSoupImg from "@/assets/recipes/creamy-tortellini-soup.jpg";
 import butternutSquashMacCheeseImg from "@/assets/recipes/butternut-squash-mac-cheese.jpg";
-import loadedBakedPotatoSoupImg from "@/assets/recipes/loaded-baked-potato-soup.jpg";
+// loadedBakedPotatoSoupImg replaced with imgur URL
+const loadedBakedPotatoSoupImg = "https://i.imgur.com/xLNXg9O.png";
 import beefStewPumpkinImg from "@/assets/recipes/beef-stew-pumpkin.jpg";
 import frenchOnionSoupBakeImg from "@/assets/recipes/french-onion-soup-bake.jpg";
 import chickenPotPieBiscuitImg from "@/assets/recipes/chicken-pot-pie-biscuit.jpg";
-import sausageKaleSoupImg from "@/assets/recipes/sausage-kale-soup.jpg";
+// sausageKaleSoupImg replaced with imgur URL
+const sausageKaleSoupImg = "https://i.imgur.com/ea4GaUL.png";
 import shepherdsPieTwiceBakedImg from "@/assets/recipes/shepherds-pie-twice-baked.jpg";
-import mushroomWildRiceSoupImg from "@/assets/recipes/mushroom-wild-rice-soup.jpg";
-import chiliCheeseFriesCasseroleImg from "@/assets/recipes/chili-cheese-fries-casserole.jpg";
-import meatballSubCasseroleImg from "@/assets/recipes/meatball-sub-casserole.jpg";
-import crackChickenNoodleSoupImg from "@/assets/recipes/crack-chicken-noodle-soup.jpg";
+// mushroomWildRiceSoupImg replaced with imgur URL
+const mushroomWildRiceSoupImg = "https://i.imgur.com/IRAMVFF.png";
+// chiliCheeseFriesCasseroleImg replaced with imgur URL
+const chiliCheeseFriesCasseroleImg = "https://i.imgur.com/0C3bIhH.png";
+// meatballSubCasseroleImg replaced with imgur URL
+const meatballSubCasseroleImg = "https://i.imgur.com/0C3bIhH.png";
+// crackChickenNoodleSoupImg replaced with imgur URL
+const crackChickenNoodleSoupImg = "https://i.imgur.com/G68U25j.png";
 
 // Import new recipes
 import { newRecipes } from "./newRecipes";
@@ -260,12 +277,14 @@ import veganProteinPastaImg from "@/assets/recipes/vegan-protein-pasta.jpg";
 import kingOysterMushroomTacosImg from "@/assets/recipes/king-oyster-mushroom-tacos.jpg";
 import oysterMushroomFriedChickenImg from "@/assets/recipes/oyster-mushroom-fried-chicken.jpg";
 import veganCrunchwrapImg from "@/assets/recipes/vegan-crunchwrap.jpg";
-import smashBurgerTacosImg from "@/assets/recipes/smash-burger-tacos.jpg";
+// smashBurgerTacosImg replaced with imgur URL
+const smashBurgerTacosImg = "https://i.imgur.com/ZjZgGa5.png";
 import charredCabbageCoconutBrothImg from "@/assets/recipes/charred-cabbage-coconut-broth.jpg";
 import hotHoneyTofuTendersImg from "@/assets/recipes/hot-honey-tofu-tenders.jpg";
 
 // Import new dinner recipe images
-import smashBurgerTacosDinnerImg from "@/assets/recipes/smash-burger-tacos-dinner.jpg";
+// smashBurgerTacosDinnerImg replaced with imgur URL
+const smashBurgerTacosDinnerImg = "https://i.imgur.com/ZjZgGa5.png";
 import garlicParmAccordionPotatoesImg from "@/assets/recipes/garlic-parm-accordion-potatoes.jpg";
 import cornRibsEloteSauceImg from "@/assets/recipes/corn-ribs-elote-sauce.jpg";
 import bakedFetaPastaImg from "@/assets/recipes/baked-feta-pasta.jpg";
@@ -275,7 +294,8 @@ import chickenParmesanImg from "@/assets/recipes/chicken-parmesan.jpg";
 import gardenFocacciaImg from "@/assets/recipes/garden-focaccia.jpg";
 import turkishLayeredPastaImg from "@/assets/recipes/turkish-layered-pasta.jpg";
 import gigiHadidVodkaPastaImg from "@/assets/recipes/gigi-hadid-vodka-pasta.jpg";
-import onePanChickenGravyImg from "@/assets/recipes/one-pan-chicken-gravy.jpg";
+// onePanChickenGravyImg replaced with imgur URL
+const onePanChickenGravyImg = "https://i.imgur.com/e0dPz5G.png";
 import garlicParmChickenPotatoSkilletImg from "@/assets/recipes/garlic-parm-chicken-potato-skillet.jpg";
 import bbqCheeseburgerSlidersImg from "@/assets/recipes/bbq-cheeseburger-sliders.jpg";
 import hotHoneyChickenSheetPanImg from "@/assets/recipes/hot-honey-chicken-sheet-pan.jpg";
@@ -287,7 +307,6 @@ import pizzaPancakesImg from "@/assets/recipes/pizza-pancakes.jpg";
 import friedChickenRamenImg from "@/assets/recipes/fried-chicken-ramen.jpg";
 import turkeyGrilledCheeseImg from "@/assets/recipes/turkey-grilled-cheese.jpg";
 import loadedRanchPotatoesImg from "@/assets/recipes/loaded-ranch-potatoes.jpg";
-import marryMeChickenImg from "@/assets/recipes/marry-me-chicken.jpg";
 import creamyTuscanChickenImg from "@/assets/recipes/creamy-tuscan-chicken.jpg";
 import stuffedBellPeppersDinnerImg from "@/assets/recipes/stuffed-bell-peppers.jpg";
 import creamyVeganMacCheeseImg from "@/assets/recipes/creamy-vegan-mac-cheese.jpg";
@@ -296,7 +315,6 @@ import veganSteakBitesImg from "@/assets/recipes/vegan-steak-bites.jpg";
 import pastaChipsVeganFetaDipImg from "@/assets/recipes/pasta-chips-vegan-feta-dip.jpg";
 import airFryerTofuBitesImg from "@/assets/recipes/air-fryer-tofu-bites.jpg";
 import twoIngredientPiciPastaImg from "@/assets/recipes/two-ingredient-pici-pasta.jpg";
-import cucumberSushiSaladImg from "@/assets/recipes/cucumber-sushi-salad.jpg";
 import koreanCornCheeseImg from "@/assets/recipes/korean-corn-cheese.jpg";
 import sesameCarrotRibbonsImg from "@/assets/recipes/sesame-carrot-ribbons.jpg";
 import cloudBreadImg from "@/assets/recipes/cloud-bread.jpg";
@@ -324,7 +342,8 @@ import dessertCoconutCreamPieImg from "@/assets/recipes/dessert-coconut-cream-pi
 
 // Lunch (20)
 import lunchMediterraneanQuinoaBowlImg from "@/assets/recipes/lunch-mediterranean-quinoa-bowl.jpg";
-import lunchBuffaloChickenWrapImg from "@/assets/recipes/lunch-buffalo-chicken-wrap.jpg";
+// lunchBuffaloChickenWrapImg replaced with imgur URL
+const lunchBuffaloChickenWrapImg = "https://i.imgur.com/3xH23cf.png";
 import lunchGreekSaladChickenImg from "@/assets/recipes/lunch-greek-salad-chicken.jpg";
 import lunchTurkeyAvocadoClubImg from "@/assets/recipes/lunch-turkey-avocado-club.jpg";
 import lunchAsianLettuceWrapsImg from "@/assets/recipes/lunch-asian-lettuce-wraps.jpg";
@@ -381,7 +400,8 @@ import breakfastAcaiBowlImg from "@/assets/recipes/breakfast-acai-bowl.jpg";
 import breakfastQuesadillaImg from "@/assets/recipes/breakfast-quesadilla.jpg";
 import breakfastBiscuitsGravyImg from "@/assets/recipes/breakfast-biscuits-gravy.jpg";
 import breakfastCroqueMadameImg from "@/assets/recipes/breakfast-croque-madame.jpg";
-import breakfastTacosImg from "@/assets/recipes/breakfast-tacos.jpg";
+// breakfastTacosImg replaced with imgur URL
+const breakfastTacosImg = "https://i.imgur.com/KnY1DpE.png";
 import breakfastChilaquilesImg from "@/assets/recipes/breakfast-chilaquiles.jpg";
 import breakfastBananaNutOatmealImg from "@/assets/recipes/breakfast-banana-nut-oatmeal.jpg";
 import breakfastFullEnglishImg from "@/assets/recipes/breakfast-full-english.jpg";
@@ -389,43 +409,58 @@ import breakfastSausageCasseroleImg from "@/assets/recipes/breakfast-sausage-cas
 import breakfastGreekYogurtParfaitImg from "@/assets/recipes/breakfast-greek-yogurt-parfait.jpg";
 
 // New Breakfast Recipes (20)
-import breakfastButtermilkPancakesImg from "@/assets/recipes/breakfast-buttermilk-pancakes.jpg";
+// breakfastButtermilkPancakesImg replaced with imgur URL
+const breakfastButtermilkPancakesImg = "https://i.imgur.com/4AOEnQq.png";
 import breakfastBelgianWafflesNewImg from "@/assets/recipes/breakfast-belgian-waffles-new.jpg";
 import breakfastFrenchToastClassicImg from "@/assets/recipes/breakfast-french-toast-classic.jpg";
 import breakfastEggsBenedictClassicImg from "@/assets/recipes/breakfast-eggs-benedict-classic.jpg";
 import breakfastClassicOmeletImg from "@/assets/recipes/breakfast-classic-omelet.jpg";
 import breakfastBurritoClassicImg from "@/assets/recipes/breakfast-burrito-classic.jpg";
-import breakfastCasseroleClassicImg from "@/assets/recipes/breakfast-casserole-classic.jpg";
+// breakfastCasseroleClassicImg replaced with imgur URL
+const breakfastCasseroleClassicImg = "https://i.imgur.com/mHmY7iT.jpeg";
 import breakfastHashbrownCasseroleImg from "@/assets/recipes/breakfast-hashbrown-casserole.jpg";
 import breakfastQuicheLorraineImg from "@/assets/recipes/breakfast-quiche-lorraine.jpg";
 import breakfastBiscuitsGravyClassicImg from "@/assets/recipes/breakfast-biscuits-gravy-classic.jpg";
 import breakfastAvocadoToastClassicImg from "@/assets/recipes/breakfast-avocado-toast-classic.jpg";
 import breakfastOvernightOatsImg from "@/assets/recipes/breakfast-overnight-oats.jpg";
 import breakfastScrambledEggsBaconImg from "@/assets/recipes/breakfast-scrambled-eggs-bacon.jpg";
-import breakfastSandwichClassicImg from "@/assets/recipes/breakfast-sandwich-classic.jpg";
+// breakfastSandwichClassicImg replaced with imgur URL
+const breakfastSandwichClassicImg = "https://i.imgur.com/AEmPQcd.png";
 import breakfastSmoothieBowlClassicImg from "@/assets/recipes/breakfast-smoothie-bowl-classic.jpg";
 import breakfastGreekYogurtParfaitClassicImg from "@/assets/recipes/breakfast-greek-yogurt-parfait-classic.jpg";
 import breakfastProteinPancakesImg from "@/assets/recipes/breakfast-protein-pancakes.jpg";
-import breakfastTacosClassicImg from "@/assets/recipes/breakfast-tacos-classic.jpg";
+// breakfastTacosClassicImg replaced with imgur URL
+const breakfastTacosClassicImg = "https://i.imgur.com/KnY1DpE.png";
 import breakfastShakshukaClassicImg from "@/assets/recipes/breakfast-shakshuka-classic.jpg";
 import breakfastBlueberryMuffinsImg from "@/assets/recipes/breakfast-blueberry-muffins.jpg";
 import bakedChickenMeatballsImg from "@/assets/recipes/baked-chicken-meatballs.jpg";
 import sheetPanChickenVegetablesImg from "@/assets/recipes/sheet-pan-chicken-vegetables.jpg";
-import sheetPanChickenFajitasImg from "@/assets/recipes/sheet-pan-chicken-fajitas.jpg";
-import grilledChickenCapreseImg from "@/assets/recipes/grilled-chicken-caprese.jpg";
-import slowCookerWhiteChickenChiliImg from "@/assets/recipes/slow-cooker-white-chicken-chili.jpg";
+// sheetPanChickenFajitasImg replaced with imgur URL
+const sheetPanChickenFajitasImg = "https://i.imgur.com/8MTMu7t.png";
+// grilledChickenCapreseImg replaced with imgur URL
+const grilledChickenCapreseImg = "https://i.imgur.com/LsSmGYN.png";
+// slowCookerWhiteChickenChiliImg replaced with imgur URL
+const slowCookerWhiteChickenChiliImg = "https://i.imgur.com/7raEzFt.png";
 import tacoSkilletImg from "@/assets/recipes/taco-skillet.jpg";
-import cheeseburgerBowlsImg from "@/assets/recipes/cheeseburger-bowls.jpg";
-import onePanBeefPotatoesImg from "@/assets/recipes/one-pan-beef-potatoes.jpg";
-import turkeyMeatloafImg from "@/assets/recipes/turkey-meatloaf.jpg";
+// cheeseburgerBowlsImg replaced with imgur URL
+const cheeseburgerBowlsImg = "https://i.imgur.com/yH6PcDe.png";
+// onePanBeefPotatoesImg replaced with imgur URL
+const onePanBeefPotatoesImg = "https://i.imgur.com/094LhGj.png";
+// turkeyMeatloafImg replaced with imgur URL
+const turkeyMeatloafImg = "https://i.imgur.com/UPQIShK.png";
 import stuffedBellPeppersProteinImg from "@/assets/recipes/stuffed-bell-peppers-protein.jpg";
 import bakedSalmonLemonImg from "@/assets/recipes/baked-salmon-lemon.jpg";
-import sheetPanShrimpFajitasImg from "@/assets/recipes/sheet-pan-shrimp-fajitas.jpg";
-import pestoBakedSalmonImg from "@/assets/recipes/pesto-baked-salmon.jpg";
-import cottageCheeseBakedZitiImg from "@/assets/recipes/cottage-cheese-baked-ziti.jpg";
-import slowCookerLasagnaImg from "@/assets/recipes/slow-cooker-lasagna.jpg";
+// sheetPanShrimpFajitasImg replaced with imgur URL
+const sheetPanShrimpFajitasImg = "https://i.imgur.com/KIlgFSD.png";
+// pestoBakedSalmonImg replaced with imgur URL
+const pestoBakedSalmonImg = "https://i.imgur.com/BZ45ul8.png";
+// cottageCheeseBakedZitiImg replaced with imgur URL
+const cottageCheeseBakedZitiImg = "https://i.imgur.com/hMeLM0u.png";
+// slowCookerLasagnaImg replaced with imgur URL
+const slowCookerLasagnaImg = "https://i.imgur.com/kOMSWHD.png";
 import beefStroganoffProteinImg from "@/assets/recipes/beef-stroganoff-protein.jpg";
-import chickenQuesadillasImg from "@/assets/recipes/chicken-quesadillas.jpg";
+// chickenQuesadillasImg replaced with imgur URL
+const chickenQuesadillasImg = "https://i.imgur.com/DmisYMy.png";
 import chickenStirFryBroccoliImg from "@/assets/recipes/chicken-stir-fry-broccoli.jpg";
 import bbqPulledPorkBowlsImg from "@/assets/recipes/bbq-pulled-pork-bowls.jpg";
 import eggRollBowlsImg from "@/assets/recipes/egg-roll-bowls.jpg";
@@ -454,7 +489,8 @@ import onePotBeefTacoSkilletImg from "@/assets/recipes/one-pot-beef-taco-skillet
 
 // Restaurant Copycats (20)
 import copycatChickFilASandwichImg from "@/assets/recipes/copycat-chick-fil-a-sandwich.jpg";
-import copycatChipotleBurritoBowlImg from "@/assets/recipes/copycat-chipotle-burrito-bowl.jpg";
+// copycatChipotleBurritoBowlImg replaced with imgur URL
+const copycatChipotleBurritoBowlImg = "https://i.imgur.com/dkzk211.png";
 import copycatOliveGardenBreadsticksImg from "@/assets/recipes/copycat-olive-garden-breadsticks.jpg";
 import copycatPaneraBroccoliSoupImg from "@/assets/recipes/copycat-panera-broccoli-soup.jpg";
 import copycatRedLobsterBiscuitsImg from "@/assets/recipes/copycat-red-lobster-biscuits.jpg";
@@ -487,9 +523,9 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Italian",
-    image: "/lovable-uploads/dessert-tiramisu.png",
+    image: "https://i.imgur.com/kVbc5Ha.png",
     totalTime: 240,
-    tags: ["dessert", "italian", "coffee", "no-bake"],
+    tags: ["dessert", "italian", "coffee", "no-bake", "vegetarian", "glutenfree"],
     nutrition: {
       calories: 380,
       protein: 8,
@@ -528,10 +564,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 12,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: "/lovable-uploads/dessert-cheesecake.png",
     totalTime: 180,
-    tags: ["dessert", "baked", "american", "rich"],
+    tags: ["dessert", "baked", "american", "rich", "vegetarian", "glutenfree"],
     nutrition: {
       calories: 520,
       protein: 9,
@@ -568,10 +604,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 16,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: "/lovable-uploads/dessert-brownies.png",
     totalTime: 45,
-    tags: ["dessert", "chocolate", "baked"],
+    tags: ["dessert", "chocolate", "baked", "vegetarian"],
     nutrition: {
       calories: 240,
       protein: 3,
@@ -611,9 +647,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "French",
     image: "/lovable-uploads/dessert-macarons.png",
     totalTime: 120,
-    tags: ["dessert", "french", "baked", "elegant"],
+    tags: ["dessert", "french", "baked", "elegant", "vegetarian", "glutenfree"],
     ingredients: [
-      { amount: "1.75", unit: "cups", item: "powdered sugar" },
+      { amount: "1.75", unit: "cups", item: "powdered sugar" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "almond flour" },
       { amount: "3", unit: "", item: "egg whites" },
       { amount: "1/4", unit: "cup", item: "granulated sugar" },
@@ -644,9 +681,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "French",
     image: "/lovable-uploads/dessert-creme-brulee.png",
     totalTime: 165,
-    tags: ["dessert", "french", "elegant", "custard"],
+    tags: ["dessert", "french", "elegant", "custard", "vegetarian", "glutenfree"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "heavy cream" },
+      { amount: "2", unit: "cups", item: "heavy cream" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "", item: "vanilla bean" },
       { amount: "5", unit: "", item: "egg yolks" },
       { amount: "1/2", unit: "cup", item: "sugar" },
@@ -670,12 +708,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "30 mins",
     difficulty: "medium",
     servings: 8,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: applePieImg,
     totalTime: 80,
-    tags: ["dessert", "baked", "american", "fruit"],
+    tags: ["dessert", "baked", "american", "fruit", "vegetarian"],
     ingredients: [
-      { amount: "2", unit: "", item: "pie crusts" },
+      { amount: "2", unit: "", item: "pie crusts" ,
+    nutrition: { calories: 150, protein: 5, carbs: 10, fat: 5, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "6", unit: "cups", item: "sliced apples" },
       { amount: "3/4", unit: "cup", item: "sugar" },
       { amount: "2", unit: "tbsp", item: "flour" },
@@ -705,9 +744,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "French",
     image: chocolateLavaCakeImg,
     totalTime: 27,
-    tags: ["dessert", "chocolate", "elegant"],
+    tags: ["dessert", "chocolate", "elegant", "vegetarian"],
     ingredients: [
-      { amount: "6", unit: "oz", item: "dark chocolate" },
+      { amount: "6", unit: "oz", item: "dark chocolate" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "butter" },
       { amount: "2", unit: "", item: "eggs" },
       { amount: "2", unit: "", item: "egg yolks" },
@@ -736,9 +776,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Australian",
     image: "/lovable-uploads/dessert-pavlova.png",
     totalTime: 120,
-    tags: ["dessert", "meringue", "fruit", "elegant"],
+    tags: ["dessert", "meringue", "fruit", "elegant", "vegetarian", "glutenfree"],
     ingredients: [
-      { amount: "4", unit: "", item: "egg whites" },
+      { amount: "4", unit: "", item: "egg whites" ,
+    nutrition: { calories: 150, protein: 5, carbs: 9, fat: 7, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "sugar" },
       { amount: "1", unit: "tsp", item: "cornstarch" },
       { amount: "1", unit: "tsp", item: "white vinegar" },
@@ -765,11 +806,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 24,
     cuisine: "Middle Eastern",
-    image: "/lovable-uploads/dessert-baklava.png",
+    image: "https://i.imgur.com/LTInVnV.png",
     totalTime: 75,
-    tags: ["dessert", "nuts", "honey", "baked"],
+    tags: ["dessert", "nuts", "honey", "baked", "vegetarian", "glutenfree"],
     ingredients: [
-      { amount: "16", unit: "oz", item: "phyllo dough" },
+      { amount: "16", unit: "oz", item: "phyllo dough" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "butter, melted" },
       { amount: "3", unit: "cups", item: "chopped walnuts" },
       { amount: "1", unit: "tsp", item: "cinnamon" },
@@ -798,9 +840,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Spanish",
     image: "/lovable-uploads/dessert-churros.png",
     totalTime: 35,
-    tags: ["dessert", "fried", "cinnamon", "spanish"],
+    tags: ["dessert", "fried", "cinnamon", "spanish", "vegetarian"],
     ingredients: [
-      { amount: "1", unit: "cup", item: "water" },
+      { amount: "1", unit: "cup", item: "water" ,
+    nutrition: { calories: 150, protein: 5, carbs: 9, fat: 6, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "tbsp", item: "sugar" },
       { amount: "1/2", unit: "tsp", item: "salt" },
       { amount: "2", unit: "tbsp", item: "vegetable oil" },
@@ -828,11 +871,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Italian",
-    image: "/lovable-uploads/dessert-panna-cotta.png",
+    image: "https://i.imgur.com/IGqTYAo.png",
     totalTime: 250,
-    tags: ["dessert", "italian", "no-bake", "elegant"],
+    tags: ["dessert", "italian", "no-bake", "elegant", "vegetarian", "glutenfree"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "heavy cream" },
+      { amount: "2", unit: "cups", item: "heavy cream" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/4", unit: "cup", item: "sugar" },
       { amount: "1", unit: "tsp", item: "vanilla extract" },
       { amount: "2.5", unit: "tsp", item: "gelatin powder" },
@@ -857,11 +901,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Italian",
-    image: "/lovable-uploads/dessert-cannoli.png",
+    image: "https://i.imgur.com/ghQqpN1.png",
     totalTime: 35,
-    tags: ["dessert", "italian", "fried", "ricotta"],
+    tags: ["dessert", "italian", "fried", "ricotta", "vegetarian", "glutenfree"],
     ingredients: [
-      { amount: "12", unit: "", item: "cannoli shells" },
+      { amount: "12", unit: "", item: "cannoli shells" ,
+    nutrition: { calories: 150, protein: 5, carbs: 10, fat: 5, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "ricotta cheese" },
       { amount: "1", unit: "cup", item: "powdered sugar" },
       { amount: "1", unit: "tsp", item: "vanilla extract" },
@@ -885,12 +930,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 8,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: breadPuddingImg,
     totalTime: 60,
-    tags: ["dessert", "comfort", "baked", "warm"],
+    tags: ["dessert", "comfort", "baked", "warm", "vegetarian"],
     ingredients: [
-      { amount: "8", unit: "cups", item: "cubed bread" },
+      { amount: "8", unit: "cups", item: "cubed bread" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "4", unit: "cups", item: "milk" },
       { amount: "4", unit: "", item: "eggs" },
       { amount: "1", unit: "cup", item: "sugar" },
@@ -918,9 +964,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Latin American",
     image: "/lovable-uploads/dessert-flan.png",
     totalTime: 135,
-    tags: ["dessert", "custard", "caramel", "baked"],
+    tags: ["dessert", "custard", "caramel", "baked", "vegetarian", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "cup", item: "sugar (for caramel)" },
+      { amount: "1", unit: "cup", item: "sugar (for caramel)" ,
+    nutrition: { calories: 150, protein: 7, carbs: 14, fat: 5, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
       { amount: "5", unit: "", item: "eggs" },
       { amount: "1", unit: "can", item: "sweetened condensed milk" },
       { amount: "1", unit: "can", item: "evaporated milk" },
@@ -945,11 +992,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "hard",
     servings: 12,
     cuisine: "French",
-    image: "/lovable-uploads/dessert-eclairs.png",
+    image: "https://i.imgur.com/MKNZRKQ.png",
     totalTime: 75,
-    tags: ["dessert", "french", "pastry", "chocolate"],
+    tags: ["dessert", "french", "pastry", "chocolate", "vegetarian"],
     ingredients: [
-      { amount: "1", unit: "cup", item: "water" },
+      { amount: "1", unit: "cup", item: "water" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "butter" },
       { amount: "1", unit: "cup", item: "flour" },
       { amount: "4", unit: "", item: "eggs" },
@@ -978,9 +1026,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Latin American",
     image: "/lovable-uploads/dessert-tres-leches.png",
     totalTime: 80,
-    tags: ["dessert", "cake", "moist", "latin"],
+    tags: ["dessert", "cake", "moist", "latin", "vegetarian"],
     ingredients: [
-      { amount: "1", unit: "cup", item: "flour" },
+      { amount: "1", unit: "cup", item: "flour" ,
+    nutrition: { calories: 163, protein: 6, carbs: 10, fat: 9, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "1.5", unit: "tsp", item: "baking powder" },
       { amount: "5", unit: "", item: "eggs" },
       { amount: "1", unit: "cup", item: "sugar" },
@@ -1007,12 +1056,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "40 mins",
     difficulty: "medium",
     servings: 12,
-    cuisine: "American",
-    image: "/lovable-uploads/dessert-cinnamon-rolls.png",
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/G37PuDP.png",
     totalTime: 150,
-    tags: ["dessert", "breakfast", "baked", "cinnamon"],
+    tags: ["dessert", "breakfast", "baked", "cinnamon", "vegetarian"],
     ingredients: [
-      { amount: "3.5", unit: "cups", item: "flour" },
+      { amount: "3.5", unit: "cups", item: "flour" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/4", unit: "cup", item: "sugar" },
       { amount: "1", unit: "packet", item: "instant yeast" },
       { amount: "1", unit: "cup", item: "warm milk" },
@@ -1040,12 +1090,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 24,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: "/lovable-uploads/dessert-cookies.png",
     totalTime: 27,
     tags: ["dessert", "cookies", "chocolate"],
     ingredients: [
-      { amount: "2.25", unit: "cups", item: "flour" },
+      { amount: "2.25", unit: "cups", item: "flour" ,
+    nutrition: { calories: 180, protein: 7, carbs: 12, fat: 10, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "tsp", item: "baking soda" },
       { amount: "1", unit: "cup", item: "butter, softened" },
       { amount: "3/4", unit: "cup", item: "sugar" },
@@ -1072,12 +1123,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "easy",
     servings: 12,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: "/lovable-uploads/dessert-carrot-cake.png",
     totalTime: 55,
     tags: ["dessert", "cake", "spiced", "baked"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "flour" },
+      { amount: "2", unit: "cups", item: "flour" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "tsp", item: "baking soda" },
       { amount: "2", unit: "tsp", item: "cinnamon" },
       { amount: "1/2", unit: "tsp", item: "salt" },
@@ -1107,9 +1159,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "French",
     image: "/lovable-uploads/dessert-mousse.png",
     totalTime: 20,
-    tags: ["dessert", "chocolate", "no-bake", "elegant"],
+    tags: ["dessert", "chocolate", "no-bake", "elegant", "glutenfree"],
     ingredients: [
-      { amount: "8", unit: "oz", item: "dark chocolate" },
+      { amount: "8", unit: "oz", item: "dark chocolate" ,
+    nutrition: { calories: 193, protein: 8, carbs: 10, fat: 12, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "3", unit: "tbsp", item: "butter" },
       { amount: "3", unit: "", item: "egg yolks" },
       { amount: "1/4", unit: "cup", item: "sugar" },
@@ -1134,11 +1187,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "French",
-    image: "/lovable-uploads/dessert-profiteroles.png",
+    image: "https://i.imgur.com/R1STPqN.png",
     totalTime: 75,
     tags: ["dessert", "french", "pastry", "chocolate"],
     ingredients: [
-      { amount: "1", unit: "cup", item: "water" },
+      { amount: "1", unit: "cup", item: "water" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "butter" },
       { amount: "1", unit: "cup", item: "flour" },
       { amount: "4", unit: "", item: "eggs" },
@@ -1163,12 +1217,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 12,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: "/lovable-uploads/dessert-red-velvet.png",
     totalTime: 50,
     tags: ["dessert", "cake", "american", "baked"],
     ingredients: [
-      { amount: "2.5", unit: "cups", item: "flour" },
+      { amount: "2.5", unit: "cups", item: "flour" ,
+    nutrition: { calories: 150, protein: 6, carbs: 7, fat: 9, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1.5", unit: "cups", item: "sugar" },
       { amount: "1", unit: "tsp", item: "baking soda" },
       { amount: "1", unit: "cup", item: "buttermilk" },
@@ -1195,12 +1250,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 8,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: "/lovable-uploads/dessert-key-lime-pie.png",
     totalTime: 135,
-    tags: ["dessert", "citrus", "pie"],
+    tags: ["dessert", "citrus", "pie", "glutenfree"],
     ingredients: [
-      { amount: "1.5", unit: "cups", item: "graham cracker crumbs" },
+      { amount: "1.5", unit: "cups", item: "graham cracker crumbs" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/3", unit: "cup", item: "butter, melted" },
       { amount: "2", unit: "cans", item: "sweetened condensed milk" },
       { amount: "4", unit: "", item: "egg yolks" },
@@ -1224,12 +1280,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "5 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: bananasFosterImg,
     totalTime: 15,
-    tags: ["dessert", "fruit", "warm"],
+    tags: ["dessert", "fruit", "warm", "glutenfree"],
     ingredients: [
-      { amount: "1/4", unit: "cup", item: "butter" },
+      { amount: "1/4", unit: "cup", item: "butter" ,
+    nutrition: { calories: 150, protein: 5, carbs: 8, fat: 8, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "brown sugar" },
       { amount: "1/4", unit: "tsp", item: "cinnamon" },
       { amount: "4", unit: "", item: "bananas, sliced" },
@@ -1253,12 +1310,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 16,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: "/lovable-uploads/dessert-lemon-bars.png",
     totalTime: 55,
     tags: ["dessert", "citrus", "baked", "bars"],
     ingredients: [
-      { amount: "1", unit: "cup", item: "butter, softened" },
+      { amount: "1", unit: "cup", item: "butter, softened" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "flour" },
       { amount: "1/2", unit: "cup", item: "powdered sugar" },
       { amount: "4", unit: "", item: "eggs" },
@@ -1276,7 +1334,7 @@ export const allRecipes: Recipe[] = [
     ]
   },
 
-  // ========== HALLOWEEN RECIPES (12) ==========
+  // ========== HALLOWEEN RECIPES (14) ==========
   {
     id: "halloween-mummy-dogs",
     name: "Mummy Hot Dogs",
@@ -1286,11 +1344,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 10,
     cuisine: "Halloween",
-    image: mummyDogsImg,
+    image: "https://i.imgur.com/ZJLNEEN.png",
     totalTime: 35,
     tags: ["halloween", "party", "kids"],
     ingredients: [
-      { amount: "2", unit: "cans", item: "crescent roll dough" },
+      { amount: "2", unit: "cans", item: "crescent roll dough" ,
+    nutrition: { calories: 160, protein: 5, carbs: 9, fat: 7, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "10", unit: "", item: "hot dogs" },
       { amount: "1/4", unit: "cup", item: "mustard" },
       { amount: "20", unit: "", item: "candy eyes" },
@@ -1315,11 +1374,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 12,
     cuisine: "Halloween",
-    image: bloodyMaryEggsImg,
+    image: "https://i.imgur.com/dXoU2vr.png",
     totalTime: 35,
-    tags: ["halloween", "appetizer", "protein"],
+    tags: ["halloween", "appetizer", "protein", "glutenfree"],
     ingredients: [
-      { amount: "12", unit: "", item: "eggs" },
+      { amount: "12", unit: "", item: "eggs" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "mayonnaise" },
       { amount: "2", unit: "tbsp", item: "tomato paste" },
       { amount: "1", unit: "tbsp", item: "horseradish" },
@@ -1347,9 +1407,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Halloween",
     image: spiderPizzaImg,
     totalTime: 35,
-    tags: ["halloween", "dinner", "party"],
+    tags: ["halloween", "dinner", "party", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "pizza dough" },
+      { amount: "1", unit: "lb", item: "pizza dough" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "pizza sauce" },
       { amount: "2", unit: "cups", item: "shredded mozzarella" },
       { amount: "1/2", unit: "cup", item: "black olives" },
@@ -1375,11 +1436,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "Halloween",
-    image: graveyardCupsImg,
+    image: "https://i.imgur.com/8OLZBGO.png",
     totalTime: 20,
-    tags: ["halloween", "dessert", "kids"],
+    tags: ["halloween", "dessert", "kids", "glutenfree"],
     ingredients: [
-      { amount: "3.4", unit: "oz", item: "instant chocolate pudding mix" },
+      { amount: "3.4", unit: "oz", item: "instant chocolate pudding mix" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "cold milk" },
       { amount: "20", unit: "", item: "Oreo cookies, crushed" },
       { amount: "16", unit: "", item: "gummy worms" },
@@ -1408,9 +1470,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Halloween",
     image: monsterSmoothieImg,
     totalTime: 10,
-    tags: ["halloween", "breakfast", "healthy", "vegetarian"],
+    tags: ["halloween", "breakfast", "healthy", "vegetarian", "glutenfree"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "spinach" },
+      { amount: "2", unit: "cups", item: "spinach" ,
+    nutrition: { calories: 150, protein: 5, carbs: 8, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "", item: "frozen banana" },
       { amount: "1", unit: "cup", item: "mango chunks" },
       { amount: "1", unit: "cup", item: "almond milk" },
@@ -1436,11 +1499,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 12,
     cuisine: "Halloween",
-    image: frankensteinTreatsImg,
+    image: "https://i.imgur.com/KB7XQKN.png",
     totalTime: 25,
-    tags: ["halloween", "dessert", "kids"],
+    tags: ["halloween", "dessert", "kids", "glutenfree"],
     ingredients: [
-      { amount: "3", unit: "tbsp", item: "butter" },
+      { amount: "3", unit: "tbsp", item: "butter" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "4", unit: "cups", item: "mini marshmallows" },
       { amount: "6", unit: "cups", item: "Rice Krispies cereal" },
       { amount: "10", unit: "drops", item: "green food coloring" },
@@ -1467,11 +1531,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Halloween",
-    image: eyeballMeatballsImg,
+    image: "https://i.imgur.com/202syr1.png",
     totalTime: 45,
     tags: ["halloween", "dinner", "pasta"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "lb", item: "ground beef" ,
+    nutrition: { calories: 158, protein: 5, carbs: 12, fat: 6, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "", item: "egg" },
       { amount: "1/2", unit: "cup", item: "breadcrumbs" },
       { amount: "1", unit: "jar", item: "marinara sauce" },
@@ -1497,11 +1562,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Halloween",
-    image: pumpkinDonutsImg,
+    image: "https://i.imgur.com/OKg8xyu.png",
     totalTime: 35,
     tags: ["halloween", "dessert", "breakfast"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "flour" },
+      { amount: "2", unit: "cups", item: "flour" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "pumpkin puree" },
       { amount: "1/2", unit: "cup", item: "sugar" },
       { amount: "2", unit: "tsp", item: "baking powder" },
@@ -1535,9 +1601,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Halloween",
     image: halloweenMummyBrowniesImg,
     totalTime: 45,
-    tags: ["halloween", "dessert", "chocolate"],
+    tags: ["halloween", "dessert", "chocolate", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "box", item: "brownie mix (plus required ingredients)" },
+      { amount: "1", unit: "box", item: "brownie mix (plus required ingredients)" ,
+    nutrition: { calories: 150, protein: 6, carbs: 11, fat: 5, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "white chocolate chips" },
       { amount: "2", unit: "tbsp", item: "coconut oil" },
       { amount: "32", unit: "", item: "candy eyes" }
@@ -1561,11 +1628,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Halloween",
-    image: halloweenGhostCupcakesImg,
+    image: "https://i.imgur.com/krMyF6Q.png",
     totalTime: 50,
-    tags: ["halloween", "dessert", "cupcakes"],
+    tags: ["halloween", "dessert", "cupcakes", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "box", item: "chocolate cake mix (plus required ingredients)" },
+      { amount: "1", unit: "box", item: "chocolate cake mix (plus required ingredients)" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "buttercream frosting" },
       { amount: "1", unit: "lb", item: "white fondant" },
       { amount: "1", unit: "tube", item: "black icing gel" },
@@ -1591,9 +1659,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Halloween",
     image: halloweenSpiderWebCheesecakeImg,
     totalTime: 330,
-    tags: ["halloween", "dessert", "elegant"],
+    tags: ["halloween", "dessert", "elegant", "glutenfree"],
     ingredients: [
-      { amount: "24", unit: "", item: "Oreo cookies, crushed" },
+      { amount: "24", unit: "", item: "Oreo cookies, crushed" ,
+    nutrition: { calories: 150, protein: 5, carbs: 7, fat: 8, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "5", unit: "tbsp", item: "butter, melted" },
       { amount: "32", unit: "oz", item: "cream cheese, softened" },
       { amount: "1", unit: "cup", item: "sugar" },
@@ -1624,9 +1693,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Halloween",
     image: halloweenGraveyardCakeImg,
     totalTime: 80,
-    tags: ["halloween", "dessert", "chocolate"],
+    tags: ["halloween", "dessert", "chocolate", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "box", item: "chocolate cake mix (plus required ingredients)" },
+      { amount: "1", unit: "box", item: "chocolate cake mix (plus required ingredients)" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "3", unit: "cups", item: "chocolate buttercream" },
       { amount: "20", unit: "", item: "Oreo cookies, crushed" },
       { amount: "12", unit: "", item: "Milano cookies" },
@@ -1655,9 +1725,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Halloween",
     image: halloweenBloodyCupcakesImg,
     totalTime: 45,
-    tags: ["halloween", "dessert", "cupcakes"],
+    tags: ["halloween", "dessert", "cupcakes", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "box", item: "red velvet cake mix (plus required ingredients)" },
+      { amount: "1", unit: "box", item: "red velvet cake mix (plus required ingredients)" ,
+    nutrition: { calories: 150, protein: 5, carbs: 7, fat: 8, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "cream cheese frosting" },
       { amount: "1/4", unit: "cup", item: "red gel food coloring" },
       { amount: "2", unit: "tbsp", item: "corn syrup" }
@@ -1685,7 +1756,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 25,
     tags: ["halloween", "treats", "party food", "kids-friendly", "viral"],
     ingredients: [
-      { amount: "12", unit: "", item: "Oreo cookies" },
+      { amount: "12", unit: "", item: "Oreo cookies" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "12", unit: "", item: "Hershey's Kisses, unwrapped" },
       { amount: "1/2", unit: "cup", item: "orange frosting" },
       { amount: "2", unit: "tbsp", item: "Halloween sprinkles" }
@@ -1708,11 +1780,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 16,
     cuisine: "Halloween",
-    image: halloweenPumpkinPatchBrowniesImg,
+    image: "https://i.imgur.com/JbBPAUV.png",
     totalTime: 55,
-    tags: ["halloween", "dessert", "chocolate"],
+    tags: ["halloween", "dessert", "chocolate", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "box", item: "brownie mix (plus required ingredients)" },
+      { amount: "1", unit: "box", item: "brownie mix (plus required ingredients)" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "chocolate frosting" },
       { amount: "1", unit: "cup", item: "orange icing" },
       { amount: "1/4", unit: "cup", item: "green icing" },
@@ -1737,11 +1810,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 20,
     cuisine: "Halloween",
-    image: halloweenMonsterEyeTrufflesImg,
+    image: "https://i.imgur.com/Yo65AU3.png",
     totalTime: 105,
-    tags: ["halloween", "dessert", "chocolate", "no-bake"],
+    tags: ["halloween", "dessert", "chocolate", "no-bake", "glutenfree"],
     ingredients: [
-      { amount: "8", unit: "oz", item: "cream cheese, softened" },
+      { amount: "8", unit: "oz", item: "cream cheese, softened" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "3", unit: "cups", item: "crushed Oreos" },
       { amount: "12", unit: "oz", item: "white chocolate chips" },
       { amount: "2", unit: "tbsp", item: "coconut oil" },
@@ -1770,9 +1844,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Halloween",
     image: halloweenCandyCornFudgeImg,
     totalTime: 140,
-    tags: ["halloween", "dessert", "no-bake"],
+    tags: ["halloween", "dessert", "no-bake", "glutenfree"],
     ingredients: [
-      { amount: "3", unit: "cups", item: "white chocolate chips" },
+      { amount: "3", unit: "cups", item: "white chocolate chips" ,
+    nutrition: { calories: 163, protein: 6, carbs: 7, fat: 10, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "14", unit: "oz", item: "sweetened condensed milk" },
       { amount: "1", unit: "tsp", item: "vanilla extract" },
       { amount: "15", unit: "drops", item: "yellow food coloring" },
@@ -1800,9 +1875,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Halloween",
     image: halloweenCandyCornTreatsImg,
     totalTime: 35,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral"],
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "glutenfree"],
     ingredients: [
-      { amount: "6", unit: "cups", item: "Rice Krispies cereal" },
+      { amount: "6", unit: "cups", item: "Rice Krispies cereal" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "3", unit: "cups", item: "mini marshmallows" },
       { amount: "3", unit: "tbsp", item: "butter" },
       { amount: "10", unit: "drops", item: "yellow food coloring" },
@@ -1827,11 +1903,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "Halloween",
-    image: halloweenMonsterCookieDipImg,
+    image: "https://i.imgur.com/4lT20FX.png",
     totalTime: 10,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake"],
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake", "glutenfree"],
     ingredients: [
-      { amount: "8", unit: "oz", item: "cream cheese, softened" },
+      { amount: "8", unit: "oz", item: "cream cheese, softened" ,
+    nutrition: { calories: 158, protein: 5, carbs: 12, fat: 6, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "butter, softened" },
       { amount: "3/4", unit: "cup", item: "brown sugar" },
       { amount: "1", unit: "tsp", item: "vanilla extract" },
@@ -1862,9 +1939,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Halloween",
     image: halloweenGhostStrawberriesImg,
     totalTime: 20,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake"],
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake", "glutenfree"],
     ingredients: [
-      { amount: "12", unit: "", item: "large strawberries, washed and dried" },
+      { amount: "12", unit: "", item: "large strawberries, washed and dried" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "white chocolate chips" },
       { amount: "1", unit: "tbsp", item: "coconut oil" },
       { amount: "1/4", unit: "cup", item: "mini chocolate chips for faces" }
@@ -1890,9 +1968,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Halloween",
     image: halloweenEyeballCakePopsImg,
     totalTime: 55,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral"],
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "box", item: "white cake mix (plus required ingredients)" },
+      { amount: "1", unit: "box", item: "white cake mix (plus required ingredients)" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 7, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "vanilla frosting" },
       { amount: "2", unit: "cups", item: "white candy melts" },
       { amount: "12", unit: "", item: "lollipop sticks" },
@@ -1919,11 +1998,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 10,
     cuisine: "Halloween",
-    image: halloweenPumpkinMuddyBuddiesImg,
+    image: "https://i.imgur.com/tapajlR.png",
     totalTime: 20,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral"],
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "glutenfree"],
     ingredients: [
-      { amount: "6", unit: "cups", item: "Rice Chex cereal" },
+      { amount: "6", unit: "cups", item: "Rice Chex cereal" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "white chocolate chips" },
       { amount: "2", unit: "tbsp", item: "pumpkin spice" },
       { amount: "10", unit: "drops", item: "orange food coloring" },
@@ -1952,9 +2032,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Halloween",
     image: halloweenCandyBarkImg,
     totalTime: 20,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake"],
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake", "glutenfree"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "dark chocolate chips" },
+      { amount: "2", unit: "cups", item: "dark chocolate chips" ,
+    nutrition: { calories: 150, protein: 5, carbs: 15, fat: 3, fiber: 2, sugar: 5, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "white chocolate chips" },
       { amount: "1", unit: "cup", item: "candy corn" },
       { amount: "1/2", unit: "cup", item: "orange M&Ms" },
@@ -1982,9 +2063,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Halloween",
     image: halloweenBloodyJelloImg,
     totalTime: 255,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake"],
+    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake", "glutenfree"],
     ingredients: [
-      { amount: "4", unit: "envelopes", item: "unflavored gelatin" },
+      { amount: "4", unit: "envelopes", item: "unflavored gelatin" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "4", unit: "cups", item: "water" },
       { amount: "1/2", unit: "cup", item: "sugar" },
       { amount: "1/4", unit: "tsp", item: "vanilla extract" },
@@ -2009,11 +2091,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 12,
     cuisine: "Halloween",
-    image: halloweenMummyJalapenoImg,
+    image: "https://i.imgur.com/YI9B8yZ.png",
     totalTime: 45,
     tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
     ingredients: [
-      { amount: "12", unit: "", item: "large jalapeños, halved and seeded" },
+      { amount: "12", unit: "", item: "large jalapeños, halved and seeded" ,
+    nutrition: { calories: 150, protein: 5, carbs: 9, fat: 3, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "8", unit: "oz", item: "cream cheese, softened" },
       { amount: "1", unit: "cup", item: "shredded cheddar cheese" },
       { amount: "1", unit: "can", item: "crescent roll dough" },
@@ -2039,11 +2122,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 12,
     cuisine: "Halloween",
-    image: halloweenPumpkinCheeseBallImg,
+    image: "https://i.imgur.com/Rsqhru3.png",
     totalTime: 150,
-    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
+    tags: ["halloween", "savory", "appetizer", "party food", "spooky", "glutenfree"],
     ingredients: [
-      { amount: "16", unit: "oz", item: "cream cheese, softened" },
+      { amount: "16", unit: "oz", item: "cream cheese, softened" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "shredded sharp cheddar cheese" },
       { amount: "1/4", unit: "cup", item: "ranch dressing mix" },
       { amount: "1/2", unit: "tsp", item: "paprika" },
@@ -2071,11 +2155,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 10,
     cuisine: "Halloween",
-    image: halloweenGraveyardTacoDipImg,
+    image: "https://i.imgur.com/sLWddy2.png",
     totalTime: 35,
     tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "lb", item: "ground beef" ,
+    nutrition: { calories: 150, protein: 6, carbs: 7, fat: 7, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "can", item: "refried beans" },
       { amount: "1", unit: "cup", item: "sour cream" },
       { amount: "1", unit: "cup", item: "shredded cheese" },
@@ -2105,11 +2190,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 12,
     cuisine: "Halloween",
-    image: halloweenEyeballCapreseImg,
+    image: "https://i.imgur.com/LR0nyaX.png",
     totalTime: 25,
-    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
+    tags: ["halloween", "savory", "appetizer", "party food", "spooky", "glutenfree"],
     ingredients: [
-      { amount: "12", unit: "", item: "cherry tomatoes" },
+      { amount: "12", unit: "", item: "cherry tomatoes" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "12", unit: "", item: "fresh mozzarella balls (bocconcini)" },
       { amount: "12", unit: "", item: "fresh basil leaves" },
       { amount: "12", unit: "", item: "black olive slices" },
@@ -2136,11 +2222,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "Halloween",
-    image: halloweenPumpkinHummusImg,
+    image: "https://i.imgur.com/GcyfLcX.png",
     totalTime: 15,
-    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
+    tags: ["halloween", "savory", "appetizer", "party food", "spooky", "vegan", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "can", item: "chickpeas, drained" },
+      { amount: "1", unit: "can", item: "chickpeas, drained" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "roasted red peppers" },
       { amount: "3", unit: "tbsp", item: "tahini" },
       { amount: "2", unit: "tbsp", item: "olive oil" },
@@ -2173,7 +2260,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 50,
     tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
     ingredients: [
-      { amount: "3", unit: "lbs", item: "chicken wings" },
+      { amount: "3", unit: "lbs", item: "chicken wings" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/4", unit: "cup", item: "soy sauce" },
       { amount: "2", unit: "tbsp", item: "black sesame seeds" },
       { amount: "2", unit: "tbsp", item: "honey" },
@@ -2201,11 +2289,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "Halloween",
-    image: halloweenFrankensteinGuacamoleImg,
+    image: "https://i.imgur.com/jikZbJ1.png",
     totalTime: 25,
-    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
+    tags: ["halloween", "savory", "appetizer", "party food", "spooky", "vegan", "vegetarian", "glutenfree"],
     ingredients: [
-      { amount: "4", unit: "", item: "ripe avocados" },
+      { amount: "4", unit: "", item: "ripe avocados" ,
+    nutrition: { calories: 163, protein: 11, carbs: 12, fat: 4, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
       { amount: "1/4", unit: "cup", item: "lime juice" },
       { amount: "1/4", unit: "cup", item: "diced red onion" },
       { amount: "1/4", unit: "cup", item: "cilantro, chopped" },
@@ -2237,9 +2326,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Halloween",
     image: poisonAppleImg,
     totalTime: 5,
-    tags: ["halloween", "cocktail", "party"],
+    tags: ["halloween", "cocktail", "party", "glutenfree"],
     ingredients: [
-      { amount: "2", unit: "oz", item: "vodka" },
+      { amount: "2", unit: "oz", item: "vodka" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "oz", item: "apple liqueur" },
       { amount: "1", unit: "oz", item: "melon liqueur" },
       { amount: "1", unit: "oz", item: "lime juice" },
@@ -2256,6 +2346,92 @@ export const allRecipes: Recipe[] = [
       "Optional: Add small piece of dry ice for fog effect (never consume dry ice)."
     ]
   },
+  {
+    id: "halloween-jack-o-lantern-peppers",
+    name: "Jack-O-Lantern Stuffed Peppers",
+    description: "Orange bell peppers carved with spooky faces and stuffed with savory filling. Festive Halloween dinner!",
+    cookTime: "40 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Halloween",
+    image: "https://i.imgur.com/1UFaACv.png",
+    totalTime: 55,
+    tags: ["halloween", "dinner", "savory", "party food", "kid-friendly", "glutenfree"],
+    nutrition: {
+      calories: 320,
+      protein: 24,
+      carbs: 28,
+      fat: 12,
+      fiber: 4,
+      sugar: 6,
+      servingSize: "1 stuffed pepper"
+    },
+    ingredients: [
+      { amount: "6", unit: "", item: "large orange bell peppers" },
+      { amount: "1", unit: "lb", item: "ground beef or turkey" },
+      { amount: "1½", unit: "cups", item: "cooked rice" },
+      { amount: "1", unit: "can", item: "diced tomatoes (14 oz)" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "2", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "cup", item: "shredded cheese" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "", unit: "", item: "Salt and pepper to taste" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Cut tops off peppers and remove seeds.",
+      "Use small knife to carefully carve jack-o-lantern faces into peppers (triangles for eyes and nose, jagged smile).",
+      "Brown meat with onion and garlic in large skillet over medium heat.",
+      "Mix cooked meat with rice, diced tomatoes, Italian seasoning, salt, and pepper.",
+      "Stuff peppers with mixture, packing firmly.",
+      "Place stuffed peppers upright in baking dish.",
+      "Top each pepper with shredded cheese.",
+      "Bake 30-35 minutes until peppers are tender and cheese melts.",
+      "Let cool 5 minutes before serving. Spooky and delicious!"
+    ]
+  },
+  {
+    id: "halloween-witch-finger-breadsticks",
+    name: "Witch Finger Breadsticks",
+    description: "Creepy breadstick fingers with almond 'fingernails' and bloody tips. Perfectly spooky appetizer!",
+    cookTime: "20 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 20,
+    cuisine: "Halloween",
+    image: "https://i.imgur.com/MrISqTG.png",
+    totalTime: 25,
+    tags: ["halloween", "appetizer", "savory", "party food", "kid-friendly", "viral"],
+    nutrition: {
+      calories: 70,
+      protein: 2,
+      carbs: 10,
+      fat: 2,
+      fiber: 0,
+      sugar: 1,
+      servingSize: "1 breadstick"
+    },
+    ingredients: [
+      { amount: "1", unit: "tube", item: "refrigerated breadstick dough (or pizza dough)" },
+      { amount: "20", unit: "", item: "whole almonds" },
+      { amount: "2", unit: "tbsp", item: "melted butter" },
+      { amount: "1", unit: "tsp", item: "garlic powder" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "", unit: "", item: "Red food coloring or raspberry jam for 'blood'" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F. Line baking sheet with parchment paper.",
+      "Separate breadstick dough into strips.",
+      "Roll each strip to make finger shape, slightly wider at one end for fingertip.",
+      "Make 3 small horizontal cuts at 'knuckle' areas along each breadstick.",
+      "Press almond slice into wider end for 'fingernail'.",
+      "Mix melted butter with garlic powder and Italian seasoning.",
+      "Brush each breadstick with seasoned butter.",
+      "Bake 12-15 minutes until golden brown.",
+      "Add tiny drop of red food coloring or raspberry jam at base of each fingernail for 'blood' effect.",
+      "Serve warm. Creepy and delicious!"
+    ]
+  },
 
   // ========== RESTAURANT COPYCATS (18) ==========
   {
@@ -2269,7 +2445,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Mexican",
     image: burritoBowlImg,
     totalTime: 45,
-    tags: ["copycat", "mexican", "healthy", "protein"],
+    tags: ["copycat", "mexican", "healthy", "protein", "glutenfree"],
     nutrition: {
       calories: 650,
       protein: 38,
@@ -2310,7 +2486,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Italian",
-    image: alfredoImg,
+    image: "https://i.imgur.com/rROwWTF.jpeg",
     totalTime: 30,
     tags: ["copycat", "italian", "pasta", "comfort"],
     nutrition: {
@@ -2350,11 +2526,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Mexican",
-    image: crunchwrapImg,
+    image: "https://i.imgur.com/JHyp64J.jpeg",
     totalTime: 35,
     tags: ["copycat", "mexican", "fast-food"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "lb", item: "ground beef" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "packet", item: "taco seasoning" },
       { amount: "4", unit: "large", item: "flour tortillas" },
       { amount: "4", unit: "", item: "tostada shells" },
@@ -2384,11 +2561,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Asian Fusion",
-    image: avocadoRollsImg,
+    image: "https://i.imgur.com/u1wqedY.jpeg",
     totalTime: 35,
     tags: ["copycat", "appetizer", "vegetarian"],
     ingredients: [
-      { amount: "3", unit: "", item: "ripe avocados" },
+      { amount: "3", unit: "", item: "ripe avocados" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "sun-dried tomatoes, chopped" },
       { amount: "1/4", unit: "cup", item: "red onion, diced" },
       { amount: "1/4", unit: "cup", item: "cilantro, chopped" },
@@ -2416,12 +2594,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "30 mins",
     difficulty: "hard",
     servings: 4,
-    cuisine: "American",
-    image: bloominOnionImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/VivkKhF.jpeg",
     totalTime: 45,
     tags: ["copycat", "appetizer", "fried"],
     ingredients: [
-      { amount: "1", unit: "large", item: "sweet onion" },
+      { amount: "1", unit: "large", item: "sweet onion" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 7, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "flour" },
       { amount: "1", unit: "tbsp", item: "paprika" },
       { amount: "1", unit: "tbsp", item: "cayenne pepper" },
@@ -2452,12 +2631,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: broccoliSoupImg,
     totalTime: 40,
     tags: ["copycat", "soup", "vegetarian", "comfort"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "broccoli florets" },
+      { amount: "1", unit: "lb", item: "broccoli florets" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "butter" },
       { amount: "1", unit: "medium", item: "onion, diced" },
       { amount: "1/4", unit: "cup", item: "flour" },
@@ -2486,11 +2666,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Asian",
-    image: lettuceWrapsImg,
+    image: "https://i.imgur.com/cPUiLpn.jpeg",
     totalTime: 30,
     tags: ["copycat", "asian", "healthy", "appetizer"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "ground chicken" },
+      { amount: "1", unit: "lb", item: "ground chicken" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 6, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "can", item: "water chestnuts, diced" },
       { amount: "3", unit: "tbsp", item: "soy sauce" },
       { amount: "2", unit: "tbsp", item: "hoisin sauce" },
@@ -2520,12 +2701,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 12,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: cheddarBiscuitsImg,
     totalTime: 25,
-    tags: ["copycat", "bread", "side", "vegetarian"],
+    tags: ["copycat", "bread", "side", "vegetarian", "glutenfree"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "Bisquick mix" },
+      { amount: "2", unit: "cups", item: "Bisquick mix" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "shredded cheddar" },
       { amount: "2/3", unit: "cup", item: "milk" },
       { amount: "1/2", unit: "cup", item: "melted butter" },
@@ -2551,12 +2733,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "90 mins",
     difficulty: "medium",
     servings: 24,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: roadhouseRollsImg,
     totalTime: 105,
     tags: ["copycat", "bread", "side"],
     ingredients: [
-      { amount: "1", unit: "cup", item: "warm milk" },
+      { amount: "1", unit: "cup", item: "warm milk" ,
+    nutrition: { calories: 150, protein: 5, carbs: 8, fat: 6, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "tbsp", item: "active dry yeast" },
       { amount: "1/3", unit: "cup", item: "sugar" },
       { amount: "1", unit: "", item: "egg" },
@@ -2590,9 +2773,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Mexican",
     image: cornSalsaImg,
     totalTime: 15,
-    tags: ["copycat", "mexican", "vegan", "side"],
+    tags: ["copycat", "mexican", "vegan", "side", "glutenfree"],
     ingredients: [
-      { amount: "3", unit: "cups", item: "frozen corn, thawed" },
+      { amount: "3", unit: "cups", item: "frozen corn, thawed" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "red onion, finely diced" },
       { amount: "1", unit: "", item: "jalapeño, seeded and minced" },
       { amount: "1/4", unit: "cup", item: "cilantro, chopped" },
@@ -2615,12 +2799,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 12,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: eggBitesImg,
     totalTime: 40,
-    tags: ["copycat", "protein", "keto"],
+    tags: ["copycat", "protein", "keto", "glutenfree"],
     ingredients: [
-      { amount: "8", unit: "", item: "eggs" },
+      { amount: "8", unit: "", item: "eggs" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "cottage cheese" },
       { amount: "1", unit: "cup", item: "shredded cheese" },
       { amount: "1/2", unit: "cup", item: "cooked bacon, crumbled" },
@@ -2646,12 +2831,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 10,
-    cuisine: "American",
-    image: hashbrownCasseroleImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/wjoyn9U.jpeg",
     totalTime: 60,
-    tags: ["copycat", "side", "comfort", "vegetarian"],
+    tags: ["copycat", "side", "comfort", "vegetarian", "glutenfree"],
     ingredients: [
-      { amount: "2", unit: "lbs", item: "frozen shredded hashbrowns, thawed" },
+      { amount: "2", unit: "lbs", item: "frozen shredded hashbrowns, thawed" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "can", item: "cream of chicken soup" },
       { amount: "2", unit: "cups", item: "sour cream" },
       { amount: "2", unit: "cups", item: "shredded cheddar" },
@@ -2677,12 +2863,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
-    image: mcgriddlesImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/tM3AbuP.jpeg",
     totalTime: 35,
-    tags: ["copycat", "fast-food"],
+    tags: ["copycat", "fast-food", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "cup", item: "pancake mix" },
+      { amount: "1", unit: "cup", item: "pancake mix" ,
+    nutrition: { calories: 180, protein: 11, carbs: 7, fat: 8, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "3/4", unit: "cup", item: "water" },
       { amount: "1/4", unit: "cup", item: "maple syrup" },
       { amount: "4", unit: "", item: "sausage patties" },
@@ -2711,7 +2898,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 45,
     tags: ["copycat", "italian", "comfort"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "lb", item: "ground beef" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "breadcrumbs" },
       { amount: "1", unit: "", item: "egg" },
       { amount: "1/4", unit: "cup", item: "parmesan" },
@@ -2738,12 +2926,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: animalFriesImg,
     totalTime: 40,
-    tags: ["copycat", "fast-food", "side"],
+    tags: ["copycat", "fast-food", "side", "glutenfree"],
     ingredients: [
-      { amount: "2", unit: "lbs", item: "frozen french fries" },
+      { amount: "2", unit: "lbs", item: "frozen french fries" ,
+    nutrition: { calories: 188, protein: 13, carbs: 10, fat: 7, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "large", item: "onion, sliced" },
       { amount: "8", unit: "slices", item: "American cheese" },
       { amount: "1/2", unit: "cup", item: "mayo" },
@@ -2770,12 +2959,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: chickenSandwichImg,
     totalTime: 35,
     tags: ["copycat", "fast-food"],
     ingredients: [
-      { amount: "4", unit: "", item: "chicken breasts" },
+      { amount: "4", unit: "", item: "chicken breasts" ,
+    nutrition: { calories: 150, protein: 11, carbs: 8, fat: 5, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "pickle juice" },
       { amount: "1", unit: "cup", item: "flour" },
       { amount: "2", unit: "tbsp", item: "powdered sugar" },
@@ -2808,9 +2998,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Restaurant Copycats",
     image: copycatMcDonaldsBigMacSauceImg,
     totalTime: 5,
-    tags: ["copycat", "restaurant", "viral", "mcdonalds", "sauce"],
+    tags: ["copycat", "restaurant", "viral", "mcdonalds", "sauce", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "cup", item: "mayonnaise" },
+      { amount: "1", unit: "cup", item: "mayonnaise" ,
+    nutrition: { calories: 206, protein: 12, carbs: 13, fat: 9, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "tbsp", item: "French dressing" },
       { amount: "4", unit: "tsp", item: "sweet pickle relish" },
       { amount: "1", unit: "tbsp", item: "finely minced white onion" },
@@ -2838,7 +3029,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Restaurant Copycats",
     image: copycatStarbucksPinkDrinkImg,
     totalTime: 10,
-    tags: ["copycat", "restaurant", "viral", "starbucks", "beverage"],
+    tags: ["copycat", "restaurant", "viral", "starbucks", "beverage", "glutenfree"],
+    nutrition: {
+      calories: 140,
+      protein: 1,
+      carbs: 29,
+      fat: 3,
+      fiber: 2,
+      sugar: 24,
+      servingSize: "1 grande (16 oz)"
+    },
     ingredients: [
       { amount: "3", unit: "cups", item: "white grape juice" },
       { amount: "1", unit: "cup", item: "frozen strawberries" },
@@ -2866,9 +3066,18 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Restaurant Copycats",
-    image: copycatRaisingCanesChickenFingersImg,
+    image: "https://i.imgur.com/XXVcldG.png",
     totalTime: 35,
     tags: ["copycat", "restaurant", "viral", "raising-canes", "chicken"],
+    nutrition: {
+      calories: 390,
+      protein: 42,
+      carbs: 28,
+      fat: 12,
+      fiber: 1,
+      sugar: 2,
+      servingSize: "1 serving (3-4 tenders)"
+    },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "chicken tenderloins" },
       { amount: "2", unit: "cups", item: "buttermilk" },
@@ -2901,7 +3110,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Restaurant Copycats",
     image: copycatRaisingCanesSauceImg,
     totalTime: 5,
-    tags: ["copycat", "restaurant", "viral", "raising-canes", "sauce"],
+    tags: ["copycat", "restaurant", "viral", "raising-canes", "sauce", "glutenfree"],
+    nutrition: {
+      calories: 95,
+      protein: 0,
+      carbs: 3,
+      fat: 9,
+      fiber: 0,
+      sugar: 2,
+      servingSize: "2 tbsp"
+    },
     ingredients: [
       { amount: "1/2", unit: "cup", item: "mayonnaise" },
       { amount: "1/4", unit: "cup", item: "ketchup" },
@@ -2931,6 +3149,15 @@ export const allRecipes: Recipe[] = [
     image: copycatPandaExpressOrangeChickenImg,
     totalTime: 35,
     tags: ["copycat", "restaurant", "viral", "panda-express", "chinese"],
+    nutrition: {
+      calories: 490,
+      protein: 28,
+      carbs: 62,
+      fat: 14,
+      fiber: 1,
+      sugar: 22,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "boneless chicken thighs, cubed" },
       { amount: "1", unit: "cup", item: "cornstarch" },
@@ -2967,7 +3194,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Restaurant Copycats",
     image: copycatKfcColeslawImg,
     totalTime: 15,
-    tags: ["copycat", "restaurant", "viral", "kfc", "side-dish"],
+    tags: ["copycat", "restaurant", "viral", "kfc", "side-dish", "glutenfree"],
+    nutrition: {
+      calories: 170,
+      protein: 1,
+      carbs: 14,
+      fat: 13,
+      fiber: 2,
+      sugar: 12,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "8", unit: "cups", item: "finely shredded cabbage" },
       { amount: "1/4", unit: "cup", item: "shredded carrot" },
@@ -2999,9 +3235,18 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Restaurant Copycats",
-    image: copycatApplebeesQuesadillaBurgerImg,
+    image: "https://i.imgur.com/FVjy3ls.jpeg",
     totalTime: 35,
     tags: ["copycat", "restaurant", "viral", "applebees", "burger"],
+    nutrition: {
+      calories: 720,
+      protein: 42,
+      carbs: 46,
+      fat: 42,
+      fiber: 2,
+      sugar: 4,
+      servingSize: "1 burger"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "ground beef" },
       { amount: "8", unit: "", item: "flour tortillas (8-inch)" },
@@ -3035,7 +3280,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Restaurant Copycats",
     image: copycatSonicCherryLimeadeImg,
     totalTime: 5,
-    tags: ["copycat", "restaurant", "viral", "sonic", "beverage"],
+    tags: ["copycat", "restaurant", "viral", "sonic", "beverage", "glutenfree"],
+    nutrition: {
+      calories: 150,
+      protein: 0,
+      carbs: 38,
+      fat: 0,
+      fiber: 0,
+      sugar: 36,
+      servingSize: "1 glass (16 oz)"
+    },
     ingredients: [
       { amount: "1/2", unit: "cup", item: "fresh lime juice" },
       { amount: "1/2", unit: "cup", item: "cherry syrup (or grenadine)" },
@@ -3064,9 +3318,18 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Restaurant Copycats",
-    image: copycatOliveGardenBreadsticksNewImg,
+    image: "https://i.imgur.com/BMLXMDN.jpeg",
     totalTime: 105,
     tags: ["copycat", "restaurant", "viral", "olive-garden", "bread"],
+    nutrition: {
+      calories: 140,
+      protein: 4,
+      carbs: 25,
+      fat: 3,
+      fiber: 1,
+      sugar: 2,
+      servingSize: "1 breadstick"
+    },
     ingredients: [
       { amount: "1", unit: "cup", item: "warm water" },
       { amount: "2", unit: "tbsp", item: "sugar" },
@@ -3104,6 +3367,15 @@ export const allRecipes: Recipe[] = [
     image: copycatShakeShackBurgerImg,
     totalTime: 25,
     tags: ["copycat", "restaurant", "viral", "shake-shack", "burger"],
+    nutrition: {
+      calories: 610,
+      protein: 32,
+      carbs: 34,
+      fat: 38,
+      fiber: 2,
+      sugar: 6,
+      servingSize: "1 burger"
+    },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "ground beef (80/20)" },
       { amount: "4", unit: "", item: "potato hamburger buns" },
@@ -3142,7 +3414,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Restaurant Copycats",
     image: copycatFiveGuysCajunFriesImg,
     totalTime: 30,
-    tags: ["copycat", "restaurant", "viral", "five-guys", "side-dish"],
+    tags: ["copycat", "restaurant", "viral", "five-guys", "side-dish", "glutenfree"],
+    nutrition: {
+      calories: 420,
+      protein: 5,
+      carbs: 58,
+      fat: 20,
+      fiber: 5,
+      sugar: 2,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "4", unit: "large", item: "russet potatoes" },
       { amount: "8", unit: "cups", item: "peanut oil for frying" },
@@ -3179,7 +3460,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Restaurant Copycats",
     image: copycatChickFilAChickenMinisImg,
     totalTime: 40,
-    tags: ["copycat", "restaurant", "viral", "chick-fil-a", "breakfast"],
+    tags: ["copycat", "restaurant", "viral", "chick-fil-a"],
+    nutrition: {
+      calories: 350,
+      protein: 24,
+      carbs: 36,
+      fat: 12,
+      fiber: 2,
+      sugar: 6,
+      servingSize: "3 minis"
+    },
     ingredients: [
       { amount: "12", unit: "", item: "frozen yeast dinner rolls" },
       { amount: "1", unit: "lb", item: "chicken breast tenderloins" },
@@ -3218,7 +3508,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Restaurant Copycats",
     image: copycatOliveGardenZuppaToscanaImg,
     totalTime: 45,
-    tags: ["copycat", "restaurant", "viral", "olive-garden", "soup"],
+    tags: ["copycat", "restaurant", "viral", "olive-garden", "soup", "glutenfree"],
+    nutrition: {
+      calories: 320,
+      protein: 14,
+      carbs: 22,
+      fat: 20,
+      fiber: 3,
+      sugar: 3,
+      servingSize: "1 bowl"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "Italian sausage" },
       { amount: "6", unit: "slices", item: "bacon, chopped" },
@@ -3257,7 +3556,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Restaurant Copycats",
     image: copycatChipotleGuacamoleImg,
     totalTime: 10,
-    tags: ["copycat", "restaurant", "viral", "chipotle", "appetizer"],
+    tags: ["copycat", "restaurant", "viral", "chipotle", "appetizer", "glutenfree"],
+    nutrition: {
+      calories: 120,
+      protein: 2,
+      carbs: 7,
+      fat: 11,
+      fiber: 5,
+      sugar: 1,
+      servingSize: "1/4 cup"
+    },
     ingredients: [
       { amount: "4", unit: "ripe", item: "avocados" },
       { amount: "1/4", unit: "cup", item: "diced red onion" },
@@ -3289,6 +3597,15 @@ export const allRecipes: Recipe[] = [
     image: copycatAuntieAnnesPretzelBitesImg,
     totalTime: 105,
     tags: ["copycat", "restaurant", "viral", "auntie-annes", "snack"],
+    nutrition: {
+      calories: 310,
+      protein: 8,
+      carbs: 54,
+      fat: 7,
+      fiber: 2,
+      sugar: 5,
+      servingSize: "1 serving (10 bites)"
+    },
     ingredients: [
       { amount: "1.5", unit: "cups", item: "warm water" },
       { amount: "2", unit: "tbsp", item: "sugar" },
@@ -3325,7 +3642,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Restaurant Copycats",
     image: copycatChilisSkilletQuesoImg,
     totalTime: 25,
-    tags: ["copycat", "restaurant", "viral", "chilis", "appetizer"],
+    tags: ["copycat", "restaurant", "viral", "chilis", "appetizer", "glutenfree"],
+    nutrition: {
+      calories: 280,
+      protein: 15,
+      carbs: 6,
+      fat: 22,
+      fiber: 1,
+      sugar: 3,
+      servingSize: "1/2 cup"
+    },
     ingredients: [
       { amount: "1/2", unit: "lb", item: "ground beef" },
       { amount: "1", unit: "lb", item: "white American cheese, cubed" },
@@ -3359,6 +3685,15 @@ export const allRecipes: Recipe[] = [
     image: copycatTacoBellMexicanPizzaImg,
     totalTime: 35,
     tags: ["copycat", "restaurant", "viral", "taco-bell", "main-dish"],
+    nutrition: {
+      calories: 540,
+      protein: 26,
+      carbs: 48,
+      fat: 26,
+      fiber: 6,
+      sugar: 4,
+      servingSize: "1 pizza"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "ground beef" },
       { amount: "1", unit: "packet", item: "taco seasoning" },
@@ -3393,9 +3728,9 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Restaurant Copycats",
-    image: chickenSandwichImg,
+    image: "https://i.imgur.com/a4SB9L0.jpeg",
     totalTime: 25,
-    tags: ["copycat", "restaurant", "panera", "sandwich", "lunch"],
+    tags: ["copycat", "restaurant", "panera"],
     nutrition: {
       calories: 520,
       protein: 38,
@@ -3437,7 +3772,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Restaurant Copycats",
-    image: tuscanChickenPastaImg,
+    image: "https://i.imgur.com/4svN47X.png",
     totalTime: 40,
     tags: ["copycat", "restaurant", "olive-garden", "pasta", "dinner"],
     nutrition: {
@@ -3483,7 +3818,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Restaurant Copycats",
     image: pumpkinBananaBreadImg,
     totalTime: 80,
-    tags: ["copycat", "restaurant", "starbucks", "breakfast", "baking"],
+    tags: ["copycat", "restaurant", "starbucks", "baking"],
     nutrition: {
       calories: 310,
       protein: 4,
@@ -3529,7 +3864,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "Restaurant Copycats",
-    image: chickenSandwichImg,
+    image: "https://i.imgur.com/EeqqSpJ.jpeg",
     totalTime: 50,
     tags: ["copycat", "restaurant", "kfc", "chicken", "dinner"],
     nutrition: {
@@ -3576,9 +3911,9 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "Restaurant Copycats",
-    image: chiliMacCheeseImg,
+    image: "https://i.imgur.com/qu9AiJk.jpeg",
     totalTime: 135,
-    tags: ["copycat", "restaurant", "wendys", "soup", "comfort-food"],
+    tags: ["copycat", "restaurant", "wendys", "soup", "comfort-food", "glutenfree"],
     nutrition: {
       calories: 280,
       protein: 22,
@@ -3615,46 +3950,6 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
-    id: "copycat-mcdonalds-egg-mcmuffin",
-    name: "McDonald's Egg McMuffin",
-    description: "Classic breakfast sandwich with egg, Canadian bacon, and American cheese.",
-    cookTime: "10 mins",
-    prepTime: "5 mins",
-    difficulty: "easy",
-    servings: 4,
-    cuisine: "Restaurant Copycats",
-    image: eggBitesImg,
-    totalTime: 15,
-    tags: ["copycat", "restaurant", "mcdonalds", "breakfast", "sandwich"],
-    nutrition: {
-      calories: 300,
-      protein: 18,
-      carbs: 30,
-      fat: 12,
-      fiber: 2,
-      sugar: 3,
-      servingSize: "1 sandwich"
-    },
-    ingredients: [
-      { amount: "4", unit: "", item: "English muffins" },
-      { amount: "4", unit: "", item: "eggs" },
-      { amount: "4", unit: "slices", item: "Canadian bacon" },
-      { amount: "4", unit: "slices", item: "American cheese" },
-      { amount: "1", unit: "tbsp", item: "butter" },
-      { amount: "Cooking", unit: "", item: "spray" }
-    ],
-    instructions: [
-      "Toast [4 English muffins] until golden.",
-      "Heat Canadian bacon slices in pan until lightly browned.",
-      "Spray 4 mason jar rings or round cookie cutters with cooking spray.",
-      "Place rings in buttered pan. Crack [1 egg] into each ring.",
-      "Cover pan and cook over medium-low 3-4 minutes until whites are set.",
-      "Top each egg with [1 cheese slice], cover 30 seconds to melt.",
-      "Assemble: muffin bottom, Canadian bacon, cheesy egg, muffin top.",
-      "Serve immediately while hot!"
-    ]
-  },
-  {
     id: "copycat-panda-express-fried-rice",
     name: "Panda Express Fried Rice",
     description: "Restaurant-style fried rice with eggs, peas, carrots, and soy sauce.",
@@ -3663,7 +3958,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Restaurant Copycats",
-    image: friedRiceImg,
+    image: "https://i.imgur.com/tDN2DYm.jpeg",
     totalTime: 20,
     tags: ["copycat", "restaurant", "panda-express", "rice", "side-dish"],
     nutrition: {
@@ -3707,9 +4002,9 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Restaurant Copycats",
-    image: autumnHarvestSaladImg,
+    image: "https://i.imgur.com/9e1lGi7.jpeg",
     totalTime: 15,
-    tags: ["copycat", "restaurant", "olive-garden", "salad", "side-dish"],
+    tags: ["copycat", "restaurant", "olive-garden", "side-dish", "vegetarian"],
     nutrition: {
       calories: 150,
       protein: 3,
@@ -3750,7 +4045,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Restaurant Copycats",
-    image: lemonGarlicShrimpImg,
+    image: "https://i.imgur.com/ul03Eq5.jpeg",
     totalTime: 30,
     tags: ["copycat", "restaurant", "red-lobster", "seafood", "appetizer"],
     nutrition: {
@@ -3795,8 +4090,8 @@ export const allRecipes: Recipe[] = [
     prepTime: "5 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "American",
-    image: honeyGarlicChickenImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/MyJgx99.png",
     totalTime: 30,
     tags: ["quick", "dinner", "one-pan", "protein"],
     nutrition: {
@@ -3837,8 +4132,9 @@ export const allRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Quick and Easy",
     image: shrimpStirfryImg,
+    imageUrl: "https://i.imgur.com/laMTVMu.png",
     totalTime: 15,
-    tags: ["quick", "asian", "protein", "healthy"],
+    tags: ["quick", "asian", "protein", "seafood"],
     nutrition: {
       calories: 280,
       protein: 26,
@@ -3880,7 +4176,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Dinner",
     image: lemonSalmonImg,
     totalTime: 20,
-    tags: ["quick", "healthy", "protein", "one-pan"],
+    tags: ["seafood", "protein", "one-pan", "dinner", "glutenfree"],
+    nutrition: {
+      calories: 320,
+      protein: 34,
+      carbs: 10,
+      fat: 16,
+      fiber: 3,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "4", unit: "", item: "salmon fillets" },
       { amount: "1", unit: "lb", item: "asparagus" },
@@ -3912,7 +4217,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 20,
     tags: ["quick", "asian", "protein"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "flank steak, sliced thin" },
+      { amount: "1", unit: "lb", item: "flank steak, sliced thin" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "4", unit: "cups", item: "broccoli florets" },
       { amount: "1/4", unit: "cup", item: "soy sauce" },
       { amount: "2", unit: "tbsp", item: "oyster sauce" },
@@ -3942,8 +4248,18 @@ export const allRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Quick and Easy",
     image: thaiBasilImg,
+    imageUrl: "https://i.imgur.com/njeoQZu.png",
     totalTime: 25,
     tags: ["quick", "thai", "asian", "spicy"],
+    nutrition: {
+      calories: 280,
+      protein: 28,
+      carbs: 16,
+      fat: 12,
+      fiber: 2,
+      sugar: 8,
+      servingSize: "1 serving with rice"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "ground chicken" },
       { amount: "1", unit: "cup", item: "fresh Thai basil leaves" },
@@ -3974,8 +4290,18 @@ export const allRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Quick and Easy",
     image: tuscanShrimpImg,
+    imageUrl: "https://i.imgur.com/DbZzWVl.png",
     totalTime: 25,
     tags: ["quick", "italian", "protein", "pasta"],
+    nutrition: {
+      calories: 520,
+      protein: 32,
+      carbs: 52,
+      fat: 20,
+      fiber: 4,
+      sugar: 6,
+      servingSize: "1 serving with pasta"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "large shrimp" },
       { amount: "3", unit: "cups", item: "spinach" },
@@ -4006,8 +4332,18 @@ export const allRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Quick and Easy",
     image: capreseChickenImg,
+    imageUrl: "https://i.imgur.com/G4KB35R.png",
     totalTime: 15,
-    tags: ["quick", "italian", "protein", "healthy"],
+    tags: ["quick", "italian", "protein", "glutenfree"],
+    nutrition: {
+      calories: 340,
+      protein: 42,
+      carbs: 8,
+      fat: 15,
+      fiber: 2,
+      sugar: 5,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "4", unit: "", item: "chicken breasts" },
       { amount: "8", unit: "slices", item: "fresh mozzarella" },
@@ -4037,7 +4373,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Quick and Easy",
     image: teriyakiSalmonImg,
     totalTime: 20,
-    tags: ["quick", "healthy", "asian", "protein"],
+    tags: ["quick", "healthy", "asian", "protein", "glutenfree"],
+    nutrition: {
+      calories: 480,
+      protein: 36,
+      carbs: 52,
+      fat: 14,
+      fiber: 4,
+      sugar: 10,
+      servingSize: "1 bowl"
+    },
     ingredients: [
       { amount: "4", unit: "", item: "salmon fillets" },
       { amount: "1/3", unit: "cup", item: "teriyaki sauce" },
@@ -4069,6 +4414,15 @@ export const allRecipes: Recipe[] = [
     image: sesameNoodlesImg,
     totalTime: 20,
     tags: ["quick", "asian", "vegan", "cold"],
+    nutrition: {
+      calories: 450,
+      protein: 14,
+      carbs: 62,
+      fat: 16,
+      fiber: 4,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "spaghetti or lo mein noodles" },
       { amount: "1/4", unit: "cup", item: "peanut butter" },
@@ -4103,6 +4457,15 @@ export const allRecipes: Recipe[] = [
     image: chickenFajitasImg,
     totalTime: 30,
     tags: ["quick", "mexican", "protein"],
+    nutrition: {
+      calories: 310,
+      protein: 32,
+      carbs: 16,
+      fat: 12,
+      fiber: 3,
+      sugar: 6,
+      servingSize: "1 serving with tortillas"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "chicken breast, sliced" },
       { amount: "3", unit: "", item: "bell peppers, sliced" },
@@ -4136,6 +4499,15 @@ export const allRecipes: Recipe[] = [
     image: kungPaoImg,
     totalTime: 25,
     tags: ["quick", "chinese", "spicy", "protein"],
+    nutrition: {
+      calories: 380,
+      protein: 32,
+      carbs: 28,
+      fat: 16,
+      fiber: 3,
+      sugar: 14,
+      servingSize: "1 serving with rice"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "chicken breast, cubed" },
       { amount: "1/2", unit: "cup", item: "roasted peanuts" },
@@ -4169,8 +4541,18 @@ export const allRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Quick and Easy",
     image: shrimpScampiImg,
+    imageUrl: "https://i.imgur.com/ry6O5R0.png",
     totalTime: 15,
-    tags: ["quick", "italian", "protein", "pasta"],
+    tags: ["quick", "italian", "protein", "pasta", "glutenfree"],
+    nutrition: {
+      calories: 520,
+      protein: 34,
+      carbs: 58,
+      fat: 14,
+      fiber: 3,
+      sugar: 3,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "large shrimp, peeled" },
       { amount: "1", unit: "lb", item: "linguine" },
@@ -4202,8 +4584,18 @@ export const allRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Quick and Easy",
     image: mongolianBeefImg,
+    imageUrl: "https://i.imgur.com/38vSHb8.png",
     totalTime: 20,
     tags: ["quick", "asian", "protein"],
+    nutrition: {
+      calories: 420,
+      protein: 30,
+      carbs: 36,
+      fat: 16,
+      fiber: 2,
+      sugar: 20,
+      servingSize: "1 serving with rice"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "flank steak, sliced thin" },
       { amount: "1/4", unit: "cup", item: "soy sauce" },
@@ -4236,8 +4628,18 @@ export const allRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Quick and Easy",
     image: greekChickenImg,
+    imageUrl: "https://i.imgur.com/gkppx9G.png",
     totalTime: 25,
-    tags: ["quick", "greek", "healthy", "protein"],
+    tags: ["quick", "greek", "healthy", "protein", "glutenfree"],
+    nutrition: {
+      calories: 420,
+      protein: 36,
+      carbs: 44,
+      fat: 12,
+      fiber: 4,
+      sugar: 6,
+      servingSize: "1 bowl"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "chicken breast, cubed" },
       { amount: "2", unit: "tbsp", item: "Greek seasoning" },
@@ -4267,8 +4669,18 @@ export const allRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Quick and Easy",
     image: steakBitesImg,
+    imageUrl: "https://i.imgur.com/9FOICSU.png",
     totalTime: 15,
-    tags: ["quick", "protein", "steak"],
+    tags: ["quick", "protein", "steak", "glutenfree"],
+    nutrition: {
+      calories: 485,
+      protein: 40,
+      carbs: 28,
+      fat: 24,
+      fiber: 3,
+      sugar: 2,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "sirloin steak, cubed" },
       { amount: "1", unit: "lb", item: "baby potatoes, halved" },
@@ -4297,8 +4709,18 @@ export const allRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Quick and Easy",
     image: padThaiImg,
+    imageUrl: "https://i.imgur.com/OZqGxHF.png",
     totalTime: 30,
     tags: ["quick", "thai", "asian", "noodles"],
+    nutrition: {
+      calories: 480,
+      protein: 32,
+      carbs: 58,
+      fat: 12,
+      fiber: 4,
+      sugar: 14,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "8", unit: "oz", item: "rice noodles" },
       { amount: "1", unit: "lb", item: "shrimp" },
@@ -4330,14 +4752,15 @@ export const allRecipes: Recipe[] = [
     description: "Last night's pizza transformed into gourmet breakfast. Genius.",
     cookTime: "15 mins",
     prepTime: "5 mins",
-    difficulty: "easy",
+    difficulty: "medium",
     servings: 4,
-    cuisine: "Italian",
+    cuisine: "Leftover Magic",
     image: pizzaFrittataImg,
     totalTime: 20,
-    tags: ["leftover", "breakfast", "eggs"],
+    tags: ["leftover", "breakfast", "eggs", "glutenfree"],
     ingredients: [
-      { amount: "3", unit: "slices", item: "leftover pizza, chopped" },
+      { amount: "3", unit: "slices", item: "leftover pizza, chopped" ,
+    nutrition: { calories: 150, protein: 5, carbs: 8, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "8", unit: "", item: "eggs" },
       { amount: "1/4", unit: "cup", item: "milk" },
       { amount: "1/2", unit: "cup", item: "mozzarella" },
@@ -4365,11 +4788,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Mexican",
-    image: chickenTacosImg,
+    image: "https://i.imgur.com/EBShNRz.png",
     totalTime: 20,
     tags: ["leftover", "mexican", "quick"],
     ingredients: [
-      { amount: "3", unit: "cups", item: "rotisserie chicken, shredded" },
+      { amount: "3", unit: "cups", item: "rotisserie chicken, shredded" ,
+    nutrition: { calories: 211, protein: 7, carbs: 9, fat: 12, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "tbsp", item: "taco seasoning" },
       { amount: "8", unit: "", item: "tortillas" },
       { amount: "1", unit: "cup", item: "shredded cabbage" },
@@ -4397,10 +4821,12 @@ export const allRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Asian",
     image: friedRiceImg,
+    imageUrl: "https://i.imgur.com/5jrWKDF.png",
     totalTime: 15,
     tags: ["leftover", "asian", "quick"],
     ingredients: [
-      { amount: "4", unit: "cups", item: "cold leftover rice" },
+      { amount: "4", unit: "cups", item: "cold leftover rice" ,
+    nutrition: { calories: 150, protein: 5, carbs: 7, fat: 5, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "3", unit: "", item: "eggs" },
       { amount: "1", unit: "cup", item: "frozen peas and carrots" },
       { amount: "3", unit: "tbsp", item: "soy sauce" },
@@ -4421,18 +4847,20 @@ export const allRecipes: Recipe[] = [
   },
   {
     id: "leftover-pasta-carbonara",
-    name: "Leftover Pasta Carbonara",
-    description: "Transform plain pasta into creamy Roman masterpiece.",
-    cookTime: "10 mins",
+    name: "Pasta Carbonara",
+    description: "Creamy Roman pasta with pancetta, eggs, and parmesan. Authentic Italian perfection.",
+    cookTime: "15 mins",
     prepTime: "5 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "Italian",
+    cuisine: "Dinner",
     image: pastaCarbonaraImg,
-    totalTime: 15,
+    imageUrl: "https://i.imgur.com/AQ7SNIE.png",
+    totalTime: 20,
     tags: ["leftover", "italian", "pasta"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "leftover cooked pasta" },
+      { amount: "1", unit: "lb", item: "leftover cooked pasta" ,
+    nutrition: { calories: 252, protein: 6, carbs: 13, fat: 12, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
       { amount: "6", unit: "slices", item: "bacon" },
       { amount: "3", unit: "", item: "eggs" },
       { amount: "1", unit: "cup", item: "parmesan cheese" },
@@ -4462,7 +4890,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 30,
     tags: ["leftover", "side", "fried"],
     ingredients: [
-      { amount: "3", unit: "cups", item: "leftover mashed potatoes" },
+      { amount: "3", unit: "cups", item: "leftover mashed potatoes" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "shredded cheddar" },
       { amount: "1/4", unit: "cup", item: "chives, chopped" },
       { amount: "1", unit: "", item: "egg" },
@@ -4492,6 +4921,15 @@ export const allRecipes: Recipe[] = [
     image: turkeyQuesadillasImg,
     totalTime: 15,
     tags: ["leftover", "fusion", "quick"],
+    nutrition: {
+      calories: 485,
+      protein: 32,
+      carbs: 46,
+      fat: 18,
+      fiber: 3,
+      sugar: 12,
+      servingSize: "1 quesadilla"
+    },
     ingredients: [
       { amount: "2", unit: "cups", item: "leftover turkey, shredded" },
       { amount: "1/2", unit: "cup", item: "cranberry sauce" },
@@ -4518,12 +4956,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: frenchDipSlidersImg,
     totalTime: 25,
     tags: ["leftover", "sandwich", "comfort"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "leftover roast beef, sliced" },
+      { amount: "2", unit: "cups", item: "leftover roast beef, sliced" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "large", item: "onion, caramelized" },
       { amount: "6", unit: "", item: "slider buns or rolls" },
       { amount: "6", unit: "slices", item: "provolone cheese" },
@@ -4545,14 +4984,15 @@ export const allRecipes: Recipe[] = [
     description: "Holiday ham becomes the ultimate brunch. Top with fried eggs.",
     cookTime: "20 mins",
     prepTime: "10 mins",
-    difficulty: "easy",
+    difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "Leftover Magic",
     image: hamHashImg,
     totalTime: 30,
-    tags: ["leftover", "breakfast", "brunch"],
+    tags: ["leftover", "breakfast", "brunch", "glutenfree"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "leftover ham, diced" },
+      { amount: "2", unit: "cups", item: "leftover ham, diced" ,
+    nutrition: { calories: 150, protein: 12, carbs: 7, fat: 6, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "3", unit: "cups", item: "potatoes, diced" },
       { amount: "1", unit: "", item: "bell pepper, diced" },
       { amount: "1", unit: "", item: "onion, diced" },
@@ -4582,7 +5022,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 20,
     tags: ["leftover", "fusion", "quick"],
     ingredients: [
-      { amount: "1", unit: "cup", item: "leftover steak, sliced" },
+      { amount: "1", unit: "cup", item: "leftover steak, sliced" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "caramelized onions" },
       { amount: "1", unit: "cup", item: "shredded cheese" },
       { amount: "4", unit: "", item: "flour tortillas" },
@@ -4604,12 +5045,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 8,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: burgerSlidersImg,
     totalTime: 20,
     tags: ["leftover", "party", "quick"],
     ingredients: [
-      { amount: "4", unit: "", item: "leftover burger patties, halved" },
+      { amount: "4", unit: "", item: "leftover burger patties, halved" ,
+    nutrition: { calories: 150, protein: 6, carbs: 7, fat: 5, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "8", unit: "", item: "Hawaiian rolls" },
       { amount: "8", unit: "slices", item: "cheddar cheese" },
       { amount: "1/2", unit: "cup", item: "mayo" },
@@ -4634,17 +5076,19 @@ export const allRecipes: Recipe[] = [
     prepTime: "5 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: porkNachosImg,
     totalTime: 20,
     tags: ["leftover", "party", "appetizer"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "leftover pulled pork" },
+      { amount: "2", unit: "cups", item: "leftover pulled pork" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "bag", item: "tortilla chips" },
       { amount: "2", unit: "cups", item: "shredded cheese" },
       { amount: "1", unit: "cup", item: "black beans" },
       { amount: "1/2", unit: "cup", item: "jalapeños" },
       { amount: "1/2", unit: "cup", item: "sour cream" },
+      { amount: "1/4", unit: "cup", item: "tomatoes, diced" },
       { amount: "1/4", unit: "cup", item: "green onions" }
     ],
     instructions: [
@@ -4652,7 +5096,7 @@ export const allRecipes: Recipe[] = [
       "Spread chips on large baking sheet.",
       "Top with pulled pork, beans, and cheese.",
       "Bake 10 minutes until cheese melts.",
-      "Top with jalapeños, sour cream, and green onions.",
+      "Top with jalapeños, sour cream, tomatoes, and green onions.",
       "Serve immediately."
     ]
   },
@@ -4664,12 +5108,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "American",
-    image: brisketMacImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/wcCTt8t.png",
     totalTime: 30,
     tags: ["leftover", "comfort", "pasta"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "macaroni" },
+      { amount: "1", unit: "lb", item: "macaroni" ,
+    nutrition: { calories: 185, protein: 12, carbs: 7, fat: 8, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "leftover brisket, chopped" },
       { amount: "3", unit: "cups", item: "shredded cheddar" },
       { amount: "2", unit: "cups", item: "milk" },
@@ -4696,12 +5141,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "5 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "Mexican",
+    cuisine: "Breakfast",
     image: sausageBurritoImg,
     totalTime: 15,
     tags: ["leftover", "breakfast", "quick"],
     ingredients: [
-      { amount: "8", unit: "", item: "leftover cooked sausage links" },
+      { amount: "8", unit: "", item: "leftover cooked sausage links" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "6", unit: "", item: "eggs, scrambled" },
       { amount: "1", unit: "cup", item: "shredded cheese" },
       { amount: "1/2", unit: "cup", item: "salsa" },
@@ -4728,7 +5174,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: stuffingMuffinsImg,
     totalTime: 30,
-    tags: ["leftover", "side", "thanksgiving"],
+    tags: ["leftover", "side", "thanksgiving", "vegetarian", "glutenfree"],
+    nutrition: {
+      calories: 195,
+      protein: 7,
+      carbs: 22,
+      fat: 8,
+      fiber: 2,
+      sugar: 3,
+      servingSize: "1 muffin"
+    },
     ingredients: [
       { amount: "4", unit: "cups", item: "leftover stuffing" },
       { amount: "2", unit: "", item: "eggs, beaten" },
@@ -4755,9 +5210,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Lunch",
     image: salmonSaladImg,
     totalTime: 10,
-    tags: ["leftover", "salad", "healthy", "quick"],
+    tags: ["leftover", "salad", "seafood"],
     ingredients: [
-      { amount: "2", unit: "", item: "leftover salmon fillets, flaked" },
+      { amount: "2", unit: "", item: "leftover salmon fillets, flaked" ,
+    nutrition: { calories: 150, protein: 5, carbs: 5, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "head", item: "romaine lettuce, chopped" },
       { amount: "1/2", unit: "cup", item: "Caesar dressing" },
       { amount: "1/2", unit: "cup", item: "parmesan, shaved" },
@@ -4782,11 +5238,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Mexican",
-    image: leftoverChickenEnchiladasImg,
+    image: "https://i.imgur.com/uybbccM.png",
     totalTime: 40,
     tags: ["leftover", "mexican", "dinner", "comfort-food"],
     ingredients: [
-      { amount: "3", unit: "cups", item: "leftover rotisserie chicken, shredded" },
+      { amount: "3", unit: "cups", item: "leftover rotisserie chicken, shredded" ,
+    nutrition: { calories: 150, protein: 5, carbs: 5, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "12", unit: "", item: "flour tortillas" },
       { amount: "2", unit: "cups", item: "red enchilada sauce" },
       { amount: "2", unit: "cups", item: "shredded Mexican cheese blend" },
@@ -4815,12 +5272,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "American",
+    cuisine: "Leftover Magic",
     image: leftoverMashedPotatoPancakesImg,
     totalTime: 25,
     tags: ["leftover", "breakfast", "side-dish"],
     ingredients: [
-      { amount: "3", unit: "cups", item: "leftover mashed potatoes" },
+      { amount: "3", unit: "cups", item: "leftover mashed potatoes" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "", item: "eggs, beaten" },
       { amount: "1/2", unit: "cup", item: "flour" },
       { amount: "1/4", unit: "cup", item: "green onions, chopped" },
@@ -4845,10 +5303,19 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 8,
-    cuisine: "American",
-    image: leftoverPotRoastShepherdsPieImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/IfwfdrH.png",
     totalTime: 45,
-    tags: ["leftover", "comfort-food", "dinner"],
+    tags: ["leftover", "comfort-food", "dinner", "glutenfree"],
+    nutrition: {
+      calories: 380,
+      protein: 26,
+      carbs: 32,
+      fat: 16,
+      fiber: 4,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "3", unit: "cups", item: "leftover pot roast, shredded" },
       { amount: "2", unit: "cups", item: "leftover vegetables (carrots, onions, celery)" },
@@ -4875,14 +5342,15 @@ export const allRecipes: Recipe[] = [
     description: "Transform soup into cozy baked comfort food.",
     cookTime: "30 mins",
     prepTime: "15 mins",
-    difficulty: "easy",
+    difficulty: "medium",
     servings: 6,
-    cuisine: "American",
-    image: leftoverChickenSoupCasseroleImg,
+    cuisine: "Leftover Magic",
+    image: "https://i.imgur.com/0D697La.png",
     totalTime: 45,
     tags: ["leftover", "comfort-food", "dinner"],
     ingredients: [
-      { amount: "4", unit: "cups", item: "leftover chicken noodle soup" },
+      { amount: "4", unit: "cups", item: "leftover chicken noodle soup" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "cooked egg noodles" },
       { amount: "1", unit: "cup", item: "shredded chicken" },
       { amount: "1", unit: "cup", item: "frozen mixed vegetables" },
@@ -4912,9 +5380,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fusion",
     image: leftoverTacoMeatPizzaImg,
     totalTime: 25,
-    tags: ["leftover", "fusion", "dinner", "kid-friendly"],
+    tags: ["leftover", "fusion", "dinner", "kid-friendly", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "", item: "pizza dough or pre-made crust" },
+      { amount: "1", unit: "", item: "pizza dough or pre-made crust" ,
+    nutrition: { calories: 150, protein: 11, carbs: 10, fat: 8, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "leftover taco meat" },
       { amount: "1", unit: "cup", item: "refried beans" },
       { amount: "2", unit: "cups", item: "shredded Mexican cheese" },
@@ -4946,7 +5415,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 30,
     tags: ["One Pot Wonders", "soup", "asian", "healthy"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "leftover rotisserie chicken, shredded" },
+      { amount: "2", unit: "cups", item: "leftover rotisserie chicken, shredded" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "8", unit: "cups", item: "chicken broth" },
       { amount: "8", unit: "oz", item: "rice noodles" },
       { amount: "2", unit: "", item: "star anise" },
@@ -4972,14 +5442,15 @@ export const allRecipes: Recipe[] = [
     description: "Mini sandwiches that make meatloaf exciting again.",
     cookTime: "10 mins",
     prepTime: "10 mins",
-    difficulty: "easy",
+    difficulty: "medium",
     servings: 6,
-    cuisine: "American",
+    cuisine: "Leftover Magic",
     image: leftoverMeatloafSlidersImg,
     totalTime: 20,
     tags: ["leftover", "sandwich", "lunch"],
     ingredients: [
-      { amount: "6", unit: "slices", item: "leftover meatloaf" },
+      { amount: "6", unit: "slices", item: "leftover meatloaf" ,
+    nutrition: { calories: 203, protein: 16, carbs: 15, fat: 4, fiber: 2, sugar: 5, servingSize: "1 serving (serves 4)" }},
       { amount: "12", unit: "", item: "slider buns" },
       { amount: "6", unit: "slices", item: "cheddar cheese" },
       { amount: "1", unit: "large", item: "onion, sliced" },
@@ -5003,14 +5474,15 @@ export const allRecipes: Recipe[] = [
     description: "Turn leftover chili into irresistible loaded fries.",
     cookTime: "25 mins",
     prepTime: "5 mins",
-    difficulty: "easy",
+    difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "Leftover Magic",
     image: leftoverChiliCheeseFriesImg,
     totalTime: 30,
-    tags: ["leftover", "comfort-food", "appetizer"],
+    tags: ["leftover", "comfort-food", "appetizer", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "frozen french fries" },
+      { amount: "1", unit: "lb", item: "frozen french fries" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "3", unit: "cups", item: "leftover chili" },
       { amount: "1", unit: "cup", item: "cheddar cheese sauce" },
       { amount: "1/2", unit: "cup", item: "sour cream" },
@@ -5036,11 +5508,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Fusion",
-    image: leftoverPulledPorkEggRollsImg,
+    image: "https://i.imgur.com/Se5Mgtj.png",
     totalTime: 35,
     tags: ["leftover", "fusion", "appetizer"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "leftover pulled pork" },
+      { amount: "2", unit: "cups", item: "leftover pulled pork" ,
+    nutrition: { calories: 150, protein: 6, carbs: 7, fat: 7, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "coleslaw" },
       { amount: "12", unit: "", item: "egg roll wrappers" },
       { amount: "1/4", unit: "cup", item: "BBQ sauce" },
@@ -5065,14 +5538,15 @@ export const allRecipes: Recipe[] = [
     description: "Classic creamy pasta bake perfect for leftover turkey.",
     cookTime: "30 mins",
     prepTime: "15 mins",
-    difficulty: "easy",
+    difficulty: "medium",
     servings: 8,
-    cuisine: "Italian-American",
+    cuisine: "Leftover Magic",
     image: leftoverTurkeyTetrazziniImg,
     totalTime: 45,
     tags: ["leftover", "pasta", "comfort-food", "thanksgiving"],
     ingredients: [
-      { amount: "4", unit: "cups", item: "leftover turkey, cubed" },
+      { amount: "4", unit: "cups", item: "leftover turkey, cubed" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "lb", item: "spaghetti" },
       { amount: "8", unit: "oz", item: "mushrooms, sliced" },
       { amount: "1", unit: "cup", item: "frozen peas" },
@@ -5098,14 +5572,15 @@ export const allRecipes: Recipe[] = [
     description: "Canadian classic elevated with tender roast beef.",
     cookTime: "20 mins",
     prepTime: "10 mins",
-    difficulty: "easy",
+    difficulty: "medium",
     servings: 4,
-    cuisine: "Canadian",
+    cuisine: "Leftover Magic",
     image: leftoverRoastBeefPoutineImg,
     totalTime: 30,
-    tags: ["leftover", "comfort-food", "canadian"],
+    tags: ["leftover", "comfort-food", "canadian", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "frozen french fries" },
+      { amount: "1", unit: "lb", item: "frozen french fries" ,
+    nutrition: { calories: 256, protein: 19, carbs: 11, fat: 11, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "leftover roast beef, shredded" },
       { amount: "2", unit: "cups", item: "beef gravy" },
       { amount: "2", unit: "cups", item: "cheese curds" },
@@ -5135,7 +5610,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 50,
     tags: ["leftover", "pasta", "italian", "comfort-food"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "leftover chicken alfredo" },
+      { amount: "2", unit: "cups", item: "leftover chicken alfredo" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "24", unit: "", item: "jumbo pasta shells" },
       { amount: "2", unit: "cups", item: "ricotta cheese" },
       { amount: "1", unit: "cup", item: "mozzarella cheese, shredded" },
@@ -5163,12 +5639,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: leftoverBbqRibsMacImg,
     totalTime: 35,
-    tags: ["leftover", "comfort-food", "bbq"],
+    tags: ["leftover", "comfort-food", "bbq", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "elbow macaroni" },
+      { amount: "1", unit: "lb", item: "elbow macaroni" ,
+    nutrition: { calories: 193, protein: 13, carbs: 13, fat: 6, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "leftover rib meat, shredded" },
       { amount: "4", unit: "cups", item: "shredded cheddar cheese" },
       { amount: "2", unit: "cups", item: "heavy cream" },
@@ -5194,14 +5671,15 @@ export const allRecipes: Recipe[] = [
     description: "All the flavors of chicken parm in a cozy bowl.",
     cookTime: "25 mins",
     prepTime: "10 mins",
-    difficulty: "easy",
+    difficulty: "medium",
     servings: 6,
-    cuisine: "Italian-American",
+    cuisine: "Leftover Magic",
     image: leftoverChickenParmSoupImg,
     totalTime: 35,
     tags: ["leftover", "soup", "comfort-food"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "leftover breaded chicken, cubed" },
+      { amount: "2", unit: "cups", item: "leftover breaded chicken, cubed" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "4", unit: "cups", item: "chicken broth" },
       { amount: "28", unit: "oz", item: "crushed tomatoes" },
       { amount: "1", unit: "cup", item: "heavy cream" },
@@ -5227,14 +5705,15 @@ export const allRecipes: Recipe[] = [
     description: "Transform fajita leftovers into hearty breakfast.",
     cookTime: "20 mins",
     prepTime: "10 mins",
-    difficulty: "easy",
+    difficulty: "medium",
     servings: 4,
-    cuisine: "Mexican",
+    cuisine: "Leftover Magic",
     image: leftoverFajitaBreakfastHashImg,
     totalTime: 30,
-    tags: ["leftover", "breakfast", "mexican"],
+    tags: ["leftover", "breakfast", "mexican", "glutenfree"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "leftover fajita meat (chicken or steak)" },
+      { amount: "2", unit: "cups", item: "leftover fajita meat (chicken or steak)" ,
+    nutrition: { calories: 150, protein: 13, carbs: 10, fat: 7, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "leftover peppers and onions" },
       { amount: "3", unit: "cups", item: "breakfast potatoes, diced" },
       { amount: "4", unit: "", item: "eggs" },
@@ -5259,14 +5738,15 @@ export const allRecipes: Recipe[] = [
     description: "Deconstructed meatball subs in comforting casserole form.",
     cookTime: "25 mins",
     prepTime: "15 mins",
-    difficulty: "easy",
+    difficulty: "medium",
     servings: 8,
-    cuisine: "Italian-American",
-    image: leftoverMeatballCasseroleImg,
+    cuisine: "Leftover Magic",
+    image: "https://i.imgur.com/EPxUKLX.png",
     totalTime: 40,
     tags: ["leftover", "comfort-food", "italian"],
     ingredients: [
-      { amount: "20", unit: "", item: "leftover meatballs" },
+      { amount: "20", unit: "", item: "leftover meatballs" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "4", unit: "cups", item: "marinara sauce" },
       { amount: "1", unit: "loaf", item: "French bread, cubed" },
       { amount: "2", unit: "cups", item: "mozzarella cheese, shredded" },
@@ -5292,14 +5772,15 @@ export const allRecipes: Recipe[] = [
     description: "The ultimate comfort food mashup sandwich.",
     cookTime: "10 mins",
     prepTime: "5 mins",
-    difficulty: "easy",
+    difficulty: "medium",
     servings: 2,
-    cuisine: "Fusion",
+    cuisine: "Leftover Magic",
     image: leftoverLasagnaGrilledCheeseImg,
     totalTime: 15,
-    tags: ["leftover", "sandwich", "fusion", "lunch"],
+    tags: ["leftover", "sandwich", "fusion"],
     ingredients: [
-      { amount: "2", unit: "slices", item: "leftover lasagna" },
+      { amount: "2", unit: "slices", item: "leftover lasagna" ,
+    nutrition: { calories: 175, protein: 6, carbs: 10, fat: 8, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "4", unit: "slices", item: "thick bread" },
       { amount: "4", unit: "slices", item: "mozzarella cheese" },
       { amount: "2", unit: "tbsp", item: "butter" },
@@ -5322,12 +5803,21 @@ export const allRecipes: Recipe[] = [
     description: "Upgrade instant ramen with tender pot roast.",
     cookTime: "15 mins",
     prepTime: "10 mins",
-    difficulty: "easy",
+    difficulty: "medium",
     servings: 4,
-    cuisine: "Fusion",
+    cuisine: "Leftover Magic",
     image: leftoverPotRoastRamenImg,
     totalTime: 25,
     tags: ["leftover", "asian", "soup", "quick"],
+    nutrition: {
+      calories: 420,
+      protein: 28,
+      carbs: 48,
+      fat: 12,
+      fiber: 3,
+      sugar: 4,
+      servingSize: "1 bowl"
+    },
     ingredients: [
       { amount: "2", unit: "cups", item: "leftover pot roast, shredded" },
       { amount: "4", unit: "packs", item: "ramen noodles" },
@@ -5360,9 +5850,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Mexican",
     image: leftoverTacoStuffedPeppersImg,
     totalTime: 45,
-    tags: ["leftover", "mexican", "healthy", "dinner"],
+    tags: ["leftover", "mexican", "dinner", "glutenfree"],
     ingredients: [
-      { amount: "6", unit: "", item: "bell peppers, halved and seeded" },
+      { amount: "6", unit: "", item: "bell peppers, halved and seeded" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "3", unit: "cups", item: "leftover taco meat" },
       { amount: "1", unit: "cup", item: "cooked rice" },
       { amount: "1", unit: "can", item: "black beans, drained" },
@@ -5390,11 +5881,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Fusion",
-    image: leftoverTikkaMasalaPotPieImg,
+    image: "https://i.imgur.com/GcCL2V1.png",
     totalTime: 45,
     tags: ["leftover", "fusion", "indian", "comfort-food"],
     ingredients: [
-      { amount: "3", unit: "cups", item: "leftover chicken tikka masala" },
+      { amount: "3", unit: "cups", item: "leftover chicken tikka masala" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "frozen peas" },
       { amount: "1", unit: "cup", item: "diced potatoes, cooked" },
       { amount: "1", unit: "sheet", item: "puff pastry, thawed" },
@@ -5424,7 +5916,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Dinner",
     image: "https://images.unsplash.com/photo-1485921325833-c519f76c4927",
     totalTime: 20,
-    tags: ["seafood", "quick", "healthy", "gluten-free", "dinner"],
+    tags: ["seafood", "glutenfree", "dinner"],
     nutrition: {
       calories: 385,
       protein: 42,
@@ -5454,50 +5946,7 @@ export const allRecipes: Recipe[] = [
       "Serve immediately with rice and steamed vegetables."
     ]
   },
-  {
-    id: "beef-stir-fry",
-    name: "Classic Beef and Broccoli Stir Fry",
-    description: "Restaurant-quality stir fry ready in 25 minutes.",
-    cookTime: "15 mins",
-    prepTime: "10 mins",
-    difficulty: "easy",
-    servings: 4,
-    cuisine: "Chinese",
-    image: beefBroccoliStirfryImg,
-    totalTime: 25,
-    tags: ["asian", "quick", "high-protein", "dinner", "stir-fry"],
-    nutrition: {
-      calories: 425,
-      protein: 38,
-      carbs: 22,
-      fat: 20,
-      fiber: 4,
-      sugar: 8,
-      servingSize: "1 serving"
-    },
-    ingredients: [
-      { amount: "1.5", unit: "lbs", item: "flank steak, sliced thin" },
-      { amount: "4", unit: "cups", item: "broccoli florets" },
-      { amount: "1/3", unit: "cup", item: "soy sauce" },
-      { amount: "2", unit: "tbsp", item: "oyster sauce" },
-      { amount: "2", unit: "tbsp", item: "brown sugar" },
-      { amount: "1", unit: "tbsp", item: "cornstarch" },
-      { amount: "4", unit: "cloves", item: "garlic, minced" },
-      { amount: "2", unit: "tbsp", item: "sesame oil" },
-      { amount: "2", unit: "tbsp", item: "vegetable oil" },
-      { amount: "1", unit: "tbsp", item: "ginger, grated" }
-    ],
-    instructions: [
-      "Mix soy sauce, oyster sauce, brown sugar, and cornstarch in a bowl.",
-      "Heat vegetable oil in a wok or large skillet over high heat.",
-      "Stir-fry beef in batches until browned, about 2-3 minutes. Set aside.",
-      "Add sesame oil, garlic, and ginger. Cook 30 seconds.",
-      "Add broccoli and 1/4 cup water. Cover and steam 3 minutes.",
-      "Return beef to pan and add sauce mixture.",
-      "Toss everything together until sauce thickens, about 2 minutes.",
-      "Serve over steamed rice."
-    ]
-  },
+  
   {
     id: "chicken-marsala",
     name: "Chicken Marsala",
@@ -5552,9 +6001,9 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Mexican",
-    image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47",
+    image: "https://i.imgur.com/YOqD3jZ.png",
     totalTime: 20,
-    tags: ["mexican", "seafood", "quick", "healthy", "dinner"],
+    tags: ["mexican", "seafood", "dinner"],
     nutrition: {
       calories: 340,
       protein: 32,
@@ -5597,9 +6046,9 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Italian-American",
-    image: stuffedBellPeppersImg,
+    image: "https://i.imgur.com/UfcxEMw.png",
     totalTime: 55,
-    tags: ["comfort-food", "make-ahead", "gluten-free", "dinner"],
+    tags: ["comfort-food", "make-ahead", "glutenfree", "dinner"],
     nutrition: {
       calories: 385,
       protein: 28,
@@ -5643,6 +6092,7 @@ export const allRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Japanese",
     image: teriyakiChickenImg,
+    imageUrl: "https://i.imgur.com/T4OZWKW.png",
     totalTime: 30,
     tags: ["asian", "kid-friendly", "meal-prep", "dinner"],
     nutrition: {
@@ -5689,7 +6139,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: porkChopsApplesImg,
     totalTime: 35,
-    tags: ["fall", "comfort-food", "gluten-free", "dinner"],
+    tags: ["fall", "comfort-food", "glutenfree", "dinner"],
     nutrition: {
       calories: 420,
       protein: 38,
@@ -5732,7 +6182,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: butternutSquashSoupImg,
     totalTime: 45,
-    tags: ["fall", "soup", "vegetarian", "comfort-food"],
+    tags: ["fall", "soup", "vegetarian", "comfort-food", "glutenfree"],
     nutrition: {
       calories: 180,
       protein: 4,
@@ -5773,8 +6223,9 @@ export const allRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Fall Favorites",
     image: mapleGlazedSalmonImg,
+    imageUrl: "https://i.imgur.com/gk4bJTS.png",
     totalTime: 30,
-    tags: ["fall", "healthy", "protein", "dinner"],
+    tags: ["fall", "protein", "seafood"],
     nutrition: {
       calories: 380,
       protein: 34,
@@ -5812,7 +6263,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 8,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: appleCiderPulledPorkImg,
     totalTime: 375,
     tags: ["fall", "comfort-food", "slow-cooker", "dinner"],
@@ -5857,7 +6308,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: cranberryBrieBitesImg,
     totalTime: 25,
-    tags: ["fall", "appetizer", "party", "vegetarian"],
+    tags: ["fall", "appetizer", "party", "vegetarian", "glutenfree"],
     nutrition: {
       calories: 85,
       protein: 3,
@@ -5896,7 +6347,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: sweetPotatoCasseroleImg,
     totalTime: 60,
-    tags: ["fall", "side-dish", "holiday", "comfort-food"],
+    tags: ["fall", "side-dish", "holiday", "comfort-food", "vegetarian", "glutenfree"],
     nutrition: {
       calories: 320,
       protein: 4,
@@ -5938,7 +6389,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: harvestChickenVegetablesImg,
     totalTime: 60,
-    tags: ["fall", "one-pan", "dinner", "healthy"],
+    tags: ["fall", "one-pan", "chicken", "glutenfree"],
     nutrition: {
       calories: 380,
       protein: 36,
@@ -5976,7 +6427,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: pecanCrustedPorkImg,
     totalTime: 40,
     tags: ["fall", "elegant", "dinner", "protein"],
@@ -6018,10 +6469,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: caramelAppleNachosImg,
     totalTime: 10,
-    tags: ["fall", "dessert", "no-bake", "kid-friendly"],
+    tags: ["fall", "dessert", "no-bake", "kid-friendly", "glutenfree"],
     nutrition: {
       calories: 280,
       protein: 4,
@@ -6061,7 +6512,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Italian",
     image: pumpkinRisottoImg,
     totalTime: 40,
-    tags: ["fall", "vegetarian", "italian", "comfort-food"],
+    tags: ["fall", "vegetarian", "italian", "comfort-food", "glutenfree"],
     nutrition: {
       calories: 380,
       protein: 12,
@@ -6106,7 +6557,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: autumnHarvestSaladImg,
     totalTime: 35,
-    tags: ["fall", "salad", "vegetarian", "healthy"],
+    tags: ["fall", "salad", "vegetarian", "glutenfree"],
     nutrition: {
       calories: 320,
       protein: 8,
@@ -6148,7 +6599,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Mediterranean",
     image: lemonHerbChickenThighsImg,
     totalTime: 50,
-    tags: ["roasted", "gluten-free", "meal-prep", "dinner"],
+    tags: ["roasted", "glutenfree", "meal-prep", "dinner"],
     nutrition: {
       calories: 445,
       protein: 42,
@@ -6187,7 +6638,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: bbqMeatloafImg,
     totalTime: 75,
     tags: ["comfort-food", "american", "kid-friendly", "dinner"],
@@ -6233,7 +6684,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Mediterranean",
     image: mediterraneanChickenRiceImg,
     totalTime: 50,
-    tags: ["mediterranean", "one-pan", "healthy", "dinner"],
+    tags: ["mediterranean", "one-pan", "healthy", "dinner", "glutenfree"],
     nutrition: {
       calories: 465,
       protein: 44,
@@ -6274,10 +6725,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "Cajun",
-    image: cajunChickenPastaImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/NiKttHP.png",
     totalTime: 30,
-    tags: ["spicy", "creamy", "comfort-food", "dinner", "pasta"],
+    tags: ["spicy", "creamy", "comfort-food", "dinner", "pasta", "one-pot"],
     nutrition: {
       calories: 625,
       protein: 46,
@@ -6361,10 +6812,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "5 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "American",
+    cuisine: "Dinner",
     image: garlicButterTilapiaImg,
     totalTime: 20,
-    tags: ["seafood", "quick", "healthy", "low-carb", "dinner"],
+    tags: ["seafood", "low-carb", "dinner", "lunch", "glutenfree"],
     nutrition: {
       calories: 245,
       protein: 38,
@@ -6401,10 +6852,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "Italian",
+    cuisine: "Dinner",
     image: "https://images.unsplash.com/photo-1529042410759-befb1204b468",
     totalTime: 45,
-    tags: ["healthy", "meal-prep", "italian", "dinner"],
+    tags: ["meal-prep", "italian", "dinner"],
     nutrition: {
       calories: 385,
       protein: 36,
@@ -6442,10 +6893,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: honeyMustardChickenImg,
     totalTime: 45,
-    tags: ["sheet-pan", "easy-cleanup", "kid-friendly", "dinner"],
+    tags: ["sheet-pan", "easy-cleanup", "kid-friendly", "dinner", "glutenfree"],
     nutrition: {
       calories: 425,
       protein: 44,
@@ -6483,10 +6934,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "Argentinian",
-    image: "https://images.unsplash.com/photo-1600891964092-4316c288032e",
+    cuisine: "Dinner",
+    imageUrl: "https://i.imgur.com/cQ7IJIA.png",
     totalTime: 25,
-    tags: ["grilled", "argentinian", "gluten-free", "dinner"],
+    tags: ["grilled", "argentinian", "glutenfree", "dinner"],
     nutrition: {
       calories: 485,
       protein: 52,
@@ -6527,7 +6978,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Thai",
     image: thaiCoconutCurryImg,
     totalTime: 40,
-    tags: ["thai", "spicy", "curry", "dinner"],
+    tags: ["thai", "spicy", "curry", "dinner", "glutenfree"],
     nutrition: {
       calories: 485,
       protein: 38,
@@ -6568,10 +7019,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "Mexican",
-    image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47",
+    cuisine: "Dinner",
+    image: "https://i.imgur.com/gb4Inv9.png",
     totalTime: 25,
-    tags: ["mexican", "seafood", "healthy", "dinner"],
+    tags: ["mexican", "seafood", "dinner"],
     nutrition: {
       calories: 365,
       protein: 38,
@@ -6613,7 +7064,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Mexican",
-    image: beefEnchiladasImg,
+    image: "https://i.imgur.com/u0PK185.png",
     totalTime: 50,
     tags: ["mexican", "comfort-food", "crowd-pleaser", "dinner"],
     nutrition: {
@@ -6658,9 +7109,9 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Italian",
-    image: lemonGarlicShrimpImg,
+    image: "https://i.imgur.com/leXJHoA.png",
     totalTime: 15,
-    tags: ["seafood", "quick", "low-carb", "elegant", "dinner"],
+    tags: ["seafood", "quick", "low-carb", "elegant", "dinner", "glutenfree"],
     nutrition: {
       calories: 245,
       protein: 32,
@@ -6699,9 +7150,9 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "Cajun",
-    image: cajunJambalayaImg,
+    image: "https://i.imgur.com/oUgboGs.jpeg",
     totalTime: 55,
-    tags: ["cajun", "spicy", "rice-dish", "one-pot"],
+    tags: ["cajun", "spicy", "rice-dish", "one-pot", "glutenfree"],
     nutrition: {
       calories: 445,
       protein: 32,
@@ -6792,7 +7243,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Mexican",
     image: chickenFajitaRiceImg,
     totalTime: 35,
-    tags: ["mexican", "rice-dish", "family-friendly", "one-pot"],
+    tags: ["mexican", "rice-dish", "family-friendly", "one-pot", "glutenfree"],
     nutrition: {
       calories: 425,
       protein: 36,
@@ -6834,7 +7285,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "Italian",
+    cuisine: "One Pot Wonders",
     image: tuscanChickenPastaImg,
     totalTime: 30,
     tags: ["italian", "creamy", "pasta", "one-pot"],
@@ -6878,10 +7329,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "medium",
     servings: 6,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: chiliMacCheeseImg,
     totalTime: 30,
-    tags: ["comfort-food", "kid-friendly", "budget-friendly", "one-pot"],
+    tags: ["comfort-food", "kid-friendly", "budget-friendly", "one-pot", "glutenfree"],
     nutrition: {
       calories: 525,
       protein: 32,
@@ -6927,9 +7378,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Breakfast",
     image: breakfastButtermilkPancakesImg,
     totalTime: 25,
-    tags: ["breakfast", "quick-breakfast", "kid-friendly"],
+    tags: ["breakfast", "quick-breakfast", "kid-friendly", "vegetarian"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "all-purpose flour" },
+      { amount: "2", unit: "cups", item: "all-purpose flour" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "tbsp", item: "sugar" },
       { amount: "2", unit: "tsp", item: "baking powder" },
       { amount: "1", unit: "tsp", item: "baking soda" },
@@ -6959,7 +7411,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Breakfast",
     image: breakfastBelgianWafflesNewImg,
     totalTime: 25,
-    tags: ["breakfast", "kid-friendly"],
+    tags: ["breakfast", "kid-friendly", "vegetarian"],
+    nutrition: {
+      calories: 390,
+      protein: 10,
+      carbs: 48,
+      fat: 18,
+      fiber: 2,
+      sugar: 10,
+      servingSize: "2 waffles"
+    },
     ingredients: [
       { amount: "2", unit: "cups", item: "all-purpose flour" },
       { amount: "2", unit: "tbsp", item: "sugar" },
@@ -6991,7 +7452,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Breakfast",
     image: breakfastFrenchToastClassicImg,
     totalTime: 15,
-    tags: ["breakfast", "quick-breakfast", "kid-friendly"],
+    tags: ["breakfast", "quick-breakfast", "kid-friendly", "vegetarian"],
+    nutrition: {
+      calories: 320,
+      protein: 14,
+      carbs: 38,
+      fat: 12,
+      fiber: 2,
+      sugar: 8,
+      servingSize: "2 slices"
+    },
     ingredients: [
       { amount: "8", unit: "slices", item: "thick bread" },
       { amount: "4", unit: "", item: "eggs" },
@@ -7016,10 +7486,19 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: breakfastEggsBenedictClassicImg,
     totalTime: 30,
     tags: ["breakfast", "brunch", "elegant"],
+    nutrition: {
+      calories: 465,
+      protein: 22,
+      carbs: 30,
+      fat: 28,
+      fiber: 2,
+      sugar: 3,
+      servingSize: "2 eggs with muffin"
+    },
     ingredients: [
       { amount: "4", unit: "", item: "English muffins, split" },
       { amount: "8", unit: "slices", item: "Canadian bacon" },
@@ -7050,9 +7529,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Breakfast",
     image: breakfastClassicOmeletImg,
     totalTime: 10,
-    tags: ["breakfast", "quick-breakfast", "protein", "healthy"],
+    tags: ["breakfast", "quick-breakfast", "protein", "vegetarian", "glutenfree"],
     ingredients: [
-      { amount: "3", unit: "", item: "eggs" },
+      { amount: "3", unit: "", item: "eggs" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "tbsp", item: "milk" },
       { amount: "1", unit: "tbsp", item: "butter" },
       { amount: "1/4", unit: "cup", item: "shredded cheese" },
@@ -7077,10 +7557,19 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "Tex-Mex",
+    cuisine: "Breakfast",
     image: breakfastBurritoClassicImg,
     totalTime: 25,
     tags: ["breakfast", "portable", "filling"],
+    nutrition: {
+      calories: 520,
+      protein: 28,
+      carbs: 42,
+      fat: 26,
+      fiber: 3,
+      sugar: 4,
+      servingSize: "1 burrito"
+    },
     ingredients: [
       { amount: "4", unit: "large", item: "flour tortillas" },
       { amount: "8", unit: "", item: "eggs, scrambled" },
@@ -7108,10 +7597,19 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 8,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: breakfastCasseroleClassicImg,
     totalTime: 60,
     tags: ["breakfast", "make-ahead", "crowd-pleaser"],
+    nutrition: {
+      calories: 425,
+      protein: 24,
+      carbs: 26,
+      fat: 24,
+      fiber: 2,
+      sugar: 5,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "breakfast sausage" },
       { amount: "6", unit: "cups", item: "cubed bread" },
@@ -7142,9 +7640,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Breakfast",
     image: breakfastHashbrownCasseroleImg,
     totalTime: 55,
-    tags: ["breakfast", "comfort-food", "crowd-pleaser"],
+    tags: ["breakfast", "comfort-food", "crowd-pleaser", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "bag", item: "frozen hash browns (30 oz)" },
+      { amount: "1", unit: "bag", item: "frozen hash browns (30 oz)" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "can", item: "cream of chicken soup" },
       { amount: "2", unit: "cups", item: "sour cream" },
       { amount: "2", unit: "cups", item: "shredded cheddar cheese" },
@@ -7173,7 +7672,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "French",
     image: breakfastQuicheLorraineImg,
     totalTime: 60,
-    tags: ["breakfast", "brunch", "elegant", "french"],
+    tags: ["breakfast", "brunch", "elegant", "french", "glutenfree"],
+    nutrition: {
+      calories: 420,
+      protein: 16,
+      carbs: 22,
+      fat: 30,
+      fiber: 1,
+      sugar: 3,
+      servingSize: "1 slice"
+    },
     ingredients: [
       { amount: "1", unit: "", item: "pie crust, unbaked" },
       { amount: "8", unit: "slices", item: "bacon, cooked and crumbled" },
@@ -7206,7 +7714,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 35,
     tags: ["breakfast", "southern", "comfort-food"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "all-purpose flour" },
+      { amount: "2", unit: "cups", item: "all-purpose flour" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "tbsp", item: "baking powder" },
       { amount: "1/2", unit: "cup", item: "cold butter" },
       { amount: "3/4", unit: "cup", item: "buttermilk" },
@@ -7235,7 +7744,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Breakfast",
     image: breakfastAvocadoToastClassicImg,
     totalTime: 10,
-    tags: ["breakfast", "quick-breakfast", "healthy", "vegetarian"],
+    tags: ["breakfast", "quick-breakfast", "vegetarian"],
+    nutrition: {
+      calories: 380,
+      protein: 15,
+      carbs: 38,
+      fat: 20,
+      fiber: 10,
+      sugar: 4,
+      servingSize: "2 slices"
+    },
     ingredients: [
       { amount: "4", unit: "slices", item: "sourdough bread" },
       { amount: "2", unit: "", item: "ripe avocados" },
@@ -7264,7 +7782,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Breakfast",
     image: breakfastOvernightOatsImg,
     totalTime: 5,
-    tags: ["breakfast", "healthy", "make-ahead", "quick-breakfast"],
+    tags: ["breakfast", "healthy", "make-ahead", "quick-breakfast", "vegetarian", "glutenfree"],
+    nutrition: {
+      calories: 285,
+      protein: 12,
+      carbs: 48,
+      fat: 6,
+      fiber: 8,
+      sugar: 16,
+      servingSize: "1 jar"
+    },
     ingredients: [
       { amount: "1/2", unit: "cup", item: "rolled oats" },
       { amount: "1/2", unit: "cup", item: "milk" },
@@ -7293,7 +7820,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Breakfast",
     image: breakfastScrambledEggsBaconImg,
     totalTime: 15,
-    tags: ["breakfast", "quick-breakfast", "protein", "classic"],
+    tags: ["breakfast", "quick-breakfast", "protein", "classic", "glutenfree"],
+    nutrition: {
+      calories: 450,
+      protein: 28,
+      carbs: 28,
+      fat: 24,
+      fiber: 2,
+      sugar: 4,
+      servingSize: "1 serving with toast"
+    },
     ingredients: [
       { amount: "6", unit: "", item: "eggs" },
       { amount: "2", unit: "tbsp", item: "milk" },
@@ -7319,10 +7855,19 @@ export const allRecipes: Recipe[] = [
     prepTime: "5 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "American",
+    cuisine: "Breakfast",
     image: breakfastSandwichClassicImg,
     totalTime: 15,
     tags: ["breakfast", "quick-breakfast", "portable"],
+    nutrition: {
+      calories: 420,
+      protein: 24,
+      carbs: 30,
+      fat: 22,
+      fiber: 2,
+      sugar: 3,
+      servingSize: "1 sandwich"
+    },
     ingredients: [
       { amount: "4", unit: "", item: "English muffins, split" },
       { amount: "4", unit: "", item: "eggs" },
@@ -7348,10 +7893,19 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 2,
-    cuisine: "Contemporary",
+    cuisine: "Breakfast",
     image: breakfastSmoothieBowlClassicImg,
     totalTime: 10,
-    tags: ["breakfast", "healthy", "vegan", "quick-breakfast"],
+    tags: ["breakfast", "healthy", "vegetarian", "quick-breakfast", "glutenfree"],
+    nutrition: {
+      calories: 320,
+      protein: 10,
+      carbs: 58,
+      fat: 7,
+      fiber: 9,
+      sugar: 28,
+      servingSize: "1 bowl"
+    },
     ingredients: [
       { amount: "2", unit: "cups", item: "frozen mixed berries" },
       { amount: "1", unit: "", item: "frozen banana" },
@@ -7381,7 +7935,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Contemporary",
     image: breakfastGreekYogurtParfaitClassicImg,
     totalTime: 5,
-    tags: ["breakfast", "healthy", "quick-breakfast", "protein"],
+    tags: ["breakfast", "healthy", "quick-breakfast", "protein", "vegetarian", "glutenfree"],
+    nutrition: {
+      calories: 295,
+      protein: 18,
+      carbs: 42,
+      fat: 7,
+      fiber: 4,
+      sugar: 22,
+      servingSize: "1 parfait"
+    },
     ingredients: [
       { amount: "2", unit: "cups", item: "Greek yogurt" },
       { amount: "1", unit: "cup", item: "granola" },
@@ -7410,9 +7973,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Breakfast",
     image: breakfastProteinPancakesImg,
     totalTime: 25,
-    tags: ["breakfast", "healthy", "protein", "fitness"],
+    tags: ["breakfast", "protein", "fitness"],
     ingredients: [
-      { amount: "1", unit: "cup", item: "rolled oats" },
+      { amount: "1", unit: "cup", item: "rolled oats" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "Greek yogurt" },
       { amount: "2", unit: "", item: "eggs" },
       { amount: "1", unit: "scoop", item: "protein powder" },
@@ -7438,10 +8002,19 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "Tex-Mex",
+    cuisine: "Breakfast",
     image: breakfastTacosClassicImg,
     totalTime: 25,
     tags: ["breakfast", "tex-mex", "quick-breakfast"],
+    nutrition: {
+      calories: 380,
+      protein: 22,
+      carbs: 32,
+      fat: 18,
+      fiber: 3,
+      sugar: 3,
+      servingSize: "2 tacos"
+    },
     ingredients: [
       { amount: "8", unit: "", item: "small flour tortillas" },
       { amount: "8", unit: "", item: "eggs" },
@@ -7472,7 +8045,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Middle Eastern",
     image: breakfastShakshukaClassicImg,
     totalTime: 35,
-    tags: ["breakfast", "middle-eastern", "brunch", "healthy"],
+    tags: ["breakfast", "middle-eastern", "brunch", "healthy", "vegetarian", "glutenfree"],
+    nutrition: {
+      calories: 240,
+      protein: 14,
+      carbs: 18,
+      fat: 13,
+      fiber: 5,
+      sugar: 10,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "2", unit: "tbsp", item: "olive oil" },
       { amount: "1", unit: "", item: "onion, diced" },
@@ -7495,6 +8077,88 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
+    id: "breakfast-egg-white-wrap",
+    name: "Egg White Wrap",
+    description: "High-protein egg white wrap with turkey and avocado. Perfect low-carb breakfast on the go!",
+    cookTime: "10 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 1,
+    cuisine: "Breakfast",
+    image: "https://i.imgur.com/5skoxCA.png",
+    totalTime: 15,
+    tags: ["breakfast", "high-protein", "quick-breakfast", "low-carb"],
+    nutrition: {
+      calories: 250,
+      protein: 35,
+      carbs: 8,
+      fat: 11,
+      fiber: 3,
+      sugar: 2,
+      servingSize: "1 wrap"
+    },
+    ingredients: [
+      { amount: "1", unit: "cup", item: "egg whites (or 4-5 egg whites)" },
+      { amount: "1", unit: "spray", item: "cooking spray" },
+      { amount: "3", unit: "oz", item: "sliced deli turkey" },
+      { amount: "1/4", unit: "", item: "avocado, sliced" },
+      { amount: "1", unit: "tbsp", item: "cream cheese (optional)" },
+      { amount: "1", unit: "tsp", item: "everything bagel seasoning" },
+      { amount: "1", unit: "dash", item: "hot sauce (optional)" }
+    ],
+    instructions: [
+      "Heat non-stick pan over medium heat and spray with cooking spray.",
+      "Pour egg whites into pan in a circular shape.",
+      "Cook 2-3 minutes until set, then flip and cook 1 more minute.",
+      "Remove from heat and spread cream cheese if using.",
+      "Add turkey and avocado slices.",
+      "Sprinkle with everything bagel seasoning.",
+      "Roll up like a burrito and serve immediately.",
+      "Add hot sauce if desired for extra flavor!"
+    ]
+  },
+  {
+    id: "breakfast-burrito-bowl",
+    name: "Breakfast Burrito Bowl",
+    description: "Protein-packed breakfast bowl with scrambled eggs, black beans, and all the toppings. Burrito flavor, bowl convenience!",
+    cookTime: "10 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "Breakfast",
+    image: "https://i.imgur.com/3x2kgjF.png",
+    totalTime: 20,
+    tags: ["breakfast", "high-protein", "healthy", "tex-mex", "glutenfree"],
+    nutrition: {
+      calories: 420,
+      protein: 34,
+      carbs: 22,
+      fat: 22,
+      fiber: 10,
+      sugar: 4,
+      servingSize: "1 bowl"
+    },
+    ingredients: [
+      { amount: "6", unit: "large", item: "eggs, scrambled" },
+      { amount: "1", unit: "cup", item: "black beans" },
+      { amount: "1/2", unit: "cup", item: "shredded cheese" },
+      { amount: "1/2", unit: "", item: "avocado, diced" },
+      { amount: "1/2", unit: "cup", item: "salsa" },
+      { amount: "1/4", unit: "cup", item: "Greek yogurt or sour cream" },
+      { amount: "2", unit: "tbsp", item: "fresh cilantro" },
+      { amount: "1", unit: "dash", item: "hot sauce (optional)" }
+    ],
+    instructions: [
+      "Scramble eggs in a pan over medium heat until fluffy and cooked through.",
+      "Warm black beans in a separate pan or microwave.",
+      "Divide scrambled eggs between two bowls as the base.",
+      "Top each bowl with warm black beans, shredded cheese, and diced avocado.",
+      "Add salsa and a dollop of Greek yogurt or sour cream.",
+      "Garnish with fresh cilantro and hot sauce if desired.",
+      "Serve immediately and enjoy your protein-packed breakfast!"
+    ]
+  },
+  {
     id: "breakfast-blueberry-muffins",
     name: "Blueberry Muffins",
     description: "Tender bakery-style muffins bursting with fresh blueberries. Perfect grab-and-go breakfast.",
@@ -7505,9 +8169,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Breakfast",
     image: breakfastBlueberryMuffinsImg,
     totalTime: 30,
-    tags: ["breakfast", "baked", "kid-friendly", "portable"],
+    tags: ["breakfast", "baked", "kid-friendly", "portable", "vegetarian"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "all-purpose flour" },
+      { amount: "2", unit: "cups", item: "all-purpose flour" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "3/4", unit: "cup", item: "sugar" },
       { amount: "2", unit: "tsp", item: "baking powder" },
       { amount: "1/2", unit: "tsp", item: "salt" },
@@ -7535,12 +8200,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: bakedChickenMeatballsImg,
     totalTime: 40,
     tags: ["high-protein", "family-friendly", "easy-dinner", "meal-prep"],
     ingredients: [
-      { amount: "1.5", unit: "lbs", item: "ground chicken" },
+      { amount: "1.5", unit: "lbs", item: "ground chicken" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "breadcrumbs" },
       { amount: "1/4", unit: "cup", item: "grated Parmesan cheese" },
       { amount: "2", unit: "", item: "eggs" },
@@ -7572,9 +8238,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Dinner",
     image: sheetPanChickenVegetablesImg,
     totalTime: 40,
-    tags: ["high-protein", "family-friendly", "easy-dinner", "meal-prep", "one-pan"],
+    tags: ["high-protein", "family-friendly", "easy-dinner", "meal-prep", "one-pan", "glutenfree"],
     ingredients: [
-      { amount: "4", unit: "", item: "boneless chicken breasts" },
+      { amount: "4", unit: "", item: "boneless chicken breasts" ,
+    nutrition: { calories: 198, protein: 14, carbs: 10, fat: 7, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "broccoli florets" },
       { amount: "2", unit: "", item: "bell peppers, chopped" },
       { amount: "2", unit: "cups", item: "baby carrots" },
@@ -7608,6 +8275,15 @@ export const allRecipes: Recipe[] = [
     image: sheetPanChickenFajitasImg,
     totalTime: 30,
     tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "one-pan"],
+    nutrition: {
+      calories: 285,
+      protein: 36,
+      carbs: 12,
+      fat: 10,
+      fiber: 3,
+      sugar: 5,
+      servingSize: "1 serving with tortillas"
+    },
     ingredients: [
       { amount: "2", unit: "lbs", item: "chicken breast, sliced" },
       { amount: "3", unit: "", item: "bell peppers, sliced" },
@@ -7639,12 +8315,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "Italian",
+    cuisine: "Dinner",
     image: grilledChickenCapreseImg,
     totalTime: 25,
-    tags: ["high-protein", "family-friendly", "easy-dinner", "quick"],
+    tags: ["high-protein", "family-friendly", "easy-dinner", "glutenfree"],
     ingredients: [
-      { amount: "4", unit: "", item: "boneless chicken breasts" },
+      { amount: "4", unit: "", item: "boneless chicken breasts" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "tbsp", item: "olive oil" },
       { amount: "1", unit: "tsp", item: "Italian seasoning" },
       { amount: "1", unit: "tsp", item: "salt" },
@@ -7673,10 +8350,19 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: slowCookerWhiteChickenChiliImg,
     totalTime: 255,
-    tags: ["high-protein", "family-friendly", "easy-dinner", "slow-cooker"],
+    tags: ["high-protein", "family-friendly", "easy-dinner", "slow-cooker", "glutenfree"],
+    nutrition: {
+      calories: 365,
+      protein: 35,
+      carbs: 38,
+      fat: 8,
+      fiber: 9,
+      sugar: 4,
+      servingSize: "1 bowl"
+    },
     ingredients: [
       { amount: "2", unit: "lbs", item: "boneless chicken breasts" },
       { amount: "3", unit: "cans", item: "white beans (15 oz each)" },
@@ -7713,7 +8399,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 20,
     tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "one-pan"],
     ingredients: [
-      { amount: "1.5", unit: "lbs", item: "ground beef (93% lean)" },
+      { amount: "1.5", unit: "lbs", item: "ground beef (93% lean)" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "packet", item: "taco seasoning" },
       { amount: "1", unit: "cup", item: "water" },
       { amount: "1", unit: "cup", item: "salsa" },
@@ -7742,12 +8429,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "American",
+    cuisine: "Healthy Bowls",
     image: cheeseburgerBowlsImg,
     totalTime: 25,
-    tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "low-carb"],
+    tags: ["high-protein", "family-friendly", "easy-dinner", "low-carb", "bowls", "glutenfree"],
     ingredients: [
-      { amount: "1.5", unit: "lbs", item: "ground beef (90% lean)" },
+      { amount: "1.5", unit: "lbs", item: "ground beef (90% lean)" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "tsp", item: "garlic powder" },
       { amount: "1", unit: "tsp", item: "onion powder" },
       { amount: "1", unit: "tsp", item: "salt" },
@@ -7777,12 +8465,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: onePanBeefPotatoesImg,
     totalTime: 35,
-    tags: ["high-protein", "family-friendly", "easy-dinner", "one-pan"],
+    tags: ["high-protein", "family-friendly", "easy-dinner", "one-pan", "glutenfree"],
     ingredients: [
-      { amount: "1.5", unit: "lbs", item: "ground beef" },
+      { amount: "1.5", unit: "lbs", item: "ground beef" ,
+    nutrition: { calories: 168, protein: 12, carbs: 7, fat: 6, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "4", unit: "large", item: "potatoes, diced" },
       { amount: "1", unit: "large", item: "onion, diced" },
       { amount: "3", unit: "cloves", item: "garlic, minced" },
@@ -7812,12 +8501,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: turkeyMeatloafImg,
     totalTime: 65,
     tags: ["high-protein", "family-friendly", "easy-dinner", "meal-prep"],
     ingredients: [
-      { amount: "2", unit: "lbs", item: "ground turkey (93% lean)" },
+      { amount: "2", unit: "lbs", item: "ground turkey (93% lean)" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "breadcrumbs" },
       { amount: "1/2", unit: "cup", item: "milk" },
       { amount: "2", unit: "", item: "eggs" },
@@ -7848,12 +8538,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: stuffedBellPeppersProteinImg,
     totalTime: 50,
-    tags: ["high-protein", "family-friendly", "easy-dinner"],
+    tags: ["high-protein", "family-friendly", "easy-dinner", "glutenfree"],
     ingredients: [
-      { amount: "4", unit: "large", item: "bell peppers (any color)" },
+      { amount: "4", unit: "large", item: "bell peppers (any color)" ,
+    nutrition: { calories: 196, protein: 13, carbs: 14, fat: 6, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "lb", item: "ground beef" },
       { amount: "1", unit: "cup", item: "cooked rice" },
       { amount: "1", unit: "can", item: "diced tomatoes (14 oz)" },
@@ -7887,9 +8578,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Dinner",
     image: bakedSalmonLemonImg,
     totalTime: 20,
-    tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "healthy"],
+    tags: ["high-protein", "family-friendly", "easy-dinner", "seafood", "glutenfree"],
     ingredients: [
-      { amount: "4", unit: "", item: "salmon fillets (6 oz each)" },
+      { amount: "4", unit: "", item: "salmon fillets (6 oz each)" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "tbsp", item: "olive oil" },
       { amount: "2", unit: "", item: "lemons (1 juiced, 1 sliced)" },
       { amount: "4", unit: "cloves", item: "garlic, minced" },
@@ -7921,6 +8613,15 @@ export const allRecipes: Recipe[] = [
     image: sheetPanShrimpFajitasImg,
     totalTime: 20,
     tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "one-pan"],
+    nutrition: {
+      calories: 270,
+      protein: 32,
+      carbs: 14,
+      fat: 9,
+      fiber: 3,
+      sugar: 6,
+      servingSize: "1 serving with tortillas"
+    },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "large shrimp, peeled and deveined" },
       { amount: "3", unit: "", item: "bell peppers, sliced" },
@@ -7955,9 +8656,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Italian",
     image: pestoBakedSalmonImg,
     totalTime: 20,
-    tags: ["high-protein", "family-friendly", "easy-dinner", "quick"],
+    tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "glutenfree"],
     ingredients: [
-      { amount: "4", unit: "", item: "salmon fillets (6 oz each)" },
+      { amount: "4", unit: "", item: "salmon fillets (6 oz each)" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "basil pesto" },
       { amount: "1/4", unit: "cup", item: "grated Parmesan cheese" },
       { amount: "2", unit: "tbsp", item: "pine nuts" },
@@ -7990,7 +8692,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 45,
     tags: ["high-protein", "family-friendly", "easy-dinner"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "ziti pasta" },
+      { amount: "1", unit: "lb", item: "ziti pasta" ,
+    nutrition: { calories: 160, protein: 6, carbs: 7, fat: 9, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "lb", item: "ground beef" },
       { amount: "24", unit: "oz", item: "marinara sauce" },
       { amount: "2", unit: "cups", item: "cottage cheese" },
@@ -8027,7 +8730,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 260,
     tags: ["high-protein", "family-friendly", "easy-dinner", "slow-cooker"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "lb", item: "ground beef" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "jar", item: "marinara sauce (24 oz)" },
       { amount: "15", unit: "oz", item: "ricotta cheese" },
       { amount: "2", unit: "cups", item: "shredded mozzarella cheese" },
@@ -8063,7 +8767,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 35,
     tags: ["high-protein", "family-friendly", "easy-dinner"],
     ingredients: [
-      { amount: "1.5", unit: "lbs", item: "beef sirloin, sliced thin" },
+      { amount: "1.5", unit: "lbs", item: "beef sirloin, sliced thin" ,
+    nutrition: { calories: 168, protein: 12, carbs: 7, fat: 6, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "8", unit: "oz", item: "mushrooms, sliced" },
       { amount: "1", unit: "medium", item: "onion, diced" },
       { amount: "3", unit: "cloves", item: "garlic, minced" },
@@ -8101,7 +8806,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 25,
     tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "kid-friendly"],
     ingredients: [
-      { amount: "2", unit: "cups", item: "cooked chicken, shredded" },
+      { amount: "2", unit: "cups", item: "cooked chicken, shredded" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "shredded Mexican cheese blend" },
       { amount: "8", unit: "", item: "flour tortillas (8 inch)" },
       { amount: "1", unit: "", item: "bell pepper, diced" },
@@ -8138,7 +8844,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 25,
     tags: ["high-protein", "family-friendly", "easy-dinner", "quick"],
     ingredients: [
-      { amount: "1.5", unit: "lbs", item: "chicken breast, sliced thin" },
+      { amount: "1.5", unit: "lbs", item: "chicken breast, sliced thin" ,
+    nutrition: { calories: 205, protein: 12, carbs: 7, fat: 10, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "4", unit: "cups", item: "broccoli florets" },
       { amount: "1/4", unit: "cup", item: "soy sauce" },
       { amount: "2", unit: "tbsp", item: "honey" },
@@ -8171,11 +8878,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Healthy Bowls",
-    image: bbqPulledPorkBowlsImg,
+    image: "https://i.imgur.com/cMY4vN6.jpeg",
     totalTime: 375,
-    tags: ["high-protein", "family-friendly", "easy-dinner", "meal-prep", "slow-cooker"],
+    tags: ["high-protein", "family-friendly", "easy-dinner", "meal-prep", "slow-cooker", "glutenfree"],
     ingredients: [
-      { amount: "3", unit: "lbs", item: "pork shoulder" },
+      { amount: "3", unit: "lbs", item: "pork shoulder" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "BBQ sauce" },
       { amount: "1/2", unit: "cup", item: "chicken broth" },
       { amount: "1", unit: "tbsp", item: "paprika" },
@@ -8210,7 +8918,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Healthy Bowls",
     image: eggRollBowlsImg,
     totalTime: 25,
-    tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "low-carb"],
+    tags: ["high-protein", "family-friendly", "easy-dinner", "low-carb", "bowls"],
+    nutrition: {
+      calories: 295,
+      protein: 26,
+      carbs: 12,
+      fat: 17,
+      fiber: 3,
+      sugar: 6,
+      servingSize: "1 bowl"
+    },
     ingredients: [
       { amount: "1", unit: "lb", item: "ground pork" },
       { amount: "1", unit: "bag", item: "coleslaw mix (14 oz)" },
@@ -8243,11 +8960,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Italian",
-    image: onePotMarryMeChickenPastaImg,
+    image: "https://i.imgur.com/I5BLPNd.png",
     totalTime: 35,
     tags: ["one-pot", "pasta", "chicken", "creamy"],
     ingredients: [
-      { amount: "1.5", unit: "lbs", item: "chicken breast, cut into pieces" },
+      { amount: "1.5", unit: "lbs", item: "chicken breast, cut into pieces" ,
+    nutrition: { calories: 162, protein: 11, carbs: 8, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "12", unit: "oz", item: "penne pasta" },
       { amount: "3", unit: "cups", item: "chicken broth" },
       { amount: "1", unit: "cup", item: "heavy cream" },
@@ -8282,7 +9000,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 40,
     tags: ["one-pot", "pasta", "vegetarian"],
     ingredients: [
-      { amount: "3", unit: "large", item: "onions, thinly sliced" },
+      { amount: "3", unit: "large", item: "onions, thinly sliced" ,
+    nutrition: { calories: 291, protein: 15, carbs: 18, fat: 12, fiber: 2, sugar: 5, servingSize: "1 serving (serves 4)" }},
       { amount: "12", unit: "oz", item: "pasta" },
       { amount: "4", unit: "cups", item: "beef or vegetable broth" },
       { amount: "1", unit: "cup", item: "gruyere cheese, shredded" },
@@ -8316,7 +9035,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 35,
     tags: ["one-pot", "pasta", "beef"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "lb", item: "ground beef" ,
+    nutrition: { calories: 171, protein: 11, carbs: 8, fat: 5, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "12", unit: "oz", item: "penne pasta" },
       { amount: "1", unit: "can", item: "crushed tomatoes (28 oz)" },
       { amount: "2", unit: "cups", item: "beef broth" },
@@ -8345,12 +9065,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "Cajun",
+    cuisine: "One Pot Wonders",
     image: onePotCajunShrimpPastaImg,
     totalTime: 30,
-    tags: ["one-pot", "pasta", "seafood", "spicy"],
+    tags: ["one-pot", "pasta", "seafood", "spicy", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "large shrimp, peeled and deveined" },
+      { amount: "1", unit: "lb", item: "large shrimp, peeled and deveined" ,
+    nutrition: { calories: 264, protein: 15, carbs: 18, fat: 9, fiber: 2, sugar: 5, servingSize: "1 serving (serves 4)" }},
       { amount: "12", unit: "oz", item: "linguine" },
       { amount: "3", unit: "cups", item: "chicken broth" },
       { amount: "1", unit: "cup", item: "heavy cream" },
@@ -8380,10 +9101,19 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "Italian",
+    cuisine: "One Pot Wonders",
     image: onePotPastaPuttanescaImg,
     totalTime: 30,
     tags: ["one-pot", "pasta", "vegetarian"],
+    nutrition: {
+      calories: 420,
+      protein: 14,
+      carbs: 72,
+      fat: 9,
+      fiber: 6,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "12", unit: "oz", item: "spaghetti" },
       { amount: "1", unit: "can", item: "crushed tomatoes (28 oz)" },
@@ -8413,10 +9143,19 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "Italian",
-    image: onePotPastaPrimaveraImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/v0u8Ney.png",
     totalTime: 30,
     tags: ["one-pot", "pasta", "vegetarian", "healthy"],
+    nutrition: {
+      calories: 385,
+      protein: 14,
+      carbs: 68,
+      fat: 7,
+      fiber: 6,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "12", unit: "oz", item: "penne pasta" },
       { amount: "3", unit: "cups", item: "vegetable broth" },
@@ -8451,7 +9190,16 @@ export const allRecipes: Recipe[] = [
     cuisine: "Spanish",
     image: onePotSpanishChickenRiceImg,
     totalTime: 50,
-    tags: ["one-pot", "chicken", "rice"],
+    tags: ["one-pot", "chicken", "rice", "glutenfree"],
+    nutrition: {
+      calories: 465,
+      protein: 32,
+      carbs: 52,
+      fat: 14,
+      fiber: 3,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
     ingredients: [
       { amount: "6", unit: "", item: "chicken thighs, bone-in" },
       { amount: "2", unit: "cups", item: "long-grain rice" },
@@ -8489,9 +9237,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Mexican",
     image: onePotMexicanChickenRiceImg,
     totalTime: 40,
-    tags: ["one-pot", "chicken", "rice", "mexican"],
+    tags: ["one-pot", "chicken", "rice", "mexican", "glutenfree"],
     ingredients: [
-      { amount: "1.5", unit: "lbs", item: "chicken breast, diced" },
+      { amount: "1.5", unit: "lbs", item: "chicken breast, diced" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "long-grain rice" },
       { amount: "3.5", unit: "cups", item: "chicken broth" },
       { amount: "1", unit: "can", item: "black beans, drained" },
@@ -8522,11 +9271,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Italian",
-    image: onePotMarryMeChickenImg,
+    image: "https://i.imgur.com/fzdXOOm.png",
     totalTime: 35,
-    tags: ["one-pot", "chicken", "creamy"],
+    tags: ["one-pot", "chicken", "creamy", "glutenfree"],
     ingredients: [
-      { amount: "4", unit: "", item: "chicken breasts" },
+      { amount: "4", unit: "", item: "chicken breasts" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "heavy cream" },
       { amount: "1/2", unit: "cup", item: "chicken broth" },
       { amount: "1/2", unit: "cup", item: "sun-dried tomatoes, chopped" },
@@ -8561,7 +9311,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 40,
     tags: ["one-pot", "chicken", "rice"],
     ingredients: [
-      { amount: "6", unit: "", item: "chicken thighs, bone-in" },
+      { amount: "6", unit: "", item: "chicken thighs, bone-in" ,
+    nutrition: { calories: 210, protein: 12, carbs: 7, fat: 11, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "jasmine rice" },
       { amount: "3", unit: "cups", item: "chicken broth" },
       { amount: "8", unit: "cloves", item: "garlic, minced" },
@@ -8589,12 +9340,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: onePotChickenRiceVegetablesImg,
     totalTime: 40,
-    tags: ["one-pot", "chicken", "rice", "healthy"],
+    tags: ["one-pot", "chicken", "rice", "healthy", "glutenfree"],
     ingredients: [
-      { amount: "1.5", unit: "lbs", item: "chicken breast, diced" },
+      { amount: "1.5", unit: "lbs", item: "chicken breast, diced" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "long-grain rice" },
       { amount: "3.5", unit: "cups", item: "chicken broth" },
       { amount: "2", unit: "cups", item: "broccoli florets" },
@@ -8627,9 +9379,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Greek",
     image: onePotGreekChickenLemonRiceImg,
     totalTime: 40,
-    tags: ["one-pot", "chicken", "rice", "mediterranean"],
+    tags: ["one-pot", "chicken", "rice", "mediterranean", "glutenfree"],
     ingredients: [
-      { amount: "6", unit: "", item: "chicken thighs" },
+      { amount: "6", unit: "", item: "chicken thighs" ,
+    nutrition: { calories: 193, protein: 11, carbs: 12, fat: 7, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "long-grain rice" },
       { amount: "3.5", unit: "cups", item: "chicken broth" },
       { amount: "1/2", unit: "cup", item: "kalamata olives" },
@@ -8661,11 +9414,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Italian",
-    image: onePotChickenGnocchiSoupImg,
+    image: "https://i.imgur.com/OGUHsDz.png",
     totalTime: 35,
-    tags: ["one-pot", "soup", "chicken", "creamy"],
+    tags: ["one-pot", "soup", "chicken", "creamy", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "chicken breast, diced" },
+      { amount: "1", unit: "lb", item: "chicken breast, diced" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "package", item: "potato gnocchi (16 oz)" },
       { amount: "4", unit: "cups", item: "chicken broth" },
       { amount: "1", unit: "cup", item: "heavy cream" },
@@ -8700,7 +9454,8 @@ export const allRecipes: Recipe[] = [
     totalTime: 35,
     tags: ["one-pot", "soup", "beef"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "lb", item: "ground beef" ,
+    nutrition: { calories: 150, protein: 11, carbs: 11, fat: 7, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "cup", item: "ditalini or small pasta" },
       { amount: "4", unit: "cups", item: "beef broth" },
       { amount: "1", unit: "can", item: "diced tomatoes (14 oz)" },
@@ -8728,12 +9483,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "medium",
     servings: 6,
-    cuisine: "Indian",
+    cuisine: "One Pot Wonders",
     image: onePotCoconutCurryLentilSoupImg,
     totalTime: 40,
-    tags: ["one-pot", "soup", "vegan", "healthy"],
+    tags: ["one-pot", "soup", "vegan", "glutenfree"],
     ingredients: [
-      { amount: "1.5", unit: "cups", item: "red lentils" },
+      { amount: "1.5", unit: "cups", item: "red lentils" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1", unit: "can", item: "coconut milk (14 oz)" },
       { amount: "4", unit: "cups", item: "vegetable broth" },
       { amount: "2", unit: "cups", item: "spinach" },
@@ -8764,12 +9520,13 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 6,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: onePotChickenPotPieChowderImg,
     totalTime: 45,
     tags: ["one-pot", "soup", "chicken", "comfort-food"],
     ingredients: [
-      { amount: "1.5", unit: "lbs", item: "chicken breast, diced" },
+      { amount: "1.5", unit: "lbs", item: "chicken breast, diced" ,
+    nutrition: { calories: 150, protein: 5, carbs: 7, fat: 6, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "4", unit: "cups", item: "chicken broth" },
       { amount: "2", unit: "cups", item: "heavy cream" },
       { amount: "3", unit: "", item: "potatoes, diced" },
@@ -8806,9 +9563,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "French",
     image: onePotBraisedShortRibsImg,
     totalTime: 170,
-    tags: ["one-pot", "beef", "slow-cooked"],
+    tags: ["one-pot", "beef", "slow-cooked", "glutenfree"],
     ingredients: [
-      { amount: "3", unit: "lbs", item: "beef short ribs" },
+      { amount: "3", unit: "lbs", item: "beef short ribs" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "red wine" },
       { amount: "2", unit: "cups", item: "beef broth" },
       { amount: "3", unit: "", item: "carrots, cut into chunks" },
@@ -8842,11 +9600,12 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "British",
-    image: onePotSausagePotatoGravyImg,
+    image: "https://i.imgur.com/YXC8wdT.png",
     totalTime: 55,
     tags: ["one-pot", "sausage", "comfort-food"],
     ingredients: [
-      { amount: "6", unit: "", item: "large sausages" },
+      { amount: "6", unit: "", item: "large sausages" ,
+    nutrition: { calories: 173, protein: 10, carbs: 6, fat: 8, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "6", unit: "", item: "potatoes, quartered" },
       { amount: "2", unit: "", item: "onions, sliced" },
       { amount: "2", unit: "cups", item: "beef broth" },
@@ -8880,9 +9639,10 @@ export const allRecipes: Recipe[] = [
     cuisine: "Mexican",
     image: onePotBeefTacoSkilletImg,
     totalTime: 35,
-    tags: ["one-pot", "beef", "mexican", "easy-dinner"],
+    tags: ["one-pot", "beef", "mexican", "easy-dinner", "glutenfree"],
     ingredients: [
-      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "lb", item: "ground beef" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "2", unit: "cups", item: "long-grain rice" },
       { amount: "3", unit: "cups", item: "beef broth" },
       { amount: "1", unit: "can", item: "black beans, drained" },
@@ -8916,7 +9676,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "Italian",
-    image: vegetarianLasagnaImg,
+    image: "https://i.imgur.com/SFu43aU.png",
     totalTime: 75,
     tags: ["dinner", "vegetarian", "italian", "comfort-food", "plant-based"],
     nutrition: {
@@ -8959,10 +9719,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 6,
-    cuisine: "Lunch",
+    cuisine: "One Pot Wonders",
     image: vegetarianChiliImg,
     totalTime: 55,
-    tags: ["dinner", "vegetarian", "healthy", "comfort-food", "plant-based"],
+    tags: ["one-pot", "vegetarian", "comfort-food", "plant-based", "glutenfree"],
     nutrition: {
       calories: 320,
       protein: 18,
@@ -9001,10 +9761,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 6,
-    cuisine: "American",
-    image: veggieBurgersImg,
+    cuisine: "Dinner",
+    image: "https://i.imgur.com/uZQpVYf.png",
     totalTime: 35,
-    tags: ["dinner", "vegetarian", "plant-based", "healthy"],
+    tags: ["dinner", "vegetarian", "plant-based"],
     nutrition: {
       calories: 380,
       protein: 16,
@@ -9088,7 +9848,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Lunch",
     image: butterChickpeasImg,
     totalTime: 35,
-    tags: ["dinner", "vegetarian", "indian", "healthy", "plant-based"],
+    tags: ["dinner", "vegetarian", "indian", "healthy", "plant-based", "glutenfree"],
     nutrition: {
       calories: 340,
       protein: 14,
@@ -9128,9 +9888,9 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Japanese",
-    image: misoMushroomRiceImg,
+    image: "https://i.imgur.com/tGfRFTP.png",
     totalTime: 35,
-    tags: ["dinner", "vegetarian", "asian", "healthy"],
+    tags: ["dinner", "vegetarian", "asian", "healthy", "glutenfree"],
     nutrition: {
       calories: 380,
       protein: 12,
@@ -9168,10 +9928,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 6,
-    cuisine: "Dinner",
-    image: coconutVegetableCurryImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/JfzSovd.png",
     totalTime: 40,
-    tags: ["dinner", "vegetarian", "thai", "healthy", "plant-based"],
+    tags: ["one-pot", "vegetarian", "vegan", "thai", "plant-based", "glutenfree"],
     nutrition: {
       calories: 320,
       protein: 8,
@@ -9211,10 +9971,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "Dinner",
-    image: broccoliCheddarChickpeaSkilletImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/6fDz7x6.png",
     totalTime: 30,
-    tags: ["dinner", "vegetarian", "healthy", "quick", "plant-based"],
+    tags: ["one-pot", "vegetarian", "plant-based", "glutenfree"],
     nutrition: {
       calories: 340,
       protein: 18,
@@ -9252,7 +10012,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Japanese",
-    image: mushroomRamenImg,
+    image: "https://i.imgur.com/oa8u0T4.png",
     totalTime: 40,
     tags: ["dinner", "vegetarian", "asian", "comfort-food"],
     nutrition: {
@@ -9295,9 +10055,9 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Dinner",
-    image: veggieStuffedPeppersImg,
+    image: "https://i.imgur.com/SiZ321j.png",
     totalTime: 60,
-    tags: ["dinner", "vegetarian", "healthy", "plant-based"],
+    tags: ["dinner", "vegetarian", "plant-based", "glutenfree"],
     nutrition: {
       calories: 320,
       protein: 14,
@@ -9339,7 +10099,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Lunch",
     image: blackBeanTacosImg,
     totalTime: 25,
-    tags: ["dinner", "vegetarian", "mexican", "quick", "plant-based"],
+    tags: ["dinner", "vegetarian", "vegan", "mexican", "quick", "plant-based", "glutenfree"],
     nutrition: {
       calories: 380,
       protein: 16,
@@ -9377,10 +10137,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 6,
-    cuisine: "Middle Eastern",
+    cuisine: "Dinner",
     image: crispyBakedFalafelImg,
     totalTime: 45,
-    tags: ["dinner", "vegetarian", "middle-eastern", "healthy", "plant-based"],
+    tags: ["dinner", "vegetarian", "vegan", "middle-eastern", "plant-based"],
     nutrition: {
       calories: 340,
       protein: 14,
@@ -9419,10 +10179,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "medium",
     servings: 6,
-    cuisine: "Lunch",
+    cuisine: "One Pot Wonders",
     image: redLentilDahlImg,
     totalTime: 40,
-    tags: ["dinner", "vegetarian", "indian", "healthy", "plant-based"],
+    tags: ["one-pot", "vegetarian", "vegan", "indian", "plant-based", "glutenfree"],
     nutrition: {
       calories: 280,
       protein: 16,
@@ -9466,7 +10226,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Lunch",
     image: veganNachosImg,
     totalTime: 25,
-    tags: ["quick-and-easy", "vegan", "mexican", "plant-based"],
+    tags: ["quick-and-easy", "vegan", "vegetarian", "mexican", "plant-based", "glutenfree"],
     nutrition: {
       calories: 420,
       protein: 12,
@@ -9496,7 +10256,49 @@ export const allRecipes: Recipe[] = [
       "Garnish with [cilantro], serve with [lime wedges]."
     ]
   },
-  
+  {
+    id: "quick-cottage-cheese-flatbread-pizza",
+    name: "Cottage Cheese Flatbread Pizza",
+    description: "Trending high-protein flatbread base - customizable toppings, crispy and delicious",
+    cookTime: "20 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "Quick and Easy",
+    image: "https://i.imgur.com/OANqrl5.png",
+    totalTime: 25,
+    tags: ["quick-and-easy", "high-protein", "vegetarian", "glutenfree"],
+    nutrition: {
+      calories: 320,
+      protein: 28,
+      carbs: 24,
+      fat: 14,
+      fiber: 3,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "cup", item: "cottage cheese" },
+      { amount: "1", unit: "cup", item: "shredded mozzarella cheese" },
+      { amount: "1/2", unit: "cup", item: "almond flour" },
+      { amount: "1", unit: "large", item: "egg" },
+      { amount: "1/2", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/4", unit: "tsp", item: "garlic powder" },
+      { amount: "1/2", unit: "cup", item: "marinara sauce" },
+      { amount: "1/2", unit: "cup", item: "toppings of choice (pepperoni, veggies, etc.)" }
+    ],
+    instructions: [
+      "Preheat oven to 375°F and line a baking sheet with parchment paper.",
+      "In a food processor, blend cottage cheese until smooth.",
+      "Add 1/2 cup mozzarella, almond flour, egg, Italian seasoning, and garlic powder. Pulse until combined.",
+      "Pour mixture onto prepared baking sheet and spread into a thin rectangle or circle.",
+      "Bake for 15 minutes until edges are golden and center is set.",
+      "Remove from oven and top with marinara sauce, remaining mozzarella, and your choice of toppings.",
+      "Return to oven and bake for 5 more minutes until cheese is melted.",
+      "Slice and serve"
+    ]
+  },
+
   // LUNCH IDEAS (4)
   {
     id: "lunch-mushroom-walnut-veggie-burger",
@@ -9506,10 +10308,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "Lunch Ideas",
     image: mushroomWalnutVeggieBurgerImg,
     totalTime: 35,
-    tags: ["lunch", "dinner", "vegetarian", "plant-based", "healthy"],
+    tags: ["lunch", "vegetarian", "plant-based"],
     nutrition: {
       calories: 420,
       protein: 18,
@@ -9547,10 +10349,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "Lunch",
+    cuisine: "Lunch Ideas",
     image: cauliflowerShawarmaImg,
     totalTime: 45,
-    tags: ["lunch", "vegetarian", "middle-eastern", "healthy", "plant-based"],
+    tags: ["lunch", "vegetarian", "middle-eastern", "plant-based"],
     nutrition: {
       calories: 340,
       protein: 12,
@@ -9589,10 +10391,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "Lunch",
+    cuisine: "Lunch Ideas",
     image: sesameTofuBroccoliImg,
     totalTime: 35,
-    tags: ["lunch", "vegetarian", "asian", "healthy", "plant-based"],
+    tags: ["lunch", "vegetarian", "asian", "plant-based"],
     nutrition: {
       calories: 320,
       protein: 18,
@@ -9633,7 +10435,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Lunch",
     image: chipotlePortobelloTacosImg,
     totalTime: 25,
-    tags: ["lunch", "vegetarian", "mexican", "quick", "plant-based"],
+    tags: ["lunch", "vegetarian", "vegan", "mexican", "quick", "plant-based", "glutenfree"],
     nutrition: {
       calories: 280,
       protein: 10,
@@ -9672,10 +10474,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 6,
-    cuisine: "Lunch",
+    cuisine: "One Pot Wonders",
     image: spicedCarrotParsnipSoupImg,
     totalTime: 45,
-    tags: ["one-pot", "vegetarian", "soup", "healthy", "plant-based"],
+    tags: ["one-pot", "vegetarian", "soup", "plant-based", "glutenfree"],
     nutrition: {
       calories: 180,
       protein: 4,
@@ -9757,7 +10559,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Dinner",
     image: coconutMilkTomatoSoupImg,
     totalTime: 30,
-    tags: ["one-pot", "vegan", "soup", "quick", "plant-based"],
+    tags: ["one-pot", "vegan", "soup", "quick", "plant-based", "glutenfree"],
     nutrition: {
       calories: 220,
       protein: 4,
@@ -9799,7 +10601,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Healthy Bowls",
     image: coconutRiceBowlsImg,
     totalTime: 35,
-    tags: ["healthy-bowls", "vegetarian", "asian", "healthy", "plant-based"],
+    tags: ["healthy-bowls", "vegetarian", "asian", "healthy", "plant-based", "glutenfree"],
     nutrition: {
       calories: 380,
       protein: 12,
@@ -9829,7 +10631,48 @@ export const allRecipes: Recipe[] = [
       "Drizzle with soy sauce or Asian dressing if desired."
     ]
   },
-  
+  {
+    id: "bowl-hot-honey-ground-beef",
+    name: "Hot Honey Ground Beef Bowls",
+    description: "Viral TikTok recipe with sweet potato, lean ground beef, cottage cheese, avocado, and hot honey",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Healthy Bowls",
+    image: "https://i.imgur.com/DXxuZFa.png",
+    totalTime: 40,
+    tags: ["healthy-bowls", "high-protein", "tiktok", "glutenfree"],
+    nutrition: {
+      calories: 590,
+      protein: 55,
+      carbs: 47,
+      fat: 17,
+      fiber: 8,
+      sugar: 12,
+      servingSize: "1 bowl"
+    },
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "sweet potato, peeled and diced" },
+      { amount: "1", unit: "tsp", item: "cinnamon" },
+      { amount: "1", unit: "lb", item: "93/7 lean ground beef" },
+      { amount: "1", unit: "tbsp", item: "tomato paste" },
+      { amount: "1", unit: "tbsp", item: "taco seasoning" },
+      { amount: "2", unit: "cups", item: "2% low-fat cottage cheese" },
+      { amount: "4", unit: "small", item: "avocados" },
+      { amount: "4", unit: "tbsp", item: "hot honey" },
+      { amount: "", unit: "to taste", item: "salt and pepper" }
+    ],
+    instructions: [
+      "Preheat oven to 425°F and line a baking sheet with parchment paper.",
+      "Add diced sweet potatoes to baking sheet, spray with cooking spray, and season with salt, pepper, and cinnamon. Bake for 30 minutes, flipping halfway through.",
+      "While potatoes bake, heat a frying pan on medium-high heat. Add ground beef and cook, breaking it into small pieces until fully cooked (about 5 minutes).",
+      "Stir in tomato paste and taco seasoning. Cook for another 2 minutes.",
+      "Assemble bowls: divide sweet potatoes among 4 bowls. Top each with seasoned beef, 1/2 cup cottage cheese, sliced avocado, and drizzle with 1 tbsp hot honey.",
+      "Serve immediately and enjoy!"
+    ]
+  },
+
   // DESSERTS (1)
   {
     id: "dessert-vegan-mug-cakes",
@@ -9839,7 +10682,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "5 mins",
     difficulty: "easy",
     servings: 2,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: veganMugCakesImg,
     totalTime: 7,
     tags: ["dessert", "vegan", "quick", "plant-based"],
@@ -9912,6 +10755,48 @@ export const allRecipes: Recipe[] = [
       "Let cool completely to crisp up more. Use as topping for avocado toast, salads, or breakfast bowls."
     ]
   },
+  {
+    id: "breakfast-cloud-bread-sandwich",
+    name: "Cloud Bread Breakfast Sandwich",
+    description: "High-protein breakfast with fluffy cloud bread, eggs, cheese, and ham",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 2,
+    cuisine: "Breakfast",
+    image: "https://i.imgur.com/DYfRt7q.png",
+    totalTime: 25,
+    tags: ["breakfast", "high-protein", "glutenfree"],
+    nutrition: {
+      calories: 280,
+      protein: 25,
+      carbs: 4,
+      fat: 18,
+      fiber: 0,
+      sugar: 2,
+      servingSize: "1 sandwich"
+    },
+    ingredients: [
+      { amount: "3", unit: "large", item: "eggs, separated" },
+      { amount: "3", unit: "tbsp", item: "cream cheese, softened" },
+      { amount: "1/4", unit: "tsp", item: "baking powder" },
+      { amount: "1/4", unit: "tsp", item: "garlic powder" },
+      { amount: "2", unit: "slices", item: "cheddar cheese" },
+      { amount: "2", unit: "slices", item: "deli ham or turkey" },
+      { amount: "", unit: "pinch", item: "salt" }
+    ],
+    instructions: [
+      "Preheat oven to 300°F and line a baking sheet with parchment paper.",
+      "In a bowl, beat egg whites with salt until stiff peaks form.",
+      "In another bowl, mix egg yolks, cream cheese, baking powder, and garlic powder until smooth.",
+      "Gently fold egg whites into yolk mixture until combined (don't overmix).",
+      "Spoon mixture into 4 equal rounds on the baking sheet.",
+      "Bake for 15 minutes until golden and set. Let cool for 5 minutes.",
+      "While bread cools, cook eggs to your preference.",
+      "Assemble sandwiches: cloud bread, cheese, egg, ham, and top with another cloud bread.",
+      "Serve immediately and enjoy!"
+    ]
+  },
 
   // ========== FALL FAVORITES (20) ==========
   {
@@ -9923,7 +10808,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Fall Favorites",
-    image: pumpkinCreamCheeseMuffinsImg,
+    image: "https://i.imgur.com/HMov1N3.png",
     totalTime: 35,
     tags: ["fall", "breakfast", "baking", "pumpkin"],
     nutrition: {
@@ -9971,7 +10856,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: pumpkinSpiceLatteOatsImg,
     totalTime: 5,
-    tags: ["fall", "breakfast", "no-cook", "healthy"],
+    tags: ["fall", "breakfast", "no-cook"],
     nutrition: {
       calories: 280,
       protein: 8,
@@ -10008,7 +10893,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "30 mins",
     difficulty: "medium",
     servings: 12,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: pumpkinCinnamonRollsImg,
     totalTime: 145,
     tags: ["fall", "breakfast", "baking", "pumpkin"],
@@ -10054,7 +10939,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "hard",
     servings: 4,
     cuisine: "Italian",
-    image: pumpkinRavioliImg,
+    image: "https://i.imgur.com/0KKzJWB.png",
     totalTime: 68,
     tags: ["fall", "pasta", "dinner", "pumpkin"],
     nutrition: {
@@ -10140,8 +11025,8 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "easy",
     servings: 12,
-    cuisine: "American-Asian Fusion",
-    image: applePieEggRollsImg,
+    cuisine: "Fall Favorites",
+    image: "https://i.imgur.com/tV54YR8.png",
     totalTime: 35,
     tags: ["fall", "dessert", "fried", "apples"],
     nutrition: {
@@ -10182,7 +11067,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "American",
+    cuisine: "Fall Favorites",
     image: stuffedBakedApplesImg,
     totalTime: 60,
     tags: ["fall", "dessert", "baking", "apples"],
@@ -10224,10 +11109,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "5 mins",
     difficulty: "easy",
     servings: 12,
-    cuisine: "American",
+    cuisine: "Fall Favorites",
     image: pumpkinDumpCakeImg,
     totalTime: 55,
-    tags: ["fall", "dessert", "easy", "pumpkin"],
+    tags: ["fall", "dessert", "easy", "pumpkin", "glutenfree"],
     nutrition: {
       calories: 340,
       protein: 4,
@@ -10266,7 +11151,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "30 mins",
     difficulty: "medium",
     servings: 8,
-    cuisine: "American",
+    cuisine: "Fall Favorites",
     image: cinnamonRollApplePieImg,
     totalTime: 75,
     tags: ["fall", "dessert", "baking", "apples"],
@@ -10308,7 +11193,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "5 mins",
     difficulty: "easy",
     servings: 1,
-    cuisine: "American",
+    cuisine: "Fall Favorites",
     image: appleCrispMugImg,
     totalTime: 7,
     tags: ["fall", "dessert", "microwave", "apples"],
@@ -10395,7 +11280,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: honeyCrispAppleSaladImg,
     totalTime: 15,
-    tags: ["fall", "salad", "healthy", "apples"],
+    tags: ["fall", "salad", "apples", "glutenfree"],
     nutrition: {
       calories: 280,
       protein: 6,
@@ -10433,9 +11318,9 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Fall Favorites",
-    image: appleButterChickenImg,
+    image: "https://i.imgur.com/bY5AoqI.png",
     totalTime: 35,
-    tags: ["fall", "dinner", "chicken", "apples"],
+    tags: ["fall", "chicken", "apples", "glutenfree"],
     nutrition: {
       calories: 380,
       protein: 36,
@@ -10479,7 +11364,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: fallPumpkinSpiceLatteImg,
     totalTime: 10,
-    tags: ["fall", "drinks", "coffee", "pumpkin"],
+    tags: ["fall", "drinks", "coffee", "pumpkin", "glutenfree"],
     nutrition: {
       calories: 240,
       protein: 6,
@@ -10520,7 +11405,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: fallCaramelAppleCiderImg,
     totalTime: 15,
-    tags: ["fall", "drinks", "apples", "kid-friendly"],
+    tags: ["fall", "drinks", "apples", "kid-friendly", "glutenfree"],
     nutrition: {
       calories: 180,
       protein: 0,
@@ -10556,7 +11441,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 24,
-    cuisine: "American",
+    cuisine: "Fall Favorites",
     image: fallMapleBrownButterCookiesImg,
     totalTime: 27,
     tags: ["fall", "dessert", "cookies", "maple"],
@@ -10599,10 +11484,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 16,
-    cuisine: "American",
+    cuisine: "Fall Favorites",
     image: fallPumpkinCheesecakeBarsNewImg,
     totalTime: 180,
-    tags: ["fall", "dessert", "cheesecake", "pumpkin"],
+    tags: ["fall", "dessert", "cheesecake", "pumpkin", "glutenfree"],
     nutrition: {
       calories: 310,
       protein: 5,
@@ -10645,7 +11530,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: fallChaiHotChocolateImg,
     totalTime: 15,
-    tags: ["fall", "drinks", "chocolate", "spiced"],
+    tags: ["fall", "drinks", "chocolate", "spiced", "glutenfree"],
     nutrition: {
       calories: 280,
       protein: 8,
@@ -10676,46 +11561,6 @@ export const allRecipes: Recipe[] = [
     ]
   },
 
-  {
-    id: "fall-pumpkin-overnight-oats",
-    name: "Pumpkin Spice Overnight Oats",
-    description: "Easy make-ahead breakfast with pumpkin and fall spices. Healthy and delicious!",
-    cookTime: "0 mins",
-    prepTime: "5 mins",
-    difficulty: "easy",
-    servings: 2,
-    cuisine: "American",
-    image: fallPumpkinOvernightOatsNewImg,
-    totalTime: 5,
-    tags: ["fall", "breakfast", "no-cook", "healthy", "pumpkin"],
-    nutrition: {
-      calories: 320,
-      protein: 12,
-      carbs: 52,
-      fat: 8,
-      fiber: 8,
-      sugar: 16,
-      servingSize: "1 serving"
-    },
-    ingredients: [
-      { amount: "1", unit: "cup", item: "rolled oats" },
-      { amount: "1", unit: "cup", item: "milk" },
-      { amount: "1/2", unit: "cup", item: "pumpkin puree" },
-      { amount: "2", unit: "tbsp", item: "maple syrup" },
-      { amount: "1", unit: "tsp", item: "pumpkin pie spice" },
-      { amount: "1", unit: "tsp", item: "vanilla" },
-      { amount: "2", unit: "tbsp", item: "chia seeds" },
-      { amount: "", unit: "", item: "toppings: pecans, granola" }
-    ],
-    instructions: [
-      "In jar or container, mix [1 cup oats], [1 cup milk], [1/2 cup pumpkin].",
-      "Add [2 tbsp maple syrup], [1 tsp pumpkin spice], [1 tsp vanilla], [2 tbsp chia seeds].",
-      "Stir well, cover, refrigerate overnight (or at least 4 hours).",
-      "In morning, stir and add milk if too thick.",
-      "Top with pecans, granola, or extra maple syrup.",
-      "Enjoy cold or warm in microwave 1 minute!"
-    ]
-  },
 
   {
     id: "fall-salted-caramel-apple-bars",
@@ -10725,7 +11570,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 16,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: fallCaramelAppleBarsImg,
     totalTime: 65,
     tags: ["fall", "dessert", "baking", "apples", "caramel"],
@@ -10771,7 +11616,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: fallMulledWineImg,
     totalTime: 125,
-    tags: ["fall", "drinks", "wine", "slow cooker"],
+    tags: ["fall", "drinks", "wine", "slow cooker", "glutenfree"],
     nutrition: {
       calories: 150,
       protein: 0,
@@ -10813,7 +11658,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: fallAppleButterImg,
     totalTime: 495,
-    tags: ["fall", "spread", "apples", "slow cooker"],
+    tags: ["fall", "spread", "apples", "slow cooker", "glutenfree"],
     nutrition: {
       calories: 50,
       protein: 0,
@@ -10851,7 +11696,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "easy",
     servings: 36,
-    cuisine: "American",
+    cuisine: "Fall Favorites",
     image: fallBrownButterPumpkinCookiesImg,
     totalTime: 32,
     tags: ["fall", "dessert", "cookies", "pumpkin"],
@@ -10896,7 +11741,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "Fall Favorites",
-    image: fallGreenBeanCasseroleImg,
+    image: "https://i.imgur.com/UnCwJj5.png",
     totalTime: 40,
     tags: ["fall", "side dish", "casserole", "thanksgiving"],
     nutrition: {
@@ -10940,7 +11785,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: fallSweetPotatoCasseroleNewImg,
     totalTime: 50,
-    tags: ["fall", "side dish", "sweet potatoes", "thanksgiving"],
+    tags: ["fall", "side dish", "sweet potatoes", "thanksgiving", "glutenfree"],
     nutrition: {
       calories: 320,
       protein: 3,
@@ -10980,10 +11825,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 8,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: fallTurkeyBreastImg,
     totalTime: 135,
-    tags: ["fall", "main dish", "turkey", "thanksgiving"],
+    tags: ["fall", "main dish", "turkey", "thanksgiving", "glutenfree"],
     nutrition: {
       calories: 320,
       protein: 48,
@@ -11070,7 +11915,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: fallCranberrySauceImg,
     totalTime: 20,
-    tags: ["fall", "side dish", "cranberries", "thanksgiving"],
+    tags: ["fall", "side dish", "cranberries", "thanksgiving", "glutenfree"],
     nutrition: {
       calories: 90,
       protein: 0,
@@ -11111,7 +11956,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: fallMashedPotatoesImg,
     totalTime: 35,
-    tags: ["fall", "side dish", "potatoes", "thanksgiving"],
+    tags: ["fall", "side dish", "potatoes", "thanksgiving", "glutenfree"],
     nutrition: {
       calories: 220,
       protein: 4,
@@ -11153,7 +11998,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: fallBrusselsSproutsBaconImg,
     totalTime: 35,
-    tags: ["fall", "side dish", "vegetables", "thanksgiving"],
+    tags: ["fall", "side dish", "vegetables", "thanksgiving", "glutenfree"],
     nutrition: {
       calories: 180,
       protein: 8,
@@ -11195,7 +12040,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Fall Favorites",
     image: fallButternutSquashSoupNewImg,
     totalTime: 45,
-    tags: ["fall", "soup", "vegetarian", "thanksgiving"],
+    tags: ["fall", "soup", "vegetarian", "thanksgiving", "glutenfree"],
     nutrition: {
       calories: 180,
       protein: 3,
@@ -11237,10 +12082,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "Italian-American",
-    image: creamyTortelliniSoupImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/hrh2OLA.png",
     totalTime: 30,
-    tags: ["One Pot Wonders", "soup", "pasta", "comfort food"],
+    tags: ["one-pot", "soup", "pasta", "comfort-food", "glutenfree"],
     nutrition: {
       calories: 340,
       protein: 14,
@@ -11281,7 +12126,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 8,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: butternutSquashMacCheeseImg,
     totalTime: 35,
     tags: ["One Pot Wonders", "pasta", "vegetarian", "comfort food"],
@@ -11324,10 +12169,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 8,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: loadedBakedPotatoSoupImg,
     totalTime: 45,
-    tags: ["One Pot Wonders", "soup", "comfort food", "bacon"],
+    tags: ["One Pot Wonders", "soup", "comfort food", "bacon", "glutenfree"],
     nutrition: {
       calories: 380,
       protein: 12,
@@ -11367,7 +12212,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "30 mins",
     difficulty: "medium",
     servings: 6,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: beefStewPumpkinImg,
     totalTime: 120,
     tags: ["One Pot Wonders", "beef", "stew", "fall"],
@@ -11454,8 +12299,8 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "easy",
     servings: 8,
-    cuisine: "American",
-    image: chickenPotPieBiscuitImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/nlPEgYy.png",
     totalTime: 55,
     tags: ["One Pot Wonders", "chicken", "comfort food", "biscuits"],
     nutrition: {
@@ -11497,10 +12342,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "Italian",
+    cuisine: "One Pot Wonders",
     image: sausageKaleSoupImg,
     totalTime: 35,
-    tags: ["One Pot Wonders", "soup", "sausage", "healthy"],
+    tags: ["one-pot", "soup", "sausage"],
     nutrition: {
       calories: 340,
       protein: 18,
@@ -11543,7 +12388,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "British-American",
     image: shepherdsPieTwiceBakedImg,
     totalTime: 95,
-    tags: ["One Pot Wonders", "beef", "potatoes", "comfort food"],
+    tags: ["One Pot Wonders", "beef", "potatoes", "comfort food", "glutenfree"],
     nutrition: {
       calories: 420,
       protein: 24,
@@ -11583,10 +12428,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: mushroomWildRiceSoupImg,
     totalTime: 60,
-    tags: ["One Pot Wonders", "soup", "vegetarian", "mushrooms"],
+    tags: ["One Pot Wonders", "soup", "vegetarian", "mushrooms", "glutenfree"],
     nutrition: {
       calories: 280,
       protein: 8,
@@ -11626,10 +12471,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 8,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: chiliCheeseFriesCasseroleImg,
     totalTime: 50,
-    tags: ["One Pot Wonders", "casserole", "beef", "cheese"],
+    tags: ["One Pot Wonders", "casserole", "beef", "cheese", "glutenfree"],
     nutrition: {
       calories: 480,
       protein: 22,
@@ -11711,7 +12556,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 6,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: crackChickenNoodleSoupImg,
     totalTime: 35,
     tags: ["One Pot Wonders", "soup", "chicken", "bacon"],
@@ -11758,7 +12603,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Dinner",
     image: marryMeTofuImg,
     totalTime: 30,
-    tags: ["One Pot Wonders", "vegan", "vegetarian", "viral", "tofu"],
+    tags: ["One Pot Wonders", "vegan", "vegetarian", "viral", "tofu", "glutenfree"],
     nutrition: {
       calories: 320,
       protein: 18,
@@ -11880,7 +12725,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Dinner",
     image: marryMeChickpeasImg,
     totalTime: 30,
-    tags: ["One Pot Wonders", "vegan", "vegetarian", "viral", "Mediterranean"],
+    tags: ["One Pot Wonders", "vegan", "vegetarian", "viral", "Mediterranean", "glutenfree"],
     nutrition: {
       calories: 340,
       protein: 14,
@@ -11920,7 +12765,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Breakfast",
     image: tofuScrambleImg,
     totalTime: 25,
-    tags: ["One Pot Wonders", "vegan", "vegetarian", "breakfast", "high-protein"],
+    tags: ["One Pot Wonders", "vegan", "vegetarian", "breakfast", "high-protein", "glutenfree"],
     nutrition: {
       calories: 220,
       protein: 16,
@@ -11958,10 +12803,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "Lunch",
+    cuisine: "One Pot Wonders",
     image: chickpeaCurryImg,
     totalTime: 30,
-    tags: ["One Pot Wonders", "vegan", "vegetarian", "Indian", "curry"],
+    tags: ["one-pot", "vegan", "vegetarian", "indian", "curry", "glutenfree"],
     nutrition: {
       calories: 380,
       protein: 14,
@@ -12001,7 +12846,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Healthy Bowls",
     image: blackBeanRiceBowlImg,
     totalTime: 35,
-    tags: ["One Pot Wonders", "vegan", "vegetarian", "Mexican", "bowl"],
+    tags: ["One Pot Wonders", "vegan", "vegetarian", "Mexican", "bowl", "glutenfree"],
     nutrition: {
       calories: 420,
       protein: 14,
@@ -12119,7 +12964,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: oysterMushroomFriedChickenImg,
     totalTime: 40,
     tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "fried"],
@@ -12192,46 +13037,6 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
-    id: "lunch-smash-burger-tacos",
-    name: "Smash Burger Tacos",
-    description: "Viral fusion! Smashed plant-based patties in tortillas. Genius combo.",
-    cookTime: "15 mins",
-    prepTime: "10 mins",
-    difficulty: "medium",
-    servings: 4,
-    cuisine: "Dinner",
-    image: smashBurgerTacosImg,
-    totalTime: 25,
-    tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "fusion"],
-    nutrition: {
-      calories: 420,
-      protein: 22,
-      carbs: 46,
-      fat: 18,
-      fiber: 8,
-      sugar: 4,
-      servingSize: "1 serving"
-    },
-    ingredients: [
-      { amount: "1", unit: "lb", item: "plant-based ground" },
-      { amount: "8", unit: "", item: "street taco tortillas" },
-      { amount: "8", unit: "slices", item: "vegan cheese" },
-      { amount: "1", unit: "cup", item: "lettuce, shredded" },
-      { amount: "1", unit: "", item: "tomato, diced" },
-      { amount: "1/4", unit: "cup", item: "pickles" },
-      { amount: "1/4", unit: "cup", item: "vegan special sauce" },
-      { amount: "", unit: "", item: "salt and pepper" }
-    ],
-    instructions: [
-      "Form [1 lb plant-based ground] into 8 small balls.",
-      "Heat griddle to high. Place ball on tortilla, smash flat with spatula.",
-      "Season with salt and pepper, cook 2 minutes.",
-      "Flip, add vegan cheese slice, cook 2 more minutes.",
-      "Top with lettuce, tomato, pickles, special sauce.",
-      "Repeat for all 8 tacos."
-    ]
-  },
-  {
     id: "lunch-charred-cabbage-coconut-broth",
     name: "Charred Cabbage with Coconut Broth",
     description: "TikTok viral elegance! Restaurant-quality vegan dish that looks stunning.",
@@ -12279,10 +13084,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: hotHoneyTofuTendersImg,
     totalTime: 40,
-    tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "spicy"],
+    tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "spicy", "glutenfree"],
     nutrition: {
       calories: 380,
       protein: 18,
@@ -12360,7 +13165,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: veganSteakBitesImg,
     totalTime: 35,
     tags: ["Lunch Ideas", "vegan", "vegetarian", "high-protein", "viral"],
@@ -12443,7 +13248,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Quick and Easy",
     image: airFryerTofuBitesImg,
     totalTime: 25,
-    tags: ["Quick and Easy", "vegan", "vegetarian", "air-fryer", "snack"],
+    tags: ["quick", "vegan", "vegetarian", "air-fryer", "snack"],
     nutrition: {
       calories: 240,
       protein: 16,
@@ -12473,7 +13278,7 @@ export const allRecipes: Recipe[] = [
   },
   {
     id: "quick-two-ingredient-pici-pasta",
-    name: "2-Ingredient Pici Pasta",
+    name: "Vegan Pici Pasta",
     description: "TikTok viral! Just flour and water make authentic Italian pasta.",
     cookTime: "5 mins",
     prepTime: "20 mins",
@@ -12481,6 +13286,7 @@ export const allRecipes: Recipe[] = [
     servings: 4,
     cuisine: "Quick and Easy",
     image: twoIngredientPiciPastaImg,
+    imageUrl: "https://i.imgur.com/SldTS5S.png",
     totalTime: 25,
     tags: ["Quick and Easy", "vegan", "vegetarian", "viral", "homemade"],
     nutrition: {
@@ -12507,45 +13313,7 @@ export const allRecipes: Recipe[] = [
       "Toss with [24 oz marinara], [1/4 cup basil], vegan parmesan."
     ]
   },
-  {
-    id: "quick-cucumber-sushi-salad",
-    name: "Cucumber Sushi Salad",
-    description: "Viral deconstructed sushi! All the flavors, none of the rolling.",
-    cookTime: "0 mins",
-    prepTime: "15 mins",
-    difficulty: "medium",
-    servings: 4,
-    cuisine: "Quick and Easy",
-    image: cucumberSushiSaladImg,
-    totalTime: 15,
-    tags: ["Quick and Easy", "vegan", "vegetarian", "no-cook", "viral"],
-    nutrition: {
-      calories: 220,
-      protein: 8,
-      carbs: 32,
-      fat: 8,
-      fiber: 6,
-      sugar: 6,
-      servingSize: "1 serving"
-    },
-    ingredients: [
-      { amount: "3", unit: "", item: "cucumbers, sliced" },
-      { amount: "2", unit: "", item: "avocados, cubed" },
-      { amount: "1", unit: "cup", item: "edamame, shelled" },
-      { amount: "1", unit: "", item: "carrot, ribboned" },
-      { amount: "3", unit: "tbsp", item: "rice vinegar" },
-      { amount: "2", unit: "tbsp", item: "soy sauce" },
-      { amount: "1", unit: "tbsp", item: "sesame oil" },
-      { amount: "2", unit: "tbsp", item: "sesame seeds" }
-    ],
-    instructions: [
-      "In large bowl, combine [3 cucumbers], [2 avocados], [1 cup edamame], [1 carrot].",
-      "Whisk [3 tbsp rice vinegar], [2 tbsp soy sauce], [1 tbsp sesame oil].",
-      "Pour dressing over salad, toss gently.",
-      "Top with [2 tbsp sesame seeds].",
-      "Serve immediately or chill."
-    ]
-  },
+  
   {
     id: "quick-korean-corn-cheese",
     name: "Korean Corn Cheese",
@@ -12557,7 +13325,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Quick and Easy",
     image: koreanCornCheeseImg,
     totalTime: 15,
-    tags: ["Quick and Easy", "vegan", "vegetarian", "viral", "Korean"],
+    tags: ["Quick and Easy", "vegan", "vegetarian", "viral", "Korean", "glutenfree"],
     nutrition: {
       calories: 280,
       protein: 8,
@@ -12630,7 +13398,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "Quick and Easy",
-    image: cloudBreadImg,
+    image: "https://i.imgur.com/3HAfVoS.png",
     totalTime: 35,
     tags: ["Quick and Easy", "vegan", "vegetarian", "viral", "bread"],
     nutrition: {
@@ -12741,10 +13509,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: garlicParmAccordionPotatoesImg,
     totalTime: 65,
-    tags: ["Dinner", "viral", "vegetarian", "side dish"],
+    tags: ["Dinner", "viral", "vegetarian", "side dish", "glutenfree"],
     nutrition: { calories: 340, protein: 9, carbs: 48, fat: 14, fiber: 4, sugar: 2, servingSize: "1 potato" },
     ingredients: [
       { amount: "4", unit: "", item: "large russet potatoes" },
@@ -12773,7 +13541,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Mexican Fusion",
     image: cornRibsEloteSauceImg,
     totalTime: 35,
-    tags: ["Dinner", "viral", "vegetarian"],
+    tags: ["Dinner", "viral", "vegetarian", "glutenfree"],
     nutrition: { calories: 280, protein: 7, carbs: 36, fat: 14, fiber: 4, sugar: 8, servingSize: "1 serving" },
     ingredients: [
       { amount: "4", unit: "", item: "corn cobs" },
@@ -12801,7 +13569,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Mediterranean",
-    image: bakedFetaPastaImg,
+    image: "https://i.imgur.com/EQtQrk4.png",
     totalTime: 35,
     tags: ["Dinner", "viral", "vegetarian", "pasta"],
     nutrition: { calories: 480, protein: 16, carbs: 54, fat: 22, fiber: 4, sugar: 6, servingSize: "1 serving" },
@@ -12831,8 +13599,8 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 8,
-    cuisine: "American",
-    image: millionDollarSpaghettiImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/cTRKVL8.png",
     totalTime: 60,
     tags: ["Dinner", "viral", "pasta", "casserole"],
     nutrition: { calories: 580, protein: 32, carbs: 48, fat: 28, fiber: 3, sugar: 8, servingSize: "1 serving" },
@@ -12862,10 +13630,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "5 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "Italian-American",
-    image: groundBeefTortelliniImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/fbicAPJ.png",
     totalTime: 20,
-    tags: ["Dinner", "quick", "pasta"],
+    tags: ["dinner", "one-pot", "pasta", "glutenfree"],
     nutrition: { calories: 520, protein: 28, carbs: 52, fat: 20, fiber: 3, sugar: 6, servingSize: "1 serving" },
     ingredients: [
       { amount: "1", unit: "lb", item: "ground beef" },
@@ -12982,10 +13750,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "Italian-American",
-    image: gigiHadidVodkaPastaImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/tcAf1u3.png",
     totalTime: 30,
-    tags: ["Dinner", "viral", "pasta", "celebrity"],
+    tags: ["dinner", "viral", "pasta", "celebrity", "one-pot"],
     nutrition: { calories: 520, protein: 14, carbs: 58, fat: 26, fiber: 3, sugar: 6, servingSize: "1 serving" },
     ingredients: [
       { amount: "1", unit: "lb", item: "penne pasta" },
@@ -13013,10 +13781,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: onePanChickenGravyImg,
     totalTime: 30,
-    tags: ["Dinner", "quick", "chicken", "one-pot"],
+    tags: ["dinner", "chicken", "one-pot"],
     nutrition: { calories: 380, protein: 42, carbs: 12, fat: 18, fiber: 1, sugar: 2, servingSize: "1 serving" },
     ingredients: [
       { amount: "4", unit: "", item: "chicken breasts" },
@@ -13043,10 +13811,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
-    image: garlicParmChickenPotatoSkilletImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/5o0yEyS.png",
     totalTime: 45,
-    tags: ["Dinner", "chicken", "one-pot"],
+    tags: ["Dinner", "chicken", "one-pot", "glutenfree"],
     nutrition: { calories: 520, protein: 38, carbs: 42, fat: 22, fiber: 4, sugar: 2, servingSize: "1 serving" },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "chicken thighs" },
@@ -13072,7 +13840,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 12,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: bbqCheeseburgerSlidersImg,
     totalTime: 35,
     tags: ["Dinner", "beef", "party food"],
@@ -13101,10 +13869,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "15 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "American",
-    image: hotHoneyChickenSheetPanImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/qEkzHQb.png",
     totalTime: 50,
-    tags: ["Dinner", "chicken", "sheet pan"],
+    tags: ["Dinner", "chicken", "sheet pan", "glutenfree"],
     nutrition: { calories: 480, protein: 38, carbs: 42, fat: 18, fiber: 5, sugar: 24, servingSize: "1 serving" },
     ingredients: [
       { amount: "1.5", unit: "lbs", item: "chicken thighs" },
@@ -13130,10 +13898,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: loadedChickenTwiceBakedPotatoImg,
     totalTime: 80,
-    tags: ["Dinner", "chicken", "comfort food"],
+    tags: ["Dinner", "chicken", "comfort food", "glutenfree"],
     nutrition: { calories: 580, protein: 32, carbs: 52, fat: 26, fiber: 5, sugar: 3, servingSize: "1 potato" },
     ingredients: [
       { amount: "4", unit: "", item: "large russet potatoes" },
@@ -13189,10 +13957,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 6,
-    cuisine: "American",
-    image: easyChickenPotPieImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/eS3j8Yc.png",
     totalTime: 55,
-    tags: ["Dinner", "chicken", "comfort food"],
+    tags: ["Dinner", "chicken", "comfort food", "glutenfree"],
     nutrition: { calories: 520, protein: 28, carbs: 42, fat: 26, fiber: 4, sugar: 4, servingSize: "1 serving" },
     ingredients: [
       { amount: "3", unit: "cups", item: "cooked chicken, diced" },
@@ -13218,10 +13986,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "Italian",
-    image: vodkaTortiglionieBurrataImg,
+    cuisine: "One Pot Wonders",
+    image: "https://i.imgur.com/paEAIDg.png",
     totalTime: 30,
-    tags: ["Dinner", "pasta", "vegetarian"],
+    tags: ["dinner", "pasta", "vegetarian", "one-pot"],
     nutrition: { calories: 580, protein: 18, carbs: 62, fat: 28, fiber: 3, sugar: 6, servingSize: "1 serving" },
     ingredients: [
       { amount: "1", unit: "lb", item: "tortiglioni pasta" },
@@ -13249,9 +14017,9 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "American Fusion",
-    image: pizzaPancakesImg,
+    image: "https://i.imgur.com/PhEaO17.png",
     totalTime: 25,
-    tags: ["Dinner", "viral", "fun"],
+    tags: ["Dinner", "viral", "fun", "glutenfree"],
     nutrition: { calories: 420, protein: 18, carbs: 48, fat: 18, fiber: 2, sugar: 6, servingSize: "2 pancakes" },
     ingredients: [
       { amount: "2", unit: "cups", item: "pancake mix" },
@@ -13306,10 +14074,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "5 mins",
     difficulty: "easy",
     servings: 2,
-    cuisine: "American",
+    cuisine: "Fall Favorites",
     image: turkeyGrilledCheeseImg,
     totalTime: 15,
-    tags: ["Dinner", "quick", "sandwich"],
+    tags: ["fall", "sandwich", "comfort-food"],
     nutrition: { calories: 520, protein: 32, carbs: 48, fat: 22, fiber: 3, sugar: 12, servingSize: "1 sandwich" },
     ingredients: [
       { amount: "4", unit: "slices", item: "sourdough bread" },
@@ -13334,10 +14102,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: loadedRanchPotatoesImg,
     totalTime: 45,
-    tags: ["Dinner", "side dish", "potatoes"],
+    tags: ["Dinner", "side dish", "potatoes", "glutenfree"],
     nutrition: { calories: 380, protein: 12, carbs: 48, fat: 18, fiber: 5, sugar: 2, servingSize: "1 serving" },
     ingredients: [
       { amount: "2", unit: "lbs", item: "russet potatoes, cut into wedges" },
@@ -13356,36 +14124,6 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
-    id: "dinner-marry-me-chicken",
-    name: "Marry Me Chicken",
-    description: "Viral sensation! Creamy sun-dried tomato sauce so good you'll propose.",
-    cookTime: "25 mins",
-    prepTime: "10 mins",
-    difficulty: "easy",
-    servings: 4,
-    cuisine: "Italian-American",
-    image: marryMeChickenImg,
-    totalTime: 35,
-    tags: ["Dinner", "viral", "chicken"],
-    nutrition: { calories: 480, protein: 42, carbs: 12, fat: 32, fiber: 2, sugar: 6, servingSize: "1 serving" },
-    ingredients: [
-      { amount: "4", unit: "", item: "chicken breasts" },
-      { amount: "1", unit: "cup", item: "heavy cream" },
-      { amount: "1/2", unit: "cup", item: "sun-dried tomatoes" },
-      { amount: "1/2", unit: "cup", item: "parmesan, grated" },
-      { amount: "3", unit: "cloves", item: "garlic, minced" },
-      { amount: "1", unit: "tsp", item: "Italian seasoning" },
-      { amount: "1/4", unit: "cup", item: "fresh basil" }
-    ],
-    instructions: [
-      "Sear [4 chicken breasts] until golden, remove from pan.",
-      "Sauté [3 cloves garlic] and [sun-dried tomatoes].",
-      "Add [1 cup cream], [1/2 cup parmesan], [1 tsp Italian seasoning].",
-      "Return chicken, simmer 10 minutes until cooked through.",
-      "Garnish with [fresh basil]. Serve over pasta or rice!"
-    ]
-  },
-  {
     id: "dinner-creamy-tuscan-chicken",
     name: "Creamy Tuscan Chicken",
     description: "Restaurant-quality! Chicken in rich cream sauce with sun-dried tomatoes and spinach.",
@@ -13396,7 +14134,7 @@ export const allRecipes: Recipe[] = [
     cuisine: "Italian",
     image: creamyTuscanChickenImg,
     totalTime: 35,
-    tags: ["Dinner", "chicken"],
+    tags: ["Dinner", "chicken", "glutenfree"],
     nutrition: { calories: 520, protein: 44, carbs: 14, fat: 34, fiber: 2, sugar: 4, servingSize: "1 serving" },
     ingredients: [
       { amount: "4", unit: "", item: "chicken breasts" },
@@ -13422,10 +14160,10 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 4,
-    cuisine: "American",
+    cuisine: "One Pot Wonders",
     image: stuffedBellPeppersDinnerImg,
     totalTime: 60,
-    tags: ["Dinner", "beef", "healthy"],
+    tags: ["Dinner", "beef", "healthy", "glutenfree"],
     nutrition: { calories: 420, protein: 28, carbs: 42, fat: 16, fiber: 6, sugar: 8, servingSize: "1 pepper" },
     ingredients: [
       { amount: "4", unit: "", item: "large bell peppers" },

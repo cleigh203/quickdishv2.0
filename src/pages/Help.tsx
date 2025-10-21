@@ -61,6 +61,58 @@ const Help = () => {
           </Accordion>
         </div>
 
+        {/* Ingredient Search & AI Generation */}
+        <div>
+          <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+            🔍 Ingredient Search & AI Recipes
+          </h2>
+          <Accordion type="single" collapsible className="space-y-2">
+            <AccordionItem value="search-ingredients" className="bg-card rounded-lg px-4">
+              <AccordionTrigger className="text-left">
+                How do I search for recipes by ingredients?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Use the search bar at the top of the home screen to search for ingredients like "chicken," "pasta," or "broccoli." The app will show you all recipes that include those ingredients.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="ai-generation-free" className="bg-card rounded-lg px-4">
+              <AccordionTrigger className="text-left">
+                What if I don't have the ingredients for any recipe?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                <p className="mb-2">QuickDish AI can generate custom recipes based on YOUR ingredients! Just search for what you have, and if no recipes match, our AI will create a personalized recipe for you.</p>
+                <p className="font-semibold">Free Users: 2 AI-generated recipes per day</p>
+                <p className="font-semibold">Premium Users: 5 AI-generated recipes per day</p>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="ai-generation-limits" className="bg-card rounded-lg px-4">
+              <AccordionTrigger className="text-left">
+                How do AI recipe generations work?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                <ul className="list-disc list-inside space-y-1">
+                  <li>Search for ingredients you have at home</li>
+                  <li>If no existing recipes match, tap "Generate Recipe with AI"</li>
+                  <li>AI creates a custom recipe tailored to your ingredients</li>
+                  <li>Free users get 2 generations/day, Premium gets 5/day</li>
+                  <li>Limits reset daily at midnight</li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="save-ai-recipes" className="bg-card rounded-lg px-4">
+              <AccordionTrigger className="text-left">
+                Can I save AI-generated recipes?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Yes! AI-generated recipes are automatically saved to your Favorites so you can access them anytime, even after your daily generation limit is reached.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+
         {/* Using Recipes */}
         <div>
           <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
@@ -347,6 +399,7 @@ const Help = () => {
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
                 <ul className="list-disc list-inside space-y-1">
+                  <li>5 AI Recipe Generations per day (vs 2 for free users)</li>
                   <li>AI Chat: Ask cooking questions and get instant answers</li>
                   <li>Nutritional Facts: Detailed nutrition info for all recipes</li>
                   <li>Early Access: Try new features before everyone else</li>

@@ -41,16 +41,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      // In dev mode, read directly from database to support test premium
+      // 🔓 TESTING BYPASS: Check database first (works in dev AND production)
+      // This allows you to manually set is_premium in Supabase dashboard for testing
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('is_premium')
+        .eq('id', session.user.id)
+        .single();
+      
+      // If is_premium is manually set in database, use that (for testing)
+      if (profile?.is_premium === true) {
+        setIsPremium(true);
+        console.log('👑 Admin override: Premium enabled from database');
+        return;
+      }
+
+      // In dev mode, stop here (don't check Stripe)
       if (import.meta.env.DEV) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('is_premium')
-          .eq('id', session.user.id)
-          .single();
-        
-        setIsPremium(profile?.is_premium || false);
-        console.log('🧪 Dev mode: Premium status from DB:', profile?.is_premium);
+        setIsPremium(false);
+        console.log('🧪 Dev mode: No premium in database');
         return;
       }
 

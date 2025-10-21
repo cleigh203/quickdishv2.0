@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.ico?v=3" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>QuickDish - AI Recipe & Meal Planner</title>
     <meta name="description" content="AI-powered recipe companion with meal planning and smart shopping lists" />
     <meta name="author" content="QuickDish" />
@@ -11,6 +11,12 @@
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#ff6b35">
     <link rel="manifest" href="/manifest.json">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://vercel-insights.com">
+    <link rel="dns-prefetch" href="https://vercel-insights.com">
     
     <!-- Apple Touch Icons -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,24 +27,27 @@
     <meta property="og:title" content="QuickDish" />
     <meta property="og:description" content="Transform your ingredients into delicious recipes" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:image" content="https://example.com/icon-512.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:image" content="https://example.com/icon-512.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     
-    <!-- Service Worker Registration -->
+    <!-- Service Worker: enable only in production; auto-unregister in dev -->
     <script>
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-              console.log('✅ Service Worker registered:', registration.scope);
-            })
-            .catch(error => {
-              console.error('❌ Service Worker registration failed:', error);
-            });
-        });
+        const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+        if (isLocalhost) {
+          // In dev, ensure any existing SW is removed to avoid caching dev assets
+          navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
+        } else {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+              .then(reg => console.log('✅ Service Worker registered:', reg.scope))
+              .catch(err => console.error('❌ Service Worker registration failed:', err));
+          });
+        }
       }
     </script>
   </head>
