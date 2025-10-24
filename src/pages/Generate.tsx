@@ -83,7 +83,6 @@ const Generate = () => {
     { id: 'dessert', name: 'Desserts', emoji: '🧁' },
     { id: 'onepot', name: 'One-Pot Wonders', emoji: '🍲' },
     { id: 'bowls', name: 'Healthy Bowls', emoji: '🥙' },
-    { id: 'leftover', name: 'Leftover Magic', emoji: '♻️' },
     { id: 'family', name: 'Family Favorites', emoji: '👨‍👩‍👧' }
   ];
 
@@ -503,14 +502,14 @@ const Generate = () => {
                 >
                   <div className="relative rounded-xl overflow-hidden">
                     <img
-                      src={getRecipeImage(recipe)}
+                      src={getRecipeImage(recipe, import.meta.env.DEV)}
                       alt={recipe.name}
                       className="w-full h-[220px] object-cover"
                       loading="lazy"
                       decoding="async"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=60&fm=webp";
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -815,7 +814,7 @@ const Generate = () => {
                     >
                       <div className="relative rounded-xl overflow-hidden aspect-[3/4]">
                         <img
-                          src={getRecipeImage(recipe)}
+                          src={getRecipeImage(recipe, import.meta.env.DEV)}
                           alt={recipe.name}
                           className="w-full h-full object-cover"
                           loading="lazy"

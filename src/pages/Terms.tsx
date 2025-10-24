@@ -41,18 +41,17 @@ const Terms = () => {
               <li><a href="#acceptance" className="text-primary hover:underline">1. Acceptance of Terms</a></li>
               <li><a href="#eligibility" className="text-primary hover:underline">2. Eligibility</a></li>
               <li><a href="#accounts" className="text-primary hover:underline">3. User Accounts</a></li>
-              <li><a href="#billing" className="text-primary hover:underline">4. Subscription and Billing</a></li>
-              <li><a href="#use" className="text-primary hover:underline">5. Acceptable Use</a></li>
-              <li><a href="#content" className="text-primary hover:underline">6. Content and Intellectual Property</a></li>
-              <li><a href="#recipes" className="text-primary hover:underline">7. Recipe Disclaimers</a></li>
-              <li><a href="#ai" className="text-primary hover:underline">8. AI Chat Disclaimer</a></li>
-              <li><a href="#liability" className="text-primary hover:underline">9. Limitation of Liability</a></li>
-              <li><a href="#indemnification" className="text-primary hover:underline">10. Indemnification</a></li>
-              <li><a href="#changes" className="text-primary hover:underline">11. Changes to Service</a></li>
-              <li><a href="#third-party" className="text-primary hover:underline">12. Third-Party Services</a></li>
-              <li><a href="#disputes" className="text-primary hover:underline">13. Dispute Resolution</a></li>
-              <li><a href="#misc" className="text-primary hover:underline">14. Miscellaneous</a></li>
-              <li><a href="#contact" className="text-primary hover:underline">15. Contact Information</a></li>
+              <li><a href="#use" className="text-primary hover:underline">4. Acceptable Use</a></li>
+              <li><a href="#content" className="text-primary hover:underline">5. Content and Intellectual Property</a></li>
+              <li><a href="#recipes" className="text-primary hover:underline">6. Recipe Disclaimers</a></li>
+              <li><a href="#ai" className="text-primary hover:underline">7. AI Chat Disclaimer</a></li>
+              <li><a href="#liability" className="text-primary hover:underline">8. Limitation of Liability</a></li>
+              <li><a href="#indemnification" className="text-primary hover:underline">9. Indemnification</a></li>
+              <li><a href="#changes" className="text-primary hover:underline">10. Changes to Service</a></li>
+              <li><a href="#third-party" className="text-primary hover:underline">11. Third-Party Services</a></li>
+              <li><a href="#disputes" className="text-primary hover:underline">12. Dispute Resolution</a></li>
+              <li><a href="#misc" className="text-primary hover:underline">13. Miscellaneous</a></li>
+              <li><a href="#contact" className="text-primary hover:underline">14. Contact Information</a></li>
             </ul>
           </nav>
 
@@ -90,35 +89,8 @@ const Terms = () => {
             </ul>
           </section>
 
-          <section id="billing" className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">4. Subscription and Billing</h2>
-            
-            <h3 className="text-xl font-medium mt-4 mb-2">Premium Subscription</h3>
-            <ul className="list-disc list-inside space-y-1 text-foreground/90 mb-4">
-              <li>Cost: $4.99 per month (subject to change)</li>
-              <li>Billing: Automatic monthly renewal</li>
-              <li>Payment: Processed securely through Stripe</li>
-              <li>Taxes: May apply based on your location</li>
-            </ul>
-
-            <h3 className="text-xl font-medium mt-4 mb-2">Cancellation</h3>
-            <ul className="list-disc list-inside space-y-1 text-foreground/90 mb-4">
-              <li>Cancel anytime through your Profile settings</li>
-              <li>No refunds for partial months</li>
-              <li>Access continues until end of current billing period</li>
-              <li>No cancellation fees</li>
-            </ul>
-
-            <h3 className="text-xl font-medium mt-4 mb-2">Free Trial (if applicable)</h3>
-            <ul className="list-disc list-inside space-y-1 text-foreground/90">
-              <li>Trial period specified at signup</li>
-              <li>Cancel before trial ends to avoid charges</li>
-              <li>One trial per user</li>
-            </ul>
-          </section>
-
           <section id="use" className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">5. Acceptable Use</h2>
+            <h2 className="text-2xl font-semibold mb-3">4. Acceptable Use</h2>
             <p className="mb-3 text-foreground/90">You agree NOT to:</p>
             <ul className="list-disc list-inside space-y-1 text-foreground/90">
               <li>Share account credentials with others</li>
@@ -133,7 +105,7 @@ const Terms = () => {
           </section>
 
           <section id="content" className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">6. Content and Intellectual Property</h2>
+            <h2 className="text-2xl font-semibold mb-3">5. Content and Intellectual Property</h2>
             
             <h3 className="text-xl font-medium mt-4 mb-2">Our Content</h3>
             <ul className="list-disc list-inside space-y-1 text-foreground/90 mb-4">
@@ -158,7 +130,7 @@ const Terms = () => {
           </section>
 
           <section id="recipes" className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">7. Recipe Disclaimers</h2>
+            <h2 className="text-2xl font-semibold mb-3">6. Recipe Disclaimers</h2>
             
             <h3 className="text-xl font-medium mt-4 mb-2">Food Safety</h3>
             <ul className="list-disc list-inside space-y-1 text-foreground/90 mb-4">
@@ -183,7 +155,7 @@ const Terms = () => {
           </section>
 
           <section id="ai" className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">8. AI Chat Disclaimer</h2>
+            <h2 className="text-2xl font-semibold mb-3">7. AI Chat Disclaimer</h2>
             <ul className="list-disc list-inside space-y-1 text-foreground/90">
               <li>AI responses are generated automatically</li>
               <li>May contain errors or inaccuracies</li>
@@ -193,7 +165,7 @@ const Terms = () => {
           </section>
 
           <section id="liability" className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">9. Limitation of Liability</h2>
+            <h2 className="text-2xl font-semibold mb-3">8. Limitation of Liability</h2>
             <p className="mb-3 font-medium text-foreground/90">TO THE MAXIMUM EXTENT PERMITTED BY LAW:</p>
             <ul className="list-disc list-inside space-y-1 text-foreground/90">
               <li>QuickDish is provided "AS IS" without warranties</li>
@@ -204,14 +176,14 @@ const Terms = () => {
           </section>
 
           <section id="indemnification" className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">10. Indemnification</h2>
+            <h2 className="text-2xl font-semibold mb-3">9. Indemnification</h2>
             <p className="text-foreground/90">
               You agree to indemnify and hold QuickDish harmless from claims arising from your use of the App or violation of these Terms.
             </p>
           </section>
 
           <section id="changes" className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">11. Changes to Service</h2>
+            <h2 className="text-2xl font-semibold mb-3">10. Changes to Service</h2>
             <p className="mb-3 text-foreground/90">We reserve the right to:</p>
             <ul className="list-disc list-inside space-y-1 text-foreground/90">
               <li>Modify or discontinue features</li>
@@ -222,7 +194,7 @@ const Terms = () => {
           </section>
 
           <section id="third-party" className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">12. Third-Party Services</h2>
+            <h2 className="text-2xl font-semibold mb-3">11. Third-Party Services</h2>
             <p className="mb-3 text-foreground/90">QuickDish integrates with:</p>
             <ul className="list-disc list-inside space-y-1 text-foreground/90 mb-3">
               <li>Supabase (database hosting, authentication, storage)</li>
@@ -237,7 +209,7 @@ const Terms = () => {
           </section>
 
           <section id="disputes" className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">13. Dispute Resolution</h2>
+            <h2 className="text-2xl font-semibold mb-3">12. Dispute Resolution</h2>
             
             <h3 className="text-xl font-medium mt-4 mb-2">Governing Law</h3>
             <p className="text-foreground/90 mb-4">
@@ -256,7 +228,7 @@ const Terms = () => {
           </section>
 
           <section id="misc" className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">14. Miscellaneous</h2>
+            <h2 className="text-2xl font-semibold mb-3">13. Miscellaneous</h2>
             <ul className="list-disc list-inside space-y-1 text-foreground/90">
               <li><strong>Entire Agreement:</strong> These Terms constitute the entire agreement</li>
               <li><strong>Severability:</strong> Invalid provisions do not affect remaining Terms</li>
@@ -266,13 +238,10 @@ const Terms = () => {
           </section>
 
           <section id="contact" className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">15. Contact Information</h2>
+            <h2 className="text-2xl font-semibold mb-3">14. Contact Information</h2>
             <p className="mb-3 text-foreground/90">Questions about these Terms?</p>
             <p className="text-foreground/90 mb-2">
               <strong>Email:</strong> info@quickdishco.com
-            </p>
-            <p className="text-foreground/90">
-              <strong>Mail:</strong> [Your Business Address]
             </p>
           </section>
 

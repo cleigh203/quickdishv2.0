@@ -1,3 +1,6 @@
+User-agent: *
+Allow: /
+Sitemap: https://quickdishco.com/sitemap.xml
 User-agent: Googlebot
 Allow: /
 

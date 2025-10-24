@@ -39,16 +39,27 @@ export const SubscriptionManagementModal = ({
     try {
       const { data, error } = await supabase.functions.invoke('customer-portal');
       
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase function error:', error);
+        throw new Error(error.message || 'Failed to invoke customer portal');
+      }
+      
+      if (data?.error) {
+        console.error('Customer portal error:', data.error);
+        throw new Error(data.error);
+      }
       
       if (data?.url) {
         window.open(data.url, '_blank');
+      } else {
+        throw new Error('No portal URL returned');
       }
     } catch (error) {
       console.error('Error opening customer portal:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to open payment settings';
       toast({
         title: "Error",
-        description: "Failed to open payment settings. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {

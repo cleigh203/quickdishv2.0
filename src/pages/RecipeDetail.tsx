@@ -27,6 +27,9 @@ import { useRecipeRating } from "@/hooks/useRecipeRating";
 import { useMealPlan } from "@/hooks/useMealPlan";
 import { MealPlanDialog } from "@/components/MealPlanDialog";
 import { RecipeAIChatDialog } from "@/components/RecipeAIChatDialog";
+import { RewardedAdModal } from "@/components/RewardedAdModal";
+import { AdSlot } from "@/components/AdSlot";
+import { needAdForNutrition, markNutritionWatched, needAdForChatThisSession, markChatAdWatched, recordRecipeViewAndCheckInterstitial, markInterstitialShown } from "@/utils/adGates";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { usePantryItems } from "@/hooks/usePantryItems";
 // ShoppingGuide temporarily removed - will use Kroger/Instacart API when ready
@@ -58,6 +61,7 @@ const RecipeDetail = () => {
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
   const [mealPlanDialogOpen, setMealPlanDialogOpen] = useState(false);
   const [aiChatOpen, setAiChatOpen] = useState(false);
+  const [showAd, setShowAd] = useState<null | 'chat' | 'nutrition' | 'interstitial'>(null);
   // Shopping guide removed - will add back with Kroger/Instacart API
   // const [showShopping, setShowShopping] = useState(false);
   // const [selectedStore, setSelectedStore] = useState<GroceryStore | null>(null);
@@ -117,6 +121,7 @@ const RecipeDetail = () => {
     if (foundRecipe) {
       setRecipe(foundRecipe);
       setIsLoadingRecipe(false);
+      // REMOVED: No interstitial ads on recipe views
       
       // Check if coming from "Cook Now" button
       const params = new URLSearchParams(window.location.search);
@@ -342,14 +347,39 @@ const RecipeDetail = () => {
       {/* Only show image for non-AI recipes */}
       {!recipe.isAiGenerated && (
         <div className="relative min-h-[400px] overflow-hidden">
-          <img 
-            src={getRecipeImage(recipe)}
+          <img
+            key={recipe.imageUrl || recipe.image}
+            src={getRecipeImage(recipe, false)}
             alt={recipe.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-opacity duration-300"
+            loading="eager"
+            crossOrigin="anonymous"
+            width="1200"
+            height="600"
             onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1200&q=80";
+              const target = e.currentTarget;
+              const imageUrl = getRecipeImage(recipe, false);
+              console.error('❌ Recipe detail image failed:', {
+                recipeName: recipe.name,
+                attemptedUrl: imageUrl,
+                isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+              });
+              
+              // MOBILE FIX: Retry with cache-busting
+              if (!target.dataset.retried) {
+                target.dataset.retried = 'true';
+                const separator = imageUrl.includes('?') ? '&' : '?';
+                target.src = `${imageUrl}${separator}retry=${Date.now()}`;
+                console.log('🔄 Retrying detail image with cache-bust');
+                return;
+              }
+              
+              if (!target.src.includes('unsplash')) {
+                target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=60&fm=webp";
+              }
             }}
+            onLoad={() => console.log('✅ Recipe detail image loaded:', recipe.name)}
+            style={{ width: '100%', height: 'auto' }}
           />
           <Button
             onClick={() => navigate(-1)}
@@ -700,13 +730,13 @@ const RecipeDetail = () => {
                 }
 
                 // Authenticated users: check premium status
-                if (!isPremium) {
-                  setPremiumPaywallOpen(true);
+                // Rewarded ad gate for chat once per session
+                if (needAdForChatThisSession()) {
+                  setShowAd('chat');
                   setMenuOpen(false);
                   return;
                 }
 
-                // Premium users: open AI chat
                 setAiChatOpen(true);
                 setMenuOpen(false);
               }}
@@ -752,13 +782,13 @@ const RecipeDetail = () => {
                 }
 
                 // Authenticated users: check premium status
-                if (!isPremium) {
-                  setPremiumPaywallOpen(true);
+                // Rewarded ad gate per recipe per day
+                if (recipe && needAdForNutrition(recipe.id)) {
+                  setShowAd('nutrition');
                   setMenuOpen(false);
                   return;
                 }
 
-                // Premium users: show nutrition facts
                 if (recipe?.nutrition) {
                   setNutritionModalOpen(true);
                   setMenuOpen(false);
@@ -919,6 +949,38 @@ const RecipeDetail = () => {
         recipe={recipe}
         open={aiChatOpen}
         onClose={() => setAiChatOpen(false)}
+      />
+
+      <RewardedAdModal
+        open={showAd !== null}
+        onClose={() => setShowAd(null)}
+        onReward={() => {
+          if (showAd === 'chat') {
+            markChatAdWatched();
+            setAiChatOpen(true);
+          }
+          if (showAd === 'nutrition' && recipe) {
+            markNutritionWatched(recipe.id);
+            setNutritionModalOpen(true);
+          }
+          if (showAd === 'interstitial') {
+            markInterstitialShown();
+          }
+        }}
+        title={
+          showAd === 'chat'
+            ? 'Watch an ad to chat with Chef Quinn'
+            : showAd === 'nutrition'
+              ? 'Watch an ad to view nutrition facts'
+              : 'Sponsored content'
+        }
+        description={
+          showAd === 'chat'
+            ? 'Unlock AI chat for this session by watching one ad.'
+            : showAd === 'nutrition'
+              ? 'Unlock nutrition info for this recipe by watching one ad.'
+              : ''
+        }
       />
 
       {/* Shopping Flow Components - Removed, will add back with Kroger/Instacart API */}

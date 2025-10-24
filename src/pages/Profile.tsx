@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette } from "lucide-react";
+import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette, Mail, Calendar, Target, Download } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,6 @@ import { BottomNav } from "@/components/BottomNav";
 import { EditProfileDialog } from "@/components/EditProfileDialog";
 import { EditPreferencesDialog } from "@/components/EditPreferencesDialog";
 import { SubscriptionManagementModal } from "@/components/SubscriptionManagementModal";
-
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { useToast } from "@/hooks/use-toast";
@@ -40,6 +39,7 @@ interface ProfileData {
   pantry_items?: string[] | null;
   has_completed_onboarding: boolean;
   theme_preference: string | null;
+  free_generations_used_today?: number | null;
 }
 
 const Profile = () => {
@@ -62,6 +62,9 @@ const Profile = () => {
 
   const [pantryItems, setPantryItems] = useState<string[] | null>(null);
   const [loadingPantry, setLoadingPantry] = useState(false);
+  const [resetCountdown, setResetCountdown] = useState<string>("");
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
 
   const recipes = recipeStorage.getRecipes();
   const { savedRecipes } = useSavedRecipes();
@@ -80,7 +83,7 @@ const Profile = () => {
       // Fetch profile data (without sensitive payment info)
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
-        .select('id, display_name, avatar_url, dietary_preferences, skill_level, favorite_cuisines, learning_goals, is_premium, theme_preference, has_completed_onboarding, created_at, last_generation_date, ai_generations_today')
+        .select('id, display_name, avatar_url, dietary_preferences, skill_level, favorite_cuisines, learning_goals, is_premium, theme_preference, has_completed_onboarding, created_at, free_generations_used_today')
         .eq('id', user.id)
         .single();
 
@@ -124,6 +127,22 @@ const Profile = () => {
     fetchProfile();
   }, [user]);
 
+  // Live timer until local midnight
+  useEffect(() => {
+    const update = () => {
+      const now = new Date();
+      const midnight = new Date(now);
+      midnight.setHours(24, 0, 0, 0);
+      const diff = Math.max(0, midnight.getTime() - now.getTime());
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      setResetCountdown(`${h}h ${m}m`);
+    };
+    update();
+    const id = setInterval(update, 30000);
+    return () => clearInterval(id);
+  }, []);
+
   // Load pantry count on mount
   useEffect(() => {
     const loadInitialPantryCount = async () => {
@@ -140,6 +159,24 @@ const Profile = () => {
     
     loadInitialPantryCount();
   }, [user, fetchPantryItems]);
+
+  // Listen for PWA install prompt
+  useEffect(() => {
+    const handler = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallButton(true);
+    };
+    
+    window.addEventListener('beforeinstallprompt', handler);
+    
+    // Check if already installed
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setShowInstallButton(false);
+    }
+    
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
 
   const loadPantryItems = async () => {
     // If already loaded, don't refetch
@@ -207,6 +244,29 @@ const Profile = () => {
         description: "Please try again",
       });
     }
+  };
+
+  const handleInstallApp = async () => {
+    if (!deferredPrompt) {
+      toast({
+        title: 'Already installed',
+        description: 'The app is already installed or not available for installation',
+      });
+      return;
+    }
+
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    
+    if (outcome === 'accepted') {
+      toast({
+        title: 'App installed!',
+        description: 'QuickDish has been added to your home screen',
+      });
+      setShowInstallButton(false);
+    }
+    
+    setDeferredPrompt(null);
   };
 
   const handleChangePassword = async () => {
@@ -326,52 +386,98 @@ const Profile = () => {
         </div>
       )}
 
-      {/* Header - Orange Gradient matching My Kitchen */}
-      <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-red-500 text-white py-12 px-4 mb-8">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-2">Profile</h1>
-          <p className="text-white/90">Manage your preferences and cooking journey</p>
+      {/* PROFILE HEADER - Green Gradient */}
+      <div className="relative bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500 text-white py-12 px-4 mb-8">
+        <div className="max-w-4xl mx-auto flex items-center gap-4">
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center overflow-hidden ring-4 ring-white/20">
+            {profileData?.avatar_url ? (
+              <img src={profileData.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+            ) : (
+              <span className="text-white text-3xl font-bold">{(profileData?.display_name || user?.email || 'U')[0].toUpperCase()}</span>
+            )}
+          </div>
+          <div className="flex-1">
+            <h1 className="text-2xl font-bold">{profileData?.display_name || 'Your Profile'}</h1>
+            <button
+              onClick={() => setEditProfileOpen(true)}
+              className="text-white/90 underline-offset-2 hover:underline text-sm"
+            >
+              Edit Profile
+            </button>
+          </div>
         </div>
+
+        {/* Tutorial Button - Top Right Corner */}
+        <button
+          onClick={() => {
+            showOnboarding();
+            toast({
+              title: "Starting tutorial",
+              description: "Let's review the app features!",
+            });
+          }}
+          className="absolute top-4 right-4 w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-all hover:scale-105"
+          title="Show Tutorial Again"
+        >
+          <HelpCircle className="w-5 h-5" />
+        </button>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 space-y-6">
-        {/* User Info Section */}
-        <Card className="rounded-xl shadow-sm bg-card">
-          <CardContent className="p-8">
-            <div className="flex flex-col items-center text-center">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-orange-500 flex items-center justify-center overflow-hidden flex-shrink-0 mb-4">
-                {profileData?.avatar_url ? (
-                  <img src={profileData.avatar_url} alt="Profile" className="w-full h-full object-cover" />
-                ) : (
-                  <span className="text-white text-3xl font-bold">
-                    {(profileData?.display_name || user.email || 'U')[0].toUpperCase()}
-                  </span>
-                )}
+        {/* ACCOUNT CARDS */}
+        <div className="grid grid-cols-2 gap-4">
+          <Card className="rounded-xl shadow-sm bg-card">
+            <CardContent className="p-4 flex items-center gap-3">
+              <Mail className="w-5 h-5 text-green-600" />
+              <div className="min-w-0 flex-1">
+                <div className="text-xs text-muted-foreground">Email</div>
+                <div className="font-semibold truncate">{user?.email}</div>
               </div>
-              
-              <div className="flex items-center gap-2 mb-2">
-                <h2 className="text-2xl font-bold">
-                  {profileData?.display_name || 'User'}
-                </h2>
-                {profileData?.is_premium && (
-                  <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-0 font-semibold">
-                    <Crown className="w-3 h-3 mr-1" />
-                    Premium
-                  </Badge>
-                )}
+            </CardContent>
+          </Card>
+          <Card className="rounded-xl shadow-sm bg-card">
+            <CardContent className="p-4 flex items-center gap-3">
+              <Calendar className="w-5 h-5 text-green-600" />
+              <div className="min-w-0 flex-1">
+                <div className="text-xs text-muted-foreground">Member Since</div>
+                <div className="font-semibold truncate">{new Date(user?.created_at || '').toLocaleDateString()}</div>
               </div>
-              
-              <p className="text-muted-foreground mb-4">{user.email}</p>
-              
-              <Button
-                variant="outline"
-                onClick={() => setEditProfileOpen(true)}
-                className="gap-2"
-              >
-                <Edit className="w-4 h-4" />
-                Edit Profile
-              </Button>
+            </CardContent>
+          </Card>
+          <Card className="rounded-xl shadow-sm bg-card col-span-2">
+            <CardContent className="p-4 flex items-center gap-3">
+              <Target className="w-5 h-5 text-green-600" />
+              <div>
+                <div className="text-xs text-muted-foreground">Plan</div>
+                <div className="font-semibold">Free (Ad-Supported)</div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* DAILY GENERATIONS CARD */}
+        <Card className="rounded-xl shadow-sm bg-gradient-to-br from-green-100 to-emerald-100 border-emerald-200">
+          <CardContent className="p-6 space-y-4">
+            <h3 className="font-semibold text-emerald-900">🎨 Your Daily AI Generations</h3>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-emerald-800">
+                {(profileData?.free_generations_used_today ?? 0)}/2 free generations used
+              </span>
+              <div className="flex items-center gap-1">
+                {[0,1].map(i => (
+                  <span key={i} className={`w-2.5 h-2.5 rounded-full ${ (profileData?.free_generations_used_today ?? 0) > i ? 'bg-emerald-600' : 'bg-emerald-300'}`}></span>
+                ))}
+              </div>
             </div>
+            <div className="text-sm text-emerald-900">
+              <div>Watch ads to unlock premium features:</div>
+              <ul className="list-disc pl-5 mt-1 space-y-1">
+                <li>Chat with AI Chef (unlimited with ads)</li>
+                <li>Detailed Nutrition Info (unlimited with ads)</li>
+              </ul>
+              <div className="mt-2 text-emerald-800">Note: AI recipe generation limited to 2 per day</div>
+            </div>
+            <div className="text-sm text-emerald-900">⏰ Resets in: <span className="font-semibold">{resetCountdown}</span></div>
           </CardContent>
         </Card>
 
@@ -383,8 +489,8 @@ const Profile = () => {
             onClick={() => navigate('/favorites')}
           >
             <CardContent className="p-6 text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
-                <Heart className="w-6 h-6 text-orange-600 dark:text-orange-400 fill-orange-600 dark:fill-orange-400" />
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 dark:bg-green-950/30 mb-3">
+                <Heart className="w-6 h-6 text-green-600 dark:text-green-400 fill-green-600 dark:fill-green-400" />
               </div>
               <p className="text-4xl font-bold text-foreground mb-1">{savedRecipes.length}</p>
               <p className="text-sm text-muted-foreground">Saved</p>
@@ -397,11 +503,11 @@ const Profile = () => {
             onClick={handlePantryClick}
           >
             <CardContent className="p-6 text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
-                <Package className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 dark:bg-green-950/30 mb-3">
+                <Package className="w-6 h-6 text-green-600 dark:text-green-400" />
               </div>
               {loadingPantry ? (
-                <Loader2 className="w-8 h-8 mx-auto animate-spin text-primary mb-1" />
+                <Loader2 className="w-8 h-8 mx-auto animate-spin text-green-600 mb-1" />
               ) : (
                 <p className="text-4xl font-bold text-foreground mb-1">{pantryCount}</p>
               )}
@@ -410,59 +516,12 @@ const Profile = () => {
           </Card>
         </div>
 
-        {/* Preferences Section */}
-        <Card className="rounded-xl shadow-sm bg-card">
-          <CardHeader className="flex flex-row items-center justify-between pb-4">
-            <CardTitle>Preferences</CardTitle>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => setEditPreferencesOpen(true)}
-            >
-              <Edit className="w-4 h-4" />
-            </Button>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div>
-              <p className="text-sm font-medium text-muted-foreground mb-3">Skill Level</p>
-              <Badge className="rounded-full px-4 py-2 font-medium bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-950/30 capitalize">
-                {profileData?.skill_level || 'Not set'}
-              </Badge>
-            </div>
-            
-            {profileData?.favorite_cuisines && profileData.favorite_cuisines.length > 0 && (
-              <div>
-                <p className="text-sm font-medium text-muted-foreground mb-3">Favorite Cuisines</p>
-                <div className="flex flex-wrap gap-2">
-                  {profileData.favorite_cuisines.map((cuisine) => (
-                    <Badge key={cuisine} className="rounded-full px-4 py-2 font-medium bg-orange-100 dark:bg-orange-950/30 text-orange-700 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-950/30">
-                      {cuisine}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            {profileData?.learning_goals && profileData.learning_goals.length > 0 && (
-              <div>
-                <p className="text-sm font-medium text-muted-foreground mb-3">Learning Goals</p>
-                <div className="flex flex-wrap gap-2">
-                  {profileData.learning_goals.map((goal) => (
-                    <Badge key={goal} className="rounded-full px-4 py-2 font-medium bg-orange-100 dark:bg-orange-950/30 text-orange-700 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-950/30">
-                      {goal}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
 
         {/* Appearance Section */}
         <Card className="rounded-xl shadow-sm bg-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Palette className="w-5 h-5 text-primary" />
+              <Palette className="w-5 h-5 text-green-600" />
               Appearance
             </CardTitle>
           </CardHeader>
@@ -475,104 +534,37 @@ const Profile = () => {
         </Card>
 
 
-        {/* Account Actions */}
-        <Card className="rounded-xl shadow-sm bg-card">
-          <CardHeader>
-            <CardTitle>Account</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="flex justify-between items-center p-4 bg-secondary rounded-lg">
-              <span className="font-medium">Email</span>
-              <span className="text-muted-foreground">{user?.email}</span>
-            </div>
-            <div className="flex justify-between items-center p-4 bg-secondary rounded-lg">
-              <span className="font-medium">Member Since</span>
-              <span className="text-muted-foreground">
-                {new Date(user?.created_at || '').toLocaleDateString()}
-              </span>
-            </div>
-            <div className="flex justify-between items-center p-4 bg-secondary rounded-lg">
-              <span className="font-medium">Subscription</span>
-              <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                profileData?.is_premium 
-                  ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white' 
-                  : 'bg-muted text-muted-foreground'
-              }`}>
-                {profileData?.is_premium ? 'Premium' : 'Free'}
-              </span>
-            </div>
-            {/* DEV MODE: Quick premium toggle */}
-            {import.meta.env.DEV && (
-              <Button 
-                variant="outline" 
-                className="w-full justify-start rounded-lg hover:bg-muted border-2 border-dashed border-purple-500 text-purple-700 dark:text-purple-400"
-                onClick={togglePremium}
-              >
-                🧪 {profileData?.is_premium ? 'Deactivate' : 'Activate'} Test Premium
-              </Button>
-            )}
-            
-            {profileData?.is_premium ? (
-              <Button 
-                variant="outline" 
-                className="w-full justify-start rounded-lg hover:bg-muted"
-                onClick={handleSubscriptionAction}
-              >
-                <Settings className="w-4 h-4 mr-2" />
-                Manage Subscription
-              </Button>
-            ) : (
-              <Button 
-                className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:opacity-90"
-                onClick={handleSubscriptionAction}
-              >
-                <Crown className="w-4 h-4 mr-2" />
-                Upgrade to Premium
-              </Button>
-            )}
+        {/* SETTINGS */}
+        <div className="space-y-3">
+          {showInstallButton && (
             <Button
-              variant="outline"
-              className="w-full justify-start rounded-lg hover:bg-muted"
-              onClick={() => {
-                showOnboarding();
-                toast({
-                  title: "Starting tutorial",
-                  description: "Let's review the app features!",
-                });
-              }}
+              variant="default"
+              className="w-full h-11 justify-center gap-2 bg-green-600 hover:bg-green-700 text-white"
+              onClick={handleInstallApp}
             >
-              <HelpCircle className="w-4 h-4 mr-2" />
-              Show Tutorial Again
+              <Download className="w-4 h-4" /> Install App
             </Button>
+          )}
+          <div className="grid grid-cols-2 gap-3">
             <Button
               variant="outline"
-              className="w-full justify-start rounded-lg hover:bg-muted"
+              className="w-full h-11 justify-center gap-2 border-green-600 text-green-700 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-950/30"
               onClick={handleChangePassword}
             >
-              <Lock className="w-4 h-4 mr-2" />
-              Change Password
+              <Lock className="w-4 h-4" /> Change Password
             </Button>
             <Button
-              variant="outline"
-              className="w-full justify-start rounded-lg hover:bg-muted"
+              variant="destructive"
+              className="w-full h-11 justify-center gap-2"
               onClick={handleLogout}
             >
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
+              <LogOut className="w-4 h-4" /> Logout
             </Button>
-            <Button
-              variant="outline"
-              className="w-full justify-start rounded-lg border-red-300 text-red-600 hover:bg-red-50 hover:text-red-700"
-              onClick={() => setDeleteAccountOpen(true)}
-            >
-              <Trash2 className="w-4 h-4 mr-2" />
-              Delete Account
-            </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Legal */}
-        <Card className="rounded-xl shadow-sm bg-card">
+        <Card className="rounded-xl shadow-sm bg-card mt-6">
           <CardHeader>
             <CardTitle>Legal</CardTitle>
           </CardHeader>
@@ -609,8 +601,16 @@ const Profile = () => {
           </CardContent>
         </Card>
 
-        <div className="text-xs text-muted-foreground text-center py-4">
-          Version 1.0.0
+        {/* FOOTER */}
+        <div className="py-6 px-4 border-t border-gray-200 text-center text-sm text-gray-500 flex flex-col items-center gap-1">
+          <div className="inline-flex items-center gap-2 text-gray-600">
+            <ChefHat className="w-5 h-5" />
+            <span className="font-semibold">QuickDish</span>
+          </div>
+          <div className="text-xs">Made with ❤️ for home cooks</div>
+          <a href="mailto:info@quickdishco.com" className="hover:text-gray-700">info@quickdishco.com</a>
+          <div className="text-xs">Version 1.0.0</div>
+          <div className="text-xs">© 2025 QuickDish</div>
         </div>
       </div>
       

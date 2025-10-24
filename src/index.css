@@ -157,7 +157,7 @@ All colors MUST be HSL.
 
   /* Info cards */
   .info-card {
-    @apply bg-card rounded-xl p-4 shadow-sm border border-border;
+    @apply bg-card rounded-xl p-4 shadow-sm border border-border text-center flex flex-col items-center justify-center;
   }
 
   /* Clickable cards with hover effect */

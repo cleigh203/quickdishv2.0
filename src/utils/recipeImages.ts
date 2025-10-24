@@ -1,5 +1,29 @@
 import { Recipe } from "@/types/recipe";
 
+// IMAGE VERSION - Increment this when images are updated to bust cache
+// Only change this number when you actually update recipe images
+const IMAGE_VERSION = '1';
+
+// CACHE-BUSTING - Add static version to URLs for cache control
+const addCacheBuster = (url: string): string => {
+  if (!url || url.startsWith('data:')) {
+    return url;
+  }
+  
+  // Don't cache-bust Pexels/Unsplash (they have their own CDN)
+  if (url.includes('pexels.com') || url.includes('unsplash.com')) {
+    return url;
+  }
+  
+  // Only add version to Imgur and custom URLs
+  if (url.includes('imgur.com') || url.includes('lovable-uploads')) {
+    const separator = url.includes('?') ? '&' : '?';
+    return `${url}${separator}v=${IMAGE_VERSION}`;
+  }
+  
+  return url;
+};
+
 // Smart image mapping based on recipe content
 // Local overrides to immediately reflect updated images on localhost
 const imageOverrides: Record<string, string> = {
@@ -19,7 +43,17 @@ const imageOverrides: Record<string, string> = {
   "quick-two-ingredient-pici-pasta": "https://i.imgur.com/SldTS5S.png",
 };
 
-export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }): string => {
+export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }, cacheBust: boolean = false): string => {
+  console.log('📸 getRecipeImage called:', {
+    recipeId: recipe.id,
+    recipeName: recipe.name,
+    hasImageUrl: !!recipe.imageUrl,
+    hasImage: !!recipe.image,
+    isAiGenerated: (recipe as any).isAiGenerated,
+    imageUrlValue: recipe.imageUrl,
+    imageValue: recipe.image
+  });
+
   // If AI-generated and no explicit image, return a neutral white placeholder (no random stock)
   if ((recipe as any).isAiGenerated && !recipe.imageUrl && !recipe.image) {
     // 1x1 white PNG data URI
@@ -27,16 +61,23 @@ export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }): s
   }
   // Force override first so it wins regardless of source (static/DB/cached)
   if (recipe.id && imageOverrides[recipe.id]) {
-    return imageOverrides[recipe.id];
+    let url = imageOverrides[recipe.id];
+    console.log('🎯 Using imageOverride for', recipe.id, ':', url);
+    return addCacheBuster(url);
   }
+
   // Check imageUrl first (Halloween recipes)
   if (recipe.imageUrl && !recipe.imageUrl.includes('undefined')) {
-    return recipe.imageUrl;
+    let url = recipe.imageUrl;
+    console.log('🖼️ Using recipe.imageUrl for', recipe.name, ':', url);
+    return addCacheBuster(url);
   }
-  
+
   // Check image second (generated recipes)
   if (recipe.image && !recipe.image.includes('undefined')) {
-    return recipe.image;
+    let url = recipe.image;
+    console.log('🖼️ Using recipe.image for', recipe.name, ':', url);
+    return addCacheBuster(url);
   }
 
   // As a fallback, try local dessert asset naming convention if image is missing

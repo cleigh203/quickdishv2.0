@@ -15,6 +15,7 @@ import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import type { Recipe } from "@/types/recipe";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
+import { AdSlot } from "@/components/AdSlot";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -126,7 +127,7 @@ const Index = () => {
       <div 
         className="relative h-[420px] mb-8 bg-cover bg-center"
         style={{
-          backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%), url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80)`
+          backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%), url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=60&fm=webp)`
         }}
       >
         <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
@@ -260,43 +261,47 @@ const Index = () => {
           </div>
         )}
 
+        {/* Ad between sections - removed to keep page clean */}
+
         {/* Featured Collections */}
         {!isSearching && (
-          <div className="mb-12">
-            <h2 className="section-header">Featured Collections</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {[
-              { name: 'Quick & Easy', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80' },
-              { name: 'Fall Favorites', image: 'https://images.unsplash.com/photo-1535920527002-b35e96722eb9?w=400&q=80' },
-              { name: 'Family Favorites', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80' },
-              { name: 'One-Pot Wonders', image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=80' },
-              { name: 'Healthy Bowls', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80' },
-              { name: 'Desserts', image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80' },
+          <>
+            <div className="mb-12">
+              <h2 className="section-header">Featured Collections</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {[
+              { name: 'Quick & Easy', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=60&fm=webp' },
+              { name: 'Fall Favorites', image: 'https://images.unsplash.com/photo-1535920527002-b35e96722eb9?w=400&q=60&fm=webp' },
+              { name: 'Family Favorites', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=60&fm=webp' },
+              { name: 'One-Pot Wonders', image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=60&fm=webp' },
+              { name: 'Healthy Bowls', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=60&fm=webp' },
+              { name: 'Desserts', image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=60&fm=webp' },
             ].map((collection) => (
-              <div 
-                key={collection.name}
-                className="clickable-card"
-                onClick={() => {
-                  navigate(`/discover?collection=${encodeURIComponent(collection.name)}`);
-                  window.scrollTo(0, 0);
-                }}
-              >
                 <div 
-                  className="h-36 bg-cover bg-center rounded-xl"
-                  style={{ backgroundImage: `url(${collection.image})` }}
-                />
-                <div className="p-4">
-                  <h3 className="font-semibold text-sm">{collection.name}</h3>
+                  key={collection.name}
+                  className="clickable-card"
+                  onClick={() => {
+                    navigate(`/discover?collection=${encodeURIComponent(collection.name)}`);
+                    window.scrollTo(0, 0);
+                  }}
+                >
+                  <div 
+                    className="h-36 bg-cover bg-center rounded-xl"
+                    style={{ backgroundImage: `url(${collection.image})` }}
+                  />
+                  <div className="p-4">
+                    <h3 className="font-semibold text-sm">{collection.name}</h3>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-          </div>
+              ))}
+            </div>
+            </div>
+          </>
         )}
 
         {/* Featured Collection - Large Cards */}
         {!isSearching && (
-          <div className="grid md:grid-cols-2 gap-6 mb-20">
+          <div className="grid md:grid-cols-2 gap-6 mb-6">
           {/* Halloween Recipe Drop */}
           <div
             className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer clickable-card"
@@ -332,7 +337,7 @@ const Index = () => {
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"
               style={{
-                backgroundImage: `url(https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80)`
+                backgroundImage: `url(https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=60&fm=webp)`
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
@@ -345,6 +350,11 @@ const Index = () => {
             </div>
           </div>
           </div>
+        )}
+
+        {/* Ad at bottom of page */}
+        {!isSearching && (
+          <AdSlot slot="0000000000" className="my-10" test />
         )}
       </div>
 

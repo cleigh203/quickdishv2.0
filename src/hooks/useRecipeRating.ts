@@ -16,16 +16,22 @@ export const useRecipeRating = (recipeId: string) => {
   const fetchRatings = async () => {
     setIsLoading(true);
     try {
-      // Call the SECURITY DEFINER function to get aggregated stats
+      // Query the recipe_ratings table directly to get aggregated stats
       const { data, error } = await supabase
-        .rpc('get_recipe_rating_stats', { recipe_id_param: recipeId });
+        .from('recipe_ratings')
+        .select('rating')
+        .eq('recipe_id', recipeId);
 
       if (error) throw error;
 
       if (data && data.length > 0) {
+        const ratings = data.map(r => r.rating);
+        const averageRating = ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length;
+        const totalRatings = ratings.length;
+
         setRatingData({
-          averageRating: data[0].average_rating,
-          totalRatings: data[0].total_ratings
+          averageRating: Math.round(averageRating * 10) / 10, // Round to 1 decimal place
+          totalRatings
         });
       } else {
         setRatingData({

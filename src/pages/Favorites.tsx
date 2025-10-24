@@ -11,6 +11,7 @@ import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
+import { AdSlot } from "@/components/AdSlot";
 
 const Favorites = () => {
   const { savedRecipes, loading } = useSavedRecipes();
@@ -165,12 +166,16 @@ const Favorites = () => {
                     </div>
                   ) : (
                     <img 
-                      src={getRecipeImage(recipe)}
+                      src={getRecipeImage(recipe, import.meta.env.DEV)}
                       alt={recipe.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      loading="lazy"
+                      decoding="async"
+                      width="640"
+                      height="360"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=60&fm=webp";
                       }}
                     />
                   )}
@@ -224,6 +229,11 @@ const Favorites = () => {
               Discover Recipes
             </Button>
           </div>
+        )}
+
+        {/* Ad at bottom - only show if user has favorites */}
+        {favoriteRecipes.length > 0 && (
+          <AdSlot slot="0000000000" className="my-10" test />
         )}
       </div>
       

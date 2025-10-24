@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import { Printer, Store, Loader2, CheckCircle, Package, RefreshCw, AlertTriangle } from "lucide-react";
+import { Printer, Store, Loader2, CheckCircle, Package, RefreshCw, AlertTriangle, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { BottomNav } from "@/components/BottomNav";
 import { StoreSelectionDialog } from "@/components/StoreSelectionDialog";
@@ -86,6 +86,9 @@ const Shopping = () => {
   const [hidePantryItems, setHidePantryItems] = useState(true);
   const [showStoreDialog, setShowStoreDialog] = useState(false);
   const [creatingInstacartList, setCreatingInstacartList] = useState(false);
+  const [swipedItemId, setSwipedItemId] = useState<number | null>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const { toast } = useToast();
   const { createShoppingListLink } = useInstacart();
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -385,6 +388,29 @@ const Shopping = () => {
     setShowStoreDialog(true);
   };
 
+  // Swipe handlers
+  const handleTouchStart = (e: React.TouchEvent, itemId: number) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent, itemId: number) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (itemId: number) => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50; // Minimum swipe distance
+    
+    if (isLeftSwipe) {
+      setSwipedItemId(itemId);
+    } else {
+      setSwipedItemId(null);
+    }
+  };
+
 
   // Group items by category
   const categorizedItems = useMemo(() => {
@@ -420,7 +446,7 @@ const Shopping = () => {
 
   return (
     <>
-      <div className="min-h-screen pb-20 bg-gray-50">
+      <div className="min-h-screen pb-20 bg-background">
         {/* Header with Orange Gradient */}
         <div className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C5A] text-white px-5 py-6">
           <div className="flex items-center justify-between mb-3">
@@ -488,7 +514,7 @@ const Shopping = () => {
         ) : (
           <>
             {/* Action Bar */}
-            <div className="bg-white px-5 py-4 flex gap-3 border-b border-gray-200">
+            <div className="bg-card px-5 py-4 flex gap-3 border-b border-border">
               <div className="flex-1">
                 <InstacartButton
                   onClick={handleShopOnline}
@@ -498,15 +524,8 @@ const Shopping = () => {
                 />
               </div>
               <button
-                onClick={handleShopOnlineOtherStores}
-                className="flex-1 h-12 bg-[#FF6B35] text-white rounded-xl font-semibold text-base shadow-md hover:bg-[#E55A2B] transition-all"
-              >
-                <Store className="w-4 h-4 inline mr-2" />
-                Other Stores
-              </button>
-              <button
                 onClick={handlePrint}
-                className="h-12 px-6 bg-white border-2 border-gray-200 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-all"
+                className="h-12 px-6 bg-white border-2 border-gray-200 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-all dark:bg-card dark:border-border dark:text-foreground dark:hover:bg-muted/50"
               >
                 <Printer className="w-4 h-4 inline mr-2" />
                 Print
@@ -561,17 +580,17 @@ const Shopping = () => {
             ) : displayList.length === 0 ? (
               <div className="px-5 py-12 text-center">
                 <div className="text-6xl mb-4">✨</div>
-                <p className="text-gray-600 text-lg mb-2">
+                <p className="text-muted-foreground text-lg mb-2">
                   All items are already in your pantry! 🎉
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-muted-foreground">
                   Toggle off "Hide pantry items" to see all items
                 </p>
               </div>
             ) : (
               <>
                 {/* Select All Checkbox */}
-                <div className="bg-white px-5 py-4 border-b-2 border-gray-200 sticky top-0 z-20">
+                <div className="bg-card px-5 py-4 border-b-2 border-border sticky top-0 z-20">
                   <div 
                     onClick={handleSelectAll}
                     className="flex items-center gap-3 cursor-pointer group"
@@ -583,7 +602,7 @@ const Shopping = () => {
                           ? 'bg-[#FF6B35] border-[#FF6B35]' 
                           : isIndeterminate
                           ? 'bg-[#FF6B35]/50 border-[#FF6B35]'
-                          : 'border-gray-300 group-hover:border-[#FF6B35]'
+                          : 'border-border group-hover:border-[#FF6B35]'
                         }
                       `}
                     >
@@ -594,10 +613,10 @@ const Shopping = () => {
                         <span className="text-white text-base font-bold">−</span>
                       )}
                     </div>
-                    <span className="text-base font-semibold text-gray-700">
+                    <span className="text-base font-semibold text-foreground">
                       {isAllChecked ? 'Uncheck All' : 'Check All'}
                     </span>
-                    <span className="text-sm text-gray-500 ml-auto">
+                    <span className="text-sm text-muted-foreground ml-auto">
                       {checkedItems}/{totalItems}
                     </span>
                   </div>
@@ -607,44 +626,64 @@ const Shopping = () => {
                 {categorizedItems.map((category) => (
               <div key={category.name}>
                 {/* Category Header - Sticky */}
-                <div className="bg-gray-50 px-5 py-3 font-bold text-xs uppercase tracking-wide text-gray-600 border-t-2 border-gray-200 border-b border-gray-200 sticky top-0 z-10">
+                <div className="bg-muted px-5 py-3 font-bold text-xs uppercase tracking-wide text-muted-foreground border-t-2 border-border border-b border-border sticky top-0 z-10">
                   {category.emoji} {category.name} ({category.items.length})
                 </div>
 
                 {/* Items in Category */}
-                <div className="bg-white">
+                <div className="bg-card">
                   {category.items.map((item) => (
                     <div
                       key={item.id}
-                      className="flex items-center gap-4 px-5 py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                      className="relative overflow-hidden"
                     >
-                      {/* Checkbox - 22px */}
-                      <div
-                        onClick={() => toggleItem(item.id)}
-                        className={`
-                          w-7 h-7 rounded-md border-2 flex items-center justify-center transition-all cursor-pointer flex-shrink-0
-                          ${item.checked 
-                            ? 'bg-[#FF6B35] border-[#FF6B35]' 
-                            : 'border-gray-300 hover:border-[#FF6B35]'
-                          }
-                        `}
-                      >
-                        {item.checked && (
-                          <span className="text-white text-base font-bold">✓</span>
-                        )}
-                      </div>
-                      
-                      {/* Item Content */}
-                      <div className="flex-1 min-w-0">
-                        <div className={`text-base font-medium ${item.checked ? 'line-through text-gray-400' : 'text-gray-900'}`}>
-                          {item.amount && <span className="text-gray-500">{item.amount} </span>}
-                          {item.item}
+                      {/* Delete button background */}
+                      {swipedItemId === item.id && (
+                        <div 
+                          className="absolute right-0 top-0 bottom-0 bg-red-500 flex items-center justify-center px-6 cursor-pointer"
+                          onClick={() => removeItem(item.id)}
+                        >
+                          <Trash2 className="w-5 h-5 text-white" />
                         </div>
-                        {item.recipes && item.recipes.length > 0 && (
-                          <div className="inline-block mt-1 px-2 py-0.5 bg-orange-50 text-orange-600 text-xs rounded">
-                            For: {item.recipes.join(', ')}
+                      )}
+                      
+                      {/* Item content with swipe */}
+                      <div
+                        className={`flex items-center gap-4 px-5 py-4 border-b border-border hover:bg-muted/50 transition-all bg-card ${
+                          swipedItemId === item.id ? '-translate-x-20' : 'translate-x-0'
+                        }`}
+                        onTouchStart={(e) => handleTouchStart(e, item.id)}
+                        onTouchMove={(e) => handleTouchMove(e, item.id)}
+                        onTouchEnd={() => handleTouchEnd(item.id)}
+                      >
+                        {/* Checkbox - 22px */}
+                        <div
+                          onClick={() => toggleItem(item.id)}
+                          className={`
+                            w-7 h-7 rounded-md border-2 flex items-center justify-center transition-all cursor-pointer flex-shrink-0
+                            ${item.checked 
+                              ? 'bg-[#FF6B35] border-[#FF6B35]' 
+                              : 'border-border hover:border-[#FF6B35]'
+                            }
+                          `}
+                        >
+                          {item.checked && (
+                            <span className="text-white text-base font-bold">✓</span>
+                          )}
+                        </div>
+                        
+                        {/* Item Content */}
+                        <div className="flex-1 min-w-0">
+                          <div className={`text-base font-medium ${item.checked ? 'line-through text-muted-foreground' : 'text-foreground'}`}>
+                            {item.amount && <span className="text-muted-foreground">{item.amount} </span>}
+                            {item.item}
                           </div>
-                        )}
+                          {item.recipes && item.recipes.length > 0 && (
+                            <div className="inline-block mt-1 px-2 py-0.5 bg-orange-50 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400 text-xs rounded">
+                              For: {item.recipes.join(', ')}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -654,15 +693,16 @@ const Shopping = () => {
 
             {/* Quick Actions at Bottom */}
             {checkedItems > 0 && (
-              <div className="bg-white px-5 py-4 border-t-2 border-gray-200">
+              <div className="bg-card px-5 py-4 border-t-2 border-border">
                 <button
                   onClick={handleClearCompleted}
-                  className="w-full h-11 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all"
+                  className="w-full h-11 bg-muted text-foreground rounded-xl font-medium hover:bg-muted/80 transition-all"
                 >
                   Clear Completed ({checkedItems})
                 </button>
               </div>
             )}
+
           </>
         )}
           </>

@@ -184,8 +184,8 @@ const Privacy = () => {
             </ul>
             <p className="text-foreground">
               To exercise these rights, contact us at{" "}
-              <a href="mailto:support@quickdish.app" className="text-primary hover:underline">
-                support@quickdish.app
+              <a href="mailto:info@quickdishco.com" className="text-primary hover:underline">
+                info@quickdishco.com
               </a>
             </p>
           </section>
@@ -243,12 +243,9 @@ const Privacy = () => {
             <div className="bg-card p-6 rounded-xl border border-border">
               <p className="text-foreground mb-2">
                 <strong>Email:</strong>{" "}
-                <a href="mailto:support@quickdish.app" className="text-primary hover:underline">
-                  support@quickdish.app
+                <a href="mailto:info@quickdishco.com" className="text-primary hover:underline">
+                  info@quickdishco.com
                 </a>
-              </p>
-              <p className="text-foreground">
-                <strong>Mail:</strong> QuickDish Inc., 123 Recipe Street, San Francisco, CA 94102
               </p>
             </div>
           </section>

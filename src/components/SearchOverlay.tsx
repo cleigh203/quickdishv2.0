@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, Fragment } from "react";
 import { ArrowLeft, Search, Check, X, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -7,6 +7,8 @@ import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { useNavigate } from "react-router-dom";
+import { AdSlot } from "@/components/AdSlot";
+import { InlineRating } from "@/components/InlineRating";
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -272,46 +274,72 @@ export const SearchOverlay = ({
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-4">
-              {filteredRecipes.map((recipe) => (
-                <div
-                  key={recipe.id}
-                  onClick={() => {
-                    navigate(`/recipe/${recipe.id}`);
-                    onClose();
-                  }}
-                  className="relative cursor-pointer"
-                >
-                  <div className="relative rounded-xl overflow-hidden aspect-[4/5]">
-                    {hideAiImages && (recipe as any).isAiGenerated ? (
-                      <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground">
-                        <span className="text-sm">AI Recipe</span>
-                      </div>
-                    ) : (
-                      <img
-                        src={getRecipeImage(recipe)}
-                        alt={recipe.name}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+              {filteredRecipes.map((recipe, idx) => (
+                <Fragment key={recipe.id}>
+                  <div
+                    onClick={() => {
+                      navigate(`/recipe/${recipe.id}`);
+                      onClose();
+                    }}
+                    className="relative cursor-pointer"
+                  >
+                    <div className="relative rounded-xl overflow-hidden aspect-[4/5]">
+                      {hideAiImages && (recipe as any).isAiGenerated ? (
+                        <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground">
+                          <span className="text-sm">AI Recipe</span>
+                        </div>
+                      ) : (
+                        <img
+                          src={getRecipeImage(recipe, false)}
+                          alt={recipe.name}
+                          className="w-full h-full object-cover"
+                          loading="eager"
+                          crossOrigin="anonymous"
+                          width="400"
+                          height="500"
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            const imageUrl = getRecipeImage(recipe, false);
+                            console.error('❌ Search image failed:', recipe.name, imageUrl);
+                            
+                            // MOBILE FIX: Retry with cache-busting
+                            if (!target.dataset.retried) {
+                              target.dataset.retried = 'true';
+                              const separator = imageUrl.includes('?') ? '&' : '?';
+                              target.src = `${imageUrl}${separator}retry=${Date.now()}`;
+                              console.log('🔄 Retrying search image');
+                              return;
+                            }
+                            
+                            if (!target.src.includes('unsplash')) {
+                              target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=60&fm=webp";
+                            }
+                          }}
+                          onLoad={() => console.log('✅ Search image loaded:', recipe.name)}
+                          style={{ width: '100%', height: 'auto' }}
+                        />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onAddToFavorites(recipe);
                         }}
-                      />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onAddToFavorites(recipe);
-                      }}
-                      className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
-                    >
-                      <Plus className="w-4 h-4 text-foreground" />
-                    </button>
+                        className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
+                      >
+                        <Plus className="w-4 h-4 text-foreground" />
+                      </button>
+                    </div>
+                    <p className="mt-2 font-medium text-sm line-clamp-2">{recipe.name}</p>
+                    <InlineRating recipeId={recipe.id} />
                   </div>
-                  <p className="mt-2 font-medium text-sm line-clamp-2">
-                    {recipe.name}
-                  </p>
-                </div>
+                  {/* Conservative cap: show at most two ads, after ~12 and ~24 results */}
+                  {(idx === 12 || idx === 24) && (
+                    <div className="col-span-2 py-8 my-4 border-t border-b border-border">
+                      <AdSlot slot="0000000000" className="my-4" test />
+                    </div>
+                  )}
+                </Fragment>
               ))}
             </div>
           )}

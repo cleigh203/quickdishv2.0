@@ -111,9 +111,10 @@ export const useSavedRecipes = () => {
       const fetchPromise = retryOperation(async () => {
         const result = await supabase
           .from('saved_recipes')
-          .select('*')
+          .select('id, recipe_id, notes, rating, times_cooked, saved_at')
           .eq('user_id', user.id)
-          .order('saved_at', { ascending: false });
+          .order('saved_at', { ascending: false })
+          .limit(100); // Pagination: load first 100 recipes
         
         if (result.error) throw result.error;
         return result;

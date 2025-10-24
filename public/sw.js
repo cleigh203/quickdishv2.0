@@ -1,5 +1,15 @@
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v7';
 const CACHE_NAME = `quickdish-${CACHE_VERSION}`;
+const CACHE_EXPIRATION_DAYS = 7;
+
+// Helper to check if cached response is expired
+function isCacheExpired(response) {
+  if (!response) return true;
+  const cachedDate = response.headers.get('sw-cached-date');
+  if (!cachedDate) return true;
+  const daysSinceCached = (Date.now() - parseInt(cachedDate)) / (1000 * 60 * 60 * 24);
+  return daysSinceCached > CACHE_EXPIRATION_DAYS;
+}
 
 // Install event - activate immediately
 self.addEventListener('install', (event) => {
@@ -36,24 +46,12 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network-first strategy for API calls
+  // Network-only strategy for API calls - never cache user data
   if (url.pathname.includes('/functions/') || 
       url.pathname.includes('/rest/') || 
-      url.pathname.includes('/auth/')) {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          // Only cache GET requests (POST/PUT/DELETE cannot be cached)
-          if (response.ok && request.method === 'GET') {
-            const responseClone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(request, responseClone);
-            });
-          }
-          return response;
-        })
-        .catch(() => caches.match(request))
-    );
+      url.pathname.includes('/auth/') ||
+      url.pathname.includes('/realtime/')) {
+    event.respondWith(fetch(request));
     return;
   }
 
@@ -67,22 +65,28 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache-first strategy for images and static assets (not scripts)
+  // Cache-first strategy for images and static assets with expiration
   if (request.destination === 'image' || 
       request.destination === 'style' ||
       request.destination === 'font') {
     event.respondWith(
       caches.match(request)
         .then((cachedResponse) => {
-          if (cachedResponse) {
+          if (cachedResponse && !isCacheExpired(cachedResponse)) {
             return cachedResponse;
           }
           return fetch(request).then((response) => {
-            // Only cache GET requests
             if (response.ok && request.method === 'GET') {
               const responseClone = response.clone();
+              const headers = new Headers(response.headers);
+              headers.append('sw-cached-date', Date.now().toString());
+              const modifiedResponse = new Response(responseClone.body, {
+                status: response.status,
+                statusText: response.statusText,
+                headers
+              });
               caches.open(CACHE_NAME).then((cache) => {
-                cache.put(request, responseClone);
+                cache.put(request, modifiedResponse);
               });
             }
             return response;
@@ -92,9 +96,9 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network-first for everything else
+  // Network-first for navigations and everything else to avoid grey screens
   event.respondWith(
-    fetch(request)
+    (request.mode === 'navigate' ? fetch(request) : fetch(request))
       .then((response) => {
         // Only cache GET requests
         if (response.ok && request.method === 'GET') {

@@ -87,7 +87,7 @@ export const InstacartSearchModal = ({ isOpen, onClose, onAddToShoppingList }: I
                         className="w-16 h-16 object-cover rounded-md"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          target.src = "https://images.unsplash.com/photo-1542838132-92c53300491e?w=100&h=100&fit=crop";
+                          target.src = "https://images.unsplash.com/photo-1542838132-92c53300491e?w=100&h=100&fit=crop&fm=webp&q=60";
                         }}
                       />
                       <div className="flex-1 min-w-0">

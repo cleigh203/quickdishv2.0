@@ -26,41 +26,6 @@ const Help = () => {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 space-y-6">
-        {/* Getting Started */}
-        <div>
-          <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-            🚀 Getting Started
-          </h2>
-          <Accordion type="single" collapsible className="space-y-2">
-            <AccordionItem value="create-account" className="bg-card rounded-lg px-4">
-              <AccordionTrigger className="text-left">
-                How do I create an account?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Tap "Sign Up," enter your email and password, and you're ready to cook! Takes less than 30 seconds.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="free-to-use" className="bg-card rounded-lg px-4">
-              <AccordionTrigger className="text-left">
-                Is QuickDish free to use?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Yes! QuickDish is completely free with access to 350+ recipes, meal planning, shopping lists, and cooking mode. Premium ($2.99/month) adds AI chat and nutritional facts.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="tutorial-again" className="bg-card rounded-lg px-4">
-              <AccordionTrigger className="text-left">
-                How do I see the tutorial again?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Go to Profile → Help & Support → "Show Tutorial Again"
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
-
         {/* Ingredient Search & AI Generation */}
         <div>
           <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
@@ -82,8 +47,7 @@ const Help = () => {
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
                 <p className="mb-2">QuickDish AI can generate custom recipes based on YOUR ingredients! Just search for what you have, and if no recipes match, our AI will create a personalized recipe for you.</p>
-                <p className="font-semibold">Free Users: 2 AI-generated recipes per day</p>
-                <p className="font-semibold">Premium Users: 5 AI-generated recipes per day</p>
+                <p className="font-semibold">Users get 2 free AI-generated recipes per day</p>
               </AccordionContent>
             </AccordionItem>
 
@@ -96,7 +60,7 @@ const Help = () => {
                   <li>Search for ingredients you have at home</li>
                   <li>If no existing recipes match, tap "Generate Recipe with AI"</li>
                   <li>AI creates a custom recipe tailored to your ingredients</li>
-                  <li>Free users get 2 generations/day, Premium gets 5/day</li>
+                  <li>Users get 2 generations/day</li>
                   <li>Limits reset daily at midnight</li>
                 </ul>
               </AccordionContent>
@@ -152,15 +116,6 @@ const Help = () => {
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
                 You can add personal notes to any recipe using "Add Notes" in the three-dot menu.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="share-recipe" className="bg-card rounded-lg px-4">
-              <AccordionTrigger className="text-left">
-                How do I share a recipe with friends?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Open the recipe, tap the three dots (•••), and select "Share Recipe."
               </AccordionContent>
             </AccordionItem>
 
@@ -260,15 +215,6 @@ const Help = () => {
                 Tap the meal in your calendar and select "Remove" or tap the X/trash icon.
               </AccordionContent>
             </AccordionItem>
-
-            <AccordionItem value="move-meals" className="bg-card rounded-lg px-4">
-              <AccordionTrigger className="text-left">
-                Can I move meals to different days?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Yes! Long-press a meal and drag it to a new day, or remove and re-add it.
-              </AccordionContent>
-            </AccordionItem>
           </Accordion>
         </div>
 
@@ -349,15 +295,6 @@ const Help = () => {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="add-pantry-items" className="bg-card rounded-lg px-4">
-              <AccordionTrigger className="text-left">
-                How do I add items to my pantry?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                In your pantry, tap "+ Add Items" then choose: Add Common Staples (quick-add essentials) or Add Manually (type item details).
-              </AccordionContent>
-            </AccordionItem>
-
             <AccordionItem value="organize-pantry" className="bg-card rounded-lg px-4">
               <AccordionTrigger className="text-left">
                 Can I organize my pantry by category?
@@ -382,73 +319,6 @@ const Help = () => {
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
                 A quick way to add 20+ common pantry items like flour, sugar, olive oil, salt, pepper, etc. Just check the items you have and add them all at once!
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
-
-        {/* Premium Features */}
-        <div>
-          <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-            💎 Premium Features
-          </h2>
-          <Accordion type="single" collapsible className="space-y-2">
-            <AccordionItem value="premium-included" className="bg-card rounded-lg px-4">
-              <AccordionTrigger className="text-left">
-                What's included with Premium?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                <ul className="list-disc list-inside space-y-1">
-                  <li>5 AI Recipe Generations per day (vs 2 for free users)</li>
-                  <li>AI Chat: Ask cooking questions and get instant answers</li>
-                  <li>Nutritional Facts: Detailed nutrition info for all recipes</li>
-                  <li>Early Access: Try new features before everyone else</li>
-                </ul>
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="premium-cost" className="bg-card rounded-lg px-4">
-              <AccordionTrigger className="text-left">
-                How much does Premium cost?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                $4.99 per month with automatic renewal. Cancel anytime.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="upgrade-premium" className="bg-card rounded-lg px-4">
-              <AccordionTrigger className="text-left">
-                How do I upgrade to Premium?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Go to Profile → Subscription → "Upgrade to Premium" and follow the payment process.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="cancel-premium" className="bg-card rounded-lg px-4">
-              <AccordionTrigger className="text-left">
-                Can I cancel my Premium subscription?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Yes! Go to Profile → Subscription → "Cancel Subscription." You'll keep access until the end of your billing period.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="refund-premium" className="bg-card rounded-lg px-4">
-              <AccordionTrigger className="text-left">
-                Do I get a refund if I cancel?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                No refunds for partial months, but you keep access until your current period ends.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="restore-premium" className="bg-card rounded-lg px-4">
-              <AccordionTrigger className="text-left">
-                How do I restore my Premium subscription on a new device?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Go to Profile → Subscription → "Restore Purchases"
               </AccordionContent>
             </AccordionItem>
           </Accordion>

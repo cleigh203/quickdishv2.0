@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { BottomNav } from "@/components/BottomNav";
 import { RecipeCard } from "@/components/RecipeCard";
 import { RecipeCardSkeleton } from "@/components/RecipeCardSkeleton";
@@ -8,7 +8,7 @@ import { MealPlanTab } from "@/components/MealPlanTab";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Search, X, Heart, Calendar, RefreshCw } from "lucide-react";
+import { Plus, Search, X, Heart, Calendar, RefreshCw, Trash2 } from "lucide-react";
 import { allRecipes } from "@/data/recipes";
 import { Recipe } from "@/types/recipe";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
@@ -19,13 +19,24 @@ import { toast } from "sonner";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { supabase } from "@/integrations/supabase/client";
+import { MealPlanDialog } from "@/components/MealPlanDialog";
 
 export const SavedRecipes = () => {
   const navigate = useNavigate();
-  const { savedRecipes, loading, error, refetch } = useSavedRecipes();
-  const { mealPlans, refreshMealPlans } = useMealPlan();
+  const location = useLocation();
+  const { savedRecipes, loading, error, refetch, unsaveRecipe } = useSavedRecipes();
+  const { mealPlans, refreshMealPlans, addMealPlan } = useMealPlan();
   const { generatedRecipes } = useGeneratedRecipes();
   const [activeTab, setActiveTab] = useState("saved");
+  
+  // Check if we should open meal plan tab
+  useEffect(() => {
+    if (location.state?.openMealPlan) {
+      setActiveTab("mealPlan");
+      // Clear the state so it doesn't reopen on refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
   const [customRecipes, setCustomRecipes] = useState<Recipe[]>([]);
   const [showCustomForm, setShowCustomForm] = useState(false);
   const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
@@ -42,6 +53,8 @@ export const SavedRecipes = () => {
     difficulty: [],
     mealType: [],
   });
+  const [mealPlanDialogOpen, setMealPlanDialogOpen] = useState(false);
+  const [selectedRecipeForMealPlan, setSelectedRecipeForMealPlan] = useState<Recipe | null>(null);
 
   useEffect(() => {
     const custom = JSON.parse(localStorage.getItem('customRecipes') || '[]');
@@ -77,15 +90,20 @@ export const SavedRecipes = () => {
 
       let fetched: Recipe[] = [];
       if (missingIds.length > 0) {
+        console.log(`🔍 Fetching ${missingIds.length} recipes from generated_recipes:`, missingIds);
         try {
           const { data, error } = await supabase
             .from('generated_recipes')
             .select('*')
             .in('recipe_id', missingIds);
-          if (!error && Array.isArray(data)) {
+          
+          if (error) {
+            console.error('❌ Error fetching generated recipes:', error);
+          } else if (Array.isArray(data)) {
+            console.log(`✅ Fetched ${data.length} recipes from database`);
             fetched = data.map((record: any) => ({
               id: record.recipe_id,
-              name: record.name,
+              name: record.name || 'Unnamed Recipe',
               description: record.description || '',
               cookTime: record.cook_time || '',
               prepTime: record.prep_time || '',
@@ -103,7 +121,7 @@ export const SavedRecipes = () => {
             } as Recipe));
           }
         } catch (e) {
-          console.warn('SavedRecipes fetch fallback failed', e);
+          console.error('❌ SavedRecipes fetch fallback failed:', e);
         }
       }
 
@@ -113,22 +131,25 @@ export const SavedRecipes = () => {
         .map(s => s.recipe_id)
         .filter(id => !resolvedIds.has(id) && !fetchedIds.has(id));
 
-      const stubs: Recipe[] = unresolvedIds.map((id) => ({
-        id,
-        name: 'Saved AI Recipe',
-        description: '',
-        cookTime: '',
-        prepTime: '',
-        difficulty: 'Medium',
-        servings: 1,
-        ingredients: [],
-        instructions: [],
-        cuisine: '',
-        image: '',
-        imageUrl: '',
-        tags: [],
-        isAiGenerated: true,
-      } as Recipe));
+      const stubs: Recipe[] = unresolvedIds.map((id) => {
+        console.warn(`⚠️ Unable to resolve recipe with ID: ${id}`);
+        return {
+          id,
+          name: 'Loading Recipe...',
+          description: 'This recipe is being loaded',
+          cookTime: '?',
+          prepTime: '?',
+          difficulty: 'Medium',
+          servings: 1,
+          ingredients: [],
+          instructions: [],
+          cuisine: '',
+          image: '',
+          imageUrl: '',
+          tags: [],
+          isAiGenerated: true,
+        } as Recipe;
+      });
 
       setResolvedSavedRecipes([...base, ...fetched, ...stubs]);
     };
@@ -149,6 +170,11 @@ export const SavedRecipes = () => {
 
   const handleRecipeClick = (recipeId: string) => {
     navigate(`/recipe/${recipeId}`);
+  };
+
+  const handleUnsave = async (recipeId: string) => {
+    await unsaveRecipe(recipeId);
+    refetch();
   };
 
   const handleEdit = (recipe: Recipe) => {
@@ -206,6 +232,24 @@ export const SavedRecipes = () => {
       ...prev,
       [category]: prev[category].filter(v => v !== value)
     }));
+  };
+
+  const handleMealPlanClick = (recipe: Recipe) => {
+    setSelectedRecipeForMealPlan(recipe);
+    setMealPlanDialogOpen(true);
+  };
+
+  const handleMealPlanSave = async (date: string, mealType: string) => {
+    if (!selectedRecipeForMealPlan) return;
+    
+    try {
+      await addMealPlan(selectedRecipeForMealPlan.id, date, mealType);
+      toast.success(`${selectedRecipeForMealPlan.name} added to ${mealType} on ${date}`);
+      refreshMealPlans();
+    } catch (error) {
+      console.error('Error adding to meal plan:', error);
+      toast.error('Failed to add recipe to meal plan');
+    }
   };
 
   const getFilteredRecipes = (recipes: Recipe[]) => {
@@ -380,13 +424,20 @@ export const SavedRecipes = () => {
                 <section>
                   <h2 className="text-lg font-semibold mb-4">Saved from QuickDish</h2>
                   <div className="grid grid-cols-2 gap-3">
-                    {filteredSavedRecipes.map((recipe) => (
-                      <RecipeCard
-                        key={recipe.id}
-                        recipe={recipe}
-                        onClick={() => handleRecipeClick(recipe.id)}
-                      />
-                    ))}
+                    {filteredSavedRecipes.map((recipe) => {
+                      const savedRecipe = savedRecipes.find(sr => sr.recipe_id === recipe.id);
+                      return (
+                        <RecipeCard
+                          key={recipe.id}
+                          recipe={recipe}
+                          showRemoveButton={true}
+                          onRemove={() => savedRecipe && handleUnsave(savedRecipe.recipe_id)}
+                          onClick={() => handleRecipeClick(recipe.id)}
+                          showMealPlanButton={true}
+                          onMealPlanClick={() => handleMealPlanClick(recipe)}
+                        />
+                      );
+                    })}
                   </div>
                 </section>
               )}
@@ -445,6 +496,16 @@ export const SavedRecipes = () => {
         onSave={handleSave}
         editRecipe={editingRecipe}
       />
+
+      {/* Meal Plan Dialog */}
+      {selectedRecipeForMealPlan && (
+        <MealPlanDialog
+          open={mealPlanDialogOpen}
+          onOpenChange={setMealPlanDialogOpen}
+          onSave={handleMealPlanSave}
+          recipeName={selectedRecipeForMealPlan.name}
+        />
+      )}
 
       {/* Delete Confirmation */}
       <AlertDialog open={!!deletingRecipeId} onOpenChange={() => setDeletingRecipeId(null)}>

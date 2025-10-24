@@ -20,7 +20,6 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [showFullRecipe, setShowFullRecipe] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [activeMode, setActiveMode] = useState(false); // Protected Mode by default (wake word required)
   const [lastCommand, setLastCommand] = useState<string>("");
   const [voiceSupported, setVoiceSupported] = useState(false);
   const [isNative, setIsNative] = useState(false);
@@ -30,7 +29,6 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   const recognitionRef = useRef<any>(null);
   const currentStepRef = useRef(currentStep);
   const isListeningRef = useRef(false);
-  const activeModeRef = useRef(false);
   const { toast } = useToast();
 
   // Update refs
@@ -41,10 +39,6 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   useEffect(() => {
     isListeningRef.current = isListening;
   }, [isListening]);
-
-  useEffect(() => {
-    activeModeRef.current = activeMode;
-  }, [activeMode]);
 
   // Check platform
   useEffect(() => {
@@ -189,28 +183,24 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     const cmd = command.toLowerCase().trim();
     console.log('🎤 RAW COMMAND:', command);
     console.log('🎤 PROCESSED:', cmd);
-    console.log('🎤 Active Mode:', activeModeRef.current);
     
     setLastCommand(cmd);
     setTimeout(() => setLastCommand(""), 3000);
 
-    // Check for wake word if NOT in active mode
-    const needsWakeWord = !activeModeRef.current;
-    
-    // More lenient wake word detection (catches speech recognition errors)
+    // ALWAYS require wake word (Protected Mode only)
     const hasWakeWord = cmd.includes('quick dish') || 
                         cmd.includes('quickdish') ||
                         cmd.includes('quick this') ||
                         cmd.includes('quick dis') ||
                         (cmd.includes('quick') && cmd.includes('dish'));
     
-    if (needsWakeWord && !hasWakeWord) {
+    if (!hasWakeWord) {
       console.log('❌ REJECTED: Wake word required (heard: "' + cmd + '")');
       // Don't spam toasts - only show if they said an actual command
       if (cmd.includes('next') || cmd.includes('back') || cmd.includes('repeat') || cmd.includes('timer')) {
         toast({
           title: "🎤 Say 'Quick Dish' first",
-          description: "Or switch to Active Mode",
+          description: "Example: 'Quick Dish Next'",
           duration: 2000,
         });
       }
@@ -380,7 +370,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
           setIsListening(true);
           toast({ 
             title: "🎤 Voice control started",
-            description: activeMode ? 'Just say "Next"' : 'Say "Quick Dish Next"'
+            description: 'Say "Quick Dish Next"'
           });
         } else {
           // WEB
@@ -430,7 +420,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
           
           toast({ 
             title: "🎤 Voice control started",
-            description: activeMode ? 'Just say "Next"' : 'Say "Quick Dish Next"'
+            description: 'Say "Quick Dish Next"'
           });
         }
 
@@ -570,6 +560,14 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
 
   return (
     <div className="fixed inset-0 bg-white z-50 flex flex-col text-black">
+      {/* Voice Listening Indicator - MOVED TO TOP */}
+      {isListening && (
+        <div className="bg-green-600 text-white px-4 py-2 text-center text-sm font-semibold flex items-center justify-center gap-2">
+          <div className="animate-pulse">🎤</div>
+          <span>VOICE CONTROL ACTIVE</span>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-gradient-to-r from-[#10b981] to-[#34d399] text-white px-5 py-6 pt-12">
         <div className="flex items-center justify-between mb-4">
@@ -591,28 +589,6 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
         </div>
         <p className="text-sm opacity-90">Step {currentStep + 1} of {recipe.instructions.length}</p>
       </div>
-
-      {/* Voice Listening Indicator */}
-      {isListening && (
-        <div className={`fixed top-20 left-1/2 transform -translate-x-1/2 px-6 py-4 rounded-2xl shadow-2xl z-50 text-white ${
-          activeMode ? 'bg-blue-600' : 'bg-green-600'
-        }`}>
-          <div className="flex items-center gap-3">
-            <div className="animate-pulse text-2xl">🎤</div>
-            <div className="flex flex-col">
-              <div className="font-bold text-lg">
-                {activeMode ? 'Active Mode' : 'Protected Mode'}
-              </div>
-              <div className="text-sm opacity-90">
-                {activeMode 
-                  ? 'Say: "Next", "Back", "Repeat"' 
-                  : 'Say: "Quick Dish Next"'
-                }
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Last Command */}
       {lastCommand && (
@@ -663,7 +639,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
           </div>
         )}
 
-        {/* SIMPLE VOICE CONTROL - ONE TOGGLE */}
+        {/* VOICE CONTROL */}
         {voiceSupported && (
           <div className="mt-6 space-y-3">
             {/* Main Voice Toggle */}
@@ -678,25 +654,16 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
               {isListening ? '🔴 Stop Voice Control' : '🎤 Start Voice Control'}
             </button>
 
-            {/* Mode Toggle - Only when listening */}
+            {/* Help text - Always show when listening */}
             {isListening && (
-              <button 
-                onClick={() => setActiveMode(!activeMode)}
-                className={`w-full h-12 rounded-xl font-semibold transition-all ${
-                  activeMode 
-                    ? 'bg-blue-600 text-white shadow-md' 
-                    : 'bg-gray-200 text-gray-700'
-                }`}
-              >
-                {activeMode ? '🔓 ACTIVE MODE (Say "Next")' : '🔒 PROTECTED MODE (Say "Quick Dish Next")'}
-              </button>
-            )}
-
-            {/* Help text */}
-            {isListening && (
-              <p className="text-sm text-gray-600 text-center">
-                Say: {activeMode ? '"Next", "Back", "Repeat", "Timer"' : '"Quick Dish Next", "Quick Dish Back", etc.'}
-              </p>
+              <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4 text-center">
+                <p className="font-semibold text-green-800 mb-2">Voice Commands:</p>
+                <p className="text-sm text-gray-700">
+                  <span className="font-semibold">QUICK DISH NEXT</span><br />
+                  <span className="font-semibold">QUICK DISH BACK</span><br />
+                  <span className="font-semibold">QUICK DISH START TIMER</span>
+                </p>
+              </div>
             )}
           </div>
         )}

@@ -66,8 +66,8 @@ export const ThemeToggle = () => {
             onClick={() => handleThemeChange(value)}
             className={`flex-1 flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${
               theme === value
-                ? 'border-primary bg-primary/10 text-primary'
-                : 'border-border bg-card hover:border-primary/50'
+                ? 'border-green-600 bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-400'
+                : 'border-border bg-card hover:border-green-500/50'
             }`}
           >
             <Icon className="w-5 h-5" />

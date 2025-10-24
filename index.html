@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.ico?v=3" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    
+    <!-- CRITICAL: Mobile Cache Control -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>QuickDish - AI Recipe & Meal Planner</title>
     <meta name="description" content="AI-powered recipe companion with meal planning and smart shopping lists" />
     <meta name="author" content="QuickDish" />
@@ -34,22 +40,19 @@
     <meta name="twitter:image" content="https://example.com/icon-512.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     
-    <!-- Service Worker: enable only in production; auto-unregister in dev -->
+    <!-- Service Worker: DISABLED - Unregister all existing service workers -->
     <script>
       if ('serviceWorker' in navigator) {
-        const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-        if (isLocalhost) {
-          // In dev, ensure any existing SW is removed to avoid caching dev assets
-          navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
-        } else {
-          window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-              .then(reg => console.log('✅ Service Worker registered:', reg.scope))
-              .catch(err => console.error('❌ Service Worker registration failed:', err));
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          registrations.forEach(function(reg) {
+            reg.unregister();
           });
-        }
+        });
       }
     </script>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7675766348174556" crossorigin="anonymous"></script>
   </head>
 
   <body>

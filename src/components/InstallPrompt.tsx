@@ -83,42 +83,43 @@ export const InstallPrompt = () => {
   }
 
   return (
-    <div className="fixed bottom-20 left-4 right-4 md:left-auto md:right-4 md:w-96 z-50 animate-in slide-in-from-bottom-4">
-      <div className="bg-card border border-border rounded-lg shadow-lg p-4">
+    <div className="fixed bottom-16 left-2 right-2 md:left-auto md:right-4 md:w-80 md:max-w-sm z-50 animate-in slide-in-from-bottom-4">
+      <div className="bg-card border border-border rounded-lg shadow-lg p-3">
         <button
           onClick={handleDismiss}
-          className="absolute top-2 right-2 p-1 hover:bg-accent rounded-full transition-colors"
+          className="absolute top-1 right-1 p-1 hover:bg-accent rounded-full transition-colors"
           aria-label="Dismiss"
         >
-          <X className="h-4 w-4" />
+          <X className="h-3 w-3" />
         </button>
-        
-        <div className="flex items-start gap-3 mb-3">
-          <div className="bg-primary/10 p-2 rounded-lg">
-            <Download className="h-5 w-5 text-primary" />
+
+        <div className="flex items-center gap-2 mb-2">
+          <div className="bg-primary/10 p-1.5 rounded-md">
+            <Download className="h-4 w-4 text-primary" />
           </div>
-          <div className="flex-1">
-            <h3 className="font-semibold mb-1">Install QuickDish</h3>
-            <p className="text-sm text-muted-foreground">
-              Install our app for quick access, offline recipes, and a better experience
+          <div className="flex-1 min-w-0">
+            <h3 className="font-medium text-sm mb-0.5">Install QuickDish</h3>
+            <p className="text-xs text-muted-foreground leading-tight">
+              Quick access, offline recipes, better experience
             </p>
           </div>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-1.5">
           <Button
             onClick={handleInstallClick}
-            className="flex-1"
+            className="flex-1 text-xs py-1.5"
             size="sm"
           >
-            Install App
+            Install
           </Button>
           <Button
             onClick={handleDismiss}
             variant="outline"
             size="sm"
+            className="text-xs py-1.5 px-2"
           >
-            Not Now
+            Skip
           </Button>
         </div>
       </div>

@@ -138,7 +138,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signUp = async (email: string, password: string, displayName: string) => {
     try {
-      const redirectUrl = `${window.location.origin}/`;
+      const redirectUrl = `${window.location.origin}/auth/callback`;
       
       const { error } = await supabase.auth.signUp({
         email,
@@ -165,7 +165,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signIn = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -173,6 +173,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (error) {
         // User-friendly error message
         return { error: { message: 'Invalid email or password. Please try again.' } };
+      }
+      
+      // Check if email is verified
+      if (data.user && !data.user.email_confirmed_at) {
+        // Sign them out immediately
+        await supabase.auth.signOut();
+        return { 
+          error: { 
+            message: 'Please verify your email address before signing in. Check your inbox for the confirmation link.',
+            code: 'EMAIL_NOT_VERIFIED',
+            email: email
+          } 
+        };
       }
       
       return { error: null };

@@ -48,37 +48,11 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Premium gate (clear errors)
+    // Auth check (no premium required - ad-gated on client side)
     if (!userId) {
       return new Response(
         JSON.stringify({ error: 'Sign in required to use Chef Quinn' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('is_premium')
-      .eq('id', userId)
-      .maybeSingle();
-
-    if (profileError) {
-      console.error('Profile lookup error:', profileError);
-      return new Response(
-        JSON.stringify({ error: 'Profile lookup failed' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-    if (!profile) {
-      return new Response(
-        JSON.stringify({ error: 'Profile not found' }),
-        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-    if (!profile.is_premium) {
-      return new Response(
-        JSON.stringify({ error: 'Premium subscription required' }),
-        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 

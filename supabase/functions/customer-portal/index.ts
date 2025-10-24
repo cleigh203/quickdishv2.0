@@ -43,17 +43,45 @@ serve(async (req) => {
 
     const stripeApiVersion = Deno.env.get("STRIPE_API_VERSION");
     const stripe = new Stripe(stripeKey, stripeApiVersion ? { apiVersion: stripeApiVersion as any } : {});
-    const customers = await stripe.customers.list({ email: user.email, limit: 1 });
-    if (customers.data.length === 0) {
-      throw new Error("No Stripe customer found for this user");
+
+    // Load stripe_customer_id from profiles
+    const { data: profileData, error: profileError } = await supabaseClient
+      .from('profiles')
+      .select('stripe_customer_id')
+      .eq('id', user.id)
+      .single();
+    if (profileError) throw new Error(`Failed to load profile: ${profileError.message}`);
+
+    let customerId = profileData?.stripe_customer_id as string | null;
+
+    if (!customerId) {
+      // Try to find by email
+      const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+      if (customers.data.length > 0) {
+        customerId = customers.data[0].id;
+      } else {
+        // Create if not exists
+        const customer = await stripe.customers.create({
+          email: user.email,
+          metadata: { supabase_uid: user.id },
+        });
+        customerId = customer.id;
+      }
+
+      // Persist to profiles
+      const { error: updateError } = await supabaseClient
+        .from('profiles')
+        .update({ stripe_customer_id: customerId })
+        .eq('id', user.id);
+      if (updateError) throw new Error(`Failed to save stripe customer id: ${updateError.message}`);
     }
-    const customerId = customers.data[0].id;
-    logStep("Found Stripe customer", { customerId });
+
+    logStep("Using Stripe customer", { customerId });
 
     const origin = req.headers.get("origin") || "http://localhost:3000";
     const portalSession = await stripe.billingPortal.sessions.create({
-      customer: customerId,
-      return_url: `${origin}/profile`,
+      customer: customerId!,
+      return_url: `${origin}/billing`,
     });
     logStep("Customer portal session created", { sessionId: portalSession.id, url: portalSession.url });
 

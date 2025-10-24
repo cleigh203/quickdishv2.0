@@ -19,40 +19,116 @@ serve(async (req) => {
   );
 
   try {
-    const authHeader = req.headers.get("Authorization")!;
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) throw new Error("No authorization header provided");
     const token = authHeader.replace("Bearer ", "");
-    const { data } = await supabaseClient.auth.getUser(token);
-    const user = data.user;
+    const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
+    if (userError) throw new Error(`Authentication error: ${userError.message}`);
+    const user = userData.user;
     if (!user?.email) throw new Error("User not authenticated or email not available");
+
+    // Parse body for priceId or amount (robust across content types)
+    const contentType = req.headers.get('content-type') || '';
+    let body: any = {};
+    try {
+      if (contentType.includes('application/json')) {
+        body = await req.json();
+      } else if (contentType.includes('application/x-www-form-urlencoded')) {
+        const text = await req.text();
+        body = Object.fromEntries(new URLSearchParams(text));
+      } else {
+        const text = await req.text();
+        try { body = JSON.parse(text); } catch { body = {}; }
+      }
+    } catch {
+      body = {};
+    }
+    // Fallback to query params if body empty
+    const urlObj = new URL(req.url);
+    if (body.priceId === undefined && body.amount === undefined) {
+      const qpPriceId = urlObj.searchParams.get('priceId');
+      const qpAmount = urlObj.searchParams.get('amount');
+      if (qpPriceId) body.priceId = qpPriceId;
+      if (qpAmount) body.amount = parseFloat(qpAmount);
+    }
+    console.log('[CHECKOUT] headers:', Object.fromEntries(req.headers.entries()));
+    console.log('[CHECKOUT] received body:', body);
+    const raw = body?.priceId ?? body?.amount;
+    if (raw === undefined || raw === null) throw new Error("priceId or amount is required");
 
     const stripeSecret = Deno.env.get("STRIPE_SECRET_KEY") || "";
     const stripeApiVersion = Deno.env.get("STRIPE_API_VERSION");
     const stripe = new Stripe(stripeSecret, stripeApiVersion ? { apiVersion: stripeApiVersion as any } : {});
-    
-    const customers = await stripe.customers.list({ email: user.email, limit: 1 });
-    let customerId;
-    if (customers.data.length > 0) {
-      customerId = customers.data[0].id;
+
+    // Get existing stripe_customer_id from profiles, if any
+    const { data: profileRows, error: profileError } = await supabaseClient
+      .from('profiles')
+      .select('stripe_customer_id')
+      .eq('id', user.id)
+      .single();
+    if (profileError) {
+      throw new Error(`Failed to load profile: ${profileError.message}`);
     }
 
-    const priceId = Deno.env.get("STRIPE_PRICE_ID");
-    if (!priceId) throw new Error("STRIPE_PRICE_ID not configured");
+    let customerId = profileRows?.stripe_customer_id as string | null;
+
+    if (!customerId) {
+      // Try to find by email
+      const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+      if (customers.data.length > 0) {
+        customerId = customers.data[0].id;
+      } else {
+        // Create new customer
+        const customer = await stripe.customers.create({
+          email: user.email,
+          metadata: { supabase_uid: user.id },
+        });
+        customerId = customer.id;
+      }
+
+      // Persist customer id to profiles
+      const { error: updateError } = await supabaseClient
+        .from('profiles')
+        .update({ stripe_customer_id: customerId })
+        .eq('id', user.id);
+      if (updateError) {
+        throw new Error(`Failed to save stripe customer id: ${updateError.message}`);
+      }
+    }
+
+    const origin = req.headers.get("origin") || "http://localhost:3000";
+
+    // Build line item: if the input looks like a Stripe price id, use it; else treat as amount
+    let lineItem: any;
+    const isPriceId = typeof raw === 'string' && raw.startsWith('price_');
+    if (isPriceId) {
+      lineItem = { price: raw, quantity: 1 };
+    } else {
+      const amountNumber = typeof raw === 'number' ? raw : parseFloat(String(raw));
+      if (!isFinite(amountNumber) || amountNumber <= 0) {
+        throw new Error('Invalid amount');
+      }
+      console.log('[CHECKOUT] using dynamic amount (USD):', amountNumber);
+      const unitAmount = Math.round(amountNumber * 100);
+      lineItem = {
+        price_data: {
+          currency: 'usd',
+          product_data: { name: 'Premium Monthly' },
+          unit_amount: unitAmount,
+          recurring: { interval: 'month' }
+        },
+        quantity: 1
+      };
+    }
 
     const session = await stripe.checkout.sessions.create({
-      customer: customerId,
+      customer: customerId || undefined,
       customer_email: customerId ? undefined : user.email,
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
+      line_items: [lineItem],
       mode: "subscription",
-      subscription_data: {
-        trial_period_days: 5,
-      },
-      success_url: `${req.headers.get("origin")}/premium/success`,
-      cancel_url: `${req.headers.get("origin")}/premium`,
+      allow_promotion_codes: true,
+      success_url: `${origin}/billing?status=success`,
+      cancel_url: `${origin}/billing?status=cancel`,
     });
 
     return new Response(JSON.stringify({ url: session.url }), {
@@ -61,7 +137,6 @@ serve(async (req) => {
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error("Error in create-checkout:", errorMessage);
     return new Response(JSON.stringify({ error: errorMessage }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,

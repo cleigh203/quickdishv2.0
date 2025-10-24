@@ -372,13 +372,6 @@ export const MealPlanTab = () => {
                 <Button 
                   variant="outline" 
                   size="sm"
-                  onClick={() => exportCalendarICS()}
-                >
-                  Export Calendar (.ics)
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
                   onClick={() => printMealPlan()}
                 >
                   Print Plan

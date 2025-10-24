@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { DevTools } from "@/components/DevTools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -10,37 +11,44 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { OfflineBanner } from "@/components/OfflineBanner";
 import { InstallPrompt } from "@/components/InstallPrompt";
 import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
+import { LoadingScreen } from "@/components/LoadingScreen";
+
+// Eager load critical pages
 import Index from "./pages/Index";
-import Generate from "./pages/Generate";
-import RecipeDetail from "./pages/RecipeDetail";
-import Favorites from "./pages/Favorites";
-import SavedRecipes from "./pages/SavedRecipes";
-import Shopping from "./pages/Shopping";
-import Pantry from "./pages/Pantry";
-import Profile from "./pages/Profile";
-import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms";
-import About from "./pages/About";
-import Help from "./pages/Help";
-import Premium from "./pages/Premium";
-import PremiumSuccess from "./pages/PremiumSuccess";
-import Admin from "./pages/Admin";
-import AdminRecipes from "./pages/AdminRecipes";
-import GenerateDessertImages from "./pages/GenerateDessertImages";
-import GenerateNewRecipeImages from "./pages/GenerateNewRecipeImages";
 import Auth from "./pages/Auth";
-import ResetPassword from "./pages/ResetPassword";
-import ProfileSetup from "./pages/ProfileSetup";
 
-import BatchRegenerateImages from "./pages/BatchRegenerateImages";
-import CustomRegenerateImages from "./pages/CustomRegenerateImages";
-import QuickImageUpdate from "./pages/QuickImageUpdate";
-import MigrateRecipes from "./pages/MigrateRecipes";
-import RegenerateImages from "./pages/RegenerateImages";
-import GenerateRecipeImages from "./pages/GenerateRecipeImages";
-import ExecuteImageGeneration from "./pages/ExecuteImageGeneration";
+// Lazy load non-critical pages
+const ConfirmEmail = lazy(() => import("./pages/ConfirmEmail"));
+const AuthCallback = lazy(() => import("./pages/AuthCallback"));
+const Generate = lazy(() => import("./pages/Generate"));
+const RecipeDetail = lazy(() => import("./pages/RecipeDetail"));
+const Favorites = lazy(() => import("./pages/Favorites"));
+const SavedRecipes = lazy(() => import("./pages/SavedRecipes"));
+const Shopping = lazy(() => import("./pages/Shopping"));
+const Pantry = lazy(() => import("./pages/Pantry"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/Terms"));
+const About = lazy(() => import("./pages/About"));
+const Help = lazy(() => import("./pages/Help"));
+const Premium = lazy(() => import("./pages/Premium"));
+const PremiumSuccess = lazy(() => import("./pages/PremiumSuccess"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const ProfileSetup = lazy(() => import("./pages/ProfileSetup"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
-import NotFound from "./pages/NotFound";
+// Admin pages (rarely used)
+const Admin = lazy(() => import("./pages/Admin"));
+const AdminRecipes = lazy(() => import("./pages/AdminRecipes"));
+const GenerateDessertImages = lazy(() => import("./pages/GenerateDessertImages"));
+const GenerateNewRecipeImages = lazy(() => import("./pages/GenerateNewRecipeImages"));
+const BatchRegenerateImages = lazy(() => import("./pages/BatchRegenerateImages"));
+const CustomRegenerateImages = lazy(() => import("./pages/CustomRegenerateImages"));
+const QuickImageUpdate = lazy(() => import("./pages/QuickImageUpdate"));
+const MigrateRecipes = lazy(() => import("./pages/MigrateRecipes"));
+const RegenerateImages = lazy(() => import("./pages/RegenerateImages"));
+const GenerateRecipeImages = lazy(() => import("./pages/GenerateRecipeImages"));
+const ExecuteImageGeneration = lazy(() => import("./pages/ExecuteImageGeneration"));
 
 const queryClient = new QueryClient();
 
@@ -55,39 +63,44 @@ const App = () => (
             <OnboardingFlow />
             <Toaster />
             <Sonner />
-            <Routes>
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/auth/reset-password" element={<ResetPassword />} />
-          <Route path="/profile-setup" element={<ProtectedRoute><ProfileSetup /></ProtectedRoute>} />
-          <Route path="/" element={<ProtectedRoute allowGuest><Index /></ProtectedRoute>} />
-          <Route path="/generate" element={<ProtectedRoute allowGuest><Generate /></ProtectedRoute>} />
-          <Route path="/discover" element={<ProtectedRoute allowGuest><Generate /></ProtectedRoute>} />
-          <Route path="/recipe/:id" element={<ProtectedRoute allowGuest><RecipeDetail /></ProtectedRoute>} />
-          <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
-          <Route path="/saved" element={<ProtectedRoute><SavedRecipes /></ProtectedRoute>} />
-          <Route path="/shopping" element={<ProtectedRoute><Shopping /></ProtectedRoute>} />
-          <Route path="/pantry" element={<ProtectedRoute><Pantry /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/help" element={<Help />} />
-          <Route path="/premium" element={<ProtectedRoute allowGuest><Premium /></ProtectedRoute>} />
-          <Route path="/premium/success" element={<ProtectedRoute><PremiumSuccess /></ProtectedRoute>} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/admin/recipes" element={<AdminRecipes />} />
-          <Route path="/admin/generate-dessert-images" element={<GenerateDessertImages />} />
-          <Route path="/admin/generate-onepot-images" element={<GenerateNewRecipeImages />} />
-            <Route path="/migrate-recipes" element={<MigrateRecipes />} />
-            <Route path="/regenerate-images" element={<RegenerateImages />} />
-            <Route path="/batch-regenerate-images" element={<BatchRegenerateImages />} />
-            <Route path="/custom-regenerate-images" element={<CustomRegenerateImages />} />
-            <Route path="/quick-image-update" element={<QuickImageUpdate />} />
-            <Route path="/generate-recipe-images" element={<GenerateRecipeImages />} />
-            <Route path="/execute-image-generation" element={<ExecuteImageGeneration />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            <DevTools />
+            <Suspense fallback={<LoadingScreen />}>
+              <Routes>
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/auth/confirm-email" element={<Suspense fallback={<LoadingScreen />}><ConfirmEmail /></Suspense>} />
+                <Route path="/auth/callback" element={<Suspense fallback={<LoadingScreen />}><AuthCallback /></Suspense>} />
+                <Route path="/auth/reset-password" element={<Suspense fallback={<LoadingScreen />}><ResetPassword /></Suspense>} />
+                <Route path="/profile-setup" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><ProfileSetup /></Suspense></ProtectedRoute>} />
+                <Route path="/" element={<ProtectedRoute allowGuest><Index /></ProtectedRoute>} />
+                <Route path="/generate" element={<ProtectedRoute allowGuest><Suspense fallback={<LoadingScreen />}><Generate /></Suspense></ProtectedRoute>} />
+                <Route path="/discover" element={<ProtectedRoute allowGuest><Suspense fallback={<LoadingScreen />}><Generate /></Suspense></ProtectedRoute>} />
+                <Route path="/recipe/:id" element={<ProtectedRoute allowGuest><Suspense fallback={<LoadingScreen />}><RecipeDetail /></Suspense></ProtectedRoute>} />
+                <Route path="/favorites" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><Favorites /></Suspense></ProtectedRoute>} />
+                <Route path="/saved" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><SavedRecipes /></Suspense></ProtectedRoute>} />
+                <Route path="/shopping" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><Shopping /></Suspense></ProtectedRoute>} />
+                <Route path="/pantry" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><Pantry /></Suspense></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><Profile /></Suspense></ProtectedRoute>} />
+                <Route path="/privacy" element={<Suspense fallback={<LoadingScreen />}><Privacy /></Suspense>} />
+                <Route path="/terms" element={<Suspense fallback={<LoadingScreen />}><Terms /></Suspense>} />
+                <Route path="/about" element={<Suspense fallback={<LoadingScreen />}><About /></Suspense>} />
+                <Route path="/help" element={<Suspense fallback={<LoadingScreen />}><Help /></Suspense>} />
+                <Route path="/premium" element={<ProtectedRoute allowGuest><Suspense fallback={<LoadingScreen />}><Premium /></Suspense></ProtectedRoute>} />
+                <Route path="/premium/success" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
+                <Route path="/admin" element={<Suspense fallback={<LoadingScreen />}><Admin /></Suspense>} />
+                <Route path="/admin/recipes" element={<Suspense fallback={<LoadingScreen />}><AdminRecipes /></Suspense>} />
+                <Route path="/admin/generate-dessert-images" element={<Suspense fallback={<LoadingScreen />}><GenerateDessertImages /></Suspense>} />
+                <Route path="/admin/generate-onepot-images" element={<Suspense fallback={<LoadingScreen />}><GenerateNewRecipeImages /></Suspense>} />
+                <Route path="/migrate-recipes" element={<Suspense fallback={<LoadingScreen />}><MigrateRecipes /></Suspense>} />
+                <Route path="/regenerate-images" element={<Suspense fallback={<LoadingScreen />}><RegenerateImages /></Suspense>} />
+                <Route path="/batch-regenerate-images" element={<Suspense fallback={<LoadingScreen />}><BatchRegenerateImages /></Suspense>} />
+                <Route path="/custom-regenerate-images" element={<Suspense fallback={<LoadingScreen />}><CustomRegenerateImages /></Suspense>} />
+                <Route path="/quick-image-update" element={<Suspense fallback={<LoadingScreen />}><QuickImageUpdate /></Suspense>} />
+                <Route path="/generate-recipe-images" element={<Suspense fallback={<LoadingScreen />}><GenerateRecipeImages /></Suspense>} />
+                <Route path="/execute-image-generation" element={<Suspense fallback={<LoadingScreen />}><ExecuteImageGeneration /></Suspense>} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<Suspense fallback={<LoadingScreen />}><NotFound /></Suspense>} />
+              </Routes>
+            </Suspense>
         </OnboardingProvider>
       </AuthProvider>
     </BrowserRouter>
