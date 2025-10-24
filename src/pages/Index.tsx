@@ -124,13 +124,20 @@ const Index = () => {
   return (
     <div className="min-h-screen pb-20 bg-background">
       {/* Full-width Hero */}
-      <div 
-        className="relative h-[420px] mb-8 bg-cover bg-center"
-        style={{
-          backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%), url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=60&fm=webp)`
-        }}
-      >
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+      <div className="relative h-[420px] mb-8">
+        {/* Hero Background Image - LCP Element */}
+        <img 
+          src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=35&fm=webp"
+          alt="Cooking ingredients background"
+          fetchPriority="high"
+          loading="eager"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70" />
+        
+        {/* Hero Content */}
+        <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 text-center">
           <h1 className="page-title md:text-6xl mb-4 drop-shadow-2xl text-white">
             Turn Ingredients Into Magic
           </h1>
@@ -270,24 +277,26 @@ const Index = () => {
               <h2 className="section-header">Featured Collections</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-              { name: 'Quick & Easy', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=60&fm=webp' },
-              { name: 'Fall Favorites', image: 'https://images.unsplash.com/photo-1535920527002-b35e96722eb9?w=400&q=60&fm=webp' },
-              { name: 'Family Favorites', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=60&fm=webp' },
-              { name: 'One-Pot Wonders', image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=60&fm=webp' },
-              { name: 'Healthy Bowls', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=60&fm=webp' },
-              { name: 'Desserts', image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=60&fm=webp' },
+              { name: 'Quick & Easy', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=40&fm=webp' },
+              { name: 'Fall Favorites', image: 'https://images.unsplash.com/photo-1535920527002-b35e96722eb9?w=300&q=40&fm=webp' },
+              { name: 'Family Favorites', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=300&q=40&fm=webp' },
+              { name: 'One-Pot Wonders', image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300&q=40&fm=webp' },
+              { name: 'Healthy Bowls', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=40&fm=webp' },
+              { name: 'Desserts', image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300&q=40&fm=webp' },
             ].map((collection) => (
                 <div 
                   key={collection.name}
-                  className="clickable-card"
+                  className="clickable-card overflow-hidden"
                   onClick={() => {
                     navigate(`/discover?collection=${encodeURIComponent(collection.name)}`);
                     window.scrollTo(0, 0);
                   }}
                 >
-                  <div 
-                    className="h-36 bg-cover bg-center rounded-xl"
-                    style={{ backgroundImage: `url(${collection.image})` }}
+                  <img 
+                    src={collection.image}
+                    alt={collection.name}
+                    loading="lazy"
+                    className="h-36 w-full object-cover rounded-xl"
                   />
                   <div className="p-4">
                     <h3 className="font-semibold text-sm">{collection.name}</h3>
@@ -334,11 +343,11 @@ const Index = () => {
               window.scrollTo(0, 0);
             }}
           >
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"
-              style={{
-                backgroundImage: `url(https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=60&fm=webp)`
-              }}
+            <img
+              src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=40&fm=webp"
+              alt="Restaurant style food"
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-8 text-white">

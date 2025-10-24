@@ -509,7 +509,7 @@ const Generate = () => {
                       decoding="async"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=60&fm=webp";
+                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=40&fm=webp";
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
