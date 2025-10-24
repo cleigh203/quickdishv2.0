@@ -128,6 +128,8 @@ const Index = () => {
         {/* Hero Background Image - LCP Element */}
         <img 
           src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=35&fm=webp"
+          srcSet="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=25&fm=webp 400w, https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=35&fm=webp 600w, https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=40&fm=webp 800w"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
           alt="Cooking ingredients background"
           fetchPriority="high"
           loading="eager"
