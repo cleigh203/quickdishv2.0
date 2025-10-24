@@ -312,7 +312,7 @@ export const SearchOverlay = ({
                             }
                             
                             if (!target.src.includes('unsplash')) {
-                              target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=250&q=25&fm=webp";
+                              target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=180&q=18&fm=webp";
                             }
                           }}
                           onLoad={() => console.log('✅ Search image loaded:', recipe.name)}

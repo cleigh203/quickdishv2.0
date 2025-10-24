@@ -4,6 +4,8 @@
     <!-- CRITICAL: Preconnect to external resources FIRST -->
     <link rel="preconnect" href="https://cyfzllfiuqhtesgwbxyo.supabase.co" crossorigin>
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cyfzllfiuqhtesgwbxyo.supabase.co">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
     
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.ico?v=3" />
@@ -50,8 +52,23 @@
       }
     </script>
     
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7675766348174556" crossorigin="anonymous"></script>
+    <!-- Google AdSense - Deferred for performance -->
+    <script>
+      let adsenseLoaded = false;
+      function loadAdSense() {
+        if (adsenseLoaded) return;
+        adsenseLoaded = true;
+        const script = document.createElement('script');
+        script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7675766348174556';
+        script.async = true;
+        script.crossOrigin = 'anonymous';
+        document.head.appendChild(script);
+      }
+      setTimeout(loadAdSense, 5000);
+      ['scroll', 'click', 'touchstart'].forEach(e => 
+        document.addEventListener(e, loadAdSense, { once: true })
+      );
+    </script>
   </head>
 
   <body>

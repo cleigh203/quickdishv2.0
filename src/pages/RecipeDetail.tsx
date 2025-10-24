@@ -375,7 +375,7 @@ const RecipeDetail = () => {
               }
               
               if (!target.src.includes('unsplash')) {
-                target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=25&fm=webp";
+                target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=18&fm=webp";
               }
             }}
             onLoad={() => console.log('✅ Recipe detail image loaded:', recipe.name)}

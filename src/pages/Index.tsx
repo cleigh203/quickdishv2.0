@@ -127,8 +127,8 @@ const Index = () => {
       <div className="relative h-[420px] mb-8">
         {/* Hero Background Image - LCP Element */}
         <img 
-          src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=25&fm=webp"
-          srcSet="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=25&fm=webp 400w, https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=25&fm=webp 600w, https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=25&fm=webp 800w"
+          src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=18&fm=webp"
+          srcSet="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=18&fm=webp 400w, https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=18&fm=webp 600w, https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=18&fm=webp 800w"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
           alt="Cooking ingredients background"
           fetchPriority="high"
@@ -295,9 +295,9 @@ const Index = () => {
                   }}
                 >
                   <img 
-                    src={`${collection.imageBase}?w=250&q=25&fm=webp`}
-                    srcSet={`${collection.imageBase}?w=200&q=25&fm=webp 200w, ${collection.imageBase}?w=250&q=25&fm=webp 250w`}
-                    sizes="(max-width: 640px) 200px, 250px"
+                    src={`${collection.imageBase}?w=180&q=18&fm=webp`}
+                    srcSet={`${collection.imageBase}?w=150&q=18&fm=webp 150w, ${collection.imageBase}?w=180&q=18&fm=webp 180w`}
+                    sizes="(max-width: 640px) 150px, 180px"
                     alt={collection.name}
                     loading="lazy"
                     className="h-36 w-full object-cover rounded-xl"
@@ -348,7 +348,7 @@ const Index = () => {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=25&fm=webp"
+              src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=18&fm=webp"
               alt="Restaurant style food"
               loading="lazy"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"

@@ -44,7 +44,7 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
     
     // Set fallback image after retry attempt
     if (!target.src.includes('unsplash')) {
-      target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=250&q=25&fm=webp";
+      target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=180&q=18&fm=webp";
       console.log('🖼️ Using fallback image');
     }
   };
