@@ -175,7 +175,7 @@ const Favorites = () => {
                       height="360"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=40&fm=webp";
+                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=250&q=25&fm=webp";
                       }}
                     />
                   )}
