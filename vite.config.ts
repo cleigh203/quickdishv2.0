@@ -29,6 +29,15 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
+    cssCodeSplit: false,  // Inline CSS instead of separate file for better performance
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': ['lucide-react']
+        }
+      }
+    }
   },
   server: {
     host: "127.0.0.1",
