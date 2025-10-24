@@ -28,7 +28,7 @@ const About = () => {
         <div className="text-center space-y-6">
           <div className="flex justify-center">
             <img 
-              src="/logo.png" 
+              src="/logo.svg" 
               alt="QuickDish Logo" 
               className="w-32 h-32 object-contain drop-shadow-2xl"
             />
@@ -57,7 +57,7 @@ const About = () => {
             <div className="bg-card rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-3xl">🍳</span>
-                <h4 className="text-xl font-bold">350+ Curated Recipes</h4>
+                <h4 className="text-xl font-bold">CHEF Curated Recipes</h4>
               </div>
               <p className="text-muted-foreground">
                 From quick weeknight dinners to restaurant copycats, we've got something for every craving and occasion.
@@ -139,18 +139,18 @@ const About = () => {
         {/* Features */}
         <section className="space-y-6">
           <h3 className="text-3xl font-bold text-center mb-8">📱 Features</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="max-w-2xl mx-auto">
             {/* Free Features */}
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 rounded-xl p-6 border-2 border-green-200 dark:border-green-800">
               <h4 className="text-2xl font-bold mb-4 flex items-center gap-2">
                 <span className="text-green-600 dark:text-green-400">✅</span>
-                Free Features
+                Features
               </h4>
               <p className="text-sm text-muted-foreground mb-4">(Always Free!)</p>
               <ul className="space-y-2 text-foreground/90">
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
-                  <span>Browse 350+ recipes</span>
+                  <span>Browse CHEF curated recipes</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
@@ -175,33 +175,6 @@ const About = () => {
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
                   <span>Leftover Magic recipes</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Premium Features */}
-            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20 rounded-xl p-6 border-2 border-yellow-300 dark:border-yellow-700">
-              <h4 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                <Star className="w-6 h-6 text-yellow-600 dark:text-yellow-400 fill-yellow-600 dark:fill-yellow-400" />
-                Premium Features
-              </h4>
-              <p className="text-sm text-muted-foreground mb-4">($2.99/month)</p>
-              <ul className="space-y-2 text-foreground/90">
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-yellow-600 dark:text-yellow-400 fill-yellow-600 dark:fill-yellow-400 mt-0.5 flex-shrink-0" />
-                  <span><strong>AI Chat</strong> - Ask questions about any recipe</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-yellow-600 dark:text-yellow-400 fill-yellow-600 dark:fill-yellow-400 mt-0.5 flex-shrink-0" />
-                  <span><strong>Nutritional Facts</strong> - Detailed nutrition info</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-yellow-600 dark:text-yellow-400 fill-yellow-600 dark:fill-yellow-400 mt-0.5 flex-shrink-0" />
-                  <span><strong>Early Access</strong> - New features first</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-yellow-600 dark:text-yellow-400 fill-yellow-600 dark:fill-yellow-400 mt-0.5 flex-shrink-0" />
-                  <span><strong>Shopping Price Comparison</strong> coming soon!</span>
                 </li>
               </ul>
             </div>
@@ -290,6 +263,7 @@ const About = () => {
               <div>
                 <p className="text-sm text-muted-foreground">Platform</p>
                 <p className="text-xl font-bold text-primary">iOS & Android</p>
+                <p className="text-xs text-muted-foreground mt-1">(coming soon)</p>
               </div>
             </div>
           </div>

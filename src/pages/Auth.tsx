@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
 import { Mail, Lock, User } from 'lucide-react';
-import logo from '@/assets/logo.png';
+const logo = '/logo.svg';
 import { supabase } from '@/integrations/supabase/client';
 
 const signUpSchema = z.object({
@@ -72,7 +72,7 @@ const Auth = () => {
 
     try {
       const validated = signUpSchema.parse(signUpData);
-      const { error } = await signUp(validated.email, validated.password, validated.displayName);
+      const { data, error } = await signUp(validated.email, validated.password, validated.displayName);
 
       if (error) {
         if (error.message.includes('already registered')) {
@@ -89,12 +89,17 @@ const Auth = () => {
           });
         }
       } else {
-        setVerifyEmail(validated.email);
-        setView('verify');
-        toast({
-          title: 'Verify your email',
-          description: 'We sent a confirmation link. Please check your inbox.',
-        });
+        // Check if email confirmation is disabled (session exists immediately)
+        if (data?.session) {
+          toast({
+            title: 'Account created!',
+            description: 'Welcome to QuickDish!',
+          });
+          navigate('/');
+        } else {
+          // Email confirmation is enabled, redirect to confirm email page
+          navigate(`/auth/confirm-email?email=${encodeURIComponent(validated.email)}`);
+        }
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -132,11 +137,24 @@ const Auth = () => {
       const { error } = await signIn(validated.email, validated.password);
 
       if (error) {
-        toast({
-          title: 'Sign in failed',
-          description: error.message,
-          variant: 'destructive',
-        });
+        // Check if it's an unverified email error
+        if ((error as any).code === 'EMAIL_NOT_VERIFIED') {
+          toast({
+            title: 'Email not verified',
+            description: error.message,
+            variant: 'destructive',
+            action: {
+              label: 'Resend',
+              onClick: () => navigate(`/auth/confirm-email?email=${encodeURIComponent((error as any).email)}`)
+            }
+          });
+        } else {
+          toast({
+            title: 'Sign in failed',
+            description: error.message,
+            variant: 'destructive',
+          });
+        }
       } else {
         navigate('/');
       }

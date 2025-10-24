@@ -33,7 +33,7 @@ export const OnboardingWelcome = () => {
           <div className="mb-6 flex justify-center mt-10">
             <div className="w-[100px] h-[100px] rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FF4500] flex items-center justify-center shadow-2xl">
               <img 
-                src="/logo.png" 
+                src="/logo.svg" 
                 alt="QuickDish Logo" 
                 className="w-16 h-16 object-contain"
               />

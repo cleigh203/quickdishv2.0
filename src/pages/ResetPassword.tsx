@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
 import { Lock } from 'lucide-react';
-import logo from '@/assets/logo.png';
+const logo = '/logo.svg';
 
 const passwordSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters').max(100, 'Password too long'),

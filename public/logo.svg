@@ -1,0 +1,30 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="64" cy="64" r="60" fill="#FF6B35"/>
+  
+  <!-- Chef Hat -->
+  <g transform="translate(64, 64)">
+    <!-- Hat Base -->
+    <ellipse cx="0" cy="8" rx="28" ry="6" fill="#FFFFFF"/>
+    
+    <!-- Hat Top -->
+    <path d="M -24 8 Q -24 -12, -16 -20 Q -8 -24, 0 -26 Q 8 -24, 16 -20 Q 24 -12, 24 8 Z" fill="#FFFFFF"/>
+    
+    <!-- Hat Band -->
+    <rect x="-28" y="6" width="56" height="4" rx="2" fill="#F4F4F5"/>
+  </g>
+  
+  <!-- Dish/Plate -->
+  <g transform="translate(64, 90)">
+    <!-- Plate -->
+    <ellipse cx="0" cy="0" rx="32" ry="8" fill="#FFFFFF" opacity="0.9"/>
+    <ellipse cx="0" cy="-1" rx="28" ry="6" fill="#F4F4F5"/>
+  </g>
+  
+  <!-- Sparkle/Steam Elements -->
+  <circle cx="40" cy="35" r="2" fill="#FFF" opacity="0.8"/>
+  <circle cx="88" cy="38" r="2" fill="#FFF" opacity="0.8"/>
+  <circle cx="50" cy="28" r="1.5" fill="#FFF" opacity="0.6"/>
+  <circle cx="78" cy="30" r="1.5" fill="#FFF" opacity="0.6"/>
+</svg>
+
