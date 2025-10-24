@@ -277,12 +277,12 @@ const Index = () => {
               <h2 className="section-header">Featured Collections</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-              { name: 'Quick & Easy', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=40&fm=webp' },
-              { name: 'Fall Favorites', image: 'https://images.unsplash.com/photo-1535920527002-b35e96722eb9?w=300&q=40&fm=webp' },
-              { name: 'Family Favorites', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=300&q=40&fm=webp' },
-              { name: 'One-Pot Wonders', image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300&q=40&fm=webp' },
-              { name: 'Healthy Bowls', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=40&fm=webp' },
-              { name: 'Desserts', image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300&q=40&fm=webp' },
+              { name: 'Quick & Easy', imageBase: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd' },
+              { name: 'Fall Favorites', imageBase: 'https://images.unsplash.com/photo-1535920527002-b35e96722eb9' },
+              { name: 'Family Favorites', imageBase: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1' },
+              { name: 'One-Pot Wonders', imageBase: 'https://images.unsplash.com/photo-1547592166-23ac45744acd' },
+              { name: 'Healthy Bowls', imageBase: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c' },
+              { name: 'Desserts', imageBase: 'https://images.unsplash.com/photo-1488477181946-6428a0291777' },
             ].map((collection) => (
                 <div 
                   key={collection.name}
@@ -293,7 +293,9 @@ const Index = () => {
                   }}
                 >
                   <img 
-                    src={collection.image}
+                    src={`${collection.imageBase}?w=300&q=40&fm=webp`}
+                    srcSet={`${collection.imageBase}?w=200&q=35&fm=webp 200w, ${collection.imageBase}?w=300&q=40&fm=webp 300w`}
+                    sizes="(max-width: 640px) 200px, 300px"
                     alt={collection.name}
                     loading="lazy"
                     className="h-36 w-full object-cover rounded-xl"
