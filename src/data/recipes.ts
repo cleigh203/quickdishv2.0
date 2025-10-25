@@ -113,6 +113,7 @@ const halloweenEyeballCakePopsImg = "";
 const halloweenCandyBarkImg = "";
 const halloweenBloodyJelloImg = "";
 const halloweenBatWingChickenImg = "";
+const poisonAppleImg = "";
 
 // Import new copycat recipe images (non-duplicates only)
 import copycatMcDonaldsBigMacSauceImg from "@/assets/recipes/copycat-mcdonalds-big-mac-sauce.jpg";
