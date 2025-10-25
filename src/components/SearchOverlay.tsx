@@ -53,13 +53,7 @@ export const SearchOverlay = ({
 
   // Filter recipes in real-time
   const filteredRecipes = useMemo(() => {
-    const isHalloweenRecipe = (recipe: Recipe) => 
-      recipe.cuisine?.toLowerCase() === 'halloween' || 
-      recipe.tags?.includes('halloween') || false;
-
     return recipes.filter(recipe => {
-      // Exclude Halloween recipes from search
-      if (isHalloweenRecipe(recipe)) return false;
 
       // Search query filter - search by name AND ingredients with smart word matching
       if (searchQuery.trim()) {

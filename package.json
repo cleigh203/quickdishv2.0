@@ -8,7 +8,8 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "audit:lunch25": "node scripts/audit-lunch-first-25.mjs"
   },
   "dependencies": {
     "@capacitor-community/speech-recognition": "^7.0.1",

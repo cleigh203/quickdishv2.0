@@ -2,7 +2,7 @@ import { Recipe } from "@/types/recipe";
 
 // IMAGE VERSION - Increment this when images are updated to bust cache
 // Only change this number when you actually update recipe images
-const IMAGE_VERSION = '1';
+const IMAGE_VERSION = '4';
 
 // CACHE-BUSTING - Add static version to URLs for cache control
 const addCacheBuster = (url: string): string => {
@@ -41,6 +41,27 @@ const imageOverrides: Record<string, string> = {
   "teriyaki-chicken": "https://i.imgur.com/T4OZWKW.png",
   "maple-glazed-salmon": "https://i.imgur.com/gk4bJTS.png",
   "quick-two-ingredient-pici-pasta": "https://i.imgur.com/SldTS5S.png",
+  // NEW RECIPE IMAGES
+  "apple-cider-pulled-pork": "https://i.imgur.com/aHMkyJB.png",
+  "harvest-chicken-vegetables": "https://i.imgur.com/7KtS2Em.png",
+  "pumpkin-risotto": "https://i.imgur.com/R2KpdiH.png",
+  "cranberry-brie-bites": "https://i.imgur.com/AIsG9V8.png",
+  "pecan-crusted-pork": "https://i.imgur.com/PibHyc6.png",
+  // NEWEST RECIPE IMAGES
+  "caramel-apple-nachos": "https://i.imgur.com/dGYFnDc.png",
+  "butternut-squash-soup": "https://i.imgur.com/U7G2UOE.png",
+  "pork-chops-apples": "https://i.imgur.com/mbuGyaR.png",
+  "breakfast-quiche-lorraine": "https://imgur.com/eB40MLD",
+  // LATEST RECIPE IMAGES
+  "fall-pumpkin-cinnamon-rolls": "https://i.imgur.com/PWK62lX.png",
+  "fall-apple-pie-egg-rolls": "https://i.imgur.com/AmIc3tS.png",
+  "fall-pumpkin-banana-bread": "https://i.imgur.com/ckaT1lp.png",
+  "fall-cinnamon-roll-apple-pie": "https://i.imgur.com/bGw8DgL.png",
+  "fall-stuffed-baked-apples": "https://i.imgur.com/McT92wA.png",
+  // LUNCH IMAGE UPDATES
+  "lunch-caprese-panini": "https://i.imgur.com/BUd1TwO.png",
+  "lunch-cobb-salad": "https://i.imgur.com/dndchcQ.png",
+  "lunch-banh-mi-sandwich": "https://i.imgur.com/3ad5bND.png",
 };
 
 export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }, cacheBust: boolean = false): string => {

@@ -4,7 +4,7 @@ import { Recipe } from "@/types/recipe";
 import chickenMarsalaImg from "@/assets/recipes/chicken-marsala.jpg";
 import stuffedBellPeppersImg from "@/assets/recipes/stuffed-bell-peppers.jpg";
 import teriyakiChickenImg from "@/assets/recipes/teriyaki-chicken.jpg";
-import porkChopsApplesImg from "@/assets/recipes/pork-chops-apples.jpg";
+const porkChopsApplesImg = "https://i.imgur.com/mbuGyaR.png";
 // lemonHerbChickenThighsImg replaced with imgur URL
 const lemonHerbChickenThighsImg = "https://i.imgur.com/KwNUHAc.png";
 // bbqMeatloafImg replaced with imgur URL
@@ -19,16 +19,13 @@ const honeyMustardChickenImg = "https://i.imgur.com/UvKDAtR.png";
 import thaiCoconutCurryImg from "@/assets/recipes/thai-coconut-curry.jpg";
 import beefEnchiladasImg from "@/assets/recipes/beef-enchiladas.jpg";
 import lemonGarlicShrimpImg from "@/assets/recipes/lemon-garlic-shrimp.jpg";
-import mummyDogsImg from "@/assets/recipes/mummy-dogs.jpg";
 // burritoBowlImg replaced with imgur URL
 const burritoBowlImg = "https://i.imgur.com/877Y8M2.png";
 import honeyGarlicChickenImg from "@/assets/recipes/quick-honey-garlic-chicken.jpg";
 import pizzaFrittataImg from "@/assets/recipes/leftover-pizza-frittata.jpg";
-import witchFingersImg from "@/assets/recipes/witch-finger-cookies.jpg";
 import alfredoImg from "@/assets/recipes/olive-garden-alfredo.jpg";
 import shrimpStirfryImg from "@/assets/recipes/shrimp-stirfry.jpg";
 import chickenTacosImg from "@/assets/recipes/rotisserie-chicken-tacos.jpg";
-import bloodyMaryEggsImg from "@/assets/recipes/bloody-mary-eggs.jpg";
 import crunchwrapImg from "@/assets/recipes/crunchwrap-supreme.jpg";
 import lemonSalmonImg from "@/assets/recipes/quick-lemon-salmon.jpg";
 import friedRiceImg from "@/assets/recipes/fried-rice.jpg";
@@ -38,33 +35,27 @@ import garlicButterSteakBitesImg from "@/assets/recipes/garlic-butter-steak-bite
 // chiliMacCheeseImg replaced with imgur URL
 const chiliMacCheeseImg = "https://i.imgur.com/Iy5HRsX.png";
 import tuscanChickenPastaImg from "@/assets/recipes/tuscan-chicken-pasta.jpg";
-import spiderPizzaImg from "@/assets/recipes/spider-web-pizza-new.jpg";
 import avocadoRollsImg from "@/assets/recipes/copycat-avocado-rolls.jpg";
 // beefBroccoliImg replaced with imgur URL
 const beefBroccoliImg = "https://i.imgur.com/lSRdTNS.png";
 import bloominOnionImg from "@/assets/recipes/copycat-bloomin-onion.jpg";
 import thaiBasilImg from "@/assets/recipes/quick-thai-basil-chicken.jpg";
 import pastaCarbonaraImg from "@/assets/recipes/pasta-carbonara.jpg";
-import graveyardCupsImg from "@/assets/recipes/graveyard-dirt-cups.jpg";
 // broccoliSoupImg replaced with imgur URL
 const broccoliSoupImg = "https://i.imgur.com/5Wn96I7.png";
 import tuscanShrimpImg from "@/assets/recipes/quick-tuscan-shrimp.jpg";
 import potatoCroquettesImg from "@/assets/recipes/leftover-potato-croquettes.jpg";
-import monsterSmoothieImg from "@/assets/recipes/monster-smoothie-bowl.jpg";
 import lettuceWrapsImg from "@/assets/recipes/copycat-lettuce-wraps.jpg";
 // capreseChickenImg replaced with imgur URL
 const capreseChickenImg = "https://i.imgur.com/LsSmGYN.png";
 import turkeyQuesadillasImg from "@/assets/recipes/leftover-turkey-quesadillas.jpg";
-import frankensteinTreatsImg from "@/assets/recipes/frankenstein-treats.jpg";
 import cheddarBiscuitsImg from "@/assets/recipes/copycat-red-lobster-cheddar-bay-biscuits.jpg";
 import teriyakiSalmonImg from "@/assets/recipes/teriyaki-salmon-bowl.jpg";
 import frenchDipImg from "@/assets/recipes/leftover-french-dip.jpg";
-import pumpkinDonutsImg from "@/assets/recipes/pumpkin-donuts.jpg";
 // chickenSandwichImg replaced with imgur URL
 const chickenSandwichImg = "https://i.imgur.com/9M80bvv.png";
 import sesameNoodlesImg from "@/assets/recipes/quick-sesame-noodles.jpg";
 import hamHashImg from "@/assets/recipes/leftover-ham-hash.jpg";
-import ghostMeringuesImg from "@/assets/recipes/ghost-meringues.jpg";
 import cornSalsaImg from "@/assets/recipes/copycat-corn-salsa.jpg";
 import chickenFajitasImg from "@/assets/recipes/quick-chicken-fajitas.jpg";
 // steakQuesadillaImg replaced with imgur URL
@@ -79,12 +70,9 @@ const eggBitesImg = "https://i.imgur.com/u5ZahL2.png";
 import shrimpScampiImg from "@/assets/recipes/quick-shrimp-scampi.jpg";
 // sausageBurritoImg replaced with imgur URL
 const sausageBurritoImg = "https://i.imgur.com/TRWioaz.png";
-import poisonAppleImg from "@/assets/recipes/poison-apple-cocktail.jpg";
 // animalFriesImg replaced with imgur URL
 const animalFriesImg = "https://i.imgur.com/R3lKTcY.png";
 import mongolianBeefImg from "@/assets/recipes/quick-mongolian-beef.jpg";
-// import porkNachosImg from "@/assets/recipes/leftover-pork-nachos.jpg";
-import eyeballMeatballsImg from "@/assets/recipes/eyeball-meatballs.jpg";
 import hashbrownCasseroleImg from "@/assets/recipes/copycat-hashbrown-casserole.jpg";
 import greekChickenImg from "@/assets/recipes/quick-greek-chicken.jpg";
 import brisketMacImg from "@/assets/recipes/leftover-brisket-mac.jpg";
@@ -101,40 +89,17 @@ import chickenFajitaRiceImg from "@/assets/recipes/chicken-fajita-rice.jpg";
 import breadPuddingImg from "@/assets/recipes/dessert-bread-pudding.jpg";
 // applePieImg replaced with imgur URL
 const applePieImg = "https://i.imgur.com/EHVFMzi.png";
-import butternutSquashSoupImg from "@/assets/recipes/butternut-squash-soup.jpg";
+const butternutSquashSoupImg = "https://i.imgur.com/U7G2UOE.png";
 import mapleGlazedSalmonImg from "@/assets/recipes/maple-glazed-salmon.jpg";
-import appleCiderPulledPorkImg from "@/assets/recipes/apple-cider-pulled-pork.jpg";
-import cranberryBrieBitesImg from "@/assets/recipes/cranberry-brie-bites.jpg";
+const appleCiderPulledPorkImg = "https://i.imgur.com/aHMkyJB.png";
+const cranberryBrieBitesImg = "https://i.imgur.com/AIsG9V8.png";
 import sweetPotatoCasseroleImg from "@/assets/recipes/sweet-potato-casserole.jpg";
-import harvestChickenVegetablesImg from "@/assets/recipes/harvest-chicken-vegetables.jpg";
-import pecanCrustedPorkImg from "@/assets/recipes/pecan-crusted-pork.jpg";
-import caramelAppleNachosImg from "@/assets/recipes/caramel-apple-nachos.jpg";
-import pumpkinRisottoImg from "@/assets/recipes/pumpkin-risotto.jpg";
+const harvestChickenVegetablesImg = "https://i.imgur.com/7KtS2Em.png";
+const pecanCrustedPorkImg = "https://i.imgur.com/PibHyc6.png";
+const caramelAppleNachosImg = "https://i.imgur.com/dGYFnDc.png";
+const pumpkinRisottoImg = "https://i.imgur.com/R2KpdiH.png";
 import autumnHarvestSaladImg from "@/assets/recipes/autumn-harvest-salad.jpg";
-import halloweenMummyBrowniesImg from "@/assets/recipes/halloween-mummy-brownies.jpg";
-import halloweenGhostCupcakesImg from "@/assets/recipes/halloween-ghost-cupcakes.jpg";
-import halloweenSpiderWebCheesecakeImg from "@/assets/recipes/halloween-spider-web-cheesecake.jpg";
-import halloweenGraveyardCakeImg from "@/assets/recipes/halloween-graveyard-cake.jpg";
-import halloweenBloodyCupcakesImg from "@/assets/recipes/halloween-bloody-cupcakes.jpg";
-import halloweenWitchHatCookiesImg from "@/assets/recipes/halloween-witch-hat-cookies.jpg";
-import halloweenPumpkinPatchBrowniesImg from "@/assets/recipes/halloween-pumpkin-patch-brownies.jpg";
-import halloweenMonsterEyeTrufflesImg from "@/assets/recipes/halloween-monster-eye-truffles.jpg";
-import halloweenCandyCornFudgeImg from "@/assets/recipes/halloween-candy-corn-fudge.jpg";
-import halloweenCandyCornTreatsImg from "@/assets/recipes/halloween-candy-corn-treats.jpg";
-import halloweenMonsterCookieDipImg from "@/assets/recipes/halloween-monster-cookie-dip.jpg";
-import halloweenGhostStrawberriesImg from "@/assets/recipes/halloween-ghost-strawberries.jpg";
-import halloweenEyeballCakePopsImg from "@/assets/recipes/halloween-eyeball-cake-pops.jpg";
-import halloweenPumpkinMuddyBuddiesImg from "@/assets/recipes/halloween-pumpkin-muddy-buddies.jpg";
-import halloweenCandyBarkImg from "@/assets/recipes/halloween-candy-bark.jpg";
-import halloweenBloodyJelloImg from "@/assets/recipes/halloween-bloody-jello.jpg";
-import halloweenMummyJalapenoImg from "@/assets/recipes/halloween-mummy-jalapeno-poppers.jpg";
-import halloweenPumpkinCheeseBallImg from "@/assets/recipes/halloween-pumpkin-cheese-ball.jpg";
-import halloweenGraveyardTacoDipImg from "@/assets/recipes/halloween-graveyard-taco-dip.jpg";
-import halloweenEyeballCapreseImg from "@/assets/recipes/halloween-eyeball-caprese-skewers.jpg";
-import halloweenWitchBroomCheeseImg from "@/assets/recipes/halloween-witch-broom-cheese-sticks.jpg";
-import halloweenPumpkinHummusImg from "@/assets/recipes/halloween-pumpkin-hummus.jpg";
-import halloweenBatWingChickenImg from "@/assets/recipes/halloween-bat-wing-chicken-wings.jpg";
-import halloweenFrankensteinGuacamoleImg from "@/assets/recipes/halloween-frankenstein-guacamole-cups.jpg";
+// Halloween assets removed for 2025 launch
 
 // Import new copycat recipe images (non-duplicates only)
 import copycatMcDonaldsBigMacSauceImg from "@/assets/recipes/copycat-mcdonalds-big-mac-sauce.jpg";
@@ -217,7 +182,7 @@ import pumpkinBreadPuddingImg from "@/assets/recipes/pumpkin-bread-pudding.jpg";
 // Import NEW fall favorites recipes (20 new items)
 import fallPumpkinSpiceLatteImg from "@/assets/recipes/fall-pumpkin-spice-latte.jpg";
 import fallCaramelAppleCiderImg from "@/assets/recipes/fall-caramel-apple-cider.jpg";
-import fallPumpkinCinnamonRollsImg from "@/assets/recipes/fall-pumpkin-cinnamon-rolls.jpg";
+const fallPumpkinCinnamonRollsImg = "https://i.imgur.com/PWK62lX.png";
 import fallMapleBrownButterCookiesImg from "@/assets/recipes/fall-maple-brown-butter-cookies.jpg";
 import fallPumpkinCheesecakeBarsNewImg from "@/assets/recipes/fall-pumpkin-cheesecake-bars-new.jpg";
 import fallChaiHotChocolateImg from "@/assets/recipes/fall-chai-hot-chocolate.jpg";
@@ -236,11 +201,11 @@ import fallMashedPotatoesImg from "@/assets/recipes/fall-mashed-potatoes.jpg";
 import fallBrusselsSproutsBaconImg from "@/assets/recipes/fall-brussels-sprouts-bacon.jpg";
 import fallButternutSquashSoupNewImg from "@/assets/recipes/fall-butternut-squash-soup-new.jpg";
 import pumpkinRavioliImg from "@/assets/recipes/pumpkin-ravioli.jpg";
-import pumpkinBananaBreadImg from "@/assets/recipes/pumpkin-banana-bread.jpg";
+const pumpkinBananaBreadImg = "https://i.imgur.com/ckaT1lp.png";
 import applePieEggRollsImg from "@/assets/recipes/apple-pie-egg-rolls.jpg";
-import stuffedBakedApplesImg from "@/assets/recipes/stuffed-baked-apples.jpg";
+const stuffedBakedApplesImg = "https://i.imgur.com/McT92wA.png";
 import pumpkinDumpCakeImg from "@/assets/recipes/pumpkin-dump-cake.jpg";
-import cinnamonRollApplePieImg from "@/assets/recipes/cinnamon-roll-apple-pie.jpg";
+const cinnamonRollApplePieImg = "https://i.imgur.com/bGw8DgL.png";
 import appleCrispMugImg from "@/assets/recipes/apple-crisp-mug.jpg";
 import appleCiderDonutsImg from "@/assets/recipes/apple-cider-donuts.jpg";
 import honeyCrispAppleSaladImg from "@/assets/recipes/honey-crisp-apple-salad.jpg";
@@ -425,7 +390,7 @@ import breakfastBurritoClassicImg from "@/assets/recipes/breakfast-burrito-class
 // breakfastCasseroleClassicImg replaced with imgur URL
 const breakfastCasseroleClassicImg = "https://i.imgur.com/mHmY7iT.jpeg";
 import breakfastHashbrownCasseroleImg from "@/assets/recipes/breakfast-hashbrown-casserole.jpg";
-import breakfastQuicheLorraineImg from "@/assets/recipes/breakfast-quiche-lorraine.jpg";
+const breakfastQuicheLorraineImg = "https://imgur.com/eB40MLD";
 import breakfastBiscuitsGravyClassicImg from "@/assets/recipes/breakfast-biscuits-gravy-classic.jpg";
 import breakfastAvocadoToastClassicImg from "@/assets/recipes/breakfast-avocado-toast-classic.jpg";
 import breakfastOvernightOatsImg from "@/assets/recipes/breakfast-overnight-oats.jpg";
@@ -1345,165 +1310,96 @@ export const allRecipes: Recipe[] = [
     ]
   },
 
-  // ========== HALLOWEEN RECIPES (14) ==========
+  // ========== RESTAURANT COPYCATS (18) ==========
   {
-    id: "halloween-mummy-dogs",
-    name: "Mummy Hot Dogs",
-    description: "Crescent-wrapped hot dogs with mustard eyes. Kids go absolutely insane for these.",
-    cookTime: "15 mins",
-    prepTime: "20 mins",
-    difficulty: "easy",
-    servings: 10,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/ZJLNEEN.png",
-    totalTime: 35,
-    tags: ["halloween", "party", "kids"],
-    ingredients: [
-      { amount: "2", unit: "cans", item: "crescent roll dough" ,
-    nutrition: { calories: 160, protein: 5, carbs: 9, fat: 7, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
-      { amount: "10", unit: "", item: "hot dogs" },
-      { amount: "1/4", unit: "cup", item: "mustard" },
-      { amount: "20", unit: "", item: "candy eyes" },
-      { amount: "1", unit: "", item: "egg" }
-    ],
-    instructions: [
-      "Preheat oven to 375°F. Line baking sheet with parchment.",
-      "Pat hot dogs dry with paper towels.",
-      "Unroll crescent dough, cut into thin strips (about 1/4 inch wide).",
-      "Wrap dough strips around each hot dog to look like mummy bandages, leaving a gap near top for face.",
-      "Beat egg and brush over dough.",
-      "Bake 12-15 minutes until golden brown.",
-      "Use mustard to attach candy eyes in the face gap."
-    ]
-  },
-  {
-    id: "halloween-bloody-mary-eggs",
-    name: "Bloody Mary Deviled Eggs",
-    description: "Spooky Halloween appetizer with red-tinted filling and celery garnish.",
-    cookTime: "15 mins",
-    prepTime: "20 mins",
-    difficulty: "easy",
-    servings: 12,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/dXoU2vr.png",
-    totalTime: 35,
-    tags: ["halloween", "appetizer", "protein", "glutenfree"],
-    ingredients: [
-      { amount: "12", unit: "", item: "eggs" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "1/2", unit: "cup", item: "mayonnaise" },
-      { amount: "2", unit: "tbsp", item: "tomato paste" },
-      { amount: "1", unit: "tbsp", item: "horseradish" },
-      { amount: "1", unit: "tsp", item: "hot sauce" },
-      { amount: "1", unit: "tsp", item: "Worcestershire sauce" },
-      { amount: "12", unit: "", item: "celery leaves" }
-    ],
-    instructions: [
-      "Hard boil eggs, cool in ice bath, peel and halve.",
-      "Remove yolks to bowl and mash.",
-      "Mix yolks with mayo, tomato paste, horseradish, hot sauce, and Worcestershire.",
-      "Pipe or spoon mixture back into egg whites.",
-      "Garnish each with a celery leaf.",
-      "Refrigerate until serving."
-    ]
-  },
-  {
-    id: "halloween-spider-pizza",
-    name: "Spider Web Pizza",
-    description: "Mozzarella web design with olive spider. Halloween party showstopper.",
-    cookTime: "15 mins",
-    prepTime: "20 mins",
-    difficulty: "medium",
-    servings: 8,
-    cuisine: "Halloween",
-    image: spiderPizzaImg,
-    totalTime: 35,
-    tags: ["halloween", "dinner", "party", "glutenfree"],
-    ingredients: [
-      { amount: "1", unit: "lb", item: "pizza dough" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "1", unit: "cup", item: "pizza sauce" },
-      { amount: "2", unit: "cups", item: "shredded mozzarella" },
-      { amount: "1/2", unit: "cup", item: "black olives" },
-      { amount: "1", unit: "tbsp", item: "olive oil" }
-    ],
-    instructions: [
-      "Preheat oven to 450°F.",
-      "Roll out pizza dough on baking sheet.",
-      "Spread sauce evenly, leaving 1-inch border.",
-      "Sprinkle most of the cheese, saving some for web.",
-      "Bake 10 minutes until crust is golden.",
-      "While hot, create web pattern with remaining cheese in concentric circles.",
-      "Create spider from olive slices (body and legs).",
-      "Return to oven 2 minutes to melt web cheese."
-    ]
-  },
-  {
-    id: "halloween-graveyard-cups",
-    name: "Graveyard Dirt Cups",
-    description: "Chocolate pudding with crushed Oreos, gummy worms, and cookie tombstones.",
-    cookTime: "5 mins",
+    id: "copycat-burrito-bowl",
+    name: "Chipotle Burrito Bowl",
+    description: "Better than Chipotle. Cilantro lime rice, perfectly seasoned protein, all the toppings.",
+    cookTime: "30 mins",
     prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 8,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/8OLZBGO.png",
-    totalTime: 20,
-    tags: ["halloween", "dessert", "kids", "glutenfree"],
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Mexican",
+    image: burritoBowlImg,
+    totalTime: 45,
+    tags: ["copycat", "mexican", "healthy", "protein", "glutenfree"],
+    nutrition: {
+      calories: 650,
+      protein: 38,
+      carbs: 72,
+      fat: 22,
+      fiber: 12,
+      sugar: 4,
+      servingSize: "1 bowl"
+    },
     ingredients: [
-      { amount: "3.4", unit: "oz", item: "instant chocolate pudding mix" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "2", unit: "cups", item: "cold milk" },
-      { amount: "20", unit: "", item: "Oreo cookies, crushed" },
-      { amount: "16", unit: "", item: "gummy worms" },
-      { amount: "8", unit: "", item: "Milano cookies (tombstones)" },
-      { amount: "1", unit: "tube", item: "black decorating gel" }
+      { amount: "1", unit: "lb", item: "chicken breast" },
+      { amount: "2", unit: "cups", item: "white rice" },
+      { amount: "1", unit: "bunch", item: "cilantro" },
+      { amount: "2", unit: "", item: "limes" },
+      { amount: "1", unit: "can", item: "black beans" },
+      { amount: "1", unit: "cup", item: "corn" },
+      { amount: "1", unit: "cup", item: "tomatoes, diced" },
+      { amount: "1", unit: "cup", item: "cheese, shredded" },
+      { amount: "1/2", unit: "cup", item: "sour cream" },
+      { amount: "1", unit: "avocado", item: "sliced" }
     ],
     instructions: [
-      "Make pudding according to package directions.",
-      "Crush Oreos in food processor to fine crumbs.",
-      "Layer pudding and crushed Oreos in clear cups.",
-      "Top with more Oreo 'dirt'.",
-      "Write 'RIP' on Milano cookies with black gel.",
-      "Insert cookie tombstones into cups.",
-      "Add gummy worms crawling out.",
-      "Refrigerate until serving."
-    ]
-  },
-  {
-    id: "halloween-monster-smoothie",
-    name: "Monster Green Smoothie Bowl",
-    description: "Bright green smoothie with Halloween themed toppings. Healthy and festive.",
-    cookTime: "0 mins",
-    prepTime: "10 mins",
-    difficulty: "easy",
-    servings: 2,
-    cuisine: "Halloween",
-    image: monsterSmoothieImg,
-    totalTime: 10,
-    tags: ["halloween", "breakfast", "healthy", "vegetarian", "glutenfree"],
-    ingredients: [
-      { amount: "2", unit: "cups", item: "spinach" ,
-    nutrition: { calories: 150, protein: 5, carbs: 8, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "1", unit: "", item: "frozen banana" },
-      { amount: "1", unit: "cup", item: "mango chunks" },
-      { amount: "1", unit: "cup", item: "almond milk" },
-      { amount: "1", unit: "tbsp", item: "honey" },
-      { amount: "1/4", unit: "cup", item: "granola" },
-      { amount: "8", unit: "", item: "candy eyes" },
-      { amount: "2", unit: "tbsp", item: "chocolate chips" }
-    ],
-    instructions: [
-      "Blend spinach, banana, mango, almond milk, and honey until smooth.",
-      "Pour into bowls.",
-      "Top with granola in center.",
-      "Add candy eyes and chocolate chip 'mouth'.",
+      "Cook rice according to package. Stir in cilantro and lime juice.",
+      "Cook chicken, season with cumin, chili powder, salt.",
+      "Layer rice, beans, corn, chicken in bowls.",
+      "Top with tomatoes, cheese, sour cream, avocado.",
       "Serve immediately."
     ]
   },
+
+  // ========== RESTAURANT COPYCATS (18) ==========
   {
-    id: "halloween-frankenstein-treats",
-    name: "Frankenstein Rice Krispie Treats",
+    id: "copycat-burrito-bowl",
+    name: "Chipotle Burrito Bowl",
+    description: "Better than Chipotle. Cilantro lime rice, perfectly seasoned protein, all the toppings.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Mexican",
+    image: burritoBowlImg,
+    totalTime: 45,
+    tags: ["copycat", "mexican", "healthy", "protein", "glutenfree"],
+    nutrition: {
+      calories: 650,
+      protein: 38,
+      carbs: 72,
+      fat: 22,
+      fiber: 12,
+      sugar: 4,
+      servingSize: "1 bowl"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "white rice" },
+      { amount: "1/4", unit: "cup", item: "lime juice" },
+      { amount: "1/4", unit: "cup", item: "cilantro, chopped" },
+      { amount: "1", unit: "lb", item: "chicken breast" },
+      { amount: "2", unit: "tbsp", item: "taco seasoning" },
+      { amount: "1", unit: "can", item: "black beans" },
+      { amount: "1", unit: "cup", item: "corn" },
+      { amount: "1", unit: "cup", item: "pico de gallo" },
+      { amount: "1", unit: "cup", item: "guacamole" },
+      { amount: "1", unit: "cup", item: "shredded cheese" },
+      { amount: "1/2", unit: "cup", item: "sour cream" }
+    ],
+    instructions: [
+      "Cook rice according to package, toss with lime juice and cilantro.",
+      "Season chicken with taco seasoning, cook until done, slice.",
+      "Drain and heat black beans.",
+      "Layer rice, beans, corn, chicken in bowls.",
+      "Top with pico de gallo, guacamole, cheese, sour cream.",
+      "Serve warm."
+    ]
+  },
+  {
+    id: "copycat-cheesecake-factory",
+    name: "Cheesecake Factory Chicken Madeira",
     description: "Green colored treats with chocolate bolt decorations. Cute and easy.",
     cookTime: "10 mins",
     prepTime: "15 mins",
@@ -2402,52 +2298,8 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
-    id: "halloween-witch-finger-breadsticks",
-    name: "Witch Finger Breadsticks",
-    description: "Creepy breadstick fingers with almond 'fingernails' and bloody tips. Perfectly spooky appetizer!",
-    cookTime: "20 mins",
-    prepTime: "5 mins",
-    difficulty: "easy",
-    servings: 20,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/MrISqTG.png",
-    totalTime: 25,
-    tags: ["halloween", "appetizer", "savory", "party food", "kid-friendly", "viral"],
-    nutrition: {
-      calories: 70,
-      protein: 2,
-      carbs: 10,
-      fat: 2,
-      fiber: 0,
-      sugar: 1,
-      servingSize: "1 breadstick"
-    },
-    ingredients: [
-      { amount: "1", unit: "tube", item: "refrigerated breadstick dough (or pizza dough)" },
-      { amount: "20", unit: "", item: "whole almonds" },
-      { amount: "2", unit: "tbsp", item: "melted butter" },
-      { amount: "1", unit: "tsp", item: "garlic powder" },
-      { amount: "1", unit: "tsp", item: "Italian seasoning" },
-      { amount: "", unit: "", item: "Red food coloring or raspberry jam for 'blood'" }
-    ],
-    instructions: [
-      "Preheat oven to 375°F. Line baking sheet with parchment paper.",
-      "Separate breadstick dough into strips.",
-      "Roll each strip to make finger shape, slightly wider at one end for fingertip.",
-      "Make 3 small horizontal cuts at 'knuckle' areas along each breadstick.",
-      "Press almond slice into wider end for 'fingernail'.",
-      "Mix melted butter with garlic powder and Italian seasoning.",
-      "Brush each breadstick with seasoned butter.",
-      "Bake 12-15 minutes until golden brown.",
-      "Add tiny drop of red food coloring or raspberry jam at base of each fingernail for 'blood' effect.",
-      "Serve warm. Creepy and delicious!"
-    ]
-  },
-
-  // ========== RESTAURANT COPYCATS (18) ==========
-  {
-    id: "copycat-burrito-bowl",
-    name: "Chipotle Burrito Bowl",
+    id: "copycat-cheesecake-factory",
+    name: "Cheesecake Factory Chicken Madeira",
     description: "Better than Chipotle. Cilantro lime rice, perfectly seasoned protein, all the toppings.",
     cookTime: "30 mins",
     prepTime: "15 mins",
@@ -6099,7 +5951,7 @@ export const allRecipes: Recipe[] = [
   },
   {
     id: "pork-chops-apples",
-    name: "Pork Chops with Apples and Onions",
+    name: "Fall Pork Chop",
     description: "Fall-inspired pork with sweet caramelized apples.",
     cookTime: "25 mins",
     prepTime: "10 mins",
@@ -7638,7 +7490,7 @@ export const allRecipes: Recipe[] = [
     prepTime: "20 mins",
     difficulty: "medium",
     servings: 8,
-    cuisine: "French",
+    cuisine: "Breakfast",
     image: breakfastQuicheLorraineImg,
     totalTime: 60,
     tags: ["breakfast", "brunch", "elegant", "french", "glutenfree"],
@@ -10995,7 +10847,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 12,
     cuisine: "Fall Favorites",
-    image: "https://i.imgur.com/tV54YR8.png",
+    image: "https://i.imgur.com/AmIc3tS.png",
     totalTime: 35,
     tags: ["fall", "dessert", "fried", "apples"],
     nutrition: {
@@ -14173,4 +14025,12 @@ export const getQuickRecipes = (): Recipe[] => {
     recipe.totalTime <= 30 && 
     !recipe.tags?.includes("dessert")
   );
+};
+
+export const getLunchRecipes = (): Recipe[] => {
+  return allRecipes.filter(recipe => recipe.cuisine === 'Lunch');
+};
+
+export const getDinnerRecipes = (): Recipe[] => {
+  return allRecipes.filter(recipe => recipe.cuisine === 'Dinner');
 };
