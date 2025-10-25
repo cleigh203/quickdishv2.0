@@ -13,7 +13,7 @@ import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import type { Recipe } from "@/types/recipe";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
-import { AdSlot } from "@/components/AdSlot";
+// Ads removed
 
 const Index = () => {
   const navigate = useNavigate();
@@ -320,10 +320,7 @@ const Index = () => {
           </div>
         )}
 
-        {/* Ad at bottom of page */}
-        {!isSearching && (
-          <AdSlot slot="0000000000" className="my-10" test />
-        )}
+        
       </div>
 
       <BottomNav />

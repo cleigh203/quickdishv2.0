@@ -7,7 +7,7 @@ import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { useNavigate } from "react-router-dom";
-import { AdSlot } from "@/components/AdSlot";
+// Ads removed
 import { InlineRating } from "@/components/InlineRating";
 
 interface SearchOverlayProps {
@@ -327,12 +327,7 @@ export const SearchOverlay = ({
                     <p className="mt-2 font-medium text-sm line-clamp-2">{recipe.name}</p>
                     <InlineRating recipeId={recipe.id} />
                   </div>
-                  {/* Conservative cap: show at most two ads, after ~12 and ~24 results */}
-                  {(idx === 12 || idx === 24) && (
-                    <div className="col-span-2 py-8 my-4 border-t border-b border-border">
-                      <AdSlot slot="0000000000" className="my-4" test />
-                    </div>
-                  )}
+                  
                 </Fragment>
               ))}
             </div>

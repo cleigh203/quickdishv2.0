@@ -52,23 +52,7 @@
       }
     </script>
     
-    <!-- Google AdSense - Deferred for performance -->
-    <script>
-      let adsenseLoaded = false;
-      function loadAdSense() {
-        if (adsenseLoaded) return;
-        adsenseLoaded = true;
-        const script = document.createElement('script');
-        script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7675766348174556';
-        script.async = true;
-        script.crossOrigin = 'anonymous';
-        document.head.appendChild(script);
-      }
-      setTimeout(loadAdSense, 5000);
-      ['scroll', 'click', 'touchstart'].forEach(e => 
-        document.addEventListener(e, loadAdSense, { once: true })
-      );
-    </script>
+    
   </head>
 
   <body>

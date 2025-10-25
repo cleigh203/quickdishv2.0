@@ -27,9 +27,6 @@ import { useRecipeRating } from "@/hooks/useRecipeRating";
 import { useMealPlan } from "@/hooks/useMealPlan";
 import { MealPlanDialog } from "@/components/MealPlanDialog";
 import { RecipeAIChatDialog } from "@/components/RecipeAIChatDialog";
-import { RewardedAdModal } from "@/components/RewardedAdModal";
-import { AdSlot } from "@/components/AdSlot";
-import { needAdForNutrition, markNutritionWatched, needAdForChatThisSession, markChatAdWatched, recordRecipeViewAndCheckInterstitial, markInterstitialShown } from "@/utils/adGates";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { usePantryItems } from "@/hooks/usePantryItems";
 // ShoppingGuide temporarily removed - will use Kroger/Instacart API when ready
@@ -61,7 +58,6 @@ const RecipeDetail = () => {
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
   const [mealPlanDialogOpen, setMealPlanDialogOpen] = useState(false);
   const [aiChatOpen, setAiChatOpen] = useState(false);
-  const [showAd, setShowAd] = useState<null | 'chat' | 'nutrition' | 'interstitial'>(null);
   // Shopping guide removed - will add back with Kroger/Instacart API
   // const [showShopping, setShowShopping] = useState(false);
   // const [selectedStore, setSelectedStore] = useState<GroceryStore | null>(null);

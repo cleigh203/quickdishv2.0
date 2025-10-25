@@ -100,6 +100,19 @@ const caramelAppleNachosImg = "https://i.imgur.com/dGYFnDc.png";
 const pumpkinRisottoImg = "https://i.imgur.com/R2KpdiH.png";
 import autumnHarvestSaladImg from "@/assets/recipes/autumn-harvest-salad.jpg";
 // Halloween assets removed for 2025 launch
+// Fallbacks for removed Halloween image variables (prevent runtime ReferenceError during purge)
+const halloweenMummyBrowniesImg = "";
+const halloweenSpiderWebCheesecakeImg = "";
+const halloweenGraveyardCakeImg = "";
+const halloweenBloodyCupcakesImg = "";
+const halloweenWitchHatCookiesImg = "";
+const halloweenCandyCornFudgeImg = "";
+const halloweenCandyCornTreatsImg = "";
+const halloweenGhostStrawberriesImg = "";
+const halloweenEyeballCakePopsImg = "";
+const halloweenCandyBarkImg = "";
+const halloweenBloodyJelloImg = "";
+const halloweenBatWingChickenImg = "";
 
 // Import new copycat recipe images (non-duplicates only)
 import copycatMcDonaldsBigMacSauceImg from "@/assets/recipes/copycat-mcdonalds-big-mac-sauce.jpg";
