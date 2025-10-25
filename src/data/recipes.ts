@@ -1,4 +1,4 @@
-import { Recipe } from "@/types/recipe";
+﻿import { Recipe } from "@/types/recipe";
 
 // Import AI-generated images
 import chickenMarsalaImg from "@/assets/recipes/chicken-marsala.jpg";
@@ -99,21 +99,6 @@ const pecanCrustedPorkImg = "https://i.imgur.com/PibHyc6.png";
 const caramelAppleNachosImg = "https://i.imgur.com/dGYFnDc.png";
 const pumpkinRisottoImg = "https://i.imgur.com/R2KpdiH.png";
 import autumnHarvestSaladImg from "@/assets/recipes/autumn-harvest-salad.jpg";
-// Halloween assets removed for 2025 launch
-// Fallbacks for removed Halloween image variables (prevent runtime ReferenceError during purge)
-const halloweenMummyBrowniesImg = "";
-const halloweenSpiderWebCheesecakeImg = "";
-const halloweenGraveyardCakeImg = "";
-const halloweenBloodyCupcakesImg = "";
-const halloweenWitchHatCookiesImg = "";
-const halloweenCandyCornFudgeImg = "";
-const halloweenCandyCornTreatsImg = "";
-const halloweenGhostStrawberriesImg = "";
-const halloweenEyeballCakePopsImg = "";
-const halloweenCandyBarkImg = "";
-const halloweenBloodyJelloImg = "";
-const halloweenBatWingChickenImg = "";
-const poisonAppleImg = "";
 
 // Import new copycat recipe images (non-duplicates only)
 import copycatMcDonaldsBigMacSauceImg from "@/assets/recipes/copycat-mcdonalds-big-mac-sauce.jpg";
@@ -577,7 +562,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "sour cream" }
     ],
     instructions: [
-      "Preheat oven to 325°F. Mix [2 cups graham crumbs] with [1/2 cup melted butter].",
+      "Preheat oven to 325Â°F. Mix [2 cups graham crumbs] with [1/2 cup melted butter].",
       "Press into 9-inch springform pan, bake 10 minutes.",
       "Beat [32 oz cream cheese] and [1.25 cups sugar] until smooth.",
       "Add [4 eggs] one at a time, then [2 tsp vanilla] and [1 cup sour cream].",
@@ -617,7 +602,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "chocolate chips" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 pan.",
+      "Preheat oven to 350Â°F. Grease 9x13 pan.",
       "Melt [1 cup butter], stir in [2 cups sugar].",
       "Beat in [4 eggs] one at a time.",
       "Sift [3/4 cup cocoa], [1 cup flour], [1/2 tsp salt], fold into batter.",
@@ -655,14 +640,14 @@ export const allRecipes: Recipe[] = [
       "Gradually add [1/4 cup sugar], beat to stiff, glossy peaks.",
       "Fold dry ingredients into meringue in 3 additions until lava-like.",
       "Pipe 1.5-inch circles on parchment, tap pan, let sit 30 minutes.",
-      "Bake at 300°F for 13-15 minutes. Cool completely.",
+      "Bake at 300Â°F for 13-15 minutes. Cool completely.",
       "Beat [1 cup butter], [2 cups powdered sugar], [1 tsp vanilla] for filling.",
       "Sandwich cookies with buttercream, refrigerate before serving."
     ]
   },
   {
     id: "dessert-creme-brulee",
-    name: "Crème Brûlée",
+    name: "CrÃ¨me BrÃ»lÃ©e",
     description: "Silky vanilla custard with caramelized sugar crust. Torch required.",
     cookTime: "40 mins",
     prepTime: "15 mins",
@@ -681,7 +666,7 @@ export const allRecipes: Recipe[] = [
       { amount: "6", unit: "tbsp", item: "sugar (for topping)" }
     ],
     instructions: [
-      "Preheat oven to 325°F. Heat [2 cups cream] with [1 vanilla bean] seeds until steaming.",
+      "Preheat oven to 325Â°F. Heat [2 cups cream] with [1 vanilla bean] seeds until steaming.",
       "Whisk [5 egg yolks] and [1/2 cup sugar] until pale.",
       "Slowly whisk hot cream into yolks, strain.",
       "Pour into 6 ramekins, place in roasting pan with hot water halfway up sides.",
@@ -714,12 +699,12 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "", item: "egg" }
     ],
     instructions: [
-      "Preheat oven to 425°F. Line 9-inch pie pan with one crust.",
+      "Preheat oven to 425Â°F. Line 9-inch pie pan with one crust.",
       "Toss [6 cups apples], [3/4 cup sugar], [2 tbsp flour], [1 tsp cinnamon], [1/4 tsp nutmeg].",
       "Pour filling into crust, dot with [2 tbsp butter].",
       "Cover with second crust, crimp edges, cut vents.",
       "Brush with beaten [egg], sprinkle with sugar.",
-      "Bake 15 minutes at 425°F, reduce to 350°F, bake 35 more minutes.",
+      "Bake 15 minutes at 425Â°F, reduce to 350Â°F, bake 35 more minutes.",
       "Cool 2 hours before slicing."
     ]
   },
@@ -746,7 +731,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "vanilla extract" }
     ],
     instructions: [
-      "Preheat oven to 425°F. Butter and cocoa 4 ramekins.",
+      "Preheat oven to 425Â°F. Butter and cocoa 4 ramekins.",
       "Melt [6 oz chocolate] and [1/2 cup butter] together.",
       "Whisk [2 eggs], [2 yolks], [1/4 cup sugar] until thick.",
       "Fold in chocolate, then [2 tbsp flour] and [1 tsp vanilla].",
@@ -778,7 +763,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "cups", item: "mixed berries" }
     ],
     instructions: [
-      "Preheat oven to 300°F. Draw 8-inch circle on parchment.",
+      "Preheat oven to 300Â°F. Draw 8-inch circle on parchment.",
       "Beat [4 egg whites] to soft peaks, gradually add [1 cup sugar].",
       "Beat to stiff peaks, fold in [1 tsp cornstarch] and [1 tsp vinegar].",
       "Spread meringue in circle, creating slight well in center.",
@@ -810,7 +795,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "honey" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Mix [3 cups walnuts] with [1 tsp cinnamon].",
+      "Preheat oven to 350Â°F. Mix [3 cups walnuts] with [1 tsp cinnamon].",
       "Brush 9x13 pan with [butter], layer 8 sheets [phyllo], brushing each with butter.",
       "Sprinkle 1 cup nut mixture, layer 5 sheets phyllo with butter.",
       "Repeat layers twice, top with 8 sheets phyllo.",
@@ -846,7 +831,7 @@ export const allRecipes: Recipe[] = [
       "Heat [1 cup water], [2 tbsp sugar], [1/2 tsp salt], [2 tbsp oil] to boiling.",
       "Remove from heat, stir in [1 cup flour] until smooth.",
       "Beat in [2 eggs] one at a time until glossy.",
-      "Heat 2 inches oil to 375°F.",
+      "Heat 2 inches oil to 375Â°F.",
       "Pipe 4-inch strips into hot oil, fry until golden, about 2 minutes per side.",
       "Drain on paper towels.",
       "Roll in mixture of [1/2 cup sugar] and [1 tsp cinnamon]."
@@ -935,7 +920,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "raisins" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Place [8 cups bread] in greased 9x13 dish.",
+      "Preheat oven to 350Â°F. Place [8 cups bread] in greased 9x13 dish.",
       "Whisk [4 cups milk], [4 eggs], [1 cup sugar], [2 tsp vanilla], [1 tsp cinnamon].",
       "Pour over bread, press down, let soak 10 minutes.",
       "Scatter [1/2 cup raisins] over top.",
@@ -965,7 +950,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "vanilla extract" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Melt [1 cup sugar] in pan until golden, pour into 9-inch round pan.",
+      "Preheat oven to 350Â°F. Melt [1 cup sugar] in pan until golden, pour into 9-inch round pan.",
       "Blend [5 eggs], [condensed milk], [evaporated milk], [1 cup milk], [1 tsp vanilla].",
       "Pour over caramel, place in roasting pan with hot water halfway up.",
       "Bake 50 minutes until set with slight jiggle.",
@@ -975,7 +960,7 @@ export const allRecipes: Recipe[] = [
   },
   {
     id: "dessert-eclairs",
-    name: "Chocolate Éclairs",
+    name: "Chocolate Ã‰clairs",
     description: "Choux pastry with cream filling and chocolate glaze. French bakery perfection.",
     cookTime: "30 mins",
     prepTime: "30 mins",
@@ -996,7 +981,7 @@ export const allRecipes: Recipe[] = [
       { amount: "8", unit: "oz", item: "dark chocolate" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Boil [1 cup water] and [1/2 cup butter].",
+      "Preheat oven to 400Â°F. Boil [1 cup water] and [1/2 cup butter].",
       "Add [1 cup flour] all at once, stir until ball forms.",
       "Beat in [4 eggs] one at a time until smooth and glossy.",
       "Pipe 4-inch strips on parchment, bake 30 minutes until golden.",
@@ -1029,7 +1014,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "heavy cream" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 pan.",
+      "Preheat oven to 350Â°F. Grease 9x13 pan.",
       "Beat [5 eggs] and [1 cup sugar] 5 minutes until thick.",
       "Fold in [1 cup flour] and [1.5 tsp baking powder], then [1/3 cup milk].",
       "Pour into pan, bake 30 minutes until golden.",
@@ -1068,7 +1053,7 @@ export const allRecipes: Recipe[] = [
       "Roll into 16x12 rectangle, brush with butter.",
       "Mix [1 cup brown sugar] and [2 tbsp cinnamon], sprinkle over dough.",
       "Roll up tightly, cut into 12 rolls, place in greased 9x13 pan.",
-      "Let rise 30 minutes, bake at 350°F for 25 minutes.",
+      "Let rise 30 minutes, bake at 350Â°F for 25 minutes.",
       "Beat [8 oz cream cheese], powdered sugar, and vanilla, spread on warm rolls."
     ]
   },
@@ -1096,7 +1081,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "cups", item: "chocolate chips" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Mix [2.25 cups flour] and [1 tsp baking soda].",
+      "Preheat oven to 375Â°F. Mix [2.25 cups flour] and [1 tsp baking soda].",
       "Beat [1 cup butter], [3/4 cup sugar], [3/4 cup brown sugar] until fluffy.",
       "Beat in [2 eggs] and [2 tsp vanilla].",
       "Stir in flour mixture, then [2 cups chocolate chips].",
@@ -1130,7 +1115,7 @@ export const allRecipes: Recipe[] = [
       { amount: "16", unit: "oz", item: "cream cheese frosting" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 pan.",
+      "Preheat oven to 350Â°F. Grease 9x13 pan.",
       "Mix [2 cups flour], [2 tsp baking soda], [2 tsp cinnamon], [1/2 tsp salt].",
       "Beat [4 eggs], [1.5 cups sugar], [1 cup oil] until blended.",
       "Stir in flour mixture, then [3 cups carrots].",
@@ -1191,7 +1176,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "heavy cream" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Boil [1 cup water] and [1/2 cup butter].",
+      "Preheat oven to 400Â°F. Boil [1 cup water] and [1/2 cup butter].",
       "Add [1 cup flour] all at once, stir until ball forms.",
       "Beat in [4 eggs] one at a time until smooth.",
       "Drop tablespoons 2 inches apart, bake 25 minutes until golden.",
@@ -1224,7 +1209,7 @@ export const allRecipes: Recipe[] = [
       { amount: "16", unit: "oz", item: "cream cheese frosting" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease two 9-inch round pans.",
+      "Preheat oven to 350Â°F. Grease two 9-inch round pans.",
       "Mix [2.5 cups flour], [1.5 cups sugar], [1 tsp baking soda], [2 tbsp cocoa].",
       "Whisk [1 cup buttermilk], [1.5 cups oil], [2 eggs], [2 oz food coloring].",
       "Combine wet and dry ingredients, divide between pans.",
@@ -1254,7 +1239,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "heavy cream" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Mix [1.5 cups graham crumbs] and [1/3 cup butter].",
+      "Preheat oven to 350Â°F. Mix [1.5 cups graham crumbs] and [1/3 cup butter].",
       "Press into 9-inch pie pan, bake 10 minutes.",
       "Whisk [2 cans condensed milk], [4 egg yolks], [1/2 cup lime juice].",
       "Pour into crust, bake 15 minutes.",
@@ -1315,7 +1300,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "flour" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Beat [1 cup butter], [2 cups flour], [1/2 cup powdered sugar].",
+      "Preheat oven to 350Â°F. Beat [1 cup butter], [2 cups flour], [1/2 cup powdered sugar].",
       "Press into greased 9x13 pan, bake 20 minutes.",
       "Whisk [4 eggs], [1.5 cups sugar], [1/3 cup lemon juice], [1/4 cup flour].",
       "Pour over hot crust, bake 25 minutes until set.",
@@ -1325,992 +1310,6 @@ export const allRecipes: Recipe[] = [
   },
 
   // ========== RESTAURANT COPYCATS (18) ==========
-  {
-    id: "copycat-burrito-bowl",
-    name: "Chipotle Burrito Bowl",
-    description: "Better than Chipotle. Cilantro lime rice, perfectly seasoned protein, all the toppings.",
-    cookTime: "30 mins",
-    prepTime: "15 mins",
-    difficulty: "medium",
-    servings: 4,
-    cuisine: "Mexican",
-    image: burritoBowlImg,
-    totalTime: 45,
-    tags: ["copycat", "mexican", "healthy", "protein", "glutenfree"],
-    nutrition: {
-      calories: 650,
-      protein: 38,
-      carbs: 72,
-      fat: 22,
-      fiber: 12,
-      sugar: 4,
-      servingSize: "1 bowl"
-    },
-    ingredients: [
-      { amount: "1", unit: "lb", item: "chicken breast" },
-      { amount: "2", unit: "cups", item: "white rice" },
-      { amount: "1", unit: "bunch", item: "cilantro" },
-      { amount: "2", unit: "", item: "limes" },
-      { amount: "1", unit: "can", item: "black beans" },
-      { amount: "1", unit: "cup", item: "corn" },
-      { amount: "1", unit: "cup", item: "tomatoes, diced" },
-      { amount: "1", unit: "cup", item: "cheese, shredded" },
-      { amount: "1/2", unit: "cup", item: "sour cream" },
-      { amount: "1", unit: "avocado", item: "sliced" }
-    ],
-    instructions: [
-      "Cook rice according to package. Stir in cilantro and lime juice.",
-      "Cook chicken, season with cumin, chili powder, salt.",
-      "Layer rice, beans, corn, chicken in bowls.",
-      "Top with tomatoes, cheese, sour cream, avocado.",
-      "Serve immediately."
-    ]
-  },
-
-  // ========== RESTAURANT COPYCATS (18) ==========
-  {
-    id: "copycat-burrito-bowl",
-    name: "Chipotle Burrito Bowl",
-    description: "Better than Chipotle. Cilantro lime rice, perfectly seasoned protein, all the toppings.",
-    cookTime: "30 mins",
-    prepTime: "15 mins",
-    difficulty: "medium",
-    servings: 4,
-    cuisine: "Mexican",
-    image: burritoBowlImg,
-    totalTime: 45,
-    tags: ["copycat", "mexican", "healthy", "protein", "glutenfree"],
-    nutrition: {
-      calories: 650,
-      protein: 38,
-      carbs: 72,
-      fat: 22,
-      fiber: 12,
-      sugar: 4,
-      servingSize: "1 bowl"
-    },
-    ingredients: [
-      { amount: "2", unit: "cups", item: "white rice" },
-      { amount: "1/4", unit: "cup", item: "lime juice" },
-      { amount: "1/4", unit: "cup", item: "cilantro, chopped" },
-      { amount: "1", unit: "lb", item: "chicken breast" },
-      { amount: "2", unit: "tbsp", item: "taco seasoning" },
-      { amount: "1", unit: "can", item: "black beans" },
-      { amount: "1", unit: "cup", item: "corn" },
-      { amount: "1", unit: "cup", item: "pico de gallo" },
-      { amount: "1", unit: "cup", item: "guacamole" },
-      { amount: "1", unit: "cup", item: "shredded cheese" },
-      { amount: "1/2", unit: "cup", item: "sour cream" }
-    ],
-    instructions: [
-      "Cook rice according to package, toss with lime juice and cilantro.",
-      "Season chicken with taco seasoning, cook until done, slice.",
-      "Drain and heat black beans.",
-      "Layer rice, beans, corn, chicken in bowls.",
-      "Top with pico de gallo, guacamole, cheese, sour cream.",
-      "Serve warm."
-    ]
-  },
-  {
-    id: "copycat-cheesecake-factory",
-    name: "Cheesecake Factory Chicken Madeira",
-    description: "Green colored treats with chocolate bolt decorations. Cute and easy.",
-    cookTime: "10 mins",
-    prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 12,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/KB7XQKN.png",
-    totalTime: 25,
-    tags: ["halloween", "dessert", "kids", "glutenfree"],
-    ingredients: [
-      { amount: "3", unit: "tbsp", item: "butter" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "4", unit: "cups", item: "mini marshmallows" },
-      { amount: "6", unit: "cups", item: "Rice Krispies cereal" },
-      { amount: "10", unit: "drops", item: "green food coloring" },
-      { amount: "1/2", unit: "cup", item: "chocolate chips" },
-      { amount: "24", unit: "", item: "candy eyes" }
-    ],
-    instructions: [
-      "Melt butter in large pot over low heat.",
-      "Add marshmallows and stir until melted.",
-      "Add green food coloring and mix well.",
-      "Remove from heat, add Rice Krispies, stir to coat.",
-      "Press mixture into greased 9x13 pan.",
-      "Cool 10 minutes, cut into squares.",
-      "Melt chocolate, pipe 'hair' and 'bolts' on sides.",
-      "Attach candy eyes with chocolate."
-    ]
-  },
-  {
-    id: "halloween-eyeball-meatballs",
-    name: "Eyeball Meatballs",
-    description: "Spaghetti with mozzarella and olive eyeballs. Creepy pasta perfection.",
-    cookTime: "25 mins",
-    prepTime: "20 mins",
-    difficulty: "medium",
-    servings: 6,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/202syr1.png",
-    totalTime: 45,
-    tags: ["halloween", "dinner", "pasta"],
-    ingredients: [
-      { amount: "1", unit: "lb", item: "ground beef" ,
-    nutrition: { calories: 158, protein: 5, carbs: 12, fat: 6, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
-      { amount: "1", unit: "", item: "egg" },
-      { amount: "1/2", unit: "cup", item: "breadcrumbs" },
-      { amount: "1", unit: "jar", item: "marinara sauce" },
-      { amount: "1", unit: "lb", item: "spaghetti" },
-      { amount: "12", unit: "", item: "mozzarella balls" },
-      { amount: "12", unit: "", item: "black olive slices" }
-    ],
-    instructions: [
-      "Mix ground beef, egg, and breadcrumbs. Form into meatballs.",
-      "Brown meatballs in skillet, then simmer in marinara 15 minutes.",
-      "Cook spaghetti according to package.",
-      "Place mozzarella ball on each meatball while hot.",
-      "Add olive slice on mozzarella as 'pupil'.",
-      "Serve meatballs over spaghetti with extra sauce."
-    ]
-  },
-  {
-    id: "halloween-pumpkin-donuts",
-    name: "Pumpkin Spice Donuts",
-    description: "Orange glazed donuts with festive fall flavors. Bakery quality at home.",
-    cookTime: "15 mins",
-    prepTime: "20 mins",
-    difficulty: "medium",
-    servings: 12,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/OKg8xyu.png",
-    totalTime: 35,
-    tags: ["halloween", "dessert", "breakfast"],
-    ingredients: [
-      { amount: "2", unit: "cups", item: "flour" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "1/2", unit: "cup", item: "pumpkin puree" },
-      { amount: "1/2", unit: "cup", item: "sugar" },
-      { amount: "2", unit: "tsp", item: "baking powder" },
-      { amount: "1", unit: "tsp", item: "pumpkin spice" },
-      { amount: "1/2", unit: "cup", item: "milk" },
-      { amount: "2", unit: "", item: "eggs" },
-      { amount: "2", unit: "cups", item: "powdered sugar" },
-      { amount: "3", unit: "tbsp", item: "milk for glaze" },
-      { amount: "10", unit: "drops", item: "orange food coloring" }
-    ],
-    instructions: [
-      "Preheat oven to 375°F. Grease donut pan.",
-      "Mix flour, sugar, baking powder, pumpkin spice.",
-      "In another bowl, whisk pumpkin, milk, eggs.",
-      "Combine wet and dry ingredients.",
-      "Pipe batter into donut pan.",
-      "Bake 12-15 minutes until springy.",
-      "Cool completely.",
-      "Make glaze: mix powdered sugar, milk, orange coloring.",
-      "Dip donuts in glaze, let set."
-    ]
-  },
-  {
-    id: "halloween-mummy-brownies",
-    name: "Mummy Brownies",
-    description: "Fudgy brownies wrapped in white chocolate mummy bandages. Spooky cute!",
-    cookTime: "25 mins",
-    prepTime: "20 mins",
-    difficulty: "easy",
-    servings: 16,
-    cuisine: "Halloween",
-    image: halloweenMummyBrowniesImg,
-    totalTime: 45,
-    tags: ["halloween", "dessert", "chocolate", "glutenfree"],
-    ingredients: [
-      { amount: "1", unit: "box", item: "brownie mix (plus required ingredients)" ,
-    nutrition: { calories: 150, protein: 6, carbs: 11, fat: 5, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
-      { amount: "1", unit: "cup", item: "white chocolate chips" },
-      { amount: "2", unit: "tbsp", item: "coconut oil" },
-      { amount: "32", unit: "", item: "candy eyes" }
-    ],
-    instructions: [
-      "Bake brownies according to package directions in 9x13 pan. Cool completely.",
-      "Cut into 16 squares.",
-      "Melt white chocolate chips with coconut oil in microwave, stirring every 30 seconds.",
-      "Transfer melted chocolate to piping bag or zip-lock bag with corner cut.",
-      "Pipe white chocolate in zigzag pattern across brownies to look like mummy bandages.",
-      "Place 2 candy eyes on each brownie before chocolate sets.",
-      "Let chocolate harden at room temperature or refrigerate 10 minutes."
-    ]
-  },
-  {
-    id: "halloween-ghost-cupcakes",
-    name: "Ghost Cupcakes",
-    description: "Chocolate cupcakes with adorable ghost toppers. Perfect party treat.",
-    cookTime: "20 mins",
-    prepTime: "30 mins",
-    difficulty: "medium",
-    servings: 12,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/krMyF6Q.png",
-    totalTime: 50,
-    tags: ["halloween", "dessert", "cupcakes", "glutenfree"],
-    ingredients: [
-      { amount: "1", unit: "box", item: "chocolate cake mix (plus required ingredients)" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "2", unit: "cups", item: "buttercream frosting" },
-      { amount: "1", unit: "lb", item: "white fondant" },
-      { amount: "1", unit: "tube", item: "black icing gel" },
-      { amount: "12", unit: "", item: "purple cupcake liners" }
-    ],
-    instructions: [
-      "Bake cupcakes in purple liners according to package directions. Cool completely.",
-      "Frost cupcakes with buttercream, creating a small dome.",
-      "Roll fondant to 1/4 inch thickness. Cut into 12 circles using large cookie cutter.",
-      "Drape fondant over each cupcake, smoothing gently to create ghost shape.",
-      "Use black icing gel to draw two dots for eyes and curved line for mouth.",
-      "Arrange on platter. Some can be tilted for playful effect."
-    ]
-  },
-  {
-    id: "halloween-spider-web-cheesecake",
-    name: "Spider Web Cheesecake",
-    description: "Creamy cheesecake with chocolate spider web design. Show-stopping dessert.",
-    cookTime: "60 mins",
-    prepTime: "30 mins",
-    difficulty: "medium",
-    servings: 12,
-    cuisine: "Halloween",
-    image: halloweenSpiderWebCheesecakeImg,
-    totalTime: 330,
-    tags: ["halloween", "dessert", "elegant", "glutenfree"],
-    ingredients: [
-      { amount: "24", unit: "", item: "Oreo cookies, crushed" ,
-    nutrition: { calories: 150, protein: 5, carbs: 7, fat: 8, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "5", unit: "tbsp", item: "butter, melted" },
-      { amount: "32", unit: "oz", item: "cream cheese, softened" },
-      { amount: "1", unit: "cup", item: "sugar" },
-      { amount: "1", unit: "cup", item: "sour cream" },
-      { amount: "3", unit: "", item: "eggs" },
-      { amount: "2", unit: "tsp", item: "vanilla extract" },
-      { amount: "1/2", unit: "cup", item: "chocolate chips, melted" }
-    ],
-    instructions: [
-      "Preheat oven to 325°F. Mix crushed Oreos with melted butter.",
-      "Press into bottom of 9-inch springform pan. Bake 10 minutes.",
-      "Beat cream cheese and sugar until fluffy. Add sour cream, eggs, vanilla.",
-      "Pour filling over crust. Bake 55-60 minutes until edges set but center jiggles.",
-      "Cool completely, then refrigerate 4 hours.",
-      "Melt chocolate and transfer to piping bag. Draw spiral on top of cheesecake.",
-      "Use toothpick to drag lines from center outward creating web pattern.",
-      "Add chocolate spider decoration in center."
-    ]
-  },
-  {
-    id: "halloween-graveyard-cake",
-    name: "Graveyard Chocolate Cake",
-    description: "Rich chocolate cake decorated as spooky graveyard. Perfect centerpiece.",
-    cookTime: "35 mins",
-    prepTime: "45 mins",
-    difficulty: "medium",
-    servings: 16,
-    cuisine: "Halloween",
-    image: halloweenGraveyardCakeImg,
-    totalTime: 80,
-    tags: ["halloween", "dessert", "chocolate", "glutenfree"],
-    ingredients: [
-      { amount: "1", unit: "box", item: "chocolate cake mix (plus required ingredients)" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "3", unit: "cups", item: "chocolate buttercream" },
-      { amount: "20", unit: "", item: "Oreo cookies, crushed" },
-      { amount: "12", unit: "", item: "Milano cookies" },
-      { amount: "1", unit: "tube", item: "black decorating gel" },
-      { amount: "10", unit: "", item: "gummy worms" },
-      { amount: "1/4", unit: "cup", item: "candy pumpkins" }
-    ],
-    instructions: [
-      "Bake cake in 9x13 pan according to package. Cool completely.",
-      "Frost entire cake with chocolate buttercream.",
-      "Sprinkle crushed Oreos on top to look like dirt.",
-      "Write 'RIP' and dates on Milano cookies with black gel to make tombstones.",
-      "Insert tombstones upright into cake at various angles.",
-      "Add gummy worms poking out of 'dirt'.",
-      "Scatter candy pumpkins around graveyard."
-    ]
-  },
-  {
-    id: "halloween-bloody-cupcakes",
-    name: "Bloody Red Velvet Cupcakes",
-    description: "Red velvet cupcakes with dripping blood effect. Deliciously spooky.",
-    cookTime: "20 mins",
-    prepTime: "25 mins",
-    difficulty: "easy",
-    servings: 12,
-    cuisine: "Halloween",
-    image: halloweenBloodyCupcakesImg,
-    totalTime: 45,
-    tags: ["halloween", "dessert", "cupcakes", "glutenfree"],
-    ingredients: [
-      { amount: "1", unit: "box", item: "red velvet cake mix (plus required ingredients)" ,
-    nutrition: { calories: 150, protein: 5, carbs: 7, fat: 8, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "2", unit: "cups", item: "cream cheese frosting" },
-      { amount: "1/4", unit: "cup", item: "red gel food coloring" },
-      { amount: "2", unit: "tbsp", item: "corn syrup" }
-    ],
-    instructions: [
-      "Bake red velvet cupcakes according to package. Cool completely.",
-      "Frost cupcakes generously with cream cheese frosting.",
-      "Mix red gel coloring with corn syrup to create blood drip.",
-      "Use spoon to drizzle red mixture down sides of frosted cupcakes.",
-      "Let some drips pool at bottom for realistic effect.",
-      "Optional: add decorative plastic syringe with red mixture.",
-      "Serve on dark platter for dramatic presentation."
-    ]
-  },
-  {
-    id: "halloween-witch-hat-cookies",
-    name: "Witch Hat Cookies",
-    description: "Viral TikTok Halloween treat! Oreo cookies with orange frosting and chocolate kiss witch hats.",
-    cookTime: "10 mins",
-    prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 12,
-    cuisine: "Halloween",
-    image: halloweenWitchHatCookiesImg,
-    totalTime: 25,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral"],
-    ingredients: [
-      { amount: "12", unit: "", item: "Oreo cookies" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "12", unit: "", item: "Hershey's Kisses, unwrapped" },
-      { amount: "1/2", unit: "cup", item: "orange frosting" },
-      { amount: "2", unit: "tbsp", item: "Halloween sprinkles" }
-    ],
-    instructions: [
-      "Lay Oreo cookies flat on black plate.",
-      "Pipe generous swirl of orange frosting on top of each cookie.",
-      "Press unwrapped Hershey's Kiss onto frosting to create pointed witch hat.",
-      "Add Halloween sprinkles around base of each hat.",
-      "Refrigerate 10 minutes to set.",
-      "Serve on dark platter for spooky vibes!"
-    ]
-  },
-  {
-    id: "halloween-pumpkin-patch-brownies",
-    name: "Pumpkin Patch Brownies",
-    description: "Chocolate brownies decorated with icing pumpkins. Festive and fun.",
-    cookTime: "25 mins",
-    prepTime: "30 mins",
-    difficulty: "easy",
-    servings: 16,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/JbBPAUV.png",
-    totalTime: 55,
-    tags: ["halloween", "dessert", "chocolate", "glutenfree"],
-    ingredients: [
-      { amount: "1", unit: "box", item: "brownie mix (plus required ingredients)" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "1", unit: "cup", item: "chocolate frosting" },
-      { amount: "1", unit: "cup", item: "orange icing" },
-      { amount: "1/4", unit: "cup", item: "green icing" },
-      { amount: "1/4", unit: "cup", item: "brown icing" }
-    ],
-    instructions: [
-      "Bake brownies in 9x13 pan according to package. Cool completely.",
-      "Frost entire top with chocolate frosting, creating smooth surface.",
-      "Use orange icing to pipe small pumpkin shapes across brownies.",
-      "Add brown icing stems to each pumpkin.",
-      "Pipe green icing vines connecting pumpkins.",
-      "Cut into 16 squares, making sure each has at least one pumpkin.",
-      "Serve on rustic board for autumn presentation."
-    ]
-  },
-  {
-    id: "halloween-monster-eye-truffles",
-    name: "Monster Eye Truffles",
-    description: "Chocolate truffles decorated as realistic eyeballs. Creepy delicious.",
-    cookTime: "0 mins",
-    prepTime: "45 mins",
-    difficulty: "medium",
-    servings: 20,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/Yo65AU3.png",
-    totalTime: 105,
-    tags: ["halloween", "dessert", "chocolate", "no-bake", "glutenfree"],
-    ingredients: [
-      { amount: "8", unit: "oz", item: "cream cheese, softened" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "3", unit: "cups", item: "crushed Oreos" },
-      { amount: "12", unit: "oz", item: "white chocolate chips" },
-      { amount: "2", unit: "tbsp", item: "coconut oil" },
-      { amount: "1", unit: "tube", item: "blue icing gel" },
-      { amount: "1", unit: "tube", item: "red icing gel" }
-    ],
-    instructions: [
-      "Mix cream cheese and crushed Oreos until well combined.",
-      "Roll into 20 balls and refrigerate 30 minutes.",
-      "Melt white chocolate with coconut oil, stirring until smooth.",
-      "Dip each ball in white chocolate, coating completely. Place on parchment.",
-      "While chocolate is wet, use blue icing to draw iris and pupil.",
-      "Let white chocolate set completely.",
-      "Use red icing gel to draw veins from center outward for bloodshot effect.",
-      "Refrigerate until serving."
-    ]
-  },
-  {
-    id: "halloween-candy-corn-fudge",
-    name: "Candy Corn Fudge",
-    description: "Three-layer fudge in candy corn colors. Sweet Halloween treat.",
-    cookTime: "0 mins",
-    prepTime: "20 mins",
-    difficulty: "easy",
-    servings: 36,
-    cuisine: "Halloween",
-    image: halloweenCandyCornFudgeImg,
-    totalTime: 140,
-    tags: ["halloween", "dessert", "no-bake", "glutenfree"],
-    ingredients: [
-      { amount: "3", unit: "cups", item: "white chocolate chips" ,
-    nutrition: { calories: 163, protein: 6, carbs: 7, fat: 10, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "14", unit: "oz", item: "sweetened condensed milk" },
-      { amount: "1", unit: "tsp", item: "vanilla extract" },
-      { amount: "15", unit: "drops", item: "yellow food coloring" },
-      { amount: "15", unit: "drops", item: "orange food coloring" }
-    ],
-    instructions: [
-      "Line 8x8 pan with parchment paper.",
-      "Melt 1 cup white chocolate with 1/3 of condensed milk. Add yellow coloring.",
-      "Spread yellow layer in pan. Refrigerate 15 minutes.",
-      "Melt 1 cup white chocolate with 1/3 condensed milk. Add orange coloring.",
-      "Spread orange layer over yellow. Refrigerate 15 minutes.",
-      "Melt remaining chocolate with condensed milk. Add vanilla (white layer).",
-      "Spread white layer on top. Refrigerate 2 hours until firm.",
-      "Cut into squares. Arrange to show candy corn pattern."
-    ]
-  },
-  {
-    id: "halloween-candy-corn-treats",
-    name: "Candy Corn Rice Krispie Treats",
-    description: "TikTok viral! Layered Rice Krispie treats in candy corn colors - yellow, orange, and white.",
-    cookTime: "15 mins",
-    prepTime: "20 mins",
-    difficulty: "easy",
-    servings: 12,
-    cuisine: "Halloween",
-    image: halloweenCandyCornTreatsImg,
-    totalTime: 35,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "glutenfree"],
-    ingredients: [
-      { amount: "6", unit: "cups", item: "Rice Krispies cereal" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "3", unit: "cups", item: "mini marshmallows" },
-      { amount: "3", unit: "tbsp", item: "butter" },
-      { amount: "10", unit: "drops", item: "yellow food coloring" },
-      { amount: "10", unit: "drops", item: "orange food coloring" }
-    ],
-    instructions: [
-      "Butter 9x13 pan and line with parchment paper.",
-      "Divide cereal into 3 bowls (2 cups each).",
-      "Make yellow layer: Melt 1 tbsp butter + 1 cup marshmallows, add yellow coloring, mix with cereal, press into pan.",
-      "Make orange layer: Repeat with orange coloring, press over yellow.",
-      "Make white layer: Repeat without coloring, press on top.",
-      "Let cool 30 mins, cut into squares showing candy corn layers.",
-      "Stack squares to show off the colorful layers!"
-    ]
-  },
-  {
-    id: "halloween-monster-cookie-dip",
-    name: "Monster Cookie Dough Dip",
-    description: "Edible green monster dip loaded with M&Ms and googly eyes! Perfect for parties.",
-    cookTime: "0 mins",
-    prepTime: "10 mins",
-    difficulty: "easy",
-    servings: 8,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/4lT20FX.png",
-    totalTime: 10,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake", "glutenfree"],
-    ingredients: [
-      { amount: "8", unit: "oz", item: "cream cheese, softened" ,
-    nutrition: { calories: 158, protein: 5, carbs: 12, fat: 6, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
-      { amount: "1/2", unit: "cup", item: "butter, softened" },
-      { amount: "3/4", unit: "cup", item: "brown sugar" },
-      { amount: "1", unit: "tsp", item: "vanilla extract" },
-      { amount: "10", unit: "drops", item: "green food coloring" },
-      { amount: "1", unit: "cup", item: "mini chocolate chips" },
-      { amount: "1/2", unit: "cup", item: "M&Ms" },
-      { amount: "6", unit: "", item: "candy googly eyes" },
-      { amount: "1", unit: "box", item: "graham crackers" }
-    ],
-    instructions: [
-      "Beat cream cheese and butter until fluffy.",
-      "Mix in brown sugar and vanilla until smooth.",
-      "Add green food coloring and mix until monster green.",
-      "Fold in chocolate chips and half the M&Ms.",
-      "Transfer to serving bowl and smooth top.",
-      "Decorate with remaining M&Ms and candy eyes to create monster face.",
-      "Serve with graham crackers for dipping!"
-    ]
-  },
-  {
-    id: "halloween-ghost-strawberries",
-    name: "Ghost Strawberries",
-    description: "Adorable spooky-cute white chocolate dipped strawberries with ghost faces!",
-    cookTime: "0 mins",
-    prepTime: "20 mins",
-    difficulty: "easy",
-    servings: 12,
-    cuisine: "Halloween",
-    image: halloweenGhostStrawberriesImg,
-    totalTime: 20,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake", "glutenfree"],
-    ingredients: [
-      { amount: "12", unit: "", item: "large strawberries, washed and dried" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "2", unit: "cups", item: "white chocolate chips" },
-      { amount: "1", unit: "tbsp", item: "coconut oil" },
-      { amount: "1/4", unit: "cup", item: "mini chocolate chips for faces" }
-    ],
-    instructions: [
-      "Line baking sheet with parchment paper.",
-      "Melt white chocolate and coconut oil in microwave, stirring every 30 seconds.",
-      "Hold strawberry by stem and dip in white chocolate, coating completely.",
-      "Place on parchment and let chocolate set slightly.",
-      "While still tacky, press mini chocolate chips to create ghost face (two eyes, one mouth).",
-      "Refrigerate 15 minutes until chocolate is firm.",
-      "Arrange on dark plate for spooky presentation!"
-    ]
-  },
-  {
-    id: "halloween-eyeball-cake-pops",
-    name: "Eyeball Cake Pops",
-    description: "Realistic bloodshot eyeball cake pops that are creepy and delicious!",
-    cookTime: "25 mins",
-    prepTime: "30 mins",
-    difficulty: "easy",
-    servings: 12,
-    cuisine: "Halloween",
-    image: halloweenEyeballCakePopsImg,
-    totalTime: 55,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "glutenfree"],
-    ingredients: [
-      { amount: "1", unit: "box", item: "white cake mix (plus required ingredients)" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 7, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "1/2", unit: "cup", item: "vanilla frosting" },
-      { amount: "2", unit: "cups", item: "white candy melts" },
-      { amount: "12", unit: "", item: "lollipop sticks" },
-      { amount: "1", unit: "tube", item: "blue icing gel" },
-      { amount: "1", unit: "tube", item: "black icing gel" },
-      { amount: "1", unit: "tube", item: "red icing gel" }
-    ],
-    instructions: [
-      "Bake cake according to package, let cool completely, crumble into bowl.",
-      "Mix crumbled cake with vanilla frosting until dough forms.",
-      "Roll into 12 balls and insert lollipop stick in each. Freeze 30 mins.",
-      "Melt white candy melts and dip each cake pop, coating completely.",
-      "Stand pops upright in foam block to dry.",
-      "Use blue icing to draw colored iris circle, black for pupil dot.",
-      "Add red icing veins radiating from center for bloodshot effect. Spooky!"
-    ]
-  },
-  {
-    id: "halloween-pumpkin-muddy-buddies",
-    name: "Pumpkin Spice Muddy Buddies",
-    description: "Addictive orange-coated Chex cereal mix with pumpkin spice and candy corn!",
-    cookTime: "5 mins",
-    prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 10,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/tapajlR.png",
-    totalTime: 20,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "glutenfree"],
-    ingredients: [
-      { amount: "6", unit: "cups", item: "Rice Chex cereal" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "1", unit: "cup", item: "white chocolate chips" },
-      { amount: "2", unit: "tbsp", item: "pumpkin spice" },
-      { amount: "10", unit: "drops", item: "orange food coloring" },
-      { amount: "1 1/2", unit: "cups", item: "powdered sugar" },
-      { amount: "1", unit: "cup", item: "candy corn" },
-      { amount: "1/2", unit: "cup", item: "orange M&Ms" }
-    ],
-    instructions: [
-      "Pour Chex cereal into large bowl.",
-      "Melt white chocolate chips in microwave, stir in pumpkin spice and orange coloring.",
-      "Pour melted chocolate over cereal and toss to coat evenly.",
-      "Pour powdered sugar into gallon bag, add coated cereal, shake until covered.",
-      "Spread on parchment paper to cool.",
-      "Once cool, mix in candy corn and orange M&Ms.",
-      "Serve in orange bowl for festive Halloween snacking!"
-    ]
-  },
-  {
-    id: "halloween-candy-bark",
-    name: "Halloween Candy Bark",
-    description: "Marbled chocolate bark loaded with candy corn, M&Ms, and chocolate eyeballs!",
-    cookTime: "0 mins",
-    prepTime: "20 mins",
-    difficulty: "easy",
-    servings: 12,
-    cuisine: "Halloween",
-    image: halloweenCandyBarkImg,
-    totalTime: 20,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake", "glutenfree"],
-    ingredients: [
-      { amount: "2", unit: "cups", item: "dark chocolate chips" ,
-    nutrition: { calories: 150, protein: 5, carbs: 15, fat: 3, fiber: 2, sugar: 5, servingSize: "1 serving (serves 4)" }},
-      { amount: "2", unit: "cups", item: "white chocolate chips" },
-      { amount: "1", unit: "cup", item: "candy corn" },
-      { amount: "1/2", unit: "cup", item: "orange M&Ms" },
-      { amount: "1/2", unit: "cup", item: "black M&Ms" },
-      { amount: "1/4", unit: "cup", item: "chocolate eyeball candies" }
-    ],
-    instructions: [
-      "Line baking sheet with parchment paper.",
-      "Melt dark chocolate and white chocolate separately in microwave.",
-      "Pour both chocolates onto parchment and swirl with knife to create marble effect.",
-      "Immediately sprinkle candy corn, orange M&Ms, black M&Ms, and eyeball candies over top.",
-      "Gently press candies into chocolate to stick.",
-      "Refrigerate 30 minutes until completely set.",
-      "Break into irregular shards and serve on dark platter!"
-    ]
-  },
-  {
-    id: "halloween-bloody-jello",
-    name: "Bloody Broken Glass Jello",
-    description: "Creepy clear gelatin shards with bright red 'blood' sauce - looks so realistic!",
-    cookTime: "0 mins",
-    prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 8,
-    cuisine: "Halloween",
-    image: halloweenBloodyJelloImg,
-    totalTime: 255,
-    tags: ["halloween", "treats", "party food", "kids-friendly", "viral", "no-bake", "glutenfree"],
-    ingredients: [
-      { amount: "4", unit: "envelopes", item: "unflavored gelatin" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "4", unit: "cups", item: "water" },
-      { amount: "1/2", unit: "cup", item: "sugar" },
-      { amount: "1/4", unit: "tsp", item: "vanilla extract" },
-      { amount: "1", unit: "cup", item: "strawberry syrup or red fruit punch" }
-    ],
-    instructions: [
-      "In pot, sprinkle gelatin over 1 cup cold water, let bloom 5 minutes.",
-      "Add 3 cups water and sugar, heat and stir until gelatin dissolves.",
-      "Add vanilla, pour into 9x13 pan, refrigerate 4 hours until firm.",
-      "Use knife to cut gelatin into irregular jagged 'glass' shards.",
-      "Transfer shards to white serving bowl.",
-      "Drizzle bright red strawberry syrup over shards for bloody effect.",
-      "Serve with spoon - the broken glass look is so creepy and cool!"
-    ]
-  },
-  {
-    id: "halloween-mummy-jalapeno-poppers",
-    name: "Mummy Jalapeño Poppers",
-    description: "Spicy jalapeño poppers wrapped in crescent dough 'bandages' with googly eyes!",
-    cookTime: "25 mins",
-    prepTime: "20 mins",
-    difficulty: "easy",
-    servings: 12,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/YI9B8yZ.png",
-    totalTime: 45,
-    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
-    ingredients: [
-      { amount: "12", unit: "", item: "large jalapeños, halved and seeded" ,
-    nutrition: { calories: 150, protein: 5, carbs: 9, fat: 3, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
-      { amount: "8", unit: "oz", item: "cream cheese, softened" },
-      { amount: "1", unit: "cup", item: "shredded cheddar cheese" },
-      { amount: "1", unit: "can", item: "crescent roll dough" },
-      { amount: "24", unit: "", item: "black sesame seeds" },
-      { amount: "1/4", unit: "tsp", item: "garlic powder" }
-    ],
-    instructions: [
-      "Preheat oven to 375°F. Line baking sheet with parchment.",
-      "Mix cream cheese, cheddar, and garlic powder. Fill jalapeño halves.",
-      "Cut crescent dough into thin strips.",
-      "Wrap strips around filled jalapeños leaving gap for 'eyes'.",
-      "Bake 20-25 minutes until dough is golden brown.",
-      "While hot, press two black sesame seeds in gap for eyes.",
-      "Let cool 5 minutes before serving. Spooky and delicious!"
-    ]
-  },
-  {
-    id: "halloween-pumpkin-cheese-ball",
-    name: "Pumpkin Cheese Ball",
-    description: "Festive orange cheese ball shaped like a pumpkin - the perfect party centerpiece!",
-    cookTime: "0 mins",
-    prepTime: "30 mins",
-    difficulty: "easy",
-    servings: 12,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/Rsqhru3.png",
-    totalTime: 150,
-    tags: ["halloween", "savory", "appetizer", "party food", "spooky", "glutenfree"],
-    ingredients: [
-      { amount: "16", unit: "oz", item: "cream cheese, softened" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "2", unit: "cups", item: "shredded sharp cheddar cheese" },
-      { amount: "1/4", unit: "cup", item: "ranch dressing mix" },
-      { amount: "1/2", unit: "tsp", item: "paprika" },
-      { amount: "1", unit: "tbsp", item: "orange food coloring or paprika for color" },
-      { amount: "1", unit: "", item: "pretzel stick for stem" },
-      { amount: "1", unit: "", item: "green bell pepper piece for leaf" },
-      { amount: "1", unit: "box", item: "crackers for serving" }
-    ],
-    instructions: [
-      "Mix cream cheese, cheddar, ranch mix, paprika, and orange coloring until combined.",
-      "Form into ball and wrap in plastic wrap. Refrigerate 2 hours until firm.",
-      "Use knife to press vertical lines around ball creating pumpkin segments.",
-      "Insert pretzel stick in top as stem.",
-      "Cut small leaf shape from bell pepper and place near stem.",
-      "Place on serving platter surrounded by crackers.",
-      "Perfect Halloween party centerpiece!"
-    ]
-  },
-  {
-    id: "halloween-graveyard-taco-dip",
-    name: "Graveyard Taco Dip",
-    description: "Layered taco dip decorated as a spooky graveyard with tortilla chip tombstones!",
-    cookTime: "15 mins",
-    prepTime: "20 mins",
-    difficulty: "medium",
-    servings: 10,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/sLWddy2.png",
-    totalTime: 35,
-    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
-    ingredients: [
-      { amount: "1", unit: "lb", item: "ground beef" ,
-    nutrition: { calories: 150, protein: 6, carbs: 7, fat: 7, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "1", unit: "can", item: "refried beans" },
-      { amount: "1", unit: "cup", item: "sour cream" },
-      { amount: "1", unit: "cup", item: "shredded cheese" },
-      { amount: "1", unit: "cup", item: "guacamole" },
-      { amount: "1", unit: "drop", item: "green food coloring" },
-      { amount: "1/2", unit: "cup", item: "diced tomatoes" },
-      { amount: "1/4", unit: "cup", item: "sliced black olives" },
-      { amount: "12", unit: "", item: "tortilla chips" },
-      { amount: "1", unit: "", item: "black food marker" }
-    ],
-    instructions: [
-      "Brown ground beef, drain, season with taco seasoning.",
-      "In 9x13 clear glass dish, layer: refried beans, seasoned beef, sour cream, cheese.",
-      "Mix guacamole with 1 drop green food coloring for 'grass'.",
-      "Spread guacamole on top as cemetery grass.",
-      "Use black marker to write 'RIP' and dates on tortilla chips.",
-      "Stand chips upright in dip as tombstones.",
-      "Garnish with olives and tomatoes. Spooky cemetery complete!"
-    ]
-  },
-  {
-    id: "halloween-eyeball-caprese-skewers",
-    name: "Eyeball Caprese Skewers",
-    description: "Fresh caprese skewers decorated as realistic eyeballs - healthy and spooky!",
-    cookTime: "0 mins",
-    prepTime: "25 mins",
-    difficulty: "easy",
-    servings: 12,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/LR0nyaX.png",
-    totalTime: 25,
-    tags: ["halloween", "savory", "appetizer", "party food", "spooky", "glutenfree"],
-    ingredients: [
-      { amount: "12", unit: "", item: "cherry tomatoes" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "12", unit: "", item: "fresh mozzarella balls (bocconcini)" },
-      { amount: "12", unit: "", item: "fresh basil leaves" },
-      { amount: "12", unit: "", item: "black olive slices" },
-      { amount: "1", unit: "tube", item: "blue icing gel" },
-      { amount: "12", unit: "", item: "bamboo skewers" },
-      { amount: "2", unit: "tbsp", item: "balsamic glaze" }
-    ],
-    instructions: [
-      "Thread each skewer with basil leaf, cherry tomato, mozzarella ball.",
-      "Use blue icing gel to draw small colored iris circle on each mozzarella.",
-      "Press small black olive piece in center as pupil.",
-      "Arrange skewers standing upright on serving platter.",
-      "Drizzle with balsamic glaze.",
-      "The realistic eyeball effect is creepy-cool!",
-      "Serve chilled for best flavor."
-    ]
-  },
-  {
-    id: "halloween-pumpkin-hummus",
-    name: "Pumpkin Hummus",
-    description: "Creamy orange hummus topped with bell pepper 'stem' - festive and healthy!",
-    cookTime: "0 mins",
-    prepTime: "15 mins",
-    difficulty: "easy",
-    servings: 8,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/GcyfLcX.png",
-    totalTime: 15,
-    tags: ["halloween", "savory", "appetizer", "party food", "spooky", "vegan", "glutenfree"],
-    ingredients: [
-      { amount: "1", unit: "can", item: "chickpeas, drained" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "1/2", unit: "cup", item: "roasted red peppers" },
-      { amount: "3", unit: "tbsp", item: "tahini" },
-      { amount: "2", unit: "tbsp", item: "olive oil" },
-      { amount: "2", unit: "tbsp", item: "lemon juice" },
-      { amount: "2", unit: "cloves", item: "garlic" },
-      { amount: "1", unit: "tsp", item: "paprika" },
-      { amount: "1", unit: "", item: "small green bell pepper piece for stem" },
-      { amount: "1", unit: "bag", item: "pita chips and vegetables for dipping" }
-    ],
-    instructions: [
-      "In food processor, blend chickpeas, roasted peppers, tahini, olive oil, lemon juice, and garlic until smooth.",
-      "Season with salt and paprika. Blend again.",
-      "Transfer to white serving bowl and smooth top.",
-      "Cut small stem shape from green bell pepper.",
-      "Place pepper stem on top center of hummus.",
-      "Drizzle with olive oil and sprinkle paprika for decoration.",
-      "Serve with pita chips and fresh vegetables. Festive and delicious!"
-    ]
-  },
-  {
-    id: "halloween-bat-wing-chicken-wings",
-    name: "Bat Wing Chicken Wings",
-    description: "Glossy black sesame glazed wings arranged like bat wings - spooky delicious!",
-    cookTime: "35 mins",
-    prepTime: "15 mins",
-    difficulty: "medium",
-    servings: 10,
-    cuisine: "Halloween",
-    image: halloweenBatWingChickenImg,
-    totalTime: 50,
-    tags: ["halloween", "savory", "appetizer", "party food", "spooky"],
-    ingredients: [
-      { amount: "3", unit: "lbs", item: "chicken wings" ,
-    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "1/4", unit: "cup", item: "soy sauce" },
-      { amount: "2", unit: "tbsp", item: "black sesame seeds" },
-      { amount: "2", unit: "tbsp", item: "honey" },
-      { amount: "1", unit: "tbsp", item: "rice vinegar" },
-      { amount: "2", unit: "cloves", item: "garlic, minced" },
-      { amount: "1", unit: "tsp", item: "black food coloring (optional)" },
-      { amount: "2", unit: "", item: "green onions, sliced" }
-    ],
-    instructions: [
-      "Preheat oven to 425°F. Line baking sheet with foil.",
-      "Arrange wings on sheet, bake 30 minutes until crispy.",
-      "While baking, make glaze: Mix soy sauce, honey, vinegar, garlic, and black food coloring in small pot.",
-      "Simmer glaze 5 minutes until thickened.",
-      "Toss hot wings in black glaze until coated.",
-      "Sprinkle with black sesame seeds.",
-      "Arrange on platter in bat wing pattern. Garnish with green onions. Spooky and savory!"
-    ]
-  },
-  {
-    id: "halloween-frankenstein-guacamole-cups",
-    name: "Frankenstein Guacamole Cups",
-    description: "Individual guacamole cups decorated as cute Frankenstein faces!",
-    cookTime: "0 mins",
-    prepTime: "25 mins",
-    difficulty: "easy",
-    servings: 8,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/jikZbJ1.png",
-    totalTime: 25,
-    tags: ["halloween", "savory", "appetizer", "party food", "spooky", "vegan", "vegetarian", "glutenfree"],
-    ingredients: [
-      { amount: "4", unit: "", item: "ripe avocados" ,
-    nutrition: { calories: 163, protein: 11, carbs: 12, fat: 4, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
-      { amount: "1/4", unit: "cup", item: "lime juice" },
-      { amount: "1/4", unit: "cup", item: "diced red onion" },
-      { amount: "1/4", unit: "cup", item: "cilantro, chopped" },
-      { amount: "1", unit: "", item: "jalapeño, diced" },
-      { amount: "8", unit: "", item: "black olive slices for eyes" },
-      { amount: "1", unit: "", item: "red bell pepper for mouths" },
-      { amount: "8", unit: "", item: "pretzel sticks for bolts" },
-      { amount: "8", unit: "", item: "small cups or ramekins" }
-    ],
-    instructions: [
-      "Mash avocados and mix with lime juice, onion, cilantro, jalapeño, and salt.",
-      "Divide guacamole between 8 small cups or ramekins.",
-      "Smooth tops with back of spoon.",
-      "Press two black olive pieces for eyes on each cup.",
-      "Cut small strips of red pepper for zigzag mouth.",
-      "Insert pretzel stick on each side as 'Frankenstein bolts'.",
-      "Serve with tortilla chips. Adorable monster faces!",
-      "Kids will love these spooky guac cups!"
-    ]
-  },
-  {
-    id: "halloween-poison-apple",
-    name: "Poison Apple Cocktail",
-    description: "Bright green martini with candy apple garnish. Halloween party essential.",
-    cookTime: "0 mins",
-    prepTime: "5 mins",
-    difficulty: "easy",
-    servings: 1,
-    cuisine: "Halloween",
-    image: poisonAppleImg,
-    totalTime: 5,
-    tags: ["halloween", "cocktail", "party", "glutenfree"],
-    ingredients: [
-      { amount: "2", unit: "oz", item: "vodka" ,
-    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
-      { amount: "1", unit: "oz", item: "apple liqueur" },
-      { amount: "1", unit: "oz", item: "melon liqueur" },
-      { amount: "1", unit: "oz", item: "lime juice" },
-      { amount: "1", unit: "oz", item: "simple syrup" },
-      { amount: "1", unit: "", item: "small green apple" },
-      { amount: "", unit: "", item: "dry ice (optional)" }
-    ],
-    instructions: [
-      "Fill cocktail shaker with ice.",
-      "Add vodka, apple liqueur, melon liqueur, lime juice, and simple syrup.",
-      "Shake vigorously for 15 seconds.",
-      "Strain into martini glass.",
-      "Garnish with apple slice or mini apple.",
-      "Optional: Add small piece of dry ice for fog effect (never consume dry ice)."
-    ]
-  },
-  {
-    id: "halloween-jack-o-lantern-peppers",
-    name: "Jack-O-Lantern Stuffed Peppers",
-    description: "Orange bell peppers carved with spooky faces and stuffed with savory filling. Festive Halloween dinner!",
-    cookTime: "40 mins",
-    prepTime: "15 mins",
-    difficulty: "medium",
-    servings: 6,
-    cuisine: "Halloween",
-    image: "https://i.imgur.com/1UFaACv.png",
-    totalTime: 55,
-    tags: ["halloween", "dinner", "savory", "party food", "kid-friendly", "glutenfree"],
-    nutrition: {
-      calories: 320,
-      protein: 24,
-      carbs: 28,
-      fat: 12,
-      fiber: 4,
-      sugar: 6,
-      servingSize: "1 stuffed pepper"
-    },
-    ingredients: [
-      { amount: "6", unit: "", item: "large orange bell peppers" },
-      { amount: "1", unit: "lb", item: "ground beef or turkey" },
-      { amount: "1½", unit: "cups", item: "cooked rice" },
-      { amount: "1", unit: "can", item: "diced tomatoes (14 oz)" },
-      { amount: "1", unit: "", item: "onion, diced" },
-      { amount: "2", unit: "cloves", item: "garlic, minced" },
-      { amount: "1", unit: "cup", item: "shredded cheese" },
-      { amount: "1", unit: "tsp", item: "Italian seasoning" },
-      { amount: "", unit: "", item: "Salt and pepper to taste" }
-    ],
-    instructions: [
-      "Preheat oven to 375°F. Cut tops off peppers and remove seeds.",
-      "Use small knife to carefully carve jack-o-lantern faces into peppers (triangles for eyes and nose, jagged smile).",
-      "Brown meat with onion and garlic in large skillet over medium heat.",
-      "Mix cooked meat with rice, diced tomatoes, Italian seasoning, salt, and pepper.",
-      "Stuff peppers with mixture, packing firmly.",
-      "Place stuffed peppers upright in baking dish.",
-      "Top each pepper with shredded cheese.",
-      "Bake 30-35 minutes until peppers are tender and cheese melts.",
-      "Let cool 5 minutes before serving. Spooky and delicious!"
-    ]
-  },
   {
     id: "copycat-cheesecake-factory",
     name: "Cheesecake Factory Chicken Madeira",
@@ -2387,7 +1386,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Season and grill chicken breast until cooked through. Slice into strips.",
       "Cook fettuccine according to package, drain.",
-      "In large pan, melt butter and sauté garlic 1 minute.",
+      "In large pan, melt butter and sautÃ© garlic 1 minute.",
       "Add heavy cream, bring to simmer.",
       "Gradually whisk in parmesan until smooth and creamy.",
       "Toss pasta in sauce.",
@@ -2457,7 +1456,7 @@ export const allRecipes: Recipe[] = [
       "Mix in sun-dried tomatoes, red onion, cilantro, and lime juice.",
       "Place 2 tbsp filling in center of each wrapper.",
       "Fold corners toward center, roll tightly, seal with water.",
-      "Heat oil to 350°F.",
+      "Heat oil to 350Â°F.",
       "Fry rolls 2-3 minutes until golden brown.",
       "Drain on paper towels.",
       "Serve with tamarind dipping sauce."
@@ -2495,7 +1494,7 @@ export const allRecipes: Recipe[] = [
       "Mix flour, paprika, cayenne, garlic powder.",
       "Whisk eggs and milk.",
       "Dredge onion in flour, dip in egg wash, coat again in flour.",
-      "Heat oil to 350°F. Fry onion 10 minutes until golden.",
+      "Heat oil to 350Â°F. Fry onion 10 minutes until golden.",
       "Make sauce: mix mayo, ketchup, and horseradish.",
       "Serve hot with dipping sauce."
     ]
@@ -2525,7 +1524,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Steam broccoli until tender, chop into small pieces.",
-      "Melt butter in large pot, sauté onion until soft.",
+      "Melt butter in large pot, sautÃ© onion until soft.",
       "Whisk in flour, cook 1 minute.",
       "Gradually add broth and half-and-half, whisking constantly.",
       "Bring to simmer, cook until thickened (about 15 minutes).",
@@ -2593,7 +1592,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "parsley, chopped" }
     ],
     instructions: [
-      "Preheat oven to 450°F.",
+      "Preheat oven to 450Â°F.",
       "Mix Bisquick, cheddar, and milk until soft dough forms.",
       "Drop spoonfuls onto greased baking sheet.",
       "Bake 10-12 minutes until golden.",
@@ -2634,7 +1633,7 @@ export const allRecipes: Recipe[] = [
       "Mix in flour until dough forms. Knead 5 minutes.",
       "Place in greased bowl, cover, let rise 1 hour.",
       "Punch down, form into 24 rolls. Place on baking sheet.",
-      "Let rise 30 minutes. Bake at 350°F for 12-15 minutes.",
+      "Let rise 30 minutes. Bake at 350Â°F for 12-15 minutes.",
       "Make honey butter: whip softened butter with honey, powdered sugar, and cinnamon.",
       "Brush hot rolls with melted butter. Serve with honey butter."
     ]
@@ -2655,7 +1654,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "cups", item: "frozen corn, thawed" ,
     nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "red onion, finely diced" },
-      { amount: "1", unit: "", item: "jalapeño, seeded and minced" },
+      { amount: "1", unit: "", item: "jalapeÃ±o, seeded and minced" },
       { amount: "1/4", unit: "cup", item: "cilantro, chopped" },
       { amount: "2", unit: "tbsp", item: "lime juice" },
       { amount: "1", unit: "tsp", item: "salt" }
@@ -2663,7 +1662,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Char corn in dry hot skillet until slightly blackened, about 5 minutes.",
       "Let cool to room temperature.",
-      "Mix corn with red onion, jalapeño, cilantro, lime juice, and salt.",
+      "Mix corn with red onion, jalapeÃ±o, cilantro, lime juice, and salt.",
       "Refrigerate at least 1 hour before serving.",
       "Serve with chips, tacos, or burrito bowls."
     ]
@@ -2690,7 +1689,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "tsp", item: "pepper" }
     ],
     instructions: [
-      "Preheat oven to 300°F. Grease muffin tin.",
+      "Preheat oven to 300Â°F. Grease muffin tin.",
       "Blend eggs and cottage cheese until smooth.",
       "Stir in shredded cheese, bacon, salt, and pepper.",
       "Pour into muffin cups, filling 3/4 full.",
@@ -2723,7 +1722,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "cups", item: "corn flakes, crushed" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 baking dish.",
+      "Preheat oven to 350Â°F. Grease 9x13 baking dish.",
       "Mix hashbrowns, soup, sour cream, cheese, 1/4 cup melted butter, and onion.",
       "Spread in baking dish.",
       "Mix crushed corn flakes with remaining 1/4 cup melted butter.",
@@ -2858,7 +1857,7 @@ export const allRecipes: Recipe[] = [
       "Mix flour, powdered sugar, and paprika.",
       "Whisk egg and milk in another bowl.",
       "Dredge chicken in flour, dip in egg wash, coat again in flour.",
-      "Heat oil to 350°F. Fry chicken 5-7 minutes per side until golden.",
+      "Heat oil to 350Â°F. Fry chicken 5-7 minutes per side until golden.",
       "Drain on paper towels.",
       "Butter and toast buns.",
       "Place chicken on bun, top with pickles."
@@ -2898,7 +1897,7 @@ export const allRecipes: Recipe[] = [
   {
     id: "copycat-starbucks-pink-drink",
     name: "Starbucks Pink Drink",
-    description: "Refreshing strawberry açaí drink with coconut milk. Instagram-famous and delicious!",
+    description: "Refreshing strawberry aÃ§aÃ­ drink with coconut milk. Instagram-famous and delicious!",
     cookTime: "0 mins",
     prepTime: "10 mins",
     difficulty: "easy",
@@ -2919,14 +1918,14 @@ export const allRecipes: Recipe[] = [
     ingredients: [
       { amount: "3", unit: "cups", item: "white grape juice" },
       { amount: "1", unit: "cup", item: "frozen strawberries" },
-      { amount: "1/4", unit: "cup", item: "açaí juice or powder" },
+      { amount: "1/4", unit: "cup", item: "aÃ§aÃ­ juice or powder" },
       { amount: "2", unit: "cups", item: "coconut milk" },
       { amount: "2", unit: "cups", item: "ice" },
       { amount: "1", unit: "cup", item: "fresh strawberries, sliced" }
     ],
     instructions: [
       "Blend white grape juice and frozen strawberries until smooth.",
-      "Add açaí juice or powder and blend again.",
+      "Add aÃ§aÃ­ juice or powder and blend again.",
       "Fill glasses with ice.",
       "Pour strawberry mixture over ice.",
       "Top with coconut milk (it will create beautiful swirls).",
@@ -2968,7 +1967,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Soak chicken in buttermilk for 15-20 minutes.",
       "Mix flour, garlic powder, paprika, pepper, and salt in a bowl.",
-      "Heat oil to 350°F in a large pot or deep fryer.",
+      "Heat oil to 350Â°F in a large pot or deep fryer.",
       "Remove chicken from buttermilk, letting excess drip off.",
       "Dredge each piece in seasoned flour, coating completely.",
       "Fry chicken in batches for 5-7 minutes until golden brown.",
@@ -3051,7 +2050,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Coat chicken pieces in cornstarch, dip in egg, then coat again in cornstarch.",
-      "Heat oil to 350°F and fry chicken until golden and crispy, about 5-6 minutes.",
+      "Heat oil to 350Â°F and fry chicken until golden and crispy, about 5-6 minutes.",
       "Drain on paper towels.",
       "In a large skillet, combine orange juice, sugar, soy sauce, vinegar, zest, garlic, ginger, and red pepper flakes.",
       "Bring to a boil, then simmer until slightly thickened, about 5 minutes.",
@@ -3226,7 +2225,7 @@ export const allRecipes: Recipe[] = [
       "Punch down dough and divide into 12 pieces.",
       "Roll each into a 7-8 inch breadstick.",
       "Place on baking sheet, cover, and let rise 30 minutes.",
-      "Bake at 400°F for 12-15 minutes until golden.",
+      "Bake at 400Â°F for 12-15 minutes until golden.",
       "Mix melted butter with garlic powder and salt.",
       "Brush hot breadsticks with garlic butter immediately!",
       "Serve warm and enjoy!"
@@ -3317,9 +2316,9 @@ export const allRecipes: Recipe[] = [
       "Cut potatoes into 1/4-inch thick fries. Soak in cold water for 30 minutes.",
       "Mix all spices together to make Cajun seasoning.",
       "Drain and pat potatoes completely dry.",
-      "Heat oil to 325°F. Fry potatoes in batches for 5 minutes (blanching).",
+      "Heat oil to 325Â°F. Fry potatoes in batches for 5 minutes (blanching).",
       "Remove and let rest for 10 minutes.",
-      "Increase oil temperature to 375°F.",
+      "Increase oil temperature to 375Â°F.",
       "Fry again for 2-3 minutes until golden and crispy.",
       "Drain on paper towels.",
       "Toss hot fries with Cajun seasoning.",
@@ -3366,7 +2365,7 @@ export const allRecipes: Recipe[] = [
       "Mix flour, powdered sugar, and paprika.",
       "Whisk egg and milk together.",
       "Dredge chicken in flour, dip in egg wash, then flour again.",
-      "Heat oil to 350°F and fry chicken until golden, about 5-6 minutes.",
+      "Heat oil to 350Â°F and fry chicken until golden, about 5-6 minutes.",
       "Cut each chicken piece to fit rolls.",
       "Slice rolls horizontally.",
       "Place chicken inside each roll.",
@@ -3412,7 +2411,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Cook sausage in large pot until browned. Remove and set aside.",
       "Cook bacon in same pot until crispy. Remove and set aside.",
-      "Sauté onion and garlic in bacon fat until softened.",
+      "SautÃ© onion and garlic in bacon fat until softened.",
       "Add chicken broth and potatoes. Bring to boil.",
       "Reduce heat and simmer for 15 minutes until potatoes are tender.",
       "Stir in cooked sausage, kale, and cream.",
@@ -3447,14 +2446,14 @@ export const allRecipes: Recipe[] = [
       { amount: "4", unit: "ripe", item: "avocados" },
       { amount: "1/4", unit: "cup", item: "diced red onion" },
       { amount: "2", unit: "tbsp", item: "fresh cilantro, chopped" },
-      { amount: "1", unit: "medium", item: "jalapeño, seeded and diced" },
+      { amount: "1", unit: "medium", item: "jalapeÃ±o, seeded and diced" },
       { amount: "2", unit: "tbsp", item: "fresh lime juice" },
       { amount: "1/2", unit: "tsp", item: "salt" }
     ],
     instructions: [
       "Cut avocados in half, remove pit, and scoop flesh into bowl.",
       "Mash avocados with fork, leaving some chunks.",
-      "Add red onion, cilantro, and jalapeño.",
+      "Add red onion, cilantro, and jalapeÃ±o.",
       "Squeeze lime juice over mixture.",
       "Add salt and mix well.",
       "Taste and adjust seasonings as needed.",
@@ -3503,7 +2502,7 @@ export const allRecipes: Recipe[] = [
       "Bring 10 cups water and baking soda to boil.",
       "Boil pretzel bites in batches for 30 seconds.",
       "Place on baking sheet, sprinkle with coarse salt.",
-      "Bake at 425°F for 12-15 minutes until golden brown.",
+      "Bake at 425Â°F for 12-15 minutes until golden brown.",
       "Brush with remaining melted butter while hot.",
       "Serve with warm cheese sauce!"
     ]
@@ -3534,7 +2533,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "lb", item: "white American cheese, cubed" },
       { amount: "1/2", unit: "cup", item: "milk" },
       { amount: "1/2", unit: "cup", item: "pico de gallo" },
-      { amount: "1", unit: "jalapeño", item: "sliced" },
+      { amount: "1", unit: "jalapeÃ±o", item: "sliced" },
       { amount: "2", unit: "tbsp", item: "fresh cilantro, chopped" },
       { amount: "1/2", unit: "tsp", item: "cumin" },
       { amount: "1/4", unit: "tsp", item: "salt" }
@@ -3545,7 +2544,7 @@ export const allRecipes: Recipe[] = [
       "Stir constantly until cheese is completely melted and smooth.",
       "Stir in cooked beef, cumin, and salt.",
       "Transfer to serving skillet or bowl.",
-      "Top with pico de gallo, sliced jalapeños, and cilantro.",
+      "Top with pico de gallo, sliced jalapeÃ±os, and cilantro.",
       "Serve immediately with warm tortilla chips!",
       "Keep warm in slow cooker for parties."
     ]
@@ -3591,7 +2590,7 @@ export const allRecipes: Recipe[] = [
       "Place another crispy tortilla on top of each.",
       "Spread pizza sauce on top tortilla.",
       "Sprinkle with cheese.",
-      "Bake at 400°F for 8-10 minutes until cheese melts.",
+      "Bake at 400Â°F for 8-10 minutes until cheese melts.",
       "Top with diced tomatoes and green onions.",
       "Cut into wedges and serve hot!"
     ]
@@ -3680,7 +2679,7 @@ export const allRecipes: Recipe[] = [
       "Drizzle [1 cup Alfredo sauce] over pasta.",
       "Add remaining pasta mixture. Top with [2 cups Alfredo].",
       "Sprinkle remaining cheeses on top.",
-      "Bake at 375°F for 25 minutes until bubbly and golden.",
+      "Bake at 375Â°F for 25 minutes until bubbly and golden.",
       "Let rest 5 minutes before serving."
     ]
   },
@@ -3722,7 +2721,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "pepitas (pumpkin seeds)" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x5 loaf pan.",
+      "Preheat oven to 350Â°F. Grease 9x5 loaf pan.",
       "Mix [1 2/3 cups flour], [1 1/2 cups sugar], [1 tsp baking soda], [3/4 tsp salt], [1/2 tsp baking powder], all spices.",
       "In separate bowl, whisk [1 can pumpkin], [1/2 cup oil], [2 eggs], [1/4 cup water].",
       "Combine wet and dry ingredients, mix until just combined.",
@@ -3771,10 +2770,10 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Soak [chicken pieces] in [2 cups buttermilk] for 30 minutes.",
       "Mix [2 cups flour] with all spices and seasonings.",
-      "Heat oil to 350°F in large heavy pot or deep fryer.",
+      "Heat oil to 350Â°F in large heavy pot or deep fryer.",
       "Remove chicken from buttermilk, let excess drip off.",
       "Dredge each piece in seasoned flour, coating completely.",
-      "Fry chicken in batches 12-15 minutes, turning once, until golden brown and internal temp reaches 165°F.",
+      "Fry chicken in batches 12-15 minutes, turning once, until golden brown and internal temp reaches 165Â°F.",
       "Drain on paper towels.",
       "Serve hot with your favorite sides!"
     ]
@@ -3862,7 +2861,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat [1 tbsp vegetable oil] in wok or large skillet over high heat.",
       "Add [3 beaten eggs], scramble quickly, remove and set aside.",
-      "Add [1 tbsp oil], sauté [diced onion] 2 minutes.",
+      "Add [1 tbsp oil], sautÃ© [diced onion] 2 minutes.",
       "Add [3 cloves garlic], [1 cup peas and carrots], stir-fry 2 minutes.",
       "Add [4 cups day-old rice], break up clumps.",
       "Stir-fry 3-4 minutes until rice is hot.",
@@ -3952,7 +2951,7 @@ export const allRecipes: Recipe[] = [
       "Pat [shrimp] dry with paper towels.",
       "Set up breading station: [flour] in one bowl, [2 beaten eggs] in second, mix [panko], [coconut], [salt], [cayenne] in third.",
       "Dip each shrimp in flour, then egg, then coconut mixture, pressing to adhere.",
-      "Heat 2 inches oil to 350°F in deep pan.",
+      "Heat 2 inches oil to 350Â°F in deep pan.",
       "Fry shrimp in batches 2-3 minutes until golden brown. Drain on paper towels.",
       "For sauce: Mix [orange marmalade], [pineapple juice], [honey], [Dijon mustard] in small bowl.",
       "Serve hot shrimp with dipping sauce."
@@ -3990,12 +2989,12 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425Â°F.",
       "Mix honey, soy sauce, and garlic.",
       "Arrange chicken and vegetables on sheet pan.",
       "Brush chicken with honey garlic sauce.",
       "Drizzle vegetables with olive oil.",
-      "Bake 25 minutes until chicken reaches 165°F.",
+      "Bake 25 minutes until chicken reaches 165Â°F.",
       "Serve immediately."
     ]
   },
@@ -4072,7 +3071,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tsp", item: "Italian seasoning" }
     ],
     instructions: [
-      "Preheat oven to 400°F.",
+      "Preheat oven to 400Â°F.",
       "Arrange salmon, asparagus, and tomatoes on sheet pan.",
       "Drizzle with olive oil, sprinkle with Italian seasoning.",
       "Top salmon with lemon slices.",
@@ -4190,7 +3189,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook pasta according to package.",
-      "Sauté shrimp in butter 2 minutes per side, remove.",
+      "SautÃ© shrimp in butter 2 minutes per side, remove.",
       "Add garlic, cook 30 seconds.",
       "Add sun-dried tomatoes and heavy cream.",
       "Simmer 3 minutes.",
@@ -4603,10 +3602,10 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375Â°F.",
       "Whisk eggs and milk together.",
       "Heat olive oil in oven-safe skillet.",
-      "Add chopped pizza pieces, sauté 2 minutes.",
+      "Add chopped pizza pieces, sautÃ© 2 minutes.",
       "Pour egg mixture over pizza.",
       "Top with mozzarella.",
       "Cook on stovetop 5 minutes until edges set.",
@@ -4739,7 +3738,7 @@ export const allRecipes: Recipe[] = [
       "Beat egg in shallow bowl.",
       "Place breadcrumbs in another bowl.",
       "Dip each croquette in egg, then roll in breadcrumbs.",
-      "Heat oil to 350°F.",
+      "Heat oil to 350Â°F.",
       "Fry croquettes 3-4 minutes until golden.",
       "Drain on paper towels. Serve with sour cream."
     ]
@@ -4921,17 +3920,17 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "bag", item: "tortilla chips" },
       { amount: "2", unit: "cups", item: "shredded cheese" },
       { amount: "1", unit: "cup", item: "black beans" },
-      { amount: "1/2", unit: "cup", item: "jalapeños" },
+      { amount: "1/2", unit: "cup", item: "jalapeÃ±os" },
       { amount: "1/2", unit: "cup", item: "sour cream" },
       { amount: "1/4", unit: "cup", item: "tomatoes, diced" },
       { amount: "1/4", unit: "cup", item: "green onions" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375Â°F.",
       "Spread chips on large baking sheet.",
       "Top with pulled pork, beans, and cheese.",
       "Bake 10 minutes until cheese melts.",
-      "Top with jalapeños, sour cream, tomatoes, and green onions.",
+      "Top with jalapeÃ±os, sour cream, tomatoes, and green onions.",
       "Serve immediately."
     ]
   },
@@ -5026,7 +4025,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "shredded cheese" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease muffin tin.",
+      "Preheat oven to 350Â°F. Grease muffin tin.",
       "Mix stuffing with eggs, broth, and cheese.",
       "Pack mixture into muffin cups.",
       "Bake 25 minutes until golden and crispy on top.",
@@ -5089,8 +4088,8 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Cilantro for garnish" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Grease 9x13 baking dish.",
-      "Sauté onion and garlic until soft. Mix with chicken and beans.",
+      "Preheat oven to 375Â°F. Grease 9x13 baking dish.",
+      "SautÃ© onion and garlic until soft. Mix with chicken and beans.",
       "Spread 1/2 cup enchilada sauce in bottom of dish.",
       "Fill each tortilla with chicken mixture and 2 tbsp cheese. Roll tightly.",
       "Place seam-side down in dish. Pour remaining sauce over top.",
@@ -5162,7 +4161,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "shredded cheddar cheese" }
     ],
     instructions: [
-      "Preheat oven to 400°F.",
+      "Preheat oven to 400Â°F.",
       "Mix pot roast, vegetables, peas, gravy, tomato paste, and Worcestershire in baking dish.",
       "Spread mashed potatoes evenly over meat mixture.",
       "Use fork to create texture on potato surface.",
@@ -5195,7 +4194,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "tbsp", item: "butter, melted" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Grease 9x13 baking dish.",
+      "Preheat oven to 375Â°F. Grease 9x13 baking dish.",
       "Mix soup, noodles, chicken, vegetables, sour cream, and 1 cup cheese.",
       "Pour into prepared dish.",
       "Mix breadcrumbs with melted butter and remaining cheese.",
@@ -5225,16 +4224,16 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "shredded lettuce" },
       { amount: "1", unit: "", item: "tomato, diced" },
       { amount: "1/2", unit: "cup", item: "sour cream" },
-      { amount: "", unit: "", item: "Jalapeños, olives, salsa for topping" }
+      { amount: "", unit: "", item: "JalapeÃ±os, olives, salsa for topping" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425Â°F.",
       "Roll out pizza dough on baking sheet.",
       "Spread refried beans as base sauce.",
       "Top with taco meat and cheese.",
       "Bake 12-15 minutes until crust is golden and cheese melted.",
       "Remove from oven, top with lettuce, tomatoes, sour cream drizzle.",
-      "Add jalapeños and olives. Slice and serve with salsa."
+      "Add jalapeÃ±os and olives. Slice and serve with salsa."
     ]
   },
   {
@@ -5259,7 +4258,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "slices", item: "fresh ginger" },
       { amount: "2", unit: "tbsp", item: "fish sauce" },
       { amount: "1", unit: "tbsp", item: "brown sugar" },
-      { amount: "", unit: "", item: "Bean sprouts, basil, lime, jalapeños for serving" }
+      { amount: "", unit: "", item: "Bean sprouts, basil, lime, jalapeÃ±os for serving" }
     ],
     instructions: [
       "Bring broth to boil with star anise, cinnamon, and ginger.",
@@ -5268,7 +4267,7 @@ export const allRecipes: Recipe[] = [
       "Cook rice noodles according to package, drain.",
       "Divide noodles between bowls, add shredded chicken.",
       "Pour hot broth over noodles and chicken.",
-      "Top with bean sprouts, fresh herbs, lime juice, and jalapeños."
+      "Top with bean sprouts, fresh herbs, lime juice, and jalapeÃ±os."
     ]
   },
   {
@@ -5322,7 +4321,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "cheddar cheese sauce" },
       { amount: "1/2", unit: "cup", item: "sour cream" },
       { amount: "1/4", unit: "cup", item: "chopped green onions" },
-      { amount: "1/4", unit: "cup", item: "pickled jalapeños" }
+      { amount: "1/4", unit: "cup", item: "pickled jalapeÃ±os" }
     ],
     instructions: [
       "Bake fries according to package directions until extra crispy.",
@@ -5330,7 +4329,7 @@ export const allRecipes: Recipe[] = [
       "Arrange fries on large serving platter.",
       "Pour hot chili over fries.",
       "Drizzle with cheese sauce.",
-      "Top with dollops of sour cream, green onions, and jalapeños.",
+      "Top with dollops of sour cream, green onions, and jalapeÃ±os.",
       "Serve immediately while hot."
     ]
   },
@@ -5362,7 +4361,7 @@ export const allRecipes: Recipe[] = [
       "Place 2-3 tbsp filling in center.",
       "Fold bottom corner over filling, fold in sides, roll tightly.",
       "Seal edge with beaten egg.",
-      "Heat 2 inches oil to 350°F.",
+      "Heat 2 inches oil to 350Â°F.",
       "Fry egg rolls 3-4 minutes until golden brown.",
       "Drain on paper towels. Serve with sweet chili sauce."
     ]
@@ -5392,8 +4391,8 @@ export const allRecipes: Recipe[] = [
       { amount: "4", unit: "tbsp", item: "butter" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Cook spaghetti al dente, drain.",
-      "Sauté mushrooms in 2 tbsp butter until golden.",
+      "Preheat oven to 375Â°F. Cook spaghetti al dente, drain.",
+      "SautÃ© mushrooms in 2 tbsp butter until golden.",
       "In large bowl, mix spaghetti, turkey, mushrooms, peas, cream, broth, and half the parmesan.",
       "Transfer to greased 9x13 baking dish.",
       "Mix breadcrumbs with remaining butter and parmesan.",
@@ -5457,7 +4456,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook pasta shells al dente, drain and cool.",
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375Â°F.",
       "Mix chicken alfredo with ricotta, half the mozzarella, parmesan, and egg.",
       "Spread 1 cup marinara in bottom of baking dish.",
       "Fill each shell with alfredo mixture, arrange in dish.",
@@ -5525,7 +4524,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Fresh basil and garlic bread for serving" }
     ],
     instructions: [
-      "Sauté garlic in olive oil until fragrant.",
+      "SautÃ© garlic in olive oil until fragrant.",
       "Add broth, tomatoes, and Italian seasoning. Bring to boil.",
       "Reduce heat, simmer 15 minutes.",
       "Stir in cream and cubed chicken.",
@@ -5591,7 +4590,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "Italian seasoning" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Grease 9x13 baking dish.",
+      "Preheat oven to 375Â°F. Grease 9x13 baking dish.",
       "Toast bread cubes with melted butter and Italian seasoning.",
       "Layer half the toasted bread in dish.",
       "Top with meatballs, marinara, and half the cheeses.",
@@ -5667,7 +4666,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Bring beef broth to boil. Add soy sauce and sesame oil.",
       "Cook ramen noodles according to package, drain.",
-      "Sauté mushrooms and bok choy until tender.",
+      "SautÃ© mushrooms and bok choy until tender.",
       "Divide noodles among 4 bowls.",
       "Top with shredded pot roast, vegetables, and halved soft-boiled eggs.",
       "Pour hot broth over everything.",
@@ -5698,7 +4697,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Cilantro and lime for garnish" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375Â°F.",
       "Arrange pepper halves in baking dish.",
       "Mix taco meat, rice, beans, corn, and 1 cup cheese.",
       "Fill each pepper half with mixture.",
@@ -5730,7 +4729,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Naan bread for serving" }
     ],
     instructions: [
-      "Preheat oven to 400°F.",
+      "Preheat oven to 400Â°F.",
       "Mix tikka masala with peas and potatoes.",
       "Transfer to pie dish or individual ramekins.",
       "Cover with puff pastry, trim excess, crimp edges.",
@@ -5906,7 +4905,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "fresh basil for garnish" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375Â°F.",
       "Remove seeds from pepper halves and arrange in a baking dish.",
       "Brown ground beef and sausage with onion and garlic. Drain fat.",
       "Mix meat with rice, 1 cup marinara, 1 cup cheese, and Italian seasoning.",
@@ -6040,7 +5039,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Pumpkin seeds for garnish" }
     ],
     instructions: [
-      "Melt butter in large pot. Sauté onion until soft, about 5 minutes.",
+      "Melt butter in large pot. SautÃ© onion until soft, about 5 minutes.",
       "Add garlic and spices, cook 1 minute until fragrant.",
       "Add squash and broth. Bring to boil, then simmer 20 minutes until tender.",
       "Use immersion blender to puree until smooth (or transfer to blender in batches).",
@@ -6081,7 +5080,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line baking sheet with parchment.",
+      "Preheat oven to 400Â°F. Line baking sheet with parchment.",
       "Toss Brussels sprouts and sweet potato with olive oil, salt, and pepper. Spread on sheet.",
       "Roast vegetables 10 minutes.",
       "Meanwhile, mix maple syrup, soy sauce, garlic, and mustard.",
@@ -6162,7 +5161,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Fresh rosemary for garnish" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Grease mini muffin tin.",
+      "Preheat oven to 375Â°F. Grease mini muffin tin.",
       "Cut puff pastry into 24 squares. Press into muffin cups.",
       "Place a cube of brie in each cup.",
       "Top with 1 tsp cranberry sauce and sprinkle of pecans.",
@@ -6203,7 +5202,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "chopped pecans" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 baking dish.",
+      "Preheat oven to 350Â°F. Grease 9x13 baking dish.",
       "Boil sweet potatoes until tender, about 20 minutes. Drain and peel.",
       "Mash sweet potatoes until smooth.",
       "Mix in butter, brown sugar, eggs, vanilla, and milk.",
@@ -6246,11 +5245,11 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tbsp", item: "fresh rosemary" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425Â°F.",
       "Toss all vegetables with 2 tbsp olive oil, salt, and pepper. Spread on large baking sheet.",
       "Season chicken with salt, pepper, thyme, and rosemary. Rub with remaining oil.",
       "Place chicken on top of vegetables.",
-      "Roast 40-45 minutes until chicken reaches 165°F and vegetables are tender.",
+      "Roast 40-45 minutes until chicken reaches 165Â°F and vegetables are tender.",
       "Let rest 5 minutes before serving."
     ]
   },
@@ -6286,13 +5285,13 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "tsp", item: "garlic powder" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line baking sheet with foil.",
+      "Preheat oven to 400Â°F. Line baking sheet with foil.",
       "Season pork with salt and pepper.",
       "Mix pecans, panko, thyme, and garlic powder in shallow dish.",
       "Combine mustard and maple syrup. Brush all over pork.",
       "Press pork into pecan mixture, coating all sides.",
       "Drizzle with melted butter.",
-      "Roast 20-25 minutes until internal temp reaches 145°F.",
+      "Roast 20-25 minutes until internal temp reaches 145Â°F.",
       "Let rest 5 minutes before slicing."
     ]
   },
@@ -6370,7 +5369,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "pumpkin seeds" }
     ],
     instructions: [
-      "In large saucepan, melt 2 tbsp butter. Sauté onion until soft.",
+      "In large saucepan, melt 2 tbsp butter. SautÃ© onion until soft.",
       "Add garlic and rice. Toast 2 minutes, stirring constantly.",
       "Add wine and stir until absorbed.",
       "Add warm broth one ladle at a time, stirring frequently. Wait until absorbed before adding more.",
@@ -6415,7 +5414,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "Dijon mustard" }
     ],
     instructions: [
-      "Toss squash cubes with olive oil, salt, and pepper. Roast at 400°F for 20 minutes.",
+      "Toss squash cubes with olive oil, salt, and pepper. Roast at 400Â°F for 20 minutes.",
       "Make dressing: whisk balsamic vinegar, olive oil, maple syrup, and mustard.",
       "In large bowl, combine mixed greens with roasted squash.",
       "Add cranberries, pecans, goat cheese, and pear slices.",
@@ -6455,12 +5454,12 @@ export const allRecipes: Recipe[] = [
       { amount: "1.5", unit: "lbs", item: "baby potatoes" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425Â°F.",
       "Mix lemon zest, juice, olive oil, garlic, herbs, paprika, salt, and pepper.",
       "Rub mixture all over chicken thighs, including under the skin.",
       "Toss baby potatoes in remaining marinade.",
       "Arrange chicken and potatoes in a roasting pan.",
-      "Roast 35-40 minutes until chicken reaches 165°F and skin is crispy.",
+      "Roast 35-40 minutes until chicken reaches 165Â°F and skin is crispy.",
       "Let rest 5 minutes before serving.",
       "Serve with a green salad."
     ]
@@ -6498,7 +5497,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "garlic powder" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375Â°F.",
       "Soak breadcrumbs in milk for 5 minutes.",
       "Mix beef, pork, breadcrumb mixture, eggs, onion, 1/4 cup BBQ sauce, Worcestershire, garlic powder, salt, and pepper.",
       "Form mixture into a loaf shape in a baking dish.",
@@ -6547,7 +5546,7 @@ export const allRecipes: Recipe[] = [
       "Remove chicken and set aside.",
       "Add garlic and rice, toast 2 minutes.",
       "Add broth, tomatoes, olives, and lemon juice. Stir well.",
-      "Nestle chicken on top, cover, and bake at 375°F for 30 minutes.",
+      "Nestle chicken on top, cover, and bake at 375Â°F for 30 minutes.",
       "Remove from oven and let rest 5 minutes.",
       "Top with feta cheese and serve."
     ]
@@ -6670,7 +5669,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "Parmesan cheese, grated" }
     ],
     instructions: [
-      "Preheat oven to 400°F and line a baking sheet with parchment.",
+      "Preheat oven to 400Â°F and line a baking sheet with parchment.",
       "Place tilapia fillets on the baking sheet.",
       "Mix melted butter, garlic, lemon juice, paprika, salt, and pepper.",
       "Brush mixture generously over each fillet.",
@@ -6711,7 +5710,7 @@ export const allRecipes: Recipe[] = [
       { amount: "4", unit: "cups", item: "marinara sauce" }
     ],
     instructions: [
-      "Preheat oven to 400°F and line a baking sheet with parchment.",
+      "Preheat oven to 400Â°F and line a baking sheet with parchment.",
       "Mix turkey, breadcrumbs, Parmesan, eggs, garlic, Italian seasoning, parsley, salt, and pepper.",
       "Form into 24 meatballs (about 2 tbsp each).",
       "Place on baking sheet and bake 20 minutes.",
@@ -6752,12 +5751,12 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "", item: "red onion, cut in wedges" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425Â°F.",
       "Whisk honey, mustard, olive oil, and garlic together.",
       "Place chicken and vegetables on a large sheet pan.",
       "Pour honey mustard mixture over everything and toss to coat.",
       "Season with salt and pepper.",
-      "Roast 30-35 minutes until chicken reaches 165°F.",
+      "Roast 30-35 minutes until chicken reaches 165Â°F.",
       "Let rest 5 minutes before serving."
     ]
   },
@@ -6924,7 +5923,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "green onions, sliced for garnish" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375Â°F.",
       "Brown beef with onion. Drain fat and add cumin and chili powder.",
       "Stir in black beans and 1/2 cup enchilada sauce.",
       "Spread 1 cup enchilada sauce in a 9x13 baking dish.",
@@ -7014,7 +6013,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Brown chicken in a large Dutch oven. Remove and set aside.",
       "Brown sausage in the same pot. Remove and set aside.",
-      "Sauté onion, bell peppers, and celery until softened, 5 minutes.",
+      "SautÃ© onion, bell peppers, and celery until softened, 5 minutes.",
       "Add garlic and Cajun seasoning, cook 1 minute.",
       "Add rice and toast 2 minutes.",
       "Pour in broth, tomatoes, bay leaves, chicken, and sausage.",
@@ -7104,7 +6103,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in a large skillet with lid over medium-high heat.",
       "Season chicken with fajita seasoning and cook until browned. Set aside.",
-      "Sauté peppers and onion until softened, 5 minutes.",
+      "SautÃ© peppers and onion until softened, 5 minutes.",
       "Add rice and toast 2 minutes.",
       "Pour in broth, tomatoes, and lime juice. Stir well.",
       "Nestle chicken on top, bring to a boil, then reduce heat.",
@@ -7229,7 +6228,7 @@ export const allRecipes: Recipe[] = [
       "Mix flour, sugar, baking powder, baking soda, and salt in bowl.",
       "Whisk buttermilk, eggs, and melted butter together.",
       "Pour wet into dry ingredients, stir until just combined (lumps okay).",
-      "Heat griddle to 350°F, lightly grease.",
+      "Heat griddle to 350Â°F, lightly grease.",
       "Pour 1/4 cup batter per pancake.",
       "Cook until bubbles form, flip and cook 1-2 minutes more.",
       "Serve hot with butter and maple syrup."
@@ -7455,7 +6454,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "tsp", item: "salt" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 baking dish.",
+      "Preheat oven to 350Â°F. Grease 9x13 baking dish.",
       "Brown sausage in skillet, drain fat.",
       "Layer bread cubes, sausage, and cheese in dish.",
       "Whisk eggs, milk, mustard, and salt.",
@@ -7487,7 +6486,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "cups", item: "cornflakes, crushed" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 dish.",
+      "Preheat oven to 350Â°F. Grease 9x13 dish.",
       "Mix hash browns, soup, sour cream, cheese, onion, and half the butter.",
       "Spread in baking dish.",
       "Mix cornflakes with remaining melted butter.",
@@ -7527,7 +6526,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "tsp", item: "salt" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375Â°F.",
       "Place pie crust in 9-inch pie pan, crimp edges.",
       "Sprinkle bacon and cheese in bottom of crust.",
       "Whisk eggs, cream, nutmeg, and salt.",
@@ -7559,7 +6558,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "cups", item: "milk" }
     ],
     instructions: [
-      "Preheat oven to 450°F. Make biscuits: mix flour and baking powder.",
+      "Preheat oven to 450Â°F. Make biscuits: mix flour and baking powder.",
       "Cut in butter until crumbly, add buttermilk.",
       "Pat into 1-inch thickness, cut biscuits, bake 12 minutes.",
       "Brown sausage in skillet, don't drain.",
@@ -7902,7 +6901,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "feta cheese, crumbled" }
     ],
     instructions: [
-      "Heat oil in large skillet, sauté onion and pepper until soft.",
+      "Heat oil in large skillet, sautÃ© onion and pepper until soft.",
       "Add garlic, cumin, and paprika, cook 1 minute.",
       "Pour in crushed tomatoes, simmer 10 minutes until thick.",
       "Make 6 wells in sauce, crack egg into each well.",
@@ -8017,7 +7016,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1.5", unit: "cups", item: "fresh blueberries" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line muffin tin with paper liners.",
+      "Preheat oven to 400Â°F. Line muffin tin with paper liners.",
       "Mix flour, sugar, baking powder, and salt in large bowl.",
       "Whisk melted butter, eggs, and milk in separate bowl.",
       "Pour wet into dry ingredients, stir until just combined.",
@@ -8052,11 +7051,11 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "cups", item: "marinara sauce" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line baking sheet with parchment paper.",
+      "Preheat oven to 400Â°F. Line baking sheet with parchment paper.",
       "Mix ground chicken, breadcrumbs, Parmesan, eggs, garlic, Italian seasoning, salt, and pepper in large bowl.",
       "Form mixture into 20-24 meatballs (about 1.5 inches each).",
       "Place meatballs on prepared baking sheet.",
-      "Bake 20-25 minutes until golden brown and cooked through (internal temp 165°F).",
+      "Bake 20-25 minutes until golden brown and cooked through (internal temp 165Â°F).",
       "Warm marinara sauce in skillet.",
       "Add cooked meatballs to sauce and simmer 5 minutes.",
       "Serve over pasta, zoodles, or with crusty bread."
@@ -8088,13 +7087,13 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "tsp", item: "black pepper" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425Â°F.",
       "Place chicken breasts on large sheet pan.",
       "Arrange vegetables around chicken.",
       "Drizzle everything with olive oil.",
       "Mix garlic powder, paprika, Italian seasoning, salt, and pepper in small bowl.",
       "Sprinkle seasoning mixture over chicken and vegetables.",
-      "Bake 25-30 minutes until chicken reaches 165°F and vegetables are tender.",
+      "Bake 25-30 minutes until chicken reaches 165Â°F and vegetables are tender.",
       "Let rest 5 minutes before serving."
     ]
   },
@@ -8132,7 +7131,7 @@ export const allRecipes: Recipe[] = [
       { amount: "12", unit: "", item: "tortillas" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425Â°F.",
       "Place sliced chicken, bell peppers, and onion on large sheet pan.",
       "Drizzle with olive oil.",
       "Mix chili powder, cumin, garlic powder, paprika, and salt in small bowl.",
@@ -8169,7 +7168,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Preheat grill or grill pan to medium-high heat.",
       "Brush chicken with olive oil and season with Italian seasoning, salt, and pepper.",
-      "Grill chicken 6-7 minutes per side until internal temp reaches 165°F.",
+      "Grill chicken 6-7 minutes per side until internal temp reaches 165Â°F.",
       "Top each chicken breast with mozzarella slices during last 2 minutes of cooking.",
       "Remove from grill and let rest 5 minutes.",
       "Top with tomato slices and fresh basil.",
@@ -8253,7 +7252,7 @@ export const allRecipes: Recipe[] = [
       "Top with shredded cheese, cover and let melt (2 minutes).",
       "Remove from heat.",
       "Top with lettuce, tomatoes, sour cream, and crushed chips.",
-      "Serve immediately with optional toppings like guacamole or jalapeños."
+      "Serve immediately with optional toppings like guacamole or jalapeÃ±os."
     ]
   },
   {
@@ -8354,14 +7353,14 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "brown sugar" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375Â°F.",
       "Mix ground turkey, breadcrumbs, milk, eggs, onion, garlic, salt, and pepper in large bowl.",
       "Form mixture into loaf shape and place in 9x5 inch loaf pan.",
       "Mix ketchup and brown sugar in small bowl.",
       "Spread half the ketchup mixture over top of meatloaf.",
       "Bake 40 minutes.",
       "Spread remaining ketchup mixture on top.",
-      "Bake 10 more minutes until internal temp reaches 165°F.",
+      "Bake 10 more minutes until internal temp reaches 165Â°F.",
       "Let rest 10 minutes before slicing."
     ]
   },
@@ -8391,7 +7390,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1.5", unit: "cups", item: "shredded mozzarella cheese" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375Â°F.",
       "Cut tops off peppers and remove seeds.",
       "Brown ground beef with onion and garlic in skillet (8 minutes).",
       "Drain fat.",
@@ -8426,7 +7425,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "fresh parsley, chopped" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line baking sheet with parchment paper.",
+      "Preheat oven to 400Â°F. Line baking sheet with parchment paper.",
       "Place salmon fillets on prepared sheet.",
       "Mix olive oil, lemon juice, garlic, dill, salt, and pepper in small bowl.",
       "Brush mixture over salmon.",
@@ -8470,7 +7469,7 @@ export const allRecipes: Recipe[] = [
       { amount: "8", unit: "", item: "tortillas" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425Â°F.",
       "Place shrimp, bell peppers, and onion on large sheet pan.",
       "Drizzle with olive oil.",
       "Mix chili powder, cumin, garlic powder, and salt in small bowl.",
@@ -8504,7 +7503,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "", item: "lemon, sliced" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line baking sheet with parchment paper.",
+      "Preheat oven to 400Â°F. Line baking sheet with parchment paper.",
       "Place salmon fillets on prepared sheet.",
       "Season with salt and pepper.",
       "Spread pesto evenly over each fillet.",
@@ -8539,7 +7538,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "salt" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Cook pasta according to package directions, drain.",
+      "Preheat oven to 375Â°F. Cook pasta according to package directions, drain.",
       "Brown ground beef in large skillet, drain fat.",
       "Stir marinara sauce into beef.",
       "Mix cottage cheese, 1 cup mozzarella, Parmesan, eggs, Italian seasoning, and salt in bowl.",
@@ -8814,7 +7813,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large pot over medium-high heat.",
       "Season chicken with salt and pepper, cook until golden, about 5-6 minutes. Remove and set aside.",
-      "Add garlic to pot, sauté 1 minute.",
+      "Add garlic to pot, sautÃ© 1 minute.",
       "Add pasta, chicken broth, and sun-dried tomatoes.",
       "Bring to boil, reduce heat, cover and simmer 12-15 minutes until pasta is tender.",
       "Stir in heavy cream, parmesan, and Italian seasoning.",
@@ -8920,7 +7919,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Season shrimp with 1 tbsp Cajun seasoning.",
       "Melt butter in large pot, cook shrimp 2-3 minutes per side. Remove and set aside.",
-      "Add bell pepper and garlic to pot, sauté 2 minutes.",
+      "Add bell pepper and garlic to pot, sautÃ© 2 minutes.",
       "Add pasta, broth, and remaining Cajun seasoning.",
       "Bring to boil, reduce heat, simmer 10-12 minutes until pasta is tender.",
       "Stir in heavy cream and parmesan.",
@@ -9051,7 +8050,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large pot or paella pan over medium-high heat.",
       "Season chicken with salt, pepper, and paprika. Brown on both sides, about 5 minutes per side. Remove.",
-      "Add onion and bell pepper, sauté 5 minutes.",
+      "Add onion and bell pepper, sautÃ© 5 minutes.",
       "Add garlic, cook 1 minute.",
       "Add rice, stir to coat with oil.",
       "Add saffron to broth, then pour over rice.",
@@ -9125,7 +8124,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large skillet over medium-high heat.",
       "Season chicken with salt and pepper, cook 5-6 minutes per side until golden. Remove.",
-      "Add garlic to skillet, sauté 1 minute.",
+      "Add garlic to skillet, sautÃ© 1 minute.",
       "Add sun-dried tomatoes, chicken broth, and Italian seasoning.",
       "Stir in heavy cream and parmesan, bring to simmer.",
       "Return chicken to skillet, spoon sauce over chicken.",
@@ -9159,7 +8158,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat butter in large pot over medium-high heat.",
       "Season chicken with salt and pepper, brown on both sides. Remove.",
-      "Add garlic to pot, sauté 2 minutes until fragrant.",
+      "Add garlic to pot, sautÃ© 2 minutes until fragrant.",
       "Add rice, stir to coat with garlic butter.",
       "Add chicken broth, soy sauce, and sesame oil.",
       "Nestle chicken pieces into rice.",
@@ -9195,7 +8194,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large pot over medium-high heat.",
       "Season chicken with salt, pepper, and thyme. Cook until browned.",
-      "Add onion and garlic, sauté 3 minutes.",
+      "Add onion and garlic, sautÃ© 3 minutes.",
       "Add rice, stir to coat.",
       "Add chicken broth and carrots.",
       "Bring to boil, reduce heat to low, cover and simmer 15 minutes.",
@@ -9231,7 +8230,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large pot over medium-high heat.",
       "Season chicken with oregano, salt, and pepper. Brown on both sides. Remove.",
-      "Add garlic, sauté 1 minute.",
+      "Add garlic, sautÃ© 1 minute.",
       "Add rice, stir to coat.",
       "Add chicken broth, lemon juice, and lemon zest.",
       "Nestle chicken into rice.",
@@ -9268,7 +8267,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Melt butter in large pot over medium heat.",
       "Add chicken, cook until browned. Remove.",
-      "Add onion, carrots, and garlic, sauté 5 minutes.",
+      "Add onion, carrots, and garlic, sautÃ© 5 minutes.",
       "Add chicken broth and thyme, bring to boil.",
       "Add gnocchi, cook 3-4 minutes until they float.",
       "Return chicken to pot.",
@@ -9338,7 +8337,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Heat olive oil in large pot over medium heat.",
-      "Add onion, garlic, and ginger, sauté 5 minutes.",
+      "Add onion, garlic, and ginger, sautÃ© 5 minutes.",
       "Add curry powder, cook 1 minute until fragrant.",
       "Add lentils and vegetable broth.",
       "Bring to boil, reduce heat, simmer 20 minutes until lentils are tender.",
@@ -9375,10 +8374,10 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "thyme" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Cut puff pastry into rounds, bake 15 minutes until golden.",
+      "Preheat oven to 400Â°F. Cut puff pastry into rounds, bake 15 minutes until golden.",
       "Melt butter in large pot over medium heat.",
       "Add chicken, cook until browned. Remove.",
-      "Add onion and garlic, sauté 3 minutes.",
+      "Add onion and garlic, sautÃ© 3 minutes.",
       "Sprinkle flour, stir and cook 2 minutes.",
       "Gradually add chicken broth, stirring constantly.",
       "Add potatoes, carrots, and thyme. Simmer 15 minutes until vegetables are tender.",
@@ -9421,7 +8420,7 @@ export const allRecipes: Recipe[] = [
       "Add red wine, scrape up browned bits, simmer 5 minutes.",
       "Add beef broth, thyme, and bay leaves.",
       "Return ribs to pot, liquid should come halfway up the ribs.",
-      "Bring to boil, cover, transfer to 325°F oven or reduce heat to low.",
+      "Bring to boil, cover, transfer to 325Â°F oven or reduce heat to low.",
       "Braise 2.5-3 hours until meat is fall-apart tender.",
       "Remove thyme sprigs and bay leaves before serving."
     ]
@@ -9451,7 +8450,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Preheat oven to 400°F.",
+      "Preheat oven to 400Â°F.",
       "Heat olive oil in large oven-safe skillet or roasting pan.",
       "Brown sausages on all sides, about 8 minutes. Remove.",
       "Add potatoes and onions to pan, season with salt, pepper, and thyme.",
@@ -9536,7 +8535,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tsp", item: "Italian seasoning" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Cook [12 lasagna noodles] according to package.",
+      "Preheat oven to 375Â°F. Cook [12 lasagna noodles] according to package.",
       "Mix [2 cups ricotta], [2 eggs], [1/4 cup basil], and [2 tsp Italian seasoning].",
       "Spread 1 cup [marinara sauce] in 9x13 baking dish.",
       "Layer: 4 noodles, half ricotta mixture, [1 cup spinach], [zucchini], [1 cup mozzarella], 1 cup sauce.",
@@ -9580,7 +8579,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Toppings: sour cream, cilantro, cheese" }
     ],
     instructions: [
-      "Sauté [onion] and [bell peppers] in large pot for 5 minutes.",
+      "SautÃ© [onion] and [bell peppers] in large pot for 5 minutes.",
       "Add [garlic], [2 tbsp chili powder], [1 tsp cumin], cook 1 minute.",
       "Add [kidney beans], [black beans], [tomatoes], [1 cup broth].",
       "Bring to boil, reduce heat, simmer 30 minutes stirring occasionally.",
@@ -9662,7 +8661,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "flour" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Salt [eggplant slices], let sit 20 minutes, pat dry.",
+      "Preheat oven to 400Â°F. Salt [eggplant slices], let sit 20 minutes, pat dry.",
       "Set up breading station: [flour], [eggs], [breadcrumbs] mixed with [1/2 cup parmesan].",
       "Coat each eggplant slice in flour, egg, then breadcrumb mixture.",
       "Place on baking sheet, bake 20 minutes until golden.",
@@ -9705,7 +8704,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "cilantro" }
     ],
     instructions: [
-      "Melt [2 tbsp butter] in large pan, sauté [onion] until soft.",
+      "Melt [2 tbsp butter] in large pan, sautÃ© [onion] until soft.",
       "Add [garlic], [2 tbsp garam masala], [1 tsp turmeric], cook 1 minute.",
       "Pour in [tomato sauce], simmer 5 minutes.",
       "Add [chickpeas] and [coconut cream], stir well.",
@@ -9913,7 +8912,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "chili powder" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Cut tops off [peppers], remove seeds.",
+      "Preheat oven to 375Â°F. Cut tops off [peppers], remove seeds.",
       "Mix [2 cups quinoa], [black beans], [corn], [tomatoes], [cumin], [chili powder].",
       "Stuff [peppers] with quinoa mixture.",
       "Place in baking dish, add 1/4 cup water to bottom.",
@@ -9997,7 +8996,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "", item: "lemons, juiced" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line baking sheet with parchment.",
+      "Preheat oven to 400Â°F. Line baking sheet with parchment.",
       "Pulse [chickpeas], [onion], [garlic], [parsley], [cumin], [coriander] in food processor.",
       "Add [flour], pulse until mixture holds together.",
       "Form into 24 small balls, place on baking sheet.",
@@ -10039,7 +9038,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "cilantro" }
     ],
     instructions: [
-      "Sauté [onion] in large pot until soft, add [garlic].",
+      "SautÃ© [onion] in large pot until soft, add [garlic].",
       "Add [curry powder], [turmeric], [cumin], cook 1 minute.",
       "Add [2 cups lentils] and [4 cups broth], bring to boil.",
       "Reduce heat, simmer 20 minutes until lentils are soft.",
@@ -10075,19 +9074,19 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "bag", item: "tortilla chips" },
       { amount: "1", unit: "can", item: "black beans, drained" },
       { amount: "1", unit: "cup", item: "vegan cheese sauce" },
-      { amount: "1/2", unit: "cup", item: "sliced jalapeños" },
+      { amount: "1/2", unit: "cup", item: "sliced jalapeÃ±os" },
       { amount: "1", unit: "cup", item: "guacamole" },
       { amount: "1", unit: "cup", item: "salsa" },
       { amount: "1/4", unit: "cup", item: "fresh cilantro" },
       { amount: "1", unit: "", item: "lime, cut into wedges" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Spread [tortilla chips] on large baking sheet.",
+      "Preheat oven to 350Â°F. Spread [tortilla chips] on large baking sheet.",
       "Warm [black beans] in microwave.",
       "Scatter [black beans] over chips.",
       "Drizzle [vegan cheese sauce] over everything.",
       "Bake 10 minutes until heated through.",
-      "Top with [jalapeños], [guacamole], and [salsa].",
+      "Top with [jalapeÃ±os], [guacamole], and [salsa].",
       "Garnish with [cilantro], serve with [lime wedges]."
     ]
   },
@@ -10123,7 +9122,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "toppings of choice (pepperoni, veggies, etc.)" }
     ],
     instructions: [
-      "Preheat oven to 375°F and line a baking sheet with parchment paper.",
+      "Preheat oven to 375Â°F and line a baking sheet with parchment paper.",
       "In a food processor, blend cottage cheese until smooth.",
       "Add 1/2 cup mozzarella, almond flour, egg, Italian seasoning, and garlic powder. Pulse until combined.",
       "Pour mixture onto prepared baking sheet and spread into a thin rectangle or circle.",
@@ -10167,7 +9166,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Toppings: lettuce, tomato" }
     ],
     instructions: [
-      "Sauté [mushrooms] until liquid evaporates, about 8 minutes.",
+      "SautÃ© [mushrooms] until liquid evaporates, about 8 minutes.",
       "Pulse [walnuts] in food processor until finely ground.",
       "Mix mushrooms, walnuts, [breadcrumbs], [eggs], [soy sauce] in bowl.",
       "Form into 4 patties, refrigerate 15 minutes.",
@@ -10209,7 +9208,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh parsley" }
     ],
     instructions: [
-      "Preheat oven to 425°F. Toss [cauliflower] with [2 tbsp oil], [cumin], [paprika], [turmeric].",
+      "Preheat oven to 425Â°F. Toss [cauliflower] with [2 tbsp oil], [cumin], [paprika], [turmeric].",
       "Spread on baking sheet, roast 30 minutes until golden and tender.",
       "Warm [pita breads].",
       "Spread [tahini sauce] inside each pita.",
@@ -10333,7 +9332,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Heat [2 tbsp oil] in large pot, sauté [onion] until soft.",
+      "Heat [2 tbsp oil] in large pot, sautÃ© [onion] until soft.",
       "Add [cumin] and [coriander], cook 1 minute.",
       "Add [carrots], [parsnips], and [4 cups broth].",
       "Bring to boil, reduce heat, simmer 25 minutes until vegetables are tender.",
@@ -10414,7 +9413,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh basil" }
     ],
     instructions: [
-      "Sauté [onion] in large pot until soft, add [garlic].",
+      "SautÃ© [onion] in large pot until soft, add [garlic].",
       "Add [crushed tomatoes], [2 cups broth], [dried basil].",
       "Bring to boil, reduce heat, simmer 15 minutes.",
       "Blend soup until smooth using immersion blender.",
@@ -10499,7 +9498,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "to taste", item: "salt and pepper" }
     ],
     instructions: [
-      "Preheat oven to 425°F and line a baking sheet with parchment paper.",
+      "Preheat oven to 425Â°F and line a baking sheet with parchment paper.",
       "Add diced sweet potatoes to baking sheet, spray with cooking spray, and season with salt, pepper, and cinnamon. Bake for 30 minutes, flipping halfway through.",
       "While potatoes bake, heat a frying pan on medium-high heat. Add ground beef and cook, breaking it into small pieces until fully cooked (about 5 minutes).",
       "Stir in tomato paste and taco seasoning. Cook for another 2 minutes.",
@@ -10581,7 +9580,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "tsp", item: "paprika" }
     ],
     instructions: [
-      "Preheat oven to 325°F. Line baking sheet with parchment.",
+      "Preheat oven to 325Â°F. Line baking sheet with parchment.",
       "Mix [2 tbsp soy sauce], [1 tbsp maple syrup], [1 tsp liquid smoke], [1/2 tsp paprika].",
       "Toss [2 cups coconut flakes] with sauce mixture.",
       "Spread in single layer on baking sheet.",
@@ -10621,7 +9620,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "pinch", item: "salt" }
     ],
     instructions: [
-      "Preheat oven to 300°F and line a baking sheet with parchment paper.",
+      "Preheat oven to 300Â°F and line a baking sheet with parchment paper.",
       "In a bowl, beat egg whites with salt until stiff peaks form.",
       "In another bowl, mix egg yolks, cream cheese, baking powder, and garlic powder until smooth.",
       "Gently fold egg whites into yolk mixture until combined (don't overmix).",
@@ -10670,7 +9669,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "sugar (for swirl)" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Line muffin tin with paper liners.",
+      "Preheat oven to 375Â°F. Line muffin tin with paper liners.",
       "Mix [1.5 cups flour], [1 tsp baking powder], [1/2 tsp baking soda], [1 tsp pumpkin spice], [1/4 tsp salt].",
       "In separate bowl, whisk [1 cup pumpkin], [1/2 cup oil], [3/4 cup sugar], [2 eggs], [1 tsp vanilla].",
       "Combine wet and dry ingredients, mix until just combined.",
@@ -10762,7 +9761,7 @@ export const allRecipes: Recipe[] = [
       "Mix [1/2 cup brown sugar] with [2 tbsp cinnamon], sprinkle over dough.",
       "Roll up tightly, cut into 12 rolls.",
       "Place in greased pan, let rise 30 minutes.",
-      "Bake at 350°F for 25 minutes. Make frosting with [8 oz cream cheese] and [2 cups powdered sugar]. Frost warm rolls."
+      "Bake at 350Â°F for 25 minutes. Make frosting with [8 oz cream cheese] and [2 cups powdered sugar]. Frost warm rolls."
     ]
   },
   {
@@ -10842,7 +9841,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "vanilla" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x5 loaf pan.",
+      "Preheat oven to 350Â°F. Grease 9x5 loaf pan.",
       "Mix [2 cups flour], [1 tsp baking soda], [1 tsp pumpkin spice], [1/2 tsp salt].",
       "In bowl, whisk [1/2 cup melted butter], [3/4 cup sugar], [2 eggs].",
       "Stir in [1 cup mashed banana], [1/2 cup pumpkin], [1 tsp vanilla].",
@@ -10888,7 +9887,7 @@ export const allRecipes: Recipe[] = [
       "Stir in [1 tbsp cornstarch], cook until thickened. Cool completely.",
       "Place spoonful of filling on [12 egg roll wrappers].",
       "Roll tightly, seal edges with water.",
-      "Heat oil to 350°F.",
+      "Heat oil to 350Â°F.",
       "Fry egg rolls 2-3 minutes per side until golden.",
       "Drain on paper towels, roll in [1/4 cup cinnamon sugar].",
       "Serve warm with [1 cup caramel sauce] for dipping."
@@ -10926,7 +9925,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "apple juice" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Core [6 apples], leaving bottom intact.",
+      "Preheat oven to 375Â°F. Core [6 apples], leaving bottom intact.",
       "Mix [1/2 cup oats], [1/4 cup brown sugar], [1/4 cup pecans], [1/4 cup raisins], [2 tsp cinnamon].",
       "Stir in [1/4 cup melted butter].",
       "Stuff mixture into apple centers.",
@@ -10968,7 +9967,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "chopped pecans" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 baking dish.",
+      "Preheat oven to 350Â°F. Grease 9x13 baking dish.",
       "Mix [1 can pumpkin], [1 can evaporated milk], [3 eggs], [1.5 cups sugar], [2 tsp pumpkin spice].",
       "Pour into baking dish.",
       "Sprinkle [1 box cake mix] evenly over pumpkin layer (don't stir).",
@@ -11010,7 +10009,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "milk" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Grease 9-inch pie dish.",
+      "Preheat oven to 375Â°F. Grease 9-inch pie dish.",
       "Mix [6 cups sliced apples], [1/2 cup sugar], [2 tbsp flour], [2 tsp cinnamon].",
       "Pour apple mixture into pie dish.",
       "Separate [1 can cinnamon rolls], arrange on top of apples in spiral pattern.",
@@ -11094,7 +10093,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "cinnamon sugar" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease donut pan.",
+      "Preheat oven to 350Â°F. Grease donut pan.",
       "Mix [2 cups flour], [1 tsp baking powder], [1/2 tsp baking soda], [1.5 tsp cinnamon].",
       "In bowl, whisk [3/4 cup apple cider], [1/3 cup melted butter], [1/2 cup sugar], [1 egg].",
       "Combine wet and dry ingredients until just mixed.",
@@ -11178,10 +10177,10 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Season [4 chicken breasts] with salt, pepper.",
       "In pan, brown chicken 5 minutes per side, remove.",
-      "Add [2 tbsp butter], sauté [2 sliced apples] until golden.",
+      "Add [2 tbsp butter], sautÃ© [2 sliced apples] until golden.",
       "Mix [1 cup apple butter], [1/4 cup broth], [2 tbsp vinegar], [1 tsp thyme].",
       "Pour sauce over apples, return chicken to pan.",
-      "Simmer 10 minutes until chicken reaches 165°F.",
+      "Simmer 10 minutes until chicken reaches 165Â°F.",
       "Serve chicken topped with caramelized apples and sauce.",
       "Pairs well with rice or roasted vegetables."
     ]
@@ -11306,7 +10305,7 @@ export const allRecipes: Recipe[] = [
       "In separate bowl, whisk [2 1/2 cups flour], [1 tsp baking soda], [1/2 tsp salt].",
       "Combine wet and dry ingredients.",
       "Drop tablespoon-sized balls onto baking sheet.",
-      "Bake at 350°F for 10-12 minutes until edges are golden.",
+      "Bake at 350Â°F for 10-12 minutes until edges are golden.",
       "Cool on pan 5 minutes. Enjoy warm!"
     ]
   },
@@ -11344,7 +10343,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Mix [2 cups graham crumbs] with [1/2 cup melted butter]. Press into 9x13 pan.",
-      "Bake crust at 350°F for 8 minutes.",
+      "Bake crust at 350Â°F for 8 minutes.",
       "Beat [16 oz cream cheese] with [3/4 cup sugar] until smooth.",
       "Mix in [1 cup pumpkin], [3 eggs], [1 tsp vanilla], [2 tsp pumpkin spice].",
       "Pour over crust. Bake 40-45 minutes until center barely jiggles.",
@@ -11430,7 +10429,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Mix [2 cups flour] and [1/2 cup sugar]. Cut in [1 cup cold butter] until crumbly.",
-      "Press 2/3 of mixture into greased 9x13 pan. Bake at 350°F for 15 minutes.",
+      "Press 2/3 of mixture into greased 9x13 pan. Bake at 350Â°F for 15 minutes.",
       "Toss [4 diced apples] with [1/3 cup brown sugar] and [2 tsp cinnamon].",
       "Spread apples over crust. Drizzle [1 cup caramel sauce] over apples.",
       "Sprinkle remaining crumb mixture on top.",
@@ -11562,7 +10561,7 @@ export const allRecipes: Recipe[] = [
       "In bowl, whisk [3 cups flour], [1 tsp baking soda], [2 tsp pumpkin spice], [1/2 tsp salt].",
       "Combine wet and dry ingredients.",
       "Drop tablespoon-sized dough onto baking sheets.",
-      "Bake at 350°F for 10-12 minutes until edges set.",
+      "Bake at 350Â°F for 10-12 minutes until edges set.",
       "Cool and enjoy! Store in airtight container."
     ]
   },
@@ -11602,7 +10601,7 @@ export const allRecipes: Recipe[] = [
       "Mix [2 cans mushroom soup], [1 cup milk], [1 tsp soy sauce], [1/4 tsp pepper].",
       "Stir in beans and 1 1/3 cups [fried onions].",
       "Pour into greased 9x13 baking dish.",
-      "Bake at 350°F for 25 minutes.",
+      "Bake at 350Â°F for 25 minutes.",
       "Top with remaining 1 1/3 cups [fried onions].",
       "Bake 5 more minutes until onions are golden.",
       "Perfect for Thanksgiving!"
@@ -11641,11 +10640,11 @@ export const allRecipes: Recipe[] = [
       { amount: "4", unit: "cups", item: "mini marshmallows" }
     ],
     instructions: [
-      "Bake [4 lbs sweet potatoes] at 400°F for 45 minutes until soft. Cool, peel.",
+      "Bake [4 lbs sweet potatoes] at 400Â°F for 45 minutes until soft. Cool, peel.",
       "Mash potatoes until smooth.",
       "Mix in [1/2 cup melted butter], [1/2 cup brown sugar], [1/2 cup milk], [2 eggs], [1 tsp vanilla], [1 tsp cinnamon].",
       "Spread into greased 9x13 dish.",
-      "Bake at 350°F for 25 minutes.",
+      "Bake at 350Â°F for 25 minutes.",
       "Top with [4 cups mini marshmallows].",
       "Bake 5 more minutes until marshmallows are golden.",
       "Perfect for Thanksgiving!"
@@ -11688,7 +10687,7 @@ export const allRecipes: Recipe[] = [
       "Carefully loosen skin from turkey. Spread half of herb butter under skin.",
       "Rub remaining butter over outside of turkey.",
       "Place in roasting pan. Pour [1 cup broth] around turkey.",
-      "Roast at 350°F for 1.5-2 hours (20 min per pound) until 165°F internal temp.",
+      "Roast at 350Â°F for 1.5-2 hours (20 min per pound) until 165Â°F internal temp.",
       "Baste every 30 minutes with pan juices.",
       "Let rest 15 minutes before carving.",
       "Perfect for Thanksgiving!"
@@ -11729,12 +10728,12 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook [1 lb sausage] in large skillet until browned. Remove.",
-      "In same pan, sauté [1 cup onion] and [1 cup celery] in [1/2 cup butter] until soft.",
+      "In same pan, sautÃ© [1 cup onion] and [1 cup celery] in [1/2 cup butter] until soft.",
       "Add [2 tbsp sage] and [2 tbsp thyme], cook 1 minute.",
       "In large bowl, combine [cubed cornbread], sausage, veggie mixture.",
       "Pour [2 1/2 cups broth] and [2 beaten eggs] over mixture. Toss gently.",
       "Transfer to greased 9x13 dish.",
-      "Bake at 350°F for 40-45 minutes until golden and crispy on top.",
+      "Bake at 350Â°F for 40-45 minutes until golden and crispy on top.",
       "Perfect for Thanksgiving!"
     ]
   },
@@ -11855,7 +10854,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Toss [2 lbs halved Brussels sprouts] with [3 tbsp olive oil], [1 tsp garlic powder], [1/2 tsp salt], [1/4 tsp pepper].",
       "Spread on baking sheet. Scatter [6 slices chopped bacon] over top.",
-      "Roast at 400°F for 25 minutes, stirring halfway.",
+      "Roast at 400Â°F for 25 minutes, stirring halfway.",
       "Brussels should be crispy and caramelized, bacon crispy.",
       "Transfer to serving dish.",
       "Drizzle [2 tbsp balsamic glaze] over top.",
@@ -11897,7 +10896,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "salt" }
     ],
     instructions: [
-      "Heat [2 tbsp olive oil] in large pot. Sauté [1 diced onion] until soft, 5 minutes.",
+      "Heat [2 tbsp olive oil] in large pot. SautÃ© [1 diced onion] until soft, 5 minutes.",
       "Add [3 cloves garlic], cook 1 minute.",
       "Add [3 lbs cubed squash] and [4 cups broth]. Bring to boil.",
       "Reduce heat, simmer 20 minutes until squash is very tender.",
@@ -11943,7 +10942,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "parmesan cheese" }
     ],
     instructions: [
-      "In large pot, heat [2 tbsp olive oil], sauté [1 diced onion] and [3 cloves garlic].",
+      "In large pot, heat [2 tbsp olive oil], sautÃ© [1 diced onion] and [3 cloves garlic].",
       "Add [6 cups chicken broth], [1 can diced tomatoes], [1 tsp Italian seasoning].",
       "Bring to boil, add [1 lb cheese tortellini].",
       "Cook 8 minutes until tortellini is tender.",
@@ -12030,7 +11029,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "In large pot, cook [8 slices chopped bacon] until crispy. Remove and set aside.",
-      "In bacon fat, sauté [1 diced onion] and [3 cloves garlic].",
+      "In bacon fat, sautÃ© [1 diced onion] and [3 cloves garlic].",
       "Add [6 diced potatoes] and [6 cups broth].",
       "Simmer 20 minutes until potatoes are tender.",
       "Mash some potatoes in pot for thickness.",
@@ -12073,10 +11072,10 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "", item: "bay leaves" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Cut top off [1 large pumpkin], scoop out seeds.",
+      "Preheat oven to 350Â°F. Cut top off [1 large pumpkin], scoop out seeds.",
       "Toss [2 lbs beef] with [3 tbsp flour], salt, pepper.",
       "Heat [2 tbsp oil] in pot, brown beef. Remove.",
-      "Sauté [1 onion], [4 carrots], [4 potatoes].",
+      "SautÃ© [1 onion], [4 carrots], [4 potatoes].",
       "Return beef, add [4 cups broth], [2 tsp thyme], [2 bay leaves].",
       "Simmer 1 hour until beef is tender.",
       "Place pumpkin on baking sheet, bake 45 minutes until tender.",
@@ -12160,12 +11159,12 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "In large oven-safe skillet, melt [3 tbsp butter], cook [2 lbs chicken] until done.",
-      "Add [1 onion], [3 carrots], sauté 5 minutes.",
+      "Add [1 onion], [3 carrots], sautÃ© 5 minutes.",
       "Sprinkle [1/4 cup flour], cook 2 minutes.",
       "Stir in [3 cups broth] and [1 cup cream], simmer until thick.",
       "Add [2 cups peas], season with salt and pepper.",
       "Top with [1 can biscuits], torn into pieces.",
-      "Bake at 375°F for 20 minutes until biscuits are golden.",
+      "Bake at 375Â°F for 20 minutes until biscuits are golden.",
       "Let cool 5 minutes before serving."
     ]
   },
@@ -12203,7 +11202,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "In large pot, brown [1 lb sliced sausage], remove.",
-      "In drippings, sauté [1 onion] and [4 cloves garlic].",
+      "In drippings, sautÃ© [1 onion] and [4 cloves garlic].",
       "Add [6 cups broth], [1 can white beans], [1/2 tsp red pepper flakes].",
       "Bring to boil, simmer 10 minutes.",
       "Return sausage to pot, add [4 cups kale].",
@@ -12245,7 +11244,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "butter" }
     ],
     instructions: [
-      "Bake [6 potatoes] at 400°F for 60 minutes until tender.",
+      "Bake [6 potatoes] at 400Â°F for 60 minutes until tender.",
       "Meanwhile, brown [1 lb ground beef] with [1 onion], [2 carrots].",
       "Add [2 tbsp tomato paste], [1 cup broth], [1 cup peas]. Simmer 10 minutes.",
       "Cut potatoes in half, scoop out centers leaving shell.",
@@ -12288,7 +11287,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh parsley" }
     ],
     instructions: [
-      "In large pot, melt [4 tbsp butter], sauté [1 lb mushrooms] until golden.",
+      "In large pot, melt [4 tbsp butter], sautÃ© [1 lb mushrooms] until golden.",
       "Add [1 onion] and [3 cloves garlic], cook 5 minutes.",
       "Stir in [1 cup wild rice] and [6 cups broth].",
       "Add [2 tsp thyme], bring to boil.",
@@ -12337,7 +11336,7 @@ export const allRecipes: Recipe[] = [
       "In 9x13 dish, layer half the fries.",
       "Top with chili, then [2 cups cheddar].",
       "Add remaining fries and [1 cup cheddar].",
-      "Bake at 375°F for 15 minutes until cheese melts.",
+      "Bake at 375Â°F for 15 minutes until cheese melts.",
       "Top with [1/2 cup sour cream] and [1/4 cup green onions]."
     ]
   },
@@ -12373,7 +11372,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "garlic butter for bread" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Grease 9x13 baking dish.",
+      "Preheat oven to 375Â°F. Grease 9x13 baking dish.",
       "Heat [1 bag frozen meatballs] with [1 jar marinara] until warm.",
       "Toast [1 loaf bread cubes] with garlic butter until golden.",
       "Layer half the bread in dish.",
@@ -12418,7 +11417,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "In large pot, cook [8 slices chopped bacon] until crispy. Remove.",
       "In bacon fat, cook [2 lbs chicken] until done. Shred and set aside.",
-      "Sauté [1 onion] and [3 cloves garlic].",
+      "SautÃ© [1 onion] and [3 cloves garlic].",
       "Add [6 cups broth], [1 packet ranch seasoning]. Bring to boil.",
       "Add [8 oz noodles], cook 8 minutes.",
       "Stir in [8 oz cream cheese] until melted.",
@@ -12461,7 +11460,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Press [14 oz tofu] for 10 minutes, cube, pan-sear in [2 tbsp olive oil] until golden. Remove.",
-      "In same pan, sauté [4 cloves garlic] for 30 seconds.",
+      "In same pan, sautÃ© [4 cloves garlic] for 30 seconds.",
       "Add [28 oz crushed tomatoes], [1 cup coconut cream], [1/2 cup sun-dried tomatoes].",
       "Stir in [1 tsp Italian seasoning], simmer 10 minutes.",
       "Return tofu to pan, coat with sauce.",
@@ -12542,7 +11541,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh basil" }
     ],
     instructions: [
-      "Sauté [1 onion], [2 carrots], [4 cloves garlic] in olive oil until soft.",
+      "SautÃ© [1 onion], [2 carrots], [4 cloves garlic] in olive oil until soft.",
       "Add [1 cup red lentils], [28 oz crushed tomatoes], [2 cups broth], [2 tbsp tomato paste].",
       "Stir in [2 tsp Italian seasoning], simmer 25 minutes until lentils tender.",
       "Cook [1 lb spaghetti] according to package.",
@@ -12582,7 +11581,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh basil" }
     ],
     instructions: [
-      "In large skillet, sauté [4 cloves garlic] until fragrant.",
+      "In large skillet, sautÃ© [4 cloves garlic] until fragrant.",
       "Add [30 oz chickpeas], [1/2 cup sun-dried tomatoes], [14 oz diced tomatoes].",
       "Stir in [1 cup coconut cream], [1/2 cup broth], [2 tsp Italian seasoning], [1/4 tsp red pepper flakes].",
       "Simmer 15 minutes until sauce thickens.",
@@ -12623,7 +11622,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Crumble [14 oz tofu] with hands into scrambled egg-sized pieces.",
-      "In large pan, sauté [1 bell pepper] and [1 onion] until soft.",
+      "In large pan, sautÃ© [1 bell pepper] and [1 onion] until soft.",
       "Add crumbled tofu, [1 tsp turmeric], [1 tsp garlic powder], [1/4 tsp black salt].",
       "Cook 5-7 minutes, stirring occasionally.",
       "Add [2 cups spinach], cook until wilted.",
@@ -12663,7 +11662,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "cilantro" }
     ],
     instructions: [
-      "Sauté [1 onion], [4 cloves garlic], [1 tsp ginger] until fragrant.",
+      "SautÃ© [1 onion], [4 cloves garlic], [1 tsp ginger] until fragrant.",
       "Add [2 tbsp curry powder] and [1 tsp garam masala], toast 1 minute.",
       "Stir in [30 oz chickpeas], [14 oz coconut milk], [14 oz tomatoes].",
       "Simmer 15 minutes until sauce thickens.",
@@ -12828,7 +11827,7 @@ export const allRecipes: Recipe[] = [
       "Mix [1 cup plant milk] with [1 tbsp hot sauce].",
       "Combine [1 cup flour], [1 cup panko], [1 tbsp paprika], [1 tsp garlic powder], [1 tsp onion powder].",
       "Dip mushrooms in milk, then breadcrumb mixture. Double coat for extra crispy.",
-      "Fry in 350°F oil until golden, 3-4 minutes per side.",
+      "Fry in 350Â°F oil until golden, 3-4 minutes per side.",
       "Serve with vegan ranch and pickles."
     ]
   },
@@ -12945,7 +11944,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Press [14 oz tofu], cut into tender-sized strips.",
       "Toss in [1 cup cornstarch] until fully coated.",
-      "Fry in 350°F oil until golden and crispy, 4-5 minutes.",
+      "Fry in 350Â°F oil until golden and crispy, 4-5 minutes.",
       "Mix [1/2 cup agave], [2 tbsp hot sauce], [1 tbsp vinegar], [1/2 tsp cayenne].",
       "Toss fried tofu in hot honey sauce.",
       "Sprinkle with [2 tbsp sesame seeds]. Serve with vegan ranch."
@@ -12985,7 +11984,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook [1 lb angel hair] according to package.",
-      "Sauté [4 cloves garlic] in oil, add [15 oz tomato sauce], [2 tsp paprika], [1 tsp cumin].",
+      "SautÃ© [4 cloves garlic] in oil, add [15 oz tomato sauce], [2 tsp paprika], [1 tsp cumin].",
       "Simmer sauce 10 minutes.",
       "Toss pasta with sauce, divide into bowls.",
       "Top each with dollop of [vegan yogurt].",
@@ -13066,7 +12065,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Toss [8 oz cooked pasta] with [2 tbsp oil], [1/4 cup vegan parm], [1 tsp garlic powder].",
-      "Spread on baking sheet, bake at 400°F for 12-15 minutes until crispy.",
+      "Spread on baking sheet, bake at 400Â°F for 12-15 minutes until crispy.",
       "Blend [1 cup vegan feta], [1/2 cup cream cheese], [2 tbsp lemon juice] until smooth.",
       "Top dip with [1/4 cup herbs] and olive oil.",
       "Serve pasta chips with dip."
@@ -13106,7 +12105,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Press [14 oz tofu], cube into bite-sized pieces.",
       "Toss with [2 tbsp cornstarch], [2 tbsp soy sauce], [1 tbsp sesame oil], [1 tsp garlic powder].",
-      "Air fry at 400°F for 15 minutes, shaking halfway.",
+      "Air fry at 400Â°F for 15 minutes, shaking halfway.",
       "Toss with [1/4 cup sweet chili sauce].",
       "Top with [2 tbsp sesame seeds] and [2 green onions]."
     ]
@@ -13180,7 +12179,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "In cast iron skillet, mix [3 cups corn], [1 cup vegan mozzarella], [2 tbsp mayo], [1 tbsp sugar], [1/4 tsp salt].",
-      "Bake at 400°F for 10 minutes until bubbly and golden.",
+      "Bake at 400Â°F for 10 minutes until bubbly and golden.",
       "Or broil for 5 minutes watching carefully.",
       "Garnish with [2 tbsp parsley].",
       "Serve hot with spoon."
@@ -13259,7 +12258,7 @@ export const allRecipes: Recipe[] = [
       "Gradually add [3 tbsp sugar], whip until glossy.",
       "Fold in [1 cup flour], [1/2 tsp baking powder], [1/4 cup plant milk].",
       "Add food coloring if desired.",
-      "Pipe into rounds on parchment, bake at 300°F for 25 minutes.",
+      "Pipe into rounds on parchment, bake at 300Â°F for 25 minutes.",
       "Cool completely before eating - they're cloud-light!"
     ]
   },
@@ -13358,7 +12357,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "salt and pepper" }
     ],
     instructions: [
-      "Preheat oven to 425°F. Slice [4 potatoes] thinly but not all the way through.",
+      "Preheat oven to 425Â°F. Slice [4 potatoes] thinly but not all the way through.",
       "Mix [4 tbsp butter] with [4 cloves garlic]. Brush over potatoes.",
       "Season with salt and pepper. Bake 45 minutes.",
       "Sprinkle [1/2 cup parmesan] between slices. Bake 5 more minutes.",
@@ -13389,7 +12388,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cut [4 corn cobs] lengthwise into quarters to create 'ribs'.",
-      "Brush with oil, air fry at 400°F for 15 minutes until charred.",
+      "Brush with oil, air fry at 400Â°F for 15 minutes until charred.",
       "Mix [1/2 cup mayo], [1/4 cup sour cream], [1 lime juice], [1 tsp chili powder].",
       "Drizzle elote sauce over corn ribs.",
       "Top with [1/4 cup cotija] and [2 tbsp cilantro]. Serve immediately!"
@@ -13418,7 +12417,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "red pepper flakes" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Place [feta block] in center of baking dish.",
+      "Preheat oven to 400Â°F. Place [feta block] in center of baking dish.",
       "Surround with [2 pints tomatoes] and [4 cloves garlic]. Drizzle with [1/4 cup olive oil].",
       "Bake 30 minutes until tomatoes burst and feta is golden.",
       "Cook [12 oz pasta] according to package directions.",
@@ -13454,7 +12453,7 @@ export const allRecipes: Recipe[] = [
       "Layer half spaghetti in 9x13 dish, spread cream cheese mixture.",
       "Top with remaining spaghetti, then meat sauce.",
       "Sprinkle [2 cups mozzarella] and [1/2 cup parmesan].",
-      "Bake at 350°F for 30 minutes until bubbly and golden."
+      "Bake at 350Â°F for 30 minutes until bubbly and golden."
     ]
   },
   {
@@ -13544,13 +12543,13 @@ export const allRecipes: Recipe[] = [
       "Spread dough in oiled pan, dimple with fingers.",
       "Arrange [tomatoes], [bell pepper], [herbs] in garden design.",
       "Drizzle with [olive oil], season with salt.",
-      "Bake at 425°F for 20-25 minutes until golden. Cool and serve!"
+      "Bake at 425Â°F for 20-25 minutes until golden. Cool and serve!"
     ]
   },
   {
     id: "dinner-turkish-layered-pasta",
     name: "Turkish Layered Pasta",
-    description: "Viral Ottoman dish! Layers of pasta, meat sauce, and béchamel baked to perfection.",
+    description: "Viral Ottoman dish! Layers of pasta, meat sauce, and bÃ©chamel baked to perfection.",
     cookTime: "45 mins",
     prepTime: "30 mins",
     difficulty: "hard",
@@ -13571,10 +12570,10 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook [1 lb pasta], drain. Brown [1 lb beef] with [onion].",
-      "Make béchamel: melt [4 tbsp butter], whisk in [4 tbsp flour], add [2 cups milk].",
+      "Make bÃ©chamel: melt [4 tbsp butter], whisk in [4 tbsp flour], add [2 cups milk].",
       "Layer half pasta, all meat, remaining pasta in baking dish.",
-      "Pour béchamel over top, sprinkle with [2 cups mozzarella].",
-      "Bake at 375°F for 35-40 minutes until golden. Let rest 10 minutes before serving!"
+      "Pour bÃ©chamel over top, sprinkle with [2 cups mozzarella].",
+      "Bake at 375Â°F for 35-40 minutes until golden. Let rest 10 minutes before serving!"
     ]
   },
   {
@@ -13602,7 +12601,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook [1 lb penne] until al dente. Reserve 1 cup pasta water.",
-      "Sauté [3 cloves garlic] in [2 tbsp olive oil]. Add [1 cup tomato paste].",
+      "SautÃ© [3 cloves garlic] in [2 tbsp olive oil]. Add [1 cup tomato paste].",
       "Add [1/4 cup vodka], cook 2 minutes. Stir in [1 cup cream].",
       "Add pasta with reserved water, toss until creamy.",
       "Stir in [1/2 cup parmesan]. Top with red pepper flakes and serve!"
@@ -13663,7 +12662,7 @@ export const allRecipes: Recipe[] = [
       "Sear [1.5 lbs chicken] skin-side down until golden, remove.",
       "Add [1 lb potatoes] to skillet, cook until golden.",
       "Melt [4 tbsp butter], add [6 cloves garlic]. Cook 1 minute.",
-      "Return chicken, sprinkle [1/2 cup parmesan]. Bake at 400°F for 20 minutes.",
+      "Return chicken, sprinkle [1/2 cup parmesan]. Bake at 400Â°F for 20 minutes.",
       "Garnish with [2 tbsp parsley]. Serve hot!"
     ]
   },
@@ -13693,7 +12692,7 @@ export const allRecipes: Recipe[] = [
       "Slice [12 Hawaiian rolls] in half, place bottoms in baking dish.",
       "Layer beef mixture, [12 cheese slices], [pickles].",
       "Top with roll tops, brush with [3 tbsp melted butter].",
-      "Bake at 350°F for 15 minutes until cheese melts. Serve warm!"
+      "Bake at 350Â°F for 15 minutes until cheese melts. Serve warm!"
     ]
   },
   {
@@ -13718,7 +12717,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Preheat oven to 425°F. Season [1.5 lbs chicken].",
+      "Preheat oven to 425Â°F. Season [1.5 lbs chicken].",
       "Toss [2 cups broccoli] and [2 cups peppers] with [2 tbsp oil].",
       "Arrange chicken and vegetables on sheet pan.",
       "Mix [1/3 cup honey] with [2 tbsp hot sauce], brush on chicken.",
@@ -13748,7 +12747,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "green onions" }
     ],
     instructions: [
-      "Bake [4 potatoes] at 400°F for 50 minutes. Cut in half, scoop out insides.",
+      "Bake [4 potatoes] at 400Â°F for 50 minutes. Cut in half, scoop out insides.",
       "Mash potato with [4 tbsp butter], [1/2 cup sour cream], [1 cup cheddar].",
       "Mix in [2 cups chicken]. Refill potato skins.",
       "Top with remaining [cheese] and [bacon]. Bake 15 minutes.",
@@ -13777,7 +12776,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Mix [1 cup parmesan], [1/2 cup breadcrumbs], [2 tbsp rosemary].",
+      "Preheat oven to 400Â°F. Mix [1 cup parmesan], [1/2 cup breadcrumbs], [2 tbsp rosemary].",
       "Brush [4 chicken breasts] with [3 tbsp oil], coat with parmesan mixture.",
       "Scatter [8 garlic cloves] around chicken in baking dish.",
       "Roast 30-35 minutes until golden and cooked through.",
@@ -13806,7 +12805,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "butter" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Mix [3 cups chicken], [2 cups vegetables], [cream soup], [1 cup broth].",
+      "Preheat oven to 400Â°F. Mix [3 cups chicken], [2 cups vegetables], [cream soup], [1 cup broth].",
       "Pour into pie dish or casserole.",
       "Top with [puff pastry], cut slits for steam.",
       "Brush with melted [2 tbsp butter].",
@@ -13952,7 +12951,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Toss [2 lbs potato wedges] with [3 tbsp oil] and [3 tbsp ranch seasoning].",
-      "Roast at 425°F for 30-35 minutes until crispy.",
+      "Roast at 425Â°F for 30-35 minutes until crispy.",
       "Top with [1 cup cheddar], return to oven until melted.",
       "Sprinkle with [bacon] and [green onions].",
       "Serve hot with extra ranch dressing!"
@@ -13981,7 +12980,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Season and sear [4 chicken breasts], remove.",
-      "Sauté [4 cloves garlic] and [sun-dried tomatoes].",
+      "SautÃ© [4 cloves garlic] and [sun-dried tomatoes].",
       "Add [1 cup cream] and [1/2 cup parmesan], simmer.",
       "Stir in [2 cups spinach] until wilted.",
       "Return chicken, cook 8-10 minutes. Serve hot!"
@@ -14013,7 +13012,7 @@ export const allRecipes: Recipe[] = [
       "Brown [1 lb beef], mix with [1 cup rice], [tomatoes], [1 tsp Italian seasoning].",
       "Stuff peppers with beef mixture.",
       "Place in baking dish with 1/2 cup water. Cover with foil.",
-      "Bake at 375°F for 35 minutes. Top with [mozzarella], bake 5 more minutes!"
+      "Bake at 375Â°F for 35 minutes. Top with [mozzarella], bake 5 more minutes!"
     ]
   },
   

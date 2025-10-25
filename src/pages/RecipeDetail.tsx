@@ -726,13 +726,6 @@ const RecipeDetail = () => {
                 }
 
                 // Authenticated users: check premium status
-                // Rewarded ad gate for chat once per session
-                if (needAdForChatThisSession()) {
-                  setShowAd('chat');
-                  setMenuOpen(false);
-                  return;
-                }
-
                 setAiChatOpen(true);
                 setMenuOpen(false);
               }}
@@ -778,13 +771,6 @@ const RecipeDetail = () => {
                 }
 
                 // Authenticated users: check premium status
-                // Rewarded ad gate per recipe per day
-                if (recipe && needAdForNutrition(recipe.id)) {
-                  setShowAd('nutrition');
-                  setMenuOpen(false);
-                  return;
-                }
-
                 if (recipe?.nutrition) {
                   setNutritionModalOpen(true);
                   setMenuOpen(false);
@@ -947,37 +933,7 @@ const RecipeDetail = () => {
         onClose={() => setAiChatOpen(false)}
       />
 
-      <RewardedAdModal
-        open={showAd !== null}
-        onClose={() => setShowAd(null)}
-        onReward={() => {
-          if (showAd === 'chat') {
-            markChatAdWatched();
-            setAiChatOpen(true);
-          }
-          if (showAd === 'nutrition' && recipe) {
-            markNutritionWatched(recipe.id);
-            setNutritionModalOpen(true);
-          }
-          if (showAd === 'interstitial') {
-            markInterstitialShown();
-          }
-        }}
-        title={
-          showAd === 'chat'
-            ? 'Watch an ad to chat with Chef Quinn'
-            : showAd === 'nutrition'
-              ? 'Watch an ad to view nutrition facts'
-              : 'Sponsored content'
-        }
-        description={
-          showAd === 'chat'
-            ? 'Unlock AI chat for this session by watching one ad.'
-            : showAd === 'nutrition'
-              ? 'Unlock nutrition info for this recipe by watching one ad.'
-              : ''
-        }
-      />
+      
 
       {/* Shopping Flow Components - Removed, will add back with Kroger/Instacart API */}
       {/* {showShopping && !selectedStore && (
