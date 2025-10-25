@@ -60,7 +60,12 @@ import cornSalsaImg from "@/assets/recipes/copycat-corn-salsa.jpg";
 import chickenFajitasImg from "@/assets/recipes/quick-chicken-fajitas.jpg";
 // steakQuesadillaImg replaced with imgur URL
 const steakQuesadillaImg = "https://i.imgur.com/5ZNF6sl.png";
-import roadhouseRollsImg from "@/assets/recipes/copycat-roadhouse-rolls.jpg";
+// roadhouseRollsImg updated with new URL
+const roadhouseRollsImg = "https://i.imgur.com/AdBW8B6.png";
+// copycatRaisingCanesSauceImg updated with new URL
+const copycatRaisingCanesSauceImg = "https://i.imgur.com/KrGQ6ol.png";
+// copycatAuntieAnnesPretzelBitesImg updated with new URL
+const copycatAuntieAnnesPretzelBitesImg = "https://i.imgur.com/OjGASKI.png";
 import kungPaoImg from "@/assets/recipes/quick-kung-pao-chicken.jpg";
 // burgerSlidersImg replaced with imgur URL
 const burgerSlidersImg = "https://i.imgur.com/BJ1aRuN.png";
@@ -99,27 +104,8 @@ const pecanCrustedPorkImg = "https://i.imgur.com/PibHyc6.png";
 const caramelAppleNachosImg = "https://i.imgur.com/dGYFnDc.png";
 const pumpkinRisottoImg = "https://i.imgur.com/R2KpdiH.png";
 import autumnHarvestSaladImg from "@/assets/recipes/autumn-harvest-salad.jpg";
-
-// Import new copycat recipe images (non-duplicates only)
-import copycatMcDonaldsBigMacSauceImg from "@/assets/recipes/copycat-mcdonalds-big-mac-sauce.jpg";
-import copycatStarbucksPinkDrinkImg from "@/assets/recipes/copycat-starbucks-pink-drink.jpg";
-import copycatRaisingCanesChickenFingersImg from "@/assets/recipes/copycat-raising-canes-chicken-fingers.jpg";
-import copycatRaisingCanesSauceImg from "@/assets/recipes/copycat-raising-canes-sauce.jpg";
-import copycatPandaExpressOrangeChickenImg from "@/assets/recipes/copycat-panda-express-orange-chicken.jpg";
-import copycatApplebeesQuesadillaBurgerImg from "@/assets/recipes/copycat-applebees-quesadilla-burger.jpg";
-import copycatSonicCherryLimeadeImg from "@/assets/recipes/copycat-sonic-cherry-limeade.jpg";
-import copycatOliveGardenBreadsticksNewImg from "@/assets/recipes/copycat-olive-garden-breadsticks.jpg";
-import copycatShakeShackBurgerImg from "@/assets/recipes/copycat-shake-shack-burger.jpg";
-import copycatFiveGuysCajunFriesImg from "@/assets/recipes/copycat-five-guys-cajun-fries.jpg";
-// Removed: import copycatWendysChiliNewImg from "@/assets/recipes/copycat-wendys-chili.jpg";
-import copycatChickFilAChickenMinisImg from "@/assets/recipes/copycat-chick-fil-a-chicken-minis.jpg";
-import copycatOliveGardenZuppaToscanaImg from "@/assets/recipes/copycat-olive-garden-zuppa-toscana.jpg";
-import copycatChipotleGuacamoleImg from "@/assets/recipes/copycat-chipotle-guacamole.jpg";
-import copycatAuntieAnnesPretzelBitesImg from "@/assets/recipes/copycat-auntie-annes-pretzel-bites.jpg";
-import copycatChilisSkilletQuesoImg from "@/assets/recipes/copycat-chilis-skillet-queso.jpg";
-import copycatTacoBellMexicanPizzaImg from "@/assets/recipes/copycat-taco-bell-mexican-pizza.jpg";
-
-import leftoverChickenEnchiladasImg from "@/assets/recipes/leftover-chicken-enchiladas.jpg";
+// Halloween assets removed for 2025 launch
+// Fallbacks for removed Halloween image variables (prevent runtime ReferenceError during purge)
 import leftoverMashedPotatoPancakesImg from "@/assets/recipes/leftover-mashed-potato-pancakes.jpg";
 import leftoverPotRoastShepherdsPieImg from "@/assets/recipes/leftover-pot-roast-shepherds-pie.jpg";
 import leftoverChickenSoupCasseroleImg from "@/assets/recipes/leftover-chicken-soup-casserole.jpg";
@@ -960,7 +946,7 @@ export const allRecipes: Recipe[] = [
   },
   {
     id: "dessert-eclairs",
-    name: "Chocolate Ã‰clairs",
+    name: "Chocolate Eclairs",
     description: "Choux pastry with cream filling and chocolate glaze. French bakery perfection.",
     cookTime: "30 mins",
     prepTime: "30 mins",
@@ -1311,8 +1297,8 @@ export const allRecipes: Recipe[] = [
 
   // ========== RESTAURANT COPYCATS (18) ==========
   {
-    id: "copycat-cheesecake-factory",
-    name: "Cheesecake Factory Chicken Madeira",
+    id: "copycat-burrito-bowl",
+    name: "Chipotle Burrito Bowl",
     description: "Better than Chipotle. Cilantro lime rice, perfectly seasoned protein, all the toppings.",
     cookTime: "30 mins",
     prepTime: "15 mins",
@@ -2533,7 +2519,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "lb", item: "white American cheese, cubed" },
       { amount: "1/2", unit: "cup", item: "milk" },
       { amount: "1/2", unit: "cup", item: "pico de gallo" },
-      { amount: "1", unit: "jalapeÃ±o", item: "sliced" },
+      { amount: "1", unit: "jalapeño", item: "sliced" },
       { amount: "2", unit: "tbsp", item: "fresh cilantro, chopped" },
       { amount: "1/2", unit: "tsp", item: "cumin" },
       { amount: "1/4", unit: "tsp", item: "salt" }
@@ -2544,7 +2530,7 @@ export const allRecipes: Recipe[] = [
       "Stir constantly until cheese is completely melted and smooth.",
       "Stir in cooked beef, cumin, and salt.",
       "Transfer to serving skillet or bowl.",
-      "Top with pico de gallo, sliced jalapeÃ±os, and cilantro.",
+      "Top with pico de gallo, sliced jalapeños, and cilantro.",
       "Serve immediately with warm tortilla chips!",
       "Keep warm in slow cooker for parties."
     ]
