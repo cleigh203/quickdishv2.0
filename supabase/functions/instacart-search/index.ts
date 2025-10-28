@@ -22,7 +22,7 @@ serve(async (req) => {
 
     // Use configured Instacart API key and base URL
     const INSTACART_API_KEY = Deno.env.get('INSTACART_API_KEY') || '';
-    const INSTACART_BASE_URL = Deno.env.get('INSTACART_BASE_URL') || 'https://connect.dev.instacart.tools';
+    const INSTACART_BASE_URL = Deno.env.get('INSTACART_BASE_URL') || 'https://connect.instacart.com';
     if (!INSTACART_API_KEY) {
       return new Response(
         JSON.stringify({ error: 'INSTACART_API_KEY not configured' }),

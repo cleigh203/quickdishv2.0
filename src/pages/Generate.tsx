@@ -15,39 +15,7 @@ import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { getRecipeImage } from "@/utils/recipeImages";
-
-// Lunch-only recipes: appear only under Lunch in Discover
-const LUNCH_ONLY_NAMES = new Set<string>([
-  'Roast Beef French Dip Sliders',
-  'Salmon Caesar Salad',
-  'Meatloaf Sliders with Caramelized Onions',
-  'Garlic Butter Baked Tilapia',
-  'Mushroom Walnut Veggie Burger',
-  'Cauliflower Shawarma',
-  'Sesame Tofu and Broccoli',
-  'Chipotle Portobello Mushroom Tacos',
-  'Vegan Crunchwrap',
-  'Mediterranean Quinoa Bowl',
-  'Buffalo Chicken Wrap',
-  'Greek Salad with Grilled Chicken',
-  'Turkey Avocado Club',
-  'Caprese Panini',
-  'Tuna Niçoise Salad',
-  'California Roll Bowl',
-  'BBQ Pulled Pork Sandwich',
-  'Falafel Pita',
-  'Chicken Caesar Salad',
-  'Bánh Mì Sandwich',
-  'Southwest Chicken Bowl',
-  'Margherita Flatbread',
-  'Cobb Salad',
-  'Pesto Pasta Salad',
-  "Shrimp Po' Boy",
-  'Chicken Shawarma Wrap',
-  'Tomato Soup with Grilled Cheese',
-]);
-
-const isLunchOnly = (recipe: Recipe) => LUNCH_ONLY_NAMES.has(recipe.name);
+import { AdSlot } from "@/components/AdSlot";
 
 const Generate = () => {
   const [searchParams] = useSearchParams();
@@ -90,16 +58,7 @@ const Generate = () => {
     });
     
     // Exclude AI-generated recipes from discovery dataset
-    const base = Array.from(recipeMap.values()).filter(r => !(r as any).isAiGenerated);
-    // Ensure lunch-only names carry a 'lunch' tag and show cuisine as 'Lunch'
-    return base.map(r => {
-      if (isLunchOnly(r)) {
-        const hasLunch = (r.tags || []).some(t => t.toLowerCase() === 'lunch');
-        const updatedTags = hasLunch ? r.tags : [...(r.tags || []), 'lunch'];
-        return { ...r, tags: updatedTags, cuisine: 'Lunch' } as Recipe;
-      }
-      return r;
-    });
+    return Array.from(recipeMap.values()).filter(r => !(r as any).isAiGenerated);
   })();
 
   // Load all recipes into storage on mount
@@ -115,6 +74,7 @@ const Generate = () => {
 
   // Recipe categories for horizontal sections
   const categories = [
+    { id: 'halloween', name: 'Halloween', emoji: '🎃' },
     { id: 'fall', name: 'Fall Favorites', emoji: '🍂' },
     { id: 'quick', name: 'Quick & Easy', emoji: '⚡' },
     { id: 'copycat', name: 'Restaurant Copycats', emoji: '🍔' },
@@ -168,7 +128,7 @@ const Generate = () => {
             console.log('✅ Fall recipe found:', recipe.name, '| tags:', recipe.tags);
           }
           
-          return matches && !isLunchOnly(recipe);
+          return matches;
         });
         console.log(`🍂 Total Fall Favorites: ${fallRecipes.length}`);
         return fallRecipes;
@@ -195,34 +155,30 @@ const Generate = () => {
                  !isLeftoverOnly &&
                  !isFallOnly &&
                  !isOnePotOnly &&
-                 !isHealthyBowl &&
-                 !isLunchOnly(recipe);
+                 !isHealthyBowl;
         });
       
       case 'breakfast':
         return combinedRecipes.filter(recipe =>
-          recipe.tags?.includes('breakfast') && !isHalloweenRecipe(recipe) && !isLunchOnly(recipe)
+          recipe.tags?.includes('breakfast') && !isHalloweenRecipe(recipe)
         );
       
       case 'lunch':
         return combinedRecipes.filter(recipe =>
-          (
-            isLunchOnly(recipe) ||
-            recipe.tags?.includes('lunch') || 
-            recipe.tags?.includes('sandwich') ||
-            recipe.tags?.includes('salad') ||
-            recipe.tags?.includes('wrap')
-          ) && !isHalloweenRecipe(recipe)
+          (recipe.tags?.includes('lunch') || 
+           recipe.tags?.includes('sandwich') ||
+           recipe.tags?.includes('salad') ||
+           recipe.tags?.includes('wrap')) && !isHalloweenRecipe(recipe)
         );
       
       case 'dinner':
         return combinedRecipes.filter(recipe =>
-          recipe.tags?.includes('dinner') && !isHalloweenRecipe(recipe) && !isLunchOnly(recipe)
+          recipe.tags?.includes('dinner') && !isHalloweenRecipe(recipe)
         );
       
       case 'dessert':
         return combinedRecipes.filter(recipe =>
-          recipe.tags?.includes('dessert') && !isHalloweenRecipe(recipe) && !isLunchOnly(recipe)
+          recipe.tags?.includes('dessert') && !isHalloweenRecipe(recipe)
         );
       
       case 'onepot':
@@ -231,14 +187,14 @@ const Generate = () => {
            recipe.tags?.includes('one-pot') || 
            recipe.tags?.includes('sheet-pan') || 
            recipe.tags?.includes('air-fryer') ||
-           recipe.tags?.includes('casserole')) && !isHalloweenRecipe(recipe) && !isLunchOnly(recipe)
+           recipe.tags?.includes('casserole')) && !isHalloweenRecipe(recipe)
         );
       
       case 'bowls':
         return combinedRecipes.filter(recipe =>
           (recipe.cuisine.toLowerCase().includes('bowl') || 
            recipe.tags?.includes('bowls') || 
-           recipe.tags?.includes('healthy')) && !isHalloweenRecipe(recipe) && !isLunchOnly(recipe)
+           recipe.tags?.includes('healthy')) && !isHalloweenRecipe(recipe)
         );
       
       case 'family':
@@ -248,22 +204,21 @@ const Generate = () => {
            recipe.difficulty.toLowerCase() === 'easy') && 
           !isHalloweenRecipe(recipe) &&
           !recipe.tags?.includes('dessert') &&
-          !recipe.tags?.includes('copycat') &&
-          !isLunchOnly(recipe)
+          !recipe.tags?.includes('copycat')
         );
       
       case 'copycat':
         return combinedRecipes.filter(recipe =>
           (recipe.cuisine.toLowerCase().includes('copycat') || 
            recipe.tags?.includes('copycat') ||
-           recipe.name.toLowerCase().includes('copycat')) && !isHalloweenRecipe(recipe) && !isLunchOnly(recipe)
+           recipe.name.toLowerCase().includes('copycat')) && !isHalloweenRecipe(recipe)
         );
       
       case 'leftover':
         return combinedRecipes.filter(recipe =>
           (recipe.cuisine.toLowerCase().includes('leftover') || 
            recipe.tags?.includes('leftover') ||
-           recipe.name.toLowerCase().includes('leftover')) && !isHalloweenRecipe(recipe) && !isLunchOnly(recipe)
+           recipe.name.toLowerCase().includes('leftover')) && !isHalloweenRecipe(recipe)
         );
       
       default:
@@ -555,7 +510,7 @@ const Generate = () => {
                       decoding="async"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=180&q=18&fm=webp";
+                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -592,6 +547,7 @@ const Generate = () => {
   // If viewing a specific collection, show grid view
   if (collectionParam) {
     const categoryMapping: { [key: string]: string } = {
+      'Halloween': 'halloween',
       'Fall Favorites': 'fall',
       'Quick & Easy': 'quick',
       'Restaurant Copycats': 'copycat',

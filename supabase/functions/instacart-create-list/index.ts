@@ -22,7 +22,7 @@ serve(async (req) => {
 
     // Use configured Instacart API key and base URL
     const INSTACART_API_KEY = Deno.env.get('INSTACART_API_KEY') || '';
-    const INSTACART_BASE_URL = Deno.env.get('INSTACART_BASE_URL') || 'https://connect.dev.instacart.tools';
+    const INSTACART_BASE_URL = Deno.env.get('INSTACART_BASE_URL') || 'https://connect.instacart.com';
     if (!INSTACART_API_KEY) {
       return new Response(
         JSON.stringify({ error: 'INSTACART_API_KEY not configured' }),
@@ -135,10 +135,16 @@ serve(async (req) => {
       );
     }
 
+    // Append Impact.com UTM parameters for affiliate commission tracking
+    const utmParams = '?utm_campaign=instacart-idp&utm_medium=affiliate&utm_source=instacart_idp&utm_term=partnertype-mediapartner&utm_content=campaignid-20313_partnerid-4352633';
+    const finalUrl = `${listData.products_link_url}${utmParams}`;
+
+    console.log('Final URL with UTM params:', finalUrl);
+
     return new Response(
       JSON.stringify({
         success: true,
-        products_link_url: listData.products_link_url,
+        products_link_url: finalUrl,
         items_count: line_items.length
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

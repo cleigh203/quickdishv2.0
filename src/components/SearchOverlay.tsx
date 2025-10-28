@@ -7,7 +7,7 @@ import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { useNavigate } from "react-router-dom";
-// Ads removed
+import { AdSlot } from "@/components/AdSlot";
 import { InlineRating } from "@/components/InlineRating";
 
 interface SearchOverlayProps {
@@ -53,7 +53,13 @@ export const SearchOverlay = ({
 
   // Filter recipes in real-time
   const filteredRecipes = useMemo(() => {
+    const isHalloweenRecipe = (recipe: Recipe) => 
+      recipe.cuisine?.toLowerCase() === 'halloween' || 
+      recipe.tags?.includes('halloween') || false;
+
     return recipes.filter(recipe => {
+      // Exclude Halloween recipes from search
+      if (isHalloweenRecipe(recipe)) return false;
 
       // Search query filter - search by name AND ingredients with smart word matching
       if (searchQuery.trim()) {
@@ -284,33 +290,17 @@ export const SearchOverlay = ({
                         </div>
                       ) : (
                         <img
-                          src={getRecipeImage(recipe, false)}
+                          src={getRecipeImage(recipe, import.meta.env.DEV)}
                           alt={recipe.name}
                           className="w-full h-full object-cover"
-                          loading="eager"
-                          crossOrigin="anonymous"
+                          loading="lazy"
+                          decoding="async"
                           width="400"
                           height="500"
                           onError={(e) => {
-                            const target = e.currentTarget;
-                            const imageUrl = getRecipeImage(recipe, false);
-                            console.error('❌ Search image failed:', recipe.name, imageUrl);
-                            
-                            // MOBILE FIX: Retry with cache-busting
-                            if (!target.dataset.retried) {
-                              target.dataset.retried = 'true';
-                              const separator = imageUrl.includes('?') ? '&' : '?';
-                              target.src = `${imageUrl}${separator}retry=${Date.now()}`;
-                              console.log('🔄 Retrying search image');
-                              return;
-                            }
-                            
-                            if (!target.src.includes('unsplash')) {
-                              target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=180&q=18&fm=webp";
-                            }
+                            const target = e.target as HTMLImageElement;
+                            target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
                           }}
-                          onLoad={() => console.log('✅ Search image loaded:', recipe.name)}
-                          style={{ width: '100%', height: 'auto' }}
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -327,7 +317,12 @@ export const SearchOverlay = ({
                     <p className="mt-2 font-medium text-sm line-clamp-2">{recipe.name}</p>
                     <InlineRating recipeId={recipe.id} />
                   </div>
-                  
+                  {/* Conservative cap: show at most two ads, after ~12 and ~24 results */}
+                  {(idx === 12 || idx === 24) && (
+                    <div className="col-span-2">
+                      <AdSlot slot="0000000000" className="my-4" test />
+                    </div>
+                  )}
                 </Fragment>
               ))}
             </div>

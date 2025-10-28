@@ -89,7 +89,21 @@ export async function generateOnePotRecipes() {
   return result;
 }
 
-// Halloween generation removed for 2025 launch freeze
+/**
+ * Example 6: Generate Halloween Recipes
+ */
+export async function generateHalloweenRecipes() {
+  const result = await generateRecipes({
+    category: 'Halloween',
+    count: 8,
+    options: {
+      dietary: 'none'
+    }
+  });
+  
+  console.log(`Generated ${result.generated} Halloween recipes`);
+  return result;
+}
 
 /**
  * Example 7: Bulk Generate All Categories

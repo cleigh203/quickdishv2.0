@@ -11,7 +11,7 @@ import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
-// Ads removed
+import { AdSlot } from "@/components/AdSlot";
 
 const Favorites = () => {
   const { savedRecipes, loading } = useSavedRecipes();
@@ -175,7 +175,7 @@ const Favorites = () => {
                       height="360"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=180&q=18&fm=webp";
+                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
                       }}
                     />
                   )}
@@ -231,7 +231,8 @@ const Favorites = () => {
           </div>
         )}
 
-        
+        {/* Ad at bottom */}
+        <AdSlot slot="0000000000" className="my-10" test />
       </div>
       
       <BottomNav />

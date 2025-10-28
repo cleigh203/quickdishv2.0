@@ -5,19 +5,21 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BottomNav } from "@/components/BottomNav";
 import { VoiceSearchButton } from "@/components/VoiceSearchButton";
+import { getFreeHalloweenRecipes } from "@/data/halloweenRecipes";
 import { RecipeCard } from "@/components/RecipeCard";
 // TODO V2.0: Re-enable AI recipe generation with full feature parity
 // import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
+import poisonAppleCocktail from "@/assets/recipes/poison-apple-cocktail.jpg";
 import { allRecipes } from "@/data/recipes";
 import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import type { Recipe } from "@/types/recipe";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
-// Ads removed
+import { AdSlot } from "@/components/AdSlot";
 
 const Index = () => {
   const navigate = useNavigate();
-  
+  const [showHalloweenRecipes, setShowHalloweenRecipes] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
@@ -27,7 +29,7 @@ const Index = () => {
     navigate(`/recipe/${recipeId}`);
   };
 
-  
+  const freeHalloweenRecipes = getFreeHalloweenRecipes();
 
   // Combine verified, generated, and static recipes with proper deduplication
   const combinedRecipes = useMemo(() => {
@@ -122,22 +124,13 @@ const Index = () => {
   return (
     <div className="min-h-screen pb-20 bg-background">
       {/* Full-width Hero */}
-      <div className="relative h-[420px] mb-8">
-        {/* Hero Background Image - LCP Element */}
-        <img 
-          src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=18&fm=webp"
-          srcSet="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=18&fm=webp 400w, https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=18&fm=webp 600w, https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=18&fm=webp 800w"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
-          alt="Cooking ingredients background"
-          fetchPriority="high"
-          loading="eager"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70" />
-        
-        {/* Hero Content */}
-        <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 text-center">
+      <div 
+        className="relative h-[420px] mb-8 bg-cover bg-center"
+        style={{
+          backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%), url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80)`
+        }}
+      >
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
           <h1 className="page-title md:text-6xl mb-4 drop-shadow-2xl text-white">
             Turn Ingredients Into Magic
           </h1>
@@ -247,7 +240,26 @@ const Index = () => {
           </div>
         )}
 
-        
+        {/* Halloween Recipes Grid */}
+        {!isSearching && showHalloweenRecipes && (
+          <div className="mb-12">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold">🦇 Spooky Specials</h3>
+              <Button variant="ghost" onClick={() => setShowHalloweenRecipes(false)}>
+                Hide
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {freeHalloweenRecipes.map((recipe) => (
+                <RecipeCard
+                  key={recipe.id}
+                  recipe={recipe}
+                  onClick={() => handleRecipeClick(recipe.id)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Ad between sections - removed to keep page clean */}
 
@@ -258,28 +270,24 @@ const Index = () => {
               <h2 className="section-header">Featured Collections</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-              { name: 'Quick & Easy', imageBase: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd' },
-              { name: 'Fall Favorites', imageBase: 'https://images.unsplash.com/photo-1535920527002-b35e96722eb9' },
-              { name: 'Family Favorites', imageBase: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1' },
-              { name: 'One-Pot Wonders', imageBase: 'https://images.unsplash.com/photo-1547592166-23ac45744acd' },
-              { name: 'Healthy Bowls', imageBase: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c' },
-              { name: 'Desserts', imageBase: 'https://images.unsplash.com/photo-1488477181946-6428a0291777' },
+              { name: 'Quick & Easy', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80' },
+              { name: 'Fall Favorites', image: 'https://images.unsplash.com/photo-1535920527002-b35e96722eb9?w=400&q=80' },
+              { name: 'Family Favorites', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80' },
+              { name: 'One-Pot Wonders', image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=80' },
+              { name: 'Healthy Bowls', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80' },
+              { name: 'Desserts', image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80' },
             ].map((collection) => (
                 <div 
                   key={collection.name}
-                  className="clickable-card overflow-hidden"
+                  className="clickable-card"
                   onClick={() => {
                     navigate(`/discover?collection=${encodeURIComponent(collection.name)}`);
                     window.scrollTo(0, 0);
                   }}
                 >
-                  <img 
-                    src={`${collection.imageBase}?w=180&q=18&fm=webp`}
-                    srcSet={`${collection.imageBase}?w=150&q=18&fm=webp 150w, ${collection.imageBase}?w=180&q=18&fm=webp 180w`}
-                    sizes="(max-width: 640px) 150px, 180px"
-                    alt={collection.name}
-                    loading="lazy"
-                    className="h-36 w-full object-cover rounded-xl"
+                  <div 
+                    className="h-36 bg-cover bg-center rounded-xl"
+                    style={{ backgroundImage: `url(${collection.image})` }}
                   />
                   <div className="p-4">
                     <h3 className="font-semibold text-sm">{collection.name}</h3>
@@ -294,6 +302,30 @@ const Index = () => {
         {/* Featured Collection - Large Cards */}
         {!isSearching && (
           <div className="grid md:grid-cols-2 gap-6 mb-6">
+          {/* Halloween Recipe Drop */}
+          <div
+            className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer clickable-card"
+            onClick={() => {
+              navigate('/discover?collection=Halloween');
+              window.scrollTo(0, 0);
+            }}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"
+              style={{
+                backgroundImage: `url(${poisonAppleCocktail})`
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+              <div className="text-5xl mb-3">🎃</div>
+              <h3 className="text-3xl font-bold text-white mb-2">Halloween Recipe Drop</h3>
+              <p className="body-text text-white/90">
+                Vampire brownies that ooze • Black pasta that goes viral
+              </p>
+            </div>
+          </div>
+
           {/* Restaurant Copycats */}
           <div
             className="group relative h-72 rounded-3xl overflow-hidden cursor-pointer clickable-card"
@@ -302,11 +334,11 @@ const Index = () => {
               window.scrollTo(0, 0);
             }}
           >
-            <img
-              src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=18&fm=webp"
-              alt="Restaurant style food"
-              loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"
+              style={{
+                backgroundImage: `url(https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80)`
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
@@ -320,7 +352,10 @@ const Index = () => {
           </div>
         )}
 
-        
+        {/* Ad at bottom of page */}
+        {!isSearching && (
+          <AdSlot slot="0000000000" className="my-10" test />
+        )}
       </div>
 
       <BottomNav />

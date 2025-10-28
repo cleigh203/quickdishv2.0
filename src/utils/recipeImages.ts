@@ -1,29 +1,5 @@
 import { Recipe } from "@/types/recipe";
 
-// IMAGE VERSION - Increment this when images are updated to bust cache
-// Only change this number when you actually update recipe images
-const IMAGE_VERSION = '4';
-
-// CACHE-BUSTING - Add static version to URLs for cache control
-const addCacheBuster = (url: string): string => {
-  if (!url || url.startsWith('data:')) {
-    return url;
-  }
-  
-  // Don't cache-bust Pexels/Unsplash (they have their own CDN)
-  if (url.includes('pexels.com') || url.includes('unsplash.com')) {
-    return url;
-  }
-  
-  // Only add version to Imgur and custom URLs
-  if (url.includes('imgur.com') || url.includes('lovable-uploads')) {
-    const separator = url.includes('?') ? '&' : '?';
-    return `${url}${separator}v=${IMAGE_VERSION}`;
-  }
-  
-  return url;
-};
-
 // Smart image mapping based on recipe content
 // Local overrides to immediately reflect updated images on localhost
 const imageOverrides: Record<string, string> = {
@@ -41,40 +17,9 @@ const imageOverrides: Record<string, string> = {
   "teriyaki-chicken": "https://i.imgur.com/T4OZWKW.png",
   "maple-glazed-salmon": "https://i.imgur.com/gk4bJTS.png",
   "quick-two-ingredient-pici-pasta": "https://i.imgur.com/SldTS5S.png",
-  // NEW RECIPE IMAGES
-  "apple-cider-pulled-pork": "https://i.imgur.com/aHMkyJB.png",
-  "harvest-chicken-vegetables": "https://i.imgur.com/7KtS2Em.png",
-  "pumpkin-risotto": "https://i.imgur.com/R2KpdiH.png",
-  "cranberry-brie-bites": "https://i.imgur.com/AIsG9V8.png",
-  "pecan-crusted-pork": "https://i.imgur.com/PibHyc6.png",
-  // NEWEST RECIPE IMAGES
-  "caramel-apple-nachos": "https://i.imgur.com/dGYFnDc.png",
-  "butternut-squash-soup": "https://i.imgur.com/U7G2UOE.png",
-  "pork-chops-apples": "https://i.imgur.com/mbuGyaR.png",
-  "breakfast-quiche-lorraine": "https://imgur.com/eB40MLD",
-  // LATEST RECIPE IMAGES
-  "fall-pumpkin-cinnamon-rolls": "https://i.imgur.com/PWK62lX.png",
-  "fall-apple-pie-egg-rolls": "https://i.imgur.com/AmIc3tS.png",
-  "fall-pumpkin-banana-bread": "https://i.imgur.com/ckaT1lp.png",
-  "fall-cinnamon-roll-apple-pie": "https://i.imgur.com/bGw8DgL.png",
-  "fall-stuffed-baked-apples": "https://i.imgur.com/McT92wA.png",
-  // LUNCH IMAGE UPDATES
-  "lunch-caprese-panini": "https://i.imgur.com/BUd1TwO.png",
-  "lunch-cobb-salad": "https://i.imgur.com/dndchcQ.png",
-  "lunch-banh-mi-sandwich": "https://i.imgur.com/3ad5bND.png",
 };
 
 export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }, cacheBust: boolean = false): string => {
-  console.log('📸 getRecipeImage called:', {
-    recipeId: recipe.id,
-    recipeName: recipe.name,
-    hasImageUrl: !!recipe.imageUrl,
-    hasImage: !!recipe.image,
-    isAiGenerated: (recipe as any).isAiGenerated,
-    imageUrlValue: recipe.imageUrl,
-    imageValue: recipe.image
-  });
-
   // If AI-generated and no explicit image, return a neutral white placeholder (no random stock)
   if ((recipe as any).isAiGenerated && !recipe.imageUrl && !recipe.image) {
     // 1x1 white PNG data URI
@@ -83,22 +28,31 @@ export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }, ca
   // Force override first so it wins regardless of source (static/DB/cached)
   if (recipe.id && imageOverrides[recipe.id]) {
     let url = imageOverrides[recipe.id];
-    console.log('🎯 Using imageOverride for', recipe.id, ':', url);
-    return addCacheBuster(url);
+    if (cacheBust && url && !url.startsWith('data:') && !url.includes('pexels.com') && !url.includes('unsplash.com')) {
+      const separator = url.includes('?') ? '&' : '?';
+      url = `${url}${separator}v=${Date.now()}`;
+    }
+    return url;
   }
 
   // Check imageUrl first (Halloween recipes)
   if (recipe.imageUrl && !recipe.imageUrl.includes('undefined')) {
     let url = recipe.imageUrl;
-    console.log('🖼️ Using recipe.imageUrl for', recipe.name, ':', url);
-    return addCacheBuster(url);
+    if (cacheBust && !url.startsWith('data:') && !url.includes('pexels.com') && !url.includes('unsplash.com')) {
+      const separator = url.includes('?') ? '&' : '?';
+      url = `${url}${separator}v=${Date.now()}`;
+    }
+    return url;
   }
 
   // Check image second (generated recipes)
   if (recipe.image && !recipe.image.includes('undefined')) {
     let url = recipe.image;
-    console.log('🖼️ Using recipe.image for', recipe.name, ':', url);
-    return addCacheBuster(url);
+    if (cacheBust && !url.startsWith('data:') && !url.includes('pexels.com') && !url.includes('unsplash.com')) {
+      const separator = url.includes('?') ? '&' : '?';
+      url = `${url}${separator}v=${Date.now()}`;
+    }
+    return url;
   }
 
   // As a fallback, try local dessert asset naming convention if image is missing

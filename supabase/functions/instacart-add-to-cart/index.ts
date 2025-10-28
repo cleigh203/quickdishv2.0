@@ -22,7 +22,7 @@ serve(async (req) => {
 
     // Use configured Instacart API key and base URL (not used in stubbed flow yet)
     const INSTACART_API_KEY = Deno.env.get('INSTACART_API_KEY') || '';
-    const INSTACART_BASE_URL = Deno.env.get('INSTACART_BASE_URL') || 'https://connect.dev.instacart.tools';
+    const INSTACART_BASE_URL = Deno.env.get('INSTACART_BASE_URL') || 'https://connect.instacart.com';
 
     // For adding to cart, we need to get the item details first
     // This is a simplified implementation - in production you'd need proper cart management

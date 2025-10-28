@@ -6,7 +6,8 @@ import { useAiRecipeGeneration } from '@/hooks/useAiRecipeGeneration';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Recipe } from '@/types/recipe';
-// Ads removed
+import { RewardedAdModal } from '@/components/RewardedAdModal';
+import { needAdForAiGeneration, canGenerateAiRecipe, recordAiGeneration } from '@/utils/adGates';
 
 interface AiGenerationPromptProps {
   searchTerm: string;
@@ -19,7 +20,9 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
   const navigate = useNavigate();
   const [remaining, setRemaining] = useState<number | null>(null);
   const [limitReached, setLimitReached] = useState(false);
+  const [showAd, setShowAd] = useState(false);
   const [pendingRecipe, setPendingRecipe] = useState<Recipe | null>(null);
+  const [adGranted, setAdGranted] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -46,6 +49,14 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
       return;
     }
 
+    // Daily allowance gate
+    const gate = canGenerateAiRecipe();
+    if (!gate.allowed) {
+      return;
+    }
+    // Always require short video: open modal and start generation in parallel
+    setShowAd(true);
+    setAdGranted(false);
     setPendingRecipe(null);
     try {
       const recipe = await generateRecipe(searchTerm);
@@ -56,11 +67,14 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
   };
 
   useEffect(() => {
-    if (pendingRecipe) {
+    if (adGranted && pendingRecipe) {
       onRecipeGenerated(pendingRecipe);
+      recordAiGeneration();
+      setShowAd(false);
+      setAdGranted(false);
       setPendingRecipe(null);
     }
-  }, [pendingRecipe, onRecipeGenerated]);
+  }, [adGranted, pendingRecipe, onRecipeGenerated]);
 
   return (
     <Card className="p-6 border-2 border-dashed">
@@ -105,7 +119,20 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
               )}
             </Button>
 
-            
+            <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+              <Zap className="w-3 h-3" />
+              <span>
+                {limitReached ? (
+                  isPremium ? (
+                    'Come back tomorrow for more generations'
+                  ) : (
+                    'Daily limit reached'
+                  )
+                ) : (
+                  `Up to 2 generations/day • Watch a short video each time`
+                )}
+              </span>
+            </div>
 
             {limitReached && !isPremium && (
               <Button
@@ -140,7 +167,13 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
         </div>
       </div>
 
-      
+      <RewardedAdModal
+        open={showAd}
+        onClose={() => setShowAd(false)}
+        onReward={() => setAdGranted(true)}
+        title="Watch an ad while we create your recipe"
+        description="You get 2 generations per day. A short video unlocks each one."
+      />
     </Card>
   );
 };
