@@ -67,7 +67,7 @@ const leftoverChickenParmSoupImg = "https://i.imgur.com/placeholder16.png";
 const leftoverLasagnaGrilledCheeseImg = "https://i.imgur.com/placeholder17.png";
 const leftoverPotRoastRamenImg = "https://i.imgur.com/placeholder18.png";
 const teriyakiChickenImg = "https://i.imgur.com/placeholder19.png";
-const sweetPotatoCasseroleImg = "https://i.imgur.com/placeholder20.png";
+const sweetPotatoCasseroleImg = "https://i.imgur.com/YlNbMCE.png";
 const chickenFajitaRiceImg = "https://i.imgur.com/placeholder21.png";
 const breakfastHashbrownCasseroleImg = "https://i.imgur.com/placeholder22.png";
 const breakfastScrambledEggsBaconImg = "https://i.imgur.com/placeholder23.png";
@@ -195,7 +195,7 @@ const breakfastTacosImg = "https://i.imgur.com/KnY1DpE.png";
 const breakfastButtermilkPancakesImg = "https://i.imgur.com/4AOEnQq.png";
 // breakfastCasseroleClassicImg replaced with imgur URL
 const breakfastCasseroleClassicImg = "https://i.imgur.com/mHmY7iT.jpeg";
-const breakfastQuicheLorraineImg = "https://imgur.com/eB40MLD";
+const breakfastQuicheLorraineImg = "https://i.imgur.com/HOOLi2x.png";
 // breakfastSandwichClassicImg replaced with imgur URL
 const breakfastSandwichClassicImg = "https://i.imgur.com/AEmPQcd.png";
 // breakfastTacosClassicImg replaced with imgur URL
