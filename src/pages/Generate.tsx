@@ -15,7 +15,6 @@ import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { getRecipeImage } from "@/utils/recipeImages";
-import { AdSlot } from "@/components/AdSlot";
 
 const Generate = () => {
   const [searchParams] = useSearchParams();

@@ -27,9 +27,6 @@ import { useRecipeRating } from "@/hooks/useRecipeRating";
 import { useMealPlan } from "@/hooks/useMealPlan";
 import { MealPlanDialog } from "@/components/MealPlanDialog";
 import { RecipeAIChatDialog } from "@/components/RecipeAIChatDialog";
-import { RewardedAdModal } from "@/components/RewardedAdModal";
-import { AdSlot } from "@/components/AdSlot";
-import { needAdForNutrition, markNutritionWatched, needAdForChatThisSession, markChatAdWatched, recordRecipeViewAndCheckInterstitial, markInterstitialShown } from "@/utils/adGates";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { usePantryItems } from "@/hooks/usePantryItems";
 // ShoppingGuide temporarily removed - will use Kroger/Instacart API when ready
@@ -350,7 +347,6 @@ const RecipeDetail = () => {
     <div className="min-h-screen pb-8">
       {/* Top banner ad (excluded in cooking mode branch) */}
       <div className="max-w-5xl mx-auto px-5 pt-4">
-        <AdSlot slot="0000000000" className="my-2" test />
       </div>
       {/* Only show image for non-AI recipes */}
       {!recipe.isAiGenerated && (
@@ -937,38 +933,6 @@ const RecipeDetail = () => {
         recipe={recipe}
         open={aiChatOpen}
         onClose={() => setAiChatOpen(false)}
-      />
-
-      <RewardedAdModal
-        open={showAd !== null}
-        onClose={() => setShowAd(null)}
-        onReward={() => {
-          if (showAd === 'chat') {
-            markChatAdWatched();
-            setAiChatOpen(true);
-          }
-          if (showAd === 'nutrition' && recipe) {
-            markNutritionWatched(recipe.id);
-            setNutritionModalOpen(true);
-          }
-          if (showAd === 'interstitial') {
-            markInterstitialShown();
-          }
-        }}
-        title={
-          showAd === 'chat'
-            ? 'Watch an ad to chat with Chef Quinn'
-            : showAd === 'nutrition'
-              ? 'Watch an ad to view nutrition facts'
-              : 'Sponsored content'
-        }
-        description={
-          showAd === 'chat'
-            ? 'Unlock AI chat for this session by watching one ad.'
-            : showAd === 'nutrition'
-              ? 'Unlock nutrition info for this recipe by watching one ad.'
-              : ''
-        }
       />
 
       {/* Shopping Flow Components - Removed, will add back with Kroger/Instacart API */}

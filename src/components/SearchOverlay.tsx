@@ -7,7 +7,6 @@ import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { useNavigate } from "react-router-dom";
-import { AdSlot } from "@/components/AdSlot";
 import { InlineRating } from "@/components/InlineRating";
 
 interface SearchOverlayProps {
@@ -320,7 +319,6 @@ export const SearchOverlay = ({
                   {/* Conservative cap: show at most two ads, after ~12 and ~24 results */}
                   {(idx === 12 || idx === 24) && (
                     <div className="col-span-2">
-                      <AdSlot slot="0000000000" className="my-4" test />
                     </div>
                   )}
                 </Fragment>

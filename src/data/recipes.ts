@@ -1,63 +1,27 @@
 ﻿import { Recipe } from "@/types/recipe";
 
 // Import AI-generated images
-import chickenMarsalaImg from "@/assets/recipes/chicken-marsala.jpg";
-import stuffedBellPeppersImg from "@/assets/recipes/stuffed-bell-peppers.jpg";
-import teriyakiChickenImg from "@/assets/recipes/teriyaki-chicken.jpg";
 const porkChopsApplesImg = "https://i.imgur.com/mbuGyaR.png";
 // lemonHerbChickenThighsImg replaced with imgur URL
 const lemonHerbChickenThighsImg = "https://i.imgur.com/KwNUHAc.png";
 // bbqMeatloafImg replaced with imgur URL
 const bbqMeatloafImg = "https://i.imgur.com/cZ6DgEY.png";
-import frenchDipSlidersImg from "@/assets/recipes/french-dip-sliders.jpg";
-import mediterraneanChickenRiceImg from "@/assets/recipes/mediterranean-chicken-rice.jpg";
-import cajunChickenPastaImg from "@/assets/recipes/cajun-chicken-pasta.jpg";
-import koreanBeefBowlImg from "@/assets/recipes/korean-beef-bowl.jpg";
-import garlicButterTilapiaImg from "@/assets/recipes/garlic-butter-tilapia.jpg";
 // honeyMustardChickenImg replaced with imgur URL
 const honeyMustardChickenImg = "https://i.imgur.com/UvKDAtR.png";
-import thaiCoconutCurryImg from "@/assets/recipes/thai-coconut-curry.jpg";
-import beefEnchiladasImg from "@/assets/recipes/beef-enchiladas.jpg";
-import lemonGarlicShrimpImg from "@/assets/recipes/lemon-garlic-shrimp.jpg";
 // burritoBowlImg replaced with imgur URL
 const burritoBowlImg = "https://i.imgur.com/877Y8M2.png";
-import honeyGarlicChickenImg from "@/assets/recipes/quick-honey-garlic-chicken.jpg";
-import pizzaFrittataImg from "@/assets/recipes/leftover-pizza-frittata.jpg";
-import alfredoImg from "@/assets/recipes/olive-garden-alfredo.jpg";
-import shrimpStirfryImg from "@/assets/recipes/shrimp-stirfry.jpg";
-import chickenTacosImg from "@/assets/recipes/rotisserie-chicken-tacos.jpg";
-import crunchwrapImg from "@/assets/recipes/crunchwrap-supreme.jpg";
-import lemonSalmonImg from "@/assets/recipes/quick-lemon-salmon.jpg";
-import friedRiceImg from "@/assets/recipes/fried-rice.jpg";
-import chocolateLavaCakeImg from "@/assets/recipes/chocolate-lava-cake.jpg";
-import bananasFosterImg from "@/assets/recipes/bananas-foster.jpg";
-import garlicButterSteakBitesImg from "@/assets/recipes/garlic-butter-steak-bites.jpg";
 // chiliMacCheeseImg replaced with imgur URL
 const chiliMacCheeseImg = "https://i.imgur.com/Iy5HRsX.png";
-import tuscanChickenPastaImg from "@/assets/recipes/tuscan-chicken-pasta.jpg";
-import avocadoRollsImg from "@/assets/recipes/copycat-avocado-rolls.jpg";
+// tuscanChickenPastaImg replaced with imgur URL
+const tuscanChickenPastaImg = "https://i.imgur.com/BArBYKw.png";
 // beefBroccoliImg replaced with imgur URL
 const beefBroccoliImg = "https://i.imgur.com/lSRdTNS.png";
-import bloominOnionImg from "@/assets/recipes/copycat-bloomin-onion.jpg";
-import thaiBasilImg from "@/assets/recipes/quick-thai-basil-chicken.jpg";
-import pastaCarbonaraImg from "@/assets/recipes/pasta-carbonara.jpg";
 // broccoliSoupImg replaced with imgur URL
 const broccoliSoupImg = "https://i.imgur.com/5Wn96I7.png";
-import tuscanShrimpImg from "@/assets/recipes/quick-tuscan-shrimp.jpg";
-import potatoCroquettesImg from "@/assets/recipes/leftover-potato-croquettes.jpg";
-import lettuceWrapsImg from "@/assets/recipes/copycat-lettuce-wraps.jpg";
 // capreseChickenImg replaced with imgur URL
 const capreseChickenImg = "https://i.imgur.com/LsSmGYN.png";
-import turkeyQuesadillasImg from "@/assets/recipes/leftover-turkey-quesadillas.jpg";
-import cheddarBiscuitsImg from "@/assets/recipes/copycat-red-lobster-cheddar-bay-biscuits.jpg";
-import teriyakiSalmonImg from "@/assets/recipes/teriyaki-salmon-bowl.jpg";
-import frenchDipImg from "@/assets/recipes/leftover-french-dip.jpg";
 // chickenSandwichImg replaced with imgur URL
 const chickenSandwichImg = "https://i.imgur.com/9M80bvv.png";
-import sesameNoodlesImg from "@/assets/recipes/quick-sesame-noodles.jpg";
-import hamHashImg from "@/assets/recipes/leftover-ham-hash.jpg";
-import cornSalsaImg from "@/assets/recipes/copycat-corn-salsa.jpg";
-import chickenFajitasImg from "@/assets/recipes/quick-chicken-fajitas.jpg";
 // steakQuesadillaImg replaced with imgur URL
 const steakQuesadillaImg = "https://i.imgur.com/5ZNF6sl.png";
 // roadhouseRollsImg updated with new URL
@@ -66,147 +30,52 @@ const roadhouseRollsImg = "https://i.imgur.com/AdBW8B6.png";
 const copycatRaisingCanesSauceImg = "https://i.imgur.com/KrGQ6ol.png";
 // copycatAuntieAnnesPretzelBitesImg updated with new URL
 const copycatAuntieAnnesPretzelBitesImg = "https://i.imgur.com/OjGASKI.png";
-import kungPaoImg from "@/assets/recipes/quick-kung-pao-chicken.jpg";
 // burgerSlidersImg replaced with imgur URL
 const burgerSlidersImg = "https://i.imgur.com/BJ1aRuN.png";
 
 // eggBitesImg replaced with imgur URL
 const eggBitesImg = "https://i.imgur.com/u5ZahL2.png";
-import shrimpScampiImg from "@/assets/recipes/quick-shrimp-scampi.jpg";
 // sausageBurritoImg replaced with imgur URL
 const sausageBurritoImg = "https://i.imgur.com/TRWioaz.png";
 // animalFriesImg replaced with imgur URL
 const animalFriesImg = "https://i.imgur.com/R3lKTcY.png";
-import mongolianBeefImg from "@/assets/recipes/quick-mongolian-beef.jpg";
-import hashbrownCasseroleImg from "@/assets/recipes/copycat-hashbrown-casserole.jpg";
-import greekChickenImg from "@/assets/recipes/quick-greek-chicken.jpg";
-import brisketMacImg from "@/assets/recipes/leftover-brisket-mac.jpg";
-import mcgriddlesImg from "@/assets/recipes/copycat-mcgriddles.jpg";
-import steakBitesImg from "@/assets/recipes/garlic-steak-bites.jpg";
-import stuffingMuffinsImg from "@/assets/recipes/leftover-stuffing-muffins.jpg";
 // meatballSubImg replaced with imgur URL
 const meatballSubImg = "https://i.imgur.com/cJ7Z5m8.png";
-import padThaiImg from "@/assets/recipes/quick-pad-thai.jpg";
-import salmonSaladImg from "@/assets/recipes/leftover-salmon-salad.jpg";
-import cajunJambalayaImg from "@/assets/recipes/cajun-jambalaya.jpg";
-import beefStroganoffImg from "@/assets/recipes/beef-stroganoff.jpg";
-import chickenFajitaRiceImg from "@/assets/recipes/chicken-fajita-rice.jpg";
-import breadPuddingImg from "@/assets/recipes/dessert-bread-pudding.jpg";
 // applePieImg replaced with imgur URL
 const applePieImg = "https://i.imgur.com/EHVFMzi.png";
 const butternutSquashSoupImg = "https://i.imgur.com/U7G2UOE.png";
-import mapleGlazedSalmonImg from "@/assets/recipes/maple-glazed-salmon.jpg";
 const appleCiderPulledPorkImg = "https://i.imgur.com/aHMkyJB.png";
 const cranberryBrieBitesImg = "https://i.imgur.com/AIsG9V8.png";
-import sweetPotatoCasseroleImg from "@/assets/recipes/sweet-potato-casserole.jpg";
 const harvestChickenVegetablesImg = "https://i.imgur.com/7KtS2Em.png";
 const pecanCrustedPorkImg = "https://i.imgur.com/PibHyc6.png";
 const caramelAppleNachosImg = "https://i.imgur.com/dGYFnDc.png";
 const pumpkinRisottoImg = "https://i.imgur.com/R2KpdiH.png";
-import autumnHarvestSaladImg from "@/assets/recipes/autumn-harvest-salad.jpg";
 // Halloween assets removed for 2025 launch
 // Fallbacks for removed Halloween image variables (prevent runtime ReferenceError during purge)
-import leftoverMashedPotatoPancakesImg from "@/assets/recipes/leftover-mashed-potato-pancakes.jpg";
-import leftoverPotRoastShepherdsPieImg from "@/assets/recipes/leftover-pot-roast-shepherds-pie.jpg";
-import leftoverChickenSoupCasseroleImg from "@/assets/recipes/leftover-chicken-soup-casserole.jpg";
-import leftoverTacoMeatPizzaImg from "@/assets/recipes/leftover-taco-meat-pizza.jpg";
-import leftoverChickenPhoImg from "@/assets/recipes/leftover-chicken-pho.jpg";
-import leftoverMeatloafSlidersImg from "@/assets/recipes/leftover-meatloaf-sliders.jpg";
-import leftoverChiliCheeseFriesImg from "@/assets/recipes/leftover-chili-cheese-fries.jpg";
-import leftoverPulledPorkEggRollsImg from "@/assets/recipes/leftover-pulled-pork-egg-rolls.jpg";
-import leftoverTurkeyTetrazziniImg from "@/assets/recipes/leftover-turkey-tetrazzini.jpg";
-import leftoverRoastBeefPoutineImg from "@/assets/recipes/leftover-roast-beef-poutine.jpg";
-import leftoverChickenAlfredoShellsImg from "@/assets/recipes/leftover-chicken-alfredo-shells.jpg";
-import leftoverBbqRibsMacImg from "@/assets/recipes/leftover-bbq-ribs-mac.jpg";
-import leftoverChickenParmSoupImg from "@/assets/recipes/leftover-chicken-parm-soup.jpg";
-import leftoverFajitaBreakfastHashImg from "@/assets/recipes/leftover-fajita-breakfast-hash.jpg";
-import leftoverMeatballCasseroleImg from "@/assets/recipes/leftover-meatball-casserole.jpg";
-import leftoverLasagnaGrilledCheeseImg from "@/assets/recipes/leftover-lasagna-grilled-cheese.jpg";
-import leftoverPotRoastRamenImg from "@/assets/recipes/leftover-pot-roast-ramen.jpg";
-import leftoverTacoStuffedPeppersImg from "@/assets/recipes/leftover-taco-stuffed-peppers.jpg";
-import leftoverTikkaMasalaPotPieImg from "@/assets/recipes/leftover-tikka-masala-pot-pie.jpg";
 
 // Import new vegetarian/vegan recipes
-import vegetarianLasagnaImg from "@/assets/recipes/vegetarian-lasagna.jpg";
-import vegetarianChiliImg from "@/assets/recipes/vegetarian-chili.jpg";
-import veggieBurgersImg from "@/assets/recipes/veggie-burgers.jpg";
-import eggplantParmesanImg from "@/assets/recipes/eggplant-parmesan.jpg";
-import butterChickpeasImg from "@/assets/recipes/butter-chickpeas.jpg";
-import misoMushroomRiceImg from "@/assets/recipes/miso-mushroom-rice.jpg";
-import coconutVegetableCurryImg from "@/assets/recipes/coconut-vegetable-curry.jpg";
-import broccoliCheddarChickpeaSkilletImg from "@/assets/recipes/broccoli-cheddar-chickpea-skillet.jpg";
-import mushroomRamenImg from "@/assets/recipes/mushroom-ramen.jpg";
-import veggieStuffedPeppersImg from "@/assets/recipes/veggie-stuffed-peppers.jpg";
-import blackBeanTacosImg from "@/assets/recipes/black-bean-tacos.jpg";
-import crispyBakedFalafelImg from "@/assets/recipes/crispy-baked-falafel.jpg";
-import redLentilDahlImg from "@/assets/recipes/red-lentil-dahl.jpg";
-import veganNachosImg from "@/assets/recipes/vegan-nachos.jpg";
-import mushroomWalnutVeggieBurgerImg from "@/assets/recipes/mushroom-walnut-veggie-burger.jpg";
-import cauliflowerShawarmaImg from "@/assets/recipes/cauliflower-shawarma.jpg";
-import sesameTofuBroccoliImg from "@/assets/recipes/sesame-tofu-broccoli.jpg";
-import chipotlePortobelloTacosImg from "@/assets/recipes/chipotle-portobello-tacos.jpg";
-import spicedCarrotParsnipSoupImg from "@/assets/recipes/spiced-carrot-parsnip-soup.jpg";
-import veganMacCheeseImg from "@/assets/recipes/vegan-mac-cheese.jpg";
-import coconutMilkTomatoSoupImg from "@/assets/recipes/coconut-milk-tomato-soup.jpg";
-import coconutRiceBowlsImg from "@/assets/recipes/coconut-rice-bowls.jpg";
-import veganMugCakesImg from "@/assets/recipes/vegan-mug-cakes.jpg";
-import veganCoconutBaconImg from "@/assets/recipes/vegan-coconut-bacon.jpg";
+// vegetarianChiliImg replaced with imgur URL
+const vegetarianChiliImg = "https://i.imgur.com/StJIBqq.png";
+// veganNachosImg replaced with imgur URL
+const veganNachosImg = "https://i.imgur.com/pjGelRT.png";
+// veganMacCheeseImg replaced with imgur URL
+const veganMacCheeseImg = "https://i.imgur.com/CwUaiIk.png";
+// veganMugCakesImg replaced with imgur URL
+const veganMugCakesImg = "https://i.imgur.com/BxsLtJN.png";
 
 // Import fall favorites recipes
-import pumpkinCreamCheeseMuffinsImg from "@/assets/recipes/pumpkin-cream-cheese-muffins.jpg";
-import pumpkinSpiceLatteOatsImg from "@/assets/recipes/pumpkin-spice-latte-oats.jpg";
-import pumpkinCinnamonRollsImg from "@/assets/recipes/pumpkin-cinnamon-rolls.jpg";
-import pumpkinCheesecakeBarsImg from "@/assets/recipes/pumpkin-cheesecake-bars.jpg";
-import pumpkinSoupBreadBowlImg from "@/assets/recipes/pumpkin-soup-bread-bowl.jpg";
-import pumpkinPastaSauceImg from "@/assets/recipes/pumpkin-pasta-sauce.jpg";
-import pumpkinChocolateChipCookiesImg from "@/assets/recipes/pumpkin-chocolate-chip-cookies.jpg";
-import pumpkinFrenchToastCasseroleImg from "@/assets/recipes/pumpkin-french-toast-casserole.jpg";
-import pumpkinCurryImg from "@/assets/recipes/pumpkin-curry.jpg";
-import pumpkinBreadPuddingImg from "@/assets/recipes/pumpkin-bread-pudding.jpg";
 
 // Import NEW fall favorites recipes (20 new items)
-import fallPumpkinSpiceLatteImg from "@/assets/recipes/fall-pumpkin-spice-latte.jpg";
-import fallCaramelAppleCiderImg from "@/assets/recipes/fall-caramel-apple-cider.jpg";
 const fallPumpkinCinnamonRollsImg = "https://i.imgur.com/PWK62lX.png";
-import fallMapleBrownButterCookiesImg from "@/assets/recipes/fall-maple-brown-butter-cookies.jpg";
-import fallPumpkinCheesecakeBarsNewImg from "@/assets/recipes/fall-pumpkin-cheesecake-bars-new.jpg";
-import fallChaiHotChocolateImg from "@/assets/recipes/fall-chai-hot-chocolate.jpg";
-import fallPumpkinOvernightOatsNewImg from "@/assets/recipes/fall-pumpkin-overnight-oats-new.jpg";
-import fallCaramelAppleBarsImg from "@/assets/recipes/fall-caramel-apple-bars.jpg";
-import fallMulledWineImg from "@/assets/recipes/fall-mulled-wine.jpg";
-import fallAppleButterImg from "@/assets/recipes/fall-apple-butter.jpg";
-import fallPumpkinDumpCakeImg from "@/assets/recipes/fall-pumpkin-dump-cake.jpg";
-import fallBrownButterPumpkinCookiesImg from "@/assets/recipes/fall-brown-butter-pumpkin-cookies.jpg";
-import fallGreenBeanCasseroleImg from "@/assets/recipes/fall-green-bean-casserole.jpg";
-import fallSweetPotatoCasseroleNewImg from "@/assets/recipes/fall-sweet-potato-casserole-new.jpg";
-import fallTurkeyBreastImg from "@/assets/recipes/fall-turkey-breast.jpg";
-import fallCornbreadStuffingImg from "@/assets/recipes/fall-cornbread-stuffing.jpg";
-import fallCranberrySauceImg from "@/assets/recipes/fall-cranberry-sauce.jpg";
-import fallMashedPotatoesImg from "@/assets/recipes/fall-mashed-potatoes.jpg";
-import fallBrusselsSproutsBaconImg from "@/assets/recipes/fall-brussels-sprouts-bacon.jpg";
-import fallButternutSquashSoupNewImg from "@/assets/recipes/fall-butternut-squash-soup-new.jpg";
-import pumpkinRavioliImg from "@/assets/recipes/pumpkin-ravioli.jpg";
 const pumpkinBananaBreadImg = "https://i.imgur.com/ckaT1lp.png";
-import applePieEggRollsImg from "@/assets/recipes/apple-pie-egg-rolls.jpg";
 const stuffedBakedApplesImg = "https://i.imgur.com/McT92wA.png";
-import pumpkinDumpCakeImg from "@/assets/recipes/pumpkin-dump-cake.jpg";
 const cinnamonRollApplePieImg = "https://i.imgur.com/bGw8DgL.png";
-import appleCrispMugImg from "@/assets/recipes/apple-crisp-mug.jpg";
-import appleCiderDonutsImg from "@/assets/recipes/apple-cider-donuts.jpg";
-import honeyCrispAppleSaladImg from "@/assets/recipes/honey-crisp-apple-salad.jpg";
-import appleButterChickenImg from "@/assets/recipes/apple-butter-chicken.jpg";
 
 // Import One Pot Wonders recipes
-import creamyTortelliniSoupImg from "@/assets/recipes/creamy-tortellini-soup.jpg";
-import butternutSquashMacCheeseImg from "@/assets/recipes/butternut-squash-mac-cheese.jpg";
 // loadedBakedPotatoSoupImg replaced with imgur URL
 const loadedBakedPotatoSoupImg = "https://i.imgur.com/xLNXg9O.png";
-import beefStewPumpkinImg from "@/assets/recipes/beef-stew-pumpkin.jpg";
-import frenchOnionSoupBakeImg from "@/assets/recipes/french-onion-soup-bake.jpg";
-import chickenPotPieBiscuitImg from "@/assets/recipes/chicken-pot-pie-biscuit.jpg";
 // sausageKaleSoupImg replaced with imgur URL
 const sausageKaleSoupImg = "https://i.imgur.com/ea4GaUL.png";
-import shepherdsPieTwiceBakedImg from "@/assets/recipes/shepherds-pie-twice-baked.jpg";
 // mushroomWildRiceSoupImg replaced with imgur URL
 const mushroomWildRiceSoupImg = "https://i.imgur.com/IRAMVFF.png";
 // chiliCheeseFriesCasseroleImg replaced with imgur URL
@@ -220,192 +89,63 @@ const crackChickenNoodleSoupImg = "https://i.imgur.com/G68U25j.png";
 import { newRecipes } from "./newRecipes";
 
 // Import new vegan recipe images
-import marryMeTofuImg from "@/assets/recipes/marry-me-tofu.jpg";
-import highProteinCucumberSaladImg from "@/assets/recipes/high-protein-cucumber-salad.jpg";
-import lentilBologneseImg from "@/assets/recipes/lentil-bolognese.jpg";
-import marryMeChickpeasImg from "@/assets/recipes/marry-me-chickpeas.jpg";
-import tofuScrambleImg from "@/assets/recipes/tofu-scramble.jpg";
-import chickpeaCurryImg from "@/assets/recipes/chickpea-curry.jpg";
-import blackBeanRiceBowlImg from "@/assets/recipes/black-bean-rice-bowl.jpg";
-import veganProteinPastaImg from "@/assets/recipes/vegan-protein-pasta.jpg";
-import kingOysterMushroomTacosImg from "@/assets/recipes/king-oyster-mushroom-tacos.jpg";
-import oysterMushroomFriedChickenImg from "@/assets/recipes/oyster-mushroom-fried-chicken.jpg";
-import veganCrunchwrapImg from "@/assets/recipes/vegan-crunchwrap.jpg";
+// veganCrunchwrapImg replaced with imgur URL
+const veganCrunchwrapImg = "https://i.imgur.com/H81EieO.png";
 // smashBurgerTacosImg replaced with imgur URL
 const smashBurgerTacosImg = "https://i.imgur.com/ZjZgGa5.png";
-import charredCabbageCoconutBrothImg from "@/assets/recipes/charred-cabbage-coconut-broth.jpg";
-import hotHoneyTofuTendersImg from "@/assets/recipes/hot-honey-tofu-tenders.jpg";
 
 // Import new dinner recipe images
 // smashBurgerTacosDinnerImg replaced with imgur URL
 const smashBurgerTacosDinnerImg = "https://i.imgur.com/ZjZgGa5.png";
-import garlicParmAccordionPotatoesImg from "@/assets/recipes/garlic-parm-accordion-potatoes.jpg";
-import cornRibsEloteSauceImg from "@/assets/recipes/corn-ribs-elote-sauce.jpg";
-import bakedFetaPastaImg from "@/assets/recipes/baked-feta-pasta.jpg";
-import millionDollarSpaghettiImg from "@/assets/recipes/million-dollar-spaghetti.jpg";
-import groundBeefTortelliniImg from "@/assets/recipes/ground-beef-tortellini.jpg";
-import chickenParmesanImg from "@/assets/recipes/chicken-parmesan.jpg";
-import gardenFocacciaImg from "@/assets/recipes/garden-focaccia.jpg";
-import turkishLayeredPastaImg from "@/assets/recipes/turkish-layered-pasta.jpg";
-import gigiHadidVodkaPastaImg from "@/assets/recipes/gigi-hadid-vodka-pasta.jpg";
 // onePanChickenGravyImg replaced with imgur URL
 const onePanChickenGravyImg = "https://i.imgur.com/e0dPz5G.png";
-import garlicParmChickenPotatoSkilletImg from "@/assets/recipes/garlic-parm-chicken-potato-skillet.jpg";
-import bbqCheeseburgerSlidersImg from "@/assets/recipes/bbq-cheeseburger-sliders.jpg";
-import hotHoneyChickenSheetPanImg from "@/assets/recipes/hot-honey-chicken-sheet-pan.jpg";
-import loadedChickenTwiceBakedPotatoImg from "@/assets/recipes/loaded-chicken-twice-baked-potato.jpg";
-import roastedGarlicParmChickenImg from "@/assets/recipes/roasted-garlic-parm-chicken.jpg";
-import easyChickenPotPieImg from "@/assets/recipes/easy-chicken-pot-pie.jpg";
-import vodkaTortiglionieBurrataImg from "@/assets/recipes/vodka-tortiglioni-burrata.jpg";
-import pizzaPancakesImg from "@/assets/recipes/pizza-pancakes.jpg";
-import friedChickenRamenImg from "@/assets/recipes/fried-chicken-ramen.jpg";
-import turkeyGrilledCheeseImg from "@/assets/recipes/turkey-grilled-cheese.jpg";
-import loadedRanchPotatoesImg from "@/assets/recipes/loaded-ranch-potatoes.jpg";
-import creamyTuscanChickenImg from "@/assets/recipes/creamy-tuscan-chicken.jpg";
-import stuffedBellPeppersDinnerImg from "@/assets/recipes/stuffed-bell-peppers.jpg";
-import creamyVeganMacCheeseImg from "@/assets/recipes/creamy-vegan-mac-cheese.jpg";
-import turkishPastaImg from "@/assets/recipes/turkish-pasta.jpg";
-import veganSteakBitesImg from "@/assets/recipes/vegan-steak-bites.jpg";
-import pastaChipsVeganFetaDipImg from "@/assets/recipes/pasta-chips-vegan-feta-dip.jpg";
-import airFryerTofuBitesImg from "@/assets/recipes/air-fryer-tofu-bites.jpg";
-import twoIngredientPiciPastaImg from "@/assets/recipes/two-ingredient-pici-pasta.jpg";
-import koreanCornCheeseImg from "@/assets/recipes/korean-corn-cheese.jpg";
-import sesameCarrotRibbonsImg from "@/assets/recipes/sesame-carrot-ribbons.jpg";
-import cloudBreadImg from "@/assets/recipes/cloud-bread.jpg";
-import veganCustardToastImg from "@/assets/recipes/vegan-custard-toast.jpg";
+// twoIngredientPiciPastaImg replaced with imgur URL
+const twoIngredientPiciPastaImg = "https://i.imgur.com/SldTS5S.png";
+// veganCustardToastImg replaced with imgur URL
+const veganCustardToastImg = "https://i.imgur.com/H6WEFFf.png";
 
 // Dessert images are served from Lovable uploads
-import dessertCremeCaramelImg from "@/assets/recipes/dessert-creme-caramel.jpg";
-import dessertCookieDoughBrowniesImg from "@/assets/recipes/dessert-cookie-dough-brownies.jpg";
-import dessertRaspberryTartImg from "@/assets/recipes/dessert-raspberry-tart.jpg";
-import dessertChocolateMousseCakeImg from "@/assets/recipes/dessert-chocolate-mousse-cake.jpg";
-import dessertLemonMeringuePieImg from "@/assets/recipes/dessert-lemon-meringue-pie.jpg";
-import dessertBostonCreamPieImg from "@/assets/recipes/dessert-boston-cream-pie.jpg";
-import dessertPeachCobblerImg from "@/assets/recipes/dessert-peach-cobbler.jpg";
-import dessertChocolateTrufflesImg from "@/assets/recipes/dessert-chocolate-truffles.jpg";
-import dessertBiscottiImg from "@/assets/recipes/dessert-biscotti.jpg";
-import dessertPumpkinCheesecakeImg from "@/assets/recipes/dessert-pumpkin-cheesecake.jpg";
-import dessertBananaBreadChocolateImg from "@/assets/recipes/dessert-banana-bread-chocolate.jpg";
-import dessertSaltedCaramelTartImg from "@/assets/recipes/dessert-salted-caramel-tart.jpg";
-import dessertStickyToffeePuddingImg from "@/assets/recipes/dessert-sticky-toffee-pudding.jpg";
-import dessertOperaCakeImg from "@/assets/recipes/dessert-opera-cake.jpg";
-import dessertChocolateFondueImg from "@/assets/recipes/dessert-chocolate-fondue.jpg";
-import dessertRaspberryWhiteChocolateCheesecakeImg from "@/assets/recipes/dessert-raspberry-white-chocolate-cheesecake.jpg";
-import dessertSmoresBarsImg from "@/assets/recipes/dessert-smores-bars.jpg";
-import dessertCoconutCreamPieImg from "@/assets/recipes/dessert-coconut-cream-pie.jpg";
 
 // Lunch (20)
-import lunchMediterraneanQuinoaBowlImg from "@/assets/recipes/lunch-mediterranean-quinoa-bowl.jpg";
 // lunchBuffaloChickenWrapImg replaced with imgur URL
 const lunchBuffaloChickenWrapImg = "https://i.imgur.com/wDgcADj.png";
-import lunchGreekSaladChickenImg from "@/assets/recipes/lunch-greek-salad-chicken.jpg";
-import lunchTurkeyAvocadoClubImg from "@/assets/recipes/lunch-turkey-avocado-club.jpg";
-import lunchAsianLettuceWrapsImg from "@/assets/recipes/lunch-asian-lettuce-wraps.jpg";
-import lunchCapresePaniniImg from "@/assets/recipes/lunch-caprese-panini.jpg";
-import lunchTunaNicoiseSaladImg from "@/assets/recipes/lunch-tuna-nicoise-salad.jpg";
-import lunchCaliforniaRollBowlImg from "@/assets/recipes/lunch-california-roll-bowl.jpg";
-import lunchBbqPulledPorkSandwichImg from "@/assets/recipes/lunch-bbq-pulled-pork-sandwich.jpg";
-import lunchFalafelPitaImg from "@/assets/recipes/lunch-falafel-pita.jpg";
-import lunchChickenCaesarSaladImg from "@/assets/recipes/lunch-chicken-caesar-salad.jpg";
-import lunchBanhMiSandwichImg from "@/assets/recipes/banh-mi-sandwich.jpg";
-import lunchSouthwestChickenBowlImg from "@/assets/recipes/lunch-southwest-chicken-bowl.jpg";
+// lunchTurkeyAvocadoClubImg replaced with imgur URL
+const lunchTurkeyAvocadoClubImg = "https://i.imgur.com/VozG67M.png";
+// lunchTunaNicoiseSaladImg replaced with imgur URL
+const lunchTunaNicoiseSaladImg = "https://i.imgur.com/QIrYp3J.png";
 // lunchMargheritaFlatbreadImg replaced with imgur URL
 const lunchMargheritaFlatbreadImg = "https://i.imgur.com/B8QxTtF.png";
-import lunchCobbSaladImg from "@/assets/recipes/lunch-cobb-salad.jpg";
-import lunchPestoPastaSaladImg from "@/assets/recipes/lunch-pesto-pasta-salad.jpg";
-import lunchKoreanBbqBeefBowlImg from "@/assets/recipes/lunch-korean-bbq-beef-bowl.jpg";
-import lunchShrimpPoBoyImg from "@/assets/recipes/lunch-shrimp-po-boy.jpg";
-import lunchChickenShawarmaWrapImg from "@/assets/recipes/lunch-chicken-shawarma-wrap.jpg";
-import lunchTomatoSoupGrilledCheeseImg from "@/assets/recipes/lunch-tomato-soup-grilled-cheese.jpg";
 
 // One Pot Wonders (20)
-import onePotChickenDumplingsImg from "@/assets/recipes/chicken-and-dumplings-final.jpg";
-import onePotBeefBourguignonImg from "@/assets/recipes/one-pot-beef-bourguignon.jpg";
-import onePotJambalayaImg from "@/assets/recipes/one-pot-jambalaya.jpg";
-import onePotCreamyTuscanChickenImg from "@/assets/recipes/one-pot-creamy-tuscan-chicken.jpg";
-import onePotChiliConCarneImg from "@/assets/recipes/one-pot-chili-con-carne.jpg";
-import onePotSeafoodPaellaImg from "@/assets/recipes/one-pot-seafood-paella.jpg";
-import onePotChickenCacciatoreImg from "@/assets/recipes/one-pot-chicken-cacciatore.jpg";
 // onePotMoroccanTagineImg replaced with imgur URL
 const onePotMoroccanTagineImg = "https://i.imgur.com/x93gTnK.png";
-import onePotTuscanWhiteBeanSoupImg from "@/assets/recipes/one-pot-tuscan-white-bean-soup.jpg";
-import onePotChickenTikkaMasalaImg from "@/assets/recipes/one-pot-chicken-tikka-masala.jpg";
-import onePotPotRoastImg from "@/assets/recipes/one-pot-pot-roast.jpg";
-import onePotCreamyCajunPastaImg from "@/assets/recipes/one-pot-creamy-cajun-pasta.jpg";
-import onePotIrishStewImg from "@/assets/recipes/one-pot-irish-stew.jpg";
-import onePotChickenRiceImg from "@/assets/recipes/one-pot-chicken-rice.jpg";
-import onePotShakshukaImg from "@/assets/recipes/one-pot-shakshuka.jpg";
-import onePotSausageLentilStewImg from "@/assets/recipes/one-pot-sausage-lentil-stew.jpg";
-import onePotChickenTortillaSoupImg from "@/assets/recipes/one-pot-chicken-tortilla-soup.jpg";
-import onePotBeefStroganoffImg from "@/assets/recipes/one-pot-beef-stroganoff.jpg";
-import onePotRatatouilleImg from "@/assets/recipes/one-pot-ratatouille.jpg";
-import onePotChickenPaprikashImg from "@/assets/recipes/one-pot-chicken-paprikash.jpg";
 
 // Breakfast (20)
-import breakfastBelgianWafflesImg from "@/assets/recipes/breakfast-belgian-waffles.jpg";
-import breakfastEggsBenedictImg from "@/assets/recipes/breakfast-eggs-benedict.jpg";
-import breakfastBurritoImg from "@/assets/recipes/breakfast-burrito.jpg";
-import breakfastFrenchToastImg from "@/assets/recipes/breakfast-french-toast.jpg";
-import breakfastShakshukaImg from "@/assets/recipes/breakfast-shakshuka.jpg";
-import breakfastAvocadoToastImg from "@/assets/recipes/breakfast-avocado-toast.jpg";
-import breakfastHuevosRancherosImg from "@/assets/recipes/breakfast-huevos-rancheros.jpg";
-import breakfastBlueberryPancakesImg from "@/assets/recipes/breakfast-blueberry-pancakes.jpg";
-import breakfastPizzaImg from "@/assets/recipes/breakfast-pizza.jpg";
-import breakfastSmokedSalmonBagelImg from "@/assets/recipes/breakfast-smoked-salmon-bagel.jpg";
-import breakfastAcaiBowlImg from "@/assets/recipes/breakfast-acai-bowl.jpg";
-import breakfastQuesadillaImg from "@/assets/recipes/breakfast-quesadilla.jpg";
-import breakfastBiscuitsGravyImg from "@/assets/recipes/breakfast-biscuits-gravy.jpg";
-import breakfastCroqueMadameImg from "@/assets/recipes/breakfast-croque-madame.jpg";
 // breakfastTacosImg replaced with imgur URL
 const breakfastTacosImg = "https://i.imgur.com/KnY1DpE.png";
-import breakfastChilaquilesImg from "@/assets/recipes/breakfast-chilaquiles.jpg";
-import breakfastBananaNutOatmealImg from "@/assets/recipes/breakfast-banana-nut-oatmeal.jpg";
-import breakfastFullEnglishImg from "@/assets/recipes/breakfast-full-english.jpg";
-import breakfastSausageCasseroleImg from "@/assets/recipes/breakfast-sausage-casserole.jpg";
-import breakfastGreekYogurtParfaitImg from "@/assets/recipes/breakfast-greek-yogurt-parfait.jpg";
 
 // New Breakfast Recipes (20)
 // breakfastButtermilkPancakesImg replaced with imgur URL
 const breakfastButtermilkPancakesImg = "https://i.imgur.com/4AOEnQq.png";
-import breakfastBelgianWafflesNewImg from "@/assets/recipes/breakfast-belgian-waffles-new.jpg";
-import breakfastFrenchToastClassicImg from "@/assets/recipes/breakfast-french-toast-classic.jpg";
-import breakfastEggsBenedictClassicImg from "@/assets/recipes/breakfast-eggs-benedict-classic.jpg";
-import breakfastClassicOmeletImg from "@/assets/recipes/breakfast-classic-omelet.jpg";
-import breakfastBurritoClassicImg from "@/assets/recipes/breakfast-burrito-classic.jpg";
 // breakfastCasseroleClassicImg replaced with imgur URL
 const breakfastCasseroleClassicImg = "https://i.imgur.com/mHmY7iT.jpeg";
-import breakfastHashbrownCasseroleImg from "@/assets/recipes/breakfast-hashbrown-casserole.jpg";
 const breakfastQuicheLorraineImg = "https://imgur.com/eB40MLD";
-import breakfastBiscuitsGravyClassicImg from "@/assets/recipes/breakfast-biscuits-gravy-classic.jpg";
-import breakfastAvocadoToastClassicImg from "@/assets/recipes/breakfast-avocado-toast-classic.jpg";
-import breakfastOvernightOatsImg from "@/assets/recipes/breakfast-overnight-oats.jpg";
-import breakfastScrambledEggsBaconImg from "@/assets/recipes/breakfast-scrambled-eggs-bacon.jpg";
 // breakfastSandwichClassicImg replaced with imgur URL
 const breakfastSandwichClassicImg = "https://i.imgur.com/AEmPQcd.png";
-import breakfastSmoothieBowlClassicImg from "@/assets/recipes/breakfast-smoothie-bowl-classic.jpg";
-import breakfastGreekYogurtParfaitClassicImg from "@/assets/recipes/breakfast-greek-yogurt-parfait-classic.jpg";
-import breakfastProteinPancakesImg from "@/assets/recipes/breakfast-protein-pancakes.jpg";
 // breakfastTacosClassicImg replaced with imgur URL
 const breakfastTacosClassicImg = "https://i.imgur.com/KnY1DpE.png";
-import breakfastShakshukaClassicImg from "@/assets/recipes/breakfast-shakshuka-classic.jpg";
-import breakfastBlueberryMuffinsImg from "@/assets/recipes/breakfast-blueberry-muffins.jpg";
-import bakedChickenMeatballsImg from "@/assets/recipes/baked-chicken-meatballs.jpg";
-import sheetPanChickenVegetablesImg from "@/assets/recipes/sheet-pan-chicken-vegetables.jpg";
 // sheetPanChickenFajitasImg replaced with imgur URL
 const sheetPanChickenFajitasImg = "https://i.imgur.com/8MTMu7t.png";
 // grilledChickenCapreseImg replaced with imgur URL
 const grilledChickenCapreseImg = "https://i.imgur.com/LsSmGYN.png";
 // slowCookerWhiteChickenChiliImg replaced with imgur URL
 const slowCookerWhiteChickenChiliImg = "https://i.imgur.com/7raEzFt.png";
-import tacoSkilletImg from "@/assets/recipes/taco-skillet.jpg";
 // cheeseburgerBowlsImg replaced with imgur URL
 const cheeseburgerBowlsImg = "https://i.imgur.com/yH6PcDe.png";
 // onePanBeefPotatoesImg replaced with imgur URL
 const onePanBeefPotatoesImg = "https://i.imgur.com/094LhGj.png";
 // turkeyMeatloafImg replaced with imgur URL
 const turkeyMeatloafImg = "https://i.imgur.com/UPQIShK.png";
-import stuffedBellPeppersProteinImg from "@/assets/recipes/stuffed-bell-peppers-protein.jpg";
-import bakedSalmonLemonImg from "@/assets/recipes/baked-salmon-lemon.jpg";
 // sheetPanShrimpFajitasImg replaced with imgur URL
 const sheetPanShrimpFajitasImg = "https://i.imgur.com/KIlgFSD.png";
 // pestoBakedSalmonImg replaced with imgur URL
@@ -414,60 +154,23 @@ const pestoBakedSalmonImg = "https://i.imgur.com/BZ45ul8.png";
 const cottageCheeseBakedZitiImg = "https://i.imgur.com/hMeLM0u.png";
 // slowCookerLasagnaImg replaced with imgur URL
 const slowCookerLasagnaImg = "https://i.imgur.com/kOMSWHD.png";
-import beefStroganoffProteinImg from "@/assets/recipes/beef-stroganoff-protein.jpg";
 // chickenQuesadillasImg replaced with imgur URL
 const chickenQuesadillasImg = "https://i.imgur.com/DmisYMy.png";
-import chickenStirFryBroccoliImg from "@/assets/recipes/chicken-stir-fry-broccoli.jpg";
-import bbqPulledPorkBowlsImg from "@/assets/recipes/bbq-pulled-pork-bowls.jpg";
-import eggRollBowlsImg from "@/assets/recipes/egg-roll-bowls.jpg";
 
 // One Pot Wonders (20)
-import onePotMarryMeChickenPastaImg from "@/assets/recipes/one-pot-marry-me-chicken-pasta.jpg";
-import onePotFrenchOnionPastaImg from "@/assets/recipes/one-pot-french-onion-pasta.jpg";
-import onePotCreamyTomatoBeefPastaImg from "@/assets/recipes/one-pot-creamy-tomato-beef-pasta.jpg";
-import onePotCajunShrimpPastaImg from "@/assets/recipes/one-pot-cajun-shrimp-pasta.jpg";
-import onePotPastaPuttanescaImg from "@/assets/recipes/one-pot-pasta-puttanesca.jpg";
-import onePotPastaPrimaveraImg from "@/assets/recipes/one-pot-pasta-primavera-new.jpg";
-import onePotSpanishChickenRiceImg from "@/assets/recipes/one-pot-spanish-chicken-rice.jpg";
-import onePotMexicanChickenRiceImg from "@/assets/recipes/one-pot-mexican-chicken-rice.jpg";
-import onePotMarryMeChickenImg from "@/assets/recipes/one-pot-marry-me-chicken.jpg";
-import onePotChickenGarlicRiceImg from "@/assets/recipes/one-pot-chicken-garlic-rice.jpg";
-import onePotChickenRiceVegetablesImg from "@/assets/recipes/one-pot-chicken-rice-vegetables.jpg";
-import onePotGreekChickenLemonRiceImg from "@/assets/recipes/one-pot-greek-chicken-lemon-rice.jpg";
-import onePotChickenGnocchiSoupImg from "@/assets/recipes/one-pot-chicken-gnocchi-soup.jpg";
 
-import onePotSpinachBeefSoupImg from "@/assets/recipes/one-pot-spinach-beef-soup.jpg";
-import onePotCoconutCurryLentilSoupImg from "@/assets/recipes/one-pot-coconut-curry-lentil-soup.jpg";
-import onePotChickenPotPieChowderImg from "@/assets/recipes/one-pot-chicken-pot-pie-chowder.jpg";
-import onePotBraisedShortRibsImg from "@/assets/recipes/one-pot-braised-short-ribs.jpg";
-import onePotSausagePotatoGravyImg from "@/assets/recipes/one-pot-sausage-potato-gravy.jpg";
-import onePotBeefTacoSkilletImg from "@/assets/recipes/one-pot-beef-taco-skillet.jpg";
 
 // Restaurant Copycats (20)
 // copycatChickFilASandwichImg replaced with imgur URL
 const copycatChickFilASandwichImg = "https://i.imgur.com/9M80bvv.png";
 // copycatChipotleBurritoBowlImg replaced with imgur URL
 const copycatChipotleBurritoBowlImg = "https://i.imgur.com/877Y8M2.png";
-import copycatOliveGardenBreadsticksImg from "@/assets/recipes/copycat-olive-garden-breadsticks.jpg";
 // copycatPaneraBroccoliSoupImg replaced with imgur URL
 const copycatPaneraBroccoliSoupImg = "https://i.imgur.com/5Wn96I7.png";
-import copycatRedLobsterBiscuitsImg from "@/assets/recipes/copycat-red-lobster-biscuits.jpg";
-import copycatCrackerBarrelHashbrownsImg from "@/assets/recipes/copycat-cracker-barrel-hashbrowns.jpg";
-import copycatTexasRoadhouseButterImg from "@/assets/recipes/copycat-texas-roadhouse-butter.jpg";
-import copycatPfChangsWrapsImg from "@/assets/recipes/copycat-pf-changs-wraps.jpg";
-import copycatCheesecakeFactoryAvocadoRollsImg from "@/assets/recipes/copycat-cheesecake-factory-avocado-rolls.jpg";
-import copycatKfcColeslawImg from "@/assets/recipes/copycat-kfc-coleslaw.jpg";
 // copycatSubwayMeatballSubImg replaced with imgur URL
 const copycatSubwayMeatballSubImg = "https://i.imgur.com/cJ7Z5m8.png";
 // copycatStarbucksEggBitesImg replaced with imgur URL
 const copycatStarbucksEggBitesImg = "https://i.imgur.com/u5ZahL2.png";
-import copycatWendysChiliImg from "@/assets/recipes/copycat-wendys-chili.jpg";
-import copycatMcdonaldsMcgriddlesImg from "@/assets/recipes/copycat-mcdonalds-mcgriddles.jpg";
-import copycatPizzaHutPanImg from "@/assets/recipes/copycat-pizza-hut-pan.jpg";
-import copycatApplebeesOrientalSaladImg from "@/assets/recipes/copycat-applebees-oriental-salad.jpg";
-import copycatCinnabonRollsImg from "@/assets/recipes/copycat-cinnabon-rolls.jpg";
-import copycatPandaOrangeChickenImg from "@/assets/recipes/copycat-panda-orange-chicken.jpg";
-import copycatChilisMoltenCakeImg from "@/assets/recipes/copycat-chilis-molten-cake.jpg";
 // copycatOutbackBloominOnionImg replaced with imgur URL
 const copycatOutbackBloominOnionImg = "https://i.imgur.com/KnOg2Qw.png";
 
@@ -548,7 +251,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "sour cream" }
     ],
     instructions: [
-      "Preheat oven to 325°F. Mix [2 cups graham crumbs] with [1/2 cup melted butter].",
+      "Preheat oven to 325?F. Mix [2 cups graham crumbs] with [1/2 cup melted butter].",
       "Press into 9-inch springform pan, bake 10 minutes.",
       "Beat [32 oz cream cheese] and [1.25 cups sugar] until smooth.",
       "Add [4 eggs] one at a time, then [2 tsp vanilla] and [1 cup sour cream].",
@@ -588,7 +291,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "chocolate chips" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 pan.",
+      "Preheat oven to 350?F. Grease 9x13 pan.",
       "Melt [1 cup butter], stir in [2 cups sugar].",
       "Beat in [4 eggs] one at a time.",
       "Sift [3/4 cup cocoa], [1 cup flour], [1/2 tsp salt], fold into batter.",
@@ -626,14 +329,14 @@ export const allRecipes: Recipe[] = [
       "Gradually add [1/4 cup sugar], beat to stiff, glossy peaks.",
       "Fold dry ingredients into meringue in 3 additions until lava-like.",
       "Pipe 1.5-inch circles on parchment, tap pan, let sit 30 minutes.",
-      "Bake at 300°F for 13-15 minutes. Cool completely.",
+      "Bake at 300?F for 13-15 minutes. Cool completely.",
       "Beat [1 cup butter], [2 cups powdered sugar], [1 tsp vanilla] for filling.",
       "Sandwich cookies with buttercream, refrigerate before serving."
     ]
   },
   {
     id: "dessert-creme-brulee",
-    name: "CrÃ¨me BrÃ»lÃ©e",
+    name: "Creme Brulee",
     description: "Silky vanilla custard with caramelized sugar crust. Torch required.",
     cookTime: "40 mins",
     prepTime: "15 mins",
@@ -652,7 +355,7 @@ export const allRecipes: Recipe[] = [
       { amount: "6", unit: "tbsp", item: "sugar (for topping)" }
     ],
     instructions: [
-      "Preheat oven to 325°F. Heat [2 cups cream] with [1 vanilla bean] seeds until steaming.",
+      "Preheat oven to 325?F. Heat [2 cups cream] with [1 vanilla bean] seeds until steaming.",
       "Whisk [5 egg yolks] and [1/2 cup sugar] until pale.",
       "Slowly whisk hot cream into yolks, strain.",
       "Pour into 6 ramekins, place in roasting pan with hot water halfway up sides.",
@@ -670,7 +373,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "Desserts",
-    image: applePieImg,
+    image: "https://i.imgur.com/p4zC49N.jpeg",
     totalTime: 80,
     tags: ["dessert", "baked", "american", "fruit", "vegetarian"],
     ingredients: [
@@ -685,12 +388,12 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "", item: "egg" }
     ],
     instructions: [
-      "Preheat oven to 425°F. Line 9-inch pie pan with one crust.",
+      "Preheat oven to 425?F. Line 9-inch pie pan with one crust.",
       "Toss [6 cups apples], [3/4 cup sugar], [2 tbsp flour], [1 tsp cinnamon], [1/4 tsp nutmeg].",
       "Pour filling into crust, dot with [2 tbsp butter].",
       "Cover with second crust, crimp edges, cut vents.",
       "Brush with beaten [egg], sprinkle with sugar.",
-      "Bake 15 minutes at 425°F, reduce to 350°F, bake 35 more minutes.",
+      "Bake 15 minutes at 425?F, reduce to 350?F, bake 35 more minutes.",
       "Cool 2 hours before slicing."
     ]
   },
@@ -703,7 +406,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "French",
-    image: chocolateLavaCakeImg,
+    image: "https://i.imgur.com/bNSgnOh.png",
     totalTime: 27,
     tags: ["dessert", "chocolate", "elegant", "vegetarian"],
     ingredients: [
@@ -717,7 +420,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "vanilla extract" }
     ],
     instructions: [
-      "Preheat oven to 425°F. Butter and cocoa 4 ramekins.",
+      "Preheat oven to 425?F. Butter and cocoa 4 ramekins.",
       "Melt [6 oz chocolate] and [1/2 cup butter] together.",
       "Whisk [2 eggs], [2 yolks], [1/4 cup sugar] until thick.",
       "Fold in chocolate, then [2 tbsp flour] and [1 tsp vanilla].",
@@ -749,7 +452,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "cups", item: "mixed berries" }
     ],
     instructions: [
-      "Preheat oven to 300°F. Draw 8-inch circle on parchment.",
+      "Preheat oven to 300?F. Draw 8-inch circle on parchment.",
       "Beat [4 egg whites] to soft peaks, gradually add [1 cup sugar].",
       "Beat to stiff peaks, fold in [1 tsp cornstarch] and [1 tsp vinegar].",
       "Spread meringue in circle, creating slight well in center.",
@@ -781,7 +484,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "honey" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Mix [3 cups walnuts] with [1 tsp cinnamon].",
+      "Preheat oven to 350?F. Mix [3 cups walnuts] with [1 tsp cinnamon].",
       "Brush 9x13 pan with [butter], layer 8 sheets [phyllo], brushing each with butter.",
       "Sprinkle 1 cup nut mixture, layer 5 sheets phyllo with butter.",
       "Repeat layers twice, top with 8 sheets phyllo.",
@@ -817,7 +520,7 @@ export const allRecipes: Recipe[] = [
       "Heat [1 cup water], [2 tbsp sugar], [1/2 tsp salt], [2 tbsp oil] to boiling.",
       "Remove from heat, stir in [1 cup flour] until smooth.",
       "Beat in [2 eggs] one at a time until glossy.",
-      "Heat 2 inches oil to 375°F.",
+      "Heat 2 inches oil to 375?F.",
       "Pipe 4-inch strips into hot oil, fry until golden, about 2 minutes per side.",
       "Drain on paper towels.",
       "Roll in mixture of [1/2 cup sugar] and [1 tsp cinnamon]."
@@ -892,7 +595,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "Desserts",
-    image: breadPuddingImg,
+    image: "https://i.imgur.com/LlMAQTT.png",
     totalTime: 60,
     tags: ["dessert", "comfort", "baked", "warm", "vegetarian"],
     ingredients: [
@@ -906,7 +609,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "raisins" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Place [8 cups bread] in greased 9x13 dish.",
+      "Preheat oven to 350?F. Place [8 cups bread] in greased 9x13 dish.",
       "Whisk [4 cups milk], [4 eggs], [1 cup sugar], [2 tsp vanilla], [1 tsp cinnamon].",
       "Pour over bread, press down, let soak 10 minutes.",
       "Scatter [1/2 cup raisins] over top.",
@@ -936,7 +639,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "vanilla extract" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Melt [1 cup sugar] in pan until golden, pour into 9-inch round pan.",
+      "Preheat oven to 350?F. Melt [1 cup sugar] in pan until golden, pour into 9-inch round pan.",
       "Blend [5 eggs], [condensed milk], [evaporated milk], [1 cup milk], [1 tsp vanilla].",
       "Pour over caramel, place in roasting pan with hot water halfway up.",
       "Bake 50 minutes until set with slight jiggle.",
@@ -967,7 +670,7 @@ export const allRecipes: Recipe[] = [
       { amount: "8", unit: "oz", item: "dark chocolate" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Boil [1 cup water] and [1/2 cup butter].",
+      "Preheat oven to 400?F. Boil [1 cup water] and [1/2 cup butter].",
       "Add [1 cup flour] all at once, stir until ball forms.",
       "Beat in [4 eggs] one at a time until smooth and glossy.",
       "Pipe 4-inch strips on parchment, bake 30 minutes until golden.",
@@ -1000,7 +703,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "heavy cream" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 pan.",
+      "Preheat oven to 350?F. Grease 9x13 pan.",
       "Beat [5 eggs] and [1 cup sugar] 5 minutes until thick.",
       "Fold in [1 cup flour] and [1.5 tsp baking powder], then [1/3 cup milk].",
       "Pour into pan, bake 30 minutes until golden.",
@@ -1039,7 +742,7 @@ export const allRecipes: Recipe[] = [
       "Roll into 16x12 rectangle, brush with butter.",
       "Mix [1 cup brown sugar] and [2 tbsp cinnamon], sprinkle over dough.",
       "Roll up tightly, cut into 12 rolls, place in greased 9x13 pan.",
-      "Let rise 30 minutes, bake at 350°F for 25 minutes.",
+      "Let rise 30 minutes, bake at 350?F for 25 minutes.",
       "Beat [8 oz cream cheese], powdered sugar, and vanilla, spread on warm rolls."
     ]
   },
@@ -1067,7 +770,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "cups", item: "chocolate chips" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Mix [2.25 cups flour] and [1 tsp baking soda].",
+      "Preheat oven to 375?F. Mix [2.25 cups flour] and [1 tsp baking soda].",
       "Beat [1 cup butter], [3/4 cup sugar], [3/4 cup brown sugar] until fluffy.",
       "Beat in [2 eggs] and [2 tsp vanilla].",
       "Stir in flour mixture, then [2 cups chocolate chips].",
@@ -1101,7 +804,7 @@ export const allRecipes: Recipe[] = [
       { amount: "16", unit: "oz", item: "cream cheese frosting" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 pan.",
+      "Preheat oven to 350?F. Grease 9x13 pan.",
       "Mix [2 cups flour], [2 tsp baking soda], [2 tsp cinnamon], [1/2 tsp salt].",
       "Beat [4 eggs], [1.5 cups sugar], [1 cup oil] until blended.",
       "Stir in flour mixture, then [3 cups carrots].",
@@ -1162,7 +865,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "heavy cream" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Boil [1 cup water] and [1/2 cup butter].",
+      "Preheat oven to 400?F. Boil [1 cup water] and [1/2 cup butter].",
       "Add [1 cup flour] all at once, stir until ball forms.",
       "Beat in [4 eggs] one at a time until smooth.",
       "Drop tablespoons 2 inches apart, bake 25 minutes until golden.",
@@ -1195,7 +898,7 @@ export const allRecipes: Recipe[] = [
       { amount: "16", unit: "oz", item: "cream cheese frosting" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease two 9-inch round pans.",
+      "Preheat oven to 350?F. Grease two 9-inch round pans.",
       "Mix [2.5 cups flour], [1.5 cups sugar], [1 tsp baking soda], [2 tbsp cocoa].",
       "Whisk [1 cup buttermilk], [1.5 cups oil], [2 eggs], [2 oz food coloring].",
       "Combine wet and dry ingredients, divide between pans.",
@@ -1225,7 +928,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "heavy cream" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Mix [1.5 cups graham crumbs] and [1/3 cup butter].",
+      "Preheat oven to 350?F. Mix [1.5 cups graham crumbs] and [1/3 cup butter].",
       "Press into 9-inch pie pan, bake 10 minutes.",
       "Whisk [2 cans condensed milk], [4 egg yolks], [1/2 cup lime juice].",
       "Pour into crust, bake 15 minutes.",
@@ -1242,7 +945,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Desserts",
-    image: bananasFosterImg,
+    image: "https://i.imgur.com/3CJrgoJ.png",
     totalTime: 15,
     tags: ["dessert", "fruit", "warm", "glutenfree"],
     ingredients: [
@@ -1286,7 +989,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "flour" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Beat [1 cup butter], [2 cups flour], [1/2 cup powdered sugar].",
+      "Preheat oven to 350?F. Beat [1 cup butter], [2 cups flour], [1/2 cup powdered sugar].",
       "Press into greased 9x13 pan, bake 20 minutes.",
       "Whisk [4 eggs], [1.5 cups sugar], [1/3 cup lemon juice], [1/4 cup flour].",
       "Pour over hot crust, bake 25 minutes until set.",
@@ -1372,7 +1075,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Season and grill chicken breast until cooked through. Slice into strips.",
       "Cook fettuccine according to package, drain.",
-      "In large pan, melt butter and sautÃ© garlic 1 minute.",
+      "In large pan, melt butter and saut� garlic 1 minute.",
       "Add heavy cream, bring to simmer.",
       "Gradually whisk in parmesan until smooth and creamy.",
       "Toss pasta in sauce.",
@@ -1442,7 +1145,7 @@ export const allRecipes: Recipe[] = [
       "Mix in sun-dried tomatoes, red onion, cilantro, and lime juice.",
       "Place 2 tbsp filling in center of each wrapper.",
       "Fold corners toward center, roll tightly, seal with water.",
-      "Heat oil to 350°F.",
+      "Heat oil to 350?F.",
       "Fry rolls 2-3 minutes until golden brown.",
       "Drain on paper towels.",
       "Serve with tamarind dipping sauce."
@@ -1480,7 +1183,7 @@ export const allRecipes: Recipe[] = [
       "Mix flour, paprika, cayenne, garlic powder.",
       "Whisk eggs and milk.",
       "Dredge onion in flour, dip in egg wash, coat again in flour.",
-      "Heat oil to 350°F. Fry onion 10 minutes until golden.",
+      "Heat oil to 350?F. Fry onion 10 minutes until golden.",
       "Make sauce: mix mayo, ketchup, and horseradish.",
       "Serve hot with dipping sauce."
     ]
@@ -1510,7 +1213,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Steam broccoli until tender, chop into small pieces.",
-      "Melt butter in large pot, sautÃ© onion until soft.",
+      "Melt butter in large pot, saut� onion until soft.",
       "Whisk in flour, cook 1 minute.",
       "Gradually add broth and half-and-half, whisking constantly.",
       "Bring to simmer, cook until thickened (about 15 minutes).",
@@ -1578,7 +1281,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "parsley, chopped" }
     ],
     instructions: [
-      "Preheat oven to 450°F.",
+      "Preheat oven to 450?F.",
       "Mix Bisquick, cheddar, and milk until soft dough forms.",
       "Drop spoonfuls onto greased baking sheet.",
       "Bake 10-12 minutes until golden.",
@@ -1596,7 +1299,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 24,
     cuisine: "Restaurant Copycats",
-    image: roadhouseRollsImg,
+    image: "https://i.imgur.com/AdBW8B6.png",
     totalTime: 105,
     tags: ["copycat", "bread", "side"],
     ingredients: [
@@ -1619,7 +1322,7 @@ export const allRecipes: Recipe[] = [
       "Mix in flour until dough forms. Knead 5 minutes.",
       "Place in greased bowl, cover, let rise 1 hour.",
       "Punch down, form into 24 rolls. Place on baking sheet.",
-      "Let rise 30 minutes. Bake at 350°F for 12-15 minutes.",
+      "Let rise 30 minutes. Bake at 350?F for 12-15 minutes.",
       "Make honey butter: whip softened butter with honey, powdered sugar, and cinnamon.",
       "Brush hot rolls with melted butter. Serve with honey butter."
     ]
@@ -1640,7 +1343,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "cups", item: "frozen corn, thawed" ,
     nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "red onion, finely diced" },
-      { amount: "1", unit: "", item: "jalapeÃ±o, seeded and minced" },
+      { amount: "1", unit: "", item: "jalape�o, seeded and minced" },
       { amount: "1/4", unit: "cup", item: "cilantro, chopped" },
       { amount: "2", unit: "tbsp", item: "lime juice" },
       { amount: "1", unit: "tsp", item: "salt" }
@@ -1648,7 +1351,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Char corn in dry hot skillet until slightly blackened, about 5 minutes.",
       "Let cool to room temperature.",
-      "Mix corn with red onion, jalapeÃ±o, cilantro, lime juice, and salt.",
+      "Mix corn with red onion, jalape�o, cilantro, lime juice, and salt.",
       "Refrigerate at least 1 hour before serving.",
       "Serve with chips, tacos, or burrito bowls."
     ]
@@ -1675,7 +1378,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "tsp", item: "pepper" }
     ],
     instructions: [
-      "Preheat oven to 300°F. Grease muffin tin.",
+      "Preheat oven to 300?F. Grease muffin tin.",
       "Blend eggs and cottage cheese until smooth.",
       "Stir in shredded cheese, bacon, salt, and pepper.",
       "Pour into muffin cups, filling 3/4 full.",
@@ -1708,7 +1411,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "cups", item: "corn flakes, crushed" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 baking dish.",
+      "Preheat oven to 350?F. Grease 9x13 baking dish.",
       "Mix hashbrowns, soup, sour cream, cheese, 1/4 cup melted butter, and onion.",
       "Spread in baking dish.",
       "Mix crushed corn flakes with remaining 1/4 cup melted butter.",
@@ -1789,7 +1492,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Restaurant Copycats",
-    image: animalFriesImg,
+    image: "https://i.imgur.com/R3lKTcY.png",
     totalTime: 40,
     tags: ["copycat", "fast-food", "side", "glutenfree"],
     ingredients: [
@@ -1843,7 +1546,7 @@ export const allRecipes: Recipe[] = [
       "Mix flour, powdered sugar, and paprika.",
       "Whisk egg and milk in another bowl.",
       "Dredge chicken in flour, dip in egg wash, coat again in flour.",
-      "Heat oil to 350°F. Fry chicken 5-7 minutes per side until golden.",
+      "Heat oil to 350?F. Fry chicken 5-7 minutes per side until golden.",
       "Drain on paper towels.",
       "Butter and toast buns.",
       "Place chicken on bun, top with pickles."
@@ -1858,7 +1561,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Restaurant Copycats",
-    image: copycatMcDonaldsBigMacSauceImg,
+    image: "https://i.imgur.com/9zB6RMV.png",
     totalTime: 5,
     tags: ["copycat", "restaurant", "viral", "mcdonalds", "sauce", "glutenfree"],
     ingredients: [
@@ -1883,13 +1586,13 @@ export const allRecipes: Recipe[] = [
   {
     id: "copycat-starbucks-pink-drink",
     name: "Starbucks Pink Drink",
-    description: "Refreshing strawberry aÃ§aÃ­ drink with coconut milk. Instagram-famous and delicious!",
+    description: "Refreshing strawberry a�a� drink with coconut milk. Instagram-famous and delicious!",
     cookTime: "0 mins",
     prepTime: "10 mins",
     difficulty: "easy",
     servings: 4,
     cuisine: "Restaurant Copycats",
-    image: copycatStarbucksPinkDrinkImg,
+    image: "https://i.imgur.com/xveBTd3.jpeg",
     totalTime: 10,
     tags: ["copycat", "restaurant", "viral", "starbucks", "beverage", "glutenfree"],
     nutrition: {
@@ -1904,14 +1607,14 @@ export const allRecipes: Recipe[] = [
     ingredients: [
       { amount: "3", unit: "cups", item: "white grape juice" },
       { amount: "1", unit: "cup", item: "frozen strawberries" },
-      { amount: "1/4", unit: "cup", item: "aÃ§aÃ­ juice or powder" },
+      { amount: "1/4", unit: "cup", item: "a�a� juice or powder" },
       { amount: "2", unit: "cups", item: "coconut milk" },
       { amount: "2", unit: "cups", item: "ice" },
       { amount: "1", unit: "cup", item: "fresh strawberries, sliced" }
     ],
     instructions: [
       "Blend white grape juice and frozen strawberries until smooth.",
-      "Add aÃ§aÃ­ juice or powder and blend again.",
+      "Add a�a� juice or powder and blend again.",
       "Fill glasses with ice.",
       "Pour strawberry mixture over ice.",
       "Top with coconut milk (it will create beautiful swirls).",
@@ -1953,7 +1656,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Soak chicken in buttermilk for 15-20 minutes.",
       "Mix flour, garlic powder, paprika, pepper, and salt in a bowl.",
-      "Heat oil to 350°F in a large pot or deep fryer.",
+      "Heat oil to 350?F in a large pot or deep fryer.",
       "Remove chicken from buttermilk, letting excess drip off.",
       "Dredge each piece in seasoned flour, coating completely.",
       "Fry chicken in batches for 5-7 minutes until golden brown.",
@@ -2008,7 +1711,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Restaurant Copycats",
-    image: copycatPandaExpressOrangeChickenImg,
+    image: "https://i.imgur.com/cxvnkI5.png",
     totalTime: 35,
     tags: ["copycat", "restaurant", "viral", "panda-express", "chinese"],
     nutrition: {
@@ -2036,7 +1739,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Coat chicken pieces in cornstarch, dip in egg, then coat again in cornstarch.",
-      "Heat oil to 350°F and fry chicken until golden and crispy, about 5-6 minutes.",
+      "Heat oil to 350?F and fry chicken until golden and crispy, about 5-6 minutes.",
       "Drain on paper towels.",
       "In a large skillet, combine orange juice, sugar, soy sauce, vinegar, zest, garlic, ginger, and red pepper flakes.",
       "Bring to a boil, then simmer until slightly thickened, about 5 minutes.",
@@ -2054,7 +1757,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Restaurant Copycats",
-    image: copycatKfcColeslawImg,
+    image: "https://i.imgur.com/EA1UrJy.png",
     totalTime: 15,
     tags: ["copycat", "restaurant", "viral", "kfc", "side-dish", "glutenfree"],
     nutrition: {
@@ -2140,7 +1843,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Restaurant Copycats",
-    image: copycatSonicCherryLimeadeImg,
+    image: "https://i.imgur.com/nwouIOr.png",
     totalTime: 5,
     tags: ["copycat", "restaurant", "viral", "sonic", "beverage", "glutenfree"],
     nutrition: {
@@ -2211,7 +1914,7 @@ export const allRecipes: Recipe[] = [
       "Punch down dough and divide into 12 pieces.",
       "Roll each into a 7-8 inch breadstick.",
       "Place on baking sheet, cover, and let rise 30 minutes.",
-      "Bake at 400°F for 12-15 minutes until golden.",
+      "Bake at 400?F for 12-15 minutes until golden.",
       "Mix melted butter with garlic powder and salt.",
       "Brush hot breadsticks with garlic butter immediately!",
       "Serve warm and enjoy!"
@@ -2226,7 +1929,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Restaurant Copycats",
-    image: copycatShakeShackBurgerImg,
+    image: "https://i.imgur.com/nYVFsM1.jpeg",
     totalTime: 25,
     tags: ["copycat", "restaurant", "viral", "shake-shack", "burger"],
     nutrition: {
@@ -2274,7 +1977,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Restaurant Copycats",
-    image: copycatFiveGuysCajunFriesImg,
+    image: "https://i.imgur.com/OzmMRWc.jpeg",
     totalTime: 30,
     tags: ["copycat", "restaurant", "viral", "five-guys", "side-dish", "glutenfree"],
     nutrition: {
@@ -2302,9 +2005,9 @@ export const allRecipes: Recipe[] = [
       "Cut potatoes into 1/4-inch thick fries. Soak in cold water for 30 minutes.",
       "Mix all spices together to make Cajun seasoning.",
       "Drain and pat potatoes completely dry.",
-      "Heat oil to 325°F. Fry potatoes in batches for 5 minutes (blanching).",
+      "Heat oil to 325?F. Fry potatoes in batches for 5 minutes (blanching).",
       "Remove and let rest for 10 minutes.",
-      "Increase oil temperature to 375°F.",
+      "Increase oil temperature to 375?F.",
       "Fry again for 2-3 minutes until golden and crispy.",
       "Drain on paper towels.",
       "Toss hot fries with Cajun seasoning.",
@@ -2320,7 +2023,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Restaurant Copycats",
-    image: copycatChickFilAChickenMinisImg,
+    image: "https://i.imgur.com/8ldpDm2.jpeg",
     totalTime: 40,
     tags: ["copycat", "restaurant", "viral", "chick-fil-a"],
     nutrition: {
@@ -2351,7 +2054,7 @@ export const allRecipes: Recipe[] = [
       "Mix flour, powdered sugar, and paprika.",
       "Whisk egg and milk together.",
       "Dredge chicken in flour, dip in egg wash, then flour again.",
-      "Heat oil to 350°F and fry chicken until golden, about 5-6 minutes.",
+      "Heat oil to 350?F and fry chicken until golden, about 5-6 minutes.",
       "Cut each chicken piece to fit rolls.",
       "Slice rolls horizontally.",
       "Place chicken inside each roll.",
@@ -2368,7 +2071,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Restaurant Copycats",
-    image: copycatOliveGardenZuppaToscanaImg,
+    image: "https://i.imgur.com/oXx9Huz.png",
     totalTime: 45,
     tags: ["copycat", "restaurant", "viral", "olive-garden", "soup", "glutenfree"],
     nutrition: {
@@ -2397,7 +2100,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Cook sausage in large pot until browned. Remove and set aside.",
       "Cook bacon in same pot until crispy. Remove and set aside.",
-      "SautÃ© onion and garlic in bacon fat until softened.",
+      "Saut� onion and garlic in bacon fat until softened.",
       "Add chicken broth and potatoes. Bring to boil.",
       "Reduce heat and simmer for 15 minutes until potatoes are tender.",
       "Stir in cooked sausage, kale, and cream.",
@@ -2416,7 +2119,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Restaurant Copycats",
-    image: copycatChipotleGuacamoleImg,
+    image: "https://i.imgur.com/97cVR9g.png",
     totalTime: 10,
     tags: ["copycat", "restaurant", "viral", "chipotle", "appetizer", "glutenfree"],
     nutrition: {
@@ -2432,14 +2135,14 @@ export const allRecipes: Recipe[] = [
       { amount: "4", unit: "ripe", item: "avocados" },
       { amount: "1/4", unit: "cup", item: "diced red onion" },
       { amount: "2", unit: "tbsp", item: "fresh cilantro, chopped" },
-      { amount: "1", unit: "medium", item: "jalapeÃ±o, seeded and diced" },
+      { amount: "1", unit: "medium", item: "jalape�o, seeded and diced" },
       { amount: "2", unit: "tbsp", item: "fresh lime juice" },
       { amount: "1/2", unit: "tsp", item: "salt" }
     ],
     instructions: [
       "Cut avocados in half, remove pit, and scoop flesh into bowl.",
       "Mash avocados with fork, leaving some chunks.",
-      "Add red onion, cilantro, and jalapeÃ±o.",
+      "Add red onion, cilantro, and jalape�o.",
       "Squeeze lime juice over mixture.",
       "Add salt and mix well.",
       "Taste and adjust seasonings as needed.",
@@ -2488,7 +2191,7 @@ export const allRecipes: Recipe[] = [
       "Bring 10 cups water and baking soda to boil.",
       "Boil pretzel bites in batches for 30 seconds.",
       "Place on baking sheet, sprinkle with coarse salt.",
-      "Bake at 425°F for 12-15 minutes until golden brown.",
+      "Bake at 425?F for 12-15 minutes until golden brown.",
       "Brush with remaining melted butter while hot.",
       "Serve with warm cheese sauce!"
     ]
@@ -2502,7 +2205,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Restaurant Copycats",
-    image: copycatChilisSkilletQuesoImg,
+    image: "https://i.imgur.com/IiMnXuh.png",
     totalTime: 25,
     tags: ["copycat", "restaurant", "viral", "chilis", "appetizer", "glutenfree"],
     nutrition: {
@@ -2519,7 +2222,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "lb", item: "white American cheese, cubed" },
       { amount: "1/2", unit: "cup", item: "milk" },
       { amount: "1/2", unit: "cup", item: "pico de gallo" },
-      { amount: "1", unit: "jalapeño", item: "sliced" },
+      { amount: "1", unit: "jalape?o", item: "sliced" },
       { amount: "2", unit: "tbsp", item: "fresh cilantro, chopped" },
       { amount: "1/2", unit: "tsp", item: "cumin" },
       { amount: "1/4", unit: "tsp", item: "salt" }
@@ -2530,7 +2233,7 @@ export const allRecipes: Recipe[] = [
       "Stir constantly until cheese is completely melted and smooth.",
       "Stir in cooked beef, cumin, and salt.",
       "Transfer to serving skillet or bowl.",
-      "Top with pico de gallo, sliced jalapeños, and cilantro.",
+      "Top with pico de gallo, sliced jalape?os, and cilantro.",
       "Serve immediately with warm tortilla chips!",
       "Keep warm in slow cooker for parties."
     ]
@@ -2544,7 +2247,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Restaurant Copycats",
-    image: copycatTacoBellMexicanPizzaImg,
+    image: "https://i.imgur.com/bYIFvxg.png",
     totalTime: 35,
     tags: ["copycat", "restaurant", "viral", "taco-bell", "main-dish"],
     nutrition: {
@@ -2576,7 +2279,7 @@ export const allRecipes: Recipe[] = [
       "Place another crispy tortilla on top of each.",
       "Spread pizza sauce on top tortilla.",
       "Sprinkle with cheese.",
-      "Bake at 400°F for 8-10 minutes until cheese melts.",
+      "Bake at 400?F for 8-10 minutes until cheese melts.",
       "Top with diced tomatoes and green onions.",
       "Cut into wedges and serve hot!"
     ]
@@ -2665,7 +2368,7 @@ export const allRecipes: Recipe[] = [
       "Drizzle [1 cup Alfredo sauce] over pasta.",
       "Add remaining pasta mixture. Top with [2 cups Alfredo].",
       "Sprinkle remaining cheeses on top.",
-      "Bake at 375°F for 25 minutes until bubbly and golden.",
+      "Bake at 375?F for 25 minutes until bubbly and golden.",
       "Let rest 5 minutes before serving."
     ]
   },
@@ -2707,7 +2410,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "pepitas (pumpkin seeds)" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x5 loaf pan.",
+      "Preheat oven to 350?F. Grease 9x5 loaf pan.",
       "Mix [1 2/3 cups flour], [1 1/2 cups sugar], [1 tsp baking soda], [3/4 tsp salt], [1/2 tsp baking powder], all spices.",
       "In separate bowl, whisk [1 can pumpkin], [1/2 cup oil], [2 eggs], [1/4 cup water].",
       "Combine wet and dry ingredients, mix until just combined.",
@@ -2756,10 +2459,10 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Soak [chicken pieces] in [2 cups buttermilk] for 30 minutes.",
       "Mix [2 cups flour] with all spices and seasonings.",
-      "Heat oil to 350°F in large heavy pot or deep fryer.",
+      "Heat oil to 350?F in large heavy pot or deep fryer.",
       "Remove chicken from buttermilk, let excess drip off.",
       "Dredge each piece in seasoned flour, coating completely.",
-      "Fry chicken in batches 12-15 minutes, turning once, until golden brown and internal temp reaches 165°F.",
+      "Fry chicken in batches 12-15 minutes, turning once, until golden brown and internal temp reaches 165?F.",
       "Drain on paper towels.",
       "Serve hot with your favorite sides!"
     ]
@@ -2847,7 +2550,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat [1 tbsp vegetable oil] in wok or large skillet over high heat.",
       "Add [3 beaten eggs], scramble quickly, remove and set aside.",
-      "Add [1 tbsp oil], sautÃ© [diced onion] 2 minutes.",
+      "Add [1 tbsp oil], saut� [diced onion] 2 minutes.",
       "Add [3 cloves garlic], [1 cup peas and carrots], stir-fry 2 minutes.",
       "Add [4 cups day-old rice], break up clumps.",
       "Stir-fry 3-4 minutes until rice is hot.",
@@ -2937,7 +2640,7 @@ export const allRecipes: Recipe[] = [
       "Pat [shrimp] dry with paper towels.",
       "Set up breading station: [flour] in one bowl, [2 beaten eggs] in second, mix [panko], [coconut], [salt], [cayenne] in third.",
       "Dip each shrimp in flour, then egg, then coconut mixture, pressing to adhere.",
-      "Heat 2 inches oil to 350°F in deep pan.",
+      "Heat 2 inches oil to 350?F in deep pan.",
       "Fry shrimp in batches 2-3 minutes until golden brown. Drain on paper towels.",
       "For sauce: Mix [orange marmalade], [pineapple juice], [honey], [Dijon mustard] in small bowl.",
       "Serve hot shrimp with dipping sauce."
@@ -2975,12 +2678,12 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425?F.",
       "Mix honey, soy sauce, and garlic.",
       "Arrange chicken and vegetables on sheet pan.",
       "Brush chicken with honey garlic sauce.",
       "Drizzle vegetables with olive oil.",
-      "Bake 25 minutes until chicken reaches 165°F.",
+      "Bake 25 minutes until chicken reaches 165?F.",
       "Serve immediately."
     ]
   },
@@ -2993,7 +2696,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: shrimpStirfryImg,
+    image: "https://i.imgur.com/laMTVMu.png",
     imageUrl: "https://i.imgur.com/laMTVMu.png",
     totalTime: 15,
     tags: ["quick", "asian", "protein", "seafood"],
@@ -3057,7 +2760,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tsp", item: "Italian seasoning" }
     ],
     instructions: [
-      "Preheat oven to 400°F.",
+      "Preheat oven to 400?F.",
       "Arrange salmon, asparagus, and tomatoes on sheet pan.",
       "Drizzle with olive oil, sprinkle with Italian seasoning.",
       "Top salmon with lemon slices.",
@@ -3075,7 +2778,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: beefBroccoliImg,
+    image: "https://i.imgur.com/lSRdTNS.png",
     totalTime: 20,
     tags: ["quick", "asian", "protein"],
     ingredients: [
@@ -3109,7 +2812,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: thaiBasilImg,
+    image: "https://i.imgur.com/guDDUks.png",
     imageUrl: "https://i.imgur.com/njeoQZu.png",
     totalTime: 25,
     tags: ["quick", "thai", "asian", "spicy"],
@@ -3151,7 +2854,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: tuscanShrimpImg,
+    image: "https://i.imgur.com/DbZzWVl.png",
     imageUrl: "https://i.imgur.com/DbZzWVl.png",
     totalTime: 25,
     tags: ["quick", "italian", "protein", "pasta"],
@@ -3175,7 +2878,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook pasta according to package.",
-      "SautÃ© shrimp in butter 2 minutes per side, remove.",
+      "Saut� shrimp in butter 2 minutes per side, remove.",
       "Add garlic, cook 30 seconds.",
       "Add sun-dried tomatoes and heavy cream.",
       "Simmer 3 minutes.",
@@ -3233,7 +2936,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: teriyakiSalmonImg,
+    image: "https://i.imgur.com/O2S54X6.png",
     totalTime: 20,
     tags: ["quick", "healthy", "asian", "protein", "glutenfree"],
     nutrition: {
@@ -3273,7 +2976,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: sesameNoodlesImg,
+    image: "https://i.imgur.com/DohZtZ9.png",
     totalTime: 20,
     tags: ["quick", "asian", "vegan", "cold"],
     nutrition: {
@@ -3360,7 +3063,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: shrimpScampiImg,
+    image: "https://i.imgur.com/ry6O5R0.png",
     imageUrl: "https://i.imgur.com/ry6O5R0.png",
     totalTime: 15,
     tags: ["quick", "italian", "protein", "pasta", "glutenfree"],
@@ -3403,7 +3106,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: mongolianBeefImg,
+    image: "https://i.imgur.com/38vSHb8.png",
     imageUrl: "https://i.imgur.com/38vSHb8.png",
     totalTime: 20,
     tags: ["quick", "asian", "protein"],
@@ -3447,7 +3150,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: greekChickenImg,
+    image: "https://i.imgur.com/gkppx9G.png",
     imageUrl: "https://i.imgur.com/gkppx9G.png",
     totalTime: 25,
     tags: ["quick", "greek", "healthy", "protein", "glutenfree"],
@@ -3488,7 +3191,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: steakBitesImg,
+    image: "https://i.imgur.com/9FOICSU.png",
     imageUrl: "https://i.imgur.com/9FOICSU.png",
     totalTime: 15,
     tags: ["quick", "protein", "steak", "glutenfree"],
@@ -3528,7 +3231,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: padThaiImg,
+    image: "https://i.imgur.com/OZqGxHF.png",
     imageUrl: "https://i.imgur.com/OZqGxHF.png",
     totalTime: 30,
     tags: ["quick", "thai", "asian", "noodles"],
@@ -3588,10 +3291,10 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375?F.",
       "Whisk eggs and milk together.",
       "Heat olive oil in oven-safe skillet.",
-      "Add chopped pizza pieces, sautÃ© 2 minutes.",
+      "Add chopped pizza pieces, saut� 2 minutes.",
       "Pour egg mixture over pizza.",
       "Top with mozzarella.",
       "Cook on stovetop 5 minutes until edges set.",
@@ -3674,7 +3377,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Dinner",
-    image: pastaCarbonaraImg,
+    image: "https://i.imgur.com/AQ7SNIE.png",
     imageUrl: "https://i.imgur.com/AQ7SNIE.png",
     totalTime: 20,
     tags: ["leftover", "italian", "pasta", "kid-friendly"],
@@ -3724,7 +3427,7 @@ export const allRecipes: Recipe[] = [
       "Beat egg in shallow bowl.",
       "Place breadcrumbs in another bowl.",
       "Dip each croquette in egg, then roll in breadcrumbs.",
-      "Heat oil to 350°F.",
+      "Heat oil to 350?F.",
       "Fry croquettes 3-4 minutes until golden.",
       "Drain on paper towels. Serve with sour cream."
     ]
@@ -3777,7 +3480,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Dinner",
-    image: frenchDipSlidersImg,
+    image: "https://i.imgur.com/nMkJWTl.png",
     totalTime: 25,
     tags: ["leftover", "sandwich", "comfort"],
     ingredients: [
@@ -3807,7 +3510,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Leftover Magic",
-    image: hamHashImg,
+    image: "https://i.imgur.com/GaL6S49.png",
     totalTime: 30,
     tags: ["leftover", "breakfast", "brunch", "glutenfree", "kid-friendly"],
     ingredients: [
@@ -3906,17 +3609,17 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "bag", item: "tortilla chips" },
       { amount: "2", unit: "cups", item: "shredded cheese" },
       { amount: "1", unit: "cup", item: "black beans" },
-      { amount: "1/2", unit: "cup", item: "jalapeÃ±os" },
+      { amount: "1/2", unit: "cup", item: "jalape�os" },
       { amount: "1/2", unit: "cup", item: "sour cream" },
       { amount: "1/4", unit: "cup", item: "tomatoes, diced" },
       { amount: "1/4", unit: "cup", item: "green onions" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375?F.",
       "Spread chips on large baking sheet.",
       "Top with pulled pork, beans, and cheese.",
       "Bake 10 minutes until cheese melts.",
-      "Top with jalapeÃ±os, sour cream, tomatoes, and green onions.",
+      "Top with jalape�os, sour cream, tomatoes, and green onions.",
       "Serve immediately."
     ]
   },
@@ -3962,7 +3665,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Breakfast",
-    image: sausageBurritoImg,
+    image: "https://i.imgur.com/TRWioaz.png",
     totalTime: 15,
     tags: ["leftover", "breakfast", "quick"],
     ingredients: [
@@ -4011,7 +3714,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "shredded cheese" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease muffin tin.",
+      "Preheat oven to 350?F. Grease muffin tin.",
       "Mix stuffing with eggs, broth, and cheese.",
       "Pack mixture into muffin cups.",
       "Bake 25 minutes until golden and crispy on top.",
@@ -4074,8 +3777,8 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Cilantro for garnish" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Grease 9x13 baking dish.",
-      "SautÃ© onion and garlic until soft. Mix with chicken and beans.",
+      "Preheat oven to 375?F. Grease 9x13 baking dish.",
+      "Saut� onion and garlic until soft. Mix with chicken and beans.",
       "Spread 1/2 cup enchilada sauce in bottom of dish.",
       "Fill each tortilla with chicken mixture and 2 tbsp cheese. Roll tightly.",
       "Place seam-side down in dish. Pour remaining sauce over top.",
@@ -4093,7 +3796,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Leftover Magic",
-    image: leftoverMashedPotatoPancakesImg,
+    image: "https://i.imgur.com/P68tukC.png",
     totalTime: 25,
     tags: ["leftover", "breakfast", "side-dish", "kid-friendly"],
     ingredients: [
@@ -4147,7 +3850,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "shredded cheddar cheese" }
     ],
     instructions: [
-      "Preheat oven to 400°F.",
+      "Preheat oven to 400?F.",
       "Mix pot roast, vegetables, peas, gravy, tomato paste, and Worcestershire in baking dish.",
       "Spread mashed potatoes evenly over meat mixture.",
       "Use fork to create texture on potato surface.",
@@ -4180,7 +3883,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "tbsp", item: "butter, melted" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Grease 9x13 baking dish.",
+      "Preheat oven to 375?F. Grease 9x13 baking dish.",
       "Mix soup, noodles, chicken, vegetables, sour cream, and 1 cup cheese.",
       "Pour into prepared dish.",
       "Mix breadcrumbs with melted butter and remaining cheese.",
@@ -4198,7 +3901,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Fusion",
-    image: leftoverTacoMeatPizzaImg,
+    image: "https://i.imgur.com/gAaq6Mt.png",
     totalTime: 25,
     tags: ["leftover", "fusion", "dinner", "kid-friendly", "glutenfree"],
     ingredients: [
@@ -4210,16 +3913,16 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "shredded lettuce" },
       { amount: "1", unit: "", item: "tomato, diced" },
       { amount: "1/2", unit: "cup", item: "sour cream" },
-      { amount: "", unit: "", item: "JalapeÃ±os, olives, salsa for topping" }
+      { amount: "", unit: "", item: "Jalape�os, olives, salsa for topping" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425?F.",
       "Roll out pizza dough on baking sheet.",
       "Spread refried beans as base sauce.",
       "Top with taco meat and cheese.",
       "Bake 12-15 minutes until crust is golden and cheese melted.",
       "Remove from oven, top with lettuce, tomatoes, sour cream drizzle.",
-      "Add jalapeÃ±os and olives. Slice and serve with salsa."
+      "Add jalape�os and olives. Slice and serve with salsa."
     ]
   },
   {
@@ -4244,7 +3947,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "slices", item: "fresh ginger" },
       { amount: "2", unit: "tbsp", item: "fish sauce" },
       { amount: "1", unit: "tbsp", item: "brown sugar" },
-      { amount: "", unit: "", item: "Bean sprouts, basil, lime, jalapeÃ±os for serving" }
+      { amount: "", unit: "", item: "Bean sprouts, basil, lime, jalape�os for serving" }
     ],
     instructions: [
       "Bring broth to boil with star anise, cinnamon, and ginger.",
@@ -4253,7 +3956,7 @@ export const allRecipes: Recipe[] = [
       "Cook rice noodles according to package, drain.",
       "Divide noodles between bowls, add shredded chicken.",
       "Pour hot broth over noodles and chicken.",
-      "Top with bean sprouts, fresh herbs, lime juice, and jalapeÃ±os."
+      "Top with bean sprouts, fresh herbs, lime juice, and jalape�os."
     ]
   },
   {
@@ -4265,7 +3968,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Leftover Magic",
-    image: leftoverMeatloafSlidersImg,
+    image: "https://i.imgur.com/zFV6MLU.png",
     totalTime: 20,
     tags: ["leftover", "sandwich", "lunch", "kid-friendly"],
     ingredients: [
@@ -4307,7 +4010,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "cheddar cheese sauce" },
       { amount: "1/2", unit: "cup", item: "sour cream" },
       { amount: "1/4", unit: "cup", item: "chopped green onions" },
-      { amount: "1/4", unit: "cup", item: "pickled jalapeÃ±os" }
+      { amount: "1/4", unit: "cup", item: "pickled jalape�os" }
     ],
     instructions: [
       "Bake fries according to package directions until extra crispy.",
@@ -4315,7 +4018,7 @@ export const allRecipes: Recipe[] = [
       "Arrange fries on large serving platter.",
       "Pour hot chili over fries.",
       "Drizzle with cheese sauce.",
-      "Top with dollops of sour cream, green onions, and jalapeÃ±os.",
+      "Top with dollops of sour cream, green onions, and jalape�os.",
       "Serve immediately while hot."
     ]
   },
@@ -4347,7 +4050,7 @@ export const allRecipes: Recipe[] = [
       "Place 2-3 tbsp filling in center.",
       "Fold bottom corner over filling, fold in sides, roll tightly.",
       "Seal edge with beaten egg.",
-      "Heat 2 inches oil to 350°F.",
+      "Heat 2 inches oil to 350?F.",
       "Fry egg rolls 3-4 minutes until golden brown.",
       "Drain on paper towels. Serve with sweet chili sauce."
     ]
@@ -4377,8 +4080,8 @@ export const allRecipes: Recipe[] = [
       { amount: "4", unit: "tbsp", item: "butter" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Cook spaghetti al dente, drain.",
-      "SautÃ© mushrooms in 2 tbsp butter until golden.",
+      "Preheat oven to 375?F. Cook spaghetti al dente, drain.",
+      "Saut� mushrooms in 2 tbsp butter until golden.",
       "In large bowl, mix spaghetti, turkey, mushrooms, peas, cream, broth, and half the parmesan.",
       "Transfer to greased 9x13 baking dish.",
       "Mix breadcrumbs with remaining butter and parmesan.",
@@ -4395,7 +4098,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Leftover Magic",
-    image: leftoverRoastBeefPoutineImg,
+    image: "https://i.imgur.com/GQd0B8H.png",
     totalTime: 30,
     tags: ["leftover", "comfort-food", "canadian", "glutenfree", "kid-friendly"],
     ingredients: [
@@ -4442,7 +4145,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook pasta shells al dente, drain and cool.",
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375?F.",
       "Mix chicken alfredo with ricotta, half the mozzarella, parmesan, and egg.",
       "Spread 1 cup marinara in bottom of baking dish.",
       "Fill each shell with alfredo mixture, arrange in dish.",
@@ -4510,7 +4213,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Fresh basil and garlic bread for serving" }
     ],
     instructions: [
-      "SautÃ© garlic in olive oil until fragrant.",
+      "Saut� garlic in olive oil until fragrant.",
       "Add broth, tomatoes, and Italian seasoning. Bring to boil.",
       "Reduce heat, simmer 15 minutes.",
       "Stir in cream and cubed chicken.",
@@ -4528,7 +4231,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Leftover Magic",
-    image: leftoverFajitaBreakfastHashImg,
+    image: "https://i.imgur.com/RRRXpjE.png",
     totalTime: 30,
     tags: ["leftover", "breakfast", "mexican", "glutenfree", "kid-friendly"],
     ingredients: [
@@ -4576,7 +4279,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "Italian seasoning" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Grease 9x13 baking dish.",
+      "Preheat oven to 375?F. Grease 9x13 baking dish.",
       "Toast bread cubes with melted butter and Italian seasoning.",
       "Layer half the toasted bread in dish.",
       "Top with meatballs, marinara, and half the cheeses.",
@@ -4652,7 +4355,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Bring beef broth to boil. Add soy sauce and sesame oil.",
       "Cook ramen noodles according to package, drain.",
-      "SautÃ© mushrooms and bok choy until tender.",
+      "Saut� mushrooms and bok choy until tender.",
       "Divide noodles among 4 bowls.",
       "Top with shredded pot roast, vegetables, and halved soft-boiled eggs.",
       "Pour hot broth over everything.",
@@ -4668,7 +4371,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Mexican",
-    image: leftoverTacoStuffedPeppersImg,
+    image: "https://i.imgur.com/8znNLjc.png",
     totalTime: 45,
     tags: ["leftover", "mexican", "dinner", "glutenfree"],
     ingredients: [
@@ -4683,7 +4386,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Cilantro and lime for garnish" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375?F.",
       "Arrange pepper halves in baking dish.",
       "Mix taco meat, rice, beans, corn, and 1 cup cheese.",
       "Fill each pepper half with mixture.",
@@ -4715,7 +4418,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Naan bread for serving" }
     ],
     instructions: [
-      "Preheat oven to 400°F.",
+      "Preheat oven to 400?F.",
       "Mix tikka masala with peas and potatoes.",
       "Transfer to pie dish or individual ramekins.",
       "Cover with puff pastry, trim excess, crimp edges.",
@@ -4776,7 +4479,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Italian",
-    image: chickenMarsalaImg,
+    image: "https://i.imgur.com/95Ka00c.png",
     totalTime: 35,
     tags: ["italian", "comfort-food", "restaurant-quality", "dinner"],
     nutrition: {
@@ -4891,7 +4594,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "fresh basil for garnish" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375?F.",
       "Remove seeds from pepper halves and arrange in a baking dish.",
       "Brown ground beef and sausage with onion and garlic. Drain fat.",
       "Mix meat with rice, 1 cup marinara, 1 cup cheese, and Italian seasoning.",
@@ -5025,7 +4728,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Pumpkin seeds for garnish" }
     ],
     instructions: [
-      "Melt butter in large pot. SautÃ© onion until soft, about 5 minutes.",
+      "Melt butter in large pot. Saut� onion until soft, about 5 minutes.",
       "Add garlic and spices, cook 1 minute until fragrant.",
       "Add squash and broth. Bring to boil, then simmer 20 minutes until tender.",
       "Use immersion blender to puree until smooth (or transfer to blender in batches).",
@@ -5042,7 +4745,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Fall Favorites",
-    image: mapleGlazedSalmonImg,
+    image: "https://i.imgur.com/IRLpsco.png",
     imageUrl: "https://i.imgur.com/gk4bJTS.png",
     totalTime: 30,
     tags: ["fall", "protein", "seafood"],
@@ -5066,7 +4769,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line baking sheet with parchment.",
+      "Preheat oven to 400?F. Line baking sheet with parchment.",
       "Toss Brussels sprouts and sweet potato with olive oil, salt, and pepper. Spread on sheet.",
       "Roast vegetables 10 minutes.",
       "Meanwhile, mix maple syrup, soy sauce, garlic, and mustard.",
@@ -5084,7 +4787,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "Dinner",
-    image: appleCiderPulledPorkImg,
+    image: "https://i.imgur.com/aHMkyJB.png",
     totalTime: 375,
     tags: ["fall", "comfort-food", "slow-cooker", "dinner"],
     nutrition: {
@@ -5147,7 +4850,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Fresh rosemary for garnish" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Grease mini muffin tin.",
+      "Preheat oven to 375?F. Grease mini muffin tin.",
       "Cut puff pastry into 24 squares. Press into muffin cups.",
       "Place a cube of brie in each cup.",
       "Top with 1 tsp cranberry sauce and sprinkle of pecans.",
@@ -5188,7 +4891,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "chopped pecans" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 baking dish.",
+      "Preheat oven to 350?F. Grease 9x13 baking dish.",
       "Boil sweet potatoes until tender, about 20 minutes. Drain and peel.",
       "Mash sweet potatoes until smooth.",
       "Mix in butter, brown sugar, eggs, vanilla, and milk.",
@@ -5231,11 +4934,11 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tbsp", item: "fresh rosemary" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425?F.",
       "Toss all vegetables with 2 tbsp olive oil, salt, and pepper. Spread on large baking sheet.",
       "Season chicken with salt, pepper, thyme, and rosemary. Rub with remaining oil.",
       "Place chicken on top of vegetables.",
-      "Roast 40-45 minutes until chicken reaches 165°F and vegetables are tender.",
+      "Roast 40-45 minutes until chicken reaches 165?F and vegetables are tender.",
       "Let rest 5 minutes before serving."
     ]
   },
@@ -5271,13 +4974,13 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "tsp", item: "garlic powder" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line baking sheet with foil.",
+      "Preheat oven to 400?F. Line baking sheet with foil.",
       "Season pork with salt and pepper.",
       "Mix pecans, panko, thyme, and garlic powder in shallow dish.",
       "Combine mustard and maple syrup. Brush all over pork.",
       "Press pork into pecan mixture, coating all sides.",
       "Drizzle with melted butter.",
-      "Roast 20-25 minutes until internal temp reaches 145°F.",
+      "Roast 20-25 minutes until internal temp reaches 145?F.",
       "Let rest 5 minutes before slicing."
     ]
   },
@@ -5355,7 +5058,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "pumpkin seeds" }
     ],
     instructions: [
-      "In large saucepan, melt 2 tbsp butter. SautÃ© onion until soft.",
+      "In large saucepan, melt 2 tbsp butter. Saut� onion until soft.",
       "Add garlic and rice. Toast 2 minutes, stirring constantly.",
       "Add wine and stir until absorbed.",
       "Add warm broth one ladle at a time, stirring frequently. Wait until absorbed before adding more.",
@@ -5375,7 +5078,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Fall Favorites",
-    image: autumnHarvestSaladImg,
+    image: "https://i.imgur.com/IN6gTJm.png",
     totalTime: 35,
     tags: ["fall", "salad", "vegetarian", "glutenfree"],
     nutrition: {
@@ -5400,7 +5103,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "Dijon mustard" }
     ],
     instructions: [
-      "Toss squash cubes with olive oil, salt, and pepper. Roast at 400°F for 20 minutes.",
+      "Toss squash cubes with olive oil, salt, and pepper. Roast at 400?F for 20 minutes.",
       "Make dressing: whisk balsamic vinegar, olive oil, maple syrup, and mustard.",
       "In large bowl, combine mixed greens with roasted squash.",
       "Add cranberries, pecans, goat cheese, and pear slices.",
@@ -5440,12 +5143,12 @@ export const allRecipes: Recipe[] = [
       { amount: "1.5", unit: "lbs", item: "baby potatoes" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425?F.",
       "Mix lemon zest, juice, olive oil, garlic, herbs, paprika, salt, and pepper.",
       "Rub mixture all over chicken thighs, including under the skin.",
       "Toss baby potatoes in remaining marinade.",
       "Arrange chicken and potatoes in a roasting pan.",
-      "Roast 35-40 minutes until chicken reaches 165°F and skin is crispy.",
+      "Roast 35-40 minutes until chicken reaches 165?F and skin is crispy.",
       "Let rest 5 minutes before serving.",
       "Serve with a green salad."
     ]
@@ -5459,7 +5162,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Dinner",
-    image: bbqMeatloafImg,
+    image: "https://i.imgur.com/cZ6DgEY.png",
     totalTime: 75,
     tags: ["comfort-food", "american", "kid-friendly", "dinner"],
     nutrition: {
@@ -5483,7 +5186,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "garlic powder" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375?F.",
       "Soak breadcrumbs in milk for 5 minutes.",
       "Mix beef, pork, breadcrumb mixture, eggs, onion, 1/4 cup BBQ sauce, Worcestershire, garlic powder, salt, and pepper.",
       "Form mixture into a loaf shape in a baking dish.",
@@ -5502,7 +5205,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Mediterranean",
-    image: mediterraneanChickenRiceImg,
+    image: "https://i.imgur.com/Aip9ult.png",
     totalTime: 50,
     tags: ["mediterranean", "one-pan", "healthy", "dinner", "glutenfree"],
     nutrition: {
@@ -5532,7 +5235,7 @@ export const allRecipes: Recipe[] = [
       "Remove chicken and set aside.",
       "Add garlic and rice, toast 2 minutes.",
       "Add broth, tomatoes, olives, and lemon juice. Stir well.",
-      "Nestle chicken on top, cover, and bake at 375°F for 30 minutes.",
+      "Nestle chicken on top, cover, and bake at 375?F for 30 minutes.",
       "Remove from oven and let rest 5 minutes.",
       "Top with feta cheese and serve."
     ]
@@ -5591,7 +5294,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Healthy Bowls",
-    image: koreanBeefBowlImg,
+    image: "https://i.imgur.com/7ukcqyT.png",
     totalTime: 20,
     tags: ["asian", "quick", "budget-friendly", "dinner"],
     nutrition: {
@@ -5633,7 +5336,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Dinner",
-    image: garlicButterTilapiaImg,
+    image: "https://i.imgur.com/lpwYHYX.png",
     totalTime: 20,
     tags: ["seafood", "low-carb", "dinner", "lunch", "glutenfree"],
     nutrition: {
@@ -5655,7 +5358,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "Parmesan cheese, grated" }
     ],
     instructions: [
-      "Preheat oven to 400°F and line a baking sheet with parchment.",
+      "Preheat oven to 400?F and line a baking sheet with parchment.",
       "Place tilapia fillets on the baking sheet.",
       "Mix melted butter, garlic, lemon juice, paprika, salt, and pepper.",
       "Brush mixture generously over each fillet.",
@@ -5696,7 +5399,7 @@ export const allRecipes: Recipe[] = [
       { amount: "4", unit: "cups", item: "marinara sauce" }
     ],
     instructions: [
-      "Preheat oven to 400°F and line a baking sheet with parchment.",
+      "Preheat oven to 400?F and line a baking sheet with parchment.",
       "Mix turkey, breadcrumbs, Parmesan, eggs, garlic, Italian seasoning, parsley, salt, and pepper.",
       "Form into 24 meatballs (about 2 tbsp each).",
       "Place on baking sheet and bake 20 minutes.",
@@ -5737,12 +5440,12 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "", item: "red onion, cut in wedges" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425?F.",
       "Whisk honey, mustard, olive oil, and garlic together.",
       "Place chicken and vegetables on a large sheet pan.",
       "Pour honey mustard mixture over everything and toss to coat.",
       "Season with salt and pepper.",
-      "Roast 30-35 minutes until chicken reaches 165°F.",
+      "Roast 30-35 minutes until chicken reaches 165?F.",
       "Let rest 5 minutes before serving."
     ]
   },
@@ -5796,7 +5499,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Thai",
-    image: thaiCoconutCurryImg,
+    image: "https://i.imgur.com/guDDUks.png",
     totalTime: 40,
     tags: ["thai", "spicy", "curry", "dinner", "glutenfree"],
     nutrition: {
@@ -5909,7 +5612,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "green onions, sliced for garnish" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375?F.",
       "Brown beef with onion. Drain fat and add cumin and chili powder.",
       "Stir in black beans and 1/2 cup enchilada sauce.",
       "Spread 1 cup enchilada sauce in a 9x13 baking dish.",
@@ -5999,7 +5702,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Brown chicken in a large Dutch oven. Remove and set aside.",
       "Brown sausage in the same pot. Remove and set aside.",
-      "SautÃ© onion, bell peppers, and celery until softened, 5 minutes.",
+      "Saut� onion, bell peppers, and celery until softened, 5 minutes.",
       "Add garlic and Cajun seasoning, cook 1 minute.",
       "Add rice and toast 2 minutes.",
       "Pour in broth, tomatoes, bay leaves, chicken, and sausage.",
@@ -6016,7 +5719,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Russian",
-    image: beefStroganoffImg,
+    image: "https://i.imgur.com/I4VSQgz.png",
     totalTime: 35,
     tags: ["comfort-food", "creamy", "pasta", "one-pot"],
     nutrition: {
@@ -6089,7 +5792,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in a large skillet with lid over medium-high heat.",
       "Season chicken with fajita seasoning and cook until browned. Set aside.",
-      "SautÃ© peppers and onion until softened, 5 minutes.",
+      "Saut� peppers and onion until softened, 5 minutes.",
       "Add rice and toast 2 minutes.",
       "Pour in broth, tomatoes, and lime juice. Stir well.",
       "Nestle chicken on top, bring to a boil, then reduce heat.",
@@ -6106,7 +5809,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "One Pot Wonders",
-    image: tuscanChickenPastaImg,
+    image: "https://i.imgur.com/BArBYKw.png",
     totalTime: 30,
     tags: ["italian", "creamy", "pasta", "one-pot"],
     nutrition: {
@@ -6196,7 +5899,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Breakfast",
-    image: breakfastButtermilkPancakesImg,
+    image: "https://i.imgur.com/Q0VqcLR.png",
     totalTime: 25,
     tags: ["breakfast", "quick-breakfast", "kid-friendly", "vegetarian"],
     ingredients: [
@@ -6214,7 +5917,7 @@ export const allRecipes: Recipe[] = [
       "Mix flour, sugar, baking powder, baking soda, and salt in bowl.",
       "Whisk buttermilk, eggs, and melted butter together.",
       "Pour wet into dry ingredients, stir until just combined (lumps okay).",
-      "Heat griddle to 350°F, lightly grease.",
+      "Heat griddle to 350?F, lightly grease.",
       "Pour 1/4 cup batter per pancake.",
       "Cook until bubbles form, flip and cook 1-2 minutes more.",
       "Serve hot with butter and maple syrup."
@@ -6229,7 +5932,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Breakfast",
-    image: breakfastBelgianWafflesNewImg,
+    image: "https://i.imgur.com/HVsCoTv.png",
     totalTime: 25,
     tags: ["breakfast", "kid-friendly", "vegetarian"],
     nutrition: {
@@ -6270,7 +5973,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Breakfast",
-    image: breakfastFrenchToastClassicImg,
+    image: "https://i.imgur.com/Nz5IkyW.png",
     totalTime: 15,
     tags: ["breakfast", "quick-breakfast", "kid-friendly", "vegetarian"],
     nutrition: {
@@ -6307,7 +6010,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Breakfast",
-    image: breakfastEggsBenedictClassicImg,
+    image: "https://i.imgur.com/4kOBQRR.png",
     totalTime: 30,
     tags: ["breakfast", "brunch", "elegant"],
     nutrition: {
@@ -6347,7 +6050,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 1,
     cuisine: "Breakfast",
-    image: breakfastClassicOmeletImg,
+    image: "https://i.imgur.com/tqz1e5T.png",
     totalTime: 10,
     tags: ["breakfast", "quick-breakfast", "protein", "vegetarian", "glutenfree"],
     ingredients: [
@@ -6378,7 +6081,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Breakfast",
-    image: breakfastBurritoClassicImg,
+    image: "https://i.imgur.com/877Y8M2.png",
     totalTime: 25,
     tags: ["breakfast", "portable", "filling"],
     nutrition: {
@@ -6418,7 +6121,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "One Pot Wonders",
-    image: breakfastCasseroleClassicImg,
+    image: "https://i.imgur.com/jHZeSDI.jpeg",
     totalTime: 60,
     tags: ["breakfast", "make-ahead", "crowd-pleaser"],
     nutrition: {
@@ -6440,7 +6143,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "tsp", item: "salt" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 baking dish.",
+      "Preheat oven to 350?F. Grease 9x13 baking dish.",
       "Brown sausage in skillet, drain fat.",
       "Layer bread cubes, sausage, and cheese in dish.",
       "Whisk eggs, milk, mustard, and salt.",
@@ -6472,7 +6175,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "cups", item: "cornflakes, crushed" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 dish.",
+      "Preheat oven to 350?F. Grease 9x13 dish.",
       "Mix hash browns, soup, sour cream, cheese, onion, and half the butter.",
       "Spread in baking dish.",
       "Mix cornflakes with remaining melted butter.",
@@ -6512,7 +6215,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "tsp", item: "salt" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375?F.",
       "Place pie crust in 9-inch pie pan, crimp edges.",
       "Sprinkle bacon and cheese in bottom of crust.",
       "Whisk eggs, cream, nutmeg, and salt.",
@@ -6530,7 +6233,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Breakfast",
-    image: breakfastBiscuitsGravyClassicImg,
+    image: "https://i.imgur.com/YwZdYog.png",
     totalTime: 35,
     tags: ["breakfast", "southern", "comfort-food"],
     ingredients: [
@@ -6544,7 +6247,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "cups", item: "milk" }
     ],
     instructions: [
-      "Preheat oven to 450°F. Make biscuits: mix flour and baking powder.",
+      "Preheat oven to 450?F. Make biscuits: mix flour and baking powder.",
       "Cut in butter until crumbly, add buttermilk.",
       "Pat into 1-inch thickness, cut biscuits, bake 12 minutes.",
       "Brown sausage in skillet, don't drain.",
@@ -6562,7 +6265,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 2,
     cuisine: "Breakfast",
-    image: breakfastAvocadoToastClassicImg,
+    image: "https://i.imgur.com/T46Ls7V.png",
     totalTime: 10,
     tags: ["breakfast", "quick-breakfast", "vegetarian"],
     nutrition: {
@@ -6600,7 +6303,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 1,
     cuisine: "Breakfast",
-    image: breakfastOvernightOatsImg,
+    image: "https://i.imgur.com/E8Oav3g.png",
     totalTime: 5,
     tags: ["breakfast", "healthy", "make-ahead", "quick-breakfast", "vegetarian", "glutenfree"],
     nutrition: {
@@ -6714,7 +6417,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 2,
     cuisine: "Breakfast",
-    image: breakfastSmoothieBowlClassicImg,
+    image: "https://i.imgur.com/nN2h3dC.png",
     totalTime: 10,
     tags: ["breakfast", "healthy", "vegetarian", "quick-breakfast", "glutenfree"],
     nutrition: {
@@ -6753,7 +6456,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 2,
     cuisine: "Contemporary",
-    image: breakfastGreekYogurtParfaitClassicImg,
+    image: "https://i.imgur.com/peSQKNd.png",
     totalTime: 5,
     tags: ["breakfast", "healthy", "quick-breakfast", "protein", "vegetarian", "glutenfree"],
     nutrition: {
@@ -6791,7 +6494,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Breakfast",
-    image: breakfastProteinPancakesImg,
+    image: "https://i.imgur.com/g747BoT.png",
     totalTime: 25,
     tags: ["breakfast", "protein", "fitness"],
     ingredients: [
@@ -6823,7 +6526,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Breakfast",
-    image: breakfastTacosClassicImg,
+    image: "https://i.imgur.com/KnY1DpE.png",
     totalTime: 25,
     tags: ["breakfast", "tex-mex", "quick-breakfast"],
     nutrition: {
@@ -6887,7 +6590,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "feta cheese, crumbled" }
     ],
     instructions: [
-      "Heat oil in large skillet, sautÃ© onion and pepper until soft.",
+      "Heat oil in large skillet, saut� onion and pepper until soft.",
       "Add garlic, cumin, and paprika, cook 1 minute.",
       "Pour in crushed tomatoes, simmer 10 minutes until thick.",
       "Make 6 wells in sauce, crack egg into each well.",
@@ -6987,7 +6690,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Breakfast",
-    image: breakfastBlueberryMuffinsImg,
+    image: "https://i.imgur.com/1upf556.png",
     totalTime: 30,
     tags: ["breakfast", "baked", "kid-friendly", "portable", "vegetarian"],
     ingredients: [
@@ -7002,7 +6705,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1.5", unit: "cups", item: "fresh blueberries" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line muffin tin with paper liners.",
+      "Preheat oven to 400?F. Line muffin tin with paper liners.",
       "Mix flour, sugar, baking powder, and salt in large bowl.",
       "Whisk melted butter, eggs, and milk in separate bowl.",
       "Pour wet into dry ingredients, stir until just combined.",
@@ -7037,11 +6740,11 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "cups", item: "marinara sauce" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line baking sheet with parchment paper.",
+      "Preheat oven to 400?F. Line baking sheet with parchment paper.",
       "Mix ground chicken, breadcrumbs, Parmesan, eggs, garlic, Italian seasoning, salt, and pepper in large bowl.",
       "Form mixture into 20-24 meatballs (about 1.5 inches each).",
       "Place meatballs on prepared baking sheet.",
-      "Bake 20-25 minutes until golden brown and cooked through (internal temp 165°F).",
+      "Bake 20-25 minutes until golden brown and cooked through (internal temp 165?F).",
       "Warm marinara sauce in skillet.",
       "Add cooked meatballs to sauce and simmer 5 minutes.",
       "Serve over pasta, zoodles, or with crusty bread."
@@ -7073,13 +6776,13 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "tsp", item: "black pepper" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425?F.",
       "Place chicken breasts on large sheet pan.",
       "Arrange vegetables around chicken.",
       "Drizzle everything with olive oil.",
       "Mix garlic powder, paprika, Italian seasoning, salt, and pepper in small bowl.",
       "Sprinkle seasoning mixture over chicken and vegetables.",
-      "Bake 25-30 minutes until chicken reaches 165°F and vegetables are tender.",
+      "Bake 25-30 minutes until chicken reaches 165?F and vegetables are tender.",
       "Let rest 5 minutes before serving."
     ]
   },
@@ -7117,7 +6820,7 @@ export const allRecipes: Recipe[] = [
       { amount: "12", unit: "", item: "tortillas" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425?F.",
       "Place sliced chicken, bell peppers, and onion on large sheet pan.",
       "Drizzle with olive oil.",
       "Mix chili powder, cumin, garlic powder, paprika, and salt in small bowl.",
@@ -7136,7 +6839,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Dinner",
-    image: grilledChickenCapreseImg,
+    image: "https://i.imgur.com/LsSmGYN.png",
     totalTime: 25,
     tags: ["high-protein", "family-friendly", "easy-dinner", "glutenfree"],
     ingredients: [
@@ -7154,7 +6857,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Preheat grill or grill pan to medium-high heat.",
       "Brush chicken with olive oil and season with Italian seasoning, salt, and pepper.",
-      "Grill chicken 6-7 minutes per side until internal temp reaches 165°F.",
+      "Grill chicken 6-7 minutes per side until internal temp reaches 165?F.",
       "Top each chicken breast with mozzarella slices during last 2 minutes of cooking.",
       "Remove from grill and let rest 5 minutes.",
       "Top with tomato slices and fresh basil.",
@@ -7171,7 +6874,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "One Pot Wonders",
-    image: slowCookerWhiteChickenChiliImg,
+    image: "https://i.imgur.com/7raEzFt.png",
     totalTime: 255,
     tags: ["high-protein", "family-friendly", "easy-dinner", "slow-cooker", "glutenfree"],
     nutrition: {
@@ -7238,7 +6941,7 @@ export const allRecipes: Recipe[] = [
       "Top with shredded cheese, cover and let melt (2 minutes).",
       "Remove from heat.",
       "Top with lettuce, tomatoes, sour cream, and crushed chips.",
-      "Serve immediately with optional toppings like guacamole or jalapeÃ±os."
+      "Serve immediately with optional toppings like guacamole or jalape�os."
     ]
   },
   {
@@ -7339,14 +7042,14 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "brown sugar" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375?F.",
       "Mix ground turkey, breadcrumbs, milk, eggs, onion, garlic, salt, and pepper in large bowl.",
       "Form mixture into loaf shape and place in 9x5 inch loaf pan.",
       "Mix ketchup and brown sugar in small bowl.",
       "Spread half the ketchup mixture over top of meatloaf.",
       "Bake 40 minutes.",
       "Spread remaining ketchup mixture on top.",
-      "Bake 10 more minutes until internal temp reaches 165°F.",
+      "Bake 10 more minutes until internal temp reaches 165?F.",
       "Let rest 10 minutes before slicing."
     ]
   },
@@ -7376,7 +7079,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1.5", unit: "cups", item: "shredded mozzarella cheese" }
     ],
     instructions: [
-      "Preheat oven to 375°F.",
+      "Preheat oven to 375?F.",
       "Cut tops off peppers and remove seeds.",
       "Brown ground beef with onion and garlic in skillet (8 minutes).",
       "Drain fat.",
@@ -7396,7 +7099,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Dinner",
-    image: bakedSalmonLemonImg,
+    image: "https://i.imgur.com/1vbSH8s.png",
     totalTime: 20,
     tags: ["high-protein", "family-friendly", "easy-dinner", "seafood", "glutenfree"],
     ingredients: [
@@ -7411,7 +7114,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "fresh parsley, chopped" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line baking sheet with parchment paper.",
+      "Preheat oven to 400?F. Line baking sheet with parchment paper.",
       "Place salmon fillets on prepared sheet.",
       "Mix olive oil, lemon juice, garlic, dill, salt, and pepper in small bowl.",
       "Brush mixture over salmon.",
@@ -7455,7 +7158,7 @@ export const allRecipes: Recipe[] = [
       { amount: "8", unit: "", item: "tortillas" }
     ],
     instructions: [
-      "Preheat oven to 425°F.",
+      "Preheat oven to 425?F.",
       "Place shrimp, bell peppers, and onion on large sheet pan.",
       "Drizzle with olive oil.",
       "Mix chili powder, cumin, garlic powder, and salt in small bowl.",
@@ -7489,7 +7192,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "", item: "lemon, sliced" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line baking sheet with parchment paper.",
+      "Preheat oven to 400?F. Line baking sheet with parchment paper.",
       "Place salmon fillets on prepared sheet.",
       "Season with salt and pepper.",
       "Spread pesto evenly over each fillet.",
@@ -7524,7 +7227,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "salt" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Cook pasta according to package directions, drain.",
+      "Preheat oven to 375?F. Cook pasta according to package directions, drain.",
       "Brown ground beef in large skillet, drain fat.",
       "Stir marinara sauce into beef.",
       "Mix cottage cheese, 1 cup mozzarella, Parmesan, eggs, Italian seasoning, and salt in bowl.",
@@ -7660,7 +7363,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Dinner",
-    image: chickenStirFryBroccoliImg,
+    image: "https://i.imgur.com/NDzyNgr.png",
     totalTime: 25,
     tags: ["high-protein", "family-friendly", "easy-dinner", "quick"],
     ingredients: [
@@ -7736,7 +7439,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Healthy Bowls",
-    image: eggRollBowlsImg,
+    image: "https://i.imgur.com/xK4cZtr.png",
     totalTime: 25,
     tags: ["high-protein", "family-friendly", "easy-dinner", "low-carb", "bowls"],
     nutrition: {
@@ -7799,7 +7502,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large pot over medium-high heat.",
       "Season chicken with salt and pepper, cook until golden, about 5-6 minutes. Remove and set aside.",
-      "Add garlic to pot, sautÃ© 1 minute.",
+      "Add garlic to pot, saut� 1 minute.",
       "Add pasta, chicken broth, and sun-dried tomatoes.",
       "Bring to boil, reduce heat, cover and simmer 12-15 minutes until pasta is tender.",
       "Stir in heavy cream, parmesan, and Italian seasoning.",
@@ -7816,7 +7519,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "French",
-    image: onePotFrenchOnionPastaImg,
+    image: "https://i.imgur.com/a4xu44q.png",
     totalTime: 40,
     tags: ["one-pot", "pasta", "vegetarian"],
     ingredients: [
@@ -7905,7 +7608,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Season shrimp with 1 tbsp Cajun seasoning.",
       "Melt butter in large pot, cook shrimp 2-3 minutes per side. Remove and set aside.",
-      "Add bell pepper and garlic to pot, sautÃ© 2 minutes.",
+      "Add bell pepper and garlic to pot, saut� 2 minutes.",
       "Add pasta, broth, and remaining Cajun seasoning.",
       "Bring to boil, reduce heat, simmer 10-12 minutes until pasta is tender.",
       "Stir in heavy cream and parmesan.",
@@ -7922,7 +7625,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "One Pot Wonders",
-    image: onePotPastaPuttanescaImg,
+    image: "https://i.imgur.com/nk3QKxR.png",
     totalTime: 30,
     tags: ["one-pot", "pasta", "vegetarian"],
     nutrition: {
@@ -8008,7 +7711,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Spanish",
-    image: onePotSpanishChickenRiceImg,
+    image: "https://i.imgur.com/USR6Rfh.png",
     totalTime: 50,
     tags: ["one-pot", "chicken", "rice", "glutenfree"],
     nutrition: {
@@ -8036,7 +7739,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large pot or paella pan over medium-high heat.",
       "Season chicken with salt, pepper, and paprika. Brown on both sides, about 5 minutes per side. Remove.",
-      "Add onion and bell pepper, sautÃ© 5 minutes.",
+      "Add onion and bell pepper, saut� 5 minutes.",
       "Add garlic, cook 1 minute.",
       "Add rice, stir to coat with oil.",
       "Add saffron to broth, then pour over rice.",
@@ -8110,7 +7813,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large skillet over medium-high heat.",
       "Season chicken with salt and pepper, cook 5-6 minutes per side until golden. Remove.",
-      "Add garlic to skillet, sautÃ© 1 minute.",
+      "Add garlic to skillet, saut� 1 minute.",
       "Add sun-dried tomatoes, chicken broth, and Italian seasoning.",
       "Stir in heavy cream and parmesan, bring to simmer.",
       "Return chicken to skillet, spoon sauce over chicken.",
@@ -8144,7 +7847,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat butter in large pot over medium-high heat.",
       "Season chicken with salt and pepper, brown on both sides. Remove.",
-      "Add garlic to pot, sautÃ© 2 minutes until fragrant.",
+      "Add garlic to pot, saut� 2 minutes until fragrant.",
       "Add rice, stir to coat with garlic butter.",
       "Add chicken broth, soy sauce, and sesame oil.",
       "Nestle chicken pieces into rice.",
@@ -8180,7 +7883,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large pot over medium-high heat.",
       "Season chicken with salt, pepper, and thyme. Cook until browned.",
-      "Add onion and garlic, sautÃ© 3 minutes.",
+      "Add onion and garlic, saut� 3 minutes.",
       "Add rice, stir to coat.",
       "Add chicken broth and carrots.",
       "Bring to boil, reduce heat to low, cover and simmer 15 minutes.",
@@ -8216,7 +7919,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large pot over medium-high heat.",
       "Season chicken with oregano, salt, and pepper. Brown on both sides. Remove.",
-      "Add garlic, sautÃ© 1 minute.",
+      "Add garlic, saut� 1 minute.",
       "Add rice, stir to coat.",
       "Add chicken broth, lemon juice, and lemon zest.",
       "Nestle chicken into rice.",
@@ -8253,7 +7956,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Melt butter in large pot over medium heat.",
       "Add chicken, cook until browned. Remove.",
-      "Add onion, carrots, and garlic, sautÃ© 5 minutes.",
+      "Add onion, carrots, and garlic, saut� 5 minutes.",
       "Add chicken broth and thyme, bring to boil.",
       "Add gnocchi, cook 3-4 minutes until they float.",
       "Return chicken to pot.",
@@ -8323,7 +8026,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Heat olive oil in large pot over medium heat.",
-      "Add onion, garlic, and ginger, sautÃ© 5 minutes.",
+      "Add onion, garlic, and ginger, saut� 5 minutes.",
       "Add curry powder, cook 1 minute until fragrant.",
       "Add lentils and vegetable broth.",
       "Bring to boil, reduce heat, simmer 20 minutes until lentils are tender.",
@@ -8360,10 +8063,10 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "thyme" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Cut puff pastry into rounds, bake 15 minutes until golden.",
+      "Preheat oven to 400?F. Cut puff pastry into rounds, bake 15 minutes until golden.",
       "Melt butter in large pot over medium heat.",
       "Add chicken, cook until browned. Remove.",
-      "Add onion and garlic, sautÃ© 3 minutes.",
+      "Add onion and garlic, saut� 3 minutes.",
       "Sprinkle flour, stir and cook 2 minutes.",
       "Gradually add chicken broth, stirring constantly.",
       "Add potatoes, carrots, and thyme. Simmer 15 minutes until vegetables are tender.",
@@ -8406,7 +8109,7 @@ export const allRecipes: Recipe[] = [
       "Add red wine, scrape up browned bits, simmer 5 minutes.",
       "Add beef broth, thyme, and bay leaves.",
       "Return ribs to pot, liquid should come halfway up the ribs.",
-      "Bring to boil, cover, transfer to 325°F oven or reduce heat to low.",
+      "Bring to boil, cover, transfer to 325?F oven or reduce heat to low.",
       "Braise 2.5-3 hours until meat is fall-apart tender.",
       "Remove thyme sprigs and bay leaves before serving."
     ]
@@ -8436,7 +8139,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Preheat oven to 400°F.",
+      "Preheat oven to 400?F.",
       "Heat olive oil in large oven-safe skillet or roasting pan.",
       "Brown sausages on all sides, about 8 minutes. Remove.",
       "Add potatoes and onions to pan, season with salt, pepper, and thyme.",
@@ -8521,7 +8224,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tsp", item: "Italian seasoning" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Cook [12 lasagna noodles] according to package.",
+      "Preheat oven to 375?F. Cook [12 lasagna noodles] according to package.",
       "Mix [2 cups ricotta], [2 eggs], [1/4 cup basil], and [2 tsp Italian seasoning].",
       "Spread 1 cup [marinara sauce] in 9x13 baking dish.",
       "Layer: 4 noodles, half ricotta mixture, [1 cup spinach], [zucchini], [1 cup mozzarella], 1 cup sauce.",
@@ -8540,7 +8243,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "One Pot Wonders",
-    image: vegetarianChiliImg,
+    image: "https://i.imgur.com/StJIBqq.png",
     totalTime: 55,
     tags: ["one-pot", "vegetarian", "comfort-food", "plant-based", "glutenfree"],
     nutrition: {
@@ -8565,7 +8268,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Toppings: sour cream, cilantro, cheese" }
     ],
     instructions: [
-      "SautÃ© [onion] and [bell peppers] in large pot for 5 minutes.",
+      "Saut� [onion] and [bell peppers] in large pot for 5 minutes.",
       "Add [garlic], [2 tbsp chili powder], [1 tsp cumin], cook 1 minute.",
       "Add [kidney beans], [black beans], [tomatoes], [1 cup broth].",
       "Bring to boil, reduce heat, simmer 30 minutes stirring occasionally.",
@@ -8582,7 +8285,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Dinner",
-    image: "https://i.imgur.com/uZQpVYf.png",
+    image: "https://i.imgur.com/PdA4c4F.png",
     totalTime: 35,
     tags: ["dinner", "vegetarian", "plant-based"],
     nutrition: {
@@ -8624,7 +8327,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Italian",
-    image: eggplantParmesanImg,
+    image: "https://i.imgur.com/wDCEibt.png",
     totalTime: 60,
     tags: ["dinner", "vegetarian", "italian", "comfort-food"],
     nutrition: {
@@ -8647,7 +8350,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "flour" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Salt [eggplant slices], let sit 20 minutes, pat dry.",
+      "Preheat oven to 400?F. Salt [eggplant slices], let sit 20 minutes, pat dry.",
       "Set up breading station: [flour], [eggs], [breadcrumbs] mixed with [1/2 cup parmesan].",
       "Coat each eggplant slice in flour, egg, then breadcrumb mixture.",
       "Place on baking sheet, bake 20 minutes until golden.",
@@ -8690,7 +8393,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "cilantro" }
     ],
     instructions: [
-      "Melt [2 tbsp butter] in large pan, sautÃ© [onion] until soft.",
+      "Melt [2 tbsp butter] in large pan, saut� [onion] until soft.",
       "Add [garlic], [2 tbsp garam masala], [1 tsp turmeric], cook 1 minute.",
       "Pour in [tomato sauce], simmer 5 minutes.",
       "Add [chickpeas] and [coconut cream], stir well.",
@@ -8875,7 +8578,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Dinner",
-    image: "https://i.imgur.com/SiZ321j.png",
+      image: "https://i.imgur.com/CVjcutW.png",
     totalTime: 60,
     tags: ["dinner", "vegetarian", "plant-based", "glutenfree"],
     nutrition: {
@@ -8898,7 +8601,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "chili powder" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Cut tops off [peppers], remove seeds.",
+      "Preheat oven to 375?F. Cut tops off [peppers], remove seeds.",
       "Mix [2 cups quinoa], [black beans], [corn], [tomatoes], [cumin], [chili powder].",
       "Stuff [peppers] with quinoa mixture.",
       "Place in baking dish, add 1/4 cup water to bottom.",
@@ -8917,7 +8620,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Lunch",
-    image: blackBeanTacosImg,
+    image: "https://i.imgur.com/v0KaPNA.png",
     totalTime: 25,
     tags: ["dinner", "vegetarian", "vegan", "mexican", "quick", "plant-based", "glutenfree"],
     nutrition: {
@@ -8958,7 +8661,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Dinner",
-    image: crispyBakedFalafelImg,
+    image: "https://i.imgur.com/HvIYVC3.png",
     totalTime: 45,
     tags: ["dinner", "vegetarian", "vegan", "middle-eastern", "plant-based"],
     nutrition: {
@@ -8982,7 +8685,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "", item: "lemons, juiced" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Line baking sheet with parchment.",
+      "Preheat oven to 400?F. Line baking sheet with parchment.",
       "Pulse [chickpeas], [onion], [garlic], [parsley], [cumin], [coriander] in food processor.",
       "Add [flour], pulse until mixture holds together.",
       "Form into 24 small balls, place on baking sheet.",
@@ -9000,7 +8703,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "One Pot Wonders",
-    image: redLentilDahlImg,
+    image: "https://i.imgur.com/O9kDPiC.png",
     totalTime: 40,
     tags: ["one-pot", "vegetarian", "vegan", "indian", "plant-based", "glutenfree"],
     nutrition: {
@@ -9024,7 +8727,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "cilantro" }
     ],
     instructions: [
-      "SautÃ© [onion] in large pot until soft, add [garlic].",
+      "Saut� [onion] in large pot until soft, add [garlic].",
       "Add [curry powder], [turmeric], [cumin], cook 1 minute.",
       "Add [2 cups lentils] and [4 cups broth], bring to boil.",
       "Reduce heat, simmer 20 minutes until lentils are soft.",
@@ -9044,7 +8747,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Lunch",
-    image: veganNachosImg,
+    image: "https://i.imgur.com/pjGelRT.png",
     totalTime: 25,
     tags: ["quick-and-easy", "vegan", "vegetarian", "mexican", "plant-based", "glutenfree"],
     nutrition: {
@@ -9060,19 +8763,19 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "bag", item: "tortilla chips" },
       { amount: "1", unit: "can", item: "black beans, drained" },
       { amount: "1", unit: "cup", item: "vegan cheese sauce" },
-      { amount: "1/2", unit: "cup", item: "sliced jalapeÃ±os" },
+      { amount: "1/2", unit: "cup", item: "sliced jalape�os" },
       { amount: "1", unit: "cup", item: "guacamole" },
       { amount: "1", unit: "cup", item: "salsa" },
       { amount: "1/4", unit: "cup", item: "fresh cilantro" },
       { amount: "1", unit: "", item: "lime, cut into wedges" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Spread [tortilla chips] on large baking sheet.",
+      "Preheat oven to 350?F. Spread [tortilla chips] on large baking sheet.",
       "Warm [black beans] in microwave.",
       "Scatter [black beans] over chips.",
       "Drizzle [vegan cheese sauce] over everything.",
       "Bake 10 minutes until heated through.",
-      "Top with [jalapeÃ±os], [guacamole], and [salsa].",
+      "Top with [jalape�os], [guacamole], and [salsa].",
       "Garnish with [cilantro], serve with [lime wedges]."
     ]
   },
@@ -9108,7 +8811,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "toppings of choice (pepperoni, veggies, etc.)" }
     ],
     instructions: [
-      "Preheat oven to 375°F and line a baking sheet with parchment paper.",
+      "Preheat oven to 375?F and line a baking sheet with parchment paper.",
       "In a food processor, blend cottage cheese until smooth.",
       "Add 1/2 cup mozzarella, almond flour, egg, Italian seasoning, and garlic powder. Pulse until combined.",
       "Pour mixture onto prepared baking sheet and spread into a thin rectangle or circle.",
@@ -9129,7 +8832,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Lunch Ideas",
-    image: mushroomWalnutVeggieBurgerImg,
+    image: "https://i.imgur.com/Ko1Ux5i.png",
     totalTime: 35,
     tags: ["lunch", "vegetarian", "plant-based"],
     nutrition: {
@@ -9152,7 +8855,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Toppings: lettuce, tomato" }
     ],
     instructions: [
-      "SautÃ© [mushrooms] until liquid evaporates, about 8 minutes.",
+      "Saut� [mushrooms] until liquid evaporates, about 8 minutes.",
       "Pulse [walnuts] in food processor until finely ground.",
       "Mix mushrooms, walnuts, [breadcrumbs], [eggs], [soy sauce] in bowl.",
       "Form into 4 patties, refrigerate 15 minutes.",
@@ -9170,7 +8873,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Lunch Ideas",
-    image: cauliflowerShawarmaImg,
+    image: "https://i.imgur.com/VyEX3Ti.png",
     totalTime: 45,
     tags: ["lunch", "vegetarian", "middle-eastern", "plant-based"],
     nutrition: {
@@ -9194,7 +8897,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh parsley" }
     ],
     instructions: [
-      "Preheat oven to 425°F. Toss [cauliflower] with [2 tbsp oil], [cumin], [paprika], [turmeric].",
+      "Preheat oven to 425?F. Toss [cauliflower] with [2 tbsp oil], [cumin], [paprika], [turmeric].",
       "Spread on baking sheet, roast 30 minutes until golden and tender.",
       "Warm [pita breads].",
       "Spread [tahini sauce] inside each pita.",
@@ -9212,7 +8915,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Lunch Ideas",
-    image: sesameTofuBroccoliImg,
+    image: "https://i.imgur.com/IDF2TKb.png",
     totalTime: 35,
     tags: ["lunch", "vegetarian", "asian", "plant-based"],
     nutrition: {
@@ -9253,7 +8956,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Lunch",
-    image: chipotlePortobelloTacosImg,
+    image: "https://i.imgur.com/owEdge2.png",
     totalTime: 25,
     tags: ["lunch", "vegetarian", "vegan", "mexican", "quick", "plant-based", "glutenfree"],
     nutrition: {
@@ -9295,7 +8998,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "One Pot Wonders",
-    image: spicedCarrotParsnipSoupImg,
+    image: "https://i.imgur.com/53AWVK3.png",
     totalTime: 45,
     tags: ["one-pot", "vegetarian", "soup", "plant-based", "glutenfree"],
     nutrition: {
@@ -9318,7 +9021,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Heat [2 tbsp oil] in large pot, sautÃ© [onion] until soft.",
+      "Heat [2 tbsp oil] in large pot, saut� [onion] until soft.",
       "Add [cumin] and [coriander], cook 1 minute.",
       "Add [carrots], [parsnips], and [4 cups broth].",
       "Bring to boil, reduce heat, simmer 25 minutes until vegetables are tender.",
@@ -9336,7 +9039,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Dinner",
-    image: veganMacCheeseImg,
+    image: "https://i.imgur.com/CwUaiIk.png",
     totalTime: 25,
     tags: ["one-pot", "vegan", "comfort-food", "quick", "plant-based"],
     nutrition: {
@@ -9377,7 +9080,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Dinner",
-    image: coconutMilkTomatoSoupImg,
+    image: "https://i.imgur.com/W75HJRD.png",
     totalTime: 30,
     tags: ["one-pot", "vegan", "soup", "quick", "plant-based", "glutenfree"],
     nutrition: {
@@ -9399,7 +9102,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh basil" }
     ],
     instructions: [
-      "SautÃ© [onion] in large pot until soft, add [garlic].",
+      "Saut� [onion] in large pot until soft, add [garlic].",
       "Add [crushed tomatoes], [2 cups broth], [dried basil].",
       "Bring to boil, reduce heat, simmer 15 minutes.",
       "Blend soup until smooth using immersion blender.",
@@ -9419,7 +9122,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Healthy Bowls",
-    image: coconutRiceBowlsImg,
+    image: "https://i.imgur.com/crAbv6R.png",
     totalTime: 35,
     tags: ["healthy-bowls", "vegetarian", "asian", "healthy", "plant-based", "glutenfree"],
     nutrition: {
@@ -9484,7 +9187,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "to taste", item: "salt and pepper" }
     ],
     instructions: [
-      "Preheat oven to 425°F and line a baking sheet with parchment paper.",
+      "Preheat oven to 425?F and line a baking sheet with parchment paper.",
       "Add diced sweet potatoes to baking sheet, spray with cooking spray, and season with salt, pepper, and cinnamon. Bake for 30 minutes, flipping halfway through.",
       "While potatoes bake, heat a frying pan on medium-high heat. Add ground beef and cook, breaking it into small pieces until fully cooked (about 5 minutes).",
       "Stir in tomato paste and taco seasoning. Cook for another 2 minutes.",
@@ -9503,7 +9206,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 2,
     cuisine: "Desserts",
-    image: veganMugCakesImg,
+    image: "https://i.imgur.com/BxsLtJN.png",
     totalTime: 7,
     tags: ["dessert", "vegan", "quick", "plant-based"],
     nutrition: {
@@ -9566,7 +9269,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "tsp", item: "paprika" }
     ],
     instructions: [
-      "Preheat oven to 325°F. Line baking sheet with parchment.",
+      "Preheat oven to 325?F. Line baking sheet with parchment.",
       "Mix [2 tbsp soy sauce], [1 tbsp maple syrup], [1 tsp liquid smoke], [1/2 tsp paprika].",
       "Toss [2 cups coconut flakes] with sauce mixture.",
       "Spread in single layer on baking sheet.",
@@ -9606,7 +9309,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "pinch", item: "salt" }
     ],
     instructions: [
-      "Preheat oven to 300°F and line a baking sheet with parchment paper.",
+      "Preheat oven to 300?F and line a baking sheet with parchment paper.",
       "In a bowl, beat egg whites with salt until stiff peaks form.",
       "In another bowl, mix egg yolks, cream cheese, baking powder, and garlic powder until smooth.",
       "Gently fold egg whites into yolk mixture until combined (don't overmix).",
@@ -9655,7 +9358,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "sugar (for swirl)" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Line muffin tin with paper liners.",
+      "Preheat oven to 375?F. Line muffin tin with paper liners.",
       "Mix [1.5 cups flour], [1 tsp baking powder], [1/2 tsp baking soda], [1 tsp pumpkin spice], [1/4 tsp salt].",
       "In separate bowl, whisk [1 cup pumpkin], [1/2 cup oil], [3/4 cup sugar], [2 eggs], [1 tsp vanilla].",
       "Combine wet and dry ingredients, mix until just combined.",
@@ -9747,7 +9450,7 @@ export const allRecipes: Recipe[] = [
       "Mix [1/2 cup brown sugar] with [2 tbsp cinnamon], sprinkle over dough.",
       "Roll up tightly, cut into 12 rolls.",
       "Place in greased pan, let rise 30 minutes.",
-      "Bake at 350°F for 25 minutes. Make frosting with [8 oz cream cheese] and [2 cups powdered sugar]. Frost warm rolls."
+      "Bake at 350?F for 25 minutes. Make frosting with [8 oz cream cheese] and [2 cups powdered sugar]. Frost warm rolls."
     ]
   },
   {
@@ -9827,7 +9530,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "vanilla" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x5 loaf pan.",
+      "Preheat oven to 350?F. Grease 9x5 loaf pan.",
       "Mix [2 cups flour], [1 tsp baking soda], [1 tsp pumpkin spice], [1/2 tsp salt].",
       "In bowl, whisk [1/2 cup melted butter], [3/4 cup sugar], [2 eggs].",
       "Stir in [1 cup mashed banana], [1/2 cup pumpkin], [1 tsp vanilla].",
@@ -9873,7 +9576,7 @@ export const allRecipes: Recipe[] = [
       "Stir in [1 tbsp cornstarch], cook until thickened. Cool completely.",
       "Place spoonful of filling on [12 egg roll wrappers].",
       "Roll tightly, seal edges with water.",
-      "Heat oil to 350°F.",
+      "Heat oil to 350?F.",
       "Fry egg rolls 2-3 minutes per side until golden.",
       "Drain on paper towels, roll in [1/4 cup cinnamon sugar].",
       "Serve warm with [1 cup caramel sauce] for dipping."
@@ -9911,7 +9614,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "apple juice" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Core [6 apples], leaving bottom intact.",
+      "Preheat oven to 375?F. Core [6 apples], leaving bottom intact.",
       "Mix [1/2 cup oats], [1/4 cup brown sugar], [1/4 cup pecans], [1/4 cup raisins], [2 tsp cinnamon].",
       "Stir in [1/4 cup melted butter].",
       "Stuff mixture into apple centers.",
@@ -9930,7 +9633,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 12,
     cuisine: "Fall Favorites",
-    image: pumpkinDumpCakeImg,
+    image: "https://i.imgur.com/2k9prsR.png",
     totalTime: 55,
     tags: ["fall", "dessert", "easy", "pumpkin", "glutenfree"],
     nutrition: {
@@ -9953,7 +9656,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "chopped pecans" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease 9x13 baking dish.",
+      "Preheat oven to 350?F. Grease 9x13 baking dish.",
       "Mix [1 can pumpkin], [1 can evaporated milk], [3 eggs], [1.5 cups sugar], [2 tsp pumpkin spice].",
       "Pour into baking dish.",
       "Sprinkle [1 box cake mix] evenly over pumpkin layer (don't stir).",
@@ -9995,7 +9698,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "milk" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Grease 9-inch pie dish.",
+      "Preheat oven to 375?F. Grease 9-inch pie dish.",
       "Mix [6 cups sliced apples], [1/2 cup sugar], [2 tbsp flour], [2 tsp cinnamon].",
       "Pour apple mixture into pie dish.",
       "Separate [1 can cinnamon rolls], arrange on top of apples in spiral pattern.",
@@ -10014,7 +9717,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 1,
     cuisine: "Fall Favorites",
-    image: appleCrispMugImg,
+    image: "https://i.imgur.com/A2tJWyl.png",
     totalTime: 7,
     tags: ["fall", "dessert", "microwave", "apples"],
     nutrition: {
@@ -10055,7 +9758,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Fall Favorites",
-    image: appleCiderDonutsImg,
+    image: "https://i.imgur.com/B0IuoYu.jpeg",
     totalTime: 27,
     tags: ["fall", "breakfast", "baking", "apples"],
     nutrition: {
@@ -10079,7 +9782,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "cinnamon sugar" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Grease donut pan.",
+      "Preheat oven to 350?F. Grease donut pan.",
       "Mix [2 cups flour], [1 tsp baking powder], [1/2 tsp baking soda], [1.5 tsp cinnamon].",
       "In bowl, whisk [3/4 cup apple cider], [1/3 cup melted butter], [1/2 cup sugar], [1 egg].",
       "Combine wet and dry ingredients until just mixed.",
@@ -10098,7 +9801,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Fall Favorites",
-    image: honeyCrispAppleSaladImg,
+    image: "https://i.imgur.com/qhmeyCk.png",
     totalTime: 15,
     tags: ["fall", "salad", "apples", "glutenfree"],
     nutrition: {
@@ -10163,10 +9866,10 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Season [4 chicken breasts] with salt, pepper.",
       "In pan, brown chicken 5 minutes per side, remove.",
-      "Add [2 tbsp butter], sautÃ© [2 sliced apples] until golden.",
+      "Add [2 tbsp butter], saut� [2 sliced apples] until golden.",
       "Mix [1 cup apple butter], [1/4 cup broth], [2 tbsp vinegar], [1 tsp thyme].",
       "Pour sauce over apples, return chicken to pan.",
-      "Simmer 10 minutes until chicken reaches 165°F.",
+      "Simmer 10 minutes until chicken reaches 165?F.",
       "Serve chicken topped with caramelized apples and sauce.",
       "Pairs well with rice or roasted vegetables."
     ]
@@ -10182,7 +9885,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 2,
     cuisine: "Fall Favorites",
-    image: fallPumpkinSpiceLatteImg,
+    image: "https://i.imgur.com/tXvlrBJ.png",
     totalTime: 10,
     tags: ["fall", "drinks", "coffee", "pumpkin", "glutenfree"],
     nutrition: {
@@ -10223,7 +9926,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Fall Favorites",
-    image: fallCaramelAppleCiderImg,
+    image: "https://i.imgur.com/NWCPRs1.png",
     totalTime: 15,
     tags: ["fall", "drinks", "apples", "kid-friendly", "glutenfree"],
     nutrition: {
@@ -10262,7 +9965,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 24,
     cuisine: "Fall Favorites",
-    image: fallMapleBrownButterCookiesImg,
+    image: "https://i.imgur.com/q1s77eJ.png",
     totalTime: 27,
     tags: ["fall", "dessert", "cookies", "maple"],
     nutrition: {
@@ -10291,7 +9994,7 @@ export const allRecipes: Recipe[] = [
       "In separate bowl, whisk [2 1/2 cups flour], [1 tsp baking soda], [1/2 tsp salt].",
       "Combine wet and dry ingredients.",
       "Drop tablespoon-sized balls onto baking sheet.",
-      "Bake at 350°F for 10-12 minutes until edges are golden.",
+      "Bake at 350?F for 10-12 minutes until edges are golden.",
       "Cool on pan 5 minutes. Enjoy warm!"
     ]
   },
@@ -10329,7 +10032,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Mix [2 cups graham crumbs] with [1/2 cup melted butter]. Press into 9x13 pan.",
-      "Bake crust at 350°F for 8 minutes.",
+      "Bake crust at 350?F for 8 minutes.",
       "Beat [16 oz cream cheese] with [3/4 cup sugar] until smooth.",
       "Mix in [1 cup pumpkin], [3 eggs], [1 tsp vanilla], [2 tsp pumpkin spice].",
       "Pour over crust. Bake 40-45 minutes until center barely jiggles.",
@@ -10348,7 +10051,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Fall Favorites",
-    image: fallChaiHotChocolateImg,
+    image: "https://i.imgur.com/40b1UDl.png",
     totalTime: 15,
     tags: ["fall", "drinks", "chocolate", "spiced", "glutenfree"],
     nutrition: {
@@ -10415,7 +10118,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Mix [2 cups flour] and [1/2 cup sugar]. Cut in [1 cup cold butter] until crumbly.",
-      "Press 2/3 of mixture into greased 9x13 pan. Bake at 350°F for 15 minutes.",
+      "Press 2/3 of mixture into greased 9x13 pan. Bake at 350?F for 15 minutes.",
       "Toss [4 diced apples] with [1/3 cup brown sugar] and [2 tsp cinnamon].",
       "Spread apples over crust. Drizzle [1 cup caramel sauce] over apples.",
       "Sprinkle remaining crumb mixture on top.",
@@ -10434,7 +10137,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "Fall Favorites",
-    image: fallMulledWineImg,
+    image: "https://i.imgur.com/R1feMR3.png",
     totalTime: 125,
     tags: ["fall", "drinks", "wine", "slow cooker", "glutenfree"],
     nutrition: {
@@ -10476,7 +10179,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 32,
     cuisine: "Fall Favorites",
-    image: fallAppleButterImg,
+    image: "https://i.imgur.com/tqZ4euo.png",
     totalTime: 495,
     tags: ["fall", "spread", "apples", "slow cooker", "glutenfree"],
     nutrition: {
@@ -10517,7 +10220,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 36,
     cuisine: "Fall Favorites",
-    image: fallBrownButterPumpkinCookiesImg,
+    image: "https://i.imgur.com/i2ab90L.png",
     totalTime: 32,
     tags: ["fall", "dessert", "cookies", "pumpkin"],
     nutrition: {
@@ -10547,7 +10250,7 @@ export const allRecipes: Recipe[] = [
       "In bowl, whisk [3 cups flour], [1 tsp baking soda], [2 tsp pumpkin spice], [1/2 tsp salt].",
       "Combine wet and dry ingredients.",
       "Drop tablespoon-sized dough onto baking sheets.",
-      "Bake at 350°F for 10-12 minutes until edges set.",
+      "Bake at 350?F for 10-12 minutes until edges set.",
       "Cool and enjoy! Store in airtight container."
     ]
   },
@@ -10587,7 +10290,7 @@ export const allRecipes: Recipe[] = [
       "Mix [2 cans mushroom soup], [1 cup milk], [1 tsp soy sauce], [1/4 tsp pepper].",
       "Stir in beans and 1 1/3 cups [fried onions].",
       "Pour into greased 9x13 baking dish.",
-      "Bake at 350°F for 25 minutes.",
+      "Bake at 350?F for 25 minutes.",
       "Top with remaining 1 1/3 cups [fried onions].",
       "Bake 5 more minutes until onions are golden.",
       "Perfect for Thanksgiving!"
@@ -10626,11 +10329,11 @@ export const allRecipes: Recipe[] = [
       { amount: "4", unit: "cups", item: "mini marshmallows" }
     ],
     instructions: [
-      "Bake [4 lbs sweet potatoes] at 400°F for 45 minutes until soft. Cool, peel.",
+      "Bake [4 lbs sweet potatoes] at 400?F for 45 minutes until soft. Cool, peel.",
       "Mash potatoes until smooth.",
       "Mix in [1/2 cup melted butter], [1/2 cup brown sugar], [1/2 cup milk], [2 eggs], [1 tsp vanilla], [1 tsp cinnamon].",
       "Spread into greased 9x13 dish.",
-      "Bake at 350°F for 25 minutes.",
+      "Bake at 350?F for 25 minutes.",
       "Top with [4 cups mini marshmallows].",
       "Bake 5 more minutes until marshmallows are golden.",
       "Perfect for Thanksgiving!"
@@ -10646,7 +10349,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 8,
     cuisine: "One Pot Wonders",
-    image: fallTurkeyBreastImg,
+    image: "https://i.imgur.com/z1T0fp8.png",
     totalTime: 135,
     tags: ["fall", "main dish", "turkey", "thanksgiving", "glutenfree"],
     nutrition: {
@@ -10673,7 +10376,7 @@ export const allRecipes: Recipe[] = [
       "Carefully loosen skin from turkey. Spread half of herb butter under skin.",
       "Rub remaining butter over outside of turkey.",
       "Place in roasting pan. Pour [1 cup broth] around turkey.",
-      "Roast at 350°F for 1.5-2 hours (20 min per pound) until 165°F internal temp.",
+      "Roast at 350?F for 1.5-2 hours (20 min per pound) until 165?F internal temp.",
       "Baste every 30 minutes with pan juices.",
       "Let rest 15 minutes before carving.",
       "Perfect for Thanksgiving!"
@@ -10689,7 +10392,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 12,
     cuisine: "Fall Favorites",
-    image: fallCornbreadStuffingImg,
+    image: "https://i.imgur.com/5S4HfXR.jpeg",
     totalTime: 60,
     tags: ["fall", "side dish", "stuffing", "thanksgiving"],
     nutrition: {
@@ -10714,12 +10417,12 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook [1 lb sausage] in large skillet until browned. Remove.",
-      "In same pan, sautÃ© [1 cup onion] and [1 cup celery] in [1/2 cup butter] until soft.",
+      "In same pan, saut� [1 cup onion] and [1 cup celery] in [1/2 cup butter] until soft.",
       "Add [2 tbsp sage] and [2 tbsp thyme], cook 1 minute.",
       "In large bowl, combine [cubed cornbread], sausage, veggie mixture.",
       "Pour [2 1/2 cups broth] and [2 beaten eggs] over mixture. Toss gently.",
       "Transfer to greased 9x13 dish.",
-      "Bake at 350°F for 40-45 minutes until golden and crispy on top.",
+      "Bake at 350?F for 40-45 minutes until golden and crispy on top.",
       "Perfect for Thanksgiving!"
     ]
   },
@@ -10733,7 +10436,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 10,
     cuisine: "Fall Favorites",
-    image: fallCranberrySauceImg,
+    image: "https://i.imgur.com/pLemrkw.png",
     totalTime: 20,
     tags: ["fall", "side dish", "cranberries", "thanksgiving", "glutenfree"],
     nutrition: {
@@ -10774,7 +10477,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 10,
     cuisine: "Fall Favorites",
-    image: fallMashedPotatoesImg,
+    image: "https://i.imgur.com/jxpEimT.png",
     totalTime: 35,
     tags: ["fall", "side dish", "potatoes", "thanksgiving", "glutenfree"],
     nutrition: {
@@ -10816,7 +10519,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Fall Favorites",
-    image: fallBrusselsSproutsBaconImg,
+    image: "https://i.imgur.com/3xtT6yz.png",
     totalTime: 35,
     tags: ["fall", "side dish", "vegetables", "thanksgiving", "glutenfree"],
     nutrition: {
@@ -10840,7 +10543,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Toss [2 lbs halved Brussels sprouts] with [3 tbsp olive oil], [1 tsp garlic powder], [1/2 tsp salt], [1/4 tsp pepper].",
       "Spread on baking sheet. Scatter [6 slices chopped bacon] over top.",
-      "Roast at 400°F for 25 minutes, stirring halfway.",
+      "Roast at 400?F for 25 minutes, stirring halfway.",
       "Brussels should be crispy and caramelized, bacon crispy.",
       "Transfer to serving dish.",
       "Drizzle [2 tbsp balsamic glaze] over top.",
@@ -10882,7 +10585,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "salt" }
     ],
     instructions: [
-      "Heat [2 tbsp olive oil] in large pot. SautÃ© [1 diced onion] until soft, 5 minutes.",
+      "Heat [2 tbsp olive oil] in large pot. Saut� [1 diced onion] until soft, 5 minutes.",
       "Add [3 cloves garlic], cook 1 minute.",
       "Add [3 lbs cubed squash] and [4 cups broth]. Bring to boil.",
       "Reduce heat, simmer 20 minutes until squash is very tender.",
@@ -10928,7 +10631,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "parmesan cheese" }
     ],
     instructions: [
-      "In large pot, heat [2 tbsp olive oil], sautÃ© [1 diced onion] and [3 cloves garlic].",
+      "In large pot, heat [2 tbsp olive oil], saut� [1 diced onion] and [3 cloves garlic].",
       "Add [6 cups chicken broth], [1 can diced tomatoes], [1 tsp Italian seasoning].",
       "Bring to boil, add [1 lb cheese tortellini].",
       "Cook 8 minutes until tortellini is tender.",
@@ -10947,7 +10650,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 8,
     cuisine: "One Pot Wonders",
-    image: butternutSquashMacCheeseImg,
+    image: "https://i.imgur.com/ulSUy0m.png",
     totalTime: 35,
     tags: ["One Pot Wonders", "pasta", "vegetarian", "comfort food"],
     nutrition: {
@@ -11015,7 +10718,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "In large pot, cook [8 slices chopped bacon] until crispy. Remove and set aside.",
-      "In bacon fat, sautÃ© [1 diced onion] and [3 cloves garlic].",
+      "In bacon fat, saut� [1 diced onion] and [3 cloves garlic].",
       "Add [6 diced potatoes] and [6 cups broth].",
       "Simmer 20 minutes until potatoes are tender.",
       "Mash some potatoes in pot for thickness.",
@@ -11033,7 +10736,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "One Pot Wonders",
-    image: beefStewPumpkinImg,
+    image: "https://i.imgur.com/qxBUbqT.png",
     totalTime: 120,
     tags: ["One Pot Wonders", "beef", "stew", "fall"],
     nutrition: {
@@ -11058,10 +10761,10 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "", item: "bay leaves" }
     ],
     instructions: [
-      "Preheat oven to 350°F. Cut top off [1 large pumpkin], scoop out seeds.",
+      "Preheat oven to 350?F. Cut top off [1 large pumpkin], scoop out seeds.",
       "Toss [2 lbs beef] with [3 tbsp flour], salt, pepper.",
       "Heat [2 tbsp oil] in pot, brown beef. Remove.",
-      "SautÃ© [1 onion], [4 carrots], [4 potatoes].",
+      "Saut� [1 onion], [4 carrots], [4 potatoes].",
       "Return beef, add [4 cups broth], [2 tsp thyme], [2 bay leaves].",
       "Simmer 1 hour until beef is tender.",
       "Place pumpkin on baking sheet, bake 45 minutes until tender.",
@@ -11145,12 +10848,12 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "In large oven-safe skillet, melt [3 tbsp butter], cook [2 lbs chicken] until done.",
-      "Add [1 onion], [3 carrots], sautÃ© 5 minutes.",
+      "Add [1 onion], [3 carrots], saut� 5 minutes.",
       "Sprinkle [1/4 cup flour], cook 2 minutes.",
       "Stir in [3 cups broth] and [1 cup cream], simmer until thick.",
       "Add [2 cups peas], season with salt and pepper.",
       "Top with [1 can biscuits], torn into pieces.",
-      "Bake at 375°F for 20 minutes until biscuits are golden.",
+      "Bake at 375?F for 20 minutes until biscuits are golden.",
       "Let cool 5 minutes before serving."
     ]
   },
@@ -11188,7 +10891,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "In large pot, brown [1 lb sliced sausage], remove.",
-      "In drippings, sautÃ© [1 onion] and [4 cloves garlic].",
+      "In drippings, saut� [1 onion] and [4 cloves garlic].",
       "Add [6 cups broth], [1 can white beans], [1/2 tsp red pepper flakes].",
       "Bring to boil, simmer 10 minutes.",
       "Return sausage to pot, add [4 cups kale].",
@@ -11230,7 +10933,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "butter" }
     ],
     instructions: [
-      "Bake [6 potatoes] at 400°F for 60 minutes until tender.",
+      "Bake [6 potatoes] at 400?F for 60 minutes until tender.",
       "Meanwhile, brown [1 lb ground beef] with [1 onion], [2 carrots].",
       "Add [2 tbsp tomato paste], [1 cup broth], [1 cup peas]. Simmer 10 minutes.",
       "Cut potatoes in half, scoop out centers leaving shell.",
@@ -11273,7 +10976,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh parsley" }
     ],
     instructions: [
-      "In large pot, melt [4 tbsp butter], sautÃ© [1 lb mushrooms] until golden.",
+      "In large pot, melt [4 tbsp butter], saut� [1 lb mushrooms] until golden.",
       "Add [1 onion] and [3 cloves garlic], cook 5 minutes.",
       "Stir in [1 cup wild rice] and [6 cups broth].",
       "Add [2 tsp thyme], bring to boil.",
@@ -11322,7 +11025,7 @@ export const allRecipes: Recipe[] = [
       "In 9x13 dish, layer half the fries.",
       "Top with chili, then [2 cups cheddar].",
       "Add remaining fries and [1 cup cheddar].",
-      "Bake at 375°F for 15 minutes until cheese melts.",
+      "Bake at 375?F for 15 minutes until cheese melts.",
       "Top with [1/2 cup sour cream] and [1/4 cup green onions]."
     ]
   },
@@ -11358,7 +11061,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "garlic butter for bread" }
     ],
     instructions: [
-      "Preheat oven to 375°F. Grease 9x13 baking dish.",
+      "Preheat oven to 375?F. Grease 9x13 baking dish.",
       "Heat [1 bag frozen meatballs] with [1 jar marinara] until warm.",
       "Toast [1 loaf bread cubes] with garlic butter until golden.",
       "Layer half the bread in dish.",
@@ -11403,7 +11106,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "In large pot, cook [8 slices chopped bacon] until crispy. Remove.",
       "In bacon fat, cook [2 lbs chicken] until done. Shred and set aside.",
-      "SautÃ© [1 onion] and [3 cloves garlic].",
+      "Saut� [1 onion] and [3 cloves garlic].",
       "Add [6 cups broth], [1 packet ranch seasoning]. Bring to boil.",
       "Add [8 oz noodles], cook 8 minutes.",
       "Stir in [8 oz cream cheese] until melted.",
@@ -11446,7 +11149,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Press [14 oz tofu] for 10 minutes, cube, pan-sear in [2 tbsp olive oil] until golden. Remove.",
-      "In same pan, sautÃ© [4 cloves garlic] for 30 seconds.",
+      "In same pan, saut� [4 cloves garlic] for 30 seconds.",
       "Add [28 oz crushed tomatoes], [1 cup coconut cream], [1/2 cup sun-dried tomatoes].",
       "Stir in [1 tsp Italian seasoning], simmer 10 minutes.",
       "Return tofu to pan, coat with sauce.",
@@ -11502,7 +11205,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 6,
     cuisine: "Dinner",
-    image: lentilBologneseImg,
+    image: "https://i.imgur.com/Uow7fjQ.png",
     totalTime: 40,
     tags: ["One Pot Wonders", "vegan", "vegetarian", "Italian", "pasta"],
     nutrition: {
@@ -11527,7 +11230,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh basil" }
     ],
     instructions: [
-      "SautÃ© [1 onion], [2 carrots], [4 cloves garlic] in olive oil until soft.",
+      "Saut� [1 onion], [2 carrots], [4 cloves garlic] in olive oil until soft.",
       "Add [1 cup red lentils], [28 oz crushed tomatoes], [2 cups broth], [2 tbsp tomato paste].",
       "Stir in [2 tsp Italian seasoning], simmer 25 minutes until lentils tender.",
       "Cook [1 lb spaghetti] according to package.",
@@ -11567,7 +11270,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh basil" }
     ],
     instructions: [
-      "In large skillet, sautÃ© [4 cloves garlic] until fragrant.",
+      "In large skillet, saut� [4 cloves garlic] until fragrant.",
       "Add [30 oz chickpeas], [1/2 cup sun-dried tomatoes], [14 oz diced tomatoes].",
       "Stir in [1 cup coconut cream], [1/2 cup broth], [2 tsp Italian seasoning], [1/4 tsp red pepper flakes].",
       "Simmer 15 minutes until sauce thickens.",
@@ -11583,7 +11286,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Breakfast",
-    image: tofuScrambleImg,
+    image: "https://i.imgur.com/q4YrOgg.png",
     totalTime: 25,
     tags: ["One Pot Wonders", "vegan", "vegetarian", "breakfast", "high-protein", "glutenfree"],
     nutrition: {
@@ -11608,7 +11311,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Crumble [14 oz tofu] with hands into scrambled egg-sized pieces.",
-      "In large pan, sautÃ© [1 bell pepper] and [1 onion] until soft.",
+      "In large pan, saut� [1 bell pepper] and [1 onion] until soft.",
       "Add crumbled tofu, [1 tsp turmeric], [1 tsp garlic powder], [1/4 tsp black salt].",
       "Cook 5-7 minutes, stirring occasionally.",
       "Add [2 cups spinach], cook until wilted.",
@@ -11648,7 +11351,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "cilantro" }
     ],
     instructions: [
-      "SautÃ© [1 onion], [4 cloves garlic], [1 tsp ginger] until fragrant.",
+      "Saut� [1 onion], [4 cloves garlic], [1 tsp ginger] until fragrant.",
       "Add [2 tbsp curry powder] and [1 tsp garam masala], toast 1 minute.",
       "Stir in [30 oz chickpeas], [14 oz coconut milk], [14 oz tomatoes].",
       "Simmer 15 minutes until sauce thickens.",
@@ -11664,7 +11367,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Healthy Bowls",
-    image: blackBeanRiceBowlImg,
+    image: "https://i.imgur.com/JXlheZR.png",
     totalTime: 35,
     tags: ["One Pot Wonders", "vegan", "vegetarian", "Mexican", "bowl", "glutenfree"],
     nutrition: {
@@ -11745,7 +11448,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Dinner",
-    image: kingOysterMushroomTacosImg,
+    image: "https://i.imgur.com/x2aIer5.png",
     totalTime: 35,
     tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "tacos"],
     nutrition: {
@@ -11813,7 +11516,7 @@ export const allRecipes: Recipe[] = [
       "Mix [1 cup plant milk] with [1 tbsp hot sauce].",
       "Combine [1 cup flour], [1 cup panko], [1 tbsp paprika], [1 tsp garlic powder], [1 tsp onion powder].",
       "Dip mushrooms in milk, then breadcrumb mixture. Double coat for extra crispy.",
-      "Fry in 350°F oil until golden, 3-4 minutes per side.",
+      "Fry in 350?F oil until golden, 3-4 minutes per side.",
       "Serve with vegan ranch and pickles."
     ]
   },
@@ -11826,7 +11529,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Mexican",
-    image: veganCrunchwrapImg,
+    image: "https://i.imgur.com/H81EieO.png",
     totalTime: 30,
     tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "wrap"],
     nutrition: {
@@ -11865,7 +11568,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Asian Fusion",
-    image: charredCabbageCoconutBrothImg,
+    image: "https://i.imgur.com/1mzSPC1.png",
     totalTime: 35,
     tags: ["Lunch Ideas", "vegan", "vegetarian", "viral", "elegant"],
     nutrition: {
@@ -11930,7 +11633,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Press [14 oz tofu], cut into tender-sized strips.",
       "Toss in [1 cup cornstarch] until fully coated.",
-      "Fry in 350°F oil until golden and crispy, 4-5 minutes.",
+      "Fry in 350?F oil until golden and crispy, 4-5 minutes.",
       "Mix [1/2 cup agave], [2 tbsp hot sauce], [1 tbsp vinegar], [1/2 tsp cayenne].",
       "Toss fried tofu in hot honey sauce.",
       "Sprinkle with [2 tbsp sesame seeds]. Serve with vegan ranch."
@@ -11970,7 +11673,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook [1 lb angel hair] according to package.",
-      "SautÃ© [4 cloves garlic] in oil, add [15 oz tomato sauce], [2 tsp paprika], [1 tsp cumin].",
+      "Saut� [4 cloves garlic] in oil, add [15 oz tomato sauce], [2 tsp paprika], [1 tsp cumin].",
       "Simmer sauce 10 minutes.",
       "Toss pasta with sauce, divide into bowls.",
       "Top each with dollop of [vegan yogurt].",
@@ -12027,7 +11730,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: pastaChipsVeganFetaDipImg,
+    image: "https://i.imgur.com/dLr1V8G.png",
     totalTime: 25,
     tags: ["Quick and Easy", "vegan", "vegetarian", "viral", "snack"],
     nutrition: {
@@ -12051,7 +11754,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Toss [8 oz cooked pasta] with [2 tbsp oil], [1/4 cup vegan parm], [1 tsp garlic powder].",
-      "Spread on baking sheet, bake at 400°F for 12-15 minutes until crispy.",
+      "Spread on baking sheet, bake at 400?F for 12-15 minutes until crispy.",
       "Blend [1 cup vegan feta], [1/2 cup cream cheese], [2 tbsp lemon juice] until smooth.",
       "Top dip with [1/4 cup herbs] and olive oil.",
       "Serve pasta chips with dip."
@@ -12066,7 +11769,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: airFryerTofuBitesImg,
+    image: "https://i.imgur.com/WF94RNF.png",
     totalTime: 25,
     tags: ["quick", "vegan", "vegetarian", "air-fryer", "snack"],
     nutrition: {
@@ -12091,7 +11794,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Press [14 oz tofu], cube into bite-sized pieces.",
       "Toss with [2 tbsp cornstarch], [2 tbsp soy sauce], [1 tbsp sesame oil], [1 tsp garlic powder].",
-      "Air fry at 400°F for 15 minutes, shaking halfway.",
+      "Air fry at 400?F for 15 minutes, shaking halfway.",
       "Toss with [1/4 cup sweet chili sauce].",
       "Top with [2 tbsp sesame seeds] and [2 green onions]."
     ]
@@ -12105,7 +11808,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: twoIngredientPiciPastaImg,
+    image: "https://i.imgur.com/SldTS5S.png",
     imageUrl: "https://i.imgur.com/SldTS5S.png",
     totalTime: 25,
     tags: ["Quick and Easy", "vegan", "vegetarian", "viral", "homemade"],
@@ -12143,7 +11846,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: koreanCornCheeseImg,
+    image: "https://i.imgur.com/omVld6i.png",
     totalTime: 15,
     tags: ["Quick and Easy", "vegan", "vegetarian", "viral", "Korean", "glutenfree"],
     nutrition: {
@@ -12165,7 +11868,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "In cast iron skillet, mix [3 cups corn], [1 cup vegan mozzarella], [2 tbsp mayo], [1 tbsp sugar], [1/4 tsp salt].",
-      "Bake at 400°F for 10 minutes until bubbly and golden.",
+      "Bake at 400?F for 10 minutes until bubbly and golden.",
       "Or broil for 5 minutes watching carefully.",
       "Garnish with [2 tbsp parsley].",
       "Serve hot with spoon."
@@ -12180,7 +11883,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Quick and Easy",
-    image: sesameCarrotRibbonsImg,
+    image: "https://i.imgur.com/S8NQ6ue.png",
     totalTime: 15,
     tags: ["Quick and Easy", "vegan", "vegetarian", "side", "elegant"],
     nutrition: {
@@ -12244,7 +11947,7 @@ export const allRecipes: Recipe[] = [
       "Gradually add [3 tbsp sugar], whip until glossy.",
       "Fold in [1 cup flour], [1/2 tsp baking powder], [1/4 cup plant milk].",
       "Add food coloring if desired.",
-      "Pipe into rounds on parchment, bake at 300°F for 25 minutes.",
+      "Pipe into rounds on parchment, bake at 300?F for 25 minutes.",
       "Cool completely before eating - they're cloud-light!"
     ]
   },
@@ -12257,7 +11960,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 2,
     cuisine: "Breakfast",
-    image: veganCustardToastImg,
+    image: "https://i.imgur.com/H6WEFFf.png",
     totalTime: 25,
     tags: ["Quick and Easy", "vegan", "vegetarian", "viral", "breakfast"],
     nutrition: {
@@ -12298,7 +12001,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "American Fusion",
-    image: smashBurgerTacosDinnerImg,
+    image: "https://i.imgur.com/ZjZgGa5.png",
     totalTime: 25,
     tags: ["Dinner", "viral", "beef"],
     nutrition: { calories: 520, protein: 28, carbs: 42, fat: 26, fiber: 3, sugar: 6, servingSize: "2 tacos" },
@@ -12330,7 +12033,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Dinner",
-    image: garlicParmAccordionPotatoesImg,
+    image: "https://i.imgur.com/9FybzHI.png",
     totalTime: 65,
     tags: ["Dinner", "viral", "vegetarian", "side dish", "glutenfree"],
     nutrition: { calories: 340, protein: 9, carbs: 48, fat: 14, fiber: 4, sugar: 2, servingSize: "1 potato" },
@@ -12343,7 +12046,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "salt and pepper" }
     ],
     instructions: [
-      "Preheat oven to 425°F. Slice [4 potatoes] thinly but not all the way through.",
+      "Preheat oven to 425?F. Slice [4 potatoes] thinly but not all the way through.",
       "Mix [4 tbsp butter] with [4 cloves garlic]. Brush over potatoes.",
       "Season with salt and pepper. Bake 45 minutes.",
       "Sprinkle [1/2 cup parmesan] between slices. Bake 5 more minutes.",
@@ -12359,7 +12062,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Mexican Fusion",
-    image: cornRibsEloteSauceImg,
+    image: "https://i.imgur.com/0isFAVr.jpeg",
     totalTime: 35,
     tags: ["Dinner", "viral", "vegetarian", "glutenfree"],
     nutrition: { calories: 280, protein: 7, carbs: 36, fat: 14, fiber: 4, sugar: 8, servingSize: "1 serving" },
@@ -12374,7 +12077,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cut [4 corn cobs] lengthwise into quarters to create 'ribs'.",
-      "Brush with oil, air fry at 400°F for 15 minutes until charred.",
+      "Brush with oil, air fry at 400?F for 15 minutes until charred.",
       "Mix [1/2 cup mayo], [1/4 cup sour cream], [1 lime juice], [1 tsp chili powder].",
       "Drizzle elote sauce over corn ribs.",
       "Top with [1/4 cup cotija] and [2 tbsp cilantro]. Serve immediately!"
@@ -12403,7 +12106,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "red pepper flakes" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Place [feta block] in center of baking dish.",
+      "Preheat oven to 400?F. Place [feta block] in center of baking dish.",
       "Surround with [2 pints tomatoes] and [4 cloves garlic]. Drizzle with [1/4 cup olive oil].",
       "Bake 30 minutes until tomatoes burst and feta is golden.",
       "Cook [12 oz pasta] according to package directions.",
@@ -12439,7 +12142,7 @@ export const allRecipes: Recipe[] = [
       "Layer half spaghetti in 9x13 dish, spread cream cheese mixture.",
       "Top with remaining spaghetti, then meat sauce.",
       "Sprinkle [2 cups mozzarella] and [1/2 cup parmesan].",
-      "Bake at 350°F for 30 minutes until bubbly and golden."
+      "Bake at 350?F for 30 minutes until bubbly and golden."
     ]
   },
   {
@@ -12481,7 +12184,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Italian-American",
-    image: chickenParmesanImg,
+    image: "https://i.imgur.com/hFomm8D.png",
     totalTime: 40,
     tags: ["Dinner", "chicken", "classic"],
     nutrition: { calories: 620, protein: 48, carbs: 42, fat: 28, fiber: 3, sugar: 6, servingSize: "1 serving" },
@@ -12529,13 +12232,13 @@ export const allRecipes: Recipe[] = [
       "Spread dough in oiled pan, dimple with fingers.",
       "Arrange [tomatoes], [bell pepper], [herbs] in garden design.",
       "Drizzle with [olive oil], season with salt.",
-      "Bake at 425°F for 20-25 minutes until golden. Cool and serve!"
+      "Bake at 425?F for 20-25 minutes until golden. Cool and serve!"
     ]
   },
   {
     id: "dinner-turkish-layered-pasta",
     name: "Turkish Layered Pasta",
-    description: "Viral Ottoman dish! Layers of pasta, meat sauce, and bÃ©chamel baked to perfection.",
+    description: "Viral Ottoman dish! Layers of pasta, meat sauce, and b�chamel baked to perfection.",
     cookTime: "45 mins",
     prepTime: "30 mins",
     difficulty: "hard",
@@ -12556,10 +12259,10 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook [1 lb pasta], drain. Brown [1 lb beef] with [onion].",
-      "Make bÃ©chamel: melt [4 tbsp butter], whisk in [4 tbsp flour], add [2 cups milk].",
+      "Make b�chamel: melt [4 tbsp butter], whisk in [4 tbsp flour], add [2 cups milk].",
       "Layer half pasta, all meat, remaining pasta in baking dish.",
-      "Pour bÃ©chamel over top, sprinkle with [2 cups mozzarella].",
-      "Bake at 375°F for 35-40 minutes until golden. Let rest 10 minutes before serving!"
+      "Pour b�chamel over top, sprinkle with [2 cups mozzarella].",
+      "Bake at 375?F for 35-40 minutes until golden. Let rest 10 minutes before serving!"
     ]
   },
   {
@@ -12587,7 +12290,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook [1 lb penne] until al dente. Reserve 1 cup pasta water.",
-      "SautÃ© [3 cloves garlic] in [2 tbsp olive oil]. Add [1 cup tomato paste].",
+      "Saut� [3 cloves garlic] in [2 tbsp olive oil]. Add [1 cup tomato paste].",
       "Add [1/4 cup vodka], cook 2 minutes. Stir in [1 cup cream].",
       "Add pasta with reserved water, toss until creamy.",
       "Stir in [1/2 cup parmesan]. Top with red pepper flakes and serve!"
@@ -12648,7 +12351,7 @@ export const allRecipes: Recipe[] = [
       "Sear [1.5 lbs chicken] skin-side down until golden, remove.",
       "Add [1 lb potatoes] to skillet, cook until golden.",
       "Melt [4 tbsp butter], add [6 cloves garlic]. Cook 1 minute.",
-      "Return chicken, sprinkle [1/2 cup parmesan]. Bake at 400°F for 20 minutes.",
+      "Return chicken, sprinkle [1/2 cup parmesan]. Bake at 400?F for 20 minutes.",
       "Garnish with [2 tbsp parsley]. Serve hot!"
     ]
   },
@@ -12661,7 +12364,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 12,
     cuisine: "Dinner",
-    image: bbqCheeseburgerSlidersImg,
+    image: "https://i.imgur.com/BJ1aRuN.png",
     totalTime: 35,
     tags: ["Dinner", "beef", "party food"],
     nutrition: { calories: 340, protein: 18, carbs: 28, fat: 18, fiber: 1, sugar: 8, servingSize: "2 sliders" },
@@ -12678,7 +12381,7 @@ export const allRecipes: Recipe[] = [
       "Slice [12 Hawaiian rolls] in half, place bottoms in baking dish.",
       "Layer beef mixture, [12 cheese slices], [pickles].",
       "Top with roll tops, brush with [3 tbsp melted butter].",
-      "Bake at 350°F for 15 minutes until cheese melts. Serve warm!"
+      "Bake at 350?F for 15 minutes until cheese melts. Serve warm!"
     ]
   },
   {
@@ -12703,7 +12406,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Preheat oven to 425°F. Season [1.5 lbs chicken].",
+      "Preheat oven to 425?F. Season [1.5 lbs chicken].",
       "Toss [2 cups broccoli] and [2 cups peppers] with [2 tbsp oil].",
       "Arrange chicken and vegetables on sheet pan.",
       "Mix [1/3 cup honey] with [2 tbsp hot sauce], brush on chicken.",
@@ -12719,7 +12422,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Dinner",
-    image: loadedChickenTwiceBakedPotatoImg,
+    image: "https://i.imgur.com/ngLDVRv.png",
     totalTime: 80,
     tags: ["Dinner", "chicken", "comfort food", "glutenfree"],
     nutrition: { calories: 580, protein: 32, carbs: 52, fat: 26, fiber: 5, sugar: 3, servingSize: "1 potato" },
@@ -12733,7 +12436,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "green onions" }
     ],
     instructions: [
-      "Bake [4 potatoes] at 400°F for 50 minutes. Cut in half, scoop out insides.",
+      "Bake [4 potatoes] at 400?F for 50 minutes. Cut in half, scoop out insides.",
       "Mash potato with [4 tbsp butter], [1/2 cup sour cream], [1 cup cheddar].",
       "Mix in [2 cups chicken]. Refill potato skins.",
       "Top with remaining [cheese] and [bacon]. Bake 15 minutes.",
@@ -12762,7 +12465,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Mix [1 cup parmesan], [1/2 cup breadcrumbs], [2 tbsp rosemary].",
+      "Preheat oven to 400?F. Mix [1 cup parmesan], [1/2 cup breadcrumbs], [2 tbsp rosemary].",
       "Brush [4 chicken breasts] with [3 tbsp oil], coat with parmesan mixture.",
       "Scatter [8 garlic cloves] around chicken in baking dish.",
       "Roast 30-35 minutes until golden and cooked through.",
@@ -12791,7 +12494,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "butter" }
     ],
     instructions: [
-      "Preheat oven to 400°F. Mix [3 cups chicken], [2 cups vegetables], [cream soup], [1 cup broth].",
+      "Preheat oven to 400?F. Mix [3 cups chicken], [2 cups vegetables], [cream soup], [1 cup broth].",
       "Pour into pie dish or casserole.",
       "Top with [puff pastry], cut slits for steam.",
       "Brush with melted [2 tbsp butter].",
@@ -12923,7 +12626,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "Dinner",
-    image: loadedRanchPotatoesImg,
+    image: "https://i.imgur.com/k4dyQvZ.png",
     totalTime: 45,
     tags: ["Dinner", "side dish", "potatoes", "glutenfree"],
     nutrition: { calories: 380, protein: 12, carbs: 48, fat: 18, fiber: 5, sugar: 2, servingSize: "1 serving" },
@@ -12937,7 +12640,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Toss [2 lbs potato wedges] with [3 tbsp oil] and [3 tbsp ranch seasoning].",
-      "Roast at 425°F for 30-35 minutes until crispy.",
+      "Roast at 425?F for 30-35 minutes until crispy.",
       "Top with [1 cup cheddar], return to oven until melted.",
       "Sprinkle with [bacon] and [green onions].",
       "Serve hot with extra ranch dressing!"
@@ -12966,7 +12669,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Season and sear [4 chicken breasts], remove.",
-      "SautÃ© [4 cloves garlic] and [sun-dried tomatoes].",
+      "Saut� [4 cloves garlic] and [sun-dried tomatoes].",
       "Add [1 cup cream] and [1/2 cup parmesan], simmer.",
       "Stir in [2 cups spinach] until wilted.",
       "Return chicken, cook 8-10 minutes. Serve hot!"
@@ -12998,7 +12701,7 @@ export const allRecipes: Recipe[] = [
       "Brown [1 lb beef], mix with [1 cup rice], [tomatoes], [1 tsp Italian seasoning].",
       "Stuff peppers with beef mixture.",
       "Place in baking dish with 1/2 cup water. Cover with foil.",
-      "Bake at 375°F for 35 minutes. Top with [mozzarella], bake 5 more minutes!"
+      "Bake at 375?F for 35 minutes. Top with [mozzarella], bake 5 more minutes!"
     ]
   },
   

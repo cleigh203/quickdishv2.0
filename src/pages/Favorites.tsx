@@ -11,7 +11,6 @@ import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
-import { AdSlot } from "@/components/AdSlot";
 
 const Favorites = () => {
   const { savedRecipes, loading } = useSavedRecipes();
@@ -231,8 +230,6 @@ const Favorites = () => {
           </div>
         )}
 
-        {/* Ad at bottom */}
-        <AdSlot slot="0000000000" className="my-10" test />
       </div>
       
       <BottomNav />
