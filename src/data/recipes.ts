@@ -1,4 +1,4 @@
-﻿import { Recipe } from "@/types/recipe";
+import { Recipe } from "@/types/recipe";
 
 // Import AI-generated images
 const porkChopsApplesImg = "https://i.imgur.com/mbuGyaR.png";
@@ -48,6 +48,72 @@ const appleCiderPulledPorkImg = "https://i.imgur.com/aHMkyJB.png";
 const cranberryBrieBitesImg = "https://i.imgur.com/AIsG9V8.png";
 const harvestChickenVegetablesImg = "https://i.imgur.com/7KtS2Em.png";
 const pecanCrustedPorkImg = "https://i.imgur.com/PibHyc6.png";
+const cheddarBiscuitsImg = "https://i.imgur.com/placeholder1.png";
+const cornSalsaImg = "https://i.imgur.com/placeholder2.png";
+const lemonSalmonImg = "https://i.imgur.com/placeholder3.png";
+const kungPaoImg = "https://i.imgur.com/placeholder4.png";
+const pizzaFrittataImg = "https://i.imgur.com/placeholder5.png";
+const friedRiceImg = "https://i.imgur.com/placeholder6.png";
+const potatoCroquettesImg = "https://i.imgur.com/placeholder7.png";
+const turkeyQuesadillasImg = "https://i.imgur.com/placeholder8.png";
+const stuffingMuffinsImg = "https://i.imgur.com/placeholder9.png";
+const salmonSaladImg = "https://i.imgur.com/placeholder10.png";
+const leftoverChickenPhoImg = "https://i.imgur.com/placeholder11.png";
+const leftoverChiliCheeseFriesImg = "https://i.imgur.com/placeholder12.png";
+const leftoverTurkeyTetrazziniImg = "https://i.imgur.com/placeholder13.png";
+const leftoverChickenAlfredoShellsImg = "https://i.imgur.com/placeholder14.png";
+const leftoverBbqRibsMacImg = "https://i.imgur.com/placeholder15.png";
+const leftoverChickenParmSoupImg = "https://i.imgur.com/placeholder16.png";
+const leftoverLasagnaGrilledCheeseImg = "https://i.imgur.com/placeholder17.png";
+const leftoverPotRoastRamenImg = "https://i.imgur.com/placeholder18.png";
+const teriyakiChickenImg = "https://i.imgur.com/placeholder19.png";
+const sweetPotatoCasseroleImg = "https://i.imgur.com/placeholder20.png";
+const chickenFajitaRiceImg = "https://i.imgur.com/placeholder21.png";
+const breakfastHashbrownCasseroleImg = "https://i.imgur.com/placeholder22.png";
+const breakfastScrambledEggsBaconImg = "https://i.imgur.com/placeholder23.png";
+const breakfastShakshukaClassicImg = "https://i.imgur.com/placeholder24.png";
+const bakedChickenMeatballsImg = "https://i.imgur.com/placeholder25.png";
+const sheetPanChickenVegetablesImg = "https://i.imgur.com/placeholder26.png";
+const tacoSkilletImg = "https://i.imgur.com/placeholder27.png";
+const stuffedBellPeppersProteinImg = "https://i.imgur.com/placeholder28.png";
+const beefStroganoffProteinImg = "https://i.imgur.com/placeholder29.png";
+const onePotCreamyTomatoBeefPastaImg = "https://i.imgur.com/placeholder30.png";
+const onePotCajunShrimpPastaImg = "https://i.imgur.com/placeholder31.png";
+const onePotMexicanChickenRiceImg = "https://i.imgur.com/placeholder32.png";
+const onePotChickenGarlicRiceImg = "https://i.imgur.com/placeholder33.png";
+const onePotChickenRiceVegetablesImg = "https://i.imgur.com/placeholder34.png";
+const onePotGreekChickenLemonRiceImg = "https://i.imgur.com/placeholder35.png";
+const onePotSpinachBeefSoupImg = "https://i.imgur.com/placeholder36.png";
+const onePotCoconutCurryLentilSoupImg = "https://i.imgur.com/placeholder37.png";
+const onePotChickenPotPieChowderImg = "https://i.imgur.com/placeholder38.png";
+const onePotBraisedShortRibsImg = "https://i.imgur.com/placeholder39.png";
+const onePotBeefTacoSkilletImg = "https://i.imgur.com/placeholder40.png";
+const butterChickpeasImg = "https://i.imgur.com/placeholder41.png";
+const veganCoconutBaconImg = "https://i.imgur.com/placeholder42.png";
+const pumpkinSpiceLatteOatsImg = "https://i.imgur.com/placeholder43.png";
+const pumpkinCinnamonRollsImg = "https://i.imgur.com/placeholder44.png";
+const fallPumpkinCheesecakeBarsNewImg = "https://i.imgur.com/placeholder45.png";
+const fallCaramelAppleBarsImg = "https://i.imgur.com/placeholder46.png";
+const fallSweetPotatoCasseroleNewImg = "https://i.imgur.com/placeholder47.png";
+const fallButternutSquashSoupNewImg = "https://i.imgur.com/placeholder48.png";
+const frenchOnionSoupBakeImg = "https://i.imgur.com/placeholder49.png";
+const shepherdsPieTwiceBakedImg = "https://i.imgur.com/placeholder50.png";
+const marryMeTofuImg = "https://i.imgur.com/placeholder51.png";
+const highProteinCucumberSaladImg = "https://i.imgur.com/placeholder52.png";
+const marryMeChickpeasImg = "https://i.imgur.com/placeholder53.png";
+const chickpeaCurryImg = "https://i.imgur.com/placeholder54.png";
+const veganProteinPastaImg = "https://i.imgur.com/placeholder55.png";
+const oysterMushroomFriedChickenImg = "https://i.imgur.com/placeholder56.png";
+const hotHoneyTofuTendersImg = "https://i.imgur.com/placeholder57.png";
+const turkishPastaImg = "https://i.imgur.com/placeholder58.png";
+const veganSteakBitesImg = "https://i.imgur.com/placeholder59.png";
+const gardenFocacciaImg = "https://i.imgur.com/placeholder60.png";
+const turkishLayeredPastaImg = "https://i.imgur.com/placeholder61.png";
+const roastedGarlicParmChickenImg = "https://i.imgur.com/placeholder62.png";
+const friedChickenRamenImg = "https://i.imgur.com/placeholder63.png";
+const turkeyGrilledCheeseImg = "https://i.imgur.com/placeholder64.png";
+const creamyTuscanChickenImg = "https://i.imgur.com/placeholder65.png";
+const stuffedBellPeppersDinnerImg = "https://i.imgur.com/placeholder66.png";
 const caramelAppleNachosImg = "https://i.imgur.com/dGYFnDc.png";
 const pumpkinRisottoImg = "https://i.imgur.com/R2KpdiH.png";
 // Halloween assets removed for 2025 launch
@@ -1075,7 +1141,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Season and grill chicken breast until cooked through. Slice into strips.",
       "Cook fettuccine according to package, drain.",
-      "In large pan, melt butter and saut� garlic 1 minute.",
+      "In large pan, melt butter and saut? garlic 1 minute.",
       "Add heavy cream, bring to simmer.",
       "Gradually whisk in parmesan until smooth and creamy.",
       "Toss pasta in sauce.",
@@ -1213,7 +1279,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Steam broccoli until tender, chop into small pieces.",
-      "Melt butter in large pot, saut� onion until soft.",
+      "Melt butter in large pot, saut? onion until soft.",
       "Whisk in flour, cook 1 minute.",
       "Gradually add broth and half-and-half, whisking constantly.",
       "Bring to simmer, cook until thickened (about 15 minutes).",
@@ -1343,7 +1409,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "cups", item: "frozen corn, thawed" ,
     nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
       { amount: "1/2", unit: "cup", item: "red onion, finely diced" },
-      { amount: "1", unit: "", item: "jalape�o, seeded and minced" },
+      { amount: "1", unit: "", item: "jalape?o, seeded and minced" },
       { amount: "1/4", unit: "cup", item: "cilantro, chopped" },
       { amount: "2", unit: "tbsp", item: "lime juice" },
       { amount: "1", unit: "tsp", item: "salt" }
@@ -1351,7 +1417,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Char corn in dry hot skillet until slightly blackened, about 5 minutes.",
       "Let cool to room temperature.",
-      "Mix corn with red onion, jalape�o, cilantro, lime juice, and salt.",
+      "Mix corn with red onion, jalape?o, cilantro, lime juice, and salt.",
       "Refrigerate at least 1 hour before serving.",
       "Serve with chips, tacos, or burrito bowls."
     ]
@@ -1586,7 +1652,7 @@ export const allRecipes: Recipe[] = [
   {
     id: "copycat-starbucks-pink-drink",
     name: "Starbucks Pink Drink",
-    description: "Refreshing strawberry a�a� drink with coconut milk. Instagram-famous and delicious!",
+    description: "Refreshing strawberry a?a? drink with coconut milk. Instagram-famous and delicious!",
     cookTime: "0 mins",
     prepTime: "10 mins",
     difficulty: "easy",
@@ -1607,14 +1673,14 @@ export const allRecipes: Recipe[] = [
     ingredients: [
       { amount: "3", unit: "cups", item: "white grape juice" },
       { amount: "1", unit: "cup", item: "frozen strawberries" },
-      { amount: "1/4", unit: "cup", item: "a�a� juice or powder" },
+      { amount: "1/4", unit: "cup", item: "a?a? juice or powder" },
       { amount: "2", unit: "cups", item: "coconut milk" },
       { amount: "2", unit: "cups", item: "ice" },
       { amount: "1", unit: "cup", item: "fresh strawberries, sliced" }
     ],
     instructions: [
       "Blend white grape juice and frozen strawberries until smooth.",
-      "Add a�a� juice or powder and blend again.",
+      "Add a?a? juice or powder and blend again.",
       "Fill glasses with ice.",
       "Pour strawberry mixture over ice.",
       "Top with coconut milk (it will create beautiful swirls).",
@@ -2100,7 +2166,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Cook sausage in large pot until browned. Remove and set aside.",
       "Cook bacon in same pot until crispy. Remove and set aside.",
-      "Saut� onion and garlic in bacon fat until softened.",
+      "Saut? onion and garlic in bacon fat until softened.",
       "Add chicken broth and potatoes. Bring to boil.",
       "Reduce heat and simmer for 15 minutes until potatoes are tender.",
       "Stir in cooked sausage, kale, and cream.",
@@ -2135,14 +2201,14 @@ export const allRecipes: Recipe[] = [
       { amount: "4", unit: "ripe", item: "avocados" },
       { amount: "1/4", unit: "cup", item: "diced red onion" },
       { amount: "2", unit: "tbsp", item: "fresh cilantro, chopped" },
-      { amount: "1", unit: "medium", item: "jalape�o, seeded and diced" },
+      { amount: "1", unit: "medium", item: "jalape?o, seeded and diced" },
       { amount: "2", unit: "tbsp", item: "fresh lime juice" },
       { amount: "1/2", unit: "tsp", item: "salt" }
     ],
     instructions: [
       "Cut avocados in half, remove pit, and scoop flesh into bowl.",
       "Mash avocados with fork, leaving some chunks.",
-      "Add red onion, cilantro, and jalape�o.",
+      "Add red onion, cilantro, and jalape?o.",
       "Squeeze lime juice over mixture.",
       "Add salt and mix well.",
       "Taste and adjust seasonings as needed.",
@@ -2550,7 +2616,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat [1 tbsp vegetable oil] in wok or large skillet over high heat.",
       "Add [3 beaten eggs], scramble quickly, remove and set aside.",
-      "Add [1 tbsp oil], saut� [diced onion] 2 minutes.",
+      "Add [1 tbsp oil], saut? [diced onion] 2 minutes.",
       "Add [3 cloves garlic], [1 cup peas and carrots], stir-fry 2 minutes.",
       "Add [4 cups day-old rice], break up clumps.",
       "Stir-fry 3-4 minutes until rice is hot.",
@@ -2878,7 +2944,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook pasta according to package.",
-      "Saut� shrimp in butter 2 minutes per side, remove.",
+      "Saut? shrimp in butter 2 minutes per side, remove.",
       "Add garlic, cook 30 seconds.",
       "Add sun-dried tomatoes and heavy cream.",
       "Simmer 3 minutes.",
@@ -3294,7 +3360,7 @@ export const allRecipes: Recipe[] = [
       "Preheat oven to 375?F.",
       "Whisk eggs and milk together.",
       "Heat olive oil in oven-safe skillet.",
-      "Add chopped pizza pieces, saut� 2 minutes.",
+      "Add chopped pizza pieces, saut? 2 minutes.",
       "Pour egg mixture over pizza.",
       "Top with mozzarella.",
       "Cook on stovetop 5 minutes until edges set.",
@@ -3609,7 +3675,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "bag", item: "tortilla chips" },
       { amount: "2", unit: "cups", item: "shredded cheese" },
       { amount: "1", unit: "cup", item: "black beans" },
-      { amount: "1/2", unit: "cup", item: "jalape�os" },
+      { amount: "1/2", unit: "cup", item: "jalape?os" },
       { amount: "1/2", unit: "cup", item: "sour cream" },
       { amount: "1/4", unit: "cup", item: "tomatoes, diced" },
       { amount: "1/4", unit: "cup", item: "green onions" }
@@ -3619,7 +3685,7 @@ export const allRecipes: Recipe[] = [
       "Spread chips on large baking sheet.",
       "Top with pulled pork, beans, and cheese.",
       "Bake 10 minutes until cheese melts.",
-      "Top with jalape�os, sour cream, tomatoes, and green onions.",
+      "Top with jalape?os, sour cream, tomatoes, and green onions.",
       "Serve immediately."
     ]
   },
@@ -3778,7 +3844,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Preheat oven to 375?F. Grease 9x13 baking dish.",
-      "Saut� onion and garlic until soft. Mix with chicken and beans.",
+      "Saut? onion and garlic until soft. Mix with chicken and beans.",
       "Spread 1/2 cup enchilada sauce in bottom of dish.",
       "Fill each tortilla with chicken mixture and 2 tbsp cheese. Roll tightly.",
       "Place seam-side down in dish. Pour remaining sauce over top.",
@@ -3913,7 +3979,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "shredded lettuce" },
       { amount: "1", unit: "", item: "tomato, diced" },
       { amount: "1/2", unit: "cup", item: "sour cream" },
-      { amount: "", unit: "", item: "Jalape�os, olives, salsa for topping" }
+      { amount: "", unit: "", item: "Jalape?os, olives, salsa for topping" }
     ],
     instructions: [
       "Preheat oven to 425?F.",
@@ -3922,7 +3988,7 @@ export const allRecipes: Recipe[] = [
       "Top with taco meat and cheese.",
       "Bake 12-15 minutes until crust is golden and cheese melted.",
       "Remove from oven, top with lettuce, tomatoes, sour cream drizzle.",
-      "Add jalape�os and olives. Slice and serve with salsa."
+      "Add jalape?os and olives. Slice and serve with salsa."
     ]
   },
   {
@@ -3947,7 +4013,7 @@ export const allRecipes: Recipe[] = [
       { amount: "3", unit: "slices", item: "fresh ginger" },
       { amount: "2", unit: "tbsp", item: "fish sauce" },
       { amount: "1", unit: "tbsp", item: "brown sugar" },
-      { amount: "", unit: "", item: "Bean sprouts, basil, lime, jalape�os for serving" }
+      { amount: "", unit: "", item: "Bean sprouts, basil, lime, jalape?os for serving" }
     ],
     instructions: [
       "Bring broth to boil with star anise, cinnamon, and ginger.",
@@ -3956,7 +4022,7 @@ export const allRecipes: Recipe[] = [
       "Cook rice noodles according to package, drain.",
       "Divide noodles between bowls, add shredded chicken.",
       "Pour hot broth over noodles and chicken.",
-      "Top with bean sprouts, fresh herbs, lime juice, and jalape�os."
+      "Top with bean sprouts, fresh herbs, lime juice, and jalape?os."
     ]
   },
   {
@@ -4010,7 +4076,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "cup", item: "cheddar cheese sauce" },
       { amount: "1/2", unit: "cup", item: "sour cream" },
       { amount: "1/4", unit: "cup", item: "chopped green onions" },
-      { amount: "1/4", unit: "cup", item: "pickled jalape�os" }
+      { amount: "1/4", unit: "cup", item: "pickled jalape?os" }
     ],
     instructions: [
       "Bake fries according to package directions until extra crispy.",
@@ -4018,7 +4084,7 @@ export const allRecipes: Recipe[] = [
       "Arrange fries on large serving platter.",
       "Pour hot chili over fries.",
       "Drizzle with cheese sauce.",
-      "Top with dollops of sour cream, green onions, and jalape�os.",
+      "Top with dollops of sour cream, green onions, and jalape?os.",
       "Serve immediately while hot."
     ]
   },
@@ -4081,7 +4147,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Preheat oven to 375?F. Cook spaghetti al dente, drain.",
-      "Saut� mushrooms in 2 tbsp butter until golden.",
+      "Saut? mushrooms in 2 tbsp butter until golden.",
       "In large bowl, mix spaghetti, turkey, mushrooms, peas, cream, broth, and half the parmesan.",
       "Transfer to greased 9x13 baking dish.",
       "Mix breadcrumbs with remaining butter and parmesan.",
@@ -4213,7 +4279,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Fresh basil and garlic bread for serving" }
     ],
     instructions: [
-      "Saut� garlic in olive oil until fragrant.",
+      "Saut? garlic in olive oil until fragrant.",
       "Add broth, tomatoes, and Italian seasoning. Bring to boil.",
       "Reduce heat, simmer 15 minutes.",
       "Stir in cream and cubed chicken.",
@@ -4355,7 +4421,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Bring beef broth to boil. Add soy sauce and sesame oil.",
       "Cook ramen noodles according to package, drain.",
-      "Saut� mushrooms and bok choy until tender.",
+      "Saut? mushrooms and bok choy until tender.",
       "Divide noodles among 4 bowls.",
       "Top with shredded pot roast, vegetables, and halved soft-boiled eggs.",
       "Pour hot broth over everything.",
@@ -4728,7 +4794,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Pumpkin seeds for garnish" }
     ],
     instructions: [
-      "Melt butter in large pot. Saut� onion until soft, about 5 minutes.",
+      "Melt butter in large pot. Saut? onion until soft, about 5 minutes.",
       "Add garlic and spices, cook 1 minute until fragrant.",
       "Add squash and broth. Bring to boil, then simmer 20 minutes until tender.",
       "Use immersion blender to puree until smooth (or transfer to blender in batches).",
@@ -5058,7 +5124,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "pumpkin seeds" }
     ],
     instructions: [
-      "In large saucepan, melt 2 tbsp butter. Saut� onion until soft.",
+      "In large saucepan, melt 2 tbsp butter. Saut? onion until soft.",
       "Add garlic and rice. Toast 2 minutes, stirring constantly.",
       "Add wine and stir until absorbed.",
       "Add warm broth one ladle at a time, stirring frequently. Wait until absorbed before adding more.",
@@ -5702,7 +5768,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Brown chicken in a large Dutch oven. Remove and set aside.",
       "Brown sausage in the same pot. Remove and set aside.",
-      "Saut� onion, bell peppers, and celery until softened, 5 minutes.",
+      "Saut? onion, bell peppers, and celery until softened, 5 minutes.",
       "Add garlic and Cajun seasoning, cook 1 minute.",
       "Add rice and toast 2 minutes.",
       "Pour in broth, tomatoes, bay leaves, chicken, and sausage.",
@@ -5792,7 +5858,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in a large skillet with lid over medium-high heat.",
       "Season chicken with fajita seasoning and cook until browned. Set aside.",
-      "Saut� peppers and onion until softened, 5 minutes.",
+      "Saut? peppers and onion until softened, 5 minutes.",
       "Add rice and toast 2 minutes.",
       "Pour in broth, tomatoes, and lime juice. Stir well.",
       "Nestle chicken on top, bring to a boil, then reduce heat.",
@@ -6590,7 +6656,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "feta cheese, crumbled" }
     ],
     instructions: [
-      "Heat oil in large skillet, saut� onion and pepper until soft.",
+      "Heat oil in large skillet, saut? onion and pepper until soft.",
       "Add garlic, cumin, and paprika, cook 1 minute.",
       "Pour in crushed tomatoes, simmer 10 minutes until thick.",
       "Make 6 wells in sauce, crack egg into each well.",
@@ -6941,7 +7007,7 @@ export const allRecipes: Recipe[] = [
       "Top with shredded cheese, cover and let melt (2 minutes).",
       "Remove from heat.",
       "Top with lettuce, tomatoes, sour cream, and crushed chips.",
-      "Serve immediately with optional toppings like guacamole or jalape�os."
+      "Serve immediately with optional toppings like guacamole or jalape?os."
     ]
   },
   {
@@ -7502,7 +7568,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large pot over medium-high heat.",
       "Season chicken with salt and pepper, cook until golden, about 5-6 minutes. Remove and set aside.",
-      "Add garlic to pot, saut� 1 minute.",
+      "Add garlic to pot, saut? 1 minute.",
       "Add pasta, chicken broth, and sun-dried tomatoes.",
       "Bring to boil, reduce heat, cover and simmer 12-15 minutes until pasta is tender.",
       "Stir in heavy cream, parmesan, and Italian seasoning.",
@@ -7608,7 +7674,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Season shrimp with 1 tbsp Cajun seasoning.",
       "Melt butter in large pot, cook shrimp 2-3 minutes per side. Remove and set aside.",
-      "Add bell pepper and garlic to pot, saut� 2 minutes.",
+      "Add bell pepper and garlic to pot, saut? 2 minutes.",
       "Add pasta, broth, and remaining Cajun seasoning.",
       "Bring to boil, reduce heat, simmer 10-12 minutes until pasta is tender.",
       "Stir in heavy cream and parmesan.",
@@ -7739,7 +7805,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large pot or paella pan over medium-high heat.",
       "Season chicken with salt, pepper, and paprika. Brown on both sides, about 5 minutes per side. Remove.",
-      "Add onion and bell pepper, saut� 5 minutes.",
+      "Add onion and bell pepper, saut? 5 minutes.",
       "Add garlic, cook 1 minute.",
       "Add rice, stir to coat with oil.",
       "Add saffron to broth, then pour over rice.",
@@ -7813,7 +7879,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large skillet over medium-high heat.",
       "Season chicken with salt and pepper, cook 5-6 minutes per side until golden. Remove.",
-      "Add garlic to skillet, saut� 1 minute.",
+      "Add garlic to skillet, saut? 1 minute.",
       "Add sun-dried tomatoes, chicken broth, and Italian seasoning.",
       "Stir in heavy cream and parmesan, bring to simmer.",
       "Return chicken to skillet, spoon sauce over chicken.",
@@ -7847,7 +7913,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat butter in large pot over medium-high heat.",
       "Season chicken with salt and pepper, brown on both sides. Remove.",
-      "Add garlic to pot, saut� 2 minutes until fragrant.",
+      "Add garlic to pot, saut? 2 minutes until fragrant.",
       "Add rice, stir to coat with garlic butter.",
       "Add chicken broth, soy sauce, and sesame oil.",
       "Nestle chicken pieces into rice.",
@@ -7883,7 +7949,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large pot over medium-high heat.",
       "Season chicken with salt, pepper, and thyme. Cook until browned.",
-      "Add onion and garlic, saut� 3 minutes.",
+      "Add onion and garlic, saut? 3 minutes.",
       "Add rice, stir to coat.",
       "Add chicken broth and carrots.",
       "Bring to boil, reduce heat to low, cover and simmer 15 minutes.",
@@ -7919,7 +7985,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Heat olive oil in large pot over medium-high heat.",
       "Season chicken with oregano, salt, and pepper. Brown on both sides. Remove.",
-      "Add garlic, saut� 1 minute.",
+      "Add garlic, saut? 1 minute.",
       "Add rice, stir to coat.",
       "Add chicken broth, lemon juice, and lemon zest.",
       "Nestle chicken into rice.",
@@ -7956,7 +8022,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Melt butter in large pot over medium heat.",
       "Add chicken, cook until browned. Remove.",
-      "Add onion, carrots, and garlic, saut� 5 minutes.",
+      "Add onion, carrots, and garlic, saut? 5 minutes.",
       "Add chicken broth and thyme, bring to boil.",
       "Add gnocchi, cook 3-4 minutes until they float.",
       "Return chicken to pot.",
@@ -8026,7 +8092,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Heat olive oil in large pot over medium heat.",
-      "Add onion, garlic, and ginger, saut� 5 minutes.",
+      "Add onion, garlic, and ginger, saut? 5 minutes.",
       "Add curry powder, cook 1 minute until fragrant.",
       "Add lentils and vegetable broth.",
       "Bring to boil, reduce heat, simmer 20 minutes until lentils are tender.",
@@ -8066,7 +8132,7 @@ export const allRecipes: Recipe[] = [
       "Preheat oven to 400?F. Cut puff pastry into rounds, bake 15 minutes until golden.",
       "Melt butter in large pot over medium heat.",
       "Add chicken, cook until browned. Remove.",
-      "Add onion and garlic, saut� 3 minutes.",
+      "Add onion and garlic, saut? 3 minutes.",
       "Sprinkle flour, stir and cook 2 minutes.",
       "Gradually add chicken broth, stirring constantly.",
       "Add potatoes, carrots, and thyme. Simmer 15 minutes until vegetables are tender.",
@@ -8268,7 +8334,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Toppings: sour cream, cilantro, cheese" }
     ],
     instructions: [
-      "Saut� [onion] and [bell peppers] in large pot for 5 minutes.",
+      "Saut? [onion] and [bell peppers] in large pot for 5 minutes.",
       "Add [garlic], [2 tbsp chili powder], [1 tsp cumin], cook 1 minute.",
       "Add [kidney beans], [black beans], [tomatoes], [1 cup broth].",
       "Bring to boil, reduce heat, simmer 30 minutes stirring occasionally.",
@@ -8393,7 +8459,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "cilantro" }
     ],
     instructions: [
-      "Melt [2 tbsp butter] in large pan, saut� [onion] until soft.",
+      "Melt [2 tbsp butter] in large pan, saut? [onion] until soft.",
       "Add [garlic], [2 tbsp garam masala], [1 tsp turmeric], cook 1 minute.",
       "Pour in [tomato sauce], simmer 5 minutes.",
       "Add [chickpeas] and [coconut cream], stir well.",
@@ -8727,7 +8793,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "cilantro" }
     ],
     instructions: [
-      "Saut� [onion] in large pot until soft, add [garlic].",
+      "Saut? [onion] in large pot until soft, add [garlic].",
       "Add [curry powder], [turmeric], [cumin], cook 1 minute.",
       "Add [2 cups lentils] and [4 cups broth], bring to boil.",
       "Reduce heat, simmer 20 minutes until lentils are soft.",
@@ -8763,7 +8829,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "bag", item: "tortilla chips" },
       { amount: "1", unit: "can", item: "black beans, drained" },
       { amount: "1", unit: "cup", item: "vegan cheese sauce" },
-      { amount: "1/2", unit: "cup", item: "sliced jalape�os" },
+      { amount: "1/2", unit: "cup", item: "sliced jalape?os" },
       { amount: "1", unit: "cup", item: "guacamole" },
       { amount: "1", unit: "cup", item: "salsa" },
       { amount: "1/4", unit: "cup", item: "fresh cilantro" },
@@ -8775,7 +8841,7 @@ export const allRecipes: Recipe[] = [
       "Scatter [black beans] over chips.",
       "Drizzle [vegan cheese sauce] over everything.",
       "Bake 10 minutes until heated through.",
-      "Top with [jalape�os], [guacamole], and [salsa].",
+      "Top with [jalape?os], [guacamole], and [salsa].",
       "Garnish with [cilantro], serve with [lime wedges]."
     ]
   },
@@ -8855,7 +8921,7 @@ export const allRecipes: Recipe[] = [
       { amount: "", unit: "", item: "Toppings: lettuce, tomato" }
     ],
     instructions: [
-      "Saut� [mushrooms] until liquid evaporates, about 8 minutes.",
+      "Saut? [mushrooms] until liquid evaporates, about 8 minutes.",
       "Pulse [walnuts] in food processor until finely ground.",
       "Mix mushrooms, walnuts, [breadcrumbs], [eggs], [soy sauce] in bowl.",
       "Form into 4 patties, refrigerate 15 minutes.",
@@ -9021,7 +9087,7 @@ export const allRecipes: Recipe[] = [
       { amount: "2", unit: "tbsp", item: "olive oil" }
     ],
     instructions: [
-      "Heat [2 tbsp oil] in large pot, saut� [onion] until soft.",
+      "Heat [2 tbsp oil] in large pot, saut? [onion] until soft.",
       "Add [cumin] and [coriander], cook 1 minute.",
       "Add [carrots], [parsnips], and [4 cups broth].",
       "Bring to boil, reduce heat, simmer 25 minutes until vegetables are tender.",
@@ -9102,7 +9168,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh basil" }
     ],
     instructions: [
-      "Saut� [onion] in large pot until soft, add [garlic].",
+      "Saut? [onion] in large pot until soft, add [garlic].",
       "Add [crushed tomatoes], [2 cups broth], [dried basil].",
       "Bring to boil, reduce heat, simmer 15 minutes.",
       "Blend soup until smooth using immersion blender.",
@@ -9866,7 +9932,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "Season [4 chicken breasts] with salt, pepper.",
       "In pan, brown chicken 5 minutes per side, remove.",
-      "Add [2 tbsp butter], saut� [2 sliced apples] until golden.",
+      "Add [2 tbsp butter], saut? [2 sliced apples] until golden.",
       "Mix [1 cup apple butter], [1/4 cup broth], [2 tbsp vinegar], [1 tsp thyme].",
       "Pour sauce over apples, return chicken to pan.",
       "Simmer 10 minutes until chicken reaches 165?F.",
@@ -10417,7 +10483,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook [1 lb sausage] in large skillet until browned. Remove.",
-      "In same pan, saut� [1 cup onion] and [1 cup celery] in [1/2 cup butter] until soft.",
+      "In same pan, saut? [1 cup onion] and [1 cup celery] in [1/2 cup butter] until soft.",
       "Add [2 tbsp sage] and [2 tbsp thyme], cook 1 minute.",
       "In large bowl, combine [cubed cornbread], sausage, veggie mixture.",
       "Pour [2 1/2 cups broth] and [2 beaten eggs] over mixture. Toss gently.",
@@ -10585,7 +10651,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1", unit: "tsp", item: "salt" }
     ],
     instructions: [
-      "Heat [2 tbsp olive oil] in large pot. Saut� [1 diced onion] until soft, 5 minutes.",
+      "Heat [2 tbsp olive oil] in large pot. Saut? [1 diced onion] until soft, 5 minutes.",
       "Add [3 cloves garlic], cook 1 minute.",
       "Add [3 lbs cubed squash] and [4 cups broth]. Bring to boil.",
       "Reduce heat, simmer 20 minutes until squash is very tender.",
@@ -10631,7 +10697,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/2", unit: "cup", item: "parmesan cheese" }
     ],
     instructions: [
-      "In large pot, heat [2 tbsp olive oil], saut� [1 diced onion] and [3 cloves garlic].",
+      "In large pot, heat [2 tbsp olive oil], saut? [1 diced onion] and [3 cloves garlic].",
       "Add [6 cups chicken broth], [1 can diced tomatoes], [1 tsp Italian seasoning].",
       "Bring to boil, add [1 lb cheese tortellini].",
       "Cook 8 minutes until tortellini is tender.",
@@ -10718,7 +10784,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "In large pot, cook [8 slices chopped bacon] until crispy. Remove and set aside.",
-      "In bacon fat, saut� [1 diced onion] and [3 cloves garlic].",
+      "In bacon fat, saut? [1 diced onion] and [3 cloves garlic].",
       "Add [6 diced potatoes] and [6 cups broth].",
       "Simmer 20 minutes until potatoes are tender.",
       "Mash some potatoes in pot for thickness.",
@@ -10764,7 +10830,7 @@ export const allRecipes: Recipe[] = [
       "Preheat oven to 350?F. Cut top off [1 large pumpkin], scoop out seeds.",
       "Toss [2 lbs beef] with [3 tbsp flour], salt, pepper.",
       "Heat [2 tbsp oil] in pot, brown beef. Remove.",
-      "Saut� [1 onion], [4 carrots], [4 potatoes].",
+      "Saut? [1 onion], [4 carrots], [4 potatoes].",
       "Return beef, add [4 cups broth], [2 tsp thyme], [2 bay leaves].",
       "Simmer 1 hour until beef is tender.",
       "Place pumpkin on baking sheet, bake 45 minutes until tender.",
@@ -10848,7 +10914,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "In large oven-safe skillet, melt [3 tbsp butter], cook [2 lbs chicken] until done.",
-      "Add [1 onion], [3 carrots], saut� 5 minutes.",
+      "Add [1 onion], [3 carrots], saut? 5 minutes.",
       "Sprinkle [1/4 cup flour], cook 2 minutes.",
       "Stir in [3 cups broth] and [1 cup cream], simmer until thick.",
       "Add [2 cups peas], season with salt and pepper.",
@@ -10891,7 +10957,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "In large pot, brown [1 lb sliced sausage], remove.",
-      "In drippings, saut� [1 onion] and [4 cloves garlic].",
+      "In drippings, saut? [1 onion] and [4 cloves garlic].",
       "Add [6 cups broth], [1 can white beans], [1/2 tsp red pepper flakes].",
       "Bring to boil, simmer 10 minutes.",
       "Return sausage to pot, add [4 cups kale].",
@@ -10976,7 +11042,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh parsley" }
     ],
     instructions: [
-      "In large pot, melt [4 tbsp butter], saut� [1 lb mushrooms] until golden.",
+      "In large pot, melt [4 tbsp butter], saut? [1 lb mushrooms] until golden.",
       "Add [1 onion] and [3 cloves garlic], cook 5 minutes.",
       "Stir in [1 cup wild rice] and [6 cups broth].",
       "Add [2 tsp thyme], bring to boil.",
@@ -11106,7 +11172,7 @@ export const allRecipes: Recipe[] = [
     instructions: [
       "In large pot, cook [8 slices chopped bacon] until crispy. Remove.",
       "In bacon fat, cook [2 lbs chicken] until done. Shred and set aside.",
-      "Saut� [1 onion] and [3 cloves garlic].",
+      "Saut? [1 onion] and [3 cloves garlic].",
       "Add [6 cups broth], [1 packet ranch seasoning]. Bring to boil.",
       "Add [8 oz noodles], cook 8 minutes.",
       "Stir in [8 oz cream cheese] until melted.",
@@ -11149,7 +11215,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Press [14 oz tofu] for 10 minutes, cube, pan-sear in [2 tbsp olive oil] until golden. Remove.",
-      "In same pan, saut� [4 cloves garlic] for 30 seconds.",
+      "In same pan, saut? [4 cloves garlic] for 30 seconds.",
       "Add [28 oz crushed tomatoes], [1 cup coconut cream], [1/2 cup sun-dried tomatoes].",
       "Stir in [1 tsp Italian seasoning], simmer 10 minutes.",
       "Return tofu to pan, coat with sauce.",
@@ -11230,7 +11296,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh basil" }
     ],
     instructions: [
-      "Saut� [1 onion], [2 carrots], [4 cloves garlic] in olive oil until soft.",
+      "Saut? [1 onion], [2 carrots], [4 cloves garlic] in olive oil until soft.",
       "Add [1 cup red lentils], [28 oz crushed tomatoes], [2 cups broth], [2 tbsp tomato paste].",
       "Stir in [2 tsp Italian seasoning], simmer 25 minutes until lentils tender.",
       "Cook [1 lb spaghetti] according to package.",
@@ -11270,7 +11336,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "fresh basil" }
     ],
     instructions: [
-      "In large skillet, saut� [4 cloves garlic] until fragrant.",
+      "In large skillet, saut? [4 cloves garlic] until fragrant.",
       "Add [30 oz chickpeas], [1/2 cup sun-dried tomatoes], [14 oz diced tomatoes].",
       "Stir in [1 cup coconut cream], [1/2 cup broth], [2 tsp Italian seasoning], [1/4 tsp red pepper flakes].",
       "Simmer 15 minutes until sauce thickens.",
@@ -11311,7 +11377,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Crumble [14 oz tofu] with hands into scrambled egg-sized pieces.",
-      "In large pan, saut� [1 bell pepper] and [1 onion] until soft.",
+      "In large pan, saut? [1 bell pepper] and [1 onion] until soft.",
       "Add crumbled tofu, [1 tsp turmeric], [1 tsp garlic powder], [1/4 tsp black salt].",
       "Cook 5-7 minutes, stirring occasionally.",
       "Add [2 cups spinach], cook until wilted.",
@@ -11351,7 +11417,7 @@ export const allRecipes: Recipe[] = [
       { amount: "1/4", unit: "cup", item: "cilantro" }
     ],
     instructions: [
-      "Saut� [1 onion], [4 cloves garlic], [1 tsp ginger] until fragrant.",
+      "Saut? [1 onion], [4 cloves garlic], [1 tsp ginger] until fragrant.",
       "Add [2 tbsp curry powder] and [1 tsp garam masala], toast 1 minute.",
       "Stir in [30 oz chickpeas], [14 oz coconut milk], [14 oz tomatoes].",
       "Simmer 15 minutes until sauce thickens.",
@@ -11673,7 +11739,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook [1 lb angel hair] according to package.",
-      "Saut� [4 cloves garlic] in oil, add [15 oz tomato sauce], [2 tsp paprika], [1 tsp cumin].",
+      "Saut? [4 cloves garlic] in oil, add [15 oz tomato sauce], [2 tsp paprika], [1 tsp cumin].",
       "Simmer sauce 10 minutes.",
       "Toss pasta with sauce, divide into bowls.",
       "Top each with dollop of [vegan yogurt].",
@@ -12238,7 +12304,7 @@ export const allRecipes: Recipe[] = [
   {
     id: "dinner-turkish-layered-pasta",
     name: "Turkish Layered Pasta",
-    description: "Viral Ottoman dish! Layers of pasta, meat sauce, and b�chamel baked to perfection.",
+    description: "Viral Ottoman dish! Layers of pasta, meat sauce, and b?chamel baked to perfection.",
     cookTime: "45 mins",
     prepTime: "30 mins",
     difficulty: "hard",
@@ -12259,9 +12325,9 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook [1 lb pasta], drain. Brown [1 lb beef] with [onion].",
-      "Make b�chamel: melt [4 tbsp butter], whisk in [4 tbsp flour], add [2 cups milk].",
+      "Make b?chamel: melt [4 tbsp butter], whisk in [4 tbsp flour], add [2 cups milk].",
       "Layer half pasta, all meat, remaining pasta in baking dish.",
-      "Pour b�chamel over top, sprinkle with [2 cups mozzarella].",
+      "Pour b?chamel over top, sprinkle with [2 cups mozzarella].",
       "Bake at 375?F for 35-40 minutes until golden. Let rest 10 minutes before serving!"
     ]
   },
@@ -12290,7 +12356,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Cook [1 lb penne] until al dente. Reserve 1 cup pasta water.",
-      "Saut� [3 cloves garlic] in [2 tbsp olive oil]. Add [1 cup tomato paste].",
+      "Saut? [3 cloves garlic] in [2 tbsp olive oil]. Add [1 cup tomato paste].",
       "Add [1/4 cup vodka], cook 2 minutes. Stir in [1 cup cream].",
       "Add pasta with reserved water, toss until creamy.",
       "Stir in [1/2 cup parmesan]. Top with red pepper flakes and serve!"
@@ -12669,7 +12735,7 @@ export const allRecipes: Recipe[] = [
     ],
     instructions: [
       "Season and sear [4 chicken breasts], remove.",
-      "Saut� [4 cloves garlic] and [sun-dried tomatoes].",
+      "Saut? [4 cloves garlic] and [sun-dried tomatoes].",
       "Add [1 cup cream] and [1/2 cup parmesan], simmer.",
       "Stir in [2 cups spinach] until wilted.",
       "Return chicken, cook 8-10 minutes. Serve hot!"
