@@ -504,7 +504,7 @@ const RecipeDetail = () => {
             <div className="mb-6">
               <h2 className="text-3xl font-bold mb-4 text-black">Ingredients</h2>
               <ul className="space-y-2">
-                {recipe.ingredients.map((ing, index) => {
+                {recipe.ingredients?.map((ing, index) => {
                   // Always show complete ingredient with measurements
                   const ingredientText = `${ing.amount} ${ing.unit} ${ing.item}`.trim();
                   
@@ -547,7 +547,7 @@ const RecipeDetail = () => {
             <div>
               <h2 className="text-3xl font-bold mb-4 text-black">Instructions</h2>
               <ol className="space-y-4">
-                {recipe.instructions.map((instruction, index) => (
+                {recipe.instructions?.map((instruction, index) => (
                   <li key={index} className="flex">
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center mr-4 font-bold">
                       {index + 1}
@@ -945,7 +945,7 @@ const RecipeDetail = () => {
 
       {showShopping && selectedStore && (
         <ShoppingGuide
-          items={recipe.ingredients.map((ing, idx) => ({
+          items={recipe.ingredients?.map((ing, idx) => ({
             id: `${recipe.id}-${idx}`,
             name: ing.item,
             amount: ing.amount,

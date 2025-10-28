@@ -653,7 +653,7 @@ const AdminRecipes = () => {
                     <div>
                       <h4 className="font-semibold mb-2">Ingredients</h4>
                       <ul className="space-y-1 text-sm">
-                        {recipe.ingredients.map((ing: any, idx: number) => (
+                        {recipe.ingredients?.map((ing: any, idx: number) => (
                           <li key={idx}>
                             {ing.amount} {ing.unit} {ing.item}
                           </li>
@@ -665,7 +665,7 @@ const AdminRecipes = () => {
                     <div>
                       <h4 className="font-semibold mb-2">Instructions</h4>
                       <ol className="space-y-2 text-sm list-decimal list-inside">
-                        {recipe.instructions.map((step: string, idx: number) => (
+                        {recipe.instructions?.map((step: string, idx: number) => (
                           <li key={idx}>{step}</li>
                         ))}
                       </ol>

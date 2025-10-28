@@ -42,9 +42,9 @@ export const generateRecipeImage = async (
           🥗 Ingredients
         </div>
         <div style="font-size: 20px; line-height: 2; color: #333;">
-          ${recipe.ingredients.map(ing => 
+          ${recipe.ingredients?.map(ing =>
             `<div style="margin-bottom: 8px;">• ${ing.amount} ${ing.unit} ${ing.item}</div>`
-          ).join('')}
+          ).join('') || 'No ingredients available'}
         </div>
       </div>
 

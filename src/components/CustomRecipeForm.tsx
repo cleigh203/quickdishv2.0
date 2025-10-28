@@ -27,7 +27,7 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
       setTitle(editRecipe.name);
       setDescription(editRecipe.description);
       setImageUrl(editRecipe.imageUrl || editRecipe.image || "");
-      setIngredients(editRecipe.ingredients.map(ing => `${ing.amount} ${ing.unit} ${ing.item}`.trim()));
+      setIngredients(editRecipe.ingredients?.map(ing => `${ing.amount} ${ing.unit} ${ing.item}`.trim()) || []);
       setInstructions(editRecipe.instructions);
     } else {
       resetForm();

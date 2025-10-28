@@ -112,7 +112,7 @@ const Generate = () => {
         ];
         const fallRecipes = combinedRecipes.filter(recipe => {
           if (excludedFallRecipes.includes(recipe.id)) return false;
-          const ingredients = recipe.ingredients.map(i => i.item.toLowerCase()).join(' ');
+          const ingredients = recipe.ingredients?.map(i => i.item.toLowerCase()).join(' ') || '';
           // Use word boundaries to prevent "pineapple" from matching "apple"
           const hasFallIngredient = /\bpumpkin\b/.test(ingredients) || 
             /\bapple\b/.test(ingredients) || 

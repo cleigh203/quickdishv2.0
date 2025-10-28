@@ -534,23 +534,23 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
           <div className="mb-8">
             <h3 className="text-2xl font-bold mb-4 text-[#10b981]">Ingredients</h3>
             <ul className="space-y-2">
-              {recipe.ingredients.map((ing, i) => (
+              {recipe.ingredients?.map((ing, i) => (
                 <li key={i} className="flex items-start text-lg">
                   <span className="text-[#10b981] mr-2">•</span>
                   <span>{`${ing.amount} ${ing.unit} ${ing.item}`.trim()}</span>
                 </li>
-              ))}
+              )) || <li className="text-gray-500">No ingredients available</li>}
             </ul>
           </div>
           <div>
             <h3 className="text-2xl font-bold mb-4 text-[#10b981]">Instructions</h3>
             <ol className="space-y-4">
-              {recipe.instructions.map((instruction, i) => (
+              {recipe.instructions?.map((instruction, i) => (
                 <li key={i} className={`flex p-4 rounded-lg ${i === currentStep ? 'bg-green-100 border-2 border-[#10b981]' : 'bg-gray-50'}`}>
                   <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#10b981] text-white flex items-center justify-center mr-4 font-bold">{i + 1}</span>
                   <p className="flex-1 pt-1 text-lg">{instruction.replace(/\[|\]/g, '')}</p>
                 </li>
-              ))}
+              )) || <li className="text-gray-500 p-4">No instructions available</li>}
             </ol>
           </div>
         </div>

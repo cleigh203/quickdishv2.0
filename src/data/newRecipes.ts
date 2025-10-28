@@ -12,7 +12,7 @@ import dessertBananaBreadChocolateImg from "@/assets/recipes/dessert-banana-brea
 import dessertChocolateSouffleImg from "@/assets/recipes/dessert-chocolate-souffle.jpg";
 import dessertStrawberryShortcakeImg from "@/assets/recipes/dessert-strawberry-shortcake.jpg";
 import dessertCremeCaramelImg from "@/assets/recipes/dessert-creme-caramel.jpg";
-import dessertCookieDoughBrowniesImg from "@/assets/recipes/dessert-cookie-dough-brownies.jpg";
+const dessertCookieDoughBrowniesImg = "https://i.imgur.com/APa5Q7p.png";
 import dessertRaspberryTartImg from "@/assets/recipes/dessert-raspberry-tart.jpg";
 import dessertChocolateMousseCakeImg from "@/assets/recipes/dessert-chocolate-mousse-cake.jpg";
 import dessertLemonMeringuePieImg from "@/assets/recipes/dessert-lemon-meringue-pie.jpg";
@@ -29,17 +29,17 @@ import dessertCoconutCreamPieImg from "@/assets/recipes/dessert-coconut-cream-pi
 // import lunchChickenShawarmaWrapImg from "@/assets/recipes/lunch-chicken-shawarma-wrap.jpg";
 // import lunchSouthwestChickenBowlImg from "@/assets/recipes/lunch-southwest-chicken-bowl.jpg";
 import lunchTunaNicoiseSaladImg from "@/assets/recipes/lunch-tuna-nicoise-salad.jpg";
-import lunchCaliforniaRollBowlImg from "@/assets/recipes/lunch-california-roll-bowl.jpg";
+const lunchCaliforniaRollBowlImg = "https://i.imgur.com/jnWJP9g.png";
 import lunchMediterraneanQuinoaBowlImg from "@/assets/recipes/lunch-mediterranean-quinoa-bowl.jpg";
 // import lunchBanhMiSandwichImg from "@/assets/recipes/banh-mi-sandwich.jpg";
 
 // Quick & Easy Images
 // import quickBuffaloChickenWrapImg from "@/assets/recipes/quick-buffalo-chicken-wrap.jpg";
-import quickGreekSaladChickenImg from "@/assets/recipes/quick-greek-salad-chicken.jpg";
+const quickGreekSaladChickenImg = "https://i.imgur.com/gkppx9G.png";
 import quickTurkeyAvocadoClubImg from "@/assets/recipes/quick-turkey-avocado-club.jpg";
 import quickCapresePaniniImg from "@/assets/recipes/quick-caprese-panini.jpg";
-import quickBbqPulledPorkImg from "@/assets/recipes/quick-bbq-pulled-pork.jpg";
-import quickFalafelPitaImg from "@/assets/recipes/quick-falafel-pita.jpg";
+const quickBbqPulledPorkImg = "https://i.imgur.com/CgEPf5L.png";
+const quickFalafelPitaImg = "https://i.imgur.com/2UtV6mM.png";
 import quickChickenCaesarImg from "@/assets/recipes/quick-chicken-caesar.jpg";
 // import quickMargheritaFlatbreadImg from "@/assets/recipes/quick-margherita-flatbread.jpg";
 // import quickCobbSaladImg from "@/assets/recipes/quick-cobb-salad.jpg";
@@ -1284,7 +1284,7 @@ export const newRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 4,
     cuisine: "American",
-    image: "https://i.imgur.com/r50fX37.png",
+    image: "https://i.imgur.com/NOrOGqK.jpeg",
     totalTime: 30,
     tags: ["lunch", "comfort-food", "classic", "vegetarian"],
     nutrition: { calories: 525, protein: 18, carbs: 58, fat: 26, fiber: 6, sugar: 18, servingSize: "1 serving" },

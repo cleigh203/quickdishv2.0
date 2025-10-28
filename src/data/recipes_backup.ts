@@ -3339,6 +3339,41 @@ export const allRecipes: Recipe[] = [
     id: "leftover-pizza-frittata",
     name: "Leftover Pizza Frittata",
     description: "Last night's pizza transformed into gourmet breakfast. Genius.",
+    id: "leftover-chicken-tacos",
+    name: "Rotisserie Chicken Tacos",
+    description: "Store-bought rotisserie chicken becomes gourmet taco night.",
+    cookTime: "10 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican",
+    image: "https://i.imgur.com/EBShNRz.png",
+    totalTime: 20,
+    tags: ["leftover", "mexican", "quick", "kid-friendly"],
+    ingredients: [
+      { amount: "3", unit: "cups", item: "rotisserie chicken, shredded" ,
+    nutrition: { calories: 211, protein: 7, carbs: 9, fat: 12, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
+      { amount: "1", unit: "tbsp", item: "taco seasoning" },
+      { amount: "8", unit: "", item: "tortillas" },
+      { amount: "1", unit: "cup", item: "shredded cabbage" },
+      { amount: "1", unit: "", item: "avocado, sliced" },
+      { amount: "1/2", unit: "cup", item: "cilantro" },
+      { amount: "1", unit: "", item: "lime" },
+      { amount: "1/2", unit: "cup", item: "sour cream" }
+    ],
+    instructions: [
+      "Heat shredded chicken with taco seasoning and 2 tbsp water.",
+      "Warm tortillas.",
+      "Fill tortillas with seasoned chicken.",
+      "Top with cabbage, avocado, cilantro.",
+      "Drizzle with sour cream and lime juice.",
+      "Serve immediately."
+    ]
+  },
+  {
+    id: "leftover-fried-rice",
+    name: "Better-Than-Takeout Fried Rice",
+    description: "Day-old rice is the secret. Restaurant quality at midnight.",
     cookTime: "10 mins",
     prepTime: "5 mins",
     difficulty: "easy",
@@ -3688,6 +3723,42 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
+    id: "leftover-stuffing-muffins",
+    name: "Leftover Stuffing Muffins",
+    description: "Thanksgiving stuffing becomes portable savory muffins.",
+    cookTime: "25 mins",
+    prepTime: "5 mins",
+    difficulty: "medium",
+    servings: 12,
+    cuisine: "Fall Favorites",
+    image: stuffingMuffinsImg,
+    totalTime: 30,
+    tags: ["leftover", "side", "thanksgiving", "vegetarian", "glutenfree", "kid-friendly"],
+    nutrition: {
+      calories: 195,
+      protein: 7,
+      carbs: 22,
+      fat: 8,
+      fiber: 2,
+      sugar: 3,
+      servingSize: "1 muffin"
+    },
+    ingredients: [
+      { amount: "4", unit: "cups", item: "leftover stuffing" },
+      { amount: "2", unit: "", item: "eggs, beaten" },
+      { amount: "1/2", unit: "cup", item: "chicken broth" },
+      { amount: "1/2", unit: "cup", item: "shredded cheese" }
+    ],
+    instructions: [
+      "Preheat oven to 350?F. Grease muffin tin.",
+      "Mix stuffing with eggs, broth, and cheese.",
+      "Pack mixture into muffin cups.",
+      "Bake 25 minutes until golden and crispy on top.",
+      "Let cool 5 minutes before removing.",
+      "Serve with gravy or cranberry sauce."
+    ]
+  },
+  {
     id: "leftover-salmon-salad",
     name: "Salmon Caesar Salad",
     description: "Last night's salmon becomes gourmet lunch salad.",
@@ -4021,6 +4092,40 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
+    id: "leftover-turkey-tetrazzini",
+    name: "Turkey Tetrazzini",
+    description: "Classic creamy pasta bake perfect for leftover turkey.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 8,
+    cuisine: "Leftover Magic",
+    image: leftoverTurkeyTetrazziniImg,
+    totalTime: 45,
+    tags: ["leftover", "pasta", "comfort-food", "thanksgiving", "kid-friendly"],
+    ingredients: [
+      { amount: "4", unit: "cups", item: "leftover turkey, cubed" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
+      { amount: "1", unit: "lb", item: "spaghetti" },
+      { amount: "8", unit: "oz", item: "mushrooms, sliced" },
+      { amount: "1", unit: "cup", item: "frozen peas" },
+      { amount: "3", unit: "cups", item: "heavy cream" },
+      { amount: "1", unit: "cup", item: "chicken broth" },
+      { amount: "1", unit: "cup", item: "parmesan cheese, grated" },
+      { amount: "1", unit: "cup", item: "breadcrumbs" },
+      { amount: "4", unit: "tbsp", item: "butter" }
+    ],
+    instructions: [
+      "Preheat oven to 375?F. Cook spaghetti al dente, drain.",
+      "Saut? mushrooms in 2 tbsp butter until golden.",
+      "In large bowl, mix spaghetti, turkey, mushrooms, peas, cream, broth, and half the parmesan.",
+      "Transfer to greased 9x13 baking dish.",
+      "Mix breadcrumbs with remaining butter and parmesan.",
+      "Sprinkle breadcrumb mixture over casserole.",
+      "Bake 30 minutes until golden and bubbly."
+    ]
+  },
+  {
     id: "leftover-roast-beef-poutine",
     name: "Roast Beef Poutine",
     description: "Canadian classic elevated with tender roast beef.",
@@ -4221,6 +4326,112 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
+    id: "leftover-lasagna-grilled-cheese",
+    name: "Lasagna Grilled Cheese",
+    description: "The ultimate comfort food mashup sandwich.",
+    cookTime: "10 mins",
+    prepTime: "5 mins",
+    difficulty: "medium",
+    servings: 2,
+    cuisine: "Leftover Magic",
+    image: leftoverLasagnaGrilledCheeseImg,
+    totalTime: 15,
+    tags: ["leftover", "sandwich", "fusion", "kid-friendly"],
+    ingredients: [
+      { amount: "2", unit: "slices", item: "leftover lasagna" ,
+    nutrition: { calories: 175, protein: 6, carbs: 10, fat: 8, fiber: 1, sugar: 3, servingSize: "1 serving (serves 4)" }},
+      { amount: "4", unit: "slices", item: "thick bread" },
+      { amount: "4", unit: "slices", item: "mozzarella cheese" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "1/4", unit: "cup", item: "marinara sauce for dipping" },
+      { amount: "", unit: "", item: "Fresh basil leaves" }
+    ],
+    instructions: [
+      "Butter one side of each bread slice.",
+      "Place 2 slices butter-side down in skillet.",
+      "Top each with cheese slice, lasagna slice, basil, and another cheese slice.",
+      "Top with remaining bread slices, butter-side up.",
+      "Cook over medium heat 4-5 minutes per side until golden and cheese melts.",
+      "Press down gently with spatula while cooking.",
+      "Serve with marinara for dipping."
+    ]
+  },
+  {
+    id: "leftover-pot-roast-ramen",
+    name: "Pot Roast Ramen",
+    description: "Upgrade instant ramen with tender pot roast.",
+    cookTime: "15 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Leftover Magic",
+    image: leftoverPotRoastRamenImg,
+    totalTime: 25,
+    tags: ["leftover", "asian", "soup", "quick", "kid-friendly"],
+    nutrition: {
+      calories: 420,
+      protein: 28,
+      carbs: 48,
+      fat: 12,
+      fiber: 3,
+      sugar: 4,
+      servingSize: "1 bowl"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "leftover pot roast, shredded" },
+      { amount: "4", unit: "packs", item: "ramen noodles" },
+      { amount: "8", unit: "cups", item: "beef broth" },
+      { amount: "4", unit: "", item: "soft-boiled eggs" },
+      { amount: "1", unit: "cup", item: "bok choy, chopped" },
+      { amount: "1", unit: "cup", item: "mushrooms, sliced" },
+      { amount: "4", unit: "", item: "green onions, sliced" },
+      { amount: "2", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "sesame oil" }
+    ],
+    instructions: [
+      "Bring beef broth to boil. Add soy sauce and sesame oil.",
+      "Cook ramen noodles according to package, drain.",
+      "Saut? mushrooms and bok choy until tender.",
+      "Divide noodles among 4 bowls.",
+      "Top with shredded pot roast, vegetables, and halved soft-boiled eggs.",
+      "Pour hot broth over everything.",
+      "Garnish with green onions and serve immediately."
+    ]
+  },
+  {
+    id: "leftover-taco-stuffed-peppers",
+    name: "Taco Stuffed Bell Peppers",
+    description: "Colorful peppers filled with seasoned taco filling.",
+    cookTime: "30 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 6,
+    cuisine: "Mexican",
+    image: "https://i.imgur.com/8znNLjc.png",
+    totalTime: 45,
+    tags: ["leftover", "mexican", "dinner", "glutenfree"],
+    ingredients: [
+      { amount: "6", unit: "", item: "bell peppers, halved and seeded" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
+      { amount: "3", unit: "cups", item: "leftover taco meat" },
+      { amount: "1", unit: "cup", item: "cooked rice" },
+      { amount: "1", unit: "can", item: "black beans, drained" },
+      { amount: "1", unit: "cup", item: "corn" },
+      { amount: "2", unit: "cups", item: "shredded Mexican cheese" },
+      { amount: "1/2", unit: "cup", item: "sour cream" },
+      { amount: "", unit: "", item: "Cilantro and lime for garnish" }
+    ],
+    instructions: [
+      "Preheat oven to 375?F.",
+      "Arrange pepper halves in baking dish.",
+      "Mix taco meat, rice, beans, corn, and 1 cup cheese.",
+      "Fill each pepper half with mixture.",
+      "Cover with foil, bake 25 minutes.",
+      "Remove foil, top with remaining cheese, bake 5 more minutes.",
+      "Serve topped with sour cream, cilantro, and lime wedges."
+    ]
+  },
+  {
     id: "leftover-tikka-masala-pot-pie",
     name: "Chicken Tikka Masala Pot Pie",
     description: "Indian flavors meet British comfort in this fusion dish.",
@@ -4383,6 +4594,51 @@ export const allRecipes: Recipe[] = [
       "Assemble tacos with shrimp, cabbage slaw, cilantro, and avocado.",
       "Top with sour cream and extra lime juice.",
       "Serve immediately."
+    ]
+  },
+  {
+    id: "stuffed-peppers",
+    name: "Italian Stuffed Bell Peppers",
+    description: "Hearty peppers filled with seasoned beef and rice.",
+    cookTime: "40 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Italian-American",
+    image: "https://i.imgur.com/UfcxEMw.png",
+    totalTime: 55,
+    tags: ["comfort-food", "make-ahead", "glutenfree", "dinner"],
+    nutrition: {
+      calories: 385,
+      protein: 28,
+      carbs: 32,
+      fat: 16,
+      fiber: 5,
+      sugar: 8,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "6", unit: "", item: "bell peppers, halved" },
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1/2", unit: "lb", item: "Italian sausage" },
+      { amount: "2", unit: "cups", item: "cooked rice" },
+      { amount: "2", unit: "cups", item: "marinara sauce" },
+      { amount: "1.5", unit: "cups", item: "mozzarella cheese, shredded" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tsp", item: "Italian seasoning" },
+      { amount: "", unit: "", item: "fresh basil for garnish" }
+    ],
+    instructions: [
+      "Preheat oven to 375?F.",
+      "Remove seeds from pepper halves and arrange in a baking dish.",
+      "Brown ground beef and sausage with onion and garlic. Drain fat.",
+      "Mix meat with rice, 1 cup marinara, 1 cup cheese, and Italian seasoning.",
+      "Fill each pepper half with meat mixture.",
+      "Pour remaining marinara around peppers in the dish.",
+      "Cover with foil and bake 30 minutes.",
+      "Remove foil, top with remaining cheese, and bake 10 more minutes.",
+      "Garnish with fresh basil and serve."
     ]
   },
   {
@@ -5933,7 +6189,82 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
+    id: "breakfast-hashbrown-casserole",
+    id: "breakfast-quiche-lorraine",
+    name: "Quiche Lorraine",
+    description: "Classic French quiche with bacon and Gruyere cheese. Elegant brunch centerpiece.",
+    cookTime: "40 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 8,
+    cuisine: "Breakfast",
+    image: breakfastQuicheLorraineImg,
+    totalTime: 60,
+    tags: ["breakfast", "brunch", "elegant", "french", "glutenfree"],
+    nutrition: {
+      calories: 420,
+      protein: 16,
+      carbs: 22,
+      fat: 30,
+      fiber: 1,
+      sugar: 3,
+      servingSize: "1 slice"
+    },
+    ingredients: [
+      { amount: "1", unit: "", item: "pie crust, unbaked" },
+      { amount: "8", unit: "slices", item: "bacon, cooked and crumbled" },
+      { amount: "1", unit: "cup", item: "Gruyere cheese, shredded" },
+      { amount: "4", unit: "", item: "eggs" },
+      { amount: "1.5", unit: "cups", item: "heavy cream" },
+      { amount: "1/4", unit: "tsp", item: "nutmeg" },
+      { amount: "1/2", unit: "tsp", item: "salt" }
+    ],
+    instructions: [
+      "Preheat oven to 375?F.",
+      "Place pie crust in 9-inch pie pan, crimp edges.",
+      "Sprinkle bacon and cheese in bottom of crust.",
+      "Whisk eggs, cream, nutmeg, and salt.",
+      "Pour egg mixture over bacon and cheese.",
+      "Bake 40-45 minutes until set and golden.",
+      "Cool 10 minutes before slicing."
+    ]
+  },
+  {
+    id: "breakfast-biscuits-gravy-classic",
+    name: "Biscuits and Gravy",
+    description: "Fluffy buttermilk biscuits smothered in creamy sausage gravy. Southern comfort at its best.",
+    cookTime: "20 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Breakfast",
+    image: "https://i.imgur.com/YwZdYog.png",
+    totalTime: 35,
+    tags: ["breakfast", "southern", "comfort-food"],
+    ingredients: [
+      { amount: "2", unit: "cups", item: "all-purpose flour" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
+      { amount: "1", unit: "tbsp", item: "baking powder" },
+      { amount: "1/2", unit: "cup", item: "cold butter" },
+      { amount: "3/4", unit: "cup", item: "buttermilk" },
+      { amount: "1", unit: "lb", item: "breakfast sausage" },
+      { amount: "1/3", unit: "cup", item: "flour for gravy" },
+      { amount: "3", unit: "cups", item: "milk" }
+    ],
+    instructions: [
+      "Preheat oven to 450?F. Make biscuits: mix flour and baking powder.",
+      "Cut in butter until crumbly, add buttermilk.",
+      "Pat into 1-inch thickness, cut biscuits, bake 12 minutes.",
+      "Brown sausage in skillet, don't drain.",
+      "Sprinkle flour over sausage, stir and cook 1 minute.",
+      "Gradually add milk, stirring constantly until thick.",
+      "Split biscuits, smother with gravy."
+    ]
+  },
+  {
     id: "breakfast-avocado-toast-classic",
+    name: "Avocado Toast",
+    description: "Creamy avocado on crispy toast with perfect toppings. Modern breakfast staple.",
     cookTime: "5 mins",
     prepTime: "5 mins",
     difficulty: "medium",
@@ -6390,6 +6721,41 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
+    id: "protein-baked-chicken-meatballs",
+    name: "Baked Chicken Meatballs",
+    description: "Juicy baked chicken meatballs packed with 32g protein per serving. Kid-approved and perfect for meal prep.",
+    cookTime: "25 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "One Pot Wonders",
+    image: bakedChickenMeatballsImg,
+    totalTime: 40,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "meal-prep"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "ground chicken" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
+      { amount: "1/2", unit: "cup", item: "breadcrumbs" },
+      { amount: "1/4", unit: "cup", item: "grated Parmesan cheese" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "3", unit: "cloves", item: "minced garlic" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1/2", unit: "tsp", item: "salt" },
+      { amount: "1/4", unit: "tsp", item: "black pepper" },
+      { amount: "2", unit: "cups", item: "marinara sauce" }
+    ],
+    instructions: [
+      "Preheat oven to 400?F. Line baking sheet with parchment paper.",
+      "Mix ground chicken, breadcrumbs, Parmesan, eggs, garlic, Italian seasoning, salt, and pepper in large bowl.",
+      "Form mixture into 20-24 meatballs (about 1.5 inches each).",
+      "Place meatballs on prepared baking sheet.",
+      "Bake 20-25 minutes until golden brown and cooked through (internal temp 165?F).",
+      "Warm marinara sauce in skillet.",
+      "Add cooked meatballs to sauce and simmer 5 minutes.",
+      "Serve over pasta, zoodles, or with crusty bread."
+    ]
+  },
+  {
     id: "protein-sheet-pan-chicken-vegetables",
     name: "Sheet Pan Chicken and Vegetables",
     description: "One-pan wonder with 35g protein per serving. Perfectly roasted chicken with colorful veggies.",
@@ -6549,6 +6915,41 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
+    id: "protein-taco-skillet",
+    name: "Taco Skillet",
+    description: "One-pan taco dinner with 30g protein per serving. Ready in 20 minutes, kids love it!",
+    cookTime: "15 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Mexican",
+    image: tacoSkilletImg,
+    totalTime: 20,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "quick", "one-pan"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "ground beef (93% lean)" ,
+    nutrition: { calories: 150, protein: 5, carbs: 6, fat: 3, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
+      { amount: "1", unit: "packet", item: "taco seasoning" },
+      { amount: "1", unit: "cup", item: "water" },
+      { amount: "1", unit: "cup", item: "salsa" },
+      { amount: "2", unit: "cups", item: "shredded lettuce" },
+      { amount: "1", unit: "cup", item: "diced tomatoes" },
+      { amount: "2", unit: "cups", item: "shredded cheese" },
+      { amount: "1/2", unit: "cup", item: "sour cream" },
+      { amount: "1", unit: "cup", item: "crushed tortilla chips" }
+    ],
+    instructions: [
+      "Brown ground beef in large skillet over medium-high heat, breaking up as it cooks (6-8 minutes).",
+      "Drain excess fat.",
+      "Add taco seasoning and water, simmer 5 minutes until thickened.",
+      "Stir in salsa.",
+      "Top with shredded cheese, cover and let melt (2 minutes).",
+      "Remove from heat.",
+      "Top with lettuce, tomatoes, sour cream, and crushed chips.",
+      "Serve immediately with optional toppings like guacamole or jalape?os."
+    ]
+  },
+  {
     id: "protein-cheeseburger-bowls",
     name: "Cheeseburger Bowls",
     description: "Low-carb burger bowls with 32g protein per serving. All the flavor without the bun!",
@@ -6655,6 +7056,43 @@ export const allRecipes: Recipe[] = [
       "Spread remaining ketchup mixture on top.",
       "Bake 10 more minutes until internal temp reaches 165?F.",
       "Let rest 10 minutes before slicing."
+    ]
+  },
+  {
+    id: "protein-stuffed-bell-peppers",
+    name: "Stuffed Bell Peppers",
+    description: "Colorful peppers stuffed with beef and rice, 26g protein per serving. Classic family dinner.",
+    cookTime: "35 mins",
+    prepTime: "15 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Dinner",
+    image: stuffedBellPeppersProteinImg,
+    totalTime: 50,
+    tags: ["high-protein", "family-friendly", "easy-dinner", "glutenfree"],
+    ingredients: [
+      { amount: "4", unit: "large", item: "bell peppers (any color)" ,
+    nutrition: { calories: 196, protein: 13, carbs: 14, fat: 6, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "cup", item: "cooked rice" },
+      { amount: "1", unit: "can", item: "diced tomatoes (14 oz)" },
+      { amount: "1", unit: "small", item: "onion, diced" },
+      { amount: "2", unit: "cloves", item: "garlic, minced" },
+      { amount: "1", unit: "tsp", item: "Italian seasoning" },
+      { amount: "1", unit: "tsp", item: "salt" },
+      { amount: "1/2", unit: "tsp", item: "black pepper" },
+      { amount: "1.5", unit: "cups", item: "shredded mozzarella cheese" }
+    ],
+    instructions: [
+      "Preheat oven to 375?F.",
+      "Cut tops off peppers and remove seeds.",
+      "Brown ground beef with onion and garlic in skillet (8 minutes).",
+      "Drain fat.",
+      "Stir in cooked rice, diced tomatoes, Italian seasoning, salt, and pepper.",
+      "Stuff peppers with beef mixture.",
+      "Place in baking dish, add 1/4 inch water to bottom.",
+      "Cover with foil, bake 25 minutes.",
+      "Remove foil, top with cheese, bake 10 more minutes until cheese melts."
     ]
   },
   {
@@ -7317,6 +7755,42 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
+    id: "one-pot-mexican-chicken-rice",
+    name: "Mexican Chicken & Rice",
+    description: "Seasoned chicken with rice, black beans, and corn. Topped with cheese and avocado!",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Mexican",
+    image: onePotMexicanChickenRiceImg,
+    totalTime: 40,
+    tags: ["one-pot", "chicken", "rice", "mexican", "glutenfree"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "chicken breast, diced" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
+      { amount: "2", unit: "cups", item: "long-grain rice" },
+      { amount: "3.5", unit: "cups", item: "chicken broth" },
+      { amount: "1", unit: "can", item: "black beans, drained" },
+      { amount: "1", unit: "cup", item: "corn kernels" },
+      { amount: "1", unit: "can", item: "diced tomatoes with green chiles" },
+      { amount: "1", unit: "cup", item: "shredded cheddar cheese" },
+      { amount: "2", unit: "tbsp", item: "taco seasoning" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "", item: "avocado, sliced" },
+      { amount: "1/4", unit: "cup", item: "fresh cilantro" }
+    ],
+    instructions: [
+      "Heat olive oil in large pot over medium-high heat.",
+      "Season chicken with taco seasoning, cook until browned, about 6-7 minutes.",
+      "Add rice, stir to coat.",
+      "Add broth, black beans, corn, and diced tomatoes.",
+      "Bring to boil, reduce heat to low, cover and simmer 20 minutes.",
+      "Sprinkle cheese on top, cover until melted.",
+      "Top with avocado slices and cilantro before serving."
+    ]
+  },
+  {
     id: "one-pot-marry-me-chicken",
     name: "Marry Me Chicken",
     description: "The original! Pan-seared chicken in creamy sun-dried tomato sauce. Legendary.",
@@ -7350,6 +7824,113 @@ export const allRecipes: Recipe[] = [
       "Return chicken to skillet, spoon sauce over chicken.",
       "Simmer 10 minutes until chicken is cooked through and sauce thickens.",
       "Garnish with basil and red pepper flakes, serve."
+    ]
+  },
+  {
+    id: "one-pot-chicken-garlic-rice",
+    name: "One Pot Chicken and Garlic Rice",
+    description: "Simple yet flavorful chicken over perfectly cooked garlic-infused rice.",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Asian",
+    image: onePotChickenGarlicRiceImg,
+    totalTime: 40,
+    tags: ["one-pot", "chicken", "rice"],
+    ingredients: [
+      { amount: "6", unit: "", item: "chicken thighs, bone-in" ,
+    nutrition: { calories: 210, protein: 12, carbs: 7, fat: 11, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
+      { amount: "2", unit: "cups", item: "jasmine rice" },
+      { amount: "3", unit: "cups", item: "chicken broth" },
+      { amount: "8", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "2", unit: "tbsp", item: "soy sauce" },
+      { amount: "1", unit: "tbsp", item: "sesame oil" },
+      { amount: "4", unit: "", item: "green onions, sliced" }
+    ],
+    instructions: [
+      "Heat butter in large pot over medium-high heat.",
+      "Season chicken with salt and pepper, brown on both sides. Remove.",
+      "Add garlic to pot, saut? 2 minutes until fragrant.",
+      "Add rice, stir to coat with garlic butter.",
+      "Add chicken broth, soy sauce, and sesame oil.",
+      "Nestle chicken pieces into rice.",
+      "Bring to boil, reduce heat to low, cover and simmer 25-30 minutes.",
+      "Let rest 5 minutes, garnish with green onions and serve."
+    ]
+  },
+  {
+    id: "one-pot-chicken-rice-vegetables",
+    name: "Chicken and Rice with Vegetables",
+    description: "Complete one-pot meal with chicken, rice, and colorful veggies. Healthy and easy!",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "One Pot Wonders",
+    image: onePotChickenRiceVegetablesImg,
+    totalTime: 40,
+    tags: ["one-pot", "chicken", "rice", "healthy", "glutenfree"],
+    ingredients: [
+      { amount: "1.5", unit: "lbs", item: "chicken breast, diced" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
+      { amount: "2", unit: "cups", item: "long-grain rice" },
+      { amount: "3.5", unit: "cups", item: "chicken broth" },
+      { amount: "2", unit: "cups", item: "broccoli florets" },
+      { amount: "2", unit: "", item: "carrots, sliced" },
+      { amount: "1", unit: "cup", item: "peas" },
+      { amount: "1", unit: "onion", item: "diced" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "1", unit: "tsp", item: "thyme" }
+    ],
+    instructions: [
+      "Heat olive oil in large pot over medium-high heat.",
+      "Season chicken with salt, pepper, and thyme. Cook until browned.",
+      "Add onion and garlic, saut? 3 minutes.",
+      "Add rice, stir to coat.",
+      "Add chicken broth and carrots.",
+      "Bring to boil, reduce heat to low, cover and simmer 15 minutes.",
+      "Add broccoli and peas, cook 5 more minutes until rice is tender.",
+      "Let rest 5 minutes before serving."
+    ]
+  },
+  {
+    id: "one-pot-greek-chicken-lemon-rice",
+    name: "Greek Chicken and Lemon Rice",
+    description: "Bright Mediterranean flavors with lemon, olives, and feta. Transport yourself to Greece!",
+    cookTime: "30 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 4,
+    cuisine: "Greek",
+    image: onePotGreekChickenLemonRiceImg,
+    totalTime: 40,
+    tags: ["one-pot", "chicken", "rice", "mediterranean", "glutenfree"],
+    ingredients: [
+      { amount: "6", unit: "", item: "chicken thighs" ,
+    nutrition: { calories: 193, protein: 11, carbs: 12, fat: 7, fiber: 1, sugar: 4, servingSize: "1 serving (serves 4)" }},
+      { amount: "2", unit: "cups", item: "long-grain rice" },
+      { amount: "3.5", unit: "cups", item: "chicken broth" },
+      { amount: "1/2", unit: "cup", item: "kalamata olives" },
+      { amount: "1/2", unit: "cup", item: "feta cheese, crumbled" },
+      { amount: "2", unit: "", item: "lemons (juice and zest)" },
+      { amount: "3", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "olive oil" },
+      { amount: "2", unit: "tsp", item: "oregano" },
+      { amount: "1/4", unit: "cup", item: "fresh dill" }
+    ],
+    instructions: [
+      "Heat olive oil in large pot over medium-high heat.",
+      "Season chicken with oregano, salt, and pepper. Brown on both sides. Remove.",
+      "Add garlic, saut? 1 minute.",
+      "Add rice, stir to coat.",
+      "Add chicken broth, lemon juice, and lemon zest.",
+      "Nestle chicken into rice.",
+      "Bring to boil, reduce heat to low, cover and simmer 25 minutes.",
+      "Add olives in last 5 minutes.",
+      "Top with feta and fresh dill before serving."
     ]
   },
   {
@@ -7576,6 +8157,89 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
+    id: "one-pot-beef-taco-skillet",
+    name: "Beef Taco Skillet",
+    description: "One-pan taco night with seasoned beef, rice, beans, and all the toppings!",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Mexican",
+    image: onePotBeefTacoSkilletImg,
+    totalTime: 35,
+    tags: ["one-pot", "beef", "mexican", "easy-dinner", "glutenfree"],
+    ingredients: [
+      { amount: "1", unit: "lb", item: "ground beef" ,
+    nutrition: { calories: 150, protein: 10, carbs: 6, fat: 4, fiber: 1, sugar: 2, servingSize: "1 serving (serves 4)" }},
+      { amount: "2", unit: "cups", item: "long-grain rice" },
+      { amount: "3", unit: "cups", item: "beef broth" },
+      { amount: "1", unit: "can", item: "black beans, drained" },
+      { amount: "1", unit: "can", item: "corn, drained" },
+      { amount: "1", unit: "can", item: "diced tomatoes with green chiles" },
+      { amount: "2", unit: "cups", item: "shredded cheddar cheese" },
+      { amount: "2", unit: "tbsp", item: "taco seasoning" },
+      { amount: "1", unit: "cup", item: "lettuce, shredded" },
+      { amount: "1", unit: "cup", item: "tomatoes, diced" },
+      { amount: "1/2", unit: "cup", item: "sour cream" }
+    ],
+    instructions: [
+      "Brown ground beef in large skillet over medium-high heat. Drain excess fat.",
+      "Add taco seasoning, stir to coat beef.",
+      "Add rice, stir to coat.",
+      "Add beef broth, black beans, corn, and diced tomatoes.",
+      "Bring to boil, reduce heat to low, cover and simmer 20 minutes.",
+      "Sprinkle cheese on top, cover until melted.",
+      "Top with lettuce, tomatoes, and sour cream before serving."
+    ]
+  },
+  
+  // ========== VEGETARIAN/VEGAN RECIPES (24) ==========
+  // DINNER (13)
+  {
+    id: "dinner-vegetarian-lasagna",
+    name: "Vegetarian Lasagna",
+    description: "Layers of pasta with ricotta, vegetables, and melted cheese. Comfort food perfected.",
+    cookTime: "45 mins",
+    prepTime: "30 mins",
+    difficulty: "medium",
+    servings: 8,
+    cuisine: "Italian",
+    image: "https://i.imgur.com/SFu43aU.png",
+    totalTime: 75,
+    tags: ["dinner", "vegetarian", "italian", "comfort-food", "plant-based"],
+    nutrition: {
+      calories: 420,
+      protein: 22,
+      carbs: 48,
+      fat: 16,
+      fiber: 6,
+      sugar: 8,
+      servingSize: "1 slice"
+    },
+    ingredients: [
+      { amount: "12", unit: "", item: "lasagna noodles" },
+      { amount: "2", unit: "cups", item: "ricotta cheese" },
+      { amount: "2", unit: "cups", item: "shredded mozzarella" },
+      { amount: "1", unit: "cup", item: "parmesan cheese" },
+      { amount: "4", unit: "cups", item: "marinara sauce" },
+      { amount: "2", unit: "cups", item: "fresh spinach, chopped" },
+      { amount: "1", unit: "", item: "zucchini, sliced" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1/4", unit: "cup", item: "fresh basil, chopped" },
+      { amount: "2", unit: "tsp", item: "Italian seasoning" }
+    ],
+    instructions: [
+      "Preheat oven to 375?F. Cook [12 lasagna noodles] according to package.",
+      "Mix [2 cups ricotta], [2 eggs], [1/4 cup basil], and [2 tsp Italian seasoning].",
+      "Spread 1 cup [marinara sauce] in 9x13 baking dish.",
+      "Layer: 4 noodles, half ricotta mixture, [1 cup spinach], [zucchini], [1 cup mozzarella], 1 cup sauce.",
+      "Repeat layers once more.",
+      "Top with remaining 4 noodles, sauce, [1 cup parmesan].",
+      "Cover with foil, bake 30 minutes. Remove foil, bake 15 more minutes until golden.",
+      "Let rest 10 minutes before serving."
+    ]
+  },
+  {
     id: "dinner-vegetarian-chili",
     name: "Vegetarian Chili",
     description: "Hearty bean chili packed with vegetables and bold spices. Crowd-pleaser.",
@@ -7699,6 +8363,48 @@ export const allRecipes: Recipe[] = [
       "Layer eggplant, remaining [marinara], [mozzarella], [1/2 cup parmesan].",
       "Bake 15 minutes until cheese is bubbly and golden.",
       "Garnish with [fresh basil] before serving."
+    ]
+  },
+  {
+    id: "dinner-butter-chickpeas",
+    name: "Indian Butter Chickpeas",
+    description: "Creamy tomato curry with tender chickpeas. Restaurant-quality flavor.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "medium",
+    servings: 6,
+    cuisine: "Lunch",
+    image: butterChickpeasImg,
+    totalTime: 35,
+    tags: ["dinner", "vegetarian", "indian", "healthy", "plant-based", "glutenfree"],
+    nutrition: {
+      calories: 340,
+      protein: 14,
+      carbs: 42,
+      fat: 14,
+      fiber: 10,
+      sugar: 8,
+      servingSize: "1.5 cups"
+    },
+    ingredients: [
+      { amount: "2", unit: "cans", item: "chickpeas, drained" },
+      { amount: "1", unit: "can", item: "tomato sauce" },
+      { amount: "1", unit: "cup", item: "coconut cream" },
+      { amount: "2", unit: "tbsp", item: "butter" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" },
+      { amount: "2", unit: "tbsp", item: "garam masala" },
+      { amount: "1", unit: "tsp", item: "turmeric" },
+      { amount: "1/4", unit: "cup", item: "cilantro" }
+    ],
+    instructions: [
+      "Melt [2 tbsp butter] in large pan, saut? [onion] until soft.",
+      "Add [garlic], [2 tbsp garam masala], [1 tsp turmeric], cook 1 minute.",
+      "Pour in [tomato sauce], simmer 5 minutes.",
+      "Add [chickpeas] and [coconut cream], stir well.",
+      "Simmer 15 minutes until sauce thickens.",
+      "Season with salt to taste.",
+      "Garnish with [cilantro], serve with rice and naan."
     ]
   },
   {
@@ -9272,6 +9978,49 @@ export const allRecipes: Recipe[] = [
   },
 
   {
+    id: "fall-pumpkin-cheesecake-bars",
+    name: "Pumpkin Cheesecake Bars",
+    description: "Creamy pumpkin cheesecake bars with graham cracker crust. Perfect for Thanksgiving!",
+    cookTime: "50 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 16,
+    cuisine: "Fall Favorites",
+    image: fallPumpkinCheesecakeBarsNewImg,
+    totalTime: 180,
+    tags: ["fall", "dessert", "cheesecake", "pumpkin", "glutenfree"],
+    nutrition: {
+      calories: 310,
+      protein: 5,
+      carbs: 32,
+      fat: 18,
+      fiber: 1,
+      sugar: 24,
+      servingSize: "1 bar"
+    },
+    ingredients: [
+      { amount: "2", unit: "cups", item: "graham cracker crumbs" },
+      { amount: "1/2", unit: "cup", item: "butter, melted" },
+      { amount: "16", unit: "oz", item: "cream cheese, softened" },
+      { amount: "3/4", unit: "cup", item: "sugar" },
+      { amount: "1", unit: "cup", item: "pumpkin puree" },
+      { amount: "3", unit: "", item: "eggs" },
+      { amount: "1", unit: "tsp", item: "vanilla" },
+      { amount: "2", unit: "tsp", item: "pumpkin pie spice" }
+    ],
+    instructions: [
+      "Mix [2 cups graham crumbs] with [1/2 cup melted butter]. Press into 9x13 pan.",
+      "Bake crust at 350?F for 8 minutes.",
+      "Beat [16 oz cream cheese] with [3/4 cup sugar] until smooth.",
+      "Mix in [1 cup pumpkin], [3 eggs], [1 tsp vanilla], [2 tsp pumpkin spice].",
+      "Pour over crust. Bake 40-45 minutes until center barely jiggles.",
+      "Cool completely, then refrigerate 2 hours.",
+      "Cut into 16 bars. Top with whipped cream if desired.",
+      "Perfect for Thanksgiving!"
+    ]
+  },
+
+  {
     id: "fall-chai-hot-chocolate",
     name: "Chai Spiced Hot Chocolate",
     description: "Rich hot chocolate infused with warming chai spices. Cozy fall drink!",
@@ -9522,6 +10271,49 @@ export const allRecipes: Recipe[] = [
       "Bake at 350?F for 25 minutes.",
       "Top with remaining 1 1/3 cups [fried onions].",
       "Bake 5 more minutes until onions are golden.",
+      "Perfect for Thanksgiving!"
+    ]
+  },
+
+  {
+    id: "fall-sweet-potato-casserole",
+    name: "Sweet Potato Casserole with Marshmallows",
+    description: "Classic sweet potato casserole topped with toasted marshmallows. Perfect for Thanksgiving!",
+    cookTime: "30 mins",
+    prepTime: "20 mins",
+    difficulty: "medium",
+    servings: 10,
+    cuisine: "Fall Favorites",
+    image: fallSweetPotatoCasseroleNewImg,
+    totalTime: 50,
+    tags: ["fall", "side dish", "sweet potatoes", "thanksgiving", "glutenfree"],
+    nutrition: {
+      calories: 320,
+      protein: 3,
+      carbs: 58,
+      fat: 9,
+      fiber: 4,
+      sugar: 36,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "4", unit: "lbs", item: "sweet potatoes" },
+      { amount: "1/2", unit: "cup", item: "butter, melted" },
+      { amount: "1/2", unit: "cup", item: "brown sugar" },
+      { amount: "1/2", unit: "cup", item: "milk" },
+      { amount: "2", unit: "", item: "eggs" },
+      { amount: "1", unit: "tsp", item: "vanilla" },
+      { amount: "1", unit: "tsp", item: "cinnamon" },
+      { amount: "4", unit: "cups", item: "mini marshmallows" }
+    ],
+    instructions: [
+      "Bake [4 lbs sweet potatoes] at 400?F for 45 minutes until soft. Cool, peel.",
+      "Mash potatoes until smooth.",
+      "Mix in [1/2 cup melted butter], [1/2 cup brown sugar], [1/2 cup milk], [2 eggs], [1 tsp vanilla], [1 tsp cinnamon].",
+      "Spread into greased 9x13 dish.",
+      "Bake at 350?F for 25 minutes.",
+      "Top with [4 cups mini marshmallows].",
+      "Bake 5 more minutes until marshmallows are golden.",
       "Perfect for Thanksgiving!"
     ]
   },
@@ -10170,6 +10962,49 @@ export const allRecipes: Recipe[] = [
       "Stir in [1 cup heavy cream], heat through.",
       "Garnish with [1/4 cup parsley].",
       "Serve hot with crusty bread."
+    ]
+  },
+  {
+    id: "one-pot-chili-cheese-fries-casserole",
+    name: "Chili Cheese Fries Casserole",
+    description: "Loaded fries with chili and cheese baked to perfection. Ultimate comfort food.",
+    cookTime: "35 mins",
+    prepTime: "15 mins",
+    difficulty: "easy",
+    servings: 8,
+    cuisine: "Dinner",
+    image: chiliCheeseFriesCasseroleImg,
+    totalTime: 50,
+    tags: ["One Pot Wonders", "casserole", "beef", "cheese", "glutenfree"],
+    nutrition: {
+      calories: 480,
+      protein: 22,
+      carbs: 42,
+      fat: 24,
+      fiber: 4,
+      sugar: 4,
+      servingSize: "1 serving"
+    },
+    ingredients: [
+      { amount: "1", unit: "bag", item: "frozen fries (2 lbs)" },
+      { amount: "1", unit: "lb", item: "ground beef" },
+      { amount: "1", unit: "", item: "onion, diced" },
+      { amount: "1", unit: "can", item: "kidney beans (15 oz)" },
+      { amount: "1", unit: "can", item: "diced tomatoes (15 oz)" },
+      { amount: "2", unit: "tbsp", item: "chili powder" },
+      { amount: "3", unit: "cups", item: "cheddar cheese, shredded" },
+      { amount: "1/2", unit: "cup", item: "sour cream" },
+      { amount: "1/4", unit: "cup", item: "green onions" }
+    ],
+    instructions: [
+      "Bake [1 bag frozen fries] according to package until crispy.",
+      "In skillet, brown [1 lb ground beef] with [1 onion].",
+      "Add [1 can beans], [1 can tomatoes], [2 tbsp chili powder]. Simmer 10 minutes.",
+      "In 9x13 dish, layer half the fries.",
+      "Top with chili, then [2 cups cheddar].",
+      "Add remaining fries and [1 cup cheddar].",
+      "Bake at 375?F for 15 minutes until cheese melts.",
+      "Top with [1/2 cup sour cream] and [1/4 cup green onions]."
     ]
   },
   {
@@ -11733,6 +12568,34 @@ export const allRecipes: Recipe[] = [
     ]
   },
   {
+    id: "dinner-turkey-grilled-cheese",
+    name: "Turkey Grilled Cheese",
+    description: "Elevated classic! Turkey, cranberry sauce, and melty cheese on sourdough.",
+    cookTime: "10 mins",
+    prepTime: "5 mins",
+    difficulty: "easy",
+    servings: 2,
+    cuisine: "Fall Favorites",
+    image: turkeyGrilledCheeseImg,
+    totalTime: 15,
+    tags: ["fall", "sandwich", "comfort-food"],
+    nutrition: { calories: 520, protein: 32, carbs: 48, fat: 22, fiber: 3, sugar: 12, servingSize: "1 sandwich" },
+    ingredients: [
+      { amount: "4", unit: "slices", item: "sourdough bread" },
+      { amount: "8", unit: "oz", item: "turkey, sliced" },
+      { amount: "4", unit: "slices", item: "cheddar cheese" },
+      { amount: "1/4", unit: "cup", item: "cranberry sauce" },
+      { amount: "2", unit: "tbsp", item: "butter" }
+    ],
+    instructions: [
+      "Spread [cranberry sauce] on 2 slices of [sourdough].",
+      "Layer [turkey] and [cheddar] on each.",
+      "Top with remaining bread slices.",
+      "Butter outside of sandwiches with [2 tbsp butter].",
+      "Grill until golden and cheese melts. Cut and serve!"
+    ]
+  },
+  {
     id: "dinner-loaded-ranch-potatoes",
     name: "Loaded Ranch Potatoes",
     description: "Addictive side! Crispy roasted potato wedges loaded with ranch, cheese, and bacon.",
@@ -11759,6 +12622,35 @@ export const allRecipes: Recipe[] = [
       "Top with [1 cup cheddar], return to oven until melted.",
       "Sprinkle with [bacon] and [green onions].",
       "Serve hot with extra ranch dressing!"
+    ]
+  },
+  {
+    id: "dinner-creamy-tuscan-chicken",
+    name: "Creamy Tuscan Chicken",
+    description: "Restaurant-quality! Chicken in rich cream sauce with sun-dried tomatoes and spinach.",
+    cookTime: "25 mins",
+    prepTime: "10 mins",
+    difficulty: "easy",
+    servings: 4,
+    cuisine: "Italian",
+    image: creamyTuscanChickenImg,
+    totalTime: 35,
+    tags: ["Dinner", "chicken", "glutenfree"],
+    nutrition: { calories: 520, protein: 44, carbs: 14, fat: 34, fiber: 2, sugar: 4, servingSize: "1 serving" },
+    ingredients: [
+      { amount: "4", unit: "", item: "chicken breasts" },
+      { amount: "1", unit: "cup", item: "heavy cream" },
+      { amount: "1/2", unit: "cup", item: "sun-dried tomatoes" },
+      { amount: "2", unit: "cups", item: "fresh spinach" },
+      { amount: "1/2", unit: "cup", item: "parmesan" },
+      { amount: "4", unit: "cloves", item: "garlic, minced" }
+    ],
+    instructions: [
+      "Season and sear [4 chicken breasts], remove.",
+      "Saut? [4 cloves garlic] and [sun-dried tomatoes].",
+      "Add [1 cup cream] and [1/2 cup parmesan], simmer.",
+      "Stir in [2 cups spinach] until wilted.",
+      "Return chicken, cook 8-10 minutes. Serve hot!"
     ]
   },
   {
@@ -11822,4 +12714,3 @@ export const getLunchRecipes = (): Recipe[] => {
 export const getDinnerRecipes = (): Recipe[] => {
   return allRecipes.filter(recipe => recipe.cuisine === 'Dinner');
 };
-
