@@ -85,28 +85,17 @@ const Generate = () => {
     { id: 'family', name: 'Family Approved', emoji: '👨‍👩‍👧' }
   ];
 
-  // Function to get recipes for each category - SIMPLIFIED to use Supabase tags/category only
+  // Function to get recipes for each category
+  // CATEGORY-BASED: Main meal types use the category field
+  // TAG-BASED: Collections use the tags field
   const getRecipesByCategory = (categoryId: string): Recipe[] => {
     switch (categoryId) {
+      // TAG-BASED FILTERS (Collections)
       case 'quick':
         return combinedRecipes.filter(r => r.tags?.includes('quick'));
       
       case 'fall':
         return combinedRecipes.filter(r => r.tags?.includes('fall'));
-      
-      case 'breakfast':
-        return combinedRecipes.filter(r => r.category === 'Breakfast');
-      
-      case 'lunch':
-        return combinedRecipes.filter(r => 
-          r.category === 'Lunch' || r.tags?.includes('lunch')
-        );
-      
-      case 'dinner':
-        return combinedRecipes.filter(r => r.category === 'Dinner');
-      
-      case 'dessert':
-        return combinedRecipes.filter(r => r.category === 'Desserts');
       
       case 'onepot':
         return combinedRecipes.filter(r => r.tags?.includes('one-pot'));
@@ -116,11 +105,24 @@ const Generate = () => {
           r.tags?.includes('family-friendly') || r.tags?.includes('kid-friendly')
         );
       
-      case 'copycat':
-        return combinedRecipes.filter(r => r.category === 'Restaurant Copycats');
-      
       case 'leftover':
         return combinedRecipes.filter(r => r.tags?.includes('leftover'));
+      
+      // CATEGORY-BASED FILTERS (Main Meal Types)
+      case 'breakfast':
+        return combinedRecipes.filter(r => r.category === 'Breakfast');
+      
+      case 'lunch':
+        return combinedRecipes.filter(r => r.category === 'Lunch');
+      
+      case 'dinner':
+        return combinedRecipes.filter(r => r.category === 'Dinner');
+      
+      case 'dessert':
+        return combinedRecipes.filter(r => r.category === 'Desserts');
+      
+      case 'copycat':
+        return combinedRecipes.filter(r => r.category === 'Restaurant Copycats');
       
       default:
         return [];
