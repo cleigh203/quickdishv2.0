@@ -256,10 +256,17 @@ const Index = () => {
                     window.scrollTo(0, 0);
                   }}
                 >
-                  <div 
-                    className="h-36 bg-cover bg-center rounded-xl"
-                    style={{ backgroundImage: `url(${collection.image})` }}
-                  />
+                  <div className="relative h-36 bg-gray-200 rounded-xl overflow-hidden">
+                    <img
+                      src={collection.image}
+                      alt={collection.name}
+                      className="w-full h-full object-cover transition-opacity duration-300"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.style.opacity = '0';
+                      }}
+                    />
+                  </div>
                   <div className="p-4">
                     <h3 className="font-semibold text-sm">{collection.name}</h3>
                   </div>
