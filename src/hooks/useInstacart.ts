@@ -100,10 +100,47 @@ export const useInstacart = () => {
 
   const createShoppingListLink = useCallback(async (items: any[], title?: string, imageUrl?: string) => {
     try {
-      console.log('Creating Instacart list with items:', items);
+      console.log('Creating Instacart list with items (before parsing):', items);
+      
+      // Parse amount string to extract quantity and unit separately
+      const parseAmountAndUnit = (amountString: string) => {
+        // "1 lb" → { amount: "1", unit: "lb" }
+        // "1/4 cup" → { amount: "1/4", unit: "cup" }
+        // "2 tbsp" → { amount: "2", unit: "tbsp" }
+        if (!amountString || typeof amountString !== 'string') {
+          return { amount: "1", unit: "each" };
+        }
+        
+        const match = amountString.trim().match(/^([\d\/\.]+)\s*(.*)$/);
+        if (match) {
+          return {
+            amount: match[1].trim(),  // "1", "1/4", "2"
+            unit: match[2].trim() || "each"  // "lb", "cup", "tbsp"
+          };
+        }
+        return { amount: "1", unit: "each" };
+      };
+      
+      // Transform items to split combined amount/unit strings
+      const formattedItems = items.map(item => {
+        // If amount is already a plain number and unit exists separately, keep as-is
+        if (item.unit && !isNaN(parseFloat(item.amount))) {
+          return item;
+        }
+        
+        // If amount contains both number and unit (e.g., "1 lb"), parse it
+        const { amount, unit } = parseAmountAndUnit(item.amount);
+        return {
+          ...item,
+          amount,
+          unit
+        };
+      });
+      
+      console.log('Creating Instacart list with items (after parsing):', formattedItems);
       
       const response = await supabase.functions.invoke('instacart-create-list', {
-        body: { items, title, imageUrl }
+        body: { items: formattedItems, title, imageUrl }
       });
 
       console.log('Raw response:', response);
