@@ -3,15 +3,20 @@ import { supabase } from '@/integrations/supabase/client';
 import { Recipe } from '@/types/recipe';
 import { retryOperation } from '@/utils/errorHandling';
 
+// Cache version - increment this to force all users to refresh
+const CACHE_VERSION = 'v2';
+const CACHE_KEY = `all_recipes_cache_${CACHE_VERSION}`;
+const CACHE_DURATION = 60000; // 1 minute for testing (was 1 hour)
+
 export const useAllRecipes = (enabled = true) => {
   const [allRecipes, setAllRecipes] = useState<Recipe[]>(() => {
     // Try to load from cache on init
     try {
-      const cached = localStorage.getItem('all_recipes_cache');
+      const cached = localStorage.getItem(CACHE_KEY);
       if (cached) {
         const { data, timestamp } = JSON.parse(cached);
-        // Use cache if less than 1 hour old
-        if (Date.now() - timestamp < 3600000) {
+        // Use cache if less than CACHE_DURATION old
+        if (Date.now() - timestamp < CACHE_DURATION) {
           return data;
         }
       }
@@ -68,7 +73,7 @@ export const useAllRecipes = (enabled = true) => {
       
       // Cache the results
       try {
-        localStorage.setItem('all_recipes_cache', JSON.stringify({
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
           data: transformedRecipes,
           timestamp: Date.now()
         }));

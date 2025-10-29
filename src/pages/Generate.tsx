@@ -58,7 +58,21 @@ const Generate = () => {
     });
     
     // Exclude AI-generated recipes from discovery dataset
-    return Array.from(recipeMap.values()).filter(r => !(r as any).isAiGenerated);
+    const recipes = Array.from(recipeMap.values()).filter(r => !(r as any).isAiGenerated);
+    
+    // 🔍 DEBUG: Log recipe data for debugging
+    console.log('🔍 Recipe Debug Info:');
+    console.log('Total recipes:', recipes.length);
+    console.log('Desserts:', recipes.filter(r => r.category === 'Desserts').length);
+    console.log('Restaurant Copycats:', recipes.filter(r => r.category === 'Restaurant Copycats').length);
+    console.log('Breakfast:', recipes.filter(r => r.category === 'Breakfast').length);
+    console.log('Lunch:', recipes.filter(r => r.category === 'Lunch').length);
+    console.log('Dinner:', recipes.filter(r => r.category === 'Dinner').length);
+    console.log('Sample recipe:', recipes[0]);
+    console.log('Sample recipe category:', recipes[0]?.category);
+    console.log('Sample recipe tags:', recipes[0]?.tags);
+    
+    return recipes;
   })();
 
   // Load all recipes into storage on mount
