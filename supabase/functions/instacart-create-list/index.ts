@@ -52,13 +52,31 @@ serve(async (req) => {
       // Clean up the item name for better Instacart matching
       const cleanedName = cleanIngredientName(rawItemName);
       
-      // For shopping lists, we don't need precise measurements
-      // Just send the item name with quantity 1
+      // Parse quantity from amount field (e.g., "1", "2.5", "1/2")
+      let quantity = 1;
+      if (item.amount) {
+        // Handle fractions like "1/2"
+        if (typeof item.amount === 'string' && item.amount.includes('/')) {
+          const [numerator, denominator] = item.amount.split('/').map(Number);
+          quantity = numerator / denominator;
+        } else {
+          quantity = parseFloat(item.amount) || 1;
+        }
+      }
+      
+      // Get unit, default to 'each' if not provided
+      const unit = item.unit || 'each';
+      
+      // Return Instacart format with measurements
       return {
-        name: cleanedName,
-        quantity: 1,
-        unit: 'each',
-        display_text: cleanedName
+        name: cleanedName.toLowerCase(),
+        display_text: rawItemName, // Keep original capitalization for display
+        measurements: [
+          {
+            quantity: quantity,
+            unit: unit
+          }
+        ]
       };
     });
 
