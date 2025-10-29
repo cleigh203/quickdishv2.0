@@ -119,11 +119,7 @@ const RecipeDetail = () => {
     if (foundRecipe) {
       setRecipe(foundRecipe);
       setIsLoadingRecipe(false);
-      try {
-        if (recordRecipeViewAndCheckInterstitial()) {
-          setShowAd('interstitial');
-        }
-      } catch {}
+      // Ad gating removed for now
       
       // Check if coming from "Cook Now" button
       const params = new URLSearchParams(window.location.search);
@@ -715,13 +711,7 @@ const RecipeDetail = () => {
                 }
 
                 // Authenticated users: check premium status
-                // Rewarded ad gate for chat once per session
-                if (needAdForChatThisSession()) {
-                  setShowAd('chat');
-                  setMenuOpen(false);
-                  return;
-                }
-
+                // Open AI chat directly (ad gating removed for now)
                 setAiChatOpen(true);
                 setMenuOpen(false);
               }}
@@ -767,13 +757,7 @@ const RecipeDetail = () => {
                 }
 
                 // Authenticated users: check premium status
-                // Rewarded ad gate per recipe per day
-                if (recipe && needAdForNutrition(recipe.id)) {
-                  setShowAd('nutrition');
-                  setMenuOpen(false);
-                  return;
-                }
-
+                // Open nutrition directly (ad gating removed for now)
                 if (recipe?.nutrition) {
                   setNutritionModalOpen(true);
                   setMenuOpen(false);
