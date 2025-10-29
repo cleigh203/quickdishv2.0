@@ -11,11 +11,11 @@ serve(async (req) => {
   }
 
   try {
-    const { items, title, imageUrl } = await req.json();
+    const { recipe } = await req.json();
 
-    if (!items || !Array.isArray(items) || items.length === 0) {
+    if (!recipe || !recipe.ingredients || !Array.isArray(recipe.ingredients) || recipe.ingredients.length === 0) {
       return new Response(
-        JSON.stringify({ error: 'Items array is required and cannot be empty' }),
+        JSON.stringify({ error: 'Recipe object with ingredients array is required' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -45,8 +45,8 @@ serve(async (req) => {
       return cleaned;
     };
 
-    // Transform shopping list items to Instacart products_link format
-    const line_items = items.map((item: any) => {
+    // Transform recipe ingredients to Instacart recipe format
+    const ingredients = recipe.ingredients.map((item: any) => {
       const rawItemName = item.item || item.name;
       
       // Clean up the item name for better Instacart matching
@@ -67,10 +67,13 @@ serve(async (req) => {
       // Get unit, default to 'each' if not provided
       const unit = item.unit || 'each';
       
+      // Build display text with amount and unit
+      const displayText = `${item.amount || '1'} ${unit} ${rawItemName}`.trim();
+      
       // Return Instacart format with measurements
       return {
         name: cleanedName.toLowerCase(),
-        display_text: rawItemName, // Keep original capitalization for display
+        display_text: displayText,
         measurements: [
           {
             quantity: quantity,
@@ -80,19 +83,31 @@ serve(async (req) => {
       };
     });
 
-    console.log('Original items:', JSON.stringify(items, null, 2));
-    console.log('Transformed line_items:', JSON.stringify(line_items, null, 2));
+    // Clean instructions: remove numbering and brackets
+    const cleanInstructions = (recipe.instructions || []).map((instruction: string) => 
+      instruction.replace(/^\d+\.\s*/, '').replace(/\[|\]/g, '').trim()
+    );
+
+    console.log('Original recipe:', JSON.stringify(recipe, null, 2));
+    console.log('Transformed ingredients:', JSON.stringify(ingredients, null, 2));
+    console.log('Cleaned instructions:', JSON.stringify(cleanInstructions, null, 2));
 
     const requestBody = {
-      title: title || 'QuickDish Shopping List',
-      line_items: line_items,
-      expires_in: 30
+      title: recipe.name || 'QuickDish Recipe',
+      image_url: recipe.image_url || recipe.imageUrl || recipe.image || '',
+      link_type: 'recipe',
+      instructions: cleanInstructions,
+      ingredients: ingredients,
+      landing_page_configuration: {
+        partner_linkback_url: 'https://www.quickdishco.com',
+        enable_pantry_items: true
+      }
     };
 
     console.log('Request body:', JSON.stringify(requestBody, null, 2));
 
-    // Create shopping list page using Instacart products_link endpoint (DEVELOPMENT)
-    const createListResponse = await fetch(`${INSTACART_BASE_URL}/idp/v1/products/products_link`, {
+    // Create recipe page using Instacart recipe endpoint
+    const createListResponse = await fetch(`${INSTACART_BASE_URL}/idp/v1/products/recipe`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${INSTACART_API_KEY}`,
@@ -138,16 +153,20 @@ serve(async (req) => {
     }
 
     const listData = await createListResponse.json();
-    console.log('Instacart shopping list created:', listData);
+    console.log('Instacart recipe page created:', listData);
 
-    // products_link endpoint returns "products_link_url" field
+    // recipe endpoint returns "products_link_url" field
     if (!listData.products_link_url) {
       console.error('No products_link_url in response:', listData);
       return new Response(
         JSON.stringify({ 
           error: 'Invalid response from Instacart',
           details: listData,
-          items_sent: line_items
+          recipe_sent: {
+            title: requestBody.title,
+            ingredients_count: ingredients.length,
+            instructions_count: cleanInstructions.length
+          }
         }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
@@ -170,7 +189,9 @@ serve(async (req) => {
       JSON.stringify({
         success: true,
         products_link_url: finalUrl,
-        items_count: line_items.length
+        ingredients_count: ingredients.length,
+        instructions_count: cleanInstructions.length,
+        recipe_title: requestBody.title
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );

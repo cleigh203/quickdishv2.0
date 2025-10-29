@@ -370,7 +370,17 @@ const Admin = () => {
                   />
                 </div>
                 {editForm.imageUrl && (
-                  <img src={editForm.imageUrl} alt="Preview" className="w-full h-32 object-cover rounded" />
+                  <div className="relative w-full h-32 bg-gray-200 rounded overflow-hidden">
+                    <img 
+                      src={editForm.imageUrl} 
+                      alt="Preview" 
+                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+                      onError={(e) => {
+                        e.currentTarget.src = 'https://via.placeholder.com/400x300/10b981/ffffff?text=QuickDish';
+                      }}
+                    />
+                  </div>
                 )}
                 <div className="flex gap-2">
                   <Button onClick={saveEdit} className="flex-1">Save Changes</Button>
@@ -385,9 +395,19 @@ const Admin = () => {
                   recipes.map(recipe => (
                     <div key={recipe.id} className="flex items-center gap-3 p-3 bg-background/50 rounded-lg">
                       {recipe.imageUrl || recipe.image ? (
-                        <img src={recipe.imageUrl || recipe.image} alt={recipe.name} className="w-16 h-16 object-cover rounded" />
+                        <div className="relative w-16 h-16 bg-gray-200 rounded overflow-hidden flex-shrink-0">
+                          <img 
+                            src={recipe.imageUrl || recipe.image} 
+                            alt={recipe.name} 
+                            loading="lazy"
+                            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+                            onError={(e) => {
+                              e.currentTarget.src = 'https://via.placeholder.com/64x64/10b981/ffffff?text=Recipe';
+                            }}
+                          />
+                        </div>
                       ) : (
-                        <div className="w-16 h-16 bg-muted rounded flex items-center justify-center">
+                        <div className="w-16 h-16 bg-muted rounded flex items-center justify-center flex-shrink-0">
                           <ImageIcon className="w-6 h-6 text-muted-foreground" />
                         </div>
                       )}

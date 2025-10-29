@@ -98,9 +98,12 @@ export const useInstacart = () => {
     }
   }, [toast]);
 
-  const createShoppingListLink = useCallback(async (items: any[], title?: string, imageUrl?: string) => {
+  const createShoppingListLink = useCallback(async (recipeOrItems: any, title?: string) => {
     try {
-      console.log('Creating Instacart list with items (before parsing):', items);
+      // Determine if we received a full recipe object or just items array
+      const isRecipeObject = recipeOrItems.name && recipeOrItems.instructions;
+      
+      console.log('Creating Instacart page with:', isRecipeObject ? 'recipe object' : 'items array', recipeOrItems);
       
       // Parse amount string to extract quantity and unit separately
       const parseAmountAndUnit = (amountString: string) => {
@@ -121,8 +124,8 @@ export const useInstacart = () => {
         return { amount: "1", unit: "each" };
       };
       
-      // Transform items to split combined amount/unit strings
-      const formattedItems = items.map(item => {
+      // Transform ingredients to split combined amount/unit strings
+      const formattedIngredients = (recipe.ingredients || []).map((item: any) => {
         // If amount is already a plain number and unit exists separately, keep as-is
         if (item.unit && !isNaN(parseFloat(item.amount))) {
           return item;
@@ -137,10 +140,18 @@ export const useInstacart = () => {
         };
       });
       
-      console.log('Creating Instacart list with items (after parsing):', formattedItems);
+      // Build complete recipe object for edge function
+      const recipePayload = {
+        name: recipe.name,
+        image_url: recipe.imageUrl || recipe.image_url || recipe.image || '',
+        instructions: recipe.instructions || [],
+        ingredients: formattedIngredients
+      };
+      
+      console.log('Sending recipe to Instacart:', recipePayload);
       
       const response = await supabase.functions.invoke('instacart-create-list', {
-        body: { items: formattedItems, title, imageUrl }
+        body: { recipe: recipePayload }
       });
 
       console.log('Raw response:', response);
