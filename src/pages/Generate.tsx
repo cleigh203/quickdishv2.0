@@ -74,152 +74,53 @@ const Generate = () => {
 
   // Recipe categories for horizontal sections
   const categories = [
-    { id: 'halloween', name: 'Halloween', emoji: '🎃' },
     { id: 'fall', name: 'Fall Favorites', emoji: '🍂' },
-    { id: 'quick', name: 'Quick & Easy', emoji: '⚡' },
+    { id: 'quick', name: 'Quick and Easy', emoji: '⚡' },
     { id: 'copycat', name: 'Restaurant Copycats', emoji: '🍔' },
     { id: 'breakfast', name: 'Breakfast', emoji: '🥞' },
-    { id: 'lunch', name: 'Lunch Ideas', emoji: '🥗' },
+    { id: 'lunch', name: 'Lunch', emoji: '🥗' },
     { id: 'dinner', name: 'Dinner', emoji: '🍗' },
     { id: 'dessert', name: 'Desserts', emoji: '🧁' },
-    { id: 'onepot', name: 'One-Pot Wonders', emoji: '🍲' },
-    { id: 'bowls', name: 'Healthy Bowls', emoji: '🥙' },
-    { id: 'family', name: 'Family Favorites', emoji: '👨‍👩‍👧' }
+    { id: 'onepot', name: 'One Pot Meals', emoji: '🍲' },
+    { id: 'family', name: 'Family Approved', emoji: '👨‍👩‍👧' }
   ];
 
-  // Function to get recipes for each category
+  // Function to get recipes for each category - SIMPLIFIED to use Supabase tags/category only
   const getRecipesByCategory = (categoryId: string): Recipe[] => {
-    const isHalloweenRecipe = (recipe: Recipe) => 
-      recipe.cuisine?.toLowerCase() === 'halloween' || 
-      recipe.tags?.includes('halloween') || false;
-
     switch (categoryId) {
-      case 'halloween':
-        return combinedRecipes.filter(isHalloweenRecipe);
+      case 'quick':
+        return combinedRecipes.filter(r => r.tags?.includes('quick'));
       
       case 'fall':
-        const excludedFallRecipes = [
-          'dessert-baklava',
-          'dessert-churros',
-          'dessert-cinnamon-rolls',
-          'dessert-carrot-cake',
-          'dessert-bananas-foster',
-          'breakfast-french-toast-classic',
-          'breakfast-protein-pancakes',
-          'lunch-hot-honey-tofu-tenders',
-          'copycat-broccoli-soup',
-          'copycat-roadhouse-rolls',
-          'leftover-chicken-pho'
-        ];
-        const fallRecipes = combinedRecipes.filter(recipe => {
-          if (excludedFallRecipes.includes(recipe.id)) return false;
-          const ingredients = recipe.ingredients?.map(i => i.item.toLowerCase()).join(' ') || '';
-          // Use word boundaries to prevent "pineapple" from matching "apple"
-          const hasFallIngredient = /\bpumpkin\b/.test(ingredients) || 
-            /\bapple\b/.test(ingredients) || 
-            /\bsquash\b/.test(ingredients) || 
-            /\bcinnamon\b/.test(ingredients) ||
-            /\bnutmeg\b/.test(ingredients);
-          const hasFallTag = recipe.tags?.includes('fall');
-          const matches = (hasFallIngredient || hasFallTag) && !isHalloweenRecipe(recipe);
-          
-          // Debug logging
-          if (hasFallTag) {
-            console.log('✅ Fall recipe found:', recipe.name, '| tags:', recipe.tags);
-          }
-          
-          return matches;
-        });
-        console.log(`🍂 Total Fall Favorites: ${fallRecipes.length}`);
-        return fallRecipes;
-      
-      case 'quick':
-        return combinedRecipes.filter(recipe => {
-          const isCopycatRecipe = recipe.tags?.includes('copycat') || 
-            recipe.cuisine?.toLowerCase().includes('copycat') ||
-            recipe.name?.toLowerCase().includes('copycat');
-          const isDessert = recipe.tags?.includes('dessert');
-          const isBreakfastOnly = recipe.cuisine === "Breakfast" || recipe.tags?.includes('breakfast');
-          const isDinnerOnly = recipe.cuisine === "Dinner";
-          const isLeftoverOnly = recipe.cuisine === "Leftover Magic" || recipe.tags?.includes('leftover');
-          const isFallOnly = recipe.cuisine === "Fall Favorites" && recipe.tags?.includes('fall');
-          const isOnePotOnly = recipe.cuisine === "One Pot Wonders";
-          const isHealthyBowl = recipe.cuisine === "Healthy Bowls" || recipe.tags?.includes('bowls');
-          
-          return (recipe.totalTime <= 30 || recipe.tags?.includes('quick')) && 
-                 !isHalloweenRecipe(recipe) && 
-                 !isCopycatRecipe &&
-                 !isDessert &&
-                 !isBreakfastOnly &&
-                 !isDinnerOnly &&
-                 !isLeftoverOnly &&
-                 !isFallOnly &&
-                 !isOnePotOnly &&
-                 !isHealthyBowl;
-        });
+        return combinedRecipes.filter(r => r.tags?.includes('fall'));
       
       case 'breakfast':
-        return combinedRecipes.filter(recipe =>
-          recipe.tags?.includes('breakfast') && !isHalloweenRecipe(recipe)
-        );
+        return combinedRecipes.filter(r => r.category === 'Breakfast');
       
       case 'lunch':
-        return combinedRecipes.filter(recipe =>
-          (recipe.tags?.includes('lunch') || 
-           recipe.tags?.includes('sandwich') ||
-           recipe.tags?.includes('salad') ||
-           recipe.tags?.includes('wrap')) && !isHalloweenRecipe(recipe)
+        return combinedRecipes.filter(r => 
+          r.category === 'Lunch' || r.tags?.includes('lunch')
         );
       
       case 'dinner':
-        return combinedRecipes.filter(recipe =>
-          recipe.tags?.includes('dinner') && !isHalloweenRecipe(recipe)
-        );
+        return combinedRecipes.filter(r => r.category === 'Dinner');
       
       case 'dessert':
-        return combinedRecipes.filter(recipe =>
-          recipe.tags?.includes('dessert') && !isHalloweenRecipe(recipe)
-        );
+        return combinedRecipes.filter(r => r.category === 'Desserts');
       
       case 'onepot':
-        return combinedRecipes.filter(recipe =>
-          (recipe.cuisine === "One Pot Wonders" ||
-           recipe.tags?.includes('one-pot') || 
-           recipe.tags?.includes('sheet-pan') || 
-           recipe.tags?.includes('air-fryer') ||
-           recipe.tags?.includes('casserole')) && !isHalloweenRecipe(recipe)
-        );
-      
-      case 'bowls':
-        return combinedRecipes.filter(recipe =>
-          (recipe.cuisine?.toLowerCase().includes('bowl') || 
-           recipe.tags?.includes('bowls') || 
-           recipe.tags?.includes('healthy')) && !isHalloweenRecipe(recipe)
-        );
+        return combinedRecipes.filter(r => r.tags?.includes('one-pot'));
       
       case 'family':
-        return combinedRecipes.filter(recipe =>
-          (recipe.tags?.includes('kid-friendly') || 
-           recipe.tags?.includes('family') || 
-           recipe.difficulty?.toLowerCase() === 'easy') && 
-          !isHalloweenRecipe(recipe) &&
-          !recipe.tags?.includes('dessert') &&
-          !recipe.tags?.includes('copycat')
+        return combinedRecipes.filter(r => 
+          r.tags?.includes('family-friendly') || r.tags?.includes('kid-friendly')
         );
       
       case 'copycat':
-        return combinedRecipes.filter(recipe =>
-          (recipe.cuisine?.toLowerCase().includes('copycat') || 
-           recipe.tags?.includes('copycat') ||
-           recipe.name?.toLowerCase().includes('copycat')) && !isHalloweenRecipe(recipe)
-        );
+        return combinedRecipes.filter(r => r.category === 'Restaurant Copycats');
       
       case 'leftover':
-        return combinedRecipes.filter(recipe =>
-          (recipe.cuisine?.toLowerCase().includes('leftover') || 
-           recipe.tags?.includes('leftover') ||
-           recipe.name?.toLowerCase().includes('leftover')) && !isHalloweenRecipe(recipe)
-        );
+        return combinedRecipes.filter(r => r.tags?.includes('leftover'));
       
       default:
         return [];
@@ -547,18 +448,16 @@ const Generate = () => {
   // If viewing a specific collection, show grid view
   if (collectionParam) {
     const categoryMapping: { [key: string]: string } = {
-      'Halloween': 'halloween',
       'Fall Favorites': 'fall',
-      'Quick & Easy': 'quick',
+      'Quick and Easy': 'quick',
       'Restaurant Copycats': 'copycat',
       'Breakfast': 'breakfast',
-      'Lunch Ideas': 'lunch',
+      'Lunch': 'lunch',
       'Dinner': 'dinner',
       'Desserts': 'dessert',
-      'One-Pot Wonders': 'onepot',
-      'Healthy Bowls': 'bowls',
+      'One Pot Meals': 'onepot',
       'Leftover Magic': 'leftover',
-      'Family Favorites': 'family'
+      'Family Approved': 'family'
     };
 
     const categoryId = categoryMapping[collectionParam];
