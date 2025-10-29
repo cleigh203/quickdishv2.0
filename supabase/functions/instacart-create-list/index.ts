@@ -135,9 +135,16 @@ serve(async (req) => {
       );
     }
 
+    // Replace dev URL with production URL for customer-facing link
+    let productUrl = listData.products_link_url;
+    if (productUrl.includes('customers.dev.instacart.tools')) {
+      productUrl = productUrl.replace('customers.dev.instacart.tools', 'www.instacart.com');
+      console.log('Replaced dev URL with production URL');
+    }
+    
     // Append Impact.com UTM parameters for affiliate commission tracking
     const utmParams = '?utm_campaign=instacart-idp&utm_medium=affiliate&utm_source=instacart_idp&utm_term=partnertype-mediapartner&utm_content=campaignid-20313_partnerid-4352633';
-    const finalUrl = `${listData.products_link_url}${utmParams}`;
+    const finalUrl = `${productUrl}${utmParams}`;
 
     console.log('Final URL with UTM params:', finalUrl);
 
