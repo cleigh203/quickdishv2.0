@@ -102,8 +102,9 @@ export const useInstacart = () => {
     try {
       // Determine if we received a full recipe object or just items array
       const isRecipeObject = recipeOrItems.name && recipeOrItems.instructions;
+      const items = isRecipeObject ? recipeOrItems.ingredients : recipeOrItems;
       
-      console.log('Creating Instacart page with:', isRecipeObject ? 'recipe object' : 'items array', recipeOrItems);
+      console.log('Creating Instacart page with:', isRecipeObject ? 'recipe object' : 'items array');
       
       // Parse amount string to extract quantity and unit separately
       const parseAmountAndUnit = (amountString: string) => {
@@ -125,7 +126,7 @@ export const useInstacart = () => {
       };
       
       // Transform ingredients to split combined amount/unit strings
-      const formattedIngredients = (recipe.ingredients || []).map((item: any) => {
+      const formattedIngredients = (items || []).map((item: any) => {
         // If amount is already a plain number and unit exists separately, keep as-is
         if (item.unit && !isNaN(parseFloat(item.amount))) {
           return item;
@@ -142,9 +143,9 @@ export const useInstacart = () => {
       
       // Build complete recipe object for edge function
       const recipePayload = {
-        name: recipe.name,
-        image_url: recipe.imageUrl || recipe.image_url || recipe.image || '',
-        instructions: recipe.instructions || [],
+        name: isRecipeObject ? recipeOrItems.name : (title || 'QuickDish Shopping List'),
+        image_url: isRecipeObject ? (recipeOrItems.imageUrl || recipeOrItems.image_url || recipeOrItems.image || '') : '',
+        instructions: isRecipeObject ? (recipeOrItems.instructions || []) : [],
         ingredients: formattedIngredients
       };
       
