@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check Recipe Categories</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Recipe Category Checker</h1>
+    <button onclick="checkCategories()">Check Categories in Supabase</button>
+    <pre id="output" style="background: #f4f4f4; padding: 20px; margin-top: 20px;"></pre>
+
+    <script>
+        // Replace with your Supabase credentials
+        const SUPABASE_URL = 'https://kklyhfetqjikpwmwwxrl.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrbHloZmV0cWppa3B3bXd3eHJsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY4MTE2NDcsImV4cCI6MjA1MjM4NzY0N30.qmYyAjnhFXR_tVH_UoPE3qVYhgGP2BJDNkdSMxoRq5Q';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        async function checkCategories() {
+            const output = document.getElementById('output');
+            output.textContent = 'Checking Supabase...\n\n';
+            
+            try {
+                // Get all recipes
+                const { data: recipes, error } = await supabase
+                    .from('recipes')
+                    .select('recipe_id, name, category, tags')
+                    .order('name');
+                
+                if (error) {
+                    output.textContent += 'ERROR: ' + error.message + '\n';
+                    return;
+                }
+                
+                output.textContent += `Total recipes in Supabase: ${recipes.length}\n\n`;
+                
+                // Count by category
+                const categoryCounts = {};
+                recipes.forEach(r => {
+                    const cat = r.category || 'NO CATEGORY';
+                    categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+                });
+                
+                output.textContent += '=== CATEGORY BREAKDOWN ===\n';
+                Object.entries(categoryCounts).sort((a, b) => b[1] - a[1]).forEach(([cat, count]) => {
+                    output.textContent += `${cat}: ${count} recipes\n`;
+                });
+                
+                output.textContent += '\n=== SAMPLE RECIPES ===\n';
+                recipes.slice(0, 5).forEach(r => {
+                    output.textContent += `\nName: ${r.name}\n`;
+                    output.textContent += `Category: ${r.category || 'NONE'}\n`;
+                    output.textContent += `Tags: ${JSON.stringify(r.tags || [])}\n`;
+                });
+                
+                // Check specific categories
+                output.textContent += '\n=== FILTERING TEST ===\n';
+                const desserts = recipes.filter(r => r.category === 'Desserts');
+                output.textContent += `Desserts (category === 'Desserts'): ${desserts.length}\n`;
+                
+                const copycats = recipes.filter(r => r.category === 'Restaurant Copycats');
+                output.textContent += `Restaurant Copycats (category === 'Restaurant Copycats'): ${copycats.length}\n`;
+                
+                const breakfast = recipes.filter(r => r.category === 'Breakfast');
+                output.textContent += `Breakfast (category === 'Breakfast'): ${breakfast.length}\n`;
+                
+                const lunch = recipes.filter(r => r.category === 'Lunch');
+                output.textContent += `Lunch (category === 'Lunch'): ${lunch.length}\n`;
+                
+                const dinner = recipes.filter(r => r.category === 'Dinner');
+                output.textContent += `Dinner (category === 'Dinner'): ${dinner.length}\n`;
+                
+            } catch (err) {
+                output.textContent += 'EXCEPTION: ' + err.message + '\n';
+            }
+        }
+    </script>
+</body>
+</html>
+

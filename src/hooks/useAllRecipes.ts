@@ -4,7 +4,7 @@ import { Recipe } from '@/types/recipe';
 import { retryOperation } from '@/utils/errorHandling';
 
 // Cache version - increment this to force all users to refresh
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const CACHE_KEY = `all_recipes_cache_${CACHE_VERSION}`;
 const CACHE_DURATION = 60000; // 1 minute for testing (was 1 hour)
 
@@ -62,6 +62,7 @@ export const useAllRecipes = (enabled = true) => {
         ingredients: (Array.isArray(dbRecipe.ingredients) ? dbRecipe.ingredients : []) as any[],
         instructions: (Array.isArray(dbRecipe.instructions) ? dbRecipe.instructions : []) as string[],
         cuisine: dbRecipe.cuisine || 'International',
+        category: dbRecipe.category || 'Other', // 🔥 CRITICAL: Include category field!
         image: dbRecipe.image_url,
         imageUrl: dbRecipe.image_url,
         tags: dbRecipe.tags || [],
