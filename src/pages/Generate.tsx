@@ -135,8 +135,8 @@ const Generate = () => {
       case 'quick':
         return combinedRecipes.filter(recipe => {
           const isCopycatRecipe = recipe.tags?.includes('copycat') || 
-            recipe.cuisine.toLowerCase().includes('copycat') ||
-            recipe.name.toLowerCase().includes('copycat');
+            recipe.cuisine?.toLowerCase().includes('copycat') ||
+            recipe.name?.toLowerCase().includes('copycat');
           const isDessert = recipe.tags?.includes('dessert');
           const isBreakfastOnly = recipe.cuisine === "Breakfast" || recipe.tags?.includes('breakfast');
           const isDinnerOnly = recipe.cuisine === "Dinner";
@@ -191,7 +191,7 @@ const Generate = () => {
       
       case 'bowls':
         return combinedRecipes.filter(recipe =>
-          (recipe.cuisine.toLowerCase().includes('bowl') || 
+          (recipe.cuisine?.toLowerCase().includes('bowl') || 
            recipe.tags?.includes('bowls') || 
            recipe.tags?.includes('healthy')) && !isHalloweenRecipe(recipe)
         );
@@ -200,7 +200,7 @@ const Generate = () => {
         return combinedRecipes.filter(recipe =>
           (recipe.tags?.includes('kid-friendly') || 
            recipe.tags?.includes('family') || 
-           recipe.difficulty.toLowerCase() === 'easy') && 
+           recipe.difficulty?.toLowerCase() === 'easy') && 
           !isHalloweenRecipe(recipe) &&
           !recipe.tags?.includes('dessert') &&
           !recipe.tags?.includes('copycat')
@@ -208,16 +208,16 @@ const Generate = () => {
       
       case 'copycat':
         return combinedRecipes.filter(recipe =>
-          (recipe.cuisine.toLowerCase().includes('copycat') || 
+          (recipe.cuisine?.toLowerCase().includes('copycat') || 
            recipe.tags?.includes('copycat') ||
-           recipe.name.toLowerCase().includes('copycat')) && !isHalloweenRecipe(recipe)
+           recipe.name?.toLowerCase().includes('copycat')) && !isHalloweenRecipe(recipe)
         );
       
       case 'leftover':
         return combinedRecipes.filter(recipe =>
-          (recipe.cuisine.toLowerCase().includes('leftover') || 
+          (recipe.cuisine?.toLowerCase().includes('leftover') || 
            recipe.tags?.includes('leftover') ||
-           recipe.name.toLowerCase().includes('leftover')) && !isHalloweenRecipe(recipe)
+           recipe.name?.toLowerCase().includes('leftover')) && !isHalloweenRecipe(recipe)
         );
       
       default:
@@ -315,7 +315,7 @@ const Generate = () => {
         const queryLower = query.toLowerCase();
         
         if (searchMode === 'search') {
-          if (!recipe.name.toLowerCase().includes(queryLower)) return false;
+          if (!recipe.name?.toLowerCase().includes(queryLower)) return false;
         } else {
           // Ingredient mode: Use AND logic with word boundaries - ALL terms must be present
           const stopWords = ['and', 'or', 'with', 'the', 'a', 'an', 'in', 'on', 'for'];
@@ -350,7 +350,7 @@ const Generate = () => {
         
         // Difficulty filters
         if (['Easy', 'Medium', 'Hard'].includes(filter)) {
-          return recipe.difficulty.toLowerCase() === filter.toLowerCase();
+          return recipe.difficulty?.toLowerCase() === filter.toLowerCase();
         }
         
         // Diet and meal filters
@@ -565,9 +565,9 @@ const Generate = () => {
 
     if (categoryId === 'leftover') {
       collectionRecipes = combinedRecipes.filter(recipe =>
-        recipe.cuisine.toLowerCase().includes('leftover') || 
+        recipe.cuisine?.toLowerCase().includes('leftover') || 
         recipe.tags?.includes('leftover') || 
-        recipe.name.toLowerCase().includes('leftover')
+        recipe.name?.toLowerCase().includes('leftover')
       );
     } else if (categoryId) {
       collectionRecipes = getRecipesByCategory(categoryId);
@@ -578,9 +578,9 @@ const Generate = () => {
       // Search query filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
-        const matchesName = recipe.name.toLowerCase().includes(query);
-        const matchesIngredients = recipe.ingredients.some(ing => 
-          ing.item.toLowerCase().includes(query)
+        const matchesName = recipe.name?.toLowerCase().includes(query);
+        const matchesIngredients = recipe.ingredients?.some(ing => 
+          ing.item?.toLowerCase().includes(query)
         );
         if (!matchesName && !matchesIngredients) return false;
       }
@@ -593,9 +593,9 @@ const Generate = () => {
         if (filter === '30-60min') return (recipe.totalTime || 0) > 30 && (recipe.totalTime || 0) <= 60;
         
         // Difficulty filters
-        if (filter === 'Easy') return recipe.difficulty.toLowerCase() === 'easy';
-        if (filter === 'Medium') return recipe.difficulty.toLowerCase() === 'medium';
-        if (filter === 'Hard') return recipe.difficulty.toLowerCase() === 'hard';
+        if (filter === 'Easy') return recipe.difficulty?.toLowerCase() === 'easy';
+        if (filter === 'Medium') return recipe.difficulty?.toLowerCase() === 'medium';
+        if (filter === 'Hard') return recipe.difficulty?.toLowerCase() === 'hard';
         
         // Diet and meal filters (tags)
         const normalizedFilter = filter.toLowerCase().replace('-', '');
