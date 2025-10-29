@@ -6,7 +6,7 @@ import { Recipe } from "@/types/recipe";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
-import { allRecipes } from "@/data/recipes";
+import { useAllRecipes } from "@/hooks/useAllRecipes";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 const Favorites = () => {
   const { savedRecipes, loading } = useSavedRecipes();
+  const { allRecipes } = useAllRecipes();
   const { generatedRecipes } = useGeneratedRecipes();
   const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
   const [searchQuery, setSearchQuery] = useState("");

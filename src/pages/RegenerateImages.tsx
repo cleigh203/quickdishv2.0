@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, CheckCircle, XCircle, Sparkles } from "lucide-react";
-import { allRecipes } from "@/data/recipes";
+import { useAllRecipes } from "@/hooks/useAllRecipes";
 
 const RECIPES_TO_REGENERATE = [
   "Red Lobster Cheddar Bay Biscuits",
@@ -26,6 +26,7 @@ const RegenerateImages = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [results, setResults] = useState<any[]>([]);
   const { toast } = useToast();
+  const { allRecipes } = useAllRecipes();
 
   const handleRegenerate = async () => {
     setIsProcessing(true);

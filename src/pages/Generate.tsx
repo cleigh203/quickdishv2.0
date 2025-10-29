@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
-import { allRecipes } from "@/data/recipes";
+import { useAllRecipes } from "@/hooks/useAllRecipes";
 import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
@@ -21,6 +21,7 @@ const Generate = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { saveRecipe, isSaved } = useSavedRecipes();
+  const { allRecipes, isLoading: isLoadingRecipes } = useAllRecipes();
   const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
   const { verifiedRecipes } = useVerifiedRecipes();
   

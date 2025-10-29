@@ -11,7 +11,7 @@ import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
 import CookingMode from "@/components/CookingMode";
 import { ingredientsToShoppingItems } from "@/utils/shoppingListUtils";
-import { allRecipes } from "@/data/recipes";
+import { useAllRecipes } from "@/hooks/useAllRecipes";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
@@ -40,6 +40,7 @@ const RecipeDetail = () => {
   const location = useLocation();
   const { toast } = useToast();
   const { user, isPremium } = useAuth();
+  const { allRecipes } = useAllRecipes();
   const { isSaved, saveRecipe, unsaveRecipe, savedRecipes, updateRecipeNotes } = useSavedRecipes();
   const { addItems } = useShoppingList();
   const { addMealPlan } = useMealPlan();

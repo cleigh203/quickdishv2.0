@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { BottomNav } from "@/components/BottomNav";
 import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { RecipeCard } from "@/components/RecipeCard";
-import { allRecipes } from "@/data/recipes";
+import { useAllRecipes } from "@/hooks/useAllRecipes";
 import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import type { Recipe } from "@/types/recipe";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
@@ -16,6 +16,7 @@ const Index = () => {
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+  const { allRecipes, isLoading: isLoadingRecipes } = useAllRecipes();
   const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
   const { verifiedRecipes } = useVerifiedRecipes();
 

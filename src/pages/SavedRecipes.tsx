@@ -9,7 +9,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Search, X, Heart, Calendar, RefreshCw, Trash2 } from "lucide-react";
-import { allRecipes } from "@/data/recipes";
+import { useAllRecipes } from "@/hooks/useAllRecipes";
 import { Recipe } from "@/types/recipe";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useMealPlan } from "@/hooks/useMealPlan";
@@ -24,6 +24,7 @@ import { MealPlanDialog } from "@/components/MealPlanDialog";
 export const SavedRecipes = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { allRecipes } = useAllRecipes();
   const { savedRecipes, loading, error, refetch, unsaveRecipe } = useSavedRecipes();
   const { mealPlans, refreshMealPlans, addMealPlan } = useMealPlan();
   const { generatedRecipes } = useGeneratedRecipes();

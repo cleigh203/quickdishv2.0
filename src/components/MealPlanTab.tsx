@@ -19,7 +19,7 @@ import { Label } from "@/components/ui/label";
 import { useMealPlan } from "@/hooks/useMealPlan";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useShoppingList } from "@/hooks/useShoppingList";
-import { allRecipes } from "@/data/recipes";
+import { useAllRecipes } from "@/hooks/useAllRecipes";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
 import { toast } from "@/hooks/use-toast";
@@ -33,6 +33,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const MealPlanTab = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { allRecipes } = useAllRecipes();
   const { mealPlans, deleteMealPlan, clearAllMealPlans, refreshMealPlans } = useMealPlan();
   const { incrementTimesCooked } = useSavedRecipes();
   const { replaceList } = useShoppingList();
