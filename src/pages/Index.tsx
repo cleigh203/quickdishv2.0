@@ -11,7 +11,6 @@ import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import type { Recipe } from "@/types/recipe";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
-import { RecipeImage } from "@/components/RecipeImage";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -257,11 +256,15 @@ const Index = () => {
                     window.scrollTo(0, 0);
                   }}
                 >
-                  <div className="h-36 rounded-xl overflow-hidden">
-                    <RecipeImage
+                  <div className="relative h-36 bg-gray-200 rounded-xl overflow-hidden">
+                    <img
                       src={collection.image}
                       alt={collection.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-opacity duration-300"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.style.opacity = '0';
+                      }}
                     />
                   </div>
                   <div className="p-4">

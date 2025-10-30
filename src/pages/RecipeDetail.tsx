@@ -10,7 +10,6 @@ import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
 import CookingMode from "@/components/CookingMode";
-import { RecipeImage } from "@/components/RecipeImage";
 import { ingredientsToShoppingItems } from "@/utils/shoppingListUtils";
 import { useAllRecipes } from "@/hooks/useAllRecipes";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
@@ -349,10 +348,19 @@ const RecipeDetail = () => {
       {/* Only show image for non-AI recipes */}
       {!recipe.isAiGenerated && (
         <div className="relative min-h-[400px] overflow-hidden">
-          <RecipeImage
+          <img
+            key={recipe.imageUrl || recipe.image}
             src={getRecipeImage(recipe, import.meta.env.DEV)}
             alt={recipe.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-opacity duration-300"
+            loading="lazy"
+            decoding="async"
+            width="1200"
+            height="600"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1200&q=80";
+            }}
           />
           <Button
             onClick={() => navigate(-1)}

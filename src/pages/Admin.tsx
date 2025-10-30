@@ -13,7 +13,6 @@ import { useToast } from "@/hooks/use-toast";
 import { Recipe } from "@/types/recipe";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { supabase } from "@/integrations/supabase/client";
-import { RecipeImage } from "@/components/RecipeImage";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -371,11 +370,15 @@ const Admin = () => {
                   />
                 </div>
                 {editForm.imageUrl && (
-                  <div className="w-full h-32 rounded overflow-hidden">
-                    <RecipeImage 
+                  <div className="relative w-full h-32 bg-gray-200 rounded overflow-hidden">
+                    <img 
                       src={editForm.imageUrl} 
-                      alt="Preview"
-                      className="w-full h-full object-cover"
+                      alt="Preview" 
+                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+                      onError={(e) => {
+                        e.currentTarget.src = 'https://via.placeholder.com/400x300/10b981/ffffff?text=QuickDish';
+                      }}
                     />
                   </div>
                 )}
@@ -392,11 +395,15 @@ const Admin = () => {
                   recipes.map(recipe => (
                     <div key={recipe.id} className="flex items-center gap-3 p-3 bg-background/50 rounded-lg">
                       {recipe.imageUrl || recipe.image ? (
-                        <div className="w-16 h-16 rounded overflow-hidden flex-shrink-0">
-                          <RecipeImage 
+                        <div className="relative w-16 h-16 bg-gray-200 rounded overflow-hidden flex-shrink-0">
+                          <img 
                             src={recipe.imageUrl || recipe.image} 
-                            alt={recipe.name}
-                            className="w-full h-full object-cover"
+                            alt={recipe.name} 
+                            loading="lazy"
+                            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+                            onError={(e) => {
+                              e.currentTarget.src = 'https://via.placeholder.com/64x64/10b981/ffffff?text=Recipe';
+                            }}
                           />
                         </div>
                       ) : (
