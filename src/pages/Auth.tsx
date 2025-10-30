@@ -215,11 +215,16 @@ const Auth = () => {
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-4">
-              <img 
-                src={logo} 
-                alt="QuickDish AI" 
-                className="h-24 w-24 object-contain"
-              />
+            <img 
+              src={logo} 
+              alt="QuickDish AI" 
+              className="h-24 w-24 object-contain"
+              loading="eager"
+              fetchPriority="high"
+              decoding="sync"
+              crossOrigin="anonymous"
+              referrerPolicy="no-referrer"
+            />
             </div>
             <CardTitle className="text-3xl">Welcome to QuickDish AI</CardTitle>
             <CardDescription>Your personal cooking companion</CardDescription>

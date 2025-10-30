@@ -45,8 +45,11 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
               className={`w-full h-full object-cover transition-opacity duration-300 ${
                 imageLoaded ? 'opacity-100' : 'opacity-0'
               }`}
-              loading="lazy"
-              decoding="async"
+              loading="eager"
+              fetchPriority="high"
+              decoding="sync"
+              crossOrigin="anonymous"
+              referrerPolicy="no-referrer"
               width="400"
               height="300"
               onLoad={() => setImageLoaded(true)}

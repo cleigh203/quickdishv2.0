@@ -391,7 +391,20 @@ const Profile = () => {
         <div className="max-w-4xl mx-auto flex items-center gap-4">
           <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center overflow-hidden ring-4 ring-white/20">
             {profileData?.avatar_url ? (
-              <img src={profileData.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+              <img
+                src={profileData.avatar_url}
+                alt="Avatar"
+                className="w-full h-full object-cover"
+                loading="eager"
+                fetchPriority="high"
+                decoding="sync"
+                crossOrigin="anonymous"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = 'https://via.placeholder.com/128/10b981/ffffff?text=User';
+                }}
+              />
             ) : (
               <span className="text-white text-3xl font-bold">{(profileData?.display_name || user?.email || 'U')[0].toUpperCase()}</span>
             )}

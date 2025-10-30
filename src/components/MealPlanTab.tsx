@@ -429,6 +429,15 @@ export const MealPlanTab = () => {
                     src={displayImage as string | undefined} 
                     alt={displayName}
                     className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="sync"
+                    crossOrigin="anonymous"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = 'https://via.placeholder.com/96x96/10b981/ffffff?text=Meal';
+                    }}
                   />
                   <div className="flex-1 min-w-0 pr-10">
                     <p className="text-sm text-muted-foreground mb-1">{formatDate(meal.scheduled_date)}</p>

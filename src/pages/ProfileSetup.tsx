@@ -200,7 +200,20 @@ export default function ProfileSetup() {
               <div className="relative">
                 <div className="w-32 h-32 rounded-full bg-muted flex items-center justify-center overflow-hidden">
                   {avatarPreview ? (
-                    <img src={avatarPreview} alt="Avatar preview" className="w-full h-full object-cover" />
+                    <img
+                      src={avatarPreview}
+                      alt="Avatar preview"
+                      className="w-full h-full object-cover"
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="sync"
+                      crossOrigin="anonymous"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'https://via.placeholder.com/128/10b981/ffffff?text=User';
+                      }}
+                    />
                   ) : (
                     <Camera className="w-12 h-12 text-muted-foreground" />
                   )}

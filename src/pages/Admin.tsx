@@ -374,8 +374,12 @@ const Admin = () => {
                     <img 
                       src={editForm.imageUrl} 
                       alt="Preview" 
-                      loading="lazy"
                       className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="sync"
+                      crossOrigin="anonymous"
+                      referrerPolicy="no-referrer"
                       onError={(e) => {
                         e.currentTarget.src = 'https://via.placeholder.com/400x300/10b981/ffffff?text=QuickDish';
                       }}
@@ -399,8 +403,12 @@ const Admin = () => {
                           <img 
                             src={recipe.imageUrl || recipe.image} 
                             alt={recipe.name} 
-                            loading="lazy"
                             className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+                            loading="eager"
+                            fetchPriority="high"
+                            decoding="sync"
+                            crossOrigin="anonymous"
+                            referrerPolicy="no-referrer"
                             onError={(e) => {
                               e.currentTarget.src = 'https://via.placeholder.com/64x64/10b981/ffffff?text=Recipe';
                             }}

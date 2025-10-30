@@ -178,6 +178,15 @@ const GenerateDessertImages = () => {
                         src={imageBase64} 
                         alt={dessertName}
                         className="w-16 h-16 object-cover rounded"
+                        loading="eager"
+                        fetchPriority="high"
+                        decoding="sync"
+                        crossOrigin="anonymous"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = 'https://via.placeholder.com/128/10b981/ffffff?text=Dessert';
+                        }}
                       />
                       <div>
                         <p className="font-medium">{dessertName}</p>

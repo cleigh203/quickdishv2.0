@@ -38,6 +38,11 @@ export function StoreSelection({ onSelectStore, onClose }: StoreSelectionProps) 
                   src={store.logo} 
                   alt={store.name}
                   className="w-12 h-12 object-contain"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="sync"
+                  crossOrigin="anonymous"
+                  referrerPolicy="no-referrer"
                   onError={(e) => {
                     // Fallback to text if image fails
                     e.currentTarget.style.display = 'none';

@@ -214,6 +214,15 @@ export default function GenerateBulkRecipeImages() {
                       src={img.image} 
                       alt={img.name}
                       className="w-full h-32 object-cover rounded"
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="sync"
+                      crossOrigin="anonymous"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'https://via.placeholder.com/200x200/10b981/ffffff?text=Image';
+                      }}
                     />
                     <p className="text-xs truncate">{img.name}</p>
                   </div>

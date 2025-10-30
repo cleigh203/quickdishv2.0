@@ -36,6 +36,11 @@ export const OnboardingWelcome = () => {
                 src="/logo.svg" 
                 alt="QuickDish Logo" 
                 className="w-16 h-16 object-contain"
+                loading="eager"
+                fetchPriority="high"
+                decoding="sync"
+                crossOrigin="anonymous"
+                referrerPolicy="no-referrer"
               />
             </div>
           </div>

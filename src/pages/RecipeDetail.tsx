@@ -353,8 +353,11 @@ const RecipeDetail = () => {
             src={getRecipeImage(recipe, import.meta.env.DEV)}
             alt={recipe.name}
             className="w-full h-full object-cover transition-opacity duration-300"
-            loading="lazy"
-            decoding="async"
+            loading="eager"
+            fetchPriority="high"
+            decoding="sync"
+            crossOrigin="anonymous"
+            referrerPolicy="no-referrer"
             width="1200"
             height="600"
             onError={(e) => {

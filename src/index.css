@@ -30,6 +30,17 @@ All colors MUST be HSL.
 */
 
 @layer base {
+  img {
+    content-visibility: auto;
+    image-rendering: -webkit-optimize-contrast;
+  }
+
+  img[src*="imgur.com"],
+  img[src*="placeholder.com"] {
+    background-color: #e5e7eb;
+    loading: eager !important;
+  }
+
   :root {
     /* Light theme */
     --background: 0 0% 98%;

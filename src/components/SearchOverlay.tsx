@@ -292,8 +292,11 @@ export const SearchOverlay = ({
                           src={getRecipeImage(recipe, import.meta.env.DEV)}
                           alt={recipe.name}
                           className="w-full h-full object-cover"
-                          loading="lazy"
-                          decoding="async"
+                          loading="eager"
+                          fetchPriority="high"
+                          decoding="sync"
+                          crossOrigin="anonymous"
+                          referrerPolicy="no-referrer"
                           width="400"
                           height="500"
                           onError={(e) => {

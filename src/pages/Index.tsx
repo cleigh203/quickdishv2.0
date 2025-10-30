@@ -292,7 +292,11 @@ const Index = () => {
                       src={collection.image}
                       alt={collection.name}
                       className="w-full h-full object-cover transition-opacity duration-300"
-                      loading="lazy"
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="sync"
+                      crossOrigin="anonymous"
+                      referrerPolicy="no-referrer"
                       onError={(e) => {
                         e.currentTarget.style.opacity = '0';
                       }}

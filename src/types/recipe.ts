@@ -34,4 +34,5 @@ export interface Recipe {
   tags?: string[]; // Diet and meal type tags (vegetarian, vegan, breakfast, etc.)
   isAiGenerated?: boolean; // Flag for AI-generated recipes
   generatedAt?: string; // Timestamp when recipe was generated
+  category?: string; // Category for organized filtering (Breakfast, Lunch, etc.)
 }

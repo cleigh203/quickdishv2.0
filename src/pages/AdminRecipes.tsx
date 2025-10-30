@@ -537,6 +537,15 @@ const AdminRecipes = () => {
                       src={recipe.image_url} 
                       alt={recipe.name}
                       className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="sync"
+                      crossOrigin="anonymous"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'https://via.placeholder.com/96x96/10b981/ffffff?text=Recipe';
+                      }}
                     />
                   )}
                   <div className="flex-1 space-y-2">

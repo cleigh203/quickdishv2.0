@@ -169,8 +169,11 @@ const Favorites = () => {
                       src={getRecipeImage(recipe, import.meta.env.DEV)}
                       alt={recipe.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                      loading="lazy"
-                      decoding="async"
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="sync"
+                      crossOrigin="anonymous"
+                      referrerPolicy="no-referrer"
                       width="640"
                       height="360"
                       onError={(e) => {

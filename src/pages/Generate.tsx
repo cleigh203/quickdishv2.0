@@ -40,22 +40,24 @@ const Generate = () => {
   const ingredientsParam = searchParams.get('ingredients');
   
   // Combine recipes, deduplicating by recipe_id and prioritizing DB recipes over static ones
-  const combinedRecipes = (() => {
-    const recipeMap = new Map<string, Recipe>();
+  type RecipeWithCategory = Recipe & { category?: string };
+
+  const combinedRecipes: RecipeWithCategory[] = (() => {
+    const recipeMap = new Map<string, RecipeWithCategory>();
     
     // Add static recipes first
     allRecipes.forEach(recipe => {
-      recipeMap.set(recipe.id, recipe);
+      recipeMap.set(recipe.id, recipe as RecipeWithCategory);
     });
     
     // Override with verified DB recipes (these have priority)
     verifiedRecipes.forEach(recipe => {
-      recipeMap.set(recipe.id, recipe);
+      recipeMap.set(recipe.id, recipe as RecipeWithCategory);
     });
     
     // Add user's generated recipes
     generatedRecipes.forEach(recipe => {
-      recipeMap.set(recipe.id, recipe);
+      recipeMap.set(recipe.id, recipe as RecipeWithCategory);
     });
     
     // Exclude AI-generated recipes from discovery dataset
@@ -459,8 +461,11 @@ const Generate = () => {
                         src={getRecipeImage(recipe, import.meta.env.DEV)}
                         alt={recipe.name}
                         className="w-full h-[220px] object-cover"
-                        loading="lazy"
-                        decoding="async"
+                        loading="eager"
+                        fetchPriority="high"
+                        decoding="sync"
+                        crossOrigin="anonymous"
+                        referrerPolicy="no-referrer"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
@@ -651,8 +656,11 @@ const Generate = () => {
                         src={getRecipeImage(recipe)}
                         alt={recipe.name}
                         className="w-full h-[220px] object-cover"
-                        loading="lazy"
-                        decoding="async"
+                        loading="eager"
+                        fetchPriority="high"
+                        decoding="sync"
+                        crossOrigin="anonymous"
+                        referrerPolicy="no-referrer"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
@@ -815,8 +823,11 @@ const Generate = () => {
                             src={getRecipeImage(recipe, import.meta.env.DEV)}
                             alt={recipe.name}
                             className="w-full h-full object-cover"
-                            loading="lazy"
-                            decoding="async"
+                            loading="eager"
+                            fetchPriority="high"
+                            decoding="sync"
+                            crossOrigin="anonymous"
+                            referrerPolicy="no-referrer"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";

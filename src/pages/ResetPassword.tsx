@@ -80,6 +80,11 @@ const ResetPassword = () => {
               src={logo} 
               alt="QuickDish AI" 
               className="h-20 w-20 object-contain"
+              loading="eager"
+              fetchPriority="high"
+              decoding="sync"
+              crossOrigin="anonymous"
+              referrerPolicy="no-referrer"
             />
           </div>
           <CardTitle>Set New Password</CardTitle>

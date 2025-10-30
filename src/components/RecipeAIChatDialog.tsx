@@ -170,6 +170,15 @@ export const RecipeAIChatDialog: React.FC<RecipeAIChatDialogProps> = ({ recipe, 
               src={recipe.image}
               alt={recipe.name}
               className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+              loading="eager"
+              fetchPriority="high"
+              decoding="sync"
+              crossOrigin="anonymous"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&q=80';
+              }}
             />
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-sm truncate">{recipe.name}</h3>

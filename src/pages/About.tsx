@@ -31,6 +31,11 @@ const About = () => {
               src="/logo.svg" 
               alt="QuickDish Logo" 
               className="w-32 h-32 object-contain drop-shadow-2xl"
+              loading="eager"
+              fetchPriority="high"
+              decoding="sync"
+              crossOrigin="anonymous"
+              referrerPolicy="no-referrer"
             />
           </div>
           <div>
