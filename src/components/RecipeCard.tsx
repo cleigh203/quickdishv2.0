@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Clock, ChefHat, Trash2 } from "lucide-react";
+import { Clock, ChefHat, Trash2, Calendar } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Recipe } from "@/types/recipe";
@@ -13,9 +13,11 @@ interface RecipeCardProps {
   showSaveButton?: boolean;
   showRemoveButton?: boolean;
   onRemove?: () => void;
+  showMealPlanButton?: boolean;
+  onMealPlanClick?: () => void;
 }
 
-export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveButton = false, onRemove }: RecipeCardProps) => {
+export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveButton = false, onRemove, showMealPlanButton = false, onMealPlanClick }: RecipeCardProps) => {
   const { averageRating, totalRatings } = useRecipeRating(recipe.id);
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -98,6 +100,20 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
             🍽️ {recipe.cuisine}
           </span>
         </div>
+        {showMealPlanButton && onMealPlanClick && (
+          <div className="flex justify-center mt-3">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onMealPlanClick();
+              }}
+              className="flex items-center gap-2 px-3 py-1.5 bg-orange-100 hover:bg-orange-200 text-orange-800 rounded-full text-xs font-medium transition-colors"
+            >
+              <Calendar className="w-3 h-3" />
+              Add to Meal Plan
+            </button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

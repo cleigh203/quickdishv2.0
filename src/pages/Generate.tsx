@@ -33,7 +33,8 @@ const Generate = () => {
   const [filters, setFilters] = useState<string[]>([]);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [showFilteredView, setShowFilteredView] = useState(false);
-  
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
   // Check for collection filter from URL
   const collectionParam = searchParams.get('collection');
   const ingredientsParam = searchParams.get('ingredients');
@@ -287,6 +288,27 @@ const Generate = () => {
     return filtered;
   };
 
+  // Image preloading to prevent flashing on first load
+  useEffect(() => {
+    if (!combinedRecipes || combinedRecipes.length === 0) return;
+
+    // Preload first 12 images (visible on screen)
+    const imagesToPreload = combinedRecipes.slice(0, 12).map(r => getRecipeImage(r, import.meta.env.DEV));
+
+    Promise.all(
+      imagesToPreload.map(src => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = resolve;
+          img.onerror = resolve; // Resolve even on error
+        });
+      })
+    ).then(() => {
+      setImagesLoaded(true);
+    });
+  }, [combinedRecipes]);
+
   // If viewing filtered search results or ingredient search from home
   if ((showFilteredView || ingredientsParam) && !collectionParam) {
     const filteredRecipes = getFilteredRecipes();
@@ -388,10 +410,20 @@ const Generate = () => {
 
         {/* Recipe Grid */}
         <div className="px-4 py-6">
-          <p className="text-sm text-muted-foreground mb-4">
-            {filteredRecipes.length} recipes found
-          </p>
-          {filteredRecipes.length === 0 ? (
+          {!imagesLoaded ? (
+            <div className="grid grid-cols-2 gap-4">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="relative cursor-pointer">
+                  <div className="relative rounded-xl overflow-hidden">
+                    <div className="w-full h-[220px] bg-gray-200 animate-pulse" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  </div>
+                  <div className="mt-2 h-4 bg-gray-200 animate-pulse rounded" />
+                  <div className="mt-1 h-3 bg-gray-200 animate-pulse rounded w-3/4" />
+                </div>
+              ))}
+            </div>
+          ) : filteredRecipes.length === 0 ? (
             <div className="max-w-md mx-auto text-center py-12">
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-2xl font-bold mb-2">
@@ -400,7 +432,7 @@ const Generate = () => {
               <p className="text-muted-foreground mb-6">
                 Try different search terms or browse our categories
               </p>
-              <Button 
+              <Button
                 size="lg"
                 onClick={() => {
                   clearFilters();
@@ -411,48 +443,53 @@ const Generate = () => {
               </Button>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-4">
-              {filteredRecipes.map((recipe) => (
-                <div
-                  key={recipe.id}
-                  onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
-                  className="relative cursor-pointer"
-                >
-                  <div className="relative rounded-xl overflow-hidden">
-                    <img
-                      src={getRecipeImage(recipe, import.meta.env.DEV)}
-                      alt={recipe.name}
-                      className="w-full h-[220px] object-cover"
-                      loading="lazy"
-                      decoding="async"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    {recipe.isAiGenerated && (
-                      <Badge 
-                        variant="secondary" 
-                        className="absolute top-2 left-2 text-xs bg-purple-500/90 text-white backdrop-blur-sm"
+            <>
+              <p className="text-sm text-muted-foreground mb-4">
+                {filteredRecipes.length} recipes found
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                {filteredRecipes.map((recipe) => (
+                  <div
+                    key={recipe.id}
+                    onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
+                    className="relative cursor-pointer"
+                  >
+                    <div className="relative rounded-xl overflow-hidden">
+                      <img
+                        src={getRecipeImage(recipe, import.meta.env.DEV)}
+                        alt={recipe.name}
+                        className="w-full h-[220px] object-cover"
+                        loading="lazy"
+                        decoding="async"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      {recipe.isAiGenerated && (
+                        <Badge
+                          variant="secondary"
+                          className="absolute top-2 left-2 text-xs bg-purple-500/90 text-white backdrop-blur-sm"
+                        >
+                          <Sparkles className="w-3 h-3 mr-1" />
+                          AI
+                        </Badge>
+                      )}
+                      <button
+                        onClick={(e) => addToFavorites(recipe, e)}
+                        className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
                       >
-                        <Sparkles className="w-3 h-3 mr-1" />
-                        AI
-                      </Badge>
-                    )}
-                    <button
-                      onClick={(e) => addToFavorites(recipe, e)}
-                      className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
-                    >
-                      <Plus className="w-4 h-4 text-black" />
-                    </button>
+                        <Plus className="w-4 h-4 text-black" />
+                      </button>
+                    </div>
+                    <p className="mt-2 font-medium text-sm line-clamp-2">
+                      {recipe.name}
+                    </p>
                   </div>
-                  <p className="mt-2 font-medium text-sm line-clamp-2">
-                    {recipe.name}
-                  </p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
 
@@ -584,42 +621,59 @@ const Generate = () => {
 
         {/* Recipe Grid */}
         <div className="px-4 py-6">
-          <p className="text-sm text-muted-foreground mb-4">
-            {filteredRecipes.length} recipes found
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            {filteredRecipes.map((recipe) => (
-              <div
-                key={recipe.id}
-                onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
-                className="relative cursor-pointer"
-              >
-                <div className="relative rounded-xl overflow-hidden">
-                  <img
-                    src={getRecipeImage(recipe)}
-                    alt={recipe.name}
-                    className="w-full h-[220px] object-cover"
-                    loading="lazy"
-                    decoding="async"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <button
-                    onClick={(e) => addToFavorites(recipe, e)}
-                    className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
-                  >
-                    <Plus className="w-4 h-4 text-black" />
-                  </button>
+          {!imagesLoaded ? (
+            <div className="grid grid-cols-2 gap-4">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="relative cursor-pointer">
+                  <div className="relative rounded-xl overflow-hidden">
+                    <div className="w-full h-[220px] bg-gray-200 animate-pulse" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  </div>
+                  <div className="mt-2 h-4 bg-gray-200 animate-pulse rounded" />
+                  <div className="mt-1 h-3 bg-gray-200 animate-pulse rounded w-3/4" />
                 </div>
-                <p className="mt-2 font-medium text-sm line-clamp-2">
-                  {recipe.name}
-                </p>
+              ))}
+            </div>
+          ) : (
+            <>
+              <p className="text-sm text-muted-foreground mb-4">
+                {filteredRecipes.length} recipes found
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                {filteredRecipes.map((recipe) => (
+                  <div
+                    key={recipe.id}
+                    onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
+                    className="relative cursor-pointer"
+                  >
+                    <div className="relative rounded-xl overflow-hidden">
+                      <img
+                        src={getRecipeImage(recipe)}
+                        alt={recipe.name}
+                        className="w-full h-[220px] object-cover"
+                        loading="lazy"
+                        decoding="async"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <button
+                        onClick={(e) => addToFavorites(recipe, e)}
+                        className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
+                      >
+                        <Plus className="w-4 h-4 text-black" />
+                      </button>
+                    </div>
+                    <p className="mt-2 font-medium text-sm line-clamp-2">
+                      {recipe.name}
+                    </p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </>
+          )}
         </div>
 
         <BottomNav />
@@ -699,65 +753,94 @@ const Generate = () => {
 
       {/* Horizontal Scrolling Sections */}
       <div className="space-y-6 py-6">
-        {categories.map((category) => {
-          const categoryRecipes = getRecipesByCategory(category.id);
-          
-          if (categoryRecipes.length === 0) return null;
-
-          return (
-            <div key={category.id}>
-              {/* Category Header */}
+        {!imagesLoaded ? (
+          // Loading skeletons for horizontal sections
+          categories.slice(0, 4).map((category, categoryIndex) => (
+            <div key={`loading-${category.id}`}>
+              {/* Category Header Skeleton */}
               <div className="px-4 mb-3 flex items-center justify-between">
-                <h2 className="text-xl font-bold">
-                  {category.emoji} {category.name}
-                </h2>
-                <button
-                  onClick={() => handleSeeAll(category.name)}
-                  className="text-sm font-semibold text-primary hover:underline"
-                >
-                  See All
-                </button>
+                <div className="h-6 bg-gray-200 animate-pulse rounded w-48" />
+                <div className="h-4 bg-gray-200 animate-pulse rounded w-12" />
               </div>
 
-              {/* Horizontal Scroll */}
+              {/* Horizontal Scroll Skeleton */}
               <div className="overflow-x-auto scrollbar-hide">
                 <div className="flex gap-4 px-4 pb-2">
-                  {categoryRecipes.slice(0, 10).map((recipe) => (
-                    <div
-                      key={recipe.id}
-                      onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
-                      className="relative cursor-pointer shrink-0 w-40"
-                    >
+                  {[...Array(5)].map((_, i) => (
+                    <div key={`skeleton-${categoryIndex}-${i}`} className="relative shrink-0 w-40">
                       <div className="relative rounded-xl overflow-hidden aspect-[3/4]">
-                        <img
-                          src={getRecipeImage(recipe, import.meta.env.DEV)}
-                          alt={recipe.name}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                          decoding="async"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
-                          }}
-                        />
+                        <div className="w-full h-full bg-gray-200 animate-pulse" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                        <button
-                          onClick={(e) => addToFavorites(recipe, e)}
-                          className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
-                        >
-                          <Plus className="w-4 h-4 text-black" />
-                        </button>
                       </div>
-                      <p className="mt-2 font-medium text-sm line-clamp-2">
-                        {recipe.name}
-                      </p>
+                      <div className="mt-2 h-4 bg-gray-200 animate-pulse rounded" />
+                      <div className="mt-1 h-3 bg-gray-200 animate-pulse rounded w-3/4" />
                     </div>
                   ))}
                 </div>
               </div>
             </div>
-          );
-        })}
+          ))
+        ) : (
+          categories.map((category) => {
+            const categoryRecipes = getRecipesByCategory(category.id);
+
+            if (categoryRecipes.length === 0) return null;
+
+            return (
+              <div key={category.id}>
+                {/* Category Header */}
+                <div className="px-4 mb-3 flex items-center justify-between">
+                  <h2 className="text-xl font-bold">
+                    {category.emoji} {category.name}
+                  </h2>
+                  <button
+                    onClick={() => handleSeeAll(category.name)}
+                    className="text-sm font-semibold text-primary hover:underline"
+                  >
+                    See All
+                  </button>
+                </div>
+
+                {/* Horizontal Scroll */}
+                <div className="overflow-x-auto scrollbar-hide">
+                  <div className="flex gap-4 px-4 pb-2">
+                    {categoryRecipes.slice(0, 10).map((recipe) => (
+                      <div
+                        key={recipe.id}
+                        onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
+                        className="relative cursor-pointer shrink-0 w-40"
+                      >
+                        <div className="relative rounded-xl overflow-hidden aspect-[3/4]">
+                          <img
+                            src={getRecipeImage(recipe, import.meta.env.DEV)}
+                            alt={recipe.name}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                            decoding="async"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                          <button
+                            onClick={(e) => addToFavorites(recipe, e)}
+                            className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
+                          >
+                            <Plus className="w-4 h-4 text-black" />
+                          </button>
+                        </div>
+                        <p className="mt-2 font-medium text-sm line-clamp-2">
+                          {recipe.name}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
 
       <BottomNav />

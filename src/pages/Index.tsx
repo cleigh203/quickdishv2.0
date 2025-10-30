@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Sparkles, X } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BottomNav } from "@/components/BottomNav";
@@ -11,11 +11,13 @@ import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import type { Recipe } from "@/types/recipe";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
+import { getRecipeImage } from "@/utils/recipeImages";
 
 const Index = () => {
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const { allRecipes, isLoading: isLoadingRecipes } = useAllRecipes();
   const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
   const { verifiedRecipes } = useVerifiedRecipes();
@@ -56,6 +58,27 @@ const Index = () => {
     // Exclude AI-generated (session) recipes from public discovery lists
     return Array.from(recipeMap.values()).filter(r => !(r as any).isAiGenerated);
   }, [generatedRecipes, verifiedRecipes]);
+
+  // Image preloading to prevent flashing on first load
+  useEffect(() => {
+    if (!combinedRecipes || combinedRecipes.length === 0) return;
+
+    // Preload first 12 images (visible on screen)
+    const imagesToPreload = combinedRecipes.slice(0, 12).map(r => getRecipeImage(r, import.meta.env.DEV));
+
+    Promise.all(
+      imagesToPreload.map(src => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = resolve;
+          img.onerror = resolve; // Resolve even on error
+        });
+      })
+    ).then(() => {
+      setImagesLoaded(true);
+    });
+  }, [combinedRecipes]);
 
   // Filter recipes by ingredients (AND logic on ingredients only)
   const filteredRecipes = useMemo(() => {
@@ -184,7 +207,15 @@ const Index = () => {
               </Button>
             </div>
             
-            {filteredRecipes.length > 0 ? (
+            {!imagesLoaded ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="relative">
+                    <div className="bg-gray-200 animate-pulse rounded-lg h-64" />
+                  </div>
+                ))}
+              </div>
+            ) : filteredRecipes.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredRecipes.map((recipe) => (
                   <div key={recipe.id} className="relative">
@@ -193,8 +224,8 @@ const Index = () => {
                       onClick={() => handleRecipeClick(recipe.id)}
                     />
                     {recipe.isAiGenerated && (
-                      <Badge 
-                        variant="secondary" 
+                      <Badge
+                        variant="secondary"
                         className="absolute top-2 left-2 text-xs bg-purple-500/90 text-white backdrop-blur-sm"
                       >
                         <Sparkles className="w-3 h-3 mr-1" />
