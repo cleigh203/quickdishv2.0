@@ -6,6 +6,7 @@ import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { useRecipeRating } from "@/hooks/useRecipeRating";
 import { RatingStars } from "@/components/RatingStars";
+import { RecipeImage } from "@/components/RecipeImage";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -17,7 +18,6 @@ interface RecipeCardProps {
 
 export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveButton = false, onRemove }: RecipeCardProps) => {
   const { averageRating, totalRatings } = useRecipeRating(recipe.id);
-  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <Card
@@ -32,27 +32,11 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
             <span className="text-sm">AI Recipe</span>
           </div>
         ) : (
-          <div className="relative recipe-card-image overflow-hidden">
-            {!imageLoaded && (
-              <div className="absolute inset-0 bg-gray-200 animate-pulse" />
-            )}
-            <img
-              key={recipe.imageUrl || recipe.image}
+          <div className="recipe-card-image overflow-hidden">
+            <RecipeImage
               src={getRecipeImage(recipe, import.meta.env.DEV)}
               alt={recipe.name}
-              className={`w-full h-full object-cover transition-opacity duration-300 ${
-                imageLoaded ? 'opacity-100' : 'opacity-0'
-              }`}
-              loading="lazy"
-              decoding="async"
-              width="400"
-              height="300"
-              onLoad={() => setImageLoaded(true)}
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
-                setImageLoaded(true);
-              }}
+              className="w-full h-full object-cover"
             />
           </div>
         )}
