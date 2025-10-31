@@ -80,13 +80,98 @@ function extractIngredients(recipe: any) {
     const measure = recipe[`strMeasure${i}`]
 
     if (ingredient && ingredient.trim()) {
-      ingredients.push({
-        item: ingredient.trim(),
-        amount: measure ? measure.trim() : '1',
-        unit: ''
-      })
+      ingredients.push(parseIngredient(ingredient, measure))
     }
   }
 
   return ingredients
+}
+
+function parseIngredient(ingredientName: string, measure: string) {
+  if (!measure || !measure.trim()) {
+    return {
+      item: ingredientName.trim(),
+      amount: '1',
+      unit: ''
+    }
+  }
+
+  // Clean up the measure string
+  const cleanMeasure = measure.trim()
+
+  // Parse common patterns: "2 tbsp", "1 tsp", "3 cups", "750g", "2-3", etc.
+  const patterns = [
+    // "2 tbsp", "1 tsp", "3 cups", "4 oz", "1 lb"
+    /^(\d+(?:[-\/]\d+)?)\s*(tbsp?|tsp?|cup|cups|tablespoons?|teaspoons?|oz|ounces?|lb|lbs|pounds?|g|grams?|kg|ml|l|liters?|pints?|quarts?|gallons?|cloves?|slices?|pieces?|stalks?|bunches?)/i,
+    // "750g", "2kg", "500ml" (no space)
+    /^(\d+(?:\.\d+)?)(g|kg|ml|l|oz|lb)$/i,
+    // Just a number: "2", "3", "1/2"
+    /^(\d+(?:[-\/]\d+)?)$/
+  ]
+
+  for (const pattern of patterns) {
+    const match = cleanMeasure.match(pattern)
+    if (match) {
+      const amount = match[1]
+      const unit = match[2] || ''
+
+      // Normalize units
+      const normalizedUnit = normalizeUnit(unit)
+
+      return {
+        item: ingredientName.trim(),
+        amount: amount,
+        unit: normalizedUnit
+      }
+    }
+  }
+
+  // If no pattern matches, treat entire measure as amount
+  return {
+    item: ingredientName.trim(),
+    amount: cleanMeasure,
+    unit: ''
+  }
+}
+
+function normalizeUnit(unit: string): string {
+  if (!unit) return ''
+
+  const normalized = unit.toLowerCase()
+
+  // Normalize to consistent abbreviations
+  const unitMap: Record<string, string> = {
+    'tablespoon': 'tbsp',
+    'tablespoons': 'tbsp',
+    'teaspoon': 'tsp',
+    'teaspoons': 'tsp',
+    'ounce': 'oz',
+    'ounces': 'oz',
+    'pound': 'lb',
+    'pounds': 'lbs',
+    'gram': 'g',
+    'grams': 'g',
+    'kilogram': 'kg',
+    'kilograms': 'kg',
+    'milliliter': 'ml',
+    'milliliters': 'ml',
+    'liter': 'l',
+    'liters': 'l',
+    'pint': 'pint',
+    'pints': 'pints',
+    'quart': 'quart',
+    'quarts': 'quarts',
+    'clove': 'clove',
+    'cloves': 'cloves',
+    'slice': 'slice',
+    'slices': 'slices',
+    'piece': 'piece',
+    'pieces': 'pieces',
+    'stalk': 'stalk',
+    'stalks': 'stalks',
+    'bunch': 'bunch',
+    'bunches': 'bunches'
+  }
+
+  return unitMap[normalized] || normalized
 }
