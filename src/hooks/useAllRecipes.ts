@@ -10,13 +10,13 @@ const CACHE_DURATION = 60000; // 1 minute for testing (was 1 hour)
 
 export const useAllRecipes = (enabled = true) => {
   const [allRecipes, setAllRecipes] = useState<Recipe[]>(() => {
-    // Try to load from cache on init
+    // Try to load from cache on init - but ONLY if it has image URLs!
     try {
       const cached = localStorage.getItem(CACHE_KEY);
       if (cached) {
         const { data, timestamp } = JSON.parse(cached);
-        // Use cache if less than CACHE_DURATION old
-        if (Date.now() - timestamp < CACHE_DURATION) {
+        // Use cache ONLY if it's fresh AND has image URLs
+        if (Date.now() - timestamp < CACHE_DURATION && data?.length > 0 && data[0]?.image_url) {
           return data;
         }
       }
@@ -28,7 +28,8 @@ export const useAllRecipes = (enabled = true) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (enabled && allRecipes.length === 0) {
+    // Always fetch fresh data on first load to ensure we have images
+    if (enabled && (allRecipes.length === 0 || !allRecipes[0]?.image_url)) {
       fetchAllRecipes();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -96,6 +97,9 @@ export const useAllRecipes = (enabled = true) => {
     }
   };
 
-  return { allRecipes, isLoading, refetch: fetchAllRecipes };
+  // isLoading should be true if we have no recipes OR if recipes don't have image URLs yet
+  const isReallyLoading = isLoading || (allRecipes.length > 0 && !allRecipes[0]?.image_url);
+
+  return { allRecipes, isLoading: isReallyLoading, refetch: fetchAllRecipes };
 };
 
