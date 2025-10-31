@@ -73,12 +73,13 @@ const RecipeDetail = () => {
   }, [id]);
 
   useEffect(() => {
-    if (!id) {
-      setIsLoadingRecipe(false);
-      return;
-    }
-    
-    let foundRecipe: Recipe | undefined;
+    const loadRecipe = async () => {
+      if (!id) {
+        setIsLoadingRecipe(false);
+        return;
+      }
+
+      let foundRecipe: Recipe | undefined;
     
     // PRIORITY 1: Check DATABASE for verified recipes with AI-generated images
     foundRecipe = verifiedRecipes.find(r => r.id === id);
@@ -115,12 +116,46 @@ const RecipeDetail = () => {
         console.error('Error loading custom recipes:', error);
       }
     }
-    
+
+    // PRIORITY 7: Try to fetch from Supabase directly as last resort
+    if (!foundRecipe) {
+      try {
+        const { data, error } = await supabase
+          .from('recipes')
+          .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category, nutrition, total_time')
+          .eq('recipe_id', id)
+          .single();
+
+        if (data && !error) {
+          foundRecipe = {
+            id: data.recipe_id,
+            name: data.name,
+            description: data.description || '',
+            cookTime: data.cook_time || '30 mins',
+            prepTime: data.prep_time || '15 mins',
+            difficulty: data.difficulty || 'Medium',
+            servings: data.servings || 4,
+            ingredients: (Array.isArray(data.ingredients) ? data.ingredients : []) as any[],
+            instructions: (Array.isArray(data.instructions) ? data.instructions : []) as string[],
+            cuisine: data.cuisine || 'International',
+            category: data.category || 'Other',
+            image: data.image_url,
+            imageUrl: data.image_url,
+            tags: data.tags || [],
+            totalTime: data.total_time,
+            nutrition: data.nutrition,
+          };
+        }
+      } catch (error) {
+        console.error('Error fetching recipe from Supabase:', error);
+      }
+    }
+
     if (foundRecipe) {
       setRecipe(foundRecipe);
       setIsLoadingRecipe(false);
       // Ad gating removed for now
-      
+
       // Check if coming from "Cook Now" button
       const params = new URLSearchParams(window.location.search);
       if (params.get('cook') === 'true') {
@@ -130,8 +165,11 @@ const RecipeDetail = () => {
     } else {
       setRecipe(null);
       setIsLoadingRecipe(false);
-      navigate('/generate');
+      navigate('/discover'); // Changed from /generate to /discover for better UX
     }
+    };
+
+    loadRecipe();
   }, [id, navigate, generatedRecipes, verifiedRecipes, location.state]);
 
   const toggleFavorite = async () => {
