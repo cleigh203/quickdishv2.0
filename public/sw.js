@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v7';
+const CACHE_VERSION = 'v8';
 const CACHE_NAME = `quickdish-${CACHE_VERSION}`;
 const CACHE_EXPIRATION_DAYS = 7;
 
@@ -47,10 +47,12 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Network-only strategy for API calls - never cache user data
-  if (url.pathname.includes('/functions/') || 
-      url.pathname.includes('/rest/') || 
+  if (url.pathname.includes('/functions/') ||
+      url.pathname.includes('/rest/') ||
       url.pathname.includes('/auth/') ||
-      url.pathname.includes('/realtime/')) {
+      url.pathname.includes('/realtime/') ||
+      url.hostname.includes('supabase.co') ||
+      url.hostname.includes('vercel-insights.com')) {
     event.respondWith(fetch(request));
     return;
   }

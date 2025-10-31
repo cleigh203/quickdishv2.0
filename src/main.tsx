@@ -36,6 +36,26 @@ if (import.meta.env.PROD) {
   }).catch(() => {});
 }
 
+// Unregister all service workers and clear caches to fix stale cached data
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    registrations.forEach(registration => {
+      console.log('🗑️ Unregistering service worker:', registration.scope);
+      registration.unregister();
+    });
+  });
+}
+
+// Clear any existing service worker caches
+if ('caches' in window) {
+  caches.keys().then(names => {
+    names.forEach(name => {
+      console.log('🗑️ Deleting cache:', name);
+      caches.delete(name);
+    });
+  });
+}
+
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <App />
