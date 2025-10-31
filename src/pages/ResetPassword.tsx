@@ -78,7 +78,7 @@ const ResetPassword = () => {
           <div className="flex justify-center mb-4">
             <img 
               src={logo} 
-              alt="QuickDish AI" 
+              alt="Quick Dish" 
               className="h-20 w-20 object-contain"
               loading="eager"
               fetchPriority="high"

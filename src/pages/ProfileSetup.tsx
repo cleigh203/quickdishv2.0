@@ -140,7 +140,7 @@ export default function ProfileSetup() {
 
       toast({
         title: 'Profile setup complete!',
-        description: 'Welcome to QuickDish AI',
+        description: 'Welcome to Quick Dish',
       });
 
       navigate('/');

@@ -47,12 +47,12 @@ export const OnboardingWelcome = () => {
 
           {/* Headline */}
           <h1 className="text-[32px] font-bold mb-3 bg-gradient-to-r from-[#FF6B35] to-[#FF4500] bg-clip-text text-transparent">
-            Welcome to QuickDish!
+            Welcome to Quick Dish
           </h1>
 
           {/* Tagline */}
           <p className="text-[16px] text-[#7F8C8D] font-medium">
-            Cook smarter, not harder
+            Cook Smarter Not Harder
           </p>
         </div>
 

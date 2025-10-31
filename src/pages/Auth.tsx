@@ -217,7 +217,7 @@ const Auth = () => {
             <div className="flex justify-center mb-4">
             <img 
               src={logo} 
-              alt="QuickDish AI" 
+              alt="Quick Dish" 
               className="h-24 w-24 object-contain"
               loading="eager"
               fetchPriority="high"
@@ -226,8 +226,8 @@ const Auth = () => {
               referrerPolicy="no-referrer"
             />
             </div>
-            <CardTitle className="text-3xl">Welcome to QuickDish AI</CardTitle>
-            <CardDescription>Your personal cooking companion</CardDescription>
+            <CardTitle className="text-3xl">Welcome to Quick Dish</CardTitle>
+            <CardDescription>Cook Smarter Not Harder</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <Button onClick={() => setView('signup')} className="w-full" size="lg">
