@@ -173,7 +173,13 @@ export const SavedRecipes = () => {
     // Find the recipe in our data to pass via state
     const recipe = resolvedSavedRecipes.find(r => r.id === recipeId) ||
                    customRecipes.find(r => r.id === recipeId);
-    navigate(`/recipe/${recipeId}`, { state: { recipe } });
+    navigate(`/recipe/${recipeId}`, {
+      state: {
+        recipe,
+        from: location.pathname,
+        scrollY: window.scrollY
+      }
+    });
   };
 
   const handleUnsave = async (recipeId: string) => {

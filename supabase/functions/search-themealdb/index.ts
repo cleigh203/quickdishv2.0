@@ -35,7 +35,7 @@ serve(async (req) => {
           image_url: recipe.strMealThumb,
           category: recipe.strCategory,
           cuisine: recipe.strArea,
-          instructions: recipe.strInstructions.split('\n').filter((i: string) => i.trim()),
+          instructions: cleanInstructions(recipe.strInstructions),
           ingredients: extractIngredients(recipe),
           tags: recipe.strTags ? recipe.strTags.split(',') : [],
           video_url: recipe.strYoutube,
@@ -84,7 +84,21 @@ function extractIngredients(recipe: any) {
     }
   }
 
-  return ingredients
+  // Filter out empty or malformed ingredients
+  return ingredients.filter(ing => {
+    // Must have an item name
+    if (!ing.item || ing.item.trim().length < 2) return false
+
+    // Skip generic entries
+    const itemLower = ing.item.toLowerCase()
+    if (itemLower === 'to taste') return false
+    if (itemLower === 'as needed') return false
+    if (itemLower === 'salt and pepper') return false
+    if (itemLower.includes('salt')) return false // Skip salt entries as they're often duplicates
+    if (itemLower.includes('pepper')) return false // Skip pepper entries
+
+    return true
+  })
 }
 
 function parseIngredient(ingredientName: string, measure: string) {
@@ -174,4 +188,15 @@ function normalizeUnit(unit: string): string {
   }
 
   return unitMap[normalized] || normalized
+}
+
+function cleanInstructions(instructions: string): string[] {
+  if (!instructions) return []
+
+  return instructions
+    .split(/\r?\n/)
+    .filter((s: string) => s.trim())
+    .filter((s: string) => !s.match(/^STEP \d+/i)) // Remove "STEP 1", "STEP 2" lines
+    .map((s: string) => s.replace(/^\d+\.\s*/, '')) // Remove leading numbers like "1. "
+    .filter((s: string) => s.trim()) // Filter out any empty strings after cleaning
 }

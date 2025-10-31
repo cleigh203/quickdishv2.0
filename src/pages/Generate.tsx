@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { Search, Plus, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,6 +19,7 @@ import { getRecipeImage } from "@/utils/recipeImages";
 const Generate = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
   const { saveRecipe, isSaved } = useSavedRecipes();
   const { allRecipes, isLoading: isLoadingRecipes } = useAllRecipes();
@@ -453,7 +454,7 @@ const Generate = () => {
                 {filteredRecipes.map((recipe) => (
                   <div
                     key={recipe.id}
-                    onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
+                    onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe, from: location.pathname, scrollY: window.scrollY } })}
                     className="relative cursor-pointer"
                   >
                     <div className="relative rounded-xl overflow-hidden">
@@ -648,7 +649,7 @@ const Generate = () => {
                 {filteredRecipes.map((recipe) => (
                   <div
                     key={recipe.id}
-                    onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
+                    onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe, from: location.pathname, scrollY: window.scrollY } })}
                     className="relative cursor-pointer"
                   >
                     <div className="relative rounded-xl overflow-hidden">
@@ -815,7 +816,7 @@ const Generate = () => {
                     {categoryRecipes.slice(0, 10).map((recipe) => (
                       <div
                         key={recipe.id}
-                        onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
+                        onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe, from: location.pathname, scrollY: window.scrollY } })}
                         className="relative cursor-pointer shrink-0 w-40"
                       >
                         <div className="relative rounded-xl overflow-hidden aspect-[3/4]">

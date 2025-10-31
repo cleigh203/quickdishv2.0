@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Sparkles, X } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchInput, setSearchInput] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -29,7 +30,13 @@ const Index = () => {
     // Find the recipe in our combined data to pass via state
     const recipe = combinedRecipes.find(r => r.id === recipeId) ||
                    theMealDbRecipes.find(r => r.id === recipeId);
-    navigate(`/recipe/${recipeId}`, { state: { recipe } });
+    navigate(`/recipe/${recipeId}`, {
+      state: {
+        recipe,
+        from: location.pathname,
+        scrollY: window.scrollY
+      }
+    });
   };
 
   // Combine verified, generated, and static recipes with proper deduplication
