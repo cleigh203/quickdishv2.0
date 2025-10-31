@@ -151,6 +151,157 @@ const RecipeDetail = () => {
       }
     }
 
+    // PRIORITY 8: Check if it's a TheMealDB recipe ID
+    if (!foundRecipe && id.startsWith('themealdb-')) {
+      try {
+        // Extract the meal ID from the recipe ID
+        const mealId = id.replace('themealdb-', '');
+
+        // Fetch from TheMealDB API
+        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`);
+        const data = await response.json();
+
+        if (data.meals && data.meals[0]) {
+          const meal = data.meals[0];
+
+          // Check if this recipe already exists in our database
+          const { data: existingRecipe } = await supabase
+            .from('recipes')
+            .select('*')
+            .eq('external_id', mealId)
+            .eq('source', 'themealdb')
+            .single();
+
+          if (existingRecipe) {
+            // Use the existing recipe from our database
+            foundRecipe = {
+              id: existingRecipe.recipe_id,
+              name: existingRecipe.name,
+              description: existingRecipe.description || '',
+              cookTime: existingRecipe.cook_time || '30 mins',
+              prepTime: existingRecipe.prep_time || '15 mins',
+              difficulty: existingRecipe.difficulty || 'Medium',
+              servings: existingRecipe.servings || 4,
+              ingredients: (Array.isArray(existingRecipe.ingredients) ? existingRecipe.ingredients : []) as any[],
+              instructions: (Array.isArray(existingRecipe.instructions) ? existingRecipe.instructions : []) as string[],
+              cuisine: existingRecipe.cuisine || 'International',
+              category: existingRecipe.category || 'Other',
+              image: existingRecipe.image_url,
+              imageUrl: existingRecipe.image_url,
+              tags: existingRecipe.tags || [],
+              totalTime: existingRecipe.total_time,
+              nutrition: existingRecipe.nutrition,
+              source: 'themealdb',
+              external_id: mealId,
+              video_url: existingRecipe.video_url,
+              external_url: existingRecipe.external_url
+            };
+          } else {
+            // Transform TheMealDB data to our format and save to database
+            const ingredients = extractIngredients(meal);
+            const instructions = meal.strInstructions.split('\n').filter((i: string) => i.trim());
+
+            const recipeData = {
+              name: meal.strMeal,
+              description: `${meal.strMeal} - A delicious ${meal.strCategory?.toLowerCase() || 'meal'} from ${meal.strArea || 'around the world'}.`,
+              cook_time: '30 mins',
+              prep_time: '15 mins',
+              difficulty: 'Medium',
+              servings: 4,
+              ingredients: ingredients,
+              instructions: instructions,
+              cuisine: meal.strArea || 'International',
+              category: meal.strCategory || 'Other',
+              image_url: meal.strMealThumb,
+              tags: meal.strTags ? meal.strTags.split(',') : [],
+              total_time: '45 mins',
+              source: 'themealdb',
+              external_id: mealId,
+              video_url: meal.strYoutube,
+              external_url: meal.strSource
+            };
+
+            // Save to database
+            const { data: savedRecipe, error: saveError } = await supabase
+              .from('recipes')
+              .insert(recipeData)
+              .select()
+              .single();
+
+            if (savedRecipe && !saveError) {
+              foundRecipe = {
+                id: savedRecipe.recipe_id,
+                name: savedRecipe.name,
+                description: savedRecipe.description || '',
+                cookTime: savedRecipe.cook_time || '30 mins',
+                prepTime: savedRecipe.prep_time || '15 mins',
+                difficulty: savedRecipe.difficulty || 'Medium',
+                servings: savedRecipe.servings || 4,
+                ingredients: (Array.isArray(savedRecipe.ingredients) ? savedRecipe.ingredients : []) as any[],
+                instructions: (Array.isArray(savedRecipe.instructions) ? savedRecipe.instructions : []) as string[],
+                cuisine: savedRecipe.cuisine || 'International',
+                category: savedRecipe.category || 'Other',
+                image: savedRecipe.image_url,
+                imageUrl: savedRecipe.image_url,
+                tags: savedRecipe.tags || [],
+                totalTime: savedRecipe.total_time,
+                nutrition: savedRecipe.nutrition,
+                source: 'themealdb',
+                external_id: mealId,
+                video_url: savedRecipe.video_url,
+                external_url: savedRecipe.external_url
+              };
+            } else {
+              // Fallback: create recipe object without saving to database
+              foundRecipe = {
+                id: id,
+                name: meal.strMeal,
+                description: `${meal.strMeal} - A delicious ${meal.strCategory?.toLowerCase() || 'meal'} from ${meal.strArea || 'around the world'}.`,
+                cookTime: '30 mins',
+                prepTime: '15 mins',
+                difficulty: 'Medium',
+                servings: 4,
+                ingredients: ingredients,
+                instructions: instructions,
+                cuisine: meal.strArea || 'International',
+                category: meal.strCategory || 'Other',
+                image: meal.strMealThumb,
+                imageUrl: meal.strMealThumb,
+                tags: meal.strTags ? meal.strTags.split(',') : [],
+                totalTime: '45 mins',
+                source: 'themealdb',
+                external_id: mealId,
+                video_url: meal.strYoutube,
+                external_url: meal.strSource
+              };
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching TheMealDB recipe:', error);
+      }
+    }
+
+    function extractIngredients(meal: any) {
+      const ingredients = [];
+
+      // TheMealDB has ingredients as strIngredient1, strIngredient2, etc.
+      for (let i = 1; i <= 20; i++) {
+        const ingredient = meal[`strIngredient${i}`];
+        const measure = meal[`strMeasure${i}`];
+
+        if (ingredient && ingredient.trim()) {
+          ingredients.push({
+            item: ingredient.trim(),
+            amount: measure ? measure.trim() : '1',
+            unit: ''
+          });
+        }
+      }
+
+      return ingredients;
+    }
+
     if (foundRecipe) {
       setRecipe(foundRecipe);
       setIsLoadingRecipe(false);
@@ -457,7 +608,19 @@ const RecipeDetail = () => {
       }`}>
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h1 className="text-3xl font-bold mb-2 text-black">{recipe.name}</h1>
+                <div className="flex items-center gap-2 mb-2">
+                  <h1 className="text-3xl font-bold text-black">{recipe.name}</h1>
+                  {recipe.source === 'themealdb' && (
+                    <Badge variant="secondary" className="bg-blue-500/10 text-blue-700 border-blue-200">
+                      🍽️ TheMealDB
+                    </Badge>
+                  )}
+                  {recipe.isAiGenerated && (
+                    <Badge variant="secondary" className="bg-purple-500/10 text-purple-700 border-purple-200">
+                      ✨ AI Generated
+                    </Badge>
+                  )}
+                </div>
                 
                 {/* Average Rating Display */}
                 {totalRatings > 0 ? (
@@ -908,6 +1071,46 @@ const RecipeDetail = () => {
                 <div className="text-sm text-muted-foreground">Download recipe as PDF</div>
               </div>
             </button>
+
+            {/* External Links for TheMealDB recipes */}
+            {recipe.source === 'themealdb' && (
+              <>
+                {recipe.video_url && (
+                  <button
+                    onClick={() => {
+                      window.open(recipe.video_url, '_blank', 'noopener,noreferrer');
+                      setMenuOpen(false);
+                    }}
+                    className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
+                  >
+                    <div className="w-10 h-10 bg-red-50 dark:bg-red-950/30 rounded-full flex items-center justify-center text-xl">
+                      📺
+                    </div>
+                    <div className="flex-1 text-left">
+                      <div className="font-semibold text-foreground">Watch Video</div>
+                      <div className="text-sm text-muted-foreground">YouTube cooking tutorial</div>
+                    </div>
+                  </button>
+                )}
+                {recipe.external_url && (
+                  <button
+                    onClick={() => {
+                      window.open(recipe.external_url, '_blank', 'noopener,noreferrer');
+                      setMenuOpen(false);
+                    }}
+                    className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
+                  >
+                    <div className="w-10 h-10 bg-blue-50 dark:bg-blue-950/30 rounded-full flex items-center justify-center text-xl">
+                      🔗
+                    </div>
+                    <div className="flex-1 text-left">
+                      <div className="font-semibold text-foreground">Original Recipe</div>
+                      <div className="text-sm text-muted-foreground">View on TheMealDB</div>
+                    </div>
+                  </button>
+                )}
+              </>
+            )}
 
             {/* Save as Image (temporarily removed) */}
           </div>
