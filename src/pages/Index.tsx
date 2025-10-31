@@ -143,7 +143,7 @@ const Index = () => {
       <div 
         className="relative h-[420px] mb-8 bg-cover bg-center"
         style={{
-          backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%), url(https://via.placeholder.com/1200x600/10b981/ffffff?text=QuickDish)`
+          backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%), url(https://i.imgur.com/ZWIwJpH.png)`
         }}
       >
         <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
