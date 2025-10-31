@@ -26,7 +26,10 @@ const Index = () => {
   const { verifiedRecipes } = useVerifiedRecipes();
 
   const handleRecipeClick = (recipeId: string) => {
-    navigate(`/recipe/${recipeId}`);
+    // Find the recipe in our combined data to pass via state
+    const recipe = combinedRecipes.find(r => r.id === recipeId) ||
+                   theMealDbRecipes.find(r => r.id === recipeId);
+    navigate(`/recipe/${recipeId}`, { state: { recipe } });
   };
 
   // Combine verified, generated, and static recipes with proper deduplication
