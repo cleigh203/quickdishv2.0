@@ -4262,7 +4262,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "medium",
     servings: 4,
     cuisine: "Dinner",
-    image: "https://images.unsplash.com/photo-1485921325833-c519f76c4927",
+    image: "https://via.placeholder.com/400x300/10b981/ffffff?text=QuickDish",
     totalTime: 20,
     tags: ["seafood", "glutenfree", "dinner"],
     nutrition: {
@@ -5156,7 +5156,7 @@ export const allRecipes: Recipe[] = [
     difficulty: "easy",
     servings: 6,
     cuisine: "Dinner",
-    image: "https://images.unsplash.com/photo-1529042410759-befb1204b468",
+    image: "https://via.placeholder.com/400x300/10b981/ffffff?text=QuickDish",
     totalTime: 45,
     tags: ["meal-prep", "italian", "dinner"],
     nutrition: {

@@ -177,7 +177,7 @@ export const RecipeAIChatDialog: React.FC<RecipeAIChatDialogProps> = ({ recipe, 
               referrerPolicy="no-referrer"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&q=80';
+                target.src = 'https://via.placeholder.com/200x200/10b981/ffffff?text=Recipe';
               }}
             />
             <div className="flex-1 min-w-0">

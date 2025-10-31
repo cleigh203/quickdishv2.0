@@ -1,7 +1,7 @@
 import { Recipe } from "@/types/recipe";
 
 // Placeholder images - will be generated in batches
-const placeholderImg = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c";
+const placeholderImg = "https://via.placeholder.com/400x300/10b981/ffffff?text=QuickDish";
 
 // Dessert Images
 import dessertChocolateTrufflesImg from "@/assets/recipes/dessert-chocolate-truffles.jpg";

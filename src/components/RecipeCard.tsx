@@ -55,7 +55,7 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
               onLoad={() => setImageLoaded(true)}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+                target.src = "https://via.placeholder.com/400x300/10b981/ffffff?text=QuickDish";
                 setImageLoaded(true);
               }}
             />

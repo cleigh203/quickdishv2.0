@@ -92,7 +92,7 @@ export const InstacartSearchModal = ({ isOpen, onClose, onAddToShoppingList }: I
                         referrerPolicy="no-referrer"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          target.src = "https://images.unsplash.com/photo-1542838132-92c53300491e?w=100&h=100&fit=crop&fm=webp&q=18";
+                          target.src = "https://via.placeholder.com/100x100/10b981/ffffff?text=Item";
                         }}
                       />
                       <div className="flex-1 min-w-0">

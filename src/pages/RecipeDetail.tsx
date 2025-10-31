@@ -362,7 +362,7 @@ const RecipeDetail = () => {
             height="600"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
-              target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1200&q=80";
+              target.src = "https://via.placeholder.com/1200x600/10b981/ffffff?text=QuickDish";
             }}
           />
           <Button

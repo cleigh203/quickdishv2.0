@@ -468,7 +468,7 @@ const Generate = () => {
                         referrerPolicy="no-referrer"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+                          target.src = "https://via.placeholder.com/400x300/10b981/ffffff?text=QuickDish";
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -663,7 +663,7 @@ const Generate = () => {
                         referrerPolicy="no-referrer"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+                          target.src = "https://via.placeholder.com/400x300/10b981/ffffff?text=QuickDish";
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -830,7 +830,7 @@ const Generate = () => {
                             referrerPolicy="no-referrer"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
-                              target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
+                              target.src = "https://via.placeholder.com/400x300/10b981/ffffff?text=QuickDish";
                             }}
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
