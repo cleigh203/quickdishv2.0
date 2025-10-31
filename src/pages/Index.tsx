@@ -312,22 +312,6 @@ const Index = () => {
                         AI Generated
                       </Badge>
                     )}
-                    {recipe.source === 'themealdb' && !recipe.isAiGenerated && (
-                      <Badge
-                        variant="secondary"
-                        className="absolute top-2 left-2 text-xs bg-blue-500/90 text-white backdrop-blur-sm"
-                      >
-                        🍽️ TheMealDB
-                      </Badge>
-                    )}
-                    {recipe.source === 'themealdb' && recipe.isAiGenerated && (
-                      <Badge
-                        variant="secondary"
-                        className="absolute top-2 right-2 text-xs bg-blue-500/90 text-white backdrop-blur-sm"
-                      >
-                        🍽️ TheMealDB
-                      </Badge>
-                    )}
                   </div>
                 ))}
               </div>
