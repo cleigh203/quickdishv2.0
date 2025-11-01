@@ -49,7 +49,11 @@ export const usePantryItems = () => {
 
       const { data, error } = await Promise.race([fetchPromise, timeoutPromise]);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching pantry items:', error);
+        // Return empty array if profile fetch fails
+        return [];
+      }
 
       const pantryItems: PantryItem[] = (data?.pantry_items || []).map((name: string) => ({
         id: `pantry-${name}`,

@@ -29,6 +29,7 @@ import { MealPlanDialog } from "@/components/MealPlanDialog";
 import { RecipeAIChatDialog } from "@/components/RecipeAIChatDialog";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { usePantryItems } from "@/hooks/usePantryItems";
+import { trackRecipeView, trackCookingModeStart } from "@/utils/analytics";
 // ShoppingGuide temporarily removed - will use Kroger/Instacart API when ready
 // import { StoreSelection } from "@/components/StoreSelection";
 // import { ShoppingGuide } from "@/components/ShoppingGuide";
@@ -120,7 +121,10 @@ const RecipeDetail = () => {
       setRecipe(foundRecipe);
       setIsLoadingRecipe(false);
       // Ad gating removed for now
-      
+
+      // Track recipe view analytics
+      trackRecipeView(foundRecipe.id);
+
       // Check if coming from "Cook Now" button
       const params = new URLSearchParams(window.location.search);
       if (params.get('cook') === 'true') {
@@ -615,6 +619,8 @@ const RecipeDetail = () => {
                   setMenuOpen(false);
                   return;
                 }
+                // Track cooking mode start
+                trackCookingModeStart(recipe.id);
                 setCookingMode(true);
                 setMenuOpen(false);
               }}

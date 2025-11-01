@@ -12,7 +12,6 @@ import type { Recipe } from "@/types/recipe";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
 import { getRecipeImage } from "@/utils/recipeImages";
-import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -20,16 +19,13 @@ const Index = () => {
   const [searchInput, setSearchInput] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
-  const [theMealDbRecipes, setTheMealDbRecipes] = useState([]);
-  const [isLoadingTheMealDb, setIsLoadingTheMealDb] = useState(false);
   const { allRecipes, isLoading: isLoadingRecipes } = useAllRecipes();
   const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
   const { verifiedRecipes } = useVerifiedRecipes();
 
   const handleRecipeClick = (recipeId: string) => {
     // Find the recipe in our combined data to pass via state
-    const recipe = combinedRecipes.find(r => r.id === recipeId) ||
-                   theMealDbRecipes.find(r => r.id === recipeId);
+    const recipe = combinedRecipes.find(r => r.id === recipeId);
     navigate(`/recipe/${recipeId}`, {
       state: {
         recipe,
@@ -107,8 +103,8 @@ const Index = () => {
 
     if (searchTerms.length === 0) return [];
 
-    // Filter local recipes
-    const localMatched = combinedRecipes.filter(recipe => {
+    // Filter recipes by ingredients (AND logic - must contain ALL search terms)
+    const matched = combinedRecipes.filter(recipe => {
       return searchTerms.every(term => {
         // Use word boundary regex so "fish" doesn't match "finish"
         const wordRegex = new RegExp(`\\b${term}`, 'i');
@@ -118,18 +114,7 @@ const Index = () => {
       });
     });
 
-    // Filter TheMealDB recipes
-    const theMealDbMatched = theMealDbRecipes.filter(recipe => {
-      return searchTerms.every(term => {
-        const wordRegex = new RegExp(`\\b${term}`, 'i');
-        return recipe.ingredients.some(ing => wordRegex.test(ing.item));
-      });
-    });
-
-    // Combine and sort all results
-    const allMatched = [...localMatched, ...theMealDbMatched];
-
-    return allMatched.sort((a, b) => {
+    return matched.sort((a, b) => {
       // Sort by number of matching terms (most matches first)
       const aMatches = searchTerms.filter(term => {
         const wordRegex = new RegExp(`\\b${term}`, 'i');
@@ -143,59 +128,9 @@ const Index = () => {
 
       return bMatches - aMatches; // More matches = higher priority
     });
-  }, [searchInput, isSearching, combinedRecipes, theMealDbRecipes]);
+  }, [searchInput, isSearching, combinedRecipes]);
 
-  // Search TheMealDB for additional recipes
-  const searchTheMealDb = async (ingredient: string) => {
-    try {
-      setIsLoadingTheMealDb(true);
-      const { data, error } = await supabase.functions.invoke('search-themealdb', {
-        body: { ingredient }
-      });
-
-      if (error) {
-        console.error('TheMealDB search error:', error);
-        return [];
-      }
-
-      if (data.success) {
-        // Transform TheMealDB recipes to match our Recipe type
-        const transformedRecipes = data.recipes.map((meal: any, index: number) => ({
-          id: `themealdb-${meal.external_id || index}`,
-          name: meal.name,
-          description: `${meal.name} - A delicious ${meal.category?.toLowerCase() || 'meal'} from ${meal.cuisine || 'around the world'}.`,
-          cookTime: meal.cook_time || '30 mins',
-          prepTime: meal.prep_time || '15 mins',
-          difficulty: meal.difficulty || 'Medium',
-          servings: meal.servings || 4,
-          ingredients: meal.ingredients || [],
-          instructions: meal.instructions || [],
-          cuisine: meal.cuisine || 'International',
-          category: meal.category || 'Other',
-          image: meal.image_url,
-          imageUrl: meal.image_url,
-          tags: meal.tags || [],
-          totalTime: '45 mins',
-          source: 'themealdb',
-          external_id: meal.external_id,
-          video_url: meal.video_url,
-          external_url: meal.external_url
-        }));
-
-        setTheMealDbRecipes(transformedRecipes);
-        return transformedRecipes;
-      }
-
-      return [];
-    } catch (error) {
-      console.error('TheMealDB search failed:', error);
-      return [];
-    } finally {
-      setIsLoadingTheMealDb(false);
-    }
-  };
-
-  const handleSearch = async (searchTerm?: string) => {
+  const handleSearch = (searchTerm?: string) => {
     const term = searchTerm || searchInput;
     console.log('Search triggered with term:', term);
     if (term.trim()) {
@@ -203,17 +138,6 @@ const Index = () => {
         setSearchInput(searchTerm); // Ensure state is updated
       }
       setIsSearching(true);
-      setTheMealDbRecipes([]); // Clear previous results
-
-      // Extract main ingredient for TheMealDB search
-      const mainIngredient = term.toLowerCase().split(/[\s,]+/).filter(word =>
-        !['and', 'or', 'with', 'the', 'a', 'an', 'in', 'on', 'for'].includes(word)
-      )[0];
-
-      // Search TheMealDB in parallel with local search
-      if (mainIngredient) {
-        searchTheMealDb(mainIngredient);
-      }
     }
   };
 
@@ -292,18 +216,13 @@ const Index = () => {
               </Button>
             </div>
             
-            {!imagesLoaded || isLoadingTheMealDb ? (
+            {!imagesLoaded ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[...Array(isLoadingTheMealDb ? 9 : 6)].map((_, i) => (
+                {[...Array(6)].map((_, i) => (
                   <div key={i} className="relative">
                     <div className="bg-gray-200 animate-pulse rounded-lg h-64" />
                   </div>
                 ))}
-                {isLoadingTheMealDb && (
-                  <div className="col-span-full text-center py-4">
-                    <p className="text-muted-foreground">Searching additional recipes...</p>
-                  </div>
-                )}
               </div>
             ) : filteredRecipes.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

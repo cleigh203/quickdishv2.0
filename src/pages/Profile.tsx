@@ -474,11 +474,11 @@ const Profile = () => {
             <h3 className="font-semibold text-emerald-900">🎨 Your Daily AI Generations</h3>
             <div className="flex items-center gap-3">
               <span className="text-sm text-emerald-800">
-                {(profileData?.free_generations_used_today ?? 0)}/2 free generations used
+                {((profileData?.free_generations_used_today ?? 0))}/2 free generations used
               </span>
               <div className="flex items-center gap-1">
                 {[0,1].map(i => (
-                  <span key={i} className={`w-2.5 h-2.5 rounded-full ${ (profileData?.free_generations_used_today ?? 0) > i ? 'bg-emerald-600' : 'bg-emerald-300'}`}></span>
+                  <span key={i} className={`w-2.5 h-2.5 rounded-full ${ ((profileData?.free_generations_used_today ?? 0)) > i ? 'bg-emerald-600' : 'bg-emerald-300'}`}></span>
                 ))}
               </div>
             </div>

@@ -32,8 +32,8 @@ export const trackEvent = async (
         .from('analytics_events')
         .insert({
           user_id: userId,
-          event_name: eventName,
-          event_data: eventData || {},
+          event_type: eventName,
+          metadata: eventData || {},
         });
       if (error) {
         // Log but don't throw—analytics should never block UX

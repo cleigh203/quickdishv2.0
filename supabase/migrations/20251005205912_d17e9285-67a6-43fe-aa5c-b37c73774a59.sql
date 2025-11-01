@@ -2,8 +2,8 @@
 CREATE TABLE IF NOT EXISTS public.analytics_events (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  event_name TEXT NOT NULL,
-  event_data JSONB DEFAULT '{}'::jsonb,
+  event_type TEXT NOT NULL,
+  metadata JSONB DEFAULT '{}'::jsonb,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL
 );
 
@@ -25,4 +25,4 @@ CREATE POLICY "Users can insert their own analytics"
 -- Create index for better query performance
 CREATE INDEX idx_analytics_events_user_id ON public.analytics_events(user_id);
 CREATE INDEX idx_analytics_events_created_at ON public.analytics_events(created_at);
-CREATE INDEX idx_analytics_events_event_name ON public.analytics_events(event_name);
+CREATE INDEX idx_analytics_events_event_type ON public.analytics_events(event_type);

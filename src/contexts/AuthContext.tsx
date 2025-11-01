@@ -43,17 +43,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       // 🔓 TESTING BYPASS: Check database first (works in dev AND production)
       // This allows you to manually set is_premium in Supabase dashboard for testing
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('is_premium')
-        .eq('id', session.user.id)
-        .single();
-      
-      // If is_premium is manually set in database, use that (for testing)
-      if (profile?.is_premium === true) {
-        setIsPremium(true);
-        console.log('👑 Admin override: Premium enabled from database');
-        return;
+      try {
+        const { data: profile, error } = await supabase
+          .from('profiles')
+          .select('subscription_tier')
+          .eq('id', session.user.id)
+          .single();
+
+        // Handle profile errors gracefully
+        if (error) {
+          console.error('Profile fetch error in AuthContext:', error);
+        } else if (profile) {
+          // Check for premium status based on subscription_tier
+          const isPremiumUser = profile.subscription_tier === 'premium';
+          if (isPremiumUser) {
+            setIsPremium(true);
+            console.log('👑 Premium enabled from database (subscription_tier)');
+            return;
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching profile in AuthContext:', error);
+        // Continue with normal flow if profile fetch fails
       }
 
       // In dev mode, stop here (don't check Stripe)

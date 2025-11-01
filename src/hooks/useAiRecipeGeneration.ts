@@ -21,19 +21,31 @@ export const useAiRecipeGeneration = () => {
     try {
       const { data: profile, error } = await supabase
         .from('profiles')
-        .select('ai_generations_today, last_generation_date, is_premium')
+        .select('free_generations_used_today, last_generation_reset_date, subscription_tier')
         .eq('id', user.id)
         .single();
 
-      if (error) throw error;
+      // Handle missing profile or columns gracefully
+      let generationsUsed = 0;
+      let lastResetDate = new Date().toISOString().split('T')[0];
+      let tier = 'free';
+
+      if (error) {
+        console.error('Profile fetch error:', error);
+        // Use defaults if profile doesn't exist or columns are missing
+        console.log('Using default profile values for rate limiting');
+      } else if (profile) {
+        generationsUsed = profile.free_generations_used_today ?? 0;
+        lastResetDate = profile.last_generation_reset_date ?? new Date().toISOString().split('T')[0];
+        tier = profile.subscription_tier ?? 'free';
+      }
 
       // Check if we need to reset the counter (new day)
       const today = new Date().toISOString().split('T')[0];
-      const lastGenDate = profile.last_generation_date;
-      const needsReset = !lastGenDate || lastGenDate !== today;
+      const needsReset = lastResetDate !== today;
 
-      const currentGenerations = needsReset ? 0 : (profile.ai_generations_today || 0);
-      const limit = profile.is_premium ? 5 : 2;
+      const currentGenerations = needsReset ? 0 : generationsUsed;
+      const limit = tier === 'premium' ? 5 : 2;
       const remaining = Math.max(0, limit - currentGenerations);
 
       setGenerationsRemaining(remaining);
@@ -44,7 +56,9 @@ export const useAiRecipeGeneration = () => {
       };
     } catch (error) {
       console.error('Error checking rate limit:', error);
-      return { allowed: false, remaining: 0 };
+      // Fallback to defaults on any error
+      setGenerationsRemaining(2); // Default free limit
+      return { allowed: true, remaining: 2 };
     }
   };
 
