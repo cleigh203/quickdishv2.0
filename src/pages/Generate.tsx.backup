@@ -102,24 +102,6 @@ const Generate = () => {
     { id: 'copycat', name: 'Restaurant Copycats', emoji: '🍔' }
   ];
   
-  ];
-
-  // Function to get recipes for each category
-  const getRecipesByCategory = (categoryId: string): Recipe[] => {
-    switch (categoryId) {
-      case 'fall': return combinedRecipes.filter(r => r.category === 'Fall Favorites');
-      case 'quick': return combinedRecipes.filter(r => r.category === 'Quick and Easy');
-      case 'clean': return combinedRecipes.filter(r => r.category === 'Clean Eats');
-      case 'breakfast': return combinedRecipes.filter(r => r.category === 'Breakfast');
-      case 'dessert': return combinedRecipes.filter(r => r.category === 'Desserts');
-      case 'onepot': return combinedRecipes.filter(r => r.category === 'One Pot Meals');
-      case 'family': return combinedRecipes.filter(r => r.category === 'Family Approved');
-      case 'copycat': return combinedRecipes.filter(r => r.category === 'Restaurant Copycats');
-      default: return [];
-    }
-  };
-
-  const toggleFilter
 
   const toggleFilter = (filter: string) => {
     setFilters(prev => 
