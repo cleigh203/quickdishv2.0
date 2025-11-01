@@ -488,10 +488,9 @@ const Generate = () => {
     const categoryMapping: { [key: string]: string } = {
       'Fall Favorites': 'fall',
       'Quick and Easy': 'quick',
+      'Clean Eats': 'clean',
       'Restaurant Copycats': 'copycat',
       'Breakfast': 'breakfast',
-      
-      
       'Desserts': 'dessert',
       'One Pot Meals': 'onepot',
       'Leftover Magic': 'leftover',
