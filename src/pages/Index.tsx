@@ -283,9 +283,9 @@ const Index = () => {
               {[
               { name: 'Fall Favorites', image: 'https://i.imgur.com/H7xbRNq.png' },
 { name: 'Quick and Easy', image: 'https://i.imgur.com/mIajfse.png' },
-{ name: 'Clean Eats', image: 'https://i.imgur.com/placeholder-green.png' },
-{ name: 'Breakfast', image: 'https://i.imgur.com/placeholder-breakfast.png' },
+{ name: 'Restaurant Copycats', image: 'https://i.imgur.com/eNF1erk.png' },
 { name: 'One Pot Meals', image: 'https://i.imgur.com/5NcvbyS.png' },
+{ name: 'Desserts', image: 'https://i.imgur.com/suB5DEO.png' },
 { name: 'Family Approved', image: 'https://i.imgur.com/vznGLfX.png' },
             ].map((collection) => (
                 <div 
