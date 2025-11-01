@@ -70,8 +70,8 @@ const Generate = () => {
     console.log('Fall Favorites:', recipes.filter(r => r.category === 'Fall Favorites').length);
     console.log('Quick and Easy:', recipes.filter(r => r.category === 'Quick and Easy').length);
     console.log('Clean Eats:', recipes.filter(r => r.category === 'Clean Eats').length);
-    console.log('Lunch:', recipes.filter(r => r.category === 'Lunch').length);
-    console.log('Dinner:', recipes.filter(r => r.category === 'Dinner').length);
+    
+    
     console.log('Sample recipe:', recipes[0]);
     console.log('Sample recipe category:', recipes[0]?.category);
     console.log('Sample recipe tags:', recipes[0]?.tags);
@@ -101,60 +101,7 @@ const Generate = () => {
     { id: 'family', name: 'Family Approved', emoji: '👨‍👩‍👧‍👦' },
     { id: 'copycat', name: 'Restaurant Copycats', emoji: '🍔' }
   ];
-    { id: 'fall', name: 'Fall Favorites', emoji: '🍂' },
-    { id: 'quick', name: 'Quick and Easy', emoji: '⚡' },
-    { id: 'copycat', name: 'Restaurant Copycats', emoji: '🍔' },
-    { id: 'breakfast', name: 'Breakfast', emoji: '🥞' },
-    { id: 'lunch', name: 'Lunch', emoji: '🥗' },
-    { id: 'dinner', name: 'Dinner', emoji: '🍗' },
-    { id: 'dessert', name: 'Desserts', emoji: '🧁' },
-    { id: 'onepot', name: 'One Pot Meals', emoji: '🍲' },
-    { id: 'family', name: 'Family Approved', emoji: '👨‍👩‍👧' }
-  ];
-
-  // Function to get recipes for each category
-  // ALL FILTERS NOW USE CATEGORY FIELD (unified system)
-  // ALL FILTERS NOW USE CATEGORY FIELD (unified system)
-  const getRecipesByCategory = (categoryId: string): Recipe[] => {
-    switch (categoryId) {
-      // ALL FILTERS NOW USE CATEGORY FIELD (unified system)
-      case 'quick':
-        return combinedRecipes.filter(r => r.category === 'Quick and Easy');
-      
-      case 'fall':
-        return combinedRecipes.filter(r => r.category === 'Fall Favorites');
-      
-      case 'onepot':
-        return combinedRecipes.filter(r => r.category === 'One Pot Meals');
-      
-      case 'family':
-        return combinedRecipes.filter(r => 
-          r.tags?.includes('family-friendly') || r.tags?.includes('kid-friendly')
-        );
-      
-      case 'leftover':
-        return combinedRecipes.filter(r => r.category === 'Leftovers');
-      
-      // ALL FILTERS NOW USE CATEGORY FIELD (unified system)
-      case 'breakfast':
-        return combinedRecipes.filter(r => r.category === 'Breakfast');
-      
-      case 'lunch':
-        return combinedRecipes.filter(r => r.category === 'Lunch');
-      
-      case 'dinner':
-        return combinedRecipes.filter(r => r.category === 'Dinner');
-      
-      case 'dessert':
-        return combinedRecipes.filter(r => r.category === 'Desserts');
-      
-      case 'copycat':
-        return combinedRecipes.filter(r => r.category === 'Restaurant Copycats');
-      
-      default:
-        return [];
-    }
-  };
+  
 
   const toggleFilter = (filter: string) => {
     setFilters(prev => 
@@ -520,8 +467,8 @@ const Generate = () => {
       'Quick and Easy': 'quick',
       'Restaurant Copycats': 'copycat',
       'Breakfast': 'breakfast',
-      'Lunch': 'lunch',
-      'Dinner': 'dinner',
+      
+      
       'Desserts': 'dessert',
       'One Pot Meals': 'onepot',
       'Leftover Magic': 'leftover',
@@ -870,3 +817,4 @@ const Generate = () => {
 };
 
 export default Generate;
+
