@@ -46,6 +46,16 @@ const Generate = () => {
       setShowFilteredView(false);
     }
   }, [searchQuery, ingredientInput, activeFilters, ingredientsParam]);
+
+  // Restore scroll position when returning from recipe detail
+  useEffect(() => {
+    const state = location.state;
+    if (state?.restoreScroll) {
+      setTimeout(() => {
+        window.scrollTo(0, state.restoreScroll);
+      }, 0);
+    }
+  }, [location.state]);
   
   // Combine recipes, deduplicating by recipe_id and prioritizing DB recipes over static ones
   type RecipeWithCategory = Recipe & { category?: string };

@@ -369,22 +369,20 @@ const RecipeDetail = () => {
               target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1200&q=80";
             }}
           />
-          <Button
-            onClick={() => {
-              if (location.state?.from) {
-                navigate(location.state.from);
-                // Restore scroll position after navigation
-                setTimeout(() => {
-                  window.scrollTo(0, location.state.scrollY || 0);
-                }, 0);
-              } else {
-                navigate(-1);
-              }
-            }}
-            variant="icon"
-            size="icon"
-            className="absolute top-4 left-4"
-          >
+            <Button
+              onClick={() => {
+                if (location.state?.from) {
+                  navigate(location.state.from, {
+                    state: { restoreScroll: location.state.scrollY || 0 }
+                  });
+                } else {
+                  navigate(-1);
+                }
+              }}
+              variant="icon"
+              size="icon"
+              className="absolute top-4 left-4"
+            >
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div className="absolute top-4 right-4 flex gap-2">
@@ -407,11 +405,9 @@ const RecipeDetail = () => {
             <Button
               onClick={() => {
                 if (location.state?.from) {
-                  navigate(location.state.from);
-                  // Restore scroll position after navigation
-                  setTimeout(() => {
-                    window.scrollTo(0, location.state.scrollY || 0);
-                  }, 0);
+                  navigate(location.state.from, {
+                    state: { restoreScroll: location.state.scrollY || 0 }
+                  });
                 } else {
                   navigate(-1);
                 }

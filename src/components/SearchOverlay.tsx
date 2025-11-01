@@ -289,7 +289,9 @@ export const SearchOverlay = ({
                 <Fragment key={recipe.id}>
                   <div
                     onClick={() => {
-                      navigate(`/recipe/${recipe.id}`);
+                      navigate(`/recipe/${recipe.id}`, {
+                        state: { from: '/discover', scrollY: window.scrollY }
+                      });
                       onClose();
                     }}
                     className="relative cursor-pointer"
