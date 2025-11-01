@@ -39,6 +39,13 @@ const Generate = () => {
   // Check for collection filter from URL
   const collectionParam = searchParams.get('collection');
   const ingredientsParam = searchParams.get('ingredients');
+
+  // Exit filtered view when search is cleared
+  useEffect(() => {
+    if (!searchQuery && !ingredientInput && activeFilters.length === 0 && !ingredientsParam) {
+      setShowFilteredView(false);
+    }
+  }, [searchQuery, ingredientInput, activeFilters, ingredientsParam]);
   
   // Combine recipes, deduplicating by recipe_id and prioritizing DB recipes over static ones
   type RecipeWithCategory = Recipe & { category?: string };

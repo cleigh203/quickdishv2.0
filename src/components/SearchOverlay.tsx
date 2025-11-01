@@ -1,4 +1,4 @@
-import { useState, useMemo, Fragment } from "react";
+import { useState, useMemo, Fragment, useEffect } from "react";
 import { ArrowLeft, Search, Check, X, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -42,6 +42,18 @@ export const SearchOverlay = ({
   hideAiImages = false
 }: SearchOverlayProps) => {
   const navigate = useNavigate();
+
+  // Debounced search query to prevent searching on every keystroke
+  const [debouncedQuery, setDebouncedQuery] = useState(searchQuery);
+
+  // Debounce the search query (wait 500ms after user stops typing)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
   
   const FILTERS = {
     time: ['Under 30min', '30-60min'],
@@ -50,10 +62,10 @@ export const SearchOverlay = ({
     meal: ['Breakfast', 'Lunch', 'Dinner', 'Snack']
   };
 
-  // Filter recipes in real-time
+  // Filter recipes using debounced query (not on every keystroke)
   const filteredRecipes = useMemo(() => {
-    const isHalloweenRecipe = (recipe: Recipe) => 
-      recipe.cuisine?.toLowerCase() === 'halloween' || 
+    const isHalloweenRecipe = (recipe: Recipe) =>
+      recipe.cuisine?.toLowerCase() === 'halloween' ||
       recipe.tags?.includes('halloween') || false;
 
     return recipes.filter(recipe => {
@@ -61,8 +73,8 @@ export const SearchOverlay = ({
       if (isHalloweenRecipe(recipe)) return false;
 
       // Search query filter - search by name AND ingredients with smart word matching
-      if (searchQuery.trim()) {
-        const queryTerms = searchQuery.toLowerCase().split(/[\s,]+/).filter(t => t.length > 0);
+      if (debouncedQuery.trim()) {
+        const queryTerms = debouncedQuery.toLowerCase().split(/[\s,]+/).filter(t => t.length > 0);
         
         // For each search term, check if it matches as a word (not just substring)
         const matches = queryTerms.some(term => {
@@ -113,7 +125,7 @@ export const SearchOverlay = ({
         ) || false;
       });
     });
-  }, [recipes, searchQuery, filters]);
+  }, [recipes, debouncedQuery, filters]);
 
   if (!isOpen) return null;
 
