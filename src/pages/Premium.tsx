@@ -8,7 +8,7 @@ const Premium = () => {
       <div className="sticky top-0 z-40 glass-card border-b">
         <div className="flex items-center justify-between p-4 max-w-2xl mx-auto">
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/discover')}
             className="text-foreground hover:text-primary transition-colors"
           >
             <ArrowLeft className="w-6 h-6" />

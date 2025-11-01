@@ -14,7 +14,7 @@ const About = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/discover')}
             className="text-white hover:bg-white/20"
           >
             <ArrowLeft className="h-5 w-5" />

@@ -14,7 +14,7 @@ const Help = () => {
         <div className="max-w-4xl mx-auto">
           <Button
             variant="ghost"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/discover')}
             className="mb-4 text-white hover:bg-white/20"
           >
             <ChevronLeft className="w-4 h-4 mr-2" />
