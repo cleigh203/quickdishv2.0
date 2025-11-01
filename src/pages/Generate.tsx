@@ -104,19 +104,19 @@ const Generate = () => {
   ];
 
   // Function to get recipes for each category
-  // CATEGORY-BASED: Main meal types use the category field
-  // TAG-BASED: Collections use the tags field
+  // ALL FILTERS NOW USE CATEGORY FIELD (unified system)
+  // ALL FILTERS NOW USE CATEGORY FIELD (unified system)
   const getRecipesByCategory = (categoryId: string): Recipe[] => {
     switch (categoryId) {
-      // TAG-BASED FILTERS (Collections)
+      // ALL FILTERS NOW USE CATEGORY FIELD (unified system)
       case 'quick':
-        return combinedRecipes.filter(r => r.tags?.includes('quick'));
+        return combinedRecipes.filter(r => r.category === 'Quick and Easy');
       
       case 'fall':
-        return combinedRecipes.filter(r => r.tags?.includes('fall'));
+        return combinedRecipes.filter(r => r.category === 'Fall Favorites');
       
       case 'onepot':
-        return combinedRecipes.filter(r => r.tags?.includes('one-pot'));
+        return combinedRecipes.filter(r => r.category === 'One Pot Meals');
       
       case 'family':
         return combinedRecipes.filter(r => 
@@ -124,9 +124,9 @@ const Generate = () => {
         );
       
       case 'leftover':
-        return combinedRecipes.filter(r => r.tags?.includes('leftover'));
+        return combinedRecipes.filter(r => r.category === 'Leftovers');
       
-      // CATEGORY-BASED FILTERS (Main Meal Types)
+      // ALL FILTERS NOW USE CATEGORY FIELD (unified system)
       case 'breakfast':
         return combinedRecipes.filter(r => r.category === 'Breakfast');
       
