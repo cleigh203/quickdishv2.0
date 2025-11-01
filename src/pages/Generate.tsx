@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { Search, Plus, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -48,14 +48,30 @@ const Generate = () => {
   }, [searchQuery, ingredientInput, activeFilters, ingredientsParam]);
 
   // Restore scroll position when returning from recipe detail
+  const hasRestoredScroll = useRef(false);
+
   useEffect(() => {
-    const state = location.state;
-    if (state?.restoreScroll) {
-      setTimeout(() => {
-        window.scrollTo(0, state.restoreScroll);
-      }, 0);
+    const state = location.state as any;
+
+    if (state?.restoreScroll && !hasRestoredScroll.current) {
+      hasRestoredScroll.current = true;
+
+      // Wait for content to render, then instantly scroll to position
+      requestAnimationFrame(() => {
+        window.scrollTo({
+          top: state.restoreScroll,
+          behavior: 'instant' // No smooth scroll, instant jump
+        });
+      });
     }
   }, [location.state]);
+
+  // Reset flag when leaving
+  useEffect(() => {
+    return () => {
+      hasRestoredScroll.current = false;
+    };
+  }, []);
   
   // Combine recipes, deduplicating by recipe_id and prioritizing DB recipes over static ones
   type RecipeWithCategory = Recipe & { category?: string };
