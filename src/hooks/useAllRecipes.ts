@@ -36,6 +36,7 @@ export const useAllRecipes = (enabled = true) => {
   }, [enabled]);
 
   const fetchAllRecipes = async () => {
+    console.log('🔍 useAllRecipes: Starting fetch, setting loading=true');
     try {
       setIsLoading(true);
       
@@ -93,12 +94,21 @@ export const useAllRecipes = (enabled = true) => {
       }
       // Keep existing state; do not clear the list on transient errors
     } finally {
+      console.log('🔍 useAllRecipes: Fetch complete, setting loading=false');
       setIsLoading(false);
     }
   };
 
   // isLoading should be true if we have no recipes OR if recipes don't have image URLs yet
   const isReallyLoading = isLoading || (allRecipes.length > 0 && !allRecipes[0]?.image_url);
+
+  // Debug logging
+  console.log('🔍 useAllRecipes state:', {
+    isLoading,
+    hasRecipes: allRecipes.length > 0,
+    firstRecipeHasImage: !!allRecipes[0]?.image_url,
+    isReallyLoading
+  });
 
   return { allRecipes, isLoading: isReallyLoading, refetch: fetchAllRecipes };
 };
