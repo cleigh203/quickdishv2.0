@@ -281,12 +281,12 @@ const Index = () => {
               <h2 className="section-header">Featured Collections</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-              { name: 'Quick and Easy', image: 'https://i.imgur.com/mIajfse.png' },
               { name: 'Fall Favorites', image: 'https://i.imgur.com/H7xbRNq.png' },
-              { name: 'Family Approved', image: 'https://i.imgur.com/vznGLfX.png' },
-              { name: 'One Pot Meals', image: 'https://i.imgur.com/5NcvbyS.png' },
-              { name: 'Restaurant Copycats', image: 'https://i.imgur.com/eNF1erk.png' },
-              { name: 'Desserts', image: 'https://i.imgur.com/suB5DEO.png' },
+{ name: 'Quick and Easy', image: 'https://i.imgur.com/mIajfse.png' },
+{ name: 'Clean Eats', image: 'https://i.imgur.com/placeholder-green.png' },
+{ name: 'Breakfast', image: 'https://i.imgur.com/placeholder-breakfast.png' },
+{ name: 'One Pot Meals', image: 'https://i.imgur.com/5NcvbyS.png' },
+{ name: 'Family Approved', image: 'https://i.imgur.com/vznGLfX.png' },
             ].map((collection) => (
                 <div 
                   key={collection.name}
@@ -329,4 +329,5 @@ const Index = () => {
 };
 
 export default Index;
+
 
