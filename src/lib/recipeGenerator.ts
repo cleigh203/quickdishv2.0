@@ -2,19 +2,15 @@ import { supabase } from "@/integrations/supabase/client";
 
 // CRITICAL: These are the ONLY valid categories
 export const VALID_CATEGORIES = [
-  'Halloween',
-  'Fall Favorites',
-  'Quick and Easy',
-  'Restaurant Copycats',
-  'Breakfast',
-  'Lunch Ideas',
-  'Dinner',
-  'Desserts',
-  'One Pot Wonders',
-  'Healthy Bowls',
-  'Leftover Magic',
-  'Family Favorites',
-] as const;
+    'Fall Favorites',
+    'Quick and Easy',
+    'Clean Eats',
+    'Breakfast',
+    'Desserts',
+    'One Pot Meals',
+    'Family Approved',
+    'Restaurant Copycats',
+  ] as const;
 
 export type RecipeCategory = typeof VALID_CATEGORIES[number];
 
@@ -130,3 +126,4 @@ export async function generateSingleRecipe(
 export function isValidCategory(category: string): category is RecipeCategory {
   return VALID_CATEGORIES.includes(category as RecipeCategory);
 }
+

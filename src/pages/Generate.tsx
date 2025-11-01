@@ -67,9 +67,9 @@ const Generate = () => {
     // 🔍 DEBUG: Log recipe data for debugging
     console.log('🔍 Recipe Debug Info:');
     console.log('Total recipes:', recipes.length);
-    console.log('Desserts:', recipes.filter(r => r.category === 'Desserts').length);
-    console.log('Restaurant Copycats:', recipes.filter(r => r.category === 'Restaurant Copycats').length);
-    console.log('Breakfast:', recipes.filter(r => r.category === 'Breakfast').length);
+    console.log('Fall Favorites:', recipes.filter(r => r.category === 'Fall Favorites').length);
+    console.log('Quick and Easy:', recipes.filter(r => r.category === 'Quick and Easy').length);
+    console.log('Clean Eats:', recipes.filter(r => r.category === 'Clean Eats').length);
     console.log('Lunch:', recipes.filter(r => r.category === 'Lunch').length);
     console.log('Dinner:', recipes.filter(r => r.category === 'Dinner').length);
     console.log('Sample recipe:', recipes[0]);
@@ -92,6 +92,15 @@ const Generate = () => {
 
   // Recipe categories for horizontal sections
   const categories = [
+    { id: 'fall', name: 'Fall Favorites', emoji: '🍂' },
+    { id: 'quick', name: 'Quick and Easy', emoji: '⚡' },
+    { id: 'clean', name: 'Clean Eats', emoji: '🌱' },
+    { id: 'breakfast', name: 'Breakfast', emoji: '🥞' },
+    { id: 'dessert', name: 'Desserts', emoji: '🧁' },
+    { id: 'onepot', name: 'One Pot Meals', emoji: '🍲' },
+    { id: 'family', name: 'Family Approved', emoji: '👨‍👩‍👧‍👦' },
+    { id: 'copycat', name: 'Restaurant Copycats', emoji: '🍔' }
+  ];
     { id: 'fall', name: 'Fall Favorites', emoji: '🍂' },
     { id: 'quick', name: 'Quick and Easy', emoji: '⚡' },
     { id: 'copycat', name: 'Restaurant Copycats', emoji: '🍔' },
