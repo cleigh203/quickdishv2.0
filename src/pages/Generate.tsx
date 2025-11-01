@@ -392,16 +392,27 @@ const Generate = () => {
 
         {/* Recipe Grid */}
         <div className="px-4 py-6">
-          {!imagesLoaded ? (
+          {isLoadingRecipes ? (
             <div className="grid grid-cols-2 gap-4">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="relative cursor-pointer">
-                  <div className="relative rounded-xl overflow-hidden">
-                    <div className="w-full h-[220px] bg-gray-200 animate-pulse" />
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
+                  <div className="relative rounded-lg overflow-hidden">
+                    <div className="w-full h-[200px] bg-gray-200" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>
-                  <div className="mt-2 h-4 bg-gray-200 animate-pulse rounded" />
-                  <div className="mt-1 h-3 bg-gray-200 animate-pulse rounded w-3/4" />
+                  <div className="p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="h-5 bg-gray-200 rounded w-16" />
+                      <div className="h-4 bg-gray-200 rounded w-12" />
+                    </div>
+                    <div className="h-5 bg-gray-200 rounded w-3/4" />
+                    <div className="h-4 bg-gray-200 rounded w-full" />
+                    <div className="h-4 bg-gray-200 rounded w-2/3" />
+                    <div className="flex items-center justify-between pt-2">
+                      <div className="h-4 bg-gray-200 rounded w-16" />
+                      <div className="h-4 bg-gray-200 rounded w-20" />
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
