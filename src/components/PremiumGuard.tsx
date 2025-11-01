@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, Sparkles } from "lucide-react";
-import { trackUpgradeShown, trackUpgradeClicked } from "@/lib/aiChatAnalytics";
+import { trackUpgradeShown, trackUpgradeClicked } from "@/utils/analytics";
 
 interface PremiumGuardProps {
   children: React.ReactNode;

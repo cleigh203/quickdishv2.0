@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Recipe } from '@/types/recipe';
 import { RecipeCard } from '@/components/RecipeCard';
 import { useAllRecipes } from '@/hooks/useAllRecipes';
-import { trackMessageSent, trackRecipeClicked, trackRecipeMentioned, trackChatError } from '@/lib/aiChatAnalytics';
+import { trackMessageSent, trackRecipeClicked, trackRecipeMentioned, trackChatError } from '@/utils/analytics';
 import { ChatErrorBoundary } from '@/components/ChatErrorBoundary';
 
 interface Message {

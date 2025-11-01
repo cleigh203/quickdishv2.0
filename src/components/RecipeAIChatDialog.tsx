@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Recipe } from '@/types/recipe';
-import { trackMessageSent, trackRecipeMentioned } from '@/lib/aiChatAnalytics';
+import { trackMessageSent, trackRecipeMentioned } from '@/utils/analytics';
 
 interface Message {
   role: 'user' | 'assistant';
