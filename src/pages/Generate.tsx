@@ -70,6 +70,14 @@ const Generate = () => {
     console.log('Fall Favorites:', recipes.filter(r => r.category === 'Fall Favorites').length);
     console.log('Quick and Easy:', recipes.filter(r => r.category === 'Quick and Easy').length);
     console.log('Clean Eats:', recipes.filter(r => r.category === 'Clean Eats').length);
+
+    // 🔍 DEBUG: Show all unique categories and their counts
+    const categoryCounts = {};
+    recipes.forEach(r => {
+      const cat = r.category || 'undefined';
+      categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+    });
+    console.log('🔍 All categories found:', categoryCounts);
     
     
     console.log('Sample recipe:', recipes[0]);
