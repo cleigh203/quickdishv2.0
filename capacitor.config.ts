@@ -8,6 +8,9 @@ const config: CapacitorConfig = {
     androidScheme: 'https'
   },
   plugins: {
+    BarcodeScanner: {
+      "lensFacing": "back"
+    },
     SplashScreen: {
       launchShowDuration: 0
     }

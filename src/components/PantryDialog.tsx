@@ -14,6 +14,8 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { BarcodeScanner } from "@/components/BarcodeScanner";
+import { BarcodeScanner as CapacitorBarcodeScanner } from "@capacitor-community/barcode-scanner";
+import { Capacitor } from "@capacitor/core";
 import { ManualBarcodeEntry } from "@/components/ManualBarcodeEntry";
 import { useProductLookup } from "@/hooks/useProductLookup";
 
@@ -31,6 +33,7 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
   const [newItemName, setNewItemName] = useState("");
   const [loading, setLoading] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [isCameraScanning, setIsCameraScanning] = useState(false);
   const [isManualBarcodeOpen, setIsManualBarcodeOpen] = useState(false);
   const { lookupProduct } = useProductLookup();
 
@@ -55,6 +58,60 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
     } catch (error) {
       console.error('Error loading pantry items:', error);
     }
+  };
+
+  const handleCameraScanBarcode = async () => {
+    try {
+      // Check permissions
+      const status = await CapacitorBarcodeScanner.checkPermission({ force: true });
+
+      if (!status.granted) {
+        toast({
+          title: "Camera permission needed",
+          description: "Please enable camera access to scan barcodes",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Prepare UI for scanning
+      setIsCameraScanning(true);
+      document.body.classList.add('scanner-active');
+      document.body.style.background = 'transparent';
+
+      // Start scanning
+      const result = await CapacitorBarcodeScanner.startScan();
+
+      // Clean up UI
+      document.body.classList.remove('scanner-active');
+      document.body.style.background = '';
+      setIsCameraScanning(false);
+
+      if (result.hasContent) {
+        console.log('Scanned barcode:', result.content);
+        await handleBarcodeScan(result.content);
+      }
+    } catch (error) {
+      console.error('Camera barcode scan error:', error);
+
+      // Clean up UI
+      document.body.classList.remove('scanner-active');
+      document.body.style.background = '';
+      setIsCameraScanning(false);
+
+      toast({
+        title: "Scan failed",
+        description: "Could not scan barcode. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const stopCameraScan = () => {
+    CapacitorBarcodeScanner.stopScan();
+    document.body.classList.remove('scanner-active');
+    document.body.style.background = '';
+    setIsCameraScanning(false);
   };
 
   const handleAddItem = async () => {
@@ -108,6 +165,60 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
     }
   };
 
+  const handleCameraScanBarcode = async () => {
+    try {
+      // Check permissions
+      const status = await CapacitorBarcodeScanner.checkPermission({ force: true });
+
+      if (!status.granted) {
+        toast({
+          title: "Camera permission needed",
+          description: "Please enable camera access to scan barcodes",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Prepare UI for scanning
+      setIsCameraScanning(true);
+      document.body.classList.add('scanner-active');
+      document.body.style.background = 'transparent';
+
+      // Start scanning
+      const result = await CapacitorBarcodeScanner.startScan();
+
+      // Clean up UI
+      document.body.classList.remove('scanner-active');
+      document.body.style.background = '';
+      setIsCameraScanning(false);
+
+      if (result.hasContent) {
+        console.log('Scanned barcode:', result.content);
+        await handleBarcodeScan(result.content);
+      }
+    } catch (error) {
+      console.error('Camera barcode scan error:', error);
+
+      // Clean up UI
+      document.body.classList.remove('scanner-active');
+      document.body.style.background = '';
+      setIsCameraScanning(false);
+
+      toast({
+        title: "Scan failed",
+        description: "Could not scan barcode. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const stopCameraScan = () => {
+    CapacitorBarcodeScanner.stopScan();
+    document.body.classList.remove('scanner-active');
+    document.body.style.background = '';
+    setIsCameraScanning(false);
+  };
+
   const handleDeleteItem = async (item: string) => {
     if (!user) return;
 
@@ -133,6 +244,60 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
     }
   };
 
+  const handleCameraScanBarcode = async () => {
+    try {
+      // Check permissions
+      const status = await CapacitorBarcodeScanner.checkPermission({ force: true });
+
+      if (!status.granted) {
+        toast({
+          title: "Camera permission needed",
+          description: "Please enable camera access to scan barcodes",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Prepare UI for scanning
+      setIsCameraScanning(true);
+      document.body.classList.add('scanner-active');
+      document.body.style.background = 'transparent';
+
+      // Start scanning
+      const result = await CapacitorBarcodeScanner.startScan();
+
+      // Clean up UI
+      document.body.classList.remove('scanner-active');
+      document.body.style.background = '';
+      setIsCameraScanning(false);
+
+      if (result.hasContent) {
+        console.log('Scanned barcode:', result.content);
+        await handleBarcodeScan(result.content);
+      }
+    } catch (error) {
+      console.error('Camera barcode scan error:', error);
+
+      // Clean up UI
+      document.body.classList.remove('scanner-active');
+      document.body.style.background = '';
+      setIsCameraScanning(false);
+
+      toast({
+        title: "Scan failed",
+        description: "Could not scan barcode. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const stopCameraScan = () => {
+    CapacitorBarcodeScanner.stopScan();
+    document.body.classList.remove('scanner-active');
+    document.body.style.background = '';
+    setIsCameraScanning(false);
+  };
+
   const handleScanBarcode = async () => {
     try {
       toast({ title: "Requesting camera access..." });
@@ -151,26 +316,296 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
       if (error.name === 'NotAllowedError') {
         toast({
           title: "Camera access denied",
-          description: "Please enable camera in settings or enter barcode manually",
+          description: "Please enable camera in settings or Camera Scan
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsManualBarcodeOpen(true)}
+                    disabled={loading}
+                    className="flex-1"
+                  >
+                    <Barcode className="w-4 h-4 mr-2" />
+                    Manual Entry
+                  </Button>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleScanBarcode}
+                  disabled={loading}
+                  className="w-full mt-2"
+                >
+                  <Camera className="w-4 h-4 mr-2" />
+                  Web Camera Scan
+                </Button>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="text-xs text-muted-foreground">Quick add:</span>
+                  {['Flour', 'Sugar', 'Eggs', 'Butter', 'Oil', 'Salt', 'Pepper'].map((item) => (
+                    <Button
+                      key={item}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setNewItemName(item);
+                        setTimeout(() => handleAddItem(), 100);
+                      }}
+                      disabled={loading}
+                      className="text-xs h-7"
+                    >
+                      {item}
+                    </Button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Barcode Scanner */}
+            <BarcodeScanner
+              open={isScannerOpen}
+              onOpenChange={setIsScannerOpen}
+              onScan={handleBarcodeScan}
+            />
+
+            {/* Manual Barcode Entry */}
+            <ManualBarcodeEntry
+              open={isManualBarcodeOpen}
+              onOpenChange={setIsManualBarcodeOpen}
+              onSubmit={handleBarcodeScan}
+            />
+
+            {/* Camera Scanning Overlay */}
+            {isCameraScanning && (
+              <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+                <div className="bg-white p-4 rounded-lg max-w-sm w-full mx-4">
+                  <p className="text-center text-lg font-semibold mb-4">Point camera at barcode</p>
+                  <Button
+                    onClick={stopCameraScan}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    Cancel Scan
+                  </Button>
+                </div>
+              </div>
+            )}",
           variant: "destructive",
         });
         setIsManualBarcodeOpen(true);
       } else if (error.name === 'NotFoundError') {
         toast({
           title: "No camera found",
-          description: "Please enter barcode manually",
+          description: "Please Camera Scan
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsManualBarcodeOpen(true)}
+                    disabled={loading}
+                    className="flex-1"
+                  >
+                    <Barcode className="w-4 h-4 mr-2" />
+                    Manual Entry
+                  </Button>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleScanBarcode}
+                  disabled={loading}
+                  className="w-full mt-2"
+                >
+                  <Camera className="w-4 h-4 mr-2" />
+                  Web Camera Scan
+                </Button>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="text-xs text-muted-foreground">Quick add:</span>
+                  {['Flour', 'Sugar', 'Eggs', 'Butter', 'Oil', 'Salt', 'Pepper'].map((item) => (
+                    <Button
+                      key={item}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setNewItemName(item);
+                        setTimeout(() => handleAddItem(), 100);
+                      }}
+                      disabled={loading}
+                      className="text-xs h-7"
+                    >
+                      {item}
+                    </Button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Barcode Scanner */}
+            <BarcodeScanner
+              open={isScannerOpen}
+              onOpenChange={setIsScannerOpen}
+              onScan={handleBarcodeScan}
+            />
+
+            {/* Manual Barcode Entry */}
+            <ManualBarcodeEntry
+              open={isManualBarcodeOpen}
+              onOpenChange={setIsManualBarcodeOpen}
+              onSubmit={handleBarcodeScan}
+            />
+
+            {/* Camera Scanning Overlay */}
+            {isCameraScanning && (
+              <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+                <div className="bg-white p-4 rounded-lg max-w-sm w-full mx-4">
+                  <p className="text-center text-lg font-semibold mb-4">Point camera at barcode</p>
+                  <Button
+                    onClick={stopCameraScan}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    Cancel Scan
+                  </Button>
+                </div>
+              </div>
+            )}",
           variant: "destructive",
         });
         setIsManualBarcodeOpen(true);
       } else {
         toast({
           title: "Camera unavailable",
-          description: "Please enter barcode manually",
+          description: "Please Camera Scan
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsManualBarcodeOpen(true)}
+                    disabled={loading}
+                    className="flex-1"
+                  >
+                    <Barcode className="w-4 h-4 mr-2" />
+                    Manual Entry
+                  </Button>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleScanBarcode}
+                  disabled={loading}
+                  className="w-full mt-2"
+                >
+                  <Camera className="w-4 h-4 mr-2" />
+                  Web Camera Scan
+                </Button>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="text-xs text-muted-foreground">Quick add:</span>
+                  {['Flour', 'Sugar', 'Eggs', 'Butter', 'Oil', 'Salt', 'Pepper'].map((item) => (
+                    <Button
+                      key={item}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setNewItemName(item);
+                        setTimeout(() => handleAddItem(), 100);
+                      }}
+                      disabled={loading}
+                      className="text-xs h-7"
+                    >
+                      {item}
+                    </Button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Barcode Scanner */}
+            <BarcodeScanner
+              open={isScannerOpen}
+              onOpenChange={setIsScannerOpen}
+              onScan={handleBarcodeScan}
+            />
+
+            {/* Manual Barcode Entry */}
+            <ManualBarcodeEntry
+              open={isManualBarcodeOpen}
+              onOpenChange={setIsManualBarcodeOpen}
+              onSubmit={handleBarcodeScan}
+            />
+
+            {/* Camera Scanning Overlay */}
+            {isCameraScanning && (
+              <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+                <div className="bg-white p-4 rounded-lg max-w-sm w-full mx-4">
+                  <p className="text-center text-lg font-semibold mb-4">Point camera at barcode</p>
+                  <Button
+                    onClick={stopCameraScan}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    Cancel Scan
+                  </Button>
+                </div>
+              </div>
+            )}",
           variant: "destructive",
         });
         setIsManualBarcodeOpen(true);
       }
     }
+  };
+
+  const handleCameraScanBarcode = async () => {
+    try {
+      // Check permissions
+      const status = await CapacitorBarcodeScanner.checkPermission({ force: true });
+
+      if (!status.granted) {
+        toast({
+          title: "Camera permission needed",
+          description: "Please enable camera access to scan barcodes",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Prepare UI for scanning
+      setIsCameraScanning(true);
+      document.body.classList.add('scanner-active');
+      document.body.style.background = 'transparent';
+
+      // Start scanning
+      const result = await CapacitorBarcodeScanner.startScan();
+
+      // Clean up UI
+      document.body.classList.remove('scanner-active');
+      document.body.style.background = '';
+      setIsCameraScanning(false);
+
+      if (result.hasContent) {
+        console.log('Scanned barcode:', result.content);
+        await handleBarcodeScan(result.content);
+      }
+    } catch (error) {
+      console.error('Camera barcode scan error:', error);
+
+      // Clean up UI
+      document.body.classList.remove('scanner-active');
+      document.body.style.background = '';
+      setIsCameraScanning(false);
+
+      toast({
+        title: "Scan failed",
+        description: "Could not scan barcode. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const stopCameraScan = () => {
+    CapacitorBarcodeScanner.stopScan();
+    document.body.classList.remove('scanner-active');
+    document.body.style.background = '';
+    setIsCameraScanning(false);
   };
 
   const handleBarcodeScan = async (barcode: string) => {
@@ -196,6 +631,60 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
         variant: "destructive",
       });
     }
+  };
+
+  const handleCameraScanBarcode = async () => {
+    try {
+      // Check permissions
+      const status = await CapacitorBarcodeScanner.checkPermission({ force: true });
+
+      if (!status.granted) {
+        toast({
+          title: "Camera permission needed",
+          description: "Please enable camera access to scan barcodes",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Prepare UI for scanning
+      setIsCameraScanning(true);
+      document.body.classList.add('scanner-active');
+      document.body.style.background = 'transparent';
+
+      // Start scanning
+      const result = await CapacitorBarcodeScanner.startScan();
+
+      // Clean up UI
+      document.body.classList.remove('scanner-active');
+      document.body.style.background = '';
+      setIsCameraScanning(false);
+
+      if (result.hasContent) {
+        console.log('Scanned barcode:', result.content);
+        await handleBarcodeScan(result.content);
+      }
+    } catch (error) {
+      console.error('Camera barcode scan error:', error);
+
+      // Clean up UI
+      document.body.classList.remove('scanner-active');
+      document.body.style.background = '';
+      setIsCameraScanning(false);
+
+      toast({
+        title: "Scan failed",
+        description: "Could not scan barcode. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const stopCameraScan = () => {
+    CapacitorBarcodeScanner.stopScan();
+    document.body.classList.remove('scanner-active');
+    document.body.style.background = '';
+    setIsCameraScanning(false);
   };
 
   const filteredItems = pantryItems.filter(item =>
@@ -250,7 +739,79 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
                 className="w-full"
               >
                 <Barcode className="w-4 h-4 mr-2" />
-                Enter Barcode Manually
+                Camera Scan
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsManualBarcodeOpen(true)}
+                    disabled={loading}
+                    className="flex-1"
+                  >
+                    <Barcode className="w-4 h-4 mr-2" />
+                    Manual Entry
+                  </Button>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleScanBarcode}
+                  disabled={loading}
+                  className="w-full mt-2"
+                >
+                  <Camera className="w-4 h-4 mr-2" />
+                  Web Camera Scan
+                </Button>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="text-xs text-muted-foreground">Quick add:</span>
+                  {['Flour', 'Sugar', 'Eggs', 'Butter', 'Oil', 'Salt', 'Pepper'].map((item) => (
+                    <Button
+                      key={item}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setNewItemName(item);
+                        setTimeout(() => handleAddItem(), 100);
+                      }}
+                      disabled={loading}
+                      className="text-xs h-7"
+                    >
+                      {item}
+                    </Button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Barcode Scanner */}
+            <BarcodeScanner
+              open={isScannerOpen}
+              onOpenChange={setIsScannerOpen}
+              onScan={handleBarcodeScan}
+            />
+
+            {/* Manual Barcode Entry */}
+            <ManualBarcodeEntry
+              open={isManualBarcodeOpen}
+              onOpenChange={setIsManualBarcodeOpen}
+              onSubmit={handleBarcodeScan}
+            />
+
+            {/* Camera Scanning Overlay */}
+            {isCameraScanning && (
+              <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+                <div className="bg-white p-4 rounded-lg max-w-sm w-full mx-4">
+                  <p className="text-center text-lg font-semibold mb-4">Point camera at barcode</p>
+                  <Button
+                    onClick={stopCameraScan}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    Cancel Scan
+                  </Button>
+                </div>
+              </div>
+            )}
               </Button>
               <div className="mt-3 flex flex-wrap gap-2">
                 <span className="text-xs text-muted-foreground">Quick add:</span>
