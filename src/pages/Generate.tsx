@@ -100,10 +100,8 @@ const Generate = () => {
     { id: 'onepot', name: 'One Pot Meals', emoji: '🍲' },
     { id: 'family', name: 'Family Approved', emoji: '👨‍👩‍👧‍👦' },
     { id: 'copycat', name: 'Restaurant Copycats', emoji: '🍔' }
-  ];
-  
-  ];
 
+  // Function to get recipes for each category
   // Function to get recipes for each category
   const getRecipesByCategory = (categoryId: string): Recipe[] => {
     switch (categoryId) {
@@ -834,4 +832,6 @@ const Generate = () => {
 };
 
 export default Generate;
+
+
 
