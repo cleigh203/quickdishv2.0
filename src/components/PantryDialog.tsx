@@ -13,9 +13,9 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { BarcodeScanner } from "@/components/BarcodeScanner";
-import { BarcodeScanner as CapacitorBarcodeScanner } from "@capacitor-community/barcode-scanner";
-import { Capacitor } from "@capacitor/core";
+
+
+
 import { ManualBarcodeEntry } from "@/components/ManualBarcodeEntry";
 import { useProductLookup } from "@/hooks/useProductLookup";
 
@@ -33,7 +33,7 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
   const [newItemName, setNewItemName] = useState("");
   const [loading, setLoading] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
-  const [isCameraScanning, setIsCameraScanning] = useState(false);
+
   const [isManualBarcodeOpen, setIsManualBarcodeOpen] = useState(false);
   const { lookupProduct } = useProductLookup();
 
