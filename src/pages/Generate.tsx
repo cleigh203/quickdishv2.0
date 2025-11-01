@@ -120,7 +120,6 @@ const Generate = () => {
   };
 
   const toggleFilter
-
   const toggleFilter = (filter: string) => {
     setFilters(prev => 
       prev.includes(filter) 
