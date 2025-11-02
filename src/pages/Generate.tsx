@@ -41,22 +41,40 @@ const Generate = () => {
   const ingredientsParam = searchParams.get('ingredients');
 
 
-  // Restore scroll position when returning from recipe detail
+  // Restore state when returning from recipe detail
   const hasRestoredScroll = useRef(false);
 
   useEffect(() => {
     const state = location.state as any;
 
-    if (state?.restoreScroll && !hasRestoredScroll.current) {
-      hasRestoredScroll.current = true;
+    if (state) {
+      // Restore search query if present
+      if (state.searchQuery !== undefined) {
+        setSearchQuery(state.searchQuery);
+      }
 
-      // Wait for content to render, then instantly scroll to position
-      requestAnimationFrame(() => {
-        window.scrollTo({
-          top: state.restoreScroll,
-          behavior: 'instant' // No smooth scroll, instant jump
+      // Restore active filters if present
+      if (state.activeFilters !== undefined) {
+        setActiveFilters(state.activeFilters);
+      }
+
+      // Show filtered view if we had a search or filters
+      if (state.searchQuery || state.activeFilters?.length > 0) {
+        setShowFilteredView(true);
+      }
+
+      // Restore scroll position
+      if (state.restoreScroll && !hasRestoredScroll.current) {
+        hasRestoredScroll.current = true;
+
+        // Wait for content to render, then instantly scroll to position
+        requestAnimationFrame(() => {
+          window.scrollTo({
+            top: state.restoreScroll,
+            behavior: 'instant' // No smooth scroll, instant jump
+          });
         });
-      });
+      }
     }
   }, [location.state]);
 
@@ -471,7 +489,15 @@ const Generate = () => {
                 {filteredRecipes.map((recipe) => (
                   <div
                     key={recipe.id}
-                    onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe, from: location.pathname, scrollY: window.scrollY } })}
+                    onClick={() => navigate(`/recipe/${recipe.id}`, { 
+                      state: { 
+                        recipe, 
+                        from: location.pathname, 
+                        scrollY: window.scrollY,
+                        searchQuery: searchQuery,
+                        activeFilters: activeFilters
+                      } 
+                    })}
                     className="relative cursor-pointer"
                   >
                     <div className="relative rounded-xl overflow-hidden">
@@ -665,7 +691,15 @@ const Generate = () => {
                 {filteredRecipes.map((recipe) => (
                   <div
                     key={recipe.id}
-                    onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe, from: location.pathname, scrollY: window.scrollY } })}
+                    onClick={() => navigate(`/recipe/${recipe.id}`, { 
+                      state: { 
+                        recipe, 
+                        from: location.pathname, 
+                        scrollY: window.scrollY,
+                        searchQuery: searchQuery,
+                        activeFilters: activeFilters
+                      } 
+                    })}
                     className="relative cursor-pointer"
                   >
                     <div className="relative rounded-xl overflow-hidden">
@@ -832,7 +866,15 @@ const Generate = () => {
                     {categoryRecipes.slice(0, 10).map((recipe) => (
                       <div
                         key={recipe.id}
-                        onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe, from: location.pathname, scrollY: window.scrollY } })}
+                        onClick={() => navigate(`/recipe/${recipe.id}`, { 
+                      state: { 
+                        recipe, 
+                        from: location.pathname, 
+                        scrollY: window.scrollY,
+                        searchQuery: searchQuery,
+                        activeFilters: activeFilters
+                      } 
+                    })}
                         className="relative cursor-pointer shrink-0 w-40"
                       >
                         <div className="relative rounded-xl overflow-hidden aspect-[3/4]">
