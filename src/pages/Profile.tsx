@@ -468,6 +468,55 @@ const Profile = () => {
           </Card>
         </div>
 
+        {/* PREMIUM STATUS CARD */}
+        <Card className={`rounded-xl shadow-sm border-2 ${isPremium ? 'bg-gradient-to-r from-yellow-50 to-yellow-100 border-yellow-300' : 'bg-card'}`}>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                {isPremium ? (
+                  <Crown className="text-yellow-600" size={32} />
+                ) : (
+                  <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-2xl">
+                    ✨
+                  </div>
+                )}
+                <div>
+                  <h2 className="text-2xl font-bold">
+                    {isPremium ? 'Premium Member' : 'Free Plan'}
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                    {isPremium ? '$2.99/month' : 'Limited features'}
+                  </p>
+                </div>
+              </div>
+              {!isPremium && (
+                <Button 
+                  onClick={() => navigate('/premium')}
+                  className="bg-green-600 hover:bg-green-700"
+                >
+                  Upgrade Now
+                </Button>
+              )}
+            </div>
+
+            {/* Usage Stats */}
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <div className="bg-white rounded-lg p-4">
+                <p className="text-sm text-muted-foreground mb-1">AI Recipes Today</p>
+                <p className="text-2xl font-bold text-green-600">
+                  {profileData?.free_generations_used_today || 0}/{isPremium ? '5' : '1'}
+                </p>
+              </div>
+              <div className="bg-white rounded-lg p-4">
+                <p className="text-sm text-muted-foreground mb-1">Saved Recipes</p>
+                <p className="text-2xl font-bold text-green-600">
+                  {savedRecipes.length}/{isPremium ? '∞' : '50'}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* DAILY GENERATIONS CARD */}
         <Card className="rounded-xl shadow-sm bg-gradient-to-br from-green-100 to-emerald-100 border-emerald-200">
           <CardContent className="p-6 space-y-4">
@@ -613,6 +662,30 @@ const Profile = () => {
             </Button>
           </CardContent>
         </Card>
+
+        {/* DEVELOPER TESTING TOOLS - Only show in dev mode */}
+        {import.meta.env.DEV && (
+          <Card className="rounded-xl shadow-sm bg-card mt-6">
+            <CardHeader>
+              <CardTitle className="text-sm text-muted-foreground">Developer Tools</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Button
+                variant="outline"
+                onClick={togglePremium}
+                className={`w-full ${isPremium ? 'bg-green-100 border-green-500' : 'bg-gray-50'}`}
+              >
+                {isPremium ? '🔓 Dev Premium: ON' : '🔒 Dev Premium: OFF'}
+              </Button>
+              <p className="text-xs text-gray-500 text-center">
+                {isPremium 
+                  ? 'All premium features unlocked for testing' 
+                  : 'Click to enable premium features for testing'
+                }
+              </p>
+            </CardContent>
+          </Card>
+        )}
 
         {/* FOOTER */}
         <div className="py-6 px-4 border-t border-gray-200 text-center text-sm text-gray-500 flex flex-col items-center gap-1">

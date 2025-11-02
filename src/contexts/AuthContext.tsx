@@ -41,6 +41,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
+      // 🔓 DEV MODE OVERRIDE: Check environment variable first
+      // Set VITE_DEV_PREMIUM_ENABLED=true in .env.local for testing
+      if (import.meta.env.VITE_DEV_PREMIUM_ENABLED === 'true') {
+        console.log('🔓 DEV MODE: Premium features enabled via environment variable');
+        setIsPremium(true);
+        return;
+      }
+
       // 🔓 TESTING BYPASS: Check database first (works in dev AND production)
       // This allows you to manually set is_premium in Supabase dashboard for testing
       try {
