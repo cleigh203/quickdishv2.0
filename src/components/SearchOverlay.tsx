@@ -43,12 +43,16 @@ export const SearchOverlay = ({
 }: SearchOverlayProps) => {
   const navigate = useNavigate();
 
+  console.log('🔍 SearchOverlay: Props received - recipes count:', recipes?.length, 'isOpen:', isOpen);
+
   // Debounced search query to prevent searching on every keystroke
   const [debouncedQuery, setDebouncedQuery] = useState(searchQuery);
 
   // Debounce the search query (wait 500ms after user stops typing)
   useEffect(() => {
+    console.log('🔍 SearchOverlay: Input changed to:', searchQuery);
     const timer = setTimeout(() => {
+      console.log('🔍 SearchOverlay: Debounce timeout, setting debouncedQuery to:', searchQuery);
       setDebouncedQuery(searchQuery);
     }, 500);
 
@@ -64,11 +68,14 @@ export const SearchOverlay = ({
 
   // Filter recipes using debounced query (not on every keystroke)
   const filteredRecipes = useMemo(() => {
+    console.log('🔍 SearchOverlay: Filtering started, debouncedQuery:', debouncedQuery, 'recipes count:', recipes.length);
+    const startTime = performance.now();
+
     const isHalloweenRecipe = (recipe: Recipe) =>
       recipe.cuisine?.toLowerCase() === 'halloween' ||
       recipe.tags?.includes('halloween') || false;
 
-    return recipes.filter(recipe => {
+    const result = recipes.filter(recipe => {
       // Exclude Halloween recipes from search
       if (isHalloweenRecipe(recipe)) return false;
 
@@ -76,23 +83,19 @@ export const SearchOverlay = ({
       if (debouncedQuery.trim()) {
         const queryTerms = debouncedQuery.toLowerCase().split(/[\s,]+/).filter(t => t.length > 0);
         
-        // For each search term, check if it matches as a word (not just substring)
+        // For each search term, check if it appears anywhere in name, ingredients, or cuisine
         const matches = queryTerms.some(term => {
-          // Create regex for word boundary matching
-          // \b matches word boundaries, so "fish" won't match "finish"
-          const wordRegex = new RegExp(`\\b${term}`, 'i');
-          
-          // Search in recipe name
-          const nameMatch = wordRegex.test(recipe.name);
-          
-          // Search in ingredients (each ingredient item)
-          const ingredientMatch = recipe.ingredients.some(ing => 
-            wordRegex.test(ing.item)
+          // Search in recipe name (case insensitive)
+          const nameMatch = recipe.name?.toLowerCase().includes(term);
+
+          // Search in ingredients (case insensitive)
+          const ingredientMatch = recipe.ingredients?.some(ing =>
+            ing.item?.toLowerCase().includes(term)
           );
-          
-          // Search in cuisine
-          const cuisineMatch = wordRegex.test(recipe.cuisine || '');
-          
+
+          // Search in cuisine (case insensitive)
+          const cuisineMatch = recipe.cuisine?.toLowerCase().includes(term);
+
           return nameMatch || ingredientMatch || cuisineMatch;
         });
         
@@ -125,9 +128,17 @@ export const SearchOverlay = ({
         ) || false;
       });
     });
+
+      const endTime = performance.now();
+      console.timeEnd('🔍 SearchOverlay filtering');
+      console.log('🔍 SearchOverlay: Filtering completed in', (endTime - startTime).toFixed(2), 'ms, result count:', result.length);
+
+    return result;
   }, [recipes, debouncedQuery, filters]);
 
   if (!isOpen) return null;
+
+  console.log('🔍 SearchOverlay: Component rendered, isOpen:', isOpen, 'searchQuery:', searchQuery, 'debouncedQuery:', debouncedQuery);
 
   return (
     <div className="fixed inset-0 bg-background z-50 overflow-y-auto pb-20">

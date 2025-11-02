@@ -343,7 +343,7 @@ const Generate = () => {
           toggleFilter={toggleFilter}
           clearFilters={clearFilters}
           onSearch={handleSearch}
-          recipes={combinedRecipes}
+          recipes={combinedRecipes.slice(0, 100)} {/* Limit to 100 recipes for search performance */}
           onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
           hideAiImages
         />
@@ -599,7 +599,7 @@ const Generate = () => {
           toggleFilter={toggleFilter}
           clearFilters={clearFilters}
           onSearch={handleSearch}
-          recipes={allRecipes}
+          recipes={allRecipes.slice(0, 100)} {/* Limit to 100 recipes for search performance */}
           onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
           hideAiImages
         />
