@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
@@ -7,42 +7,82 @@ import { Button } from "@/components/ui/button";
 
 const AuthCallback = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [status, setStatus] = useState<'verifying' | 'success' | 'error'>('verifying');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     const handleEmailVerification = async () => {
       try {
-        // Get the hash params from URL
+        // Get the code from URL params (Supabase PKCE flow)
+        const code = searchParams.get('code');
+        const error = searchParams.get('error');
+        const errorDescription = searchParams.get('error_description');
+
+        console.log('Auth callback - code:', !!code, 'error:', error);
+
+        // Handle errors from Supabase
+        if (error) {
+          console.error('Auth error from Supabase:', error, errorDescription);
+          setStatus('error');
+          setErrorMessage(errorDescription || 'Failed to verify your email. Please try again.');
+          return;
+        }
+
+        // Exchange code for session (PKCE flow)
+        if (code) {
+          console.log('Exchanging code for session...');
+          const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+          
+          if (exchangeError) {
+            console.error('Exchange error:', exchangeError);
+            setStatus('error');
+            setErrorMessage(exchangeError.message || 'Failed to verify email');
+            return;
+          }
+
+          // Success!
+          console.log('Email verified successfully');
+          setStatus('success');
+          
+          // Wait 2 seconds to show success message, then redirect
+          setTimeout(() => {
+            navigate('/profile-setup', { replace: true });
+          }, 2000);
+          return;
+        }
+
+        // Fallback: Try hash-based flow for older links
         const hashParams = new URLSearchParams(window.location.hash.substring(1));
         const accessToken = hashParams.get('access_token');
         const type = hashParams.get('type');
 
-        console.log('Auth callback - type:', type, 'has token:', !!accessToken);
+        console.log('Fallback hash flow - type:', type, 'has token:', !!accessToken);
 
-        // Check if this is an email confirmation
-        if (type === 'signup' || type === 'email') {
-          // The session should be automatically set by Supabase
-          const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-          
+        if (type && accessToken) {
+          // Set session from hash-based flow
+          const { error: sessionError } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: hashParams.get('refresh_token') || '',
+          });
+
           if (sessionError) {
             throw sessionError;
           }
 
-          if (session) {
-            console.log('Email verified successfully, user:', session.user.email);
-            setStatus('success');
-            
-            // Wait 2 seconds to show success message, then redirect
-            setTimeout(() => {
-              navigate('/profile-setup', { replace: true });
-            }, 2000);
-          } else {
-            throw new Error('No session found after verification');
-          }
-        } else {
-          throw new Error('Invalid verification type');
+          console.log('Hash-based verification successful');
+          setStatus('success');
+          
+          setTimeout(() => {
+            navigate('/profile-setup', { replace: true });
+          }, 2000);
+          return;
         }
+
+        // No valid callback found
+        console.error('No valid auth callback found');
+        setStatus('error');
+        setErrorMessage('Invalid verification link. Please request a new one.');
       } catch (error: any) {
         console.error('Email verification error:', error);
         setStatus('error');
@@ -51,7 +91,7 @@ const AuthCallback = () => {
     };
 
     handleEmailVerification();
-  }, [navigate]);
+  }, [navigate, searchParams]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-950 dark:to-emerald-900 flex items-center justify-center p-4">
