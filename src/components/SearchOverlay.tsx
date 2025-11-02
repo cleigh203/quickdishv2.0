@@ -227,7 +227,7 @@ export const SearchOverlay = ({
               <p className="text-lg font-medium">No recipes found for "{appliedSearch}"</p>
               <p className="text-sm mt-2">Try adjusting your search terms</p>
             </div>
-          ) : filteredRecipes.length > 0 ? (
+          ) : (
             <div className="grid grid-cols-2 gap-4">
               {filteredRecipes.map((recipe, idx) => (
                 <Fragment key={recipe.id}>
