@@ -505,19 +505,19 @@ const Profile = () => {
             </Card>
 
             {/* UPGRADE TO PREMIUM CARD */}
-            <Card className="rounded-xl shadow-sm bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-300 mb-6">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Crown className="text-yellow-600" size={28} />
-                  <h3 className="text-xl font-bold">Upgrade to Premium</h3>
+            <Card className="rounded-xl shadow-sm bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-300 mb-4">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Crown className="text-yellow-600" size={24} />
+                  <h3 className="text-lg font-bold">Upgrade to Premium</h3>
                 </div>
                 
-                <div className="bg-white rounded-lg p-4 mb-4">
-                  <div className="text-4xl font-bold text-green-600">$2.99</div>
+                <div className="bg-white rounded-lg p-3 mb-3">
+                  <div className="text-3xl font-bold text-green-600">$2.99</div>
                   <div className="text-sm text-muted-foreground">per month • Cancel anytime</div>
                 </div>
 
-                <div className="space-y-3 mb-6">
+                <div className="space-y-2 mb-4">
                   <div className="flex items-start gap-2">
                     <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
                     <div>
@@ -557,27 +557,11 @@ const Profile = () => {
                       <p className="text-sm text-muted-foreground">Print & share recipes</p>
                     </div>
                   </div>
-                  
-                  <div className="flex items-start gap-2">
-                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
-                    <div>
-                      <p className="font-semibold">Offline Access</p>
-                      <p className="text-sm text-muted-foreground">Cook without WiFi</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-2">
-                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
-                    <div>
-                      <p className="font-semibold">Ad-Free Experience</p>
-                      <p className="text-sm text-muted-foreground">Coming soon</p>
-                    </div>
-                  </div>
                 </div>
 
                 <Button 
                   onClick={() => navigate('/premium')}
-                  className="w-full bg-green-600 hover:bg-green-700 text-lg py-6"
+                  className="w-full bg-green-600 hover:bg-green-700 text-base py-4"
                 >
                   Upgrade to Premium Now
                 </Button>
@@ -644,12 +628,6 @@ const Profile = () => {
                   </div>
                   <div className="flex items-center gap-2 text-green-600">
                     <Check size={20} /> PDF export enabled
-                  </div>
-                  <div className="flex items-center gap-2 text-green-600">
-                    <Check size={20} /> Offline access
-                  </div>
-                  <div className="flex items-center gap-2 text-green-600">
-                    <Check size={20} /> Ad-free experience
                   </div>
                 </div>
               </CardContent>
