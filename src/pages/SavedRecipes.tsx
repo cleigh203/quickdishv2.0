@@ -418,6 +418,8 @@ export const SavedRecipes = () => {
                         key={recipe.id}
                         recipe={recipe}
                         onClick={() => handleRecipeClick(recipe.id)}
+                        showRemoveButton={true}
+                        onRemove={() => handleDelete(recipe.id)}
                       />
                     ))}
                   </div>

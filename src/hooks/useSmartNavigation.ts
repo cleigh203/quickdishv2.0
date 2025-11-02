@@ -37,7 +37,7 @@ export const useSmartNavigation = () => {
     const pathname = location.pathname;
     const from = pathname.includes('/discover') || pathname.includes('/generate') ? '/discover' :
                  pathname.includes('/favorites') ? '/favorites' :
-                 pathname.includes('/my-kitchen') || pathname.includes('/saved') ? '/my-kitchen' :
+                 pathname.includes('/saved') ? '/saved' :
                  pathname.includes('/') && pathname !== '/' ? pathname :
                  '/discover';
 
@@ -86,10 +86,16 @@ export const useSmartNavigation = () => {
         }
       });
 
-      // Navigate back with all context
+      // Navigate back with all context and restore scroll position
       navigate(targetPath, {
         state: restoreState
       });
+      
+      // Restore scroll position after navigation
+      setTimeout(() => {
+        const scrollTo = state.scrollY || state.restoreScroll || 0;
+        window.scrollTo({ top: scrollTo, behavior: 'instant' });
+      }, 100);
     } else {
       // Fallback to browser back
       navigate(-1);
