@@ -124,7 +124,7 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
               Sign in to generate recipes
             </Button>
             <p className="text-xs text-muted-foreground">
-              Free: 2 AI generations/day • Premium: 5/day
+              Free: 1 AI generation/day • Premium: 5/day
             </p>
           </>
         )}

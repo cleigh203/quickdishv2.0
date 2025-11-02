@@ -65,7 +65,7 @@ WHERE id = 'YOUR-USER-ID-HERE';
 - [ ] Click "Ask Chef Quinn" → Shows paywall ✅
 - [ ] View nutritional facts → Shows blurred with lock ✅
 - [ ] Try to save 51st recipe → Shows paywall ✅
-- [ ] Generate 2 AI recipes → 2nd shows paywall ✅
+- [ ] Generate 2 AI recipes → 2nd shows paywall (now 1/day limit for free) ✅
 - [ ] Click "Export PDF" → Shows paywall ✅
 - [ ] Profile shows "Free Plan" with upgrade button ✅
 
