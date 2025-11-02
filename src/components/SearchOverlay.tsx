@@ -67,6 +67,7 @@ export const SearchOverlay = ({
 
   const handleApplyFilters = () => {
     setAppliedSearch(searchQuery);
+    onSearch(); // Trigger the parent's handleSearch to show filtered view
   };
 
   const handleClearAll = () => {

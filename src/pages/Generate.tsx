@@ -59,7 +59,7 @@ const Generate = () => {
       }
 
       // Show filtered view if we had a search or filters
-      if (state.searchQuery || state.activeFilters?.length > 0) {
+      if ((state.searchQuery && state.searchQuery.trim()) || state.activeFilters?.length > 0) {
         setShowFilteredView(true);
       }
 
