@@ -2,16 +2,24 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { checkout } from "@/utils/stripe";
+import { useToast } from "@/hooks/use-toast";
 
 export const PricingPlans = () => {
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleSubscribe = async (priceOrAmount: string | number) => {
     try {
       setLoading(true);
-      // eslint-disable-next-line no-console
       console.log('[PricingPlans] subscribing with:', priceOrAmount);
       await checkout(priceOrAmount);
+    } catch (error: any) {
+      console.error('Checkout error:', error);
+      toast({
+        title: "Checkout Failed",
+        description: error.message || "Failed to start checkout. Please try again.",
+        variant: "destructive"
+      });
     } finally {
       setLoading(false);
     }
