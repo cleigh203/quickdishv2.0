@@ -40,12 +40,6 @@ const Generate = () => {
   const collectionParam = searchParams.get('collection');
   const ingredientsParam = searchParams.get('ingredients');
 
-  // Exit filtered view when search is cleared
-  useEffect(() => {
-    if (!searchQuery && !ingredientInput && activeFilters.length === 0 && !ingredientsParam) {
-      setShowFilteredView(false);
-    }
-  }, [searchQuery, ingredientInput, activeFilters, ingredientsParam]);
 
   // Restore scroll position when returning from recipe detail
   const hasRestoredScroll = useRef(false);

@@ -43,6 +43,8 @@ export const SearchOverlay = ({
 }: SearchOverlayProps) => {
   const navigate = useNavigate();
 
+  // Separate input state from applied search state
+  const [appliedSearch, setAppliedSearch] = useState('');
   
   const FILTERS = {
     time: ['Under 30min', '30-60min'],
@@ -51,17 +53,27 @@ export const SearchOverlay = ({
     meal: ['Breakfast', 'Lunch', 'Dinner', 'Snack']
   };
 
-  // Filter recipes using debounced query (not on every keystroke)
+  // Only filter when appliedSearch is set (after clicking Apply Filters)
   const filteredRecipes = useMemo(() => {
-    if (!searchQuery?.trim()) {
-      return recipes.slice(0, 50);
+    if (!appliedSearch?.trim()) {
+      return [];
     }
     
-    const query = searchQuery.toLowerCase();
+    const query = appliedSearch.toLowerCase();
     return recipes
       .filter(r => r.name?.toLowerCase().includes(query))
       .slice(0, 50);
-  }, [searchQuery, recipes]);
+  }, [appliedSearch, recipes]);
+
+  const handleApplyFilters = () => {
+    setAppliedSearch(searchQuery);
+  };
+
+  const handleClearAll = () => {
+    setSearchQuery('');
+    setAppliedSearch('');
+    clearFilters();
+  };
 
   if (!isOpen) return null;
 
@@ -190,26 +202,21 @@ export const SearchOverlay = ({
         <div className="flex gap-3 pt-4 py-4">
           <Button
             variant="outline"
-            onClick={() => {
-              clearFilters();
-              setSearchQuery('');
-            }}
+            onClick={handleClearAll}
             className="flex-1"
           >
             Clear All
           </Button>
           <Button
-            onClick={() => {
-              onSearch();
-              onClose();
-            }}
+            onClick={handleApplyFilters}
             className="flex-1"
           >
             Apply Filters
           </Button>
         </div>
 
-        {/* Filtered Results */}
+          {/* Filtered Results */}
+        {appliedSearch && (
         <div>
           <p className="text-sm font-semibold text-foreground mb-3">
             Results ({filteredRecipes.length})
@@ -217,10 +224,10 @@ export const SearchOverlay = ({
           
           {filteredRecipes.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
-              <p className="text-lg font-medium">No recipes found</p>
-              <p className="text-sm mt-2">Try adjusting your filters or search terms</p>
+              <p className="text-lg font-medium">No recipes found for "{appliedSearch}"</p>
+              <p className="text-sm mt-2">Try adjusting your search terms</p>
             </div>
-          ) : (
+          ) : filteredRecipes.length > 0 ? (
             <div className="grid grid-cols-2 gap-4">
               {filteredRecipes.map((recipe, idx) => (
                 <Fragment key={recipe.id}>
@@ -280,6 +287,7 @@ export const SearchOverlay = ({
             </div>
           )}
         </div>
+        )}
       </div>
     </div>
   );
