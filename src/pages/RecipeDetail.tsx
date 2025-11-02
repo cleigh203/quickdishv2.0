@@ -30,6 +30,7 @@ import { RecipeAIChatDialog } from "@/components/RecipeAIChatDialog";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { usePantryItems } from "@/hooks/usePantryItems";
 import { trackRecipeView, trackCookingModeStart } from "@/utils/analytics";
+import { PremiumModal } from "@/components/PremiumModal";
 // ShoppingGuide temporarily removed - will use Kroger/Instacart API when ready
 // import { StoreSelection } from "@/components/StoreSelection";
 // import { ShoppingGuide } from "@/components/ShoppingGuide";
@@ -80,6 +81,8 @@ const RecipeDetail = () => {
   const [mealPlanDialogOpen, setMealPlanDialogOpen] = useState(false);
   const [aiChatOpen, setAiChatOpen] = useState(false);
   const [showAd, setShowAd] = useState<null | 'chat' | 'nutrition' | 'interstitial'>(null);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
+  const [premiumFeature, setPremiumFeature] = useState<'chef-quinn' | 'nutrition' | 'unlimited-saves' | 'pdf-export' | 'ai-recipes'>('chef-quinn');
   // Shopping guide removed - will add back with Kroger/Instacart API
   // const [showShopping, setShowShopping] = useState(false);
   // const [selectedStore, setSelectedStore] = useState<GroceryStore | null>(null);
@@ -180,6 +183,19 @@ const RecipeDetail = () => {
     if (isSaved(recipe.id)) {
       await unsaveRecipe(recipe.id);
     } else {
+      // Check save limit for free users
+      if (!isPremium) {
+        const { count } = await supabase
+          .from('saved_recipes')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', user.id);
+        
+        if (count >= 50) {
+          setPremiumFeature('unlimited-saves');
+          setShowPremiumModal(true);
+          return;
+        }
+      }
       // Workaround: persist AI recipes locally so Favorites can resolve by ID immediately
       try {
         const existing = recipeStorage.getRecipes();
@@ -303,6 +319,13 @@ const RecipeDetail = () => {
 
   const handleExportPDF = async () => {
     if (!recipe) return;
+    
+    // Check premium status for PDF export
+    if (!isPremium) {
+      setPremiumFeature('pdf-export');
+      setShowPremiumModal(true);
+      return;
+    }
     
     setIsGeneratingPDF(true);
     toast({
@@ -739,9 +762,14 @@ const RecipeDetail = () => {
                 }
 
                 // Authenticated users: check premium status
-                // Open AI chat directly (ad gating removed for now)
-                setAiChatOpen(true);
-                setMenuOpen(false);
+                if (isPremium) {
+                  setAiChatOpen(true);
+                  setMenuOpen(false);
+                } else {
+                  setPremiumFeature('chef-quinn');
+                  setShowPremiumModal(true);
+                  setMenuOpen(false);
+                }
               }}
               className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
             >
@@ -785,10 +813,15 @@ const RecipeDetail = () => {
                 }
 
                 // Authenticated users: check premium status
-                // Open nutrition directly (ad gating removed for now)
                 if (recipe?.nutrition) {
-                  setNutritionModalOpen(true);
-                  setMenuOpen(false);
+                  if (isPremium) {
+                    setNutritionModalOpen(true);
+                    setMenuOpen(false);
+                  } else {
+                    setPremiumFeature('nutrition');
+                    setShowPremiumModal(true);
+                    setMenuOpen(false);
+                  }
                 } else {
                   toast({
                     title: "Nutrition data unavailable",
@@ -946,6 +979,12 @@ const RecipeDetail = () => {
         recipe={recipe}
         open={aiChatOpen}
         onClose={() => setAiChatOpen(false)}
+      />
+
+      <PremiumModal
+        isOpen={showPremiumModal}
+        onClose={() => setShowPremiumModal(false)}
+        feature={premiumFeature}
       />
 
       {/* Shopping Flow Components - Removed, will add back with Kroger/Instacart API */}

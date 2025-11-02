@@ -6,6 +6,7 @@ import { useAiRecipeGeneration } from '@/hooks/useAiRecipeGeneration';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Recipe } from '@/types/recipe';
+import { PremiumModal } from '@/components/PremiumModal';
 
 interface AiGenerationPromptProps {
   searchTerm: string;
@@ -18,6 +19,7 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
   const navigate = useNavigate();
   const [remaining, setRemaining] = useState<number | null>(null);
   const [limitReached, setLimitReached] = useState(false);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -40,7 +42,8 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
     }
 
     if (limitReached) {
-      console.log('🎯 5. Rate limit reached');
+      console.log('🎯 5. Rate limit reached, showing premium modal');
+      setShowPremiumModal(true);
       return;
     }
 
@@ -77,7 +80,7 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
           <>
             <Button
               onClick={handleGenerate}
-              disabled={isGenerating || limitReached}
+              disabled={isGenerating}
               className="w-full"
               size="lg"
             >
@@ -85,10 +88,6 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   Creating recipe...
-                </>
-              ) : limitReached ? (
-                <>
-                  {isPremium ? 'Daily limit reached' : 'Upgrade for more generations'}
                 </>
               ) : (
                 <>
@@ -113,15 +112,6 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
               </span>
             </div>
 
-            {limitReached && !isPremium && (
-              <Button
-                variant="outline"
-                onClick={() => navigate('/premium')}
-                className="w-full"
-              >
-                View Premium Plans
-              </Button>
-            )}
           </>
         ) : (
           <>
@@ -146,6 +136,11 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
         </div>
       </div>
 
+      <PremiumModal
+        isOpen={showPremiumModal}
+        onClose={() => setShowPremiumModal(false)}
+        feature="ai-recipes"
+      />
     </Card>
   );
 };
