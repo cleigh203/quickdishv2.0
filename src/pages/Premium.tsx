@@ -1,5 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import PricingPlans from "@/components/PricingPlans";
 
 const Premium = () => {
   const navigate = useNavigate();
@@ -18,9 +19,8 @@ const Premium = () => {
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-4 py-12 text-center">
-        <h2 className="text-2xl font-bold mb-2">Premium temporarily unavailable</h2>
-        <p className="text-muted-foreground">We currently offer ad-supported access to premium features.</p>
+      <div className="max-w-2xl mx-auto px-4 py-12">
+        <PricingPlans />
       </div>
     </div>
   );
