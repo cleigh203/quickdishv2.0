@@ -4,7 +4,7 @@ import { Recipe } from '@/types/recipe';
 import { retryOperation } from '@/utils/errorHandling';
 
 // Cache version - increment this to force all users to refresh
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4'; // Incremented to force cache refresh
 const CACHE_KEY = `all_recipes_cache_${CACHE_VERSION}`;
 const CACHE_DURATION = 60000; // 1 minute for testing (was 1 hour)
 
@@ -49,6 +49,15 @@ export const useAllRecipes = (enabled = true) => {
           .abortSignal(AbortSignal.timeout(10000)); // 10 second timeout
 
         if (error) throw error;
+        
+        // 🔍 DEBUG: Log what we got from database
+        console.log('🔍 Database Query Results:');
+        console.log('Total recipes fetched:', data?.length);
+        const quickAndEasy = data?.filter((r: any) => r.category === 'Quick and Easy') || [];
+        console.log('Quick and Easy from DB:', quickAndEasy.length);
+        console.log('Quick and Easy recipe names from DB:', quickAndEasy.map((r: any) => r.name).sort());
+        console.log('Greek Chicken Wrap in DB results?', quickAndEasy.some((r: any) => r.name.includes('Greek Chicken')));
+        
         return data;
       }, 2, 1000); // 2 retries with 1 second delay
 

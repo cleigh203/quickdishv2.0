@@ -115,22 +115,25 @@ const Generate = () => {
     // 🔍 DEBUG: Log recipe data for debugging
     console.log('🔍 Recipe Debug Info:');
     console.log('Total recipes:', recipes.length);
+    console.log('From allRecipes:', allRecipes.length);
+    console.log('From verifiedRecipes:', verifiedRecipes.length);
+    console.log('From generatedRecipes:', generatedRecipes.length);
+    
+    const quickAndEasyRecipes = recipes.filter(r => r.category === 'Quick and Easy');
+    console.log('Quick and Easy recipes found:', quickAndEasyRecipes.length);
+    console.log('Quick and Easy recipe names:', quickAndEasyRecipes.map(r => r.name).sort());
+    console.log('Greek Chicken Wrap found?', quickAndEasyRecipes.some(r => r.name.includes('Greek Chicken')));
+    
     console.log('Fall Favorites:', recipes.filter(r => r.category === 'Fall Favorites').length);
-    console.log('Quick and Easy:', recipes.filter(r => r.category === 'Quick and Easy').length);
     console.log('Clean Eats:', recipes.filter(r => r.category === 'Clean Eats').length);
 
     // 🔍 DEBUG: Show all unique categories and their counts
-    const categoryCounts = {};
+    const categoryCounts: Record<string, number> = {};
     recipes.forEach(r => {
       const cat = r.category || 'undefined';
       categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
     });
     console.log('🔍 All categories found:', categoryCounts);
-    
-    
-    console.log('Sample recipe:', recipes[0]);
-    console.log('Sample recipe category:', recipes[0]?.category);
-    console.log('Sample recipe tags:', recipes[0]?.tags);
     
     return recipes;
   })();
@@ -850,6 +853,15 @@ const Generate = () => {
 
             if (categoryRecipes.length === 0) return null;
 
+            // 🔍 DEBUG: Log category recipes for debugging
+            if (category.id === 'quick') {
+              console.log('🔍 Quick and Easy Debug:');
+              console.log('Total Quick and Easy recipes:', categoryRecipes.length);
+              console.log('Recipe names:', categoryRecipes.map(r => r.name).sort());
+              console.log('Greek Chicken Wrap found?', categoryRecipes.some(r => r.name.includes('Greek Chicken')));
+              console.log('First 10 recipe names:', categoryRecipes.slice(0, 10).map(r => r.name));
+            }
+
             return (
               <div key={category.id}>
                 {/* Category Header */}
@@ -868,7 +880,7 @@ const Generate = () => {
                 {/* Horizontal Scroll */}
                 <div className="overflow-x-auto scrollbar-hide">
                   <div className="flex gap-4 px-4 pb-2">
-                    {categoryRecipes.slice(0, 10).map((recipe) => (
+                    {categoryRecipes.map((recipe) => (
                       <div
                         key={recipe.id}
                         onClick={() => navigateToRecipe(recipe.id, recipe, {
