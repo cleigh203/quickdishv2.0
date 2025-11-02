@@ -203,6 +203,7 @@ const Generate = () => {
     // Copy current state to active filters
     setActiveFilters([...filters]);
     setShowFilteredView(true);
+    setShowSearchOverlay(false); // Close the search overlay
   };
 
   const handleSeeAll = (categoryName: string) => {
