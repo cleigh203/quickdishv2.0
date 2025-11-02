@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
-import { useNavigate } from "react-router-dom";
+import { useSmartNavigation } from "@/hooks/useSmartNavigation";
 import { InlineRating } from "@/components/InlineRating";
 
 interface SearchOverlayProps {
@@ -41,7 +41,7 @@ export const SearchOverlay = ({
   onAddToFavorites,
   hideAiImages = false
 }: SearchOverlayProps) => {
-  const navigate = useNavigate();
+  const { navigateToRecipe } = useSmartNavigation();
 
   // Separate input state from applied search state
   const [appliedSearch, setAppliedSearch] = useState('');
@@ -234,14 +234,9 @@ export const SearchOverlay = ({
                 <Fragment key={recipe.id}>
                   <div
                     onClick={() => {
-                      navigate(`/recipe/${recipe.id}`, {
-                        state: { 
-                          recipe, 
-                          from: '/discover', 
-                          scrollY: window.scrollY,
-                          searchQuery: appliedSearch,
-                          activeFilters: filters
-                        }
+                      navigateToRecipe(recipe.id, recipe, {
+                        searchQuery: appliedSearch,
+                        activeFilters: filters
                       });
                       onClose();
                     }}

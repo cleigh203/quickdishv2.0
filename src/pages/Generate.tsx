@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
+import { useSearchParams, useLocation, useNavigate } from "react-router-dom";
+import { useSmartNavigation } from "@/hooks/useSmartNavigation";
 import { Search, Plus, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,8 +19,9 @@ import { getRecipeImage } from "@/utils/recipeImages";
 
 const Generate = () => {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate(); // For other navigation (not recipes)
+  const { navigateToRecipe, getContext } = useSmartNavigation();
   const { toast } = useToast();
   const { saveRecipe, isSaved } = useSavedRecipes();
   const { allRecipes, isLoading: isLoadingRecipes } = useAllRecipes();
@@ -44,39 +46,40 @@ const Generate = () => {
   // Restore state when returning from recipe detail
   const hasRestoredScroll = useRef(false);
 
+  // Restore context when returning from recipe detail
   useEffect(() => {
-    const state = location.state as any;
+    const context = getContext();
 
-    if (state) {
+    if (context) {
       // Restore search query if present
-      if (state.searchQuery !== undefined) {
-        setSearchQuery(state.searchQuery);
+      if (context.searchQuery !== undefined || context.appliedSearch !== undefined) {
+        setSearchQuery(context.searchQuery || context.appliedSearch || '');
       }
 
       // Restore active filters if present
-      if (state.activeFilters !== undefined) {
-        setActiveFilters(state.activeFilters);
+      if (context.activeFilters !== undefined) {
+        setActiveFilters(context.activeFilters);
       }
 
       // Show filtered view if we had a search or filters
-      if ((state.searchQuery && state.searchQuery.trim()) || state.activeFilters?.length > 0) {
+      if ((context.searchQuery && context.searchQuery.trim()) || context.appliedSearch || context.activeFilters?.length > 0) {
         setShowFilteredView(true);
       }
 
       // Restore scroll position
-      if (state.restoreScroll && !hasRestoredScroll.current) {
+      if (context.restoreScroll && !hasRestoredScroll.current) {
         hasRestoredScroll.current = true;
 
         // Wait for content to render, then instantly scroll to position
         requestAnimationFrame(() => {
           window.scrollTo({
-            top: state.restoreScroll,
+            top: context.restoreScroll,
             behavior: 'instant' // No smooth scroll, instant jump
           });
         });
       }
     }
-  }, [location.state]);
+  }, [getContext]);
 
   // Reset flag when leaving
   useEffect(() => {
@@ -499,14 +502,10 @@ const Generate = () => {
                 {filteredRecipes.map((recipe) => (
                   <div
                     key={recipe.id}
-                    onClick={() => navigate(`/recipe/${recipe.id}`, { 
-                      state: { 
-                        recipe, 
-                        from: location.pathname, 
-                        scrollY: window.scrollY,
-                        searchQuery: searchQuery,
-                        activeFilters: activeFilters
-                      } 
+                    onClick={() => navigateToRecipe(recipe.id, recipe, {
+                      searchQuery,
+                      activeFilters,
+                      showFilteredView
                     })}
                     className="relative cursor-pointer"
                   >
@@ -701,14 +700,10 @@ const Generate = () => {
                 {filteredRecipes.map((recipe) => (
                   <div
                     key={recipe.id}
-                    onClick={() => navigate(`/recipe/${recipe.id}`, { 
-                      state: { 
-                        recipe, 
-                        from: location.pathname, 
-                        scrollY: window.scrollY,
-                        searchQuery: searchQuery,
-                        activeFilters: activeFilters
-                      } 
+                    onClick={() => navigateToRecipe(recipe.id, recipe, {
+                      searchQuery,
+                      activeFilters,
+                      showFilteredView
                     })}
                     className="relative cursor-pointer"
                   >
@@ -796,7 +791,7 @@ const Generate = () => {
             searchTerm={searchQuery}
             onRecipeGenerated={(recipe) => {
               refetchGeneratedRecipes();
-              navigate(`/recipe/${recipe.id}`, { state: { recipe } });
+              navigateToRecipe(recipe.id, recipe);
             }}
           />
         </div>
@@ -876,14 +871,10 @@ const Generate = () => {
                     {categoryRecipes.slice(0, 10).map((recipe) => (
                       <div
                         key={recipe.id}
-                        onClick={() => navigate(`/recipe/${recipe.id}`, { 
-                      state: { 
-                        recipe, 
-                        from: location.pathname, 
-                        scrollY: window.scrollY,
-                        searchQuery: searchQuery,
-                        activeFilters: activeFilters
-                      } 
+                        onClick={() => navigateToRecipe(recipe.id, recipe, {
+                      searchQuery,
+                      activeFilters,
+                      showFilteredView
                     })}
                         className="relative cursor-pointer shrink-0 w-40"
                       >

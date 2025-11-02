@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSmartNavigation } from "@/hooks/useSmartNavigation";
 import { Heart, ChefHat, Loader2, Search } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { Recipe } from "@/types/recipe";
@@ -18,8 +19,9 @@ const Favorites = () => {
   const { generatedRecipes } = useGeneratedRecipes();
   const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate(); // For non-recipe navigation
+  const { navigateToRecipe, getContext } = useSmartNavigation();
 
   useEffect(() => {
     const resolveFavorites = async () => {
@@ -159,9 +161,7 @@ const Favorites = () => {
               <div key={recipe.id} className="glass-card rounded-xl overflow-hidden group hover:scale-[1.02] transition-transform">
                 <div 
                   className="relative h-48 overflow-hidden cursor-pointer"
-                  onClick={() => navigate(`/recipe/${recipe.id}`, {
-                    state: { recipe, from: location.pathname, scrollY: window.scrollY }
-                  })}
+                  onClick={() => navigateToRecipe(recipe.id, recipe)}
                 >
                   {recipe.isAiGenerated ? (
                     <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground">
@@ -190,9 +190,7 @@ const Favorites = () => {
                 <div className="p-4">
                   <h3 
                     className="text-white font-bold text-lg mb-2 cursor-pointer hover:text-primary transition-colors"
-                    onClick={() => navigate(`/recipe/${recipe.id}`, {
-                      state: { recipe, from: location.pathname, scrollY: window.scrollY }
-                    })}
+                    onClick={() => navigateToRecipe(recipe.id, recipe)}
                   >
                     {recipe.name}
                   </h3>
@@ -205,18 +203,17 @@ const Favorites = () => {
                   {/* Action buttons */}
                   <div className="flex gap-2">
                     <Button 
-                      onClick={() => navigate(`/recipe/${recipe.id}`, {
-                        state: { recipe, from: location.pathname, scrollY: window.scrollY }
-                      })}
+                      onClick={() => navigateToRecipe(recipe.id, recipe)}
                       variant="outline"
                       className="flex-1"
                     >
                       View
                     </Button>
                     <Button 
-                      onClick={() => navigate(`/recipe/${recipe.id}?cook=true`, {
-                        state: { recipe, from: location.pathname, scrollY: window.scrollY }
-                      })}
+                      onClick={() => {
+                        navigateToRecipe(recipe.id, recipe);
+                        // Note: cook mode should be handled via URL param or state in RecipeDetail
+                      }}
                       className="flex-1 bg-primary hover:bg-primary/90 font-semibold"
                     >
                       <ChefHat className="mr-2 h-4 w-4" />

@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useSmartNavigation } from "@/hooks/useSmartNavigation";
 import { BottomNav } from "@/components/BottomNav";
 import { RecipeCard } from "@/components/RecipeCard";
 import { RecipeCardSkeleton } from "@/components/RecipeCardSkeleton";
@@ -22,8 +23,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { MealPlanDialog } from "@/components/MealPlanDialog";
 
 export const SavedRecipes = () => {
-  const navigate = useNavigate();
   const location = useLocation();
+  const { navigateToRecipe, getContext } = useSmartNavigation();
   const { allRecipes } = useAllRecipes();
   const { savedRecipes, loading, error, refetch, unsaveRecipe } = useSavedRecipes();
   const { mealPlans, refreshMealPlans, addMealPlan } = useMealPlan();
@@ -173,13 +174,7 @@ export const SavedRecipes = () => {
     // Find the recipe in our data to pass via state
     const recipe = resolvedSavedRecipes.find(r => r.id === recipeId) ||
                    customRecipes.find(r => r.id === recipeId);
-    navigate(`/recipe/${recipeId}`, {
-      state: {
-        recipe,
-        from: location.pathname,
-        scrollY: window.scrollY
-      }
-    });
+    navigateToRecipe(recipeId, recipe);
   };
 
   const handleUnsave = async (recipeId: string) => {

@@ -1,4 +1,5 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSmartNavigation } from "@/hooks/useSmartNavigation";
 import { Sparkles, X } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -14,8 +15,9 @@ import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
 import { getRecipeImage } from "@/utils/recipeImages";
 
 const Index = () => {
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate(); // For non-recipe navigation
+  const { navigateToRecipe, getContext } = useSmartNavigation();
   const [searchInput, setSearchInput] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -26,13 +28,7 @@ const Index = () => {
   const handleRecipeClick = (recipeId: string) => {
     // Find the recipe in our combined data to pass via state
     const recipe = combinedRecipes.find(r => r.id === recipeId);
-    navigate(`/recipe/${recipeId}`, {
-      state: {
-        recipe,
-        from: location.pathname,
-        scrollY: window.scrollY
-      }
-    });
+    navigateToRecipe(recipeId, recipe);
   };
 
   // Combine verified, generated, and static recipes with proper deduplication
@@ -254,7 +250,7 @@ const Index = () => {
                 <AiGenerationPrompt 
                   searchTerm={searchInput}
                   onRecipeGenerated={(recipe) => {
-                    navigate(`/recipe/${recipe.id}`, { state: { recipe } });
+                    navigateToRecipe(recipe.id, recipe);
                   }}
                 />
                 <div>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useSmartNavigation } from "@/hooks/useSmartNavigation";
 import { ArrowLeft, Heart, ShoppingCart, Plus, Minus, ChefHat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -38,8 +39,9 @@ import { PremiumModal } from "@/components/PremiumModal";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate(); // For auth navigation
+  const { goBack, getContext, navigateWithContext } = useSmartNavigation();
   const { toast } = useToast();
   const { user, isPremium } = useAuth();
   const { allRecipes } = useAllRecipes();
@@ -57,24 +59,8 @@ const RecipeDetail = () => {
   const [notesDialogOpen, setNotesDialogOpen] = useState(false);
   const [premiumPaywallOpen, setPremiumPaywallOpen] = useState(false);
 
-  // Unified back handler that preserves scroll position
-  const handleBack = () => {
-    const state = location.state as any;
-
-    if (state?.from) {
-      // Go back to where we came from with scroll position and search state
-      navigate(state.from, {
-        state: { 
-          restoreScroll: state.scrollY || 0,
-          searchQuery: state.searchQuery,
-          activeFilters: state.activeFilters
-        }
-      });
-    } else {
-      // Fallback to discover if no state
-      navigate('/discover');
-    }
-  };
+  // Back handler uses centralized navigation hook
+  // This automatically preserves all context (search, filters, scroll, etc.)
   const [nutritionModalOpen, setNutritionModalOpen] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
@@ -156,9 +142,9 @@ const RecipeDetail = () => {
     } else {
       setRecipe(null);
       setIsLoadingRecipe(false);
-      navigate('/generate');
+      navigateWithContext('/generate');
     }
-  }, [id, navigate, generatedRecipes, verifiedRecipes, location.state]);
+  }, [id, navigateWithContext, generatedRecipes, verifiedRecipes, location.state]);
 
   const toggleFavorite = async () => {
     if (!recipe) return;
@@ -412,7 +398,7 @@ const RecipeDetail = () => {
             }}
           />
             <Button
-              onClick={handleBack}
+              onClick={goBack}
               variant="icon"
               size="icon"
               className="absolute top-4 left-4"
@@ -437,7 +423,7 @@ const RecipeDetail = () => {
         <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-5 py-8">
           <div className="flex items-center justify-between">
             <Button
-              onClick={handleBack}
+              onClick={goBack}
               variant="ghost"
               size="icon"
               className="text-white hover:bg-white/20"

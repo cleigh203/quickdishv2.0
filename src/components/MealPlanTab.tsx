@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSmartNavigation } from "@/hooks/useSmartNavigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -31,7 +32,8 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import { supabase } from "@/integrations/supabase/client";
 
 export const MealPlanTab = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // For non-recipe navigation
+  const { navigateToRecipe } = useSmartNavigation();
   const { user } = useAuth();
   const { allRecipes } = useAllRecipes();
   const { mealPlans, deleteMealPlan, clearAllMealPlans, refreshMealPlans } = useMealPlan();
@@ -421,7 +423,12 @@ export const MealPlanTab = () => {
             <Card 
               key={meal.id} 
               className={`relative border-0 cursor-pointer transition-opacity ${isPastMeal ? 'opacity-60' : ''}`}
-              onClick={() => navigate(`/recipe/${navigateId}`)}
+              onClick={() => {
+                const recipeToNavigate = recipe || db;
+                if (recipeToNavigate && navigateId) {
+                  navigateToRecipe(navigateId, recipeToNavigate);
+                }
+              }}
             >
               <CardContent className="p-4">
                 <div className="flex gap-4">
