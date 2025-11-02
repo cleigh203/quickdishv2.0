@@ -261,7 +261,18 @@ const Generate = () => {
         const queryLower = query.toLowerCase();
         
         if (searchMode === 'search') {
-          if (!recipe.name?.toLowerCase().includes(queryLower)) return false;
+          // Search across multiple fields - be forgiving!
+          const nameMatch = recipe.name?.toLowerCase().includes(queryLower);
+          const descMatch = recipe.description?.toLowerCase().includes(queryLower);
+          const tagMatch = recipe.tags?.some(tag => tag.toLowerCase().includes(queryLower));
+          const ingredientMatch = recipe.ingredients?.some(ing => ing.item?.toLowerCase().includes(queryLower));
+          const categoryMatch = recipe.category?.toLowerCase().includes(queryLower);
+          const cuisineMatch = recipe.cuisine?.toLowerCase().includes(queryLower);
+          
+          // Return true if ANY field matches
+          if (!nameMatch && !descMatch && !tagMatch && !ingredientMatch && !categoryMatch && !cuisineMatch) {
+            return false;
+          }
         } else {
           // Ingredient mode: Use AND logic with word boundaries - ALL terms must be present
           const stopWords = ['and', 'or', 'with', 'the', 'a', 'an', 'in', 'on', 'for'];
@@ -435,7 +446,7 @@ const Generate = () => {
 
         {/* Recipe Grid */}
         <div className="px-4 py-6">
-          {isLoadingRecipes ? (
+          {combinedRecipes.length === 0 ? (
             <div className="grid grid-cols-2 gap-4">
               {[...Array(8)].map((_, i) => (
                 <div key={i} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
