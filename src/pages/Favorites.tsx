@@ -205,14 +205,18 @@ const Favorites = () => {
                   {/* Action buttons */}
                   <div className="flex gap-2">
                     <Button 
-                      onClick={() => navigate(`/recipe/${recipe.id}`)}
+                      onClick={() => navigate(`/recipe/${recipe.id}`, {
+                        state: { recipe, from: location.pathname, scrollY: window.scrollY }
+                      })}
                       variant="outline"
                       className="flex-1"
                     >
                       View
                     </Button>
                     <Button 
-                      onClick={() => navigate(`/recipe/${recipe.id}?cook=true`)}
+                      onClick={() => navigate(`/recipe/${recipe.id}?cook=true`, {
+                        state: { recipe, from: location.pathname, scrollY: window.scrollY }
+                      })}
                       className="flex-1 bg-primary hover:bg-primary/90 font-semibold"
                     >
                       <ChefHat className="mr-2 h-4 w-4" />

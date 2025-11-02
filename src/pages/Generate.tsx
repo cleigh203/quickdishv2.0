@@ -301,9 +301,7 @@ const Generate = () => {
         
         // Diet and meal filters
         const normalizedFilter = filter.toLowerCase().replace(/\s+/g, '-').replace('gluten-free', 'glutenfree');
-        return recipe.tags?.some(tag => 
-          tag.toLowerCase().replace(/\s+/g, '-') === normalizedFilter
-        ) || false;
+        return recipe.tags?.some(tag => tag.toLowerCase() === normalizedFilter) || false;
       });
     });
 

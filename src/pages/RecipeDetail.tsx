@@ -61,9 +61,13 @@ const RecipeDetail = () => {
     const state = location.state as any;
 
     if (state?.from) {
-      // Go back to where we came from with scroll position
+      // Go back to where we came from with scroll position and search state
       navigate(state.from, {
-        state: { restoreScroll: state.scrollY || 0 }
+        state: { 
+          restoreScroll: state.scrollY || 0,
+          searchQuery: state.searchQuery,
+          activeFilters: state.activeFilters
+        }
       });
     } else {
       // Fallback to discover if no state
