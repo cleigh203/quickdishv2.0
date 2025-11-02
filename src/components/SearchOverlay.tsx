@@ -1,4 +1,4 @@
-import { useState, useMemo, Fragment, useEffect } from "react";
+import { useState, useMemo, Fragment } from "react";
 import { ArrowLeft, Search, Check, X, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -43,21 +43,6 @@ export const SearchOverlay = ({
 }: SearchOverlayProps) => {
   const navigate = useNavigate();
 
-  console.log('🔍 SearchOverlay: Props received - recipes count:', recipes?.length, 'isOpen:', isOpen);
-
-  // Debounced search query to prevent searching on every keystroke
-  const [debouncedQuery, setDebouncedQuery] = useState(searchQuery);
-
-  // Debounce the search query (wait 500ms after user stops typing)
-  useEffect(() => {
-    console.log('🔍 SearchOverlay: Input changed to:', searchQuery);
-    const timer = setTimeout(() => {
-      console.log('🔍 SearchOverlay: Debounce timeout, setting debouncedQuery to:', searchQuery);
-      setDebouncedQuery(searchQuery);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
   
   const FILTERS = {
     time: ['Under 30min', '30-60min'],
@@ -68,77 +53,18 @@ export const SearchOverlay = ({
 
   // Filter recipes using debounced query (not on every keystroke)
   const filteredRecipes = useMemo(() => {
-    console.log('🔍 SearchOverlay: Filtering started, debouncedQuery:', debouncedQuery, 'recipes count:', recipes.length);
-    const startTime = performance.now();
-
-    const isHalloweenRecipe = (recipe: Recipe) =>
-      recipe.cuisine?.toLowerCase() === 'halloween' ||
-      recipe.tags?.includes('halloween') || false;
-
-    const result = recipes.filter(recipe => {
-      // Exclude Halloween recipes from search
-      if (isHalloweenRecipe(recipe)) return false;
-
-      // Search query filter - search by name AND ingredients with smart word matching
-      if (debouncedQuery.trim()) {
-        const queryTerms = debouncedQuery.toLowerCase().split(/[\s,]+/).filter(t => t.length > 0);
-        
-        // For each search term, check if it appears anywhere in name, ingredients, or cuisine
-        const matches = queryTerms.some(term => {
-          // Search in recipe name (case insensitive)
-          const nameMatch = recipe.name?.toLowerCase().includes(term);
-
-          // Search in ingredients (case insensitive)
-          const ingredientMatch = recipe.ingredients?.some(ing =>
-            ing.item?.toLowerCase().includes(term)
-          );
-
-          // Search in cuisine (case insensitive)
-          const cuisineMatch = recipe.cuisine?.toLowerCase().includes(term);
-
-          return nameMatch || ingredientMatch || cuisineMatch;
-        });
-        
-        if (!matches) return false;
-      }
-
-      // Apply all filters (AND logic)
-      if (filters.length === 0) return true;
-
-      return filters.every(filter => {
-        // Time filters
-        if (filter === 'Under 30min') {
-          const totalTime = (parseInt(recipe.prepTime) || 0) + (parseInt(recipe.cookTime) || 0);
-          return totalTime <= 30;
-        }
-        if (filter === '30-60min') {
-          const totalTime = (parseInt(recipe.prepTime) || 0) + (parseInt(recipe.cookTime) || 0);
-          return totalTime > 30 && totalTime <= 60;
-        }
-        
-        // Difficulty filters
-        if (['Easy', 'Medium', 'Hard'].includes(filter)) {
-          return recipe.difficulty.toLowerCase() === filter.toLowerCase();
-        }
-        
-        // Diet and meal filters (check tags)
-        const normalizedFilter = filter.toLowerCase().replace(/\s+/g, '-').replace('gluten-free', 'glutenfree');
-        return recipe.tags?.some(tag => 
-          tag.toLowerCase().replace(/\s+/g, '-') === normalizedFilter
-        ) || false;
-      });
-    });
-
-      const endTime = performance.now();
-      console.timeEnd('🔍 SearchOverlay filtering');
-      console.log('🔍 SearchOverlay: Filtering completed in', (endTime - startTime).toFixed(2), 'ms, result count:', result.length);
-
-    return result;
-  }, [recipes, debouncedQuery, filters]);
+    if (!searchQuery?.trim()) {
+      return recipes.slice(0, 50);
+    }
+    
+    const query = searchQuery.toLowerCase();
+    return recipes
+      .filter(r => r.name?.toLowerCase().includes(query))
+      .slice(0, 50);
+  }, [searchQuery, recipes]);
 
   if (!isOpen) return null;
 
-  console.log('🔍 SearchOverlay: Component rendered, isOpen:', isOpen, 'searchQuery:', searchQuery, 'debouncedQuery:', debouncedQuery);
 
   return (
     <div className="fixed inset-0 bg-background z-50 overflow-y-auto pb-20">
