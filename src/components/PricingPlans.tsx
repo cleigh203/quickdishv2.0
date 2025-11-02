@@ -50,7 +50,7 @@ export const PricingPlans = () => {
             <li>Premium features</li>
             <li>Advanced AI tools</li>
           </ul>
-          <Button className="mt-6 w-full" onClick={() => handleSubscribe(2.99)} disabled={loading}>
+          <Button className="mt-6 w-full" onClick={() => handleSubscribe('price_1SKPiNB0DCHXhzESEj5DHPv4')} disabled={loading}>
             {loading ? 'Loading…' : 'Subscribe'}
           </Button>
         </CardContent>
