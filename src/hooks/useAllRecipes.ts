@@ -16,7 +16,7 @@ export const useAllRecipes = (enabled = true) => {
       if (cached) {
         const { data, timestamp } = JSON.parse(cached);
         // Use cache ONLY if it's fresh AND has image URLs
-        if (Date.now() - timestamp < CACHE_DURATION && data?.length > 0 && data[0]?.image_url) {
+        if (Date.now() - timestamp < CACHE_DURATION && data?.length > 0 && data[0]?.imageUrl) {
           return data;
         }
       }
@@ -29,7 +29,7 @@ export const useAllRecipes = (enabled = true) => {
 
   useEffect(() => {
     // Always fetch fresh data on first load to ensure we have images
-    if (enabled && (allRecipes.length === 0 || !allRecipes[0]?.image_url)) {
+    if (enabled && (allRecipes.length === 0 || !allRecipes[0]?.imageUrl)) {
       fetchAllRecipes();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,7 +44,7 @@ export const useAllRecipes = (enabled = true) => {
       const data = await retryOperation(async () => {
         const { data, error } = await supabase
           .from('recipes')
-          .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category, nutrition, total_time')
+          .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category, nutrition')
           .order('name')
           .abortSignal(AbortSignal.timeout(10000)); // 10 second timeout
 
@@ -77,8 +77,7 @@ export const useAllRecipes = (enabled = true) => {
         image: dbRecipe.image_url,
         imageUrl: dbRecipe.image_url,
         tags: dbRecipe.tags || [],
-        totalTime: dbRecipe.total_time,
-        nutrition: dbRecipe.nutrition,
+        nutrition: dbRecipe.nutrition as any, // Cast to any to handle Json type
       }));
 
       setAllRecipes(transformedRecipes);
@@ -109,13 +108,13 @@ export const useAllRecipes = (enabled = true) => {
   };
 
   // isLoading should be true if we have no recipes OR if recipes don't have image URLs yet
-  const isReallyLoading = isLoading || (allRecipes.length > 0 && !allRecipes[0]?.image_url);
+  const isReallyLoading = isLoading || (allRecipes.length > 0 && !allRecipes[0]?.imageUrl);
 
   // Debug logging
   console.log('🔍 useAllRecipes state:', {
     isLoading,
     hasRecipes: allRecipes.length > 0,
-    firstRecipeHasImage: !!allRecipes[0]?.image_url,
+    firstRecipeHasImage: !!allRecipes[0]?.imageUrl,
     isReallyLoading
   });
 
