@@ -1,28 +1,16 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { checkout } from "@/utils/stripe";
-import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const PricingPlans = () => {
-  const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
+  const { user } = useAuth();
 
-  const handleSubscribe = async (priceOrAmount: string | number) => {
-    try {
-      setLoading(true);
-      console.log('[PricingPlans] subscribing with:', priceOrAmount);
-      await checkout(priceOrAmount);
-    } catch (error: any) {
-      console.error('Checkout error:', error);
-      toast({
-        title: "Checkout Failed",
-        description: error.message || "Failed to start checkout. Please try again.",
-        variant: "destructive"
-      });
-    } finally {
-      setLoading(false);
-    }
+  const handleSubscribe = () => {
+    if (!user) return;
+    
+    // Redirect to Stripe Payment Link with user ID for tracking
+    const paymentLink = `https://buy.stripe.com/28E4gy867eM2gnHdLS3Ru00?client_reference_id=${user.id}`;
+    window.location.href = paymentLink;
   };
 
   return (
@@ -50,8 +38,8 @@ export const PricingPlans = () => {
             <li>Premium features</li>
             <li>Advanced AI tools</li>
           </ul>
-          <Button className="mt-6 w-full" onClick={() => handleSubscribe('price_1SKPiNB0DCHXhzESEj5DHPv4')} disabled={loading}>
-            {loading ? 'Loading…' : 'Subscribe'}
+          <Button className="mt-6 w-full" onClick={handleSubscribe}>
+            Subscribe
           </Button>
         </CardContent>
       </Card>
