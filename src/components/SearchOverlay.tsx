@@ -234,7 +234,7 @@ export const SearchOverlay = ({
                   <div
                     onClick={() => {
                       navigate(`/recipe/${recipe.id}`, {
-                        state: { from: '/discover', scrollY: window.scrollY }
+                        state: { recipe, from: '/discover', scrollY: window.scrollY }
                       });
                       onClose();
                     }}
