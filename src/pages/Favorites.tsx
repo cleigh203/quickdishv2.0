@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Heart, ChefHat, Loader2, Search } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { Recipe } from "@/types/recipe";
@@ -19,6 +19,7 @@ const Favorites = () => {
   const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const resolveFavorites = async () => {
@@ -158,7 +159,9 @@ const Favorites = () => {
               <div key={recipe.id} className="glass-card rounded-xl overflow-hidden group hover:scale-[1.02] transition-transform">
                 <div 
                   className="relative h-48 overflow-hidden cursor-pointer"
-                  onClick={() => navigate(`/recipe/${recipe.id}`)}
+                  onClick={() => navigate(`/recipe/${recipe.id}`, {
+                    state: { recipe, from: location.pathname, scrollY: window.scrollY }
+                  })}
                 >
                   {recipe.isAiGenerated ? (
                     <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground">
@@ -187,7 +190,9 @@ const Favorites = () => {
                 <div className="p-4">
                   <h3 
                     className="text-white font-bold text-lg mb-2 cursor-pointer hover:text-primary transition-colors"
-                    onClick={() => navigate(`/recipe/${recipe.id}`)}
+                    onClick={() => navigate(`/recipe/${recipe.id}`, {
+                      state: { recipe, from: location.pathname, scrollY: window.scrollY }
+                    })}
                   >
                     {recipe.name}
                   </h3>
