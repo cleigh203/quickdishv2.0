@@ -106,3 +106,47 @@ export const useAIUsage = (usageType: 'recipe_generation' | 'chat' | 'nutrition'
   });
 };
 
+export const useSavedRecipesCount = () => {
+  const { data: subscription } = useSubscription();
+  
+  return useQuery({
+    queryKey: ['saved-recipes-count', subscription?.userId],
+    queryFn: async () => {
+      if (!subscription?.userId) return { count: 0, limit: 50, isPremium: false };
+
+      try {
+        const { count, error } = await supabase
+          .from('saved_recipes')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', subscription.userId);
+
+        if (error) {
+          console.error('Error fetching saved recipes count:', error);
+          return { count: 0, limit: 50, isPremium: subscription.isPremium };
+        }
+
+        const limit = subscription.isPremium ? 999999 : 50;
+        const canSave = subscription.isPremium || (count || 0) < 50;
+        
+        return {
+          count: count || 0,
+          limit,
+          canSave,
+          isPremium: subscription.isPremium
+        };
+      } catch (error) {
+        console.error('Error checking saved recipes count:', error);
+        return {
+          count: 0,
+          limit: 50,
+          canSave: true,
+          isPremium: subscription.isPremium
+        };
+      }
+    },
+    enabled: !!subscription?.userId,
+    retry: 2,
+    staleTime: 2 * 60 * 1000 // Cache for 2 minutes
+  });
+};
+

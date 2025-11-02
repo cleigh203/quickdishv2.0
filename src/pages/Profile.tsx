@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette, Mail, Calendar, Target, Download } from "lucide-react";
+import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette, Mail, Calendar, Target, Download, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useShoppingList } from "@/hooks/useShoppingList";
 import { usePantryItems } from "@/hooks/usePantryItems";
 import { supabase } from "@/integrations/supabase/client";
+import { useSubscription, useAIUsage, useSavedRecipesCount } from "@/hooks/useSubscription";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -71,6 +72,11 @@ const Profile = () => {
   const { shoppingList } = useShoppingList();
   const { fetchPantryItems } = usePantryItems();
   const [pantryCount, setPantryCount] = useState(0);
+
+  // Subscription hooks
+  const { data: subscription } = useSubscription();
+  const { data: aiUsage } = useAIUsage('recipe_generation');
+  const { data: savedCount } = useSavedRecipesCount();
 
   // Fetch profile data
   const fetchProfile = async () => {
@@ -457,91 +463,199 @@ const Profile = () => {
               </div>
             </CardContent>
           </Card>
-          <Card className="rounded-xl shadow-sm bg-card col-span-2">
-            <CardContent className="p-4 flex items-center gap-3">
-              <Target className="w-5 h-5 text-green-600" />
-              <div>
-                <div className="text-xs text-muted-foreground">Plan</div>
-                <div className="font-semibold">Free (Ad-Supported)</div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
-        {/* PREMIUM STATUS CARD */}
-        <Card className={`rounded-xl shadow-sm border-2 ${isPremium ? 'bg-gradient-to-r from-yellow-50 to-yellow-100 border-yellow-300' : 'bg-card'}`}>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                {isPremium ? (
-                  <Crown className="text-yellow-600" size={32} />
-                ) : (
-                  <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-2xl">
-                    ✨
+        {/* PREMIUM STATUS SECTION */}
+        {!subscription?.isPremium ? (
+          <>
+            {/* FREE PLAN CARD */}
+            <Card className="rounded-xl shadow-sm border-2 bg-card mb-6">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h2 className="text-2xl font-bold">Free Plan</h2>
+                    <p className="text-sm text-muted-foreground">Limited features</p>
                   </div>
-                )}
-                <div>
-                  <h2 className="text-2xl font-bold">
-                    {isPremium ? 'Premium Member' : 'Free Plan'}
-                  </h2>
-                  <p className="text-sm text-muted-foreground">
-                    {isPremium ? '$2.99/month' : 'Limited features'}
-                  </p>
+                  <Button 
+                    onClick={() => navigate('/premium')}
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    Upgrade
+                  </Button>
                 </div>
-              </div>
-              {!isPremium && (
+
+                {/* Usage Stats */}
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <p className="text-sm text-muted-foreground mb-1">AI Recipes Today</p>
+                    <p className="text-2xl font-bold text-green-600">
+                      {aiUsage?.count || 0}/1
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">Resets daily at 3 AM</p>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <p className="text-sm text-muted-foreground mb-1">Saved Recipes</p>
+                    <p className="text-2xl font-bold text-green-600">
+                      {savedCount?.count || 0}/50
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">50 recipe limit</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* UPGRADE TO PREMIUM CARD */}
+            <Card className="rounded-xl shadow-sm bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-300 mb-6">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Crown className="text-yellow-600" size={28} />
+                  <h3 className="text-xl font-bold">Upgrade to Premium</h3>
+                </div>
+                
+                <div className="bg-white rounded-lg p-4 mb-4">
+                  <div className="text-4xl font-bold text-green-600">$2.99</div>
+                  <div className="text-sm text-muted-foreground">per month • Cancel anytime</div>
+                </div>
+
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-start gap-2">
+                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
+                    <div>
+                      <p className="font-semibold">5 AI Recipes Daily</p>
+                      <p className="text-sm text-muted-foreground">vs 1 on free plan</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-2">
+                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
+                    <div>
+                      <p className="font-semibold">Unlimited Chef Quinn AI Chat</p>
+                      <p className="text-sm text-muted-foreground">Get cooking help anytime</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-2">
+                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
+                    <div>
+                      <p className="font-semibold">Nutritional Facts</p>
+                      <p className="text-sm text-muted-foreground">Track calories & macros</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-2">
+                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
+                    <div>
+                      <p className="font-semibold">Unlimited Recipe Saves</p>
+                      <p className="text-sm text-muted-foreground">vs 50 on free plan</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-2">
+                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
+                    <div>
+                      <p className="font-semibold">Export as PDF</p>
+                      <p className="text-sm text-muted-foreground">Print & share recipes</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-2">
+                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
+                    <div>
+                      <p className="font-semibold">Offline Access</p>
+                      <p className="text-sm text-muted-foreground">Cook without WiFi</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-2">
+                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
+                    <div>
+                      <p className="font-semibold">Ad-Free Experience</p>
+                      <p className="text-sm text-muted-foreground">Coming soon</p>
+                    </div>
+                  </div>
+                </div>
+
                 <Button 
                   onClick={() => navigate('/premium')}
-                  className="bg-green-600 hover:bg-green-700"
+                  className="w-full bg-green-600 hover:bg-green-700 text-lg py-6"
                 >
-                  Upgrade Now
+                  Upgrade to Premium Now
                 </Button>
-              )}
-            </div>
+              </CardContent>
+            </Card>
+          </>
+        ) : (
+          <>
+            {/* PREMIUM USER CARD */}
+            <Card className="rounded-xl shadow-sm bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-300 mb-6">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <Crown className="text-yellow-600" size={32} />
+                    <div>
+                      <h2 className="text-2xl font-bold">Premium Member</h2>
+                      <p className="text-sm text-muted-foreground">$2.99/month</p>
+                    </div>
+                  </div>
+                  <Button 
+                    variant="outline"
+                    onClick={() => setSubscriptionModalOpen(true)}
+                  >
+                    Manage Plan
+                  </Button>
+                </div>
 
-            {/* Usage Stats */}
-            <div className="grid grid-cols-2 gap-4 mt-4">
-              <div className="bg-white rounded-lg p-4">
-                <p className="text-sm text-muted-foreground mb-1">AI Recipes Today</p>
-                <p className="text-2xl font-bold text-green-600">
-                  {profileData?.free_generations_used_today || 0}/{isPremium ? '5' : '1'}
-                </p>
-              </div>
-              <div className="bg-white rounded-lg p-4">
-                <p className="text-sm text-muted-foreground mb-1">Saved Recipes</p>
-                <p className="text-2xl font-bold text-green-600">
-                  {savedRecipes.length}/{isPremium ? '∞' : '50'}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+                {/* Usage Stats */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white rounded-lg p-4">
+                    <p className="text-sm text-muted-foreground mb-1">AI Recipes Today</p>
+                    <p className="text-2xl font-bold text-green-600">
+                      {aiUsage?.count || 0}/5
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">Resets daily at 3 AM</p>
+                  </div>
+                  <div className="bg-white rounded-lg p-4">
+                    <p className="text-sm text-muted-foreground mb-1">Saved Recipes</p>
+                    <p className="text-2xl font-bold text-green-600">
+                      {savedCount?.count || 0}/∞
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">Unlimited</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-        {/* DAILY GENERATIONS CARD */}
-        <Card className="rounded-xl shadow-sm bg-gradient-to-br from-green-100 to-emerald-100 border-emerald-200">
-          <CardContent className="p-6 space-y-4">
-            <h3 className="font-semibold text-emerald-900">🎨 Your Daily AI Generations</h3>
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-emerald-800">
-                {((profileData?.free_generations_used_today ?? 0))}/2 free generations used
-              </span>
-              <div className="flex items-center gap-1">
-                {[0,1].map(i => (
-                  <span key={i} className={`w-2.5 h-2.5 rounded-full ${ ((profileData?.free_generations_used_today ?? 0)) > i ? 'bg-emerald-600' : 'bg-emerald-300'}`}></span>
-                ))}
-              </div>
-            </div>
-            <div className="text-sm text-emerald-900">
-              <div>Watch ads to unlock premium features:</div>
-              <ul className="list-disc pl-5 mt-1 space-y-1">
-                <li>Chat with AI Chef (unlimited with ads)</li>
-                <li>Detailed Nutrition Info (unlimited with ads)</li>
-              </ul>
-              <div className="mt-2 text-emerald-800">Note: AI recipe generation limited to 2 per day</div>
-            </div>
-            <div className="text-sm text-emerald-900">⏰ Resets in: <span className="font-semibold">{resetCountdown}</span></div>
-          </CardContent>
-        </Card>
+            {/* YOUR PREMIUM BENEFITS */}
+            <Card className="rounded-xl shadow-sm bg-card mb-6">
+              <CardContent className="p-6">
+                <h3 className="text-lg font-bold mb-4">Your Premium Benefits</h3>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-green-600">
+                    <Check size={20} /> 5 AI recipes daily
+                  </div>
+                  <div className="flex items-center gap-2 text-green-600">
+                    <Check size={20} /> Unlimited Chef Quinn chat
+                  </div>
+                  <div className="flex items-center gap-2 text-green-600">
+                    <Check size={20} /> Nutritional facts unlocked
+                  </div>
+                  <div className="flex items-center gap-2 text-green-600">
+                    <Check size={20} /> Unlimited recipe saves
+                  </div>
+                  <div className="flex items-center gap-2 text-green-600">
+                    <Check size={20} /> PDF export enabled
+                  </div>
+                  <div className="flex items-center gap-2 text-green-600">
+                    <Check size={20} /> Offline access
+                  </div>
+                  <div className="flex items-center gap-2 text-green-600">
+                    <Check size={20} /> Ad-free experience
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </>
+        )}
 
         {/* Stats Dashboard */}
         <div className="grid grid-cols-2 gap-4">
