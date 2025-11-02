@@ -57,9 +57,7 @@ const Profile = () => {
   const [deleting, setDeleting] = useState(false);
   const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
 
-  const [isPremium, setIsPremium] = useState(() => {
-    return localStorage.getItem('premiumUser') === 'true';
-  });
+  const [isPremium, setIsPremium] = useState(false);
 
   const [pantryItems, setPantryItems] = useState<string[] | null>(null);
   const [loadingPantry, setLoadingPantry] = useState(false);
@@ -223,10 +221,8 @@ const Profile = () => {
 
       // Update local state
       setIsPremium(newStatus);
-      localStorage.setItem('premiumUser', newStatus.toString());
       
       if (newStatus) {
-        localStorage.setItem('recipesGenerated', '0');
         toast({
           title: "🧪 Test Premium Activated!",
           description: "All premium features unlocked for testing",
