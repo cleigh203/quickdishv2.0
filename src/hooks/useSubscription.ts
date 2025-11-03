@@ -50,20 +50,25 @@ export const useAIUsage = (usageType: 'recipe_generation' | 'chat' | 'nutrition'
         if (usageType === 'recipe_generation') {
           const { data: profile } = await supabase
             .from('profiles')
-            .select('free_generations_used_today, last_generation_reset_date, subscription_tier, is_premium')
+            .select('ai_generations_used_today, ai_generations_reset_date, subscription_tier, is_premium')
             .eq('id', subscription.userId)
             .single();
 
-          const generationsUsed = profile?.free_generations_used_today ?? 0;
-          const lastResetDate = profile?.last_generation_reset_date ?? new Date().toISOString().split('T')[0];
+          // Get current date
+          const today = new Date().toISOString().split('T')[0];
+          
+          // Check if we need to reset the counter (new day)
+          const resetDate = profile?.ai_generations_reset_date || today;
+          const needsReset = resetDate !== today;
+          
+          // Get current generations count (reset to 0 if new day)
+          let currentGenerations = 0;
+          if (!needsReset) {
+            currentGenerations = profile?.ai_generations_used_today ?? 0;
+          }
           
           // Check is_premium status from profiles table (preferred over subscription_tier)
           const isPremiumUser = profile?.is_premium === true || profile?.subscription_tier === 'premium';
-          
-          // Check if we need to reset the counter (new day)
-          const today = new Date().toISOString().split('T')[0];
-          const needsReset = lastResetDate !== today;
-          const currentGenerations = needsReset ? 0 : generationsUsed;
           
           // Calculate limit: FREE = 1, PREMIUM = 5
           const limit = isPremiumUser ? 5 : 1;

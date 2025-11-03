@@ -23,13 +23,15 @@ export const useAiRecipeGeneration = () => {
     try {
       const { data: profile, error } = await supabase
         .from('profiles')
-        .select('free_generations_used_today, last_generation_reset_date, subscription_tier')
+        .select('ai_generations_used_today, ai_generations_reset_date, subscription_tier, is_premium')
         .eq('id', user.id)
         .single();
 
+      // Get current date
+      const today = new Date().toISOString().split('T')[0];
+      
       // Handle missing profile or columns gracefully
-      let generationsUsed = 0;
-      let lastResetDate = new Date().toISOString().split('T')[0];
+      let currentGenerations = 0;
       let tier = 'free';
 
       if (error) {
@@ -37,16 +39,19 @@ export const useAiRecipeGeneration = () => {
         // Use defaults if profile doesn't exist or columns are missing
         console.log('Using default profile values for rate limiting');
       } else if (profile) {
-        generationsUsed = profile.free_generations_used_today ?? 0;
-        lastResetDate = profile.last_generation_reset_date ?? new Date().toISOString().split('T')[0];
-        tier = profile.subscription_tier ?? 'free';
+        // Check if we need to reset the counter (new day)
+        const resetDate = profile.ai_generations_reset_date || today;
+        const needsReset = resetDate !== today;
+        
+        // Get current generations count (reset to 0 if new day)
+        if (!needsReset) {
+          currentGenerations = profile.ai_generations_used_today ?? 0;
+        }
+        
+        // Determine tier (premium or free)
+        tier = profile.subscription_tier === 'premium' || profile.is_premium ? 'premium' : 'free';
       }
 
-      // Check if we need to reset the counter (new day)
-      const today = new Date().toISOString().split('T')[0];
-      const needsReset = lastResetDate !== today;
-
-      const currentGenerations = needsReset ? 0 : generationsUsed;
       const limit = tier === 'premium' ? 5 : 1;
       const remaining = Math.max(0, limit - currentGenerations);
 

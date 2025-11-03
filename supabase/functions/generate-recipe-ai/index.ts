@@ -24,7 +24,7 @@ serve(async (req) => {
     // Check user's rate limit
     const { data: profile, error: profileError } = await supabaseClient
       .from('profiles')
-      .select('free_generations_used_today, last_generation_reset_date, subscription_tier, is_premium')
+      .select('ai_generations_used_today, ai_generations_reset_date, subscription_tier, is_premium')
       .eq('id', userId)
       .single();
 
@@ -36,12 +36,19 @@ serve(async (req) => {
     // Determine tier (premium or free)
     const tier = profile.subscription_tier === 'premium' || profile.is_premium ? 'premium' : 'free';
 
-    // Check if we need to reset the counter (new day)
+    // Get current date
     const today = new Date().toISOString().split('T')[0];
-    const lastResetDate = profile.last_generation_reset_date || today;
-    const needsReset = lastResetDate !== today;
+    
+    // Check if we need to reset the counter (new day)
+    const resetDate = profile.ai_generations_reset_date || today;
+    const needsReset = resetDate !== today;
 
-    let currentGenerations = needsReset ? 0 : (profile.free_generations_used_today || 0);
+    // Get current generations count (reset to 0 if new day)
+    let currentGenerations = 0;
+    if (!needsReset) {
+      currentGenerations = profile.ai_generations_used_today || 0;
+    }
+    
     const limit = tier === 'premium' ? 5 : 1;
 
     if (currentGenerations >= limit) {
@@ -193,18 +200,25 @@ Return ONLY the JSON object, no other text.`;
       // But log it so we know there's an issue
     }
 
-    // Update user's generation count
+    // Update user's generation count AFTER successful recipe generation
+    const newCount = currentGenerations + 1;
+    const updateData: any = {
+      ai_generations_used_today: newCount,
+      ai_generations_reset_date: today
+    };
+
     const { error: updateError } = await supabaseClient
       .from('profiles')
-      .update({
-        free_generations_used_today: currentGenerations + 1,
-        last_generation_reset_date: today
-      })
+      .update(updateData)
       .eq('id', userId);
 
     if (updateError) {
-      console.error('Failed to update generation count:', updateError);
-      // Don't fail the request if counter update fails
+      console.error('❌ Failed to update generation count:', updateError);
+      console.error('Update data:', updateData);
+      // Don't fail the request if counter update fails, but log it
+      // This is critical for tracking, so we should know about it
+    } else {
+      console.log(`✅ Updated generation count: ${currentGenerations} → ${newCount} (limit: ${limit})`);
     }
 
     console.log('✅ Recipe ready for user (session only):', recipe.name);
