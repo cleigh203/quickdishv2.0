@@ -51,12 +51,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      // 🔓 TESTING BYPASS: Check database first (works in dev AND production)
-      // This allows you to manually set is_premium in Supabase dashboard for testing
+      // Always fetch FRESH data from database - don't rely on cached context
+      // Check BOTH is_premium and subscription_tier fields
       try {
         const { data: profile, error } = await supabase
           .from('profiles')
-          .select('subscription_tier')
+          .select('is_premium, subscription_tier, subscription_status')
           .eq('id', session.user.id)
           .single();
 
@@ -64,11 +64,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (error) {
           console.error('Profile fetch error in AuthContext:', error);
         } else if (profile) {
-          // Check for premium status based on subscription_tier
-          const isPremiumUser = profile.subscription_tier === 'premium';
+          // Check for premium status - check BOTH is_premium AND subscription_tier
+          // is_premium is the primary source of truth
+          const isPremiumUser = profile.is_premium === true || profile.subscription_tier === 'premium';
+          
+          console.log('🔍 Premium status check:', {
+            is_premium: profile.is_premium,
+            subscription_tier: profile.subscription_tier,
+            subscription_status: profile.subscription_status,
+            result: isPremiumUser
+          });
+          
           if (isPremiumUser) {
             setIsPremium(true);
-            console.log('👑 Premium enabled from database (subscription_tier)');
+            console.log('👑 Premium enabled from database');
+            return;
+          } else {
+            setIsPremium(false);
+            console.log('🔓 Free user (not premium)');
             return;
           }
         }
@@ -78,9 +91,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
 
       // In dev mode, stop here (don't check Stripe)
+      // Premium status should already be set from database check above
       if (import.meta.env.DEV) {
-        setIsPremium(false);
-        console.log('🧪 Dev mode: No premium in database');
+        // Don't override if we already set it from database
+        if (isPremium === false) {
+          console.log('🧪 Dev mode: No premium in database');
+        }
         return;
       }
 
@@ -293,6 +309,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return { error: { message: errorInfo.description } };
     }
   };
+
+  // Refresh premium status periodically (every 5 minutes) to catch subscription changes
+  useEffect(() => {
+    if (!user) return;
+    
+    // Check subscription on initial load
+    checkSubscription();
+    
+    // Refresh every 5 minutes to catch subscription changes
+    const interval = setInterval(() => {
+      console.log('🔄 Refreshing premium status...');
+      checkSubscription();
+    }, 5 * 60 * 1000); // 5 minutes
+    
+    return () => clearInterval(interval);
+  }, [user]);
 
   const value = {
     user,

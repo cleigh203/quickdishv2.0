@@ -72,10 +72,36 @@ export const useAiRecipeGeneration = () => {
   const generateRecipe = async (searchTerm: string): Promise<Recipe | null> => {
     console.log('📡 1. generateRecipe called with:', searchTerm);
     console.log('📡 2. User ID:', user?.id);
-    console.log('📡 3. Is Premium:', isPremium);
+    
+    // Fetch FRESH premium status from database - don't rely on cached context
+    let freshPremiumStatus = false;
+    if (user) {
+      try {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_premium, subscription_tier')
+          .eq('id', user.id)
+          .single();
+        
+        freshPremiumStatus = profile?.is_premium === true || profile?.subscription_tier === 'premium' || false;
+        console.log('📡 3. Fresh Premium Status from DB:', {
+          is_premium: profile?.is_premium,
+          subscription_tier: profile?.subscription_tier,
+          result: freshPremiumStatus,
+          cached: isPremium
+        });
+      } catch (error) {
+        console.error('Error fetching fresh premium status:', error);
+        // Fallback to cached value
+        freshPremiumStatus = isPremium;
+      }
+    }
+    
+    console.log('📡 4. Cached Is Premium:', isPremium);
+    console.log('📡 5. Fresh Is Premium:', freshPremiumStatus);
     
     if (!user) {
-      console.log('📡 4. No user, returning null');
+      console.log('📡 6. No user, returning null');
       toast({
         title: "Sign in required",
         description: "Please sign in to generate recipes with AI",
@@ -116,7 +142,7 @@ export const useAiRecipeGeneration = () => {
         if (error.message?.includes('Rate limit')) {
           toast({
             title: "Daily limit reached",
-            description: isPremium 
+            description: freshPremiumStatus 
               ? "You've used all 5 AI generations today. Try again tomorrow!"
               : "You've used your 1 free AI generation. Upgrade to Premium for 5/day!",
             variant: "destructive"
