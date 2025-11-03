@@ -41,6 +41,8 @@ interface ProfileData {
   has_completed_onboarding: boolean;
   theme_preference: string | null;
   free_generations_used_today?: number | null;
+  subscription_status?: string | null;
+  stripe_subscription_id?: string | null;
 }
 
 const Profile = () => {
@@ -107,15 +109,22 @@ const Profile = () => {
       // Update premium status from database
       setIsPremium(profileData?.is_premium || false);
       
-      // Get subscription end date if premium
-      // TODO: Re-enable once check-subscription Edge Function is fixed
-      // Temporarily disabled to prevent slow loading
-      // if (profileData?.is_premium) {
-      //   const { data: subData } = await supabase.functions.invoke('check-subscription');
-      //   if (subData?.subscription_end) {
-      //     setSubscriptionEnd(subData.subscription_end);
-      //   }
-      // }
+      // Fetch subscription end date if premium and has subscription
+      if (profileData?.is_premium && profileData?.stripe_subscription_id) {
+        try {
+          // Try to get subscription details from Stripe via Edge Function
+          const { data: subData, error: subError } = await supabase.functions.invoke('check-subscription');
+          if (!subError && subData?.subscription_end) {
+            setSubscriptionEnd(subData.subscription_end);
+          } else if (!subError && subData?.current_period_end) {
+            // Fallback to current_period_end
+            setSubscriptionEnd(new Date(subData.current_period_end * 1000).toISOString());
+          }
+        } catch (error) {
+          console.error('Error fetching subscription end date:', error);
+          // Don't throw - subscription end date is optional
+        }
+      }
       
       setLoading(false);
     } catch (error: any) {
@@ -343,7 +352,10 @@ const Profile = () => {
     }
   };
 
-  const handleSubscriptionCanceled = async () => {
+  const handleSubscriptionCanceled = async (periodEnd?: string) => {
+    if (periodEnd) {
+      setSubscriptionEnd(periodEnd);
+    }
     await fetchProfile();
   };
 
@@ -375,8 +387,37 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      <div className="min-h-screen pb-24 bg-gradient-to-b from-background to-muted/20">
+        {/* Skeleton Header */}
+        <div className="relative bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500 h-48 mb-8 animate-pulse" />
+        
+        <div className="max-w-4xl mx-auto px-4 space-y-6">
+          {/* Skeleton Account Cards */}
+          <div className="grid grid-cols-2 gap-4">
+            <Card className="rounded-xl shadow-sm bg-card">
+              <CardContent className="p-4">
+                <div className="h-12 bg-muted animate-pulse rounded" />
+              </CardContent>
+            </Card>
+            <Card className="rounded-xl shadow-sm bg-card">
+              <CardContent className="p-4">
+                <div className="h-12 bg-muted animate-pulse rounded" />
+              </CardContent>
+            </Card>
+          </div>
+          
+          {/* Skeleton Premium Card */}
+          <Card className="rounded-xl shadow-sm bg-card">
+            <CardContent className="p-6">
+              <div className="h-24 bg-muted animate-pulse rounded mb-4" />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="h-20 bg-muted animate-pulse rounded" />
+                <div className="h-20 bg-muted animate-pulse rounded" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        <BottomNav />
       </div>
     );
   }
@@ -568,24 +609,40 @@ const Profile = () => {
           </>
         ) : (
           <>
-            {/* PREMIUM USER CARD */}
-            <Card className="rounded-xl shadow-sm bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-300 mb-6">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <Crown className="text-yellow-600" size={32} />
-                    <div>
-                      <h2 className="text-2xl font-bold">Premium Member</h2>
-                      <p className="text-sm text-muted-foreground">$2.99/month</p>
+                          {/* PREMIUM USER CARD */}
+              <Card className="rounded-xl shadow-sm bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-300 mb-6">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <Crown className="text-yellow-600" size={32} />
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h2 className="text-2xl font-bold">Premium Member</h2>
+                          {profileData?.subscription_status === 'cancel_at_period_end' && (
+                            <Badge variant="outline" className="border-orange-500 text-orange-600">
+                              Cancelling
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="text-sm text-muted-foreground">$2.99/month</p>
+                        {profileData?.subscription_status === 'cancel_at_period_end' && subscriptionEnd && (
+                          <p className="text-xs text-orange-600 mt-1">
+                            Active until {new Date(subscriptionEnd).toLocaleDateString('en-US', {
+                              month: 'long',
+                              day: 'numeric',
+                              year: 'numeric'
+                            })}
+                          </p>
+                        )}
+                      </div>
                     </div>
+                    <Button 
+                      variant="outline"
+                      onClick={() => setSubscriptionModalOpen(true)}
+                    >
+                      Manage Plan
+                    </Button>
                   </div>
-                  <Button 
-                    variant="outline"
-                    onClick={() => setSubscriptionModalOpen(true)}
-                  >
-                    Manage Plan
-                  </Button>
-                </div>
 
                 {/* Usage Stats */}
                 <div className="grid grid-cols-2 gap-4">

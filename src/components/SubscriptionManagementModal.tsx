@@ -20,7 +20,7 @@ interface SubscriptionManagementModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   subscriptionEnd: string | null;
-  onSubscriptionCanceled: () => void;
+  onSubscriptionCanceled: (periodEnd?: string) => void;
 }
 
 export const SubscriptionManagementModal = ({
@@ -71,23 +71,51 @@ export const SubscriptionManagementModal = ({
     setCanceling(true);
     try {
       // Call edge function to cancel subscription
-      const { error } = await supabase.functions.invoke('cancel-subscription');
+      const { data, error } = await supabase.functions.invoke('cancel-subscription');
       
-      if (error) throw error;
+      if (error) {
+        console.error('Cancel subscription error:', error);
+        // Provide user-friendly error messages
+        if (error.message?.includes('No authorization')) {
+          throw new Error('You must be signed in to cancel your subscription');
+        } else if (error.message?.includes('No subscription')) {
+          throw new Error('No active subscription found to cancel');
+        } else if (error.message?.includes('not configured')) {
+          throw new Error('Subscription system is not available. Please contact support.');
+        } else {
+          throw new Error(error.message || 'Failed to cancel subscription. Please try again or contact support.');
+        }
+      }
+
+      if (data?.error) {
+        console.error('Cancel subscription response error:', data.error);
+        throw new Error(data.error || 'Failed to cancel subscription. Please try again.');
+      }
+
+      // Get period end date from response
+      const periodEndDate = data?.period_end || subscriptionEnd;
+      const formattedDate = periodEndDate 
+        ? new Date(periodEndDate).toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+          })
+        : 'the end of your billing period';
 
       toast({
-        title: "Subscription canceled",
-        description: "Your premium features will remain active until the end of your billing period.",
+        title: "Subscription cancellation scheduled",
+        description: `Your subscription will remain active until ${formattedDate}. You'll continue to have access to premium features until then.`,
       });
       
       setCancelDialogOpen(false);
       onOpenChange(false);
-      onSubscriptionCanceled();
+      onSubscriptionCanceled(periodEndDate || undefined);
     } catch (error: any) {
       console.error('Error canceling subscription:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to cancel subscription. Please try again or contact support.';
       toast({
-        title: "Error",
-        description: "Failed to cancel subscription. Please try again.",
+        title: "Error canceling subscription",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
