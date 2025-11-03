@@ -21,84 +21,6 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Check user's rate limit
-    // Try to get profile with all possible field names
-    // Handle missing columns gracefully
-    let profile: any = null;
-    let profileError: any = null;
-    
-    // Try to select new field names first
-    const profileQuery1 = await supabaseClient
-      .from('profiles')
-      .select('ai_generations_used_today, ai_generations_reset_date, subscription_tier, is_premium')
-      .eq('id', userId)
-      .single();
-    
-    if (profileQuery1.error) {
-      // If new columns don't exist, try old field names
-      console.log('⚠️ New field names not found, trying old field names...');
-      const profileQuery2 = await supabaseClient
-        .from('profiles')
-        .select('free_generations_used_today, last_generation_reset_date, subscription_tier, is_premium')
-        .eq('id', userId)
-        .single();
-      
-      if (profileQuery2.error) {
-        // If both fail, try just basic fields
-        console.log('⚠️ Old field names also not found, trying basic fields...');
-        const profileQuery3 = await supabaseClient
-          .from('profiles')
-          .select('subscription_tier, is_premium')
-          .eq('id', userId)
-          .single();
-        
-        if (profileQuery3.error) {
-          console.error('❌ Profile fetch error (all attempts failed):', profileQuery3.error);
-          throw new Error('Failed to fetch user profile');
-        }
-        profile = profileQuery3.data;
-      } else {
-        profile = profileQuery2.data;
-      }
-    } else {
-      profile = profileQuery1.data;
-    }
-    
-    if (!profile) {
-      throw new Error('User profile not found');
-    }
-
-    // Determine tier (premium or free)
-    const tier = profile.subscription_tier === 'premium' || profile.is_premium ? 'premium' : 'free';
-
-    // Get current date
-    const today = new Date().toISOString().split('T')[0];
-    
-    // Use new field names if available, fallback to old field names
-    const resetDate = profile.ai_generations_reset_date || profile.last_generation_reset_date || today;
-    const needsReset = resetDate !== today;
-
-    // Get current generations count (reset to 0 if new day)
-    // Use new field names if available, fallback to old field names
-    let currentGenerations = 0;
-    if (!needsReset) {
-      currentGenerations = profile.ai_generations_used_today ?? profile.free_generations_used_today ?? 0;
-    }
-    
-    const limit = tier === 'premium' ? 5 : 1;
-
-    if (currentGenerations >= limit) {
-      return new Response(
-        JSON.stringify({ 
-          error: 'Rate limit exceeded',
-          message: tier === 'premium'
-            ? 'Daily limit of 5 AI generations reached. Try again tomorrow!'
-            : 'Daily limit of 1 AI generation reached. Upgrade to Premium for 5 generations/day.'
-        }),
-        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
     const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
     if (!OPENAI_API_KEY) {
       throw new Error('OPENAI_API_KEY is not configured');
@@ -191,14 +113,13 @@ Return ONLY the JSON object, no other text.`;
     recipe.verified = false;
     recipe.source = 'ai-generated';
     
-    // No image for AI recipes (user doesn't care)
+    // No image for AI recipes
     recipe.image = null;
     recipe.imageUrl = null;
 
     console.log('Recipe generated successfully, inserting for user:', recipe.name);
 
     // Persist AI recipe for this user so it can be resolved later by Favorites and meal plans
-    let recipeSaved = false;
     try {
       const { data: insertedRecipe, error: insertError } = await supabaseClient
         .from('generated_recipes')
@@ -226,102 +147,23 @@ Return ONLY the JSON object, no other text.`;
         // If it's a duplicate, that's okay - recipe already exists
         if (insertError.code !== '23505') { // 23505 = unique_violation
           console.error('❌ CRITICAL: Failed to save recipe to database:', insertError.message);
-          throw new Error(`Failed to save recipe to database: ${insertError.message}`);
+          // Don't throw - recipe can still be used in session
+        } else {
+          console.log('Recipe already exists in database, continuing...');
         }
-        console.log('Recipe already exists in database, continuing...');
-        recipeSaved = true; // Recipe exists, so it's saved
       } else {
         console.log('✅ Successfully saved AI recipe to generated_recipes:', insertedRecipe?.recipe_id);
-        recipeSaved = true;
       }
     } catch (e) {
-      console.error('❌ CRITICAL: Exception inserting generated recipe:', e);
-      // Fail the request if database insert fails - we need the recipe in the database
-      throw new Error(`Failed to save recipe: ${e.message || e}`);
+      console.error('Exception inserting generated recipe:', e);
+      // Don't fail the request if database insert fails - recipe can still be used in session
     }
 
-    // Update user's generation count ONLY AFTER successful recipe generation AND database save
-    // This is wrapped in try/catch to ensure recipe generation succeeds even if counter update fails
-    if (recipeSaved) {
-      try {
-        // Calculate new count (reset to 1 if new day, otherwise increment)
-        // If needsReset is true, we're starting fresh today, so set to 1
-        // If needsReset is false, increment the current count
-        const newCount = needsReset ? 1 : (currentGenerations + 1);
-        
-        // Update data: reset date to today, set/increment count
-        const updateData: any = {
-          ai_generations_used_today: newCount,
-          ai_generations_reset_date: today
-        };
-
-        console.log(`🔄 Updating generation count: ${currentGenerations} → ${newCount} (limit: ${limit}, reset: ${needsReset})`);
-        console.log(`📅 Today: ${today}, Reset date: ${resetDate}, Needs reset: ${needsReset}`);
-        
-        // Try to update with new field names first
-        let { error: updateError, data: updateData_result } = await supabaseClient
-          .from('profiles')
-          .update(updateData)
-          .eq('id', userId)
-          .select('ai_generations_used_today, ai_generations_reset_date');
-
-        // If update fails with new field names (columns don't exist), try old field names as fallback
-        if (updateError) {
-          const errorMsg = updateError.message || JSON.stringify(updateError);
-          if (errorMsg.includes('column') || errorMsg.includes('does not exist') || errorMsg.includes('unknown column')) {
-            console.log('⚠️ New field names not found, trying old field names as fallback...');
-            const fallbackUpdateData: any = {
-              free_generations_used_today: newCount,
-              last_generation_reset_date: today
-            };
-            
-            const fallbackResult = await supabaseClient
-              .from('profiles')
-              .update(fallbackUpdateData)
-              .eq('id', userId)
-              .select('free_generations_used_today, last_generation_reset_date');
-            
-            updateError = fallbackResult.error;
-            updateData_result = fallbackResult.data;
-            
-            if (!updateError) {
-              console.log('✅ Updated using fallback field names (old columns)');
-              if (updateData_result && updateData_result.length > 0) {
-                console.log('Updated profile data:', updateData_result[0]);
-              }
-            }
-          }
-        }
-
-        if (updateError) {
-          console.error('⚠️ Failed to update generation count (non-critical):', updateError);
-          console.error('Update data attempted:', updateData);
-          console.error('Error details:', JSON.stringify(updateError, null, 2));
-          console.log('⚠️ Recipe generation will continue despite counter update failure');
-          // Don't throw - prioritize recipe generation over tracking
-        } else {
-          console.log(`✅ Successfully updated generation count: ${currentGenerations} → ${newCount} (limit: ${limit})`);
-          if (updateData_result && updateData_result.length > 0) {
-            console.log('Updated profile data:', updateData_result[0]);
-          }
-        }
-      } catch (counterError: any) {
-        // Catch any errors in counter update and log them, but don't fail the request
-        console.error('⚠️ Exception updating generation counter (non-critical):', counterError);
-        console.error('Exception details:', JSON.stringify(counterError, null, 2));
-        console.log('⚠️ Recipe generation will continue despite counter update exception');
-        // Don't throw - prioritize recipe generation over tracking
-      }
-    } else {
-      console.warn('⚠️ Recipe not saved to database, skipping counter update');
-    }
-
-    console.log('✅ Recipe ready for user (session only):', recipe.name);
+    console.log('✅ Recipe ready for user:', recipe.name);
 
     return new Response(
       JSON.stringify({ 
-        recipe,
-        generationsRemaining: limit - (currentGenerations + 1)
+        recipe
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
