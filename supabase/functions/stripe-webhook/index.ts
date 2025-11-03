@@ -58,23 +58,27 @@ serve(async (req) => {
           ? new Date(subscription.current_period_end * 1000).toISOString()
           : null;
 
-        // Find user by customer email if needed
-        // In your flow, you persist stripe_customer_id in user_subscriptions; update by customerId
+        // Find user by stripe_customer_id in profiles table
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('stripe_customer_id', customerId)
+          .maybeSingle();
 
-        // Update user_subscriptions
-        await supabase
-          .from('user_subscriptions')
-          .upsert({
-            stripe_customer_id: customerId,
-            stripe_subscription_id: subscription.id,
-            subscription_status: status,
-            stripe_product_id: subscription.items.data[0]?.price?.product as string | null,
-            subscription_end_date: periodEnd,
-          }, { onConflict: 'stripe_customer_id' });
-
-        // Optionally flip profiles.is_premium based on status
-        const isActive = status === 'active' || status === 'trialing' || status === 'past_due';
-        // If you store user_id in user_subscriptions, you could update by user_id here after a lookup
+        if (profileData?.id) {
+          // Update profiles table with subscription info
+          const isActive = status === 'active' || status === 'trialing' || status === 'past_due';
+          
+          await supabase
+            .from('profiles')
+            .update({
+              stripe_subscription_id: subscription.id,
+              subscription_status: status,
+              is_premium: isActive,
+              subscription_tier: isActive ? 'premium' : 'free'
+            })
+            .eq('id', profileData.id);
+        }
 
         break;
       }

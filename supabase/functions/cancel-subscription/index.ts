@@ -50,27 +50,14 @@ serve(async (req) => {
       .eq('id', user.id)
       .single();
 
-    let subscriptionId: string | null = null;
-
-    if (profileError || !profile?.stripe_subscription_id) {
-      // Fallback to user_subscriptions table if not in profiles
-      const { data: subscriptionData, error: subError } = await supabaseClient
-        .from('user_subscriptions')
-        .select('stripe_subscription_id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (subError || !subscriptionData?.stripe_subscription_id) {
-        throw new Error("No subscription found for this user");
-      }
-
-      subscriptionId = subscriptionData.stripe_subscription_id;
-    } else {
-      subscriptionId = profile.stripe_subscription_id;
+    if (profileError) {
+      throw new Error(`Failed to load profile: ${profileError.message}`);
     }
 
+    const subscriptionId = profile?.stripe_subscription_id;
+
     if (!subscriptionId) {
-      throw new Error("No subscription ID found");
+      throw new Error("No subscription found for this user");
     }
 
     // Initialize Stripe
@@ -85,20 +72,10 @@ serve(async (req) => {
       .from('profiles')
       .update({ 
         is_premium: false,
-        subscription_tier: 'free'
+        subscription_tier: 'free',
+        subscription_status: 'canceled'
       })
       .eq('id', user.id);
-
-    // Update user_subscriptions table
-    await supabaseClient
-      .from('user_subscriptions')
-      .update({ 
-        subscription_status: 'canceled',
-        subscription_end_date: canceledSubscription.canceled_at 
-          ? new Date(canceledSubscription.canceled_at * 1000).toISOString() 
-          : new Date().toISOString()
-      })
-      .eq('user_id', user.id);
 
     return new Response(
       JSON.stringify({ 

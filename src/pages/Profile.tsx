@@ -84,32 +84,16 @@ const Profile = () => {
     }
 
     try {
-      // Fetch profile data (without sensitive payment info)
+      // Fetch profile data with subscription info
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
-        .select('id, display_name, avatar_url, dietary_preferences, skill_level, favorite_cuisines, learning_goals, is_premium, theme_preference, has_completed_onboarding, created_at, free_generations_used_today')
+        .select('id, display_name, avatar_url, dietary_preferences, skill_level, favorite_cuisines, learning_goals, is_premium, theme_preference, has_completed_onboarding, created_at, free_generations_used_today, stripe_customer_id, stripe_subscription_id, subscription_status')
         .eq('id', user.id)
         .single();
 
       if (profileError) throw profileError;
 
-      // Fetch subscription data separately (more secure)
-      const { data: subscriptionData } = await supabase
-        .from('user_subscriptions')
-        .select('stripe_customer_id, stripe_subscription_id, subscription_status, stripe_product_id')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-      // Combine data for ProfileData type
-      const combinedData = {
-        ...profileData,
-        stripe_customer_id: subscriptionData?.stripe_customer_id || null,
-        stripe_subscription_id: subscriptionData?.stripe_subscription_id || null,
-        subscription_status: subscriptionData?.subscription_status || null,
-        stripe_product_id: subscriptionData?.stripe_product_id || null,
-      };
-
-      setProfileData(combinedData as ProfileData);
+      setProfileData(profileData as ProfileData);
       // Update premium status from database
       setIsPremium(profileData?.is_premium || false);
       
