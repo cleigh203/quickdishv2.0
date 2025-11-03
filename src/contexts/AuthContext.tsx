@@ -3,6 +3,7 @@ import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
 import { handleSupabaseError } from '@/utils/errorHandling';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface AuthContextType {
   user: User | null;
@@ -32,6 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [isPremium, setIsPremium] = useState(false);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const checkSubscription = async () => {
     try {
@@ -220,12 +222,57 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signOut = async () => {
     try {
+      // 1. Sign out from Supabase
       await supabase.auth.signOut();
-      navigate('/auth');
+      
+      // 2. Clear React Query cache
+      queryClient.clear();
+      
+      // 3. Reset all context state
+      setUser(null);
+      setSession(null);
+      setIsPremium(false);
+      setLoading(false);
+      
+      // 4. Clear ALL localStorage (including Supabase's own storage)
+      localStorage.clear();
+      
+      // 5. Clear sessionStorage
+      sessionStorage.clear();
+      
+      // 6. Clear IndexedDB (Supabase uses this for session storage)
+      if (window.indexedDB) {
+        try {
+          const databases = await window.indexedDB.databases();
+          await Promise.all(
+            databases
+              .filter(db => db.name)
+              .map(db => {
+                return new Promise<void>((resolve, reject) => {
+                  const deleteReq = window.indexedDB.deleteDatabase(db.name!);
+                  deleteReq.onsuccess = () => resolve();
+                  deleteReq.onerror = () => reject(deleteReq.error);
+                  deleteReq.onblocked = () => resolve(); // Still resolve if blocked
+                });
+              })
+          );
+        } catch (error) {
+          console.error('Error clearing IndexedDB:', error);
+        }
+      }
+      
+      // 7. Force a hard page refresh to ensure all state is cleared
+      window.location.href = '/auth';
     } catch (error) {
       console.error('Error signing out:', error);
-      // Still navigate even if sign out fails
-      navigate('/auth');
+      // Even on error, clear everything and force refresh
+      queryClient.clear();
+      setUser(null);
+      setSession(null);
+      setIsPremium(false);
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = '/auth';
     }
   };
 
