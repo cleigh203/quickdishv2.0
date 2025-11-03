@@ -51,31 +51,95 @@ export const MealPlanTab = () => {
     return [...allRecipes, ...generatedRecipes, ...verifiedRecipes];
   }, [generatedRecipes, verifiedRecipes]);
 
-  // Map of DB recipe UUID -> basic recipe info (from Supabase)
+  // Map of recipe_id (TEXT) -> basic recipe info (from Supabase)
+  // recipe_id can be either a UUID from recipes table or an AI recipe ID like "ai-123-abc"
   const [dbRecipesById, setDbRecipesById] = useState<Record<string, { id: string; recipe_id: string; name: string; image_url: string | null; cook_time: string | null }>>({});
 
   useEffect(() => {
     const fetchDbRecipes = async () => {
       if (!mealPlans || mealPlans.length === 0) return;
-      const ids = Array.from(new Set(mealPlans.map(m => m.recipe_id).filter(Boolean)));
+      const recipeIds = Array.from(new Set(mealPlans.map(m => m.recipe_id).filter(Boolean)));
       // Skip if we already have them all
-      const missing = ids.filter(id => !dbRecipesById[id as string]);
+      const missing = recipeIds.filter(id => !dbRecipesById[id as string]);
       if (missing.length === 0) return;
 
-      const { data, error } = await supabase
-        .from('recipes')
-        .select('id, recipe_id, name, image_url, cook_time')
-        .in('id', missing as string[]);
+      console.log('🔍 Fetching recipes for meal plans:', missing.length, 'recipes');
+      
+      // Separate regular recipe IDs (UUIDs) from AI recipe IDs (starting with "ai-")
+      const regularRecipeIds = missing.filter(id => !id.startsWith('ai-'));
+      const aiRecipeIds = missing.filter(id => id.startsWith('ai-'));
 
-      if (!error && data) {
-        const next: Record<string, any> = { ...dbRecipesById };
-        data.forEach((r) => { next[r.id] = r; });
-        setDbRecipesById(next);
+      const next: Record<string, any> = { ...dbRecipesById };
+
+      // Fetch regular recipes from recipes table
+      if (regularRecipeIds.length > 0) {
+        console.log('🔍 Fetching regular recipes:', regularRecipeIds.length);
+        // Try by recipe_id first (TEXT field), then by id (UUID)
+        const { data: recipesByRecipeId, error: error1 } = await supabase
+          .from('recipes')
+          .select('id, recipe_id, name, image_url, cook_time')
+          .in('recipe_id', regularRecipeIds);
+
+        if (!error1 && recipesByRecipeId) {
+          recipesByRecipeId.forEach((r) => {
+            // Use recipe_id as the key (since meal_plans.recipe_id stores recipe_id TEXT)
+            next[r.recipe_id] = r;
+          });
+        }
+
+        // Also try by id (UUID) in case recipe_id doesn't match
+        const { data: recipesById, error: error2 } = await supabase
+          .from('recipes')
+          .select('id, recipe_id, name, image_url, cook_time')
+          .in('id', regularRecipeIds);
+
+        if (!error2 && recipesById) {
+          recipesById.forEach((r) => {
+            // Use id as the key if it matches the meal plan recipe_id
+            if (regularRecipeIds.includes(r.id)) {
+              next[r.id] = r;
+            }
+            // Also use recipe_id as key
+            if (r.recipe_id) {
+              next[r.recipe_id] = r;
+            }
+          });
+        }
       }
+
+      // Fetch AI recipes from generated_recipes table
+      if (aiRecipeIds.length > 0) {
+        console.log('🔍 Fetching AI recipes:', aiRecipeIds.length);
+        if (user) {
+          const { data: aiRecipes, error: aiError } = await supabase
+            .from('generated_recipes')
+            .select('recipe_id, name, image_url, cook_time')
+            .in('recipe_id', aiRecipeIds)
+            .eq('user_id', user.id);
+
+          if (!aiError && aiRecipes) {
+            aiRecipes.forEach((r) => {
+              // Use recipe_id as the key (AI recipe ID format: "ai-123-abc")
+              next[r.recipe_id] = {
+                id: r.recipe_id, // AI recipes don't have a separate id, use recipe_id
+                recipe_id: r.recipe_id,
+                name: r.name,
+                image_url: r.image_url || null,
+                cook_time: r.cook_time || null
+              };
+            });
+          } else if (aiError) {
+            console.error('❌ Error fetching AI recipes:', aiError);
+          }
+        }
+      }
+
+      console.log('✅ Fetched recipes:', Object.keys(next).length, 'total');
+      setDbRecipesById(next);
     };
     fetchDbRecipes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mealPlans]);
+  }, [mealPlans, user]);
 
   const sortedMealPlans = useMemo(() => {
     return [...mealPlans].sort((a, b) => 

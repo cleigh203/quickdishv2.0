@@ -134,23 +134,47 @@ export const useMealPlan = () => {
         }
       } else {
         // For regular recipes, check recipes table
+        // meal_plans.recipe_id is TEXT, so it can store either recipe_id (TEXT) or id (UUID)
         console.log('🔍 Checking recipes table for regular recipe...');
-        const { data: dbRecipe, error: lookupError } = await supabase
+        
+        // Try by recipe_id (TEXT) first
+        let dbRecipe = null;
+        let lookupError = null;
+        
+        const { data: recipeByRecipeId, error: error1 } = await supabase
           .from('recipes')
-          .select('recipe_id')
+          .select('id, recipe_id')
           .eq('recipe_id', recipeId)
           .maybeSingle();
 
-        if (lookupError) {
-          console.error('❌ Recipe lookup error:', lookupError);
+        if (!error1 && recipeByRecipeId) {
+          dbRecipe = recipeByRecipeId;
+          console.log('✅ Found recipe by recipe_id:', dbRecipe.recipe_id);
+        } else {
+          // Try by id (UUID) in case meal_plans.recipe_id stores the UUID
+          const { data: recipeById, error: error2 } = await supabase
+            .from('recipes')
+            .select('id, recipe_id')
+            .eq('id', recipeId)
+            .maybeSingle();
+
+          if (!error2 && recipeById) {
+            dbRecipe = recipeById;
+            console.log('✅ Found recipe by id (UUID):', dbRecipe.id);
+          } else {
+            lookupError = error2 || error1;
+            console.error('❌ Recipe lookup error:', lookupError);
+          }
         }
 
-        if (dbRecipe?.recipe_id) {
-          // For regular recipes, use recipe_id (TEXT) to match meal_plans schema
-          dbRecipeId = dbRecipe.recipe_id;
-          console.log('✅ Found recipe in recipes table:', dbRecipeId);
+        if (dbRecipe) {
+          // Use recipe_id (TEXT) if available, otherwise use id (UUID)
+          // meal_plans.recipe_id is TEXT, so we store recipe_id (TEXT) when available
+          dbRecipeId = dbRecipe.recipe_id || dbRecipe.id;
+          console.log('✅ Using recipe ID for meal plan:', dbRecipeId);
         } else {
-          // If not found, try generated_recipes as fallback (in case it's an AI recipe without "ai-" prefix)
+          // If not found in recipes table, try generated_recipes as fallback
+          // (in case it's an AI recipe without "ai-" prefix or was misclassified)
           console.log('🔍 Recipe not found in recipes table, checking generated_recipes as fallback...');
           const { data: generatedRecipe, error: generatedError } = await supabase
             .from('generated_recipes')
