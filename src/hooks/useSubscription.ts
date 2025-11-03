@@ -29,8 +29,11 @@ export const useSubscription = () => {
         return { isPremium: false, tier: 'free', userId: user.id };
       }
     },
-    retry: 2,
-    staleTime: 5 * 60 * 1000 // Cache for 5 minutes
+    retry: 1,
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    gcTime: 5 * 60 * 1000, // Cache for 5 minutes (formerly cacheTime)
+    refetchOnWindowFocus: false, // Don't refetch on window focus
+    refetchOnMount: false // Don't refetch on mount if data is fresh
   });
 };
 
@@ -101,8 +104,11 @@ export const useAIUsage = (usageType: 'recipe_generation' | 'chat' | 'nutrition'
       }
     },
     enabled: !!subscription?.userId,
-    retry: 2,
-    staleTime: 2 * 60 * 1000 // Cache for 2 minutes
+    retry: 1,
+    staleTime: 2 * 60 * 1000, // Cache for 2 minutes
+    gcTime: 2 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false
   });
 };
 
@@ -145,8 +151,11 @@ export const useSavedRecipesCount = () => {
       }
     },
     enabled: !!subscription?.userId,
-    retry: 2,
-    staleTime: 2 * 60 * 1000 // Cache for 2 minutes
+    retry: 1,
+    staleTime: 2 * 60 * 1000, // Cache for 2 minutes
+    gcTime: 2 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false
   });
 };
 
