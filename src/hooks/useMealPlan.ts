@@ -102,6 +102,7 @@ export const useMealPlan = () => {
       
       // First, try to find in recipes table (for regular recipes)
       // meal_plans.recipe_id is TEXT, so we use recipe_id (not id UUID)
+      console.log('🔍 Looking up recipe for meal plan:', recipeId);
       const { data: dbRecipe, error: lookupError } = await supabase
         .from('recipes')
         .select('recipe_id')
@@ -109,16 +110,16 @@ export const useMealPlan = () => {
         .maybeSingle();
 
       if (lookupError) {
-        console.error('Recipe lookup error:', lookupError);
+        console.error('❌ Recipe lookup error:', lookupError);
       }
 
       if (dbRecipe?.recipe_id) {
         // For regular recipes, use recipe_id (TEXT) to match meal_plans schema
         dbRecipeId = dbRecipe.recipe_id;
-        console.log('Found recipe in recipes table:', dbRecipeId);
+        console.log('✅ Found recipe in recipes table:', dbRecipeId);
       } else {
         // If not found in recipes, check generated_recipes table (for AI recipes)
-        console.log('Recipe not found in recipes table, checking generated_recipes...', recipeId);
+        console.log('🔍 Recipe not found in recipes table, checking generated_recipes...', recipeId);
         const { data: generatedRecipe, error: generatedError } = await supabase
           .from('generated_recipes')
           .select('recipe_id, user_id')
@@ -127,17 +128,22 @@ export const useMealPlan = () => {
           .maybeSingle();
 
         if (generatedError) {
-          console.error('Generated recipe lookup error:', generatedError);
+          console.error('❌ Generated recipe lookup error:', generatedError);
+          console.error('Error details:', JSON.stringify(generatedError, null, 2));
         }
 
         if (generatedRecipe?.recipe_id) {
           // For AI recipes, use the recipe_id directly (it's already a string ID)
           dbRecipeId = generatedRecipe.recipe_id;
-          console.log('Found AI recipe in generated_recipes:', dbRecipeId);
+          console.log('✅ Found AI recipe in generated_recipes:', dbRecipeId);
+        } else {
+          console.log('⚠️ Recipe not found in generated_recipes either');
         }
       }
 
       if (!dbRecipeId) {
+        console.error('❌ Recipe not found in any table:', recipeId);
+        console.error('User ID:', user.id);
         toast({
           title: 'Recipe not found',
           description: 'This recipe is not in the database. Please try generating it again or contact support.',
@@ -151,32 +157,49 @@ export const useMealPlan = () => {
         setTimeout(() => reject(new Error('Insert timed out')), 8000)
       );
 
+      console.log('📝 Inserting meal plan:', {
+        user_id: user.id,
+        recipe_id: dbRecipeId,
+        scheduled_date: scheduledDate,
+        meal_type: mealType
+      });
+
       const insertPromise = supabase
         .from('meal_plans')
         .insert({
           user_id: user.id,
-          // Use the recipe ID found (UUID from recipes table or string ID from generated_recipes)
+          // Use the recipe ID found (TEXT from recipes table or string ID from generated_recipes)
           recipe_id: dbRecipeId,
           // Provide both fields to satisfy schemas that require `date`
           date: scheduledDate,
           scheduled_date: scheduledDate,
           meal_type: mealType,
-        });
+        })
+        .select('id, recipe_id, scheduled_date, meal_type');
 
-      const { error } = await Promise.race([insertPromise, timeoutPromise]) as any;
+      const { data: insertedData, error } = await Promise.race([insertPromise, timeoutPromise]) as any;
 
       if (error) {
-        console.error('Error adding meal plan:', error);
+        console.error('❌ Error adding meal plan:', error);
+        console.error('Error details:', JSON.stringify(error, null, 2));
+        console.error('Insert data attempted:', {
+          user_id: user.id,
+          recipe_id: dbRecipeId,
+          scheduled_date: scheduledDate,
+          meal_type: mealType
+        });
         const msg = error?.message || 'Unknown error';
         
         // Provide more specific error messages
         if (msg.includes('foreign key') || msg.includes('violates foreign key constraint')) {
+          console.error('❌ Foreign key constraint violation - recipe_id may not exist in referenced table');
           toast({
             title: "Couldn't add to meal plan",
             description: "Recipe reference is invalid. Please try saving the recipe again first.",
             variant: "destructive",
           });
         } else if (msg.includes('unique') || msg.includes('duplicate')) {
+          console.log('⚠️ Meal plan already exists for this recipe, date, and meal type');
           toast({
             title: "Already in meal plan",
             description: "This recipe is already scheduled for this meal.",
@@ -190,6 +213,10 @@ export const useMealPlan = () => {
           });
         }
         return false;
+      }
+
+      if (insertedData && insertedData.length > 0) {
+        console.log('✅ Successfully added meal plan:', insertedData[0]);
       }
 
       toast({

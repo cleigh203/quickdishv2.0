@@ -22,9 +22,10 @@ serve(async (req) => {
     );
 
     // Check user's rate limit
+    // Try new field names first, fallback to old field names if they don't exist
     const { data: profile, error: profileError } = await supabaseClient
       .from('profiles')
-      .select('ai_generations_used_today, ai_generations_reset_date, subscription_tier, is_premium')
+      .select('ai_generations_used_today, ai_generations_reset_date, free_generations_used_today, last_generation_reset_date, subscription_tier, is_premium')
       .eq('id', userId)
       .single();
 
@@ -39,14 +40,15 @@ serve(async (req) => {
     // Get current date
     const today = new Date().toISOString().split('T')[0];
     
-    // Check if we need to reset the counter (new day)
-    const resetDate = profile.ai_generations_reset_date || today;
+    // Use new field names if available, fallback to old field names
+    const resetDate = profile.ai_generations_reset_date || profile.last_generation_reset_date || today;
     const needsReset = resetDate !== today;
 
     // Get current generations count (reset to 0 if new day)
+    // Use new field names if available, fallback to old field names
     let currentGenerations = 0;
     if (!needsReset) {
-      currentGenerations = profile.ai_generations_used_today || 0;
+      currentGenerations = profile.ai_generations_used_today ?? profile.free_generations_used_today ?? 0;
     }
     
     const limit = tier === 'premium' ? 5 : 1;
@@ -162,6 +164,7 @@ Return ONLY the JSON object, no other text.`;
     console.log('Recipe generated successfully, inserting for user:', recipe.name);
 
     // Persist AI recipe for this user so it can be resolved later by Favorites and meal plans
+    let recipeSaved = false;
     try {
       const { data: insertedRecipe, error: insertError } = await supabaseClient
         .from('generated_recipes')
@@ -188,37 +191,73 @@ Return ONLY the JSON object, no other text.`;
         console.error('Failed to insert generated recipe:', insertError);
         // If it's a duplicate, that's okay - recipe already exists
         if (insertError.code !== '23505') { // 23505 = unique_violation
+          console.error('❌ CRITICAL: Failed to save recipe to database:', insertError.message);
           throw new Error(`Failed to save recipe to database: ${insertError.message}`);
         }
         console.log('Recipe already exists in database, continuing...');
+        recipeSaved = true; // Recipe exists, so it's saved
       } else {
         console.log('✅ Successfully saved AI recipe to generated_recipes:', insertedRecipe?.recipe_id);
+        recipeSaved = true;
       }
     } catch (e) {
-      console.error('Exception inserting generated recipe:', e);
-      // Don't fail the entire request if database insert fails - recipe can still be used in session
-      // But log it so we know there's an issue
+      console.error('❌ CRITICAL: Exception inserting generated recipe:', e);
+      // Fail the request if database insert fails - we need the recipe in the database
+      throw new Error(`Failed to save recipe: ${e.message || e}`);
     }
 
-    // Update user's generation count AFTER successful recipe generation
+    // Update user's generation count ONLY AFTER successful recipe generation AND database save
+    if (!recipeSaved) {
+      throw new Error('Recipe not saved to database, cannot update counter');
+    }
+
     const newCount = currentGenerations + 1;
+    
+    // Try to update with new field names first, fallback to old field names if columns don't exist
     const updateData: any = {
       ai_generations_used_today: newCount,
       ai_generations_reset_date: today
     };
 
-    const { error: updateError } = await supabaseClient
+    console.log(`🔄 Updating generation count: ${currentGenerations} → ${newCount} (limit: ${limit})`);
+    let { error: updateError, data: updateData_result } = await supabaseClient
       .from('profiles')
       .update(updateData)
-      .eq('id', userId);
+      .eq('id', userId)
+      .select('ai_generations_used_today, ai_generations_reset_date');
+
+    // If update fails with new field names, try old field names as fallback
+    if (updateError && updateError.message?.includes('column') && updateError.message?.includes('does not exist')) {
+      console.log('⚠️ New field names not found, trying old field names...');
+      const fallbackUpdateData: any = {
+        free_generations_used_today: newCount,
+        last_generation_reset_date: today
+      };
+      
+      const fallbackResult = await supabaseClient
+        .from('profiles')
+        .update(fallbackUpdateData)
+        .eq('id', userId)
+        .select('free_generations_used_today, last_generation_reset_date');
+      
+      updateError = fallbackResult.error;
+      updateData_result = fallbackResult.data;
+      
+      if (!updateError) {
+        console.log('✅ Updated using fallback field names');
+      }
+    }
 
     if (updateError) {
-      console.error('❌ Failed to update generation count:', updateError);
-      console.error('Update data:', updateData);
-      // Don't fail the request if counter update fails, but log it
-      // This is critical for tracking, so we should know about it
+      console.error('❌ CRITICAL: Failed to update generation count:', updateError);
+      console.error('Update data attempted:', updateData);
+      console.error('Error details:', JSON.stringify(updateError, null, 2));
+      // This is critical - if we can't update the counter, we should fail the request
+      // Otherwise users can generate unlimited recipes
+      throw new Error(`Failed to update generation counter: ${updateError.message || 'Unknown error'}`);
     } else {
-      console.log(`✅ Updated generation count: ${currentGenerations} → ${newCount} (limit: ${limit})`);
+      console.log(`✅ Successfully updated generation count: ${currentGenerations} → ${newCount} (limit: ${limit})`);
+      console.log('Updated profile data:', updateData_result);
     }
 
     console.log('✅ Recipe ready for user (session only):', recipe.name);
