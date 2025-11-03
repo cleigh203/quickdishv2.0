@@ -98,12 +98,14 @@ const Profile = () => {
       setIsPremium(profileData?.is_premium || false);
       
       // Get subscription end date if premium
-      if (profileData?.is_premium) {
-        const { data: subData } = await supabase.functions.invoke('check-subscription');
-        if (subData?.subscription_end) {
-          setSubscriptionEnd(subData.subscription_end);
-        }
-      }
+      // TODO: Re-enable once check-subscription Edge Function is fixed
+      // Temporarily disabled to prevent slow loading
+      // if (profileData?.is_premium) {
+      //   const { data: subData } = await supabase.functions.invoke('check-subscription');
+      //   if (subData?.subscription_end) {
+      //     setSubscriptionEnd(subData.subscription_end);
+      //   }
+      // }
       
       setLoading(false);
     } catch (error: any) {
