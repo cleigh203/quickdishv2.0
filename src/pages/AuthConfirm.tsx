@@ -14,49 +14,75 @@ const AuthConfirm = () => {
   useEffect(() => {
     const handleEmailVerification = async () => {
       try {
-        // Extract token_hash and type from URL params
-        const token = searchParams.get('token_hash');
-        const type = searchParams.get('type');
-        const email = searchParams.get('email');
+        // Get the code from URL params (Supabase PKCE flow)
+        const code = searchParams.get('code');
+        const error = searchParams.get('error');
+        const errorDescription = searchParams.get('error_description');
 
-        console.log('Auth confirm - token:', !!token, 'type:', type, 'email:', email);
+        console.log('Auth confirm - code:', !!code, 'error:', error);
 
-        // Validate required parameters
-        if (!token || !type) {
-          console.error('Missing required parameters:', { token: !!token, type: !!type });
-          setStatus('error');
-          setErrorMessage('Invalid verification link. Missing required parameters.');
-          return;
-        }
-
-        // Verify the OTP using Supabase
-        console.log('Verifying OTP...');
-        const { data, error } = await supabase.auth.verifyOtp({
-          email: email || undefined, // Optional for email confirmation
-          token: token,
-          type: type as any,
-        });
-
+        // Handle errors from Supabase
         if (error) {
-          console.error('OTP verification error:', error);
+          console.error('Auth error from Supabase:', error, errorDescription);
           setStatus('error');
-          setErrorMessage(error.message || 'Failed to verify email. Please try again.');
+          setErrorMessage(errorDescription || 'Failed to verify your email. Please try again.');
           return;
         }
 
-        // Success!
-        console.log('Email verified successfully:', data);
-        setStatus('success');
-        
-        // Wait 2 seconds to show success message, then redirect
-        setTimeout(() => {
-          // Redirect to home page if user is authenticated, otherwise to auth
-          if (data?.user) {
-            navigate('/', { replace: true });
-          } else {
-            navigate('/auth', { replace: true });
+        // Exchange code for session (PKCE flow)
+        if (code) {
+          console.log('Exchanging code for session...');
+          const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+          
+          if (exchangeError) {
+            console.error('Exchange error:', exchangeError);
+            setStatus('error');
+            setErrorMessage(exchangeError.message || 'Failed to verify email');
+            return;
           }
-        }, 2000);
+
+          // Success!
+          console.log('Email verified successfully');
+          setStatus('success');
+          
+          // Wait 2 seconds to show success message, then redirect
+          setTimeout(() => {
+            navigate('/', { replace: true });
+          }, 2000);
+          return;
+        }
+
+        // Fallback: Try hash-based flow for older links
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        const accessToken = hashParams.get('access_token');
+        const type = hashParams.get('type');
+
+        console.log('Fallback hash flow - type:', type, 'has token:', !!accessToken);
+
+        if (type && accessToken) {
+          // Set session from hash-based flow
+          const { error: sessionError } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: hashParams.get('refresh_token') || '',
+          });
+
+          if (sessionError) {
+            throw sessionError;
+          }
+
+          console.log('Hash-based verification successful');
+          setStatus('success');
+          
+          setTimeout(() => {
+            navigate('/', { replace: true });
+          }, 2000);
+          return;
+        }
+
+        // No valid callback found
+        console.error('No valid auth callback found');
+        setStatus('error');
+        setErrorMessage('Invalid verification link. Please request a new one.');
       } catch (error: any) {
         console.error('Email verification error:', error);
         setStatus('error');
