@@ -24,7 +24,7 @@ serve(async (req) => {
     // Check user's rate limit
     const { data: profile, error: profileError } = await supabaseClient
       .from('profiles')
-      .select('ai_generations_today, last_generation_date, is_premium')
+      .select('free_generations_used_today, last_generation_reset_date, subscription_tier, is_premium')
       .eq('id', userId)
       .single();
 
@@ -33,21 +33,24 @@ serve(async (req) => {
       throw new Error('Failed to fetch user profile');
     }
 
+    // Determine tier (premium or free)
+    const tier = profile.subscription_tier === 'premium' || profile.is_premium ? 'premium' : 'free';
+
     // Check if we need to reset the counter (new day)
     const today = new Date().toISOString().split('T')[0];
-    const lastGenDate = profile.last_generation_date;
-    const needsReset = !lastGenDate || lastGenDate !== today;
+    const lastResetDate = profile.last_generation_reset_date || today;
+    const needsReset = lastResetDate !== today;
 
-    let currentGenerations = needsReset ? 0 : (profile.ai_generations_today || 0);
-    const limit = profile.is_premium ? 5 : 2;
+    let currentGenerations = needsReset ? 0 : (profile.free_generations_used_today || 0);
+    const limit = tier === 'premium' ? 5 : 1;
 
     if (currentGenerations >= limit) {
       return new Response(
         JSON.stringify({ 
           error: 'Rate limit exceeded',
-          message: profile.is_premium 
+          message: tier === 'premium'
             ? 'Daily limit of 5 AI generations reached. Try again tomorrow!'
-            : 'Daily limit of 2 AI generations reached. Upgrade to Premium for 5 generations/day.'
+            : 'Daily limit of 1 AI generation reached. Upgrade to Premium for 5 generations/day.'
         }),
         { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
@@ -182,8 +185,8 @@ Return ONLY the JSON object, no other text.`;
     const { error: updateError } = await supabaseClient
       .from('profiles')
       .update({
-        ai_generations_today: currentGenerations + 1,
-        last_generation_date: today
+        free_generations_used_today: currentGenerations + 1,
+        last_generation_reset_date: today
       })
       .eq('id', userId);
 

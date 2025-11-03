@@ -5,6 +5,7 @@ import { Recipe } from '@/types/recipe';
 import { useAuth } from '@/contexts/AuthContext';
 import { useGeneratedRecipes } from '@/hooks/useGeneratedRecipes';
 import { recipeStorage } from '@/utils/recipeStorage';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const useAiRecipeGeneration = () => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -12,6 +13,7 @@ export const useAiRecipeGeneration = () => {
   const { toast } = useToast();
   const { user, isPremium } = useAuth();
   const { addGeneratedRecipe } = useGeneratedRecipes();
+  const queryClient = useQueryClient();
 
   const checkRateLimit = async (): Promise<{ allowed: boolean; remaining: number }> => {
     if (!user) {
@@ -45,7 +47,7 @@ export const useAiRecipeGeneration = () => {
       const needsReset = lastResetDate !== today;
 
       const currentGenerations = needsReset ? 0 : generationsUsed;
-      const limit = tier === 'premium' ? 5 : 2;
+      const limit = tier === 'premium' ? 5 : 1;
       const remaining = Math.max(0, limit - currentGenerations);
 
       setGenerationsRemaining(remaining);
@@ -57,8 +59,8 @@ export const useAiRecipeGeneration = () => {
     } catch (error) {
       console.error('Error checking rate limit:', error);
       // Fallback to defaults on any error
-      setGenerationsRemaining(2); // Default free limit
-      return { allowed: true, remaining: 2 };
+      setGenerationsRemaining(1); // Default free limit
+      return { allowed: true, remaining: 1 };
     }
   };
 
@@ -111,7 +113,7 @@ export const useAiRecipeGeneration = () => {
             title: "Daily limit reached",
             description: isPremium 
               ? "You've used all 5 AI generations today. Try again tomorrow!"
-              : "You've used your 2 free AI generations. Upgrade to Premium for 5/day!",
+              : "You've used your 1 free AI generation. Upgrade to Premium for 5/day!",
             variant: "destructive"
           });
         } else {
@@ -149,6 +151,9 @@ export const useAiRecipeGeneration = () => {
       console.log('📡 11. Generations remaining:', data.generationsRemaining);
       
       setGenerationsRemaining(data.generationsRemaining);
+      
+      // Invalidate AI usage cache to refresh the counter
+      queryClient.invalidateQueries({ queryKey: ['ai-usage', 'recipe_generation'] });
       
       // Normalize AI recipe fields and add to session storage (not database)
       const aiRecipe: Recipe = {
