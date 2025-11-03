@@ -98,7 +98,7 @@ const Profile = () => {
         .from('user_subscriptions')
         .select('stripe_customer_id, stripe_subscription_id, subscription_status, stripe_product_id')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
       // Combine data for ProfileData type
       const combinedData = {
@@ -120,9 +120,15 @@ const Profile = () => {
           setSubscriptionEnd(subData.subscription_end);
         }
       }
+      
+      setLoading(false);
     } catch (error: any) {
       console.error('Error fetching profile:', error);
-    } finally {
+      toast({
+        title: "Error loading profile",
+        description: error.message || "Failed to load profile data",
+        variant: "destructive"
+      });
       setLoading(false);
     }
   };
