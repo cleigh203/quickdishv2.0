@@ -52,12 +52,43 @@ const AuthCallback = () => {
           return;
         }
 
-        // Fallback: Try hash-based flow for older links
+        // Fallback 1: Try token_hash flow for email confirmation links
+        const tokenHash = searchParams.get('token_hash');
+        const tokenType = searchParams.get('type');
+
+        console.log('Token hash flow - token:', !!tokenHash, 'type:', tokenType);
+
+        if (tokenHash && tokenType) {
+          // Verify OTP with token_hash
+          console.log('Verifying OTP with token_hash...');
+          const { data, error: verifyError } = await supabase.auth.verifyOtp({
+            token_hash: tokenHash,
+            type: tokenType as any,
+          });
+
+          if (verifyError) {
+            console.error('OTP verification error:', verifyError);
+            setStatus('error');
+            setErrorMessage(verifyError.message || 'Failed to verify email');
+            return;
+          }
+
+          console.log('OTP verification successful');
+          setStatus('success');
+          
+          // Wait 2 seconds to show success message, then redirect
+          setTimeout(() => {
+            navigate('/', { replace: true });
+          }, 2000);
+          return;
+        }
+
+        // Fallback 2: Try hash-based flow for older links
         const hashParams = new URLSearchParams(window.location.hash.substring(1));
         const accessToken = hashParams.get('access_token');
         const type = hashParams.get('type');
 
-        console.log('Fallback hash flow - type:', type, 'has token:', !!accessToken);
+        console.log('Hash flow - type:', type, 'has token:', !!accessToken);
 
         if (type && accessToken) {
           // Set session from hash-based flow
