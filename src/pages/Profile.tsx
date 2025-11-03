@@ -84,12 +84,22 @@ const Profile = () => {
     }
 
     try {
-      // Fetch profile data with subscription info
-      const { data: profileData, error: profileError } = await supabase
+      // Fetch profile data with subscription info - use timeout to prevent hanging
+      const profileQueryPromise = supabase
         .from('profiles')
         .select('id, display_name, avatar_url, dietary_preferences, skill_level, favorite_cuisines, learning_goals, is_premium, theme_preference, has_completed_onboarding, created_at, free_generations_used_today, stripe_customer_id, stripe_subscription_id, subscription_status')
         .eq('id', user.id)
         .single();
+
+      // Add timeout to prevent hanging (10 seconds)
+      const timeoutPromise = new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Profile query timeout after 10 seconds')), 10000)
+      );
+
+      const { data: profileData, error: profileError } = await Promise.race([
+        profileQueryPromise,
+        timeoutPromise
+      ]);
 
       if (profileError) throw profileError;
 
