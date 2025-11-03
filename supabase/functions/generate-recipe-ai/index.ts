@@ -22,7 +22,9 @@ serve(async (req) => {
     );
 
     // Server-side rate limit check (safety measure)
+    // Check limits before generation to prevent wasted API calls
     try {
+      const today = new Date().toISOString().split('T')[0];
       const { data: profile, error: profileError } = await supabaseClient
         .from('profiles')
         .select('is_premium, ai_generations_used_today, ai_generations_reset_date')
@@ -30,15 +32,17 @@ serve(async (req) => {
         .single();
 
       if (!profileError && profile) {
-        const today = new Date().toISOString().split('T')[0];
         const resetDate = profile.ai_generations_reset_date || today;
         const needsReset = resetDate !== today;
         
         // Get current count (reset to 0 if new day)
         const currentCount = needsReset ? 0 : (profile.ai_generations_used_today || 0);
+        
+        // Check limits: Free = 1, Premium = 5
         const limit = profile.is_premium === true ? 5 : 1;
         
         if (currentCount >= limit) {
+          console.log(`❌ Rate limit exceeded: ${currentCount}/${limit} (premium: ${profile.is_premium})`);
           return new Response(
             JSON.stringify({ 
               error: 'Rate limit exceeded',
@@ -49,10 +53,13 @@ serve(async (req) => {
             { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
           );
         }
+        
+        console.log(`✅ Rate limit check passed: ${currentCount}/${limit} (premium: ${profile.is_premium})`);
       }
     } catch (rateLimitError) {
-      console.error('Error checking rate limit (non-critical):', rateLimitError);
+      console.error('⚠️ Error checking rate limit (non-critical):', rateLimitError);
       // Continue with generation even if rate limit check fails
+      // Frontend already checks limits, this is just a safety measure
     }
 
     const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
@@ -196,10 +203,11 @@ Return ONLY the JSON object, no other text.`;
     // Update usage counter AFTER successful recipe generation and save
     // Wrapped in try/catch so it doesn't break recipe generation if it fails
     let updatedCount = 0;
+    let remainingCount = 0;
     try {
       const today = new Date().toISOString().split('T')[0];
       
-      // Get current profile to check reset date
+      // Get current profile to check reset date and premium status
       const { data: profile, error: profileError } = await supabaseClient
         .from('profiles')
         .select('is_premium, ai_generations_used_today, ai_generations_reset_date')
@@ -219,7 +227,12 @@ Return ONLY the JSON object, no other text.`;
         // Increment count
         const newCount = currentCount + 1;
         
+        // Get limit for remaining count calculation
+        const limit = profile.is_premium === true ? 5 : 1;
+        remainingCount = limit - newCount;
+        
         // Update profile with new count and reset date
+        console.log(`🔄 Updating generation count: ${currentCount} → ${newCount} (limit: ${limit}, reset: ${needsReset})`);
         const { error: updateError } = await supabaseClient
           .from('profiles')
           .update({
@@ -230,11 +243,15 @@ Return ONLY the JSON object, no other text.`;
 
         if (updateError) {
           console.error('⚠️ Failed to update generation count (non-critical):', updateError);
+          console.error('Update data attempted:', { ai_generations_used_today: newCount, ai_generations_reset_date: today });
         } else {
           updatedCount = newCount;
-          console.log(`✅ Updated generation count: ${currentCount} → ${newCount}`);
+          console.log(`✅ Successfully updated generation count: ${currentCount} → ${newCount}`);
           console.log(`📅 Reset date updated to: ${today}`);
+          console.log(`📊 Remaining generations: ${remainingCount}/${limit}`);
         }
+      } else if (profileError) {
+        console.error('⚠️ Error fetching profile for counter update:', profileError);
       }
     } catch (counterError) {
       console.error('⚠️ Exception updating generation counter (non-critical):', counterError);
@@ -246,7 +263,8 @@ Return ONLY the JSON object, no other text.`;
     return new Response(
       JSON.stringify({ 
         recipe,
-        generationsUsed: updatedCount
+        generationsUsed: updatedCount,
+        generationsRemaining: remainingCount
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );

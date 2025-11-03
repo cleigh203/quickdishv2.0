@@ -98,8 +98,6 @@ export const useMealPlan = () => {
     }
 
     try {
-      let dbRecipeId: string | null = null;
-      
       // Check if this is an AI-generated recipe (starts with "ai-")
       const isAiRecipe = recipeId.startsWith('ai-');
       
