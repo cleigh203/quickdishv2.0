@@ -207,57 +207,78 @@ Return ONLY the JSON object, no other text.`;
     }
 
     // Update user's generation count ONLY AFTER successful recipe generation AND database save
-    if (!recipeSaved) {
-      throw new Error('Recipe not saved to database, cannot update counter');
-    }
+    // This is wrapped in try/catch to ensure recipe generation succeeds even if counter update fails
+    if (recipeSaved) {
+      try {
+        // Calculate new count (reset to 1 if new day, otherwise increment)
+        // If needsReset is true, we're starting fresh today, so set to 1
+        // If needsReset is false, increment the current count
+        const newCount = needsReset ? 1 : (currentGenerations + 1);
+        
+        // Update data: reset date to today, set/increment count
+        const updateData: any = {
+          ai_generations_used_today: newCount,
+          ai_generations_reset_date: today
+        };
 
-    const newCount = currentGenerations + 1;
-    
-    // Try to update with new field names first, fallback to old field names if columns don't exist
-    const updateData: any = {
-      ai_generations_used_today: newCount,
-      ai_generations_reset_date: today
-    };
+        console.log(`🔄 Updating generation count: ${currentGenerations} → ${newCount} (limit: ${limit}, reset: ${needsReset})`);
+        console.log(`📅 Today: ${today}, Reset date: ${resetDate}, Needs reset: ${needsReset}`);
+        
+        // Try to update with new field names first
+        let { error: updateError, data: updateData_result } = await supabaseClient
+          .from('profiles')
+          .update(updateData)
+          .eq('id', userId)
+          .select('ai_generations_used_today, ai_generations_reset_date');
 
-    console.log(`🔄 Updating generation count: ${currentGenerations} → ${newCount} (limit: ${limit})`);
-    let { error: updateError, data: updateData_result } = await supabaseClient
-      .from('profiles')
-      .update(updateData)
-      .eq('id', userId)
-      .select('ai_generations_used_today, ai_generations_reset_date');
+        // If update fails with new field names (columns don't exist), try old field names as fallback
+        if (updateError && updateError.message && (
+          updateError.message.includes('column') || 
+          updateError.message.includes('does not exist') ||
+          updateError.message.includes('unknown column')
+        )) {
+          console.log('⚠️ New field names not found, trying old field names as fallback...');
+          const fallbackUpdateData: any = {
+            free_generations_used_today: newCount,
+            last_generation_reset_date: today
+          };
+          
+          const fallbackResult = await supabaseClient
+            .from('profiles')
+            .update(fallbackUpdateData)
+            .eq('id', userId)
+            .select('free_generations_used_today, last_generation_reset_date');
+          
+          updateError = fallbackResult.error;
+          updateData_result = fallbackResult.data;
+          
+          if (!updateError) {
+            console.log('✅ Updated using fallback field names (old columns)');
+            console.log('Updated profile data:', updateData_result);
+          }
+        }
 
-    // If update fails with new field names, try old field names as fallback
-    if (updateError && updateError.message?.includes('column') && updateError.message?.includes('does not exist')) {
-      console.log('⚠️ New field names not found, trying old field names...');
-      const fallbackUpdateData: any = {
-        free_generations_used_today: newCount,
-        last_generation_reset_date: today
-      };
-      
-      const fallbackResult = await supabaseClient
-        .from('profiles')
-        .update(fallbackUpdateData)
-        .eq('id', userId)
-        .select('free_generations_used_today, last_generation_reset_date');
-      
-      updateError = fallbackResult.error;
-      updateData_result = fallbackResult.data;
-      
-      if (!updateError) {
-        console.log('✅ Updated using fallback field names');
+        if (updateError) {
+          console.error('⚠️ Failed to update generation count (non-critical):', updateError);
+          console.error('Update data attempted:', updateData);
+          console.error('Error details:', JSON.stringify(updateError, null, 2));
+          console.log('⚠️ Recipe generation will continue despite counter update failure');
+          // Don't throw - prioritize recipe generation over tracking
+        } else {
+          console.log(`✅ Successfully updated generation count: ${currentGenerations} → ${newCount} (limit: ${limit})`);
+          if (updateData_result && updateData_result.length > 0) {
+            console.log('Updated profile data:', updateData_result[0]);
+          }
+        }
+      } catch (counterError: any) {
+        // Catch any errors in counter update and log them, but don't fail the request
+        console.error('⚠️ Exception updating generation counter (non-critical):', counterError);
+        console.error('Exception details:', JSON.stringify(counterError, null, 2));
+        console.log('⚠️ Recipe generation will continue despite counter update exception');
+        // Don't throw - prioritize recipe generation over tracking
       }
-    }
-
-    if (updateError) {
-      console.error('❌ CRITICAL: Failed to update generation count:', updateError);
-      console.error('Update data attempted:', updateData);
-      console.error('Error details:', JSON.stringify(updateError, null, 2));
-      // This is critical - if we can't update the counter, we should fail the request
-      // Otherwise users can generate unlimited recipes
-      throw new Error(`Failed to update generation counter: ${updateError.message || 'Unknown error'}`);
     } else {
-      console.log(`✅ Successfully updated generation count: ${currentGenerations} → ${newCount} (limit: ${limit})`);
-      console.log('Updated profile data:', updateData_result);
+      console.warn('⚠️ Recipe not saved to database, skipping counter update');
     }
 
     console.log('✅ Recipe ready for user (session only):', recipe.name);

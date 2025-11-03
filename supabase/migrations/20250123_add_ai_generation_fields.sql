@@ -12,6 +12,9 @@ BEGIN
   ) THEN
     ALTER TABLE public.profiles 
     ADD COLUMN ai_generations_used_today INTEGER DEFAULT 0 NOT NULL;
+    RAISE NOTICE 'Added column ai_generations_used_today to profiles table';
+  ELSE
+    RAISE NOTICE 'Column ai_generations_used_today already exists';
   END IF;
 END $$;
 
@@ -25,7 +28,10 @@ BEGIN
     AND column_name = 'ai_generations_reset_date'
   ) THEN
     ALTER TABLE public.profiles 
-    ADD COLUMN ai_generations_reset_date DATE;
+    ADD COLUMN ai_generations_reset_date DATE DEFAULT CURRENT_DATE;
+    RAISE NOTICE 'Added column ai_generations_reset_date to profiles table';
+  ELSE
+    RAISE NOTICE 'Column ai_generations_reset_date already exists';
   END IF;
 END $$;
 
