@@ -109,22 +109,8 @@ const Profile = () => {
       // Update premium status from database
       setIsPremium(profileData?.is_premium || false);
       
-      // Fetch subscription end date if premium and has subscription
-      if (profileData?.is_premium && profileData?.stripe_subscription_id) {
-        try {
-          // Try to get subscription details from Stripe via Edge Function
-          const { data: subData, error: subError } = await supabase.functions.invoke('check-subscription');
-          if (!subError && subData?.subscription_end) {
-            setSubscriptionEnd(subData.subscription_end);
-          } else if (!subError && subData?.current_period_end) {
-            // Fallback to current_period_end
-            setSubscriptionEnd(new Date(subData.current_period_end * 1000).toISOString());
-          }
-        } catch (error) {
-          console.error('Error fetching subscription end date:', error);
-          // Don't throw - subscription end date is optional
-        }
-      }
+      // All subscription data comes from profiles table (updated via webhooks)
+      // No need to call check-subscription Edge Function
       
       setLoading(false);
     } catch (error: any) {
@@ -352,10 +338,7 @@ const Profile = () => {
     }
   };
 
-  const handleSubscriptionCanceled = async (periodEnd?: string) => {
-    if (periodEnd) {
-      setSubscriptionEnd(periodEnd);
-    }
+  const handleSubscriptionCanceled = async () => {
     await fetchProfile();
   };
 
@@ -624,14 +607,10 @@ const Profile = () => {
                             </Badge>
                           )}
                         </div>
-                        <p className="text-sm text-muted-foreground">$2.99/month</p>
-                        {profileData?.subscription_status === 'cancel_at_period_end' && subscriptionEnd && (
+                                                  <p className="text-sm text-muted-foreground">$2.99/month</p>
+                        {profileData?.subscription_status === 'cancel_at_period_end' && (
                           <p className="text-xs text-orange-600 mt-1">
-                            Active until {new Date(subscriptionEnd).toLocaleDateString('en-US', {
-                              month: 'long',
-                              day: 'numeric',
-                              year: 'numeric'
-                            })}
+                            Cancelling at end of billing period
                           </p>
                         )}
                       </div>
@@ -871,6 +850,7 @@ const Profile = () => {
         open={subscriptionModalOpen}
         onOpenChange={setSubscriptionModalOpen}
         subscriptionEnd={subscriptionEnd}
+        subscriptionStatus={profileData?.subscription_status}
         onSubscriptionCanceled={handleSubscriptionCanceled}
       />
 

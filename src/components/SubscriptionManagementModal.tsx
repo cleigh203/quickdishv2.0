@@ -20,13 +20,15 @@ interface SubscriptionManagementModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   subscriptionEnd: string | null;
-  onSubscriptionCanceled: (periodEnd?: string) => void;
+  subscriptionStatus?: string | null;
+  onSubscriptionCanceled: () => void;
 }
 
 export const SubscriptionManagementModal = ({
   open,
   onOpenChange,
   subscriptionEnd,
+  subscriptionStatus,
   onSubscriptionCanceled,
 }: SubscriptionManagementModalProps) => {
   const { toast } = useToast();
@@ -109,7 +111,7 @@ export const SubscriptionManagementModal = ({
       
       setCancelDialogOpen(false);
       onOpenChange(false);
-      onSubscriptionCanceled(periodEndDate || undefined);
+      onSubscriptionCanceled();
     } catch (error: any) {
       console.error('Error canceling subscription:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to cancel subscription. Please try again or contact support.';
@@ -144,10 +146,14 @@ export const SubscriptionManagementModal = ({
             {/* Current Plan */}
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Current Plan</p>
-              <div className="flex items-center justify-between">
-                <span className="text-lg font-semibold">Premium - $2.99/month</span>
-                <Badge className="bg-green-500 hover:bg-green-500">Active</Badge>
-              </div>
+                              <div className="flex items-center justify-between">
+                  <span className="text-lg font-semibold">Premium - $2.99/month</span>
+                  <Badge className={subscriptionStatus === 'cancel_at_period_end' 
+                    ? "bg-orange-500 hover:bg-orange-500" 
+                    : "bg-green-500 hover:bg-green-500"}>
+                    {subscriptionStatus === 'cancel_at_period_end' ? 'Cancelling' : 'Active'}
+                  </Badge>
+                </div>
             </div>
 
             {/* Next Billing Date */}
