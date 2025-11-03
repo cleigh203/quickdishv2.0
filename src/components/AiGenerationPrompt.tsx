@@ -101,9 +101,30 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
     }
   };
 
-  const remainingText = remaining !== null 
-    ? `${remaining} AI generation${remaining !== 1 ? 's' : ''} left today`
-    : 'Checking...';
+  // Calculate remaining text based on premium status and limit
+  const getRemainingText = () => {
+    if (remaining === null) return 'Checking...';
+    
+    if (isPremium) {
+      // Premium: Show remaining out of 5, or "5 AI generations left today" if all available
+      const limit = 5;
+      const used = limit - remaining;
+      if (remaining === limit) {
+        return '5 AI generations left today';
+      }
+      return `${remaining} AI generation${remaining !== 1 ? 's' : ''} left today`;
+    } else {
+      // Free: Show remaining out of 1, or "1 AI generation left today" if available
+      const limit = 1;
+      const used = limit - remaining;
+      if (remaining === limit) {
+        return '1 AI generation left today';
+      }
+      return `${remaining} AI generation${remaining !== 1 ? 's' : ''} left today`;
+    }
+  };
+
+  const remainingText = getRemainingText();
 
   return (
     <>
@@ -177,8 +198,8 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
           <div className="flex items-center justify-center gap-2 text-sm mb-4">
             {isPremium ? (
               <>
-                <Crown className="w-4 h-4 text-yellow-500" />
-                <span className="text-yellow-600 dark:text-yellow-400 font-medium">
+                <Crown className="w-4 h-4" style={{ color: '#f59e0b' }} />
+                <span className="font-medium" style={{ color: '#f59e0b' }}>
                   👑 {remainingText}
                 </span>
               </>

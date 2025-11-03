@@ -253,17 +253,6 @@ const Index = () => {
                     navigateToRecipe(recipe.id, recipe);
                   }}
                 />
-                <div>
-                  <Button 
-                    variant="outline"
-                    onClick={() => {
-                      handleClearSearch();
-                      navigate('/discover');
-                    }}
-                  >
-                    Browse Recipes Instead
-                  </Button>
-                </div>
               </div>
             )}
           </div>
