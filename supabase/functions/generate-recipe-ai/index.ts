@@ -22,16 +22,50 @@ serve(async (req) => {
     );
 
     // Check user's rate limit
-    // Try new field names first, fallback to old field names if they don't exist
-    const { data: profile, error: profileError } = await supabaseClient
+    // Try to get profile with all possible field names
+    // Handle missing columns gracefully
+    let profile: any = null;
+    let profileError: any = null;
+    
+    // Try to select new field names first
+    const profileQuery1 = await supabaseClient
       .from('profiles')
-      .select('ai_generations_used_today, ai_generations_reset_date, free_generations_used_today, last_generation_reset_date, subscription_tier, is_premium')
+      .select('ai_generations_used_today, ai_generations_reset_date, subscription_tier, is_premium')
       .eq('id', userId)
       .single();
-
-    if (profileError) {
-      console.error('Profile fetch error:', profileError);
-      throw new Error('Failed to fetch user profile');
+    
+    if (profileQuery1.error) {
+      // If new columns don't exist, try old field names
+      console.log('⚠️ New field names not found, trying old field names...');
+      const profileQuery2 = await supabaseClient
+        .from('profiles')
+        .select('free_generations_used_today, last_generation_reset_date, subscription_tier, is_premium')
+        .eq('id', userId)
+        .single();
+      
+      if (profileQuery2.error) {
+        // If both fail, try just basic fields
+        console.log('⚠️ Old field names also not found, trying basic fields...');
+        const profileQuery3 = await supabaseClient
+          .from('profiles')
+          .select('subscription_tier, is_premium')
+          .eq('id', userId)
+          .single();
+        
+        if (profileQuery3.error) {
+          console.error('❌ Profile fetch error (all attempts failed):', profileQuery3.error);
+          throw new Error('Failed to fetch user profile');
+        }
+        profile = profileQuery3.data;
+      } else {
+        profile = profileQuery2.data;
+      }
+    } else {
+      profile = profileQuery1.data;
+    }
+    
+    if (!profile) {
+      throw new Error('User profile not found');
     }
 
     // Determine tier (premium or free)
@@ -232,29 +266,30 @@ Return ONLY the JSON object, no other text.`;
           .select('ai_generations_used_today, ai_generations_reset_date');
 
         // If update fails with new field names (columns don't exist), try old field names as fallback
-        if (updateError && updateError.message && (
-          updateError.message.includes('column') || 
-          updateError.message.includes('does not exist') ||
-          updateError.message.includes('unknown column')
-        )) {
-          console.log('⚠️ New field names not found, trying old field names as fallback...');
-          const fallbackUpdateData: any = {
-            free_generations_used_today: newCount,
-            last_generation_reset_date: today
-          };
-          
-          const fallbackResult = await supabaseClient
-            .from('profiles')
-            .update(fallbackUpdateData)
-            .eq('id', userId)
-            .select('free_generations_used_today, last_generation_reset_date');
-          
-          updateError = fallbackResult.error;
-          updateData_result = fallbackResult.data;
-          
-          if (!updateError) {
-            console.log('✅ Updated using fallback field names (old columns)');
-            console.log('Updated profile data:', updateData_result);
+        if (updateError) {
+          const errorMsg = updateError.message || JSON.stringify(updateError);
+          if (errorMsg.includes('column') || errorMsg.includes('does not exist') || errorMsg.includes('unknown column')) {
+            console.log('⚠️ New field names not found, trying old field names as fallback...');
+            const fallbackUpdateData: any = {
+              free_generations_used_today: newCount,
+              last_generation_reset_date: today
+            };
+            
+            const fallbackResult = await supabaseClient
+              .from('profiles')
+              .update(fallbackUpdateData)
+              .eq('id', userId)
+              .select('free_generations_used_today, last_generation_reset_date');
+            
+            updateError = fallbackResult.error;
+            updateData_result = fallbackResult.data;
+            
+            if (!updateError) {
+              console.log('✅ Updated using fallback field names (old columns)');
+              if (updateData_result && updateData_result.length > 0) {
+                console.log('Updated profile data:', updateData_result[0]);
+              }
+            }
           }
         }
 
