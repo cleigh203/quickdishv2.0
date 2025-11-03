@@ -83,13 +83,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
 
       // Production: check via Stripe
-      const { data, error } = await supabase.functions.invoke('check-subscription');
+      // TODO: Re-enable once check-subscription Edge Function is fixed
+      // const { data, error } = await supabase.functions.invoke('check-subscription');
       
-      if (!error && data?.subscribed) {
-        setIsPremium(true);
-      } else {
-        setIsPremium(false);
-      }
+      // Temporarily disable Stripe check to prevent app hanging
+      setIsPremium(false);
+      
+      // if (!error && data?.subscribed) {
+      //   setIsPremium(true);
+      // } else {
+      //   setIsPremium(false);
+      // }
     } catch (error) {
       console.error('Error checking subscription:', error);
       setIsPremium(false);
