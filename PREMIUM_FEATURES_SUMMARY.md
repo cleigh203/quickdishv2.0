@@ -139,3 +139,4 @@ The app uses these existing columns:
 4. **Ad-free Experience** - Remove ads for premium users
 5. **Analytics Dashboard** - Track premium conversions
 
+

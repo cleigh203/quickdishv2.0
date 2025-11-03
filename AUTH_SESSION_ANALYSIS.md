@@ -429,3 +429,4 @@ supabase.auth.signOut().then(() => {
 
 **Next step**: Run the complete clear script above and check the debug logs.
 
+

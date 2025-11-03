@@ -393,3 +393,4 @@ console.log('isPremium:', isPremium);  // Should be false
 
 If you're still seeing premium after these checks, there's another source setting it.
 
+
