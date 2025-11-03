@@ -20,6 +20,7 @@ import Auth from "./pages/Auth";
 // Lazy load non-critical pages
 const ConfirmEmail = lazy(() => import("./pages/ConfirmEmail"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
+const AuthConfirm = lazy(() => import("./pages/AuthConfirm"));
 const Generate = lazy(() => import("./pages/Generate"));
 const RecipeDetail = lazy(() => import("./pages/RecipeDetail"));
 const Favorites = lazy(() => import("./pages/Favorites"));
@@ -67,6 +68,7 @@ const App = () => (
             <Suspense fallback={<LoadingScreen />}>
               <Routes>
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/auth/confirm" element={<Suspense fallback={<LoadingScreen />}><AuthConfirm /></Suspense>} />
                 <Route path="/auth/confirm-email" element={<Suspense fallback={<LoadingScreen />}><ConfirmEmail /></Suspense>} />
                 <Route path="/auth/callback" element={<Suspense fallback={<LoadingScreen />}><AuthCallback /></Suspense>} />
                 <Route path="/auth/reset-password" element={<Suspense fallback={<LoadingScreen />}><ResetPassword /></Suspense>} />
