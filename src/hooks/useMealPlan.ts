@@ -98,10 +98,13 @@ export const useMealPlan = () => {
     }
 
     try {
-      // Map app recipeId (static id) to DB UUID from recipes table
+      let dbRecipeId: string | null = null;
+      
+      // First, try to find in recipes table (for regular recipes)
+      // meal_plans.recipe_id is TEXT, so we use recipe_id (not id UUID)
       const { data: dbRecipe, error: lookupError } = await supabase
         .from('recipes')
-        .select('id')
+        .select('recipe_id')
         .eq('recipe_id', recipeId)
         .maybeSingle();
 
@@ -109,14 +112,40 @@ export const useMealPlan = () => {
         console.error('Recipe lookup error:', lookupError);
       }
 
-      if (!dbRecipe?.id) {
+      if (dbRecipe?.recipe_id) {
+        // For regular recipes, use recipe_id (TEXT) to match meal_plans schema
+        dbRecipeId = dbRecipe.recipe_id;
+        console.log('Found recipe in recipes table:', dbRecipeId);
+      } else {
+        // If not found in recipes, check generated_recipes table (for AI recipes)
+        console.log('Recipe not found in recipes table, checking generated_recipes...', recipeId);
+        const { data: generatedRecipe, error: generatedError } = await supabase
+          .from('generated_recipes')
+          .select('recipe_id, user_id')
+          .eq('recipe_id', recipeId)
+          .eq('user_id', user.id) // Ensure it belongs to the current user
+          .maybeSingle();
+
+        if (generatedError) {
+          console.error('Generated recipe lookup error:', generatedError);
+        }
+
+        if (generatedRecipe?.recipe_id) {
+          // For AI recipes, use the recipe_id directly (it's already a string ID)
+          dbRecipeId = generatedRecipe.recipe_id;
+          console.log('Found AI recipe in generated_recipes:', dbRecipeId);
+        }
+      }
+
+      if (!dbRecipeId) {
         toast({
-          title: 'Recipe not in database',
-          description: 'Please migrate this recipe first, then try again.',
+          title: 'Recipe not found',
+          description: 'This recipe is not in the database. Please try generating it again or contact support.',
           variant: 'destructive',
         });
         return false;
       }
+
       // Add 8-second timeout for insert
       const timeoutPromise = new Promise((_, reject) =>
         setTimeout(() => reject(new Error('Insert timed out')), 8000)
@@ -126,8 +155,8 @@ export const useMealPlan = () => {
         .from('meal_plans')
         .insert({
           user_id: user.id,
-          // Use DB UUID for recipe_id to match schema
-          recipe_id: dbRecipe.id,
+          // Use the recipe ID found (UUID from recipes table or string ID from generated_recipes)
+          recipe_id: dbRecipeId,
           // Provide both fields to satisfy schemas that require `date`
           date: scheduledDate,
           scheduled_date: scheduledDate,
@@ -139,8 +168,21 @@ export const useMealPlan = () => {
       if (error) {
         console.error('Error adding meal plan:', error);
         const msg = error?.message || 'Unknown error';
-        // Don't show timeout errors
-        if (msg !== 'Insert timed out') {
+        
+        // Provide more specific error messages
+        if (msg.includes('foreign key') || msg.includes('violates foreign key constraint')) {
+          toast({
+            title: "Couldn't add to meal plan",
+            description: "Recipe reference is invalid. Please try saving the recipe again first.",
+            variant: "destructive",
+          });
+        } else if (msg.includes('unique') || msg.includes('duplicate')) {
+          toast({
+            title: "Already in meal plan",
+            description: "This recipe is already scheduled for this meal.",
+            variant: "destructive",
+          });
+        } else if (msg !== 'Insert timed out') {
           toast({
             title: "Couldn't add to meal plan",
             description: msg,
@@ -161,7 +203,7 @@ export const useMealPlan = () => {
       if (error.message !== 'Insert timed out') {
         toast({
           title: "Couldn't add to meal plan",
-          description: "Try again?",
+          description: error.message || "Try again?",
           variant: "destructive",
         });
       }

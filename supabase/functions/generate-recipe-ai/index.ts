@@ -154,9 +154,9 @@ Return ONLY the JSON object, no other text.`;
 
     console.log('Recipe generated successfully, inserting for user:', recipe.name);
 
-    // Persist AI recipe for this user so it can be resolved later by Favorites
+    // Persist AI recipe for this user so it can be resolved later by Favorites and meal plans
     try {
-      const { error: insertError } = await supabaseClient
+      const { data: insertedRecipe, error: insertError } = await supabaseClient
         .from('generated_recipes')
         .insert({
           user_id: userId,
@@ -173,12 +173,24 @@ Return ONLY the JSON object, no other text.`;
           nutrition: recipe.nutrition || null,
           tags: recipe.tags || [],
           image_url: null,
-        });
+        })
+        .select('recipe_id')
+        .single();
+        
       if (insertError) {
         console.error('Failed to insert generated recipe:', insertError);
+        // If it's a duplicate, that's okay - recipe already exists
+        if (insertError.code !== '23505') { // 23505 = unique_violation
+          throw new Error(`Failed to save recipe to database: ${insertError.message}`);
+        }
+        console.log('Recipe already exists in database, continuing...');
+      } else {
+        console.log('✅ Successfully saved AI recipe to generated_recipes:', insertedRecipe?.recipe_id);
       }
     } catch (e) {
       console.error('Exception inserting generated recipe:', e);
+      // Don't fail the entire request if database insert fails - recipe can still be used in session
+      // But log it so we know there's an issue
     }
 
     // Update user's generation count
