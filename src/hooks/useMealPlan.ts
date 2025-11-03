@@ -100,26 +100,17 @@ export const useMealPlan = () => {
     try {
       let dbRecipeId: string | null = null;
       
-      // First, try to find in recipes table (for regular recipes)
-      // meal_plans.recipe_id is TEXT, so we use recipe_id (not id UUID)
-      console.log('🔍 Looking up recipe for meal plan:', recipeId);
-      const { data: dbRecipe, error: lookupError } = await supabase
-        .from('recipes')
-        .select('recipe_id')
-        .eq('recipe_id', recipeId)
-        .maybeSingle();
-
-      if (lookupError) {
-        console.error('❌ Recipe lookup error:', lookupError);
-      }
-
-      if (dbRecipe?.recipe_id) {
-        // For regular recipes, use recipe_id (TEXT) to match meal_plans schema
-        dbRecipeId = dbRecipe.recipe_id;
-        console.log('✅ Found recipe in recipes table:', dbRecipeId);
-      } else {
-        // If not found in recipes, check generated_recipes table (for AI recipes)
-        console.log('🔍 Recipe not found in recipes table, checking generated_recipes...', recipeId);
+      // Check if this is an AI-generated recipe (starts with "ai-")
+      const isAiRecipe = recipeId.startsWith('ai-');
+      
+      // meal_plans.recipe_id is TEXT, so it can store both regular recipe IDs and AI recipe IDs
+      console.log('🔍 Looking up recipe for meal plan:', recipeId, isAiRecipe ? '(AI recipe)' : '(regular recipe)');
+      
+      let dbRecipeId: string | null = null;
+      
+      if (isAiRecipe) {
+        // For AI recipes, check generated_recipes table first
+        console.log('🔍 Checking generated_recipes table for AI recipe...');
         const { data: generatedRecipe, error: generatedError } = await supabase
           .from('generated_recipes')
           .select('recipe_id, user_id')
@@ -137,16 +128,57 @@ export const useMealPlan = () => {
           dbRecipeId = generatedRecipe.recipe_id;
           console.log('✅ Found AI recipe in generated_recipes:', dbRecipeId);
         } else {
-          console.log('⚠️ Recipe not found in generated_recipes either');
+          console.log('⚠️ AI recipe not found in generated_recipes - may need to wait a moment for it to be saved');
+          // Recipe might have just been generated - try using the ID directly
+          // meal_plans.recipe_id is TEXT, so we can store the AI recipe ID directly
+          dbRecipeId = recipeId;
+          console.log('📝 Using AI recipe ID directly:', dbRecipeId);
+        }
+      } else {
+        // For regular recipes, check recipes table
+        console.log('🔍 Checking recipes table for regular recipe...');
+        const { data: dbRecipe, error: lookupError } = await supabase
+          .from('recipes')
+          .select('recipe_id')
+          .eq('recipe_id', recipeId)
+          .maybeSingle();
+
+        if (lookupError) {
+          console.error('❌ Recipe lookup error:', lookupError);
+        }
+
+        if (dbRecipe?.recipe_id) {
+          // For regular recipes, use recipe_id (TEXT) to match meal_plans schema
+          dbRecipeId = dbRecipe.recipe_id;
+          console.log('✅ Found recipe in recipes table:', dbRecipeId);
+        } else {
+          // If not found, try generated_recipes as fallback (in case it's an AI recipe without "ai-" prefix)
+          console.log('🔍 Recipe not found in recipes table, checking generated_recipes as fallback...');
+          const { data: generatedRecipe, error: generatedError } = await supabase
+            .from('generated_recipes')
+            .select('recipe_id, user_id')
+            .eq('recipe_id', recipeId)
+            .eq('user_id', user.id)
+            .maybeSingle();
+
+          if (generatedRecipe?.recipe_id) {
+            dbRecipeId = generatedRecipe.recipe_id;
+            console.log('✅ Found recipe in generated_recipes (fallback):', dbRecipeId);
+          } else {
+            console.log('⚠️ Recipe not found in either table');
+          }
         }
       }
 
       if (!dbRecipeId) {
         console.error('❌ Recipe not found in any table:', recipeId);
         console.error('User ID:', user.id);
+        console.error('Recipe type:', isAiRecipe ? 'AI-generated' : 'Regular');
         toast({
           title: 'Recipe not found',
-          description: 'This recipe is not in the database. Please try generating it again or contact support.',
+          description: isAiRecipe 
+            ? 'This AI recipe is not in the database yet. Please wait a moment and try again, or regenerate the recipe.'
+            : 'This recipe is not in the database. Please try saving it again or contact support.',
           variant: 'destructive',
         });
         return false;

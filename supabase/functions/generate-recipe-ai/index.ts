@@ -21,6 +21,40 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
+    // Server-side rate limit check (safety measure)
+    try {
+      const { data: profile, error: profileError } = await supabaseClient
+        .from('profiles')
+        .select('is_premium, ai_generations_used_today, ai_generations_reset_date')
+        .eq('id', userId)
+        .single();
+
+      if (!profileError && profile) {
+        const today = new Date().toISOString().split('T')[0];
+        const resetDate = profile.ai_generations_reset_date || today;
+        const needsReset = resetDate !== today;
+        
+        // Get current count (reset to 0 if new day)
+        const currentCount = needsReset ? 0 : (profile.ai_generations_used_today || 0);
+        const limit = profile.is_premium === true ? 5 : 1;
+        
+        if (currentCount >= limit) {
+          return new Response(
+            JSON.stringify({ 
+              error: 'Rate limit exceeded',
+              message: profile.is_premium === true
+                ? 'Daily limit of 5 AI generations reached. Try again tomorrow!'
+                : 'Daily limit of 1 AI generation reached. Upgrade to Premium for 5 generations/day.'
+            }),
+            { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+      }
+    } catch (rateLimitError) {
+      console.error('Error checking rate limit (non-critical):', rateLimitError);
+      // Continue with generation even if rate limit check fails
+    }
+
     const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
     if (!OPENAI_API_KEY) {
       throw new Error('OPENAI_API_KEY is not configured');
@@ -159,11 +193,60 @@ Return ONLY the JSON object, no other text.`;
       // Don't fail the request if database insert fails - recipe can still be used in session
     }
 
+    // Update usage counter AFTER successful recipe generation and save
+    // Wrapped in try/catch so it doesn't break recipe generation if it fails
+    let updatedCount = 0;
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      
+      // Get current profile to check reset date
+      const { data: profile, error: profileError } = await supabaseClient
+        .from('profiles')
+        .select('is_premium, ai_generations_used_today, ai_generations_reset_date')
+        .eq('id', userId)
+        .single();
+
+      if (!profileError && profile) {
+        const resetDate = profile.ai_generations_reset_date || today;
+        const needsReset = resetDate !== today;
+        
+        // Get current count (reset to 0 if new day)
+        let currentCount = 0;
+        if (!needsReset) {
+          currentCount = profile.ai_generations_used_today || 0;
+        }
+        
+        // Increment count
+        const newCount = currentCount + 1;
+        
+        // Update profile with new count and reset date
+        const { error: updateError } = await supabaseClient
+          .from('profiles')
+          .update({
+            ai_generations_used_today: newCount,
+            ai_generations_reset_date: today
+          })
+          .eq('id', userId);
+
+        if (updateError) {
+          console.error('⚠️ Failed to update generation count (non-critical):', updateError);
+        } else {
+          updatedCount = newCount;
+          console.log(`✅ Updated generation count: ${currentCount} → ${newCount}`);
+          console.log(`📅 Reset date updated to: ${today}`);
+        }
+      }
+    } catch (counterError) {
+      console.error('⚠️ Exception updating generation counter (non-critical):', counterError);
+      // Don't throw - recipe generation succeeded, counter update is optional
+    }
+
     console.log('✅ Recipe ready for user:', recipe.name);
 
     return new Response(
       JSON.stringify({ 
-        recipe
+        recipe,
+        generationsUsed: updatedCount
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
