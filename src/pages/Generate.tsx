@@ -367,14 +367,14 @@ const Generate = () => {
           setSearchMode={setSearchMode}
           ingredientInput={ingredientInput}
           setIngredientInput={setIngredientInput}
-          filters={filters}
-          toggleFilter={toggleFilter}
-          clearFilters={clearFilters}
-          onSearch={handleSearch}
-          recipes={combinedRecipes.slice(0, 100)}
-          onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
-          hideAiImages
-        />
+                      filters={filters}
+            toggleFilter={toggleFilter}
+            clearFilters={clearFilters}
+            onSearch={handleSearch}
+            recipes={combinedRecipes}
+            onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
+            hideAiImages
+          />
 
         {/* Header */}
         <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-8 px-4">
@@ -627,14 +627,14 @@ const Generate = () => {
           setSearchMode={setSearchMode}
           ingredientInput={ingredientInput}
           setIngredientInput={setIngredientInput}
-          filters={filters}
-          toggleFilter={toggleFilter}
-          clearFilters={clearFilters}
-          onSearch={handleSearch}
-          recipes={allRecipes.slice(0, 100)}
-          onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
-          hideAiImages
-        />
+                      filters={filters}
+            toggleFilter={toggleFilter}
+            clearFilters={clearFilters}
+            onSearch={handleSearch}
+            recipes={allRecipes}
+            onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
+            hideAiImages
+          />
 
         {/* Header */}
         <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-8 px-4">

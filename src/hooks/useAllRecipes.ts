@@ -45,7 +45,10 @@ export const useAllRecipes = (enabled = true) => {
         const data = await retryOperation(async () => {
           let allRecipesData: any[] = [];
           let from = 0;
-          const pageSize = 1000; // Fetch in chunks of 1000
+          // Use a conservative page size that's definitely below any possible max-rows limit
+          // Common max-rows limits are 25, 50, 100, or 1000. Using 20 ensures we can fetch all recipes
+          // even if max-rows is set to 25 (the most restrictive common limit)
+          const pageSize = 20;
           let hasMore = true;
 
           while (hasMore) {
@@ -60,9 +63,11 @@ export const useAllRecipes = (enabled = true) => {
 
             if (pageData && pageData.length > 0) {
               allRecipesData = [...allRecipesData, ...pageData];
-              from += pageSize;
-              // If we got less than pageSize, we've reached the end
-              hasMore = pageData.length === pageSize;
+              const receivedCount = pageData.length;
+              from += receivedCount;
+              // Continue fetching if we got a full page (exactly pageSize items)
+              // This means there might be more items. If we got fewer, we've reached the end.
+              hasMore = receivedCount === pageSize;
             } else {
               hasMore = false;
             }

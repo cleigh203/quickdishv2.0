@@ -59,10 +59,9 @@ export const SearchOverlay = ({
       return [];
     }
     
-    const query = appliedSearch.toLowerCase();
-    return recipes
-      .filter(r => r.name?.toLowerCase().includes(query))
-      .slice(0, 50);
+          const query = appliedSearch.toLowerCase();
+      return recipes
+        .filter(r => r.name?.toLowerCase().includes(query));
   }, [appliedSearch, recipes]);
 
   const handleApplyFilters = () => {
