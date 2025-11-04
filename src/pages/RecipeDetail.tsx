@@ -699,6 +699,7 @@ const RecipeDetail = () => {
               </div>
             </button>
             
+            {/* FREE FEATURES */}
             {/* Add to Shopping List */}
             <button
               onClick={() => {
@@ -716,15 +717,73 @@ const RecipeDetail = () => {
                 <div className="text-sm text-muted-foreground">Add all ingredients</div>
               </div>
             </button>
-
+            
+            {/* Add Notes */}
+            <button
+              onClick={() => {
+                setNotesDialogOpen(true);
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
+            >
+              <div className="w-10 h-10 bg-purple-50 dark:bg-purple-950/30 rounded-full flex items-center justify-center text-xl">
+                📝
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-foreground">
+                  {currentSavedRecipe?.notes ? 'Edit Notes' : 'Add Notes'}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  {currentSavedRecipe?.notes ? 'Update your notes' : 'Personal recipe notes'}
+                </div>
+              </div>
+              {currentSavedRecipe?.notes && (
+                <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+              )}
+            </button>
+            
+            {/* Rate Recipe */}
+            <button
+              onClick={() => {
+                if (!user) {
+                  toast({
+                    title: "Sign in to rate recipes",
+                    description: "Create an account to rate and review recipes",
+                    action: (
+                      <Button
+                        size="sm"
+                        onClick={() => navigate('/auth')}
+                        className="bg-primary hover:bg-primary/90"
+                      >
+                        Sign In
+                      </Button>
+                    ),
+                  });
+                  setMenuOpen(false);
+                  return;
+                }
+                setRatingModalOpen(true);
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
+            >
+              <div className="w-10 h-10 bg-yellow-50 dark:bg-yellow-950/30 rounded-full flex items-center justify-center text-xl">
+                ⭐
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-foreground">Rate Recipe</div>
+                <div className="text-sm text-muted-foreground">
+                  {user ? 'Share your rating' : 'Sign in to rate'}
+                </div>
+              </div>
+            </button>
 
             {/* Visual Divider */}
             <div className="my-4">
               <div className="h-px bg-border/50" />
             </div>
 
-            {/* SECONDARY ACTIONS GROUP */}
-
+            {/* PREMIUM FEATURES */}
             {/* Ask Chef Quinn - Premium */}
             <button
               onClick={() => {
@@ -835,67 +894,7 @@ const RecipeDetail = () => {
               )}
             </button>
             
-            {/* Add Notes */}
-            <button
-              onClick={() => {
-                setNotesDialogOpen(true);
-                setMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
-            >
-              <div className="w-10 h-10 bg-purple-50 dark:bg-purple-950/30 rounded-full flex items-center justify-center text-xl">
-                📝
-              </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground">
-                  {currentSavedRecipe?.notes ? 'Edit Notes' : 'Add Notes'}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  {currentSavedRecipe?.notes ? 'Update your notes' : 'Personal recipe notes'}
-                </div>
-              </div>
-              {currentSavedRecipe?.notes && (
-                <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-              )}
-            </button>
-            
-            {/* Rate Recipe */}
-            <button
-              onClick={() => {
-                if (!user) {
-                  toast({
-                    title: "Sign in to rate recipes",
-                    description: "Create an account to rate and review recipes",
-                    action: (
-                      <Button
-                        size="sm"
-                        onClick={() => navigate('/auth')}
-                        className="bg-primary hover:bg-primary/90"
-                      >
-                        Sign In
-                      </Button>
-                    ),
-                  });
-                  setMenuOpen(false);
-                  return;
-                }
-                setRatingModalOpen(true);
-                setMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
-            >
-              <div className="w-10 h-10 bg-yellow-50 dark:bg-yellow-950/30 rounded-full flex items-center justify-center text-xl">
-                ⭐
-              </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground">Rate Recipe</div>
-                <div className="text-sm text-muted-foreground">
-                  {user ? 'Share your rating' : 'Sign in to rate'}
-                </div>
-              </div>
-            </button>
-            
-            {/* Export as PDF */}
+            {/* Export as PDF - Premium */}
             <button
               onClick={() => {
                 handleExportPDF();
@@ -908,11 +907,17 @@ const RecipeDetail = () => {
                 📄
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground">
+                <div className="font-semibold text-foreground flex items-center gap-2">
                   {isGeneratingPDF ? 'Generating...' : 'Export as PDF'}
+                  {isPremium && <span className="text-xs">👑</span>}
                 </div>
                 <div className="text-sm text-muted-foreground">Download recipe as PDF</div>
               </div>
+              {!isPremium && (
+                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  PREMIUM
+                </div>
+              )}
             </button>
 
             {/* Save as Image (temporarily removed) */}
