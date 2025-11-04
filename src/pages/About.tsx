@@ -1,4 +1,4 @@
-import { ArrowLeft, Mail, Instagram, Globe, ChefHat, Calendar, ShoppingCart, Mic, Brain, Clock, Heart, Star } from "lucide-react";
+import { ArrowLeft, Mail, Instagram, ChefHat, Calendar, ShoppingCart, Mic, Brain, Clock, Heart, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { BottomNav } from "@/components/BottomNav";
@@ -152,36 +152,40 @@ const About = () => {
                 Features
               </h4>
               <p className="text-sm text-muted-foreground mb-4">(Always Free!)</p>
-              <ul className="space-y-2 text-foreground/90">
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
-                  <span>Browse CHEF curated recipes</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
-                  <span>Save unlimited favorites</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
-                  <span>Weekly meal planning calendar</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
-                  <span>Auto-generate shopping lists</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
-                  <span>Voice-controlled cooking mode</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
-                  <span>Search & filter by category, time, difficulty</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
-                  <span>Leftover Magic recipes</span>
-                </li>
-              </ul>
+                              <ul className="space-y-2 text-foreground/90">
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
+                    <span>Browse Chef curated recipes</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
+                    <span>Save 50 of your favorite recipes</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
+                    <span>Weekly meal planning calendar</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
+                    <span>Auto-generate shopping lists</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
+                    <span>Instacart same-day delivery (with sign up)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
+                    <span>Voice-controlled cooking mode</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
+                    <span>Search & filter by category, time, difficulty</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
+                    <span>Leftover Magic recipes</span>
+                  </li>
+                </ul>
             </div>
           </div>
         </section>
@@ -297,15 +301,6 @@ const About = () => {
               >
                 <Instagram className="w-5 h-5 text-primary" />
                 <span className="font-medium">@quickdishapp</span>
-              </a>
-              <a 
-                href="https://www.quickdish.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 p-4 bg-secondary rounded-lg hover:bg-secondary/80 transition-colors"
-              >
-                <Globe className="w-5 h-5 text-primary" />
-                <span className="font-medium">www.quickdish.com</span>
               </a>
             </div>
             <p className="text-center text-muted-foreground mt-6">
