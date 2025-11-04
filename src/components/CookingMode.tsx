@@ -148,6 +148,28 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
+  // Stop voice recognition - reusable cleanup function
+  const stopVoiceRecognition = async () => {
+    if (!isListeningRef.current) return;
+    
+    console.log('Stopping voice recognition...');
+    setIsListening(false);
+    isListeningRef.current = false;
+
+    try {
+      if (isNative) {
+        const { SpeechRecognition } = await import('@capacitor-community/speech-recognition');
+        await SpeechRecognition.removeAllListeners();
+        await SpeechRecognition.stop();
+      } else if (recognitionRef.current) {
+        recognitionRef.current.abort();
+        recognitionRef.current = null;
+      }
+    } catch (error) {
+      console.error('Error stopping voice recognition:', error);
+    }
+  };
+
   // Simple text to speech - NO mic stopping
   const speakText = async (text: string) => {
     try {
@@ -229,24 +251,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
         if (prev >= recipe.instructions.length - 1) {
           speakText("Recipe complete! Enjoy your meal!");
               // Auto-stop microphone when recipe is done
-              if (isListeningRef.current) {
-                (async () => {
-                  try {
-                    if (isNative) {
-                      const { SpeechRecognition } = await import('@capacitor-community/speech-recognition');
-                      await SpeechRecognition.removeAllListeners();
-                      await SpeechRecognition.stop();
-                    } else if (recognitionRef.current) {
-                      recognitionRef.current.abort();
-                      recognitionRef.current = null;
-                    }
-                  } catch (e) {
-                    console.log('Mic stop error:', e);
-                  }
-                })();
-                setIsListening(false);
-                isListeningRef.current = false;
-              }
+              stopVoiceRecognition();
               setTimeout(onExit, 2000);
           return prev;
         }
@@ -265,24 +270,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       if (currentStepRef.current === recipe.instructions.length - 1) {
         speakText("Congratulations! You finished this recipe!");
         // Auto-stop microphone when user says done on last step
-        if (isListeningRef.current) {
-          (async () => {
-            try {
-              if (isNative) {
-                const { SpeechRecognition } = await import('@capacitor-community/speech-recognition');
-                await SpeechRecognition.removeAllListeners();
-                await SpeechRecognition.stop();
-              } else if (recognitionRef.current) {
-                recognitionRef.current.abort();
-                recognitionRef.current = null;
-              }
-            } catch (e) {
-              console.log('Mic stop error:', e);
-            }
-          })();
-          setIsListening(false);
-          isListeningRef.current = false;
-        }
+        stopVoiceRecognition();
         setTimeout(onExit, 3000);
       } else {
         speakText("You're not on the last step yet");
@@ -303,19 +291,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
 
     if (isListening) {
       // STOP LISTENING
-      console.log('Stopping voice control');
-      setIsListening(false);
-      isListeningRef.current = false; // Set ref immediately to prevent race condition
-      
-      if (isNative) {
-        const { SpeechRecognition } = await import('@capacitor-community/speech-recognition');
-        await SpeechRecognition.removeAllListeners(); // Clean up listeners
-        await SpeechRecognition.stop();
-      } else if (recognitionRef.current) {
-        recognitionRef.current.abort();
-        recognitionRef.current = null;
-      }
-      
+      await stopVoiceRecognition();
       toast({ title: "Voice control stopped" });
     } else {
       // START LISTENING
@@ -447,6 +423,14 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     return () => clearTimeout(timer);
   }, [currentStep, isListening, recipe.instructions]);
 
+  // Cleanup voice recognition when component unmounts
+  useEffect(() => {
+    return () => {
+      // Cleanup on unmount
+      stopVoiceRecognition();
+    };
+  }, []);
+
   // Keep screen awake
   useEffect(() => {
     if ('wakeLock' in navigator) {
@@ -471,6 +455,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
         handlePrevious();
       }
       if (e.key === 'Escape') {
+        stopVoiceRecognition();
         onExit();
       }
     };
@@ -483,7 +468,9 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       if (prev < recipe.instructions.length - 1) {
         return prev + 1;
       } else {
-        toast({ title: "Cooking complete! Enjoy! 🎉" });
+        toast({ title: "Cooking complete! Enjoy! dYZ%" });
+        // Stop voice recognition when recipe completes
+        stopVoiceRecognition();
         setTimeout(onExit, 2000);
         return prev;
       }
@@ -571,15 +558,15 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       {/* Header */}
       <div className="bg-gradient-to-r from-[#10b981] to-[#34d399] text-white px-5 py-6 pt-12">
         <div className="flex items-center justify-between mb-4">
-          <button onClick={onExit} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white text-lg">
-            ←
+          <button onClick={async () => { await stopVoiceRecognition(); onExit(); }} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white text-lg">
+            +?
           </button>
           <div className="flex gap-2">
-            <button onClick={onExit} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white">
+            <button onClick={async () => { await stopVoiceRecognition(); onExit(); }} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white">
               <X size={20} />
             </button>
             <button onClick={() => setShowFullRecipe(true)} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white text-lg">
-              ☰
+              ~
             </button>
           </div>
         </div>
