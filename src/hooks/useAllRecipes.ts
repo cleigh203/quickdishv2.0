@@ -40,16 +40,35 @@ export const useAllRecipes = (enabled = true) => {
     try {
       setIsLoading(true);
       
-      // Use retry logic for network resilience
-              const data = await retryOperation(async () => {
-          const { data, error } = await supabase
-            .from('recipes')
-            .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category, nutrition')
-            .order('name')
-            .limit(10000) // Explicit limit to ensure all recipes are fetched
-            .abortSignal(AbortSignal.timeout(10000)); // 10 second timeout
+              // Use retry logic for network resilience
+        // Fetch all recipes using pagination to avoid any max-rows-per-request limits
+        const data = await retryOperation(async () => {
+          let allRecipesData: any[] = [];
+          let from = 0;
+          const pageSize = 1000; // Fetch in chunks of 1000
+          let hasMore = true;
 
-          if (error) throw error;
+          while (hasMore) {
+            const { data: pageData, error } = await supabase
+              .from('recipes')
+              .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category, nutrition')
+              .order('name')
+              .range(from, from + pageSize - 1)
+              .abortSignal(AbortSignal.timeout(30000)); // 30 second timeout for pagination
+
+            if (error) throw error;
+
+            if (pageData && pageData.length > 0) {
+              allRecipesData = [...allRecipesData, ...pageData];
+              from += pageSize;
+              // If we got less than pageSize, we've reached the end
+              hasMore = pageData.length === pageSize;
+            } else {
+              hasMore = false;
+            }
+          }
+
+          return allRecipesData;
         
         // 🔍 DEBUG: Log what we got from database
         console.log('🔍 Database Query Results:');
