@@ -719,20 +719,93 @@ const Profile = () => {
               <ThemeToggle />
             </div>
           </CardContent>
-        </Card>
+                  </Card>
 
+          {/* Install QuickDish Section */}
+          <Card className="rounded-xl shadow-sm bg-card">
+            <CardContent className="p-6">
+              {/* Header */}
+              <div className="flex items-start gap-3 mb-4">
+                <div className="w-10 h-10 rounded-[10px] bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl">📱</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-foreground mb-1">Install QuickDish</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Install QuickDish on your device for quick access, offline recipes, and a native app experience right from your browser!
+                  </p>
+                </div>
+              </div>
 
-        {/* SETTINGS */}
-        <div className="space-y-3">
-          {showInstallButton && (
-            <Button
-              variant="default"
-              className="w-full h-11 justify-center gap-2 bg-green-600 hover:bg-green-700 text-white"
-              onClick={handleInstallApp}
-            >
-              <Download className="w-4 h-4" /> Install App
-            </Button>
-          )}
+              {/* Install Button */}
+              {showInstallButton && (
+                <Button
+                  variant="default"
+                  className="w-full h-12 justify-center gap-2 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold rounded-[10px] mb-4"
+                  onClick={handleInstallApp}
+                >
+                  <span className="text-base">📥</span>
+                  <span className="text-[15px]">Install App</span>
+                </Button>
+              )}
+
+              {/* Divider */}
+              <div className="flex items-center gap-3 mt-4 mb-4">
+                <div className="flex-1 h-px bg-border"></div>
+                <span className="text-sm text-muted-foreground">or install manually</span>
+                <div className="flex-1 h-px bg-border"></div>
+              </div>
+
+              {/* Manual Instructions Box */}
+              <div className="bg-[#f9fafb] dark:bg-gray-900/50 rounded-[10px] p-4 mb-4">
+                <h4 className="text-sm font-bold text-foreground mb-3">How to Install:</h4>
+                <ul className="space-y-2 text-[13px] text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <span>📱</span>
+                    <span><strong className="text-foreground">iOS Safari:</strong> Tap Share → Add to Home Screen</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span>📱</span>
+                    <span><strong className="text-foreground">Android Chrome:</strong> Tap Menu ⋮ → Install App</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span>📱</span>
+                    <span><strong className="text-foreground">Desktop:</strong> Look for install icon in address bar</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Coming Soon Section */}
+              <div className="mt-4 pt-4 border-t border-border">
+                <h4 className="text-sm font-semibold text-foreground mb-3">Native Apps 🏷️ COMING SOON</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  {/* App Store Badge */}
+                  <div className="bg-gray-100 dark:bg-gray-800/50 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-3 opacity-60">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">🍎</span>
+                      <div className="text-[10px] leading-tight text-muted-foreground">
+                        <div>Download on the</div>
+                        <div className="font-semibold text-foreground">App Store</div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Google Play Badge */}
+                  <div className="bg-gray-100 dark:bg-gray-800/50 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-3 opacity-60">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">📱</span>
+                      <div className="text-[10px] leading-tight text-muted-foreground">
+                        <div>Get it on</div>
+                        <div className="font-semibold text-foreground">Google Play</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* SETTINGS */}
+          <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <Button
               variant="outline"
