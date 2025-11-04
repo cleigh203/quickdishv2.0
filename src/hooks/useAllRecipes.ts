@@ -41,14 +41,15 @@ export const useAllRecipes = (enabled = true) => {
       setIsLoading(true);
       
       // Use retry logic for network resilience
-      const data = await retryOperation(async () => {
-        const { data, error } = await supabase
-          .from('recipes')
-          .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category, nutrition')
-          .order('name')
-          .abortSignal(AbortSignal.timeout(10000)); // 10 second timeout
+              const data = await retryOperation(async () => {
+          const { data, error } = await supabase
+            .from('recipes')
+            .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category, nutrition')
+            .order('name')
+            .limit(10000) // Explicit limit to ensure all recipes are fetched
+            .abortSignal(AbortSignal.timeout(10000)); // 10 second timeout
 
-        if (error) throw error;
+          if (error) throw error;
         
         // 🔍 DEBUG: Log what we got from database
         console.log('🔍 Database Query Results:');
