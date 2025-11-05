@@ -480,6 +480,7 @@ const Generate = () => {
           onClose={() => setShowSearchOverlay(false)}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
+          appliedSearchTerm={appliedFilters.search}
           searchMode={searchMode}
           setSearchMode={setSearchMode}
           ingredientInput={ingredientInput}

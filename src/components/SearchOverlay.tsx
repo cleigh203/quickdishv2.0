@@ -14,6 +14,7 @@ interface SearchOverlayProps {
   onClose: () => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  appliedSearchTerm?: string; // Only filter when this is set (after Apply Filters is clicked)
   searchMode?: 'search' | 'ingredients'; // Optional for backward compatibility
   setSearchMode?: (mode: 'search' | 'ingredients') => void; // Optional for backward compatibility
   ingredientInput?: string; // Optional for backward compatibility
@@ -32,6 +33,7 @@ export const SearchOverlay = ({
   onClose,
   searchQuery,
   setSearchQuery,
+  appliedSearchTerm, // Only filter when this is set (after Apply Filters is clicked)
   // searchMode, setSearchMode, ingredientInput, setIngredientInput - no longer used
   filters,
   toggleFilter,
@@ -53,19 +55,26 @@ export const SearchOverlay = ({
     meal: ['Breakfast', 'Lunch', 'Dinner', 'Snack']
   };
 
-  // Filter recipes in real-time
+  // Filter recipes - ONLY when appliedSearchTerm is set (not while typing)
   const filteredRecipes = useMemo(() => {
     const isHalloweenRecipe = (recipe: Recipe) => 
       recipe.cuisine?.toLowerCase() === 'halloween' || 
       recipe.tags?.includes('halloween') || false;
 
+    // ONLY filter when appliedSearchTerm is set (filters were applied via button click)
+    // If appliedSearchTerm is undefined, don't filter - wait for user to click "Apply Filters"
+    const searchTermToUse = appliedSearchTerm !== undefined ? appliedSearchTerm : '';
+
     return recipes.filter(recipe => {
       // Exclude Halloween recipes from search
       if (isHalloweenRecipe(recipe)) return false;
 
-      // Search query filter - search by name AND ingredients with smart word matching
-      if (searchQuery.trim()) {
-        const queryTerms = searchQuery.toLowerCase().split(/[\s,]+/).filter(t => t.length > 0);
+      // Search query filter - ONLY filter if searchTermToUse is not empty
+      // If appliedSearchTerm is provided and empty, don't filter (filters were explicitly applied with empty search)
+      if (appliedSearchTerm !== undefined && !appliedSearchTerm.trim()) {
+        // Filters were applied but search is empty, so don't filter by search
+      } else if (searchTermToUse.trim()) {
+        const queryTerms = searchTermToUse.toLowerCase().split(/[\s,]+/).filter(t => t.length > 0);
         
         // For each search term, check if it matches as a word (not just substring)
         const matches = queryTerms.some(term => {
@@ -88,6 +97,11 @@ export const SearchOverlay = ({
         });
         
         if (!matches) return false;
+      }
+
+      // If appliedSearchTerm is explicitly empty (filters applied with no search), show all recipes
+      if (appliedSearchTerm !== undefined && !appliedSearchTerm.trim() && !searchTermToUse.trim()) {
+        // Continue to filter logic below
       }
 
       // Apply all filters (AND logic)
@@ -114,9 +128,9 @@ export const SearchOverlay = ({
         return recipe.tags?.some(tag => 
           tag.toLowerCase().replace(/\s+/g, '-') === normalizedFilter
         ) || false;
+              });
       });
-    });
-  }, [recipes, searchQuery, filters]);
+  }, [recipes, searchQuery, appliedSearchTerm, filters]);
 
   if (!isOpen) return null;
 
