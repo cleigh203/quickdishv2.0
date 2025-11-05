@@ -360,21 +360,46 @@ const Generate = () => {
       recipe.cuisine?.toLowerCase() === 'halloween' || 
       recipe.tags?.includes('halloween') || false;
 
-    let filtered = combinedRecipes.filter(recipe => {
+    // Start with all recipes or category-filtered recipes
+    let filtered: Recipe[] = [];
+    
+    // LOGIC: If search has text → search ALL recipes (ignore category)
+    //        If search is empty → apply category filter
+    if (appliedFilters.search && appliedFilters.search.trim()) {
+      // Search mode: Use ALL recipes, ignore category filter
+      filtered = combinedRecipes;
+    } else {
+      // No search: Apply category filter if set
+      if (appliedFilters.category && appliedFilters.category !== 'all') {
+        filtered = combinedRecipes.filter(recipe => recipe.category === appliedFilters.category);
+      } else {
+        filtered = combinedRecipes;
+      }
+    }
+
+    // Filter recipes
+    filtered = filtered.filter(recipe => {
       // Exclude Halloween from search results
       if (isHalloweenRecipe(recipe)) return false;
 
-      // Use appliedFilters.search instead of searchInput (only filters when button clicked)
-      if (appliedFilters.search) {
-        const searchLower = appliedFilters.search.toLowerCase();
-        const matchesName = recipe.name?.toLowerCase().includes(searchLower);
-        const matchesTags = recipe.tags?.some(tag => tag.toLowerCase().includes(searchLower));
-        if (!matchesName && !matchesTags) return false;
-      }
-
-      // Apply category filter if set
-      if (appliedFilters.category && appliedFilters.category !== 'all') {
-        if (recipe.category !== appliedFilters.category) return false;
+      // Search filter: Match ALL words (AND logic)
+      if (appliedFilters.search && appliedFilters.search.trim()) {
+        const searchTerms = appliedFilters.search
+          .toLowerCase()
+          .split(/\s+/)
+          .filter(term => term.length > 0);
+        
+        // Require ALL search terms to match
+        const allTermsMatch = searchTerms.every(term => {
+          const matchesName = recipe.name?.toLowerCase().includes(term);
+          const matchesTags = recipe.tags?.some(tag => tag.toLowerCase().includes(term));
+          const matchesIngredients = recipe.ingredients?.some(ing => 
+            ing.item?.toLowerCase().includes(term)
+          );
+          return matchesName || matchesTags || matchesIngredients;
+        });
+        
+        if (!allTermsMatch) return false;
       }
 
       // Apply difficulty filter if set
@@ -687,26 +712,46 @@ const Generate = () => {
     const categoryId = categoryMapping[collectionParam];
     let collectionRecipes: Recipe[] = [];
 
-    if (categoryId === 'leftover') {
-      collectionRecipes = combinedRecipes.filter(recipe =>
-        recipe.cuisine?.toLowerCase().includes('leftover') || 
-        recipe.tags?.includes('leftover') || 
-        recipe.name?.toLowerCase().includes('leftover')
-      );
-    } else if (categoryId) {
-      collectionRecipes = getRecipesByCategory(categoryId);
+    // LOGIC: If search has text → search ALL recipes (ignore category)
+    //        If search is empty → apply category filter
+    if (appliedFilters.search && appliedFilters.search.trim()) {
+      // Search mode: Use ALL recipes, ignore category filter
+      collectionRecipes = combinedRecipes;
+    } else {
+      // No search: Apply category filter
+      if (categoryId === 'leftover') {
+        collectionRecipes = combinedRecipes.filter(recipe =>
+          recipe.cuisine?.toLowerCase().includes('leftover') || 
+          recipe.tags?.includes('leftover') || 
+          recipe.name?.toLowerCase().includes('leftover')
+        );
+      } else if (categoryId) {
+        collectionRecipes = getRecipesByCategory(categoryId);
+      } else {
+        collectionRecipes = combinedRecipes;
+      }
     }
 
     // Apply search and filter
     const filteredRecipes = collectionRecipes.filter(recipe => {
-      // Use appliedFilters.search instead of searchInput (only filters when button clicked)
-      if (appliedFilters.search) {
-        const query = appliedFilters.search.toLowerCase();
-        const matchesName = recipe.name?.toLowerCase().includes(query);
-        const matchesIngredients = recipe.ingredients?.some(ing => 
-          ing.item?.toLowerCase().includes(query)
-        );
-        if (!matchesName && !matchesIngredients) return false;
+      // Search filter: Match ALL words (AND logic)
+      if (appliedFilters.search && appliedFilters.search.trim()) {
+        const searchTerms = appliedFilters.search
+          .toLowerCase()
+          .split(/\s+/)
+          .filter(term => term.length > 0);
+        
+        // Require ALL search terms to match
+        const allTermsMatch = searchTerms.every(term => {
+          const matchesName = recipe.name?.toLowerCase().includes(term);
+          const matchesIngredients = recipe.ingredients?.some(ing => 
+            ing.item?.toLowerCase().includes(term)
+          );
+          const matchesTags = recipe.tags?.some(tag => tag.toLowerCase().includes(term));
+          return matchesName || matchesIngredients || matchesTags;
+        });
+        
+        if (!allTermsMatch) return false;
       }
       
       if (!filters.length) return true;
