@@ -32,7 +32,7 @@ const AuthCallback = () => {
         // Exchange code for session (PKCE flow)
         if (code) {
           console.log('Exchanging code for session...');
-          const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+          const { error: exchangeError, data } = await supabase.auth.exchangeCodeForSession(code);
           
           if (exchangeError) {
             console.error('Exchange error:', exchangeError);
@@ -41,13 +41,17 @@ const AuthCallback = () => {
             return;
           }
 
-          // Success!
-          console.log('Email verified successfully');
+          // Success! Wait a moment for auth state to propagate
+          console.log('Email verified successfully', data);
           setStatus('success');
           
-          // Wait 2 seconds to show success message, then redirect
-          setTimeout(() => {
-            navigate('/profile-setup', { replace: true });
+          // Wait for auth state to propagate, then reload the app to ensure everything refreshes
+          setTimeout(async () => {
+            // Force refresh session to ensure AuthContext picks it up
+            await supabase.auth.getSession();
+            
+            // Reload the entire app to ensure all state is fresh
+            window.location.href = '/profile-setup';
           }, 2000);
           return;
         }
@@ -73,12 +77,16 @@ const AuthCallback = () => {
             return;
           }
 
-          console.log('OTP verification successful');
+          console.log('OTP verification successful', data);
           setStatus('success');
           
-          // Wait 2 seconds to show success message, then redirect
-          setTimeout(() => {
-            navigate('/', { replace: true });
+          // Wait for auth state to propagate, then reload the app
+          setTimeout(async () => {
+            // Force refresh session to ensure AuthContext picks it up
+            await supabase.auth.getSession();
+            
+            // Reload the entire app to ensure all state is fresh
+            window.location.href = '/';
           }, 2000);
           return;
         }
@@ -104,8 +112,13 @@ const AuthCallback = () => {
           console.log('Hash-based verification successful');
           setStatus('success');
           
-          setTimeout(() => {
-            navigate('/profile-setup', { replace: true });
+          // Wait for auth state to propagate, then reload the app
+          setTimeout(async () => {
+            // Force refresh session to ensure AuthContext picks it up
+            await supabase.auth.getSession();
+            
+            // Reload the entire app to ensure all state is fresh
+            window.location.href = '/profile-setup';
           }, 2000);
           return;
         }
