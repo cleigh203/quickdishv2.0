@@ -168,7 +168,7 @@ const Favorites = () => {
             {filteredRecipes.map((recipe) => (
               <div key={recipe.id} className="glass-card rounded-xl overflow-hidden group hover:scale-[1.02] transition-transform">
                 <div 
-                  className="relative h-48 overflow-hidden cursor-pointer"
+                  className="relative h-48 md:h-36 overflow-hidden cursor-pointer"
                   onClick={() => navigateToRecipe(recipe.id, recipe)}
                 >
                   {recipe.isAiGenerated ? (

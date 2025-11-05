@@ -580,7 +580,7 @@ const Generate = () => {
               {[...Array(6)].map((_, i) => (
                 <div key={i} className="relative cursor-pointer">
                   <div className="relative rounded-xl overflow-hidden">
-                    <div className="w-full h-[220px] bg-gray-200 animate-pulse" />
+                      <div className="w-full h-[220px] md:h-[160px] bg-gray-200 animate-pulse" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>
                   <div className="mt-2 h-4 bg-gray-200 animate-pulse rounded" />
@@ -627,7 +627,7 @@ const Generate = () => {
                       <img
                         src={getRecipeImage(recipe, import.meta.env.DEV)}
                         alt={recipe.name}
-                        className="w-full h-[220px] object-cover"
+                          className="w-full h-[220px] md:h-[160px] object-cover"
                         loading="eager"
                         fetchPriority="high"
                         decoding="sync"
@@ -797,7 +797,7 @@ const Generate = () => {
               {[...Array(6)].map((_, i) => (
                 <div key={i} className="relative cursor-pointer">
                   <div className="relative rounded-xl overflow-hidden">
-                    <div className="w-full h-[220px] bg-gray-200 animate-pulse" />
+                      <div className="w-full h-[220px] md:h-[160px] bg-gray-200 animate-pulse" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>
                   <div className="mt-2 h-4 bg-gray-200 animate-pulse rounded" />
@@ -825,7 +825,7 @@ const Generate = () => {
                       <img
                         src={getRecipeImage(recipe)}
                         alt={recipe.name}
-                        className="w-full h-[220px] object-cover"
+                          className="w-full h-[220px] md:h-[160px] object-cover"
                         loading="eager"
                         fetchPriority="high"
                         decoding="sync"

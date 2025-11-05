@@ -571,7 +571,7 @@ All colors MUST be HSL.
 }
 
   .recipe-card-image {
-    @apply w-full h-60 object-cover;
+    @apply w-full h-60 md:h-48 object-cover;
   }
 
 /* Barcode Scanner Styles */
