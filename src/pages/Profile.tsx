@@ -510,47 +510,81 @@ const Profile = () => {
           </Card>
         </div>
 
-        {/* DAILY GENERATIONS CARD */}
-        <Card className="rounded-xl shadow-sm bg-gradient-to-br from-green-100 to-emerald-100 border-emerald-200">
-          <CardContent className="p-6 space-y-4">
-            <h3 className="font-semibold text-emerald-900">Your Daily AI Generations</h3>
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-emerald-800">
-                {profileData?.is_premium ? (
-                  <>
-                    {aiUsage ? `${aiUsage.count}/${aiUsage.limit} AI generations used today` : 'Loading...'}
-                  </>
-                ) : (
-                  <>
-                    {aiUsage ? `${aiUsage.count}/${aiUsage.limit} free generation${aiUsage.count !== 1 ? 's' : ''} used` : 'Loading...'}
-                  </>
-                )}
-              </span>
-              <div className="flex items-center gap-1">
-                {Array.from({ length: aiUsage?.limit || 1 }, (_, i) => i).map(i => (
-                  <span key={i} className={`w-2.5 h-2.5 rounded-full ${(aiUsage?.count ?? 0) > i ? 'bg-emerald-600' : 'bg-emerald-300'}`}></span>
-                ))}
+        {/* AI GENERATIONS UPGRADE CARD */}
+        {!profileData?.is_premium ? (
+          <div className="rounded-xl shadow-lg bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-600 p-6 space-y-4">
+            <div className="text-white">
+              <h3 className="font-bold text-lg mb-2">Daily AI Recipe Generations</h3>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-sm font-semibold">
+                  {aiUsage ? `${aiUsage.count || 0}/1 AI recipes used today` : 'Loading...'}
+                </span>
+                <div className="flex items-center gap-1">
+                  <span className={`w-3 h-3 rounded-full ${(aiUsage?.count ?? 0) > 0 ? 'bg-white' : 'bg-white/40'}`}></span>
+                </div>
+              </div>
+              
+              {/* Progress Bar */}
+              <div className="w-full bg-white/20 rounded-full h-2 mb-4">
+                <div 
+                  className="bg-white rounded-full h-2 transition-all duration-300"
+                  style={{ width: `${Math.min(((aiUsage?.count ?? 0) / 1) * 100, 100)}%` }}
+                ></div>
               </div>
             </div>
-            <div className="text-sm text-emerald-900">
-              {profileData?.is_premium ? (
-                <>
-                  <div>Premium: {aiUsage ? `${aiUsage.limit - (aiUsage.count || 0)} AI generation${(aiUsage.limit - (aiUsage.count || 0)) !== 1 ? 's' : ''} left today` : 'Loading...'}</div>
-                </>
-              ) : (
-                <>
-                  <div>Watch ads to unlock premium features:</div>
-                  <ul className="list-disc pl-5 mt-1 space-y-1">
-                    <li>Chat with AI Chef (unlimited with ads)</li>
-                    <li>Detailed Nutrition Info (unlimited with ads)</li>
-                  </ul>
-                  <div className="mt-2 text-emerald-800">Note: AI recipe generation limited to 1 per day</div>
-                </>
-              )}
-            </div>
-            <div className="text-sm text-emerald-900">Resets in: <span className="font-semibold">{resetCountdown}</span></div>
-          </CardContent>
-        </Card>
+
+            {/* White Upgrade Card Inside */}
+            <Card className="bg-white border-0 shadow-md">
+              <CardContent className="p-5 space-y-4">
+                <div className="text-center">
+                  <h4 className="font-bold text-gray-900 mb-2">Upgrade to Premium</h4>
+                  <div className="flex items-center justify-center gap-4 text-sm mb-4">
+                    <div className="text-gray-600">
+                      <div className="font-semibold text-gray-900">Free</div>
+                      <div>1 recipe/day</div>
+                    </div>
+                    <div className="text-2xl">→</div>
+                    <div className="text-emerald-600">
+                      <div className="font-semibold text-emerald-700">Premium</div>
+                      <div>5 recipes/day</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <Button
+                  onClick={handleSubscriptionAction}
+                  className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-6 text-lg rounded-lg shadow-lg"
+                >
+                  Upgrade for $2.99/month
+                </Button>
+                
+                <div className="text-xs text-center text-gray-500">
+                  Resets in: <span className="font-semibold text-gray-700">{resetCountdown}</span>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        ) : (
+          <Card className="rounded-xl shadow-sm bg-gradient-to-br from-green-100 to-emerald-100 border-emerald-200">
+            <CardContent className="p-6 space-y-4">
+              <h3 className="font-semibold text-emerald-900">Your Daily AI Generations</h3>
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-emerald-800">
+                  {aiUsage ? `${aiUsage.count}/${aiUsage.limit} AI generations used today` : 'Loading...'}
+                </span>
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: aiUsage?.limit || 5 }, (_, i) => i).map(i => (
+                    <span key={i} className={`w-2.5 h-2.5 rounded-full ${(aiUsage?.count ?? 0) > i ? 'bg-emerald-600' : 'bg-emerald-300'}`}></span>
+                  ))}
+                </div>
+              </div>
+              <div className="text-sm text-emerald-900">
+                <div>Premium: {aiUsage ? `${aiUsage.limit - (aiUsage.count || 0)} AI generation${(aiUsage.limit - (aiUsage.count || 0)) !== 1 ? 's' : ''} left today` : 'Loading...'}</div>
+              </div>
+              <div className="text-sm text-emerald-900">Resets in: <span className="font-semibold">{resetCountdown}</span></div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Stats Dashboard */}
         <div className="grid grid-cols-2 gap-4">

@@ -398,7 +398,7 @@ const RecipeDetail = () => {
   return (
     <div className="min-h-screen pb-8">
       {/* Top banner ad (excluded in cooking mode branch) */}
-      <div className="max-w-5xl mx-auto px-5 pt-4">
+      <div className="max-w-5xl mx-auto px-5 pt-2">
       </div>
       {/* Only show image for non-AI recipes */}
       {!recipe.isAiGenerated && (
