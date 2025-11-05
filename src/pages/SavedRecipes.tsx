@@ -33,7 +33,7 @@ export const SavedRecipes = () => {
   const { allRecipes } = useAllRecipes();
   const { savedRecipes, loading, error, refetch, unsaveRecipe } = useSavedRecipes();
   const { mealPlans, refreshMealPlans, addMealPlan } = useMealPlan();
-  const { generatedRecipes } = useGeneratedRecipes();
+  const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
   const [activeTab, setActiveTab] = useState("saved");
   
   // Check if we should open meal plan tab
@@ -212,10 +212,11 @@ export const SavedRecipes = () => {
     }
   };
 
-  const handleSave = () => {
-    // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
-    // const custom = JSON.parse(localStorage.getItem('customRecipes') || '[]');
-    // setCustomRecipes(custom);
+  const handleSave = async () => {
+    // Refetch generated recipes to show the newly saved custom recipe
+    await refetchGeneratedRecipes();
+    // Also refetch saved recipes in case user wants to save it
+    await refetch();
   };
 
   const toggleFilter = (category: 'time' | 'difficulty' | 'mealType', value: string) => {

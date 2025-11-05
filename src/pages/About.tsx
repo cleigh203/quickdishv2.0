@@ -159,7 +159,7 @@ const About = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
-                  <span>Save unlimited favorites</span>
+                  <span>Save 50 of your favorite recipes</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
@@ -167,7 +167,7 @@ const About = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
-                  <span>Auto-generate shopping lists</span>
+                  <span>Auto-generate shopping lists with Instacart Integration</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 dark:text-green-400 mt-1">✅</span>
@@ -282,31 +282,12 @@ const About = () => {
               Have feedback? Found a bug? Want to suggest a recipe?
             </p>
             <div className="space-y-4">
-              <a 
-                href="mailto:info@quickdishco.com"
-                className="flex items-center justify-center gap-3 p-4 bg-secondary rounded-lg hover:bg-secondary/80 transition-colors"
-              >
-                <Mail className="w-5 h-5 text-primary" />
-                <span className="font-medium">info@quickdishco.com</span>
-              </a>
-              <a 
-                href="https://instagram.com/quickdishapp"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 p-4 bg-secondary rounded-lg hover:bg-secondary/80 transition-colors"
-              >
-                <Instagram className="w-5 h-5 text-primary" />
-                <span className="font-medium">@quickdishapp</span>
-              </a>
-              <a 
-                href="https://www.quickdish.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 p-4 bg-secondary rounded-lg hover:bg-secondary/80 transition-colors"
-              >
-                <Globe className="w-5 h-5 text-primary" />
-                <span className="font-medium">www.quickdish.com</span>
-              </a>
+              <div className="text-center">
+                <p className="font-medium">info@quickdishco.com</p>
+              </div>
+              <div className="text-center">
+                <p className="font-medium">@quickdishapp</p>
+              </div>
             </div>
             <p className="text-center text-muted-foreground mt-6">
               We'd love to hear from you!

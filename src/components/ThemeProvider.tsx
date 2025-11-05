@@ -3,7 +3,7 @@ import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { supabase } from '@/integrations/supabase/client';
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [defaultTheme, setDefaultTheme] = useState<string>('system');
+  const [defaultTheme, setDefaultTheme] = useState<string>('light');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -20,6 +20,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         if (!error && data?.theme_preference) {
           setDefaultTheme(data.theme_preference);
         }
+      } else {
+        // For guests, check localStorage but default to 'light' if not found
+        const savedTheme = localStorage.getItem('theme-preference') || 'light';
+        setDefaultTheme(savedTheme);
       }
       
       setMounted(true);
@@ -37,7 +41,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     <NextThemesProvider
       attribute="class"
       defaultTheme={defaultTheme}
-      enableSystem
+      enableSystem={false}
       disableTransitionOnChange={false}
     >
       {children}

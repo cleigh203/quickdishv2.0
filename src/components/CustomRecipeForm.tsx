@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { X, Plus } from "lucide-react";
 import { Recipe } from "@/types/recipe";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface CustomRecipeFormProps {
   open: boolean;
@@ -16,11 +18,13 @@ interface CustomRecipeFormProps {
 }
 
 export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: CustomRecipeFormProps) => {
+  const { user } = useAuth();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [ingredients, setIngredients] = useState<string[]>([""]);
   const [instructions, setInstructions] = useState<string[]>([""]);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (editRecipe) {
@@ -58,7 +62,7 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
     setInstructions(newInstructions);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!title.trim()) {
       toast.error("Title is required");
       return;
@@ -77,49 +81,62 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
       return;
     }
 
-    const recipe: Recipe = {
-      id: editRecipe?.id || `custom-${Date.now()}`,
-      name: title.trim(),
-      description: description.trim(),
-      imageUrl: imageUrl.trim() || undefined,
-      image: imageUrl.trim() || undefined,
-      ingredients: filteredIngredients.map(ing => {
+    if (!user) {
+      toast.error("Please sign in to save recipes");
+      return;
+    }
+
+    setIsSaving(true);
+
+    try {
+      const recipeId = editRecipe?.id || `custom-${Date.now()}`;
+      const recipeIngredients = filteredIngredients.map(ing => {
         const parts = ing.trim().split(' ');
         const amount = parts[0] || "";
         const unit = parts[1] || "";
         const item = parts.slice(2).join(' ') || parts[0] || "";
         return { amount, unit, item };
-      }),
-      instructions: filteredInstructions,
-      cookTime: "Custom",
-      prepTime: "Custom",
-      difficulty: "Custom",
-      servings: 4,
-      cuisine: "Custom",
-      isPremium: false,
-      tags: ["custom"]
-    };
+      });
 
-    // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
-    // const customRecipes = JSON.parse(localStorage.getItem('customRecipes') || '[]');
-    const customRecipes: Recipe[] = [];
-    
-    if (editRecipe) {
-      // COMMENTED OUT: localStorage recipe storage disabled
-      // const index = customRecipes.findIndex((r: Recipe) => r.id === editRecipe.id);
-      // if (index !== -1) {
-      //   customRecipes[index] = recipe;
-      // }
-    } else {
-      // COMMENTED OUT: localStorage recipe storage disabled
-      // customRecipes.push(recipe);
+      // Save to generated_recipes table
+      const payload = {
+        user_id: user.id,
+        recipe_id: recipeId,
+        name: title.trim(),
+        description: description.trim() || '',
+        cook_time: "Custom",
+        prep_time: "Custom",
+        difficulty: "Custom",
+        servings: 4,
+        ingredients: recipeIngredients,
+        instructions: filteredInstructions,
+        cuisine: "Custom",
+        image_url: imageUrl.trim() || null,
+        nutrition: null,
+        tags: ["custom"]
+      };
+
+      const { error } = await supabase
+        .from('generated_recipes')
+        .upsert(payload, { onConflict: 'user_id,recipe_id' });
+
+      if (error) {
+        console.error('Error saving recipe:', error);
+        toast.error("Failed to save recipe. Please try again.");
+        setIsSaving(false);
+        return;
+      }
+
+      toast.success(editRecipe ? "Recipe updated!" : "Recipe created!");
+      resetForm();
+      onSave();
+      onOpenChange(false);
+    } catch (error: any) {
+      console.error('Error saving recipe:', error);
+      toast.error("Failed to save recipe. Please try again.");
+    } finally {
+      setIsSaving(false);
     }
-
-    // COMMENTED OUT: localStorage.setItem('customRecipes', JSON.stringify(customRecipes));
-    toast.success(editRecipe ? "Recipe updated!" : "Recipe created!");
-    resetForm();
-    onSave();
-    onOpenChange(false);
   };
 
   return (
@@ -127,6 +144,9 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{editRecipe ? "Update Recipe" : "Create Your Own Recipe"}</DialogTitle>
+          <DialogDescription>
+            {editRecipe ? "Update your custom recipe details below." : "Create a custom recipe with your own ingredients and instructions."}
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6 py-4">
@@ -223,8 +243,8 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={handleSave} className="bg-[#FF6B35] hover:bg-[#FF6B35]/90">
-            {editRecipe ? "Update Recipe" : "Save Recipe"}
+          <Button onClick={handleSave} className="bg-[#FF6B35] hover:bg-[#FF6B35]/90" disabled={isSaving}>
+            {isSaving ? "Saving..." : editRecipe ? "Update Recipe" : "Save Recipe"}
           </Button>
         </div>
       </DialogContent>
