@@ -64,7 +64,15 @@ export const PremiumModal = ({ isOpen, onClose, feature }: PremiumModalProps) =>
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md p-0">
         <div className="text-center py-6 px-6">
-          <div className="text-6xl mb-4">{details?.icon || '⭐'}</div>
+          {feature === 'ai-recipes' ? (
+            <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
+              <svg className="w-9 h-9 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M11 2a1 1 0 10-2 0v6.5a.5.5 0 01-1 0V3a1 1 0 10-2 0v5.5a.5.5 0 01-1 0V2a1 1 0 10-2 0v6.5a.5.5 0 01-.5.5 1 1 0 000 2h.5c.28 0 .5.22.5.5V18a1 1 0 102 0v-6.5c0-.28.22-.5.5-.5s.5.22.5.5V18a1 1 0 102 0v-6.5c0-.28.22-.5.5-.5h.5a1 1 0 000-2 .5.5 0 01-.5-.5V2zM16 2a1 1 0 00-1 1v4a1 1 0 001 1 1 1 0 001-1V3a1 1 0 00-1-1zm-1 7.5c0-.28-.22-.5-.5-.5a1 1 0 000 2 .5.5 0 00.5-.5V9.5zm0 2c0-.28-.22-.5-.5-.5V18a1 1 0 102 0v-6.5c0-.28-.22-.5-.5-.5a.5.5 0 00-.5.5z"/>
+              </svg>
+            </div>
+          ) : (
+            <div className="text-6xl mb-4">{details?.icon || '⭐'}</div>
+          )}
           <h2 className="text-2xl font-bold mb-2">{details?.title || 'Premium Feature'}</h2>
           <p className="text-gray-600 mb-6">{details?.description || 'Upgrade to unlock this feature'}</p>
           
