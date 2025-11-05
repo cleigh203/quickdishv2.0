@@ -151,7 +151,7 @@ const Index = () => {
     <div className="min-h-screen pb-20 bg-background">
       {/* Full-width Hero */}
       <div 
-        className="relative h-[420px] md:h-[210px] mb-8 bg-cover bg-center"
+        className="relative h-[420px] mb-8 bg-cover bg-center"
         style={{
           backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%), url(https://i.imgur.com/ZWIwJpH.png)`
         }}
