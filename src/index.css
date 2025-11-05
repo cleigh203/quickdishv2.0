@@ -89,10 +89,23 @@ body {
   font-size: 16px;
 }
 
-/* Force padding for root element in native apps */
+/* Force padding for root element in native apps - only on mobile/native */
 #root {
-  padding-top: max(var(--safe-area-inset-top), var(--status-bar-height));
   min-height: 100vh;
+}
+
+/* Only apply safe area padding on mobile devices, not desktop */
+@media (max-width: 768px) {
+  #root {
+    padding-top: max(var(--safe-area-inset-top), var(--status-bar-height));
+  }
+}
+
+/* On desktop, remove any top padding */
+@media (min-width: 769px) {
+  #root {
+    padding-top: 0;
+  }
 }
 
 /* Barcode Scanner Styles */
