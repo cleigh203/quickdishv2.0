@@ -407,7 +407,7 @@ const RecipeDetail = () => {
             key={recipe.imageUrl || recipe.image}
             src={getRecipeImage(recipe, import.meta.env.DEV)}
             alt={recipe.name}
-            className="w-full h-full object-cover transition-opacity duration-300"
+            className="w-full h-auto object-cover lg:max-h-[600px] lg:rounded-xl transition-opacity duration-300"
             loading="eager"
             fetchPriority="high"
             decoding="sync"
@@ -737,124 +737,6 @@ const RecipeDetail = () => {
                 <div className="text-sm text-muted-foreground">Add all ingredients</div>
               </div>
             </button>
-
-
-            {/* Visual Divider */}
-            <div className="my-4">
-              <div className="h-px bg-border/50" />
-            </div>
-
-            {/* SECONDARY ACTIONS GROUP */}
-
-                          {/* Ask Chef Quinn - Premium */}
-              <button
-                onClick={() => {
-                  // Guest users: show sign up prompt
-                  if (!user) {
-                    toast({
-                      title: "Sign up to chat with Chef Quinn",
-                      description: "Create an account to ask Chef Quinn about recipes",
-                      action: (
-                        <Button
-                          size="sm"
-                          onClick={() => navigate('/auth')}
-                          className="bg-primary hover:bg-primary/90"
-                        >
-                          Sign Up
-                        </Button>
-                      ),
-                    });
-                    setMenuOpen(false);
-                    return;
-                  }
-
-                  // Authenticated users: check premium status
-                  if (!requirePremium('chat with Chef Quinn')) {
-                    setMenuOpen(false);
-                    return;
-                  }
-
-                  // Open AI chat for premium users
-                  setAiChatOpen(true);
-                  setMenuOpen(false);
-                }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
-            >
-              <div className="w-10 h-10 bg-purple-50 dark:bg-purple-950/30 rounded-full flex items-center justify-center text-xl">
-                👨‍🍳
-              </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground flex items-center gap-2">
-                  Ask Chef Quinn
-                  {isPremium && <span className="text-xs">👑</span>}
-                </div>
-                <div className="text-sm text-muted-foreground">Chat with your AI sous chef</div>
-              </div>
-              {!isPremium && (
-                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  PREMIUM
-                </div>
-              )}
-            </button>
-            
-            {/* Nutritional Facts - Premium */}
-            <button
-              onClick={() => {
-                // Guest users: show sign up prompt
-                if (!user) {
-                  toast({
-                    title: "Sign up to unlock nutritional information",
-                    description: "Create an account to access detailed nutrition facts",
-                    action: (
-                      <Button
-                        size="sm"
-                        onClick={() => navigate('/auth')}
-                        className="bg-primary hover:bg-primary/90"
-                      >
-                        Sign Up
-                      </Button>
-                    ),
-                  });
-                  setMenuOpen(false);
-                  return;
-                }
-
-                                  // Authenticated users: check premium status
-                  if (!requirePremium('view nutritional facts')) {
-                    setMenuOpen(false);
-                    return;
-                  }
-
-                  // Open nutrition for premium users
-                  if (recipe?.nutrition) {
-                    setNutritionModalOpen(true);
-                    setMenuOpen(false);
-                  } else {
-                    toast({
-                      title: "Nutrition data unavailable",
-                      description: "This recipe doesn't have nutrition information yet",
-                    });
-                    setMenuOpen(false);
-                  }
-              }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
-            >
-              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center text-xl">
-                📊
-              </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground flex items-center gap-2">
-                  Nutritional Facts
-                  {isPremium && <span className="text-xs">👑</span>}
-                </div>
-                <div className="text-sm text-muted-foreground">Calories, macros, vitamins</div>
-              </div>
-              {!isPremium && (
-                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  PREMIUM
-                </div>
-              )}
-            </button>
             
             {/* Add Notes */}
             <button
@@ -915,8 +797,126 @@ const RecipeDetail = () => {
                 </div>
               </div>
             </button>
+
+
+            {/* Visual Divider */}
+            <div className="my-4">
+              <div className="h-px bg-border/50" />
+            </div>
+
+            {/* PREMIUM FEATURES GROUP */}
+
+            {/* Ask Chef Quinn - Premium */}
+              <button
+                onClick={() => {
+                  // Guest users: show sign up prompt
+                  if (!user) {
+                    toast({
+                      title: "Sign up to chat with Chef Quinn",
+                      description: "Create an account to ask Chef Quinn about recipes",
+                      action: (
+                        <Button
+                          size="sm"
+                          onClick={() => navigate('/auth')}
+                          className="bg-primary hover:bg-primary/90"
+                        >
+                          Sign Up
+                        </Button>
+                      ),
+                    });
+                    setMenuOpen(false);
+                    return;
+                  }
+
+                  // Authenticated users: check premium status
+                  if (!requirePremium('chat with Chef Quinn')) {
+                    setMenuOpen(false);
+                    return;
+                  }
+
+                  // Open AI chat for premium users
+                  setAiChatOpen(true);
+                  setMenuOpen(false);
+                }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
+            >
+              <div className="w-10 h-10 bg-purple-50 dark:bg-purple-950/30 rounded-full flex items-center justify-center text-xl">
+                👨‍🍳
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-foreground flex items-center gap-2">
+                  Ask Chef Quinn
+                  {isPremium && <span className="text-xs">👑</span>}
+                </div>
+                <div className="text-sm text-muted-foreground">Chat with your AI sous chef</div>
+              </div>
+              {!isPremium && (
+                <div className="bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  PREMIUM
+                </div>
+              )}
+            </button>
             
-            {/* Export as PDF */}
+            {/* Nutritional Facts - Premium */}
+            <button
+              onClick={() => {
+                // Guest users: show sign up prompt
+                if (!user) {
+                  toast({
+                    title: "Sign up to unlock nutritional information",
+                    description: "Create an account to access detailed nutrition facts",
+                    action: (
+                      <Button
+                        size="sm"
+                        onClick={() => navigate('/auth')}
+                        className="bg-primary hover:bg-primary/90"
+                      >
+                        Sign Up
+                      </Button>
+                    ),
+                  });
+                  setMenuOpen(false);
+                  return;
+                }
+
+                                  // Authenticated users: check premium status
+                  if (!requirePremium('view nutritional facts')) {
+                    setMenuOpen(false);
+                    return;
+                  }
+
+                  // Open nutrition for premium users
+                  if (recipe?.nutrition) {
+                    setNutritionModalOpen(true);
+                    setMenuOpen(false);
+                  } else {
+                    toast({
+                      title: "Nutrition data unavailable",
+                      description: "This recipe doesn't have nutrition information yet",
+                    });
+                    setMenuOpen(false);
+                  }
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
+            >
+              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center text-xl">
+                📊
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-foreground flex items-center gap-2">
+                  Nutritional Facts
+                  {isPremium && <span className="text-xs">👑</span>}
+                </div>
+                <div className="text-sm text-muted-foreground">Calories, macros, vitamins</div>
+              </div>
+              {!isPremium && (
+                <div className="bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  PREMIUM
+                </div>
+              )}
+            </button>
+            
+            {/* Export as PDF - Premium */}
             <button
               onClick={() => {
                 handleExportPDF();
@@ -929,11 +929,17 @@ const RecipeDetail = () => {
                 📄
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground">
+                <div className="font-semibold text-foreground flex items-center gap-2">
                   {isGeneratingPDF ? 'Generating...' : 'Export as PDF'}
+                  {isPremium && <span className="text-xs">👑</span>}
                 </div>
                 <div className="text-sm text-muted-foreground">Download recipe as PDF</div>
               </div>
+              {!isPremium && (
+                <div className="bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  PREMIUM
+                </div>
+              )}
             </button>
 
             {/* Save as Image (temporarily removed) */}
