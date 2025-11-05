@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Recipe } from '@/types/recipe';
 import { PremiumModal } from '@/components/PremiumModal';
 import { useAIUsage } from '@/hooks/useSubscription';
+import { getAiGenerationLimit } from '@/constants/limits';
 
 interface AiGenerationPromptProps {
   searchTerm: string;
@@ -105,23 +106,28 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
   const getRemainingText = () => {
     if (remaining === null) return 'Checking...';
     
-    if (isPremium) {
-      // Premium: Show remaining out of 5, or "5 AI generations left today" if all available
-      const limit = 5;
-      const used = limit - remaining;
-      if (remaining === limit) {
-        return '5 AI generations left today';
+          // CRITICAL: Use aiUsage.limit if available (preferred - comes from database)
+      // Fallback: use getAiGenerationLimit helper function
+      let limit = 1; // Default to free (1)
+      if (aiUsage?.limit) {
+        limit = aiUsage.limit; // Use limit from hook (already calculated correctly)
+      } else {
+        limit = getAiGenerationLimit(isPremium); // Use helper function
       }
-      return `${remaining} AI generation${remaining !== 1 ? 's' : ''} left today`;
-    } else {
-      // Free: Show remaining out of 1, or "1 AI generation left today" if available
-      const limit = 1;
-      const used = limit - remaining;
-      if (remaining === limit) {
-        return '1 AI generation left today';
-      }
-      return `${remaining} AI generation${remaining !== 1 ? 's' : ''} left today`;
+    
+    // Debug logging
+    console.log('AI Limit Debug (AiGenerationPrompt):', {
+      isPremium,
+      user_is_premium: user?.user_metadata?.is_premium,
+      aiUsage_limit: aiUsage?.limit,
+      limit,
+      remaining
+    });
+    
+    if (remaining === limit) {
+      return `${limit} AI generation${limit !== 1 ? 's' : ''} left today`;
     }
+    return `${remaining} AI generation${remaining !== 1 ? 's' : ''} left today`;
   };
 
   const remainingText = getRemainingText();

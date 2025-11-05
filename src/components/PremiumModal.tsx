@@ -49,7 +49,7 @@ const featureDetailsMap: Record<PremiumFeature, FeatureDetails> = {
 export const PremiumModal = ({ isOpen, onClose, feature }: PremiumModalProps) => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const details = featureDetailsMap[feature];
+  const details = featureDetailsMap[feature] || featureDetailsMap['ai-recipes'];
 
   const handleUpgrade = () => {
     if (!user) {
@@ -64,9 +64,9 @@ export const PremiumModal = ({ isOpen, onClose, feature }: PremiumModalProps) =>
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md p-0">
         <div className="text-center py-6 px-6">
-          <div className="text-6xl mb-4">{details.icon}</div>
-          <h2 className="text-2xl font-bold mb-2">{details.title}</h2>
-          <p className="text-gray-600 mb-6">{details.description}</p>
+          <div className="text-6xl mb-4">{details?.icon || '⭐'}</div>
+          <h2 className="text-2xl font-bold mb-2">{details?.title || 'Premium Feature'}</h2>
+          <p className="text-gray-600 mb-6">{details?.description || 'Upgrade to unlock this feature'}</p>
           
           <div className="bg-green-50 dark:bg-green-950/20 rounded-lg p-6 mb-6 border border-green-200 dark:border-green-800">
             <div className="text-3xl font-bold text-green-600 dark:text-green-500 mb-2">$2.99/month</div>
@@ -126,5 +126,6 @@ export const PremiumModal = ({ isOpen, onClose, feature }: PremiumModalProps) =>
     </Dialog>
   );
 };
+
 
 

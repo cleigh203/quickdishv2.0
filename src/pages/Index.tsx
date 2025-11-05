@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSmartNavigation } from "@/hooks/useSmartNavigation";
+import { useScrollRestoration } from "@/hooks/useScrollRestoration";
 import { Sparkles, X } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,10 @@ const Index = () => {
   const location = useLocation();
   const navigate = useNavigate(); // For non-recipe navigation
   const { navigateToRecipe, getContext } = useSmartNavigation();
+  
+  // Enable scroll restoration for this page
+  useScrollRestoration();
+  
   const [searchInput, setSearchInput] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);

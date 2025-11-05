@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import { useSearchParams, useLocation, useNavigate } from "react-router-dom";
+﻿import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useSmartNavigation } from "@/hooks/useSmartNavigation";
+import { useScrollRestoration } from "@/hooks/useScrollRestoration";
 import { Search, Plus, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,74 +20,139 @@ import { getRecipeImage } from "@/utils/recipeImages";
 
 const Generate = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const location = useLocation();
-  const navigate = useNavigate(); // For other navigation (not recipes)
-  const { navigateToRecipe, getContext } = useSmartNavigation();
+  const { navigateToRecipe } = useSmartNavigation();
   const { toast } = useToast();
   const { saveRecipe, isSaved } = useSavedRecipes();
   const { allRecipes, isLoading: isLoadingRecipes } = useAllRecipes();
   const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
   const { verifiedRecipes } = useVerifiedRecipes();
   
+  // Enable scroll restoration for this page
+  useScrollRestoration();
+  
   // Search overlay state
   const [showSearchOverlay, setShowSearchOverlay] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  
+  // Input states - what user is typing/selecting (doesn't filter)
+  const [searchInput, setSearchInput] = useState("");
   const [searchMode, setSearchMode] = useState<'search' | 'ingredients'>('search');
   const [ingredientInput, setIngredientInput] = useState("");
   const [filters, setFilters] = useState<string[]>([]);
+  
+  // Applied filters - what's actually filtering recipes (only updates on button click)
+  const [appliedFilters, setAppliedFilters] = useState({
+    search: '',
+    category: 'all',
+    difficulty: 'all',
+  });
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [showFilteredView, setShowFilteredView] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  
+  // Keep searchQuery for backward compatibility with sessionStorage
+  const searchQuery = searchInput;
+  const setSearchQuery = setSearchInput;
+
+  // Restore search/filter state from sessionStorage on mount
+  useEffect(() => {
+    const savedSearch = sessionStorage.getItem('discover_search');
+    const savedCategory = sessionStorage.getItem('discover_category');
+    const savedDifficulty = sessionStorage.getItem('discover_difficulty');
+    const savedIngredientInput = sessionStorage.getItem('discover_ingredient');
+    const savedFilters = sessionStorage.getItem('discover_filters');
+    const savedActiveFilters = sessionStorage.getItem('discover_activeFilters');
+    const savedSearchMode = sessionStorage.getItem('discover_searchMode');
+    
+    if (savedSearch) {
+      setSearchInput(savedSearch);
+      setAppliedFilters(prev => ({ ...prev, search: savedSearch }));
+    }
+    if (savedCategory) {
+      setAppliedFilters(prev => ({ ...prev, category: savedCategory }));
+    }
+    if (savedDifficulty) {
+      setAppliedFilters(prev => ({ ...prev, difficulty: savedDifficulty }));
+    }
+    if (savedIngredientInput) setIngredientInput(savedIngredientInput);
+    if (savedFilters) {
+      try {
+        setFilters(JSON.parse(savedFilters));
+      } catch (e) {
+        // Ignore parse errors
+      }
+    }
+    if (savedActiveFilters) {
+      try {
+        const parsed = JSON.parse(savedActiveFilters);
+        setActiveFilters(parsed);
+        // If we have active filters, show filtered view
+        if (parsed.length > 0 || savedSearch || savedIngredientInput) {
+          setShowFilteredView(true);
+        }
+      } catch (e) {
+        // Ignore parse errors
+      }
+    }
+    if (savedSearchMode === 'search' || savedSearchMode === 'ingredients') {
+      setSearchMode(savedSearchMode);
+    }
+  }, []);
+
+  // Save search/filter state to sessionStorage whenever they change
+  useEffect(() => {
+    if (searchQuery || showFilteredView) {
+      sessionStorage.setItem('discover_search', searchQuery);
+    } else {
+      sessionStorage.removeItem('discover_search');
+    }
+  }, [searchQuery, showFilteredView]);
+
+  useEffect(() => {
+    if (ingredientInput || showFilteredView) {
+      sessionStorage.setItem('discover_ingredient', ingredientInput);
+    } else {
+      sessionStorage.removeItem('discover_ingredient');
+    }
+  }, [ingredientInput, showFilteredView]);
+
+  useEffect(() => {
+    if (filters.length > 0) {
+      sessionStorage.setItem('discover_filters', JSON.stringify(filters));
+    } else {
+      sessionStorage.removeItem('discover_filters');
+    }
+  }, [filters]);
+
+  useEffect(() => {
+    if (activeFilters.length > 0) {
+      sessionStorage.setItem('discover_activeFilters', JSON.stringify(activeFilters));
+    } else {
+      sessionStorage.removeItem('discover_activeFilters');
+    }
+  }, [activeFilters]);
+
+  useEffect(() => {
+    sessionStorage.setItem('discover_searchMode', searchMode);
+  }, [searchMode]);
+
+  // Clear sessionStorage when user intentionally navigates away (not to recipe detail)
+  useEffect(() => {
+    const path = location.pathname;
+    if (!path.includes('/recipe/') && !path.includes('/discover')) {
+      // User navigated away from discover/recipe pages
+      sessionStorage.removeItem('discover_search');
+      sessionStorage.removeItem('discover_ingredient');
+      sessionStorage.removeItem('discover_filters');
+      sessionStorage.removeItem('discover_activeFilters');
+      sessionStorage.removeItem('discover_scroll');
+    }
+  }, [location.pathname]);
 
   // Check for collection filter from URL
   const collectionParam = searchParams.get('collection');
   const ingredientsParam = searchParams.get('ingredients');
-
-
-  // Restore state when returning from recipe detail
-  const hasRestoredScroll = useRef(false);
-
-  // Restore context when returning from recipe detail
-  useEffect(() => {
-    const context = getContext();
-
-    if (context) {
-      // Restore search query if present
-      if (context.searchQuery !== undefined || context.appliedSearch !== undefined) {
-        setSearchQuery(context.searchQuery || context.appliedSearch || '');
-      }
-
-      // Restore active filters if present
-      if (context.activeFilters !== undefined) {
-        setActiveFilters(context.activeFilters);
-      }
-
-      // Show filtered view if we had a search or filters
-      if ((context.searchQuery && context.searchQuery.trim()) || context.appliedSearch || context.activeFilters?.length > 0) {
-        setShowFilteredView(true);
-      }
-
-      // Restore scroll position
-      if (context.restoreScroll && !hasRestoredScroll.current) {
-        hasRestoredScroll.current = true;
-
-        // Wait for content to render, then instantly scroll to position
-        requestAnimationFrame(() => {
-          window.scrollTo({
-            top: context.restoreScroll,
-            behavior: 'instant' // No smooth scroll, instant jump
-          });
-        });
-      }
-    }
-  }, [getContext]);
-
-  // Reset flag when leaving
-  useEffect(() => {
-    return () => {
-      hasRestoredScroll.current = false;
-    };
-  }, []);
   
   // Combine recipes, deduplicating by recipe_id and prioritizing DB recipes over static ones
   type RecipeWithCategory = Recipe & { category?: string };
@@ -112,28 +178,17 @@ const Generate = () => {
     // Exclude AI-generated recipes from discovery dataset
     const recipes = Array.from(recipeMap.values()).filter(r => !(r as any).isAiGenerated);
     
-    // 🔍 DEBUG: Log recipe data for debugging
-    console.log('🔍 Recipe Debug Info:');
+    // ðŸ” DEBUG: Log recipe data for debugging
+    console.log('ðŸ” Recipe Debug Info:');
     console.log('Total recipes:', recipes.length);
-    console.log('From allRecipes:', allRecipes.length);
-    console.log('From verifiedRecipes:', verifiedRecipes.length);
-    console.log('From generatedRecipes:', generatedRecipes.length);
-    
-    const quickAndEasyRecipes = recipes.filter(r => r.category === 'Quick and Easy');
-    console.log('Quick and Easy recipes found:', quickAndEasyRecipes.length);
-    console.log('Quick and Easy recipe names:', quickAndEasyRecipes.map(r => r.name).sort());
-    console.log('Greek Chicken Wrap found?', quickAndEasyRecipes.some(r => r.name.includes('Greek Chicken')));
-    
-    console.log('Fall Favorites:', recipes.filter(r => r.category === 'Fall Favorites').length);
-    console.log('Clean Eats:', recipes.filter(r => r.category === 'Clean Eats').length);
-
-    // 🔍 DEBUG: Show all unique categories and their counts
-    const categoryCounts: Record<string, number> = {};
-    recipes.forEach(r => {
-      const cat = r.category || 'undefined';
-      categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
-    });
-    console.log('🔍 All categories found:', categoryCounts);
+    console.log('Desserts:', recipes.filter(r => r.category === 'Desserts').length);
+    console.log('Restaurant Copycats:', recipes.filter(r => r.category === 'Restaurant Copycats').length);
+    console.log('Breakfast:', recipes.filter(r => r.category === 'Breakfast').length);
+    console.log('Lunch:', recipes.filter(r => r.category === 'Lunch').length);
+    console.log('Dinner:', recipes.filter(r => r.category === 'Dinner').length);
+    console.log('Sample recipe:', recipes[0]);
+    console.log('Sample recipe category:', recipes[0]?.category);
+    console.log('Sample recipe tags:', recipes[0]?.tags);
     
     return recipes;
   })();
@@ -151,31 +206,53 @@ const Generate = () => {
 
   // Recipe categories for horizontal sections
   const categories = [
-    { id: 'fall', name: 'Fall Favorites', emoji: '🍂' },
-    { id: 'quick', name: 'Quick and Easy', emoji: '⚡' },
-    { id: 'clean', name: 'Clean Eats', emoji: '🌱' },
-    { id: 'breakfast', name: 'Breakfast', emoji: '🥞' },
-    { id: 'dessert', name: 'Desserts', emoji: '🧁' },
-    { id: 'onepot', name: 'One Pot Meals', emoji: '🍲' },
-    { id: 'family', name: 'Family Approved', emoji: '👨‍👩‍👧‍👦' },
-    { id: 'copycat', name: 'Restaurant Copycats', emoji: '🍔' }
-];
+    { id: 'fall', name: 'Fall Favorites' },
+    { id: 'quick', name: 'Quick and Easy' },
+    { id: 'cleaneats', name: 'Clean Eats' },
+    { id: 'copycat', name: 'Restaurant Copycats' },
+    { id: 'breakfast', name: 'Breakfast' },
+    { id: 'dessert', name: 'Desserts' },
+    { id: 'onepot', name: 'One Pot Meals' },
+    { id: 'family', name: 'Family Approved' }
+  ];
 
   // Function to get recipes for each category
+  // CATEGORY-BASED: All categories use the category field
   const getRecipesByCategory = (categoryId: string): Recipe[] => {
     switch (categoryId) {
-      case 'fall': return combinedRecipes.filter(r => r.category === 'Fall Favorites');
-      case 'quick': return combinedRecipes.filter(r => r.category === 'Quick and Easy');
-      case 'clean': return combinedRecipes.filter(r => r.category === 'Clean Eats');
-      case 'breakfast': return combinedRecipes.filter(r => r.category === 'Breakfast');
-      case 'dessert': return combinedRecipes.filter(r => r.category === 'Desserts');
-      case 'onepot': return combinedRecipes.filter(r => r.category === 'One Pot Meals');
-      case 'family': return combinedRecipes.filter(r => r.category === 'Family Approved');
-      case 'copycat': return combinedRecipes.filter(r => r.category === 'Restaurant Copycats');
-      default: return [];
+      // CATEGORY-BASED FILTERS
+      case 'quick':
+        return combinedRecipes.filter(r => r.category === 'Quick and Easy');
+      
+      case 'cleaneats':
+        return combinedRecipes.filter(r => r.category === 'Clean Eats');
+      
+      case 'fall':
+        return combinedRecipes.filter(r => r.category === 'Fall Favorites');
+      
+      case 'onepot':
+        return combinedRecipes.filter(r => r.category === 'One Pot Meals');
+      
+      case 'family':
+        return combinedRecipes.filter(r => r.category === 'Family Approved');
+      
+      case 'leftover':
+        return combinedRecipes.filter(r => r.tags?.includes('leftover'));
+      
+      // CATEGORY-BASED FILTERS (Main Meal Types)
+      case 'breakfast':
+        return combinedRecipes.filter(r => r.category === 'Breakfast');
+      
+      case 'dessert':
+        return combinedRecipes.filter(r => r.category === 'Desserts');
+      
+      case 'copycat':
+        return combinedRecipes.filter(r => r.category === 'Restaurant Copycats');
+      
+      default:
+        return [];
     }
   };
-
 
   const toggleFilter = (filter: string) => {
     setFilters(prev => 
@@ -185,15 +262,26 @@ const Generate = () => {
     );
   };
 
-  const clearFilters = () => {
-    setFilters([]);
-    setActiveFilters([]);
-    setSearchQuery('');
+  const handleClearFilters = () => {
+    setSearchInput('');
     setIngredientInput('');
+    setFilters([]);
+    setAppliedFilters({ search: '', category: 'all', difficulty: 'all' });
+    setActiveFilters([]);
     setShowFilteredView(false);
+    
+    // Clear sessionStorage
+    sessionStorage.removeItem('discover_search');
+    sessionStorage.removeItem('discover_ingredient');
+    sessionStorage.removeItem('discover_filters');
+    sessionStorage.removeItem('discover_activeFilters');
+    sessionStorage.removeItem('discover_scroll');
+    
     // Clear URL params
     navigate('/discover');
   };
+
+  const clearFilters = handleClearFilters; // Keep for backward compatibility
 
   const removeFilter = (filter: string) => {
     setFilters(prev => prev.filter(f => f !== filter));
@@ -205,12 +293,26 @@ const Generate = () => {
     }
   };
 
-  const handleSearch = () => {
-    // Copy current state to active filters
+  const handleApplyFilters = () => {
+    // Copy current input state to applied filters
+    setAppliedFilters({
+      search: searchInput,
+      category: 'all', // TODO: Add category selection if needed
+      difficulty: 'all', // TODO: Add difficulty selection if needed
+    });
     setActiveFilters([...filters]);
     setShowFilteredView(true);
-    setShowSearchOverlay(false); // Close the search overlay
+    
+    // Save to sessionStorage
+    sessionStorage.setItem('discover_search', searchInput);
+    sessionStorage.setItem('discover_category', 'all');
+    sessionStorage.setItem('discover_difficulty', 'all');
+    
+    // Save scroll position before showing filtered results
+    sessionStorage.setItem('discover_scroll', window.scrollY.toString());
   };
+
+  const handleSearch = handleApplyFilters; // Keep for backward compatibility
 
   const handleSeeAll = (categoryName: string) => {
     navigate(`/discover?collection=${encodeURIComponent(categoryName)}`);
@@ -262,40 +364,22 @@ const Generate = () => {
       // Exclude Halloween from search results
       if (isHalloweenRecipe(recipe)) return false;
 
-      // Search query filter
-      const query = searchMode === 'search' ? searchQuery : ingredientInput;
-      if (query.trim()) {
-        const queryLower = query.toLowerCase();
-        
-        if (searchMode === 'search') {
-          // Search across multiple fields - be forgiving!
-          const nameMatch = recipe.name?.toLowerCase().includes(queryLower);
-          const descMatch = recipe.description?.toLowerCase().includes(queryLower);
-          const tagMatch = recipe.tags?.some(tag => tag.toLowerCase().includes(queryLower));
-          const ingredientMatch = recipe.ingredients?.some(ing => ing.item?.toLowerCase().includes(queryLower));
-          const categoryMatch = recipe.category?.toLowerCase().includes(queryLower);
-          const cuisineMatch = recipe.cuisine?.toLowerCase().includes(queryLower);
-          
-          // Return true if ANY field matches
-          if (!nameMatch && !descMatch && !tagMatch && !ingredientMatch && !categoryMatch && !cuisineMatch) {
-            return false;
-          }
-        } else {
-          // Ingredient mode: Use AND logic with word boundaries - ALL terms must be present
-          const stopWords = ['and', 'or', 'with', 'the', 'a', 'an', 'in', 'on', 'for'];
-          const searchTerms = query
-            .toLowerCase()
-            .split(/[\s,]+/)
-            .filter(term => term.length > 0 && !stopWords.includes(term));
-          
-          if (searchTerms.length === 0) return false;
-          
-          const hasAllIngredients = searchTerms.every(term => {
-            const wordRegex = new RegExp(`\\b${term}`, 'i');
-            return recipe.ingredients.some(ing => wordRegex.test(ing.item));
-          });
-          if (!hasAllIngredients) return false;
-        }
+      // Use appliedFilters.search instead of searchInput (only filters when button clicked)
+      if (appliedFilters.search) {
+        const searchLower = appliedFilters.search.toLowerCase();
+        const matchesName = recipe.name?.toLowerCase().includes(searchLower);
+        const matchesTags = recipe.tags?.some(tag => tag.toLowerCase().includes(searchLower));
+        if (!matchesName && !matchesTags) return false;
+      }
+
+      // Apply category filter if set
+      if (appliedFilters.category && appliedFilters.category !== 'all') {
+        if (recipe.category !== appliedFilters.category) return false;
+      }
+
+      // Apply difficulty filter if set
+      if (appliedFilters.difficulty && appliedFilters.difficulty !== 'all') {
+        if (recipe.difficulty?.toLowerCase() !== appliedFilters.difficulty.toLowerCase()) return false;
       }
 
       // Apply active filters (AND logic)
@@ -319,7 +403,9 @@ const Generate = () => {
         
         // Diet and meal filters
         const normalizedFilter = filter.toLowerCase().replace(/\s+/g, '-').replace('gluten-free', 'glutenfree');
-        return recipe.tags?.some(tag => tag.toLowerCase() === normalizedFilter) || false;
+        return recipe.tags?.some(tag => 
+          tag.toLowerCase().replace(/\s+/g, '-') === normalizedFilter
+        ) || false;
       });
     });
 
@@ -352,6 +438,37 @@ const Generate = () => {
     });
   }, [combinedRecipes]);
 
+  // Restore scroll position after filtered view is shown and results have rendered
+  useEffect(() => {
+    if (showFilteredView) {
+      const savedScroll = sessionStorage.getItem('discover_scroll');
+      if (savedScroll) {
+        const scrollValue = parseInt(savedScroll, 10);
+        if (!isNaN(scrollValue) && scrollValue > 0) {
+          // Wait for filtered results to calculate and render before scrolling
+          // Use requestAnimationFrame for smooth, non-blocking scroll
+          requestAnimationFrame(() => {
+            window.scrollTo({ top: scrollValue, behavior: 'instant' });
+          });
+          
+          // Additional attempts with longer delays to ensure content is fully rendered
+          setTimeout(() => {
+            requestAnimationFrame(() => {
+              window.scrollTo({ top: scrollValue, behavior: 'instant' });
+            });
+          }, 300);
+          
+          // Final attempt after all content should be loaded
+          setTimeout(() => {
+            requestAnimationFrame(() => {
+              window.scrollTo({ top: scrollValue, behavior: 'instant' });
+            });
+          }, 500);
+        }
+      }
+    }
+  }, [showFilteredView, imagesLoaded, appliedFilters.search, ingredientInput, activeFilters]);
+
   // If viewing filtered search results or ingredient search from home
   if ((showFilteredView || ingredientsParam) && !collectionParam) {
     const filteredRecipes = getFilteredRecipes();
@@ -367,14 +484,14 @@ const Generate = () => {
           setSearchMode={setSearchMode}
           ingredientInput={ingredientInput}
           setIngredientInput={setIngredientInput}
-                      filters={filters}
-            toggleFilter={toggleFilter}
-            clearFilters={clearFilters}
-            onSearch={handleSearch}
-            recipes={combinedRecipes}
-            onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
-            hideAiImages
-          />
+          filters={filters}
+          toggleFilter={toggleFilter}
+          clearFilters={clearFilters}
+          onSearch={handleSearch}
+          recipes={combinedRecipes}
+          onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
+          hideAiImages
+        />
 
         {/* Header */}
         <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-8 px-4">
@@ -395,7 +512,7 @@ const Generate = () => {
         </div>
 
         {/* Active Filters */}
-        {(activeFilters.length > 0 || searchQuery || ingredientInput || ingredientsParam) && (
+        {(activeFilters.length > 0 || appliedFilters.search || ingredientInput || ingredientsParam) && (
           <div className="px-4 pt-4">
             <div className="flex items-center justify-between mb-3">
               <p className="text-sm font-semibold">
@@ -420,12 +537,16 @@ const Generate = () => {
                   />
                 </Badge>
               )}
-              {searchQuery && (
+              {appliedFilters.search && (
                 <Badge variant="secondary" className="pl-3 pr-2 py-1.5">
-                  Search: {searchQuery}
+                  Search: {appliedFilters.search}
                   <X 
                     className="w-3 h-3 ml-2 cursor-pointer" 
-                    onClick={() => setSearchQuery('')}
+                    onClick={() => {
+                      setSearchInput('');
+                      setAppliedFilters(prev => ({ ...prev, search: '' }));
+                      sessionStorage.removeItem('discover_search');
+                    }}
                   />
                 </Badge>
               )}
@@ -453,33 +574,22 @@ const Generate = () => {
 
         {/* Recipe Grid */}
         <div className="px-4 py-6">
-          {combinedRecipes.length === 0 ? (
+          {!imagesLoaded ? (
             <div className="grid grid-cols-2 gap-4">
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
-                  <div className="relative rounded-lg overflow-hidden">
-                    <div className="w-full h-[200px] bg-gray-200" />
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="relative cursor-pointer">
+                  <div className="relative rounded-xl overflow-hidden">
+                    <div className="w-full h-[220px] bg-gray-200 animate-pulse" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>
-                  <div className="p-4 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="h-5 bg-gray-200 rounded w-16" />
-                      <div className="h-4 bg-gray-200 rounded w-12" />
-                    </div>
-                    <div className="h-5 bg-gray-200 rounded w-3/4" />
-                    <div className="h-4 bg-gray-200 rounded w-full" />
-                    <div className="h-4 bg-gray-200 rounded w-2/3" />
-                    <div className="flex items-center justify-between pt-2">
-                      <div className="h-4 bg-gray-200 rounded w-16" />
-                      <div className="h-4 bg-gray-200 rounded w-20" />
-                    </div>
-                  </div>
+                  <div className="mt-2 h-4 bg-gray-200 animate-pulse rounded" />
+                  <div className="mt-1 h-3 bg-gray-200 animate-pulse rounded w-3/4" />
                 </div>
               ))}
             </div>
           ) : filteredRecipes.length === 0 ? (
             <div className="max-w-md mx-auto text-center py-12">
-              <div className="text-6xl mb-4">🔍</div>
+              <div className="text-6xl mb-4">ðŸ”</div>
               <h3 className="text-2xl font-bold mb-2">
                 No recipes found
               </h3>
@@ -505,11 +615,11 @@ const Generate = () => {
                 {filteredRecipes.map((recipe) => (
                   <div
                     key={recipe.id}
-                    onClick={() => navigateToRecipe(recipe.id, recipe, {
-                      searchQuery,
-                      activeFilters,
-                      showFilteredView
-                    })}
+                    onClick={() => {
+                      // Save scroll position before navigating to recipe
+                      sessionStorage.setItem('discover_scroll', window.scrollY.toString());
+                      navigateToRecipe(recipe.id, recipe);
+                    }}
                     className="relative cursor-pointer"
                   >
                     <div className="relative rounded-xl overflow-hidden">
@@ -524,7 +634,7 @@ const Generate = () => {
                         referrerPolicy="no-referrer"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          target.src = "https://via.placeholder.com/400x300/10b981/ffffff?text=QuickDish";
+                          target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -564,10 +674,10 @@ const Generate = () => {
     const categoryMapping: { [key: string]: string } = {
       'Fall Favorites': 'fall',
       'Quick and Easy': 'quick',
-      'Clean Eats': 'clean',
+      'Clean Eats': 'cleaneats',
       'Restaurant Copycats': 'copycat',
-      'Breakfast': 'breakfast',
-      'Desserts': 'dessert',
+        'Breakfast': 'breakfast',
+        'Desserts': 'dessert',
       'One Pot Meals': 'onepot',
       'Leftover Magic': 'leftover',
       'Family Approved': 'family'
@@ -588,9 +698,9 @@ const Generate = () => {
 
     // Apply search and filter
     const filteredRecipes = collectionRecipes.filter(recipe => {
-      // Search query filter
-      if (searchQuery) {
-        const query = searchQuery.toLowerCase();
+      // Use appliedFilters.search instead of searchInput (only filters when button clicked)
+      if (appliedFilters.search) {
+        const query = appliedFilters.search.toLowerCase();
         const matchesName = recipe.name?.toLowerCase().includes(query);
         const matchesIngredients = recipe.ingredients?.some(ing => 
           ing.item?.toLowerCase().includes(query)
@@ -627,14 +737,14 @@ const Generate = () => {
           setSearchMode={setSearchMode}
           ingredientInput={ingredientInput}
           setIngredientInput={setIngredientInput}
-                      filters={filters}
-            toggleFilter={toggleFilter}
-            clearFilters={clearFilters}
-            onSearch={handleSearch}
-            recipes={allRecipes}
-            onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
-            hideAiImages
-          />
+          filters={filters}
+          toggleFilter={toggleFilter}
+          clearFilters={clearFilters}
+          onSearch={handleSearch}
+          recipes={allRecipes}
+          onAddToFavorites={(recipe) => addToFavorites(recipe, { stopPropagation: () => {} } as any)}
+          hideAiImages
+        />
 
         {/* Header */}
         <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-8 px-4">
@@ -671,9 +781,9 @@ const Generate = () => {
                       ? 'bg-primary text-white' 
                       : 'bg-white border border-border text-[#2C3E50] hover:bg-primary hover:text-white'
                   }`}
-                >
-                  {category.emoji} {category.name}
-                </button>
+                  >
+                    {category.name}
+                  </button>
               );
             })}
           </div>
@@ -703,11 +813,11 @@ const Generate = () => {
                 {filteredRecipes.map((recipe) => (
                   <div
                     key={recipe.id}
-                    onClick={() => navigateToRecipe(recipe.id, recipe, {
-                      searchQuery,
-                      activeFilters,
-                      showFilteredView
-                    })}
+                    onClick={() => {
+                      // Save scroll position before navigating to recipe
+                      sessionStorage.setItem('discover_scroll', window.scrollY.toString());
+                      navigateToRecipe(recipe.id, recipe);
+                    }}
                     className="relative cursor-pointer"
                   >
                     <div className="relative rounded-xl overflow-hidden">
@@ -722,7 +832,7 @@ const Generate = () => {
                         referrerPolicy="no-referrer"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          target.src = "https://via.placeholder.com/400x300/10b981/ffffff?text=QuickDish";
+                          target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -788,12 +898,14 @@ const Generate = () => {
       </div>
 
       {/* AI Generation Section - Only show when there's a search with no results */}
-        {searchQuery && getFilteredRecipes().length === 0 && (
+        {appliedFilters.search && getFilteredRecipes().length === 0 && (
         <div className="px-4 pt-4 pb-2">
           <AiGenerationPrompt 
-            searchTerm={searchQuery}
+            searchTerm={appliedFilters.search}
             onRecipeGenerated={(recipe) => {
               refetchGeneratedRecipes();
+              // Save scroll position before navigating to recipe
+              sessionStorage.setItem('discover_scroll', window.scrollY.toString());
               navigateToRecipe(recipe.id, recipe);
             }}
           />
@@ -811,9 +923,9 @@ const Generate = () => {
                 window.scrollTo(0, 0);
               }}
               className="shrink-0 px-4 py-2 rounded-full font-medium text-sm transition-colors bg-white border border-border text-[#2C3E50] hover:bg-primary hover:text-white"
-            >
-              {category.emoji} {category.name}
-            </button>
+                  >
+                    {category.name}
+                  </button>
           ))}
         </div>
       </div>
@@ -853,22 +965,13 @@ const Generate = () => {
 
             if (categoryRecipes.length === 0) return null;
 
-            // 🔍 DEBUG: Log category recipes for debugging
-            if (category.id === 'quick') {
-              console.log('🔍 Quick and Easy Debug:');
-              console.log('Total Quick and Easy recipes:', categoryRecipes.length);
-              console.log('Recipe names:', categoryRecipes.map(r => r.name).sort());
-              console.log('Greek Chicken Wrap found?', categoryRecipes.some(r => r.name.includes('Greek Chicken')));
-              console.log('First 10 recipe names:', categoryRecipes.slice(0, 10).map(r => r.name));
-            }
-
             return (
               <div key={category.id}>
                 {/* Category Header */}
                 <div className="px-4 mb-3 flex items-center justify-between">
-                  <h2 className="text-xl font-bold">
-                    {category.emoji} {category.name}
-                  </h2>
+                    <h2 className="text-xl font-bold">
+                      {category.name}
+                    </h2>
                   <button
                     onClick={() => handleSeeAll(category.name)}
                     className="text-sm font-semibold text-primary hover:underline"
@@ -880,14 +983,10 @@ const Generate = () => {
                 {/* Horizontal Scroll */}
                 <div className="overflow-x-auto scrollbar-hide">
                   <div className="flex gap-4 px-4 pb-2">
-                    {categoryRecipes.map((recipe) => (
+                    {categoryRecipes.slice(0, 10).map((recipe) => (
                       <div
                         key={recipe.id}
-                        onClick={() => navigateToRecipe(recipe.id, recipe, {
-                      searchQuery,
-                      activeFilters,
-                      showFilteredView
-                    })}
+                        onClick={() => navigateToRecipe(recipe.id, recipe)}
                         className="relative cursor-pointer shrink-0 w-40"
                       >
                         <div className="relative rounded-xl overflow-hidden aspect-[3/4]">
@@ -902,7 +1001,7 @@ const Generate = () => {
                             referrerPolicy="no-referrer"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
-                              target.src = "https://via.placeholder.com/400x300/10b981/ffffff?text=QuickDish";
+                              target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
                             }}
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -932,5 +1031,4 @@ const Generate = () => {
 };
 
 export default Generate;
-
 

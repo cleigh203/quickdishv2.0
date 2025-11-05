@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette, Mail, Calendar, Target, Download, Check } from "lucide-react";
+import { useState, useEffect, useRef } from 'react';
+import { useAIUsage } from '@/hooks/useSubscription';
+import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette, Mail, Calendar, Target, Download } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,6 @@ import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useShoppingList } from "@/hooks/useShoppingList";
 import { usePantryItems } from "@/hooks/usePantryItems";
 import { supabase } from "@/integrations/supabase/client";
-import { useSubscription, useAIUsage, useSavedRecipesCount } from "@/hooks/useSubscription";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,14 +41,12 @@ interface ProfileData {
   has_completed_onboarding: boolean;
   theme_preference: string | null;
   free_generations_used_today?: number | null;
-  subscription_status?: string | null;
-  stripe_subscription_id?: string | null;
 }
 
 const Profile = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { user, signOut, checkSubscription } = useAuth();
+  const { user, signOut } = useAuth();
   const { showOnboarding } = useOnboarding();
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [editPreferencesOpen, setEditPreferencesOpen] = useState(false);
@@ -59,7 +57,9 @@ const Profile = () => {
   const [deleting, setDeleting] = useState(false);
   const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
 
-  const [isPremium, setIsPremium] = useState(false);
+  const [isPremium, setIsPremium] = useState(() => {
+    return localStorage.getItem('premiumUser') === 'true';
+  });
 
   const [pantryItems, setPantryItems] = useState<string[] | null>(null);
   const [loadingPantry, setLoadingPantry] = useState(false);
@@ -72,11 +72,19 @@ const Profile = () => {
   const { shoppingList } = useShoppingList();
   const { fetchPantryItems } = usePantryItems();
   const [pantryCount, setPantryCount] = useState(0);
+  const { data: aiUsage, refetch: refetchAIUsage } = useAIUsage('recipe_generation');
 
-  // Subscription hooks
-  const { data: subscription } = useSubscription();
-  const { data: aiUsage } = useAIUsage('recipe_generation');
-  const { data: savedCount } = useSavedRecipesCount();
+  // Debug logging for AI limit (run when aiUsage or profileData changes)
+  useEffect(() => {
+    if (aiUsage && profileData) {
+      console.log('AI Limit Debug (Profile):', {
+        isPremium: profileData?.is_premium,
+        aiUsage_limit: aiUsage?.limit,
+        aiUsage_count: aiUsage?.count,
+        user_is_premium: profileData?.is_premium
+      });
+    }
+  }, [aiUsage, profileData]);
 
   // Fetch profile data
   const fetchProfile = async () => {
@@ -86,40 +94,44 @@ const Profile = () => {
     }
 
     try {
-      // Fetch profile data with subscription info - use timeout to prevent hanging
-      const profileQueryPromise = supabase
+      // Fetch profile data (without sensitive payment info)
+      const { data: profileData, error: profileError } = await supabase
         .from('profiles')
-        .select('id, display_name, avatar_url, dietary_preferences, skill_level, favorite_cuisines, learning_goals, is_premium, theme_preference, has_completed_onboarding, created_at, free_generations_used_today, stripe_customer_id, stripe_subscription_id, subscription_status')
+        .select('id, display_name, avatar_url, dietary_preferences, skill_level, favorite_cuisines, learning_goals, is_premium, theme_preference, has_completed_onboarding, created_at, free_generations_used_today')
         .eq('id', user.id)
         .single();
 
-      // Add timeout to prevent hanging (10 seconds)
-      const timeoutPromise = new Promise<never>((_, reject) => 
-        setTimeout(() => reject(new Error('Profile query timeout after 10 seconds')), 10000)
-      );
-
-      const { data: profileData, error: profileError } = await Promise.race([
-        profileQueryPromise,
-        timeoutPromise
-      ]);
-
       if (profileError) throw profileError;
 
-      setProfileData(profileData as ProfileData);
-      // Update premium status from database
-      setIsPremium(profileData?.is_premium || false);
-      
-      // All subscription data comes from profiles table (updated via webhooks)
-      // No need to call check-subscription Edge Function
-      
-      setLoading(false);
+      // Fetch subscription data separately (more secure)
+      const { data: subscriptionData } = await supabase
+        .from('user_subscriptions')
+        .select('stripe_customer_id, stripe_subscription_id, subscription_status, stripe_product_id')
+        .eq('user_id', user.id)
+        .single();
+
+      // Combine data for ProfileData type
+      const combinedData = {
+        ...profileData,
+        stripe_customer_id: subscriptionData?.stripe_customer_id || null,
+        stripe_subscription_id: subscriptionData?.stripe_subscription_id || null,
+        subscription_status: subscriptionData?.subscription_status || null,
+        stripe_product_id: subscriptionData?.stripe_product_id || null,
+      };
+
+              setProfileData(combinedData as ProfileData);
+        // Update premium status from database
+        setIsPremium(profileData?.is_premium || false);
+        
+        // Subscription data is already in profiles table, no need to call Edge Function
+        // Removed check-subscription Edge Function call - subscription data comes from profiles table via webhooks
+        // setSubscriptionEnd(null); // Subscription end date not available in profiles table yet
+        
+        // Refetch AI usage to update generation counter with correct premium status
+        refetchAIUsage();
     } catch (error: any) {
       console.error('Error fetching profile:', error);
-      toast({
-        title: "Error loading profile",
-        description: error.message || "Failed to load profile data",
-        variant: "destructive"
-      });
+    } finally {
       setLoading(false);
     }
   };
@@ -218,8 +230,10 @@ const Profile = () => {
 
       // Update local state
       setIsPremium(newStatus);
+      localStorage.setItem('premiumUser', newStatus.toString());
       
       if (newStatus) {
+        localStorage.setItem('recipesGenerated', '0');
         toast({
           title: "🧪 Test Premium Activated!",
           description: "All premium features unlocked for testing",
@@ -231,11 +245,11 @@ const Profile = () => {
         });
       }
 
-      // Refresh auth context to update isPremium throughout the app
-      await checkSubscription();
-      
-      // Refresh profile to confirm
-      fetchProfile();
+              // Refresh profile to confirm - no need to call checkSubscription Edge Function
+        // Subscription data is already in profiles table and updated via webhooks
+        fetchProfile();
+        // Refetch AI usage to update generation counter immediately
+        refetchAIUsage();
     } catch (error: any) {
       console.error('Error toggling premium:', error);
       toast({
@@ -246,26 +260,27 @@ const Profile = () => {
   };
 
   const handleInstallApp = async () => {
-    if (!deferredPrompt) {
+    if (deferredPrompt) {
+      // PWA install prompt is available, show it
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        toast({
+          title: 'App installed!',
+          description: 'QuickDish has been added to your home screen',
+        });
+        setShowInstallButton(false);
+      }
+      
+      setDeferredPrompt(null);
+    } else {
+      // PWA install prompt not available, show helpful message
       toast({
-        title: 'Already installed',
-        description: 'The app is already installed or not available for installation',
+        title: 'Installation Instructions',
+        description: "To install: Look for the install icon in your browser's address bar, or see manual instructions below",
       });
-      return;
     }
-
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    
-    if (outcome === 'accepted') {
-      toast({
-        title: 'App installed!',
-        description: 'QuickDish has been added to your home screen',
-      });
-      setShowInstallButton(false);
-    }
-    
-    setDeferredPrompt(null);
   };
 
   const handleChangePassword = async () => {
@@ -338,9 +353,11 @@ const Profile = () => {
     }
   };
 
-  const handleSubscriptionCanceled = async () => {
-    await fetchProfile();
-  };
+    const handleSubscriptionCanceled = async () => {
+      await fetchProfile();
+      // Refetch AI usage to update generation counter immediately
+      refetchAIUsage();
+    };
 
   if (!user) {
     return (
@@ -370,37 +387,8 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen pb-24 bg-gradient-to-b from-background to-muted/20">
-        {/* Skeleton Header */}
-        <div className="relative bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500 h-48 mb-8 animate-pulse" />
-        
-        <div className="max-w-4xl mx-auto px-4 space-y-6">
-          {/* Skeleton Account Cards */}
-          <div className="grid grid-cols-2 gap-4">
-            <Card className="rounded-xl shadow-sm bg-card">
-              <CardContent className="p-4">
-                <div className="h-12 bg-muted animate-pulse rounded" />
-              </CardContent>
-            </Card>
-            <Card className="rounded-xl shadow-sm bg-card">
-              <CardContent className="p-4">
-                <div className="h-12 bg-muted animate-pulse rounded" />
-              </CardContent>
-            </Card>
-          </div>
-          
-          {/* Skeleton Premium Card */}
-          <Card className="rounded-xl shadow-sm bg-card">
-            <CardContent className="p-6">
-              <div className="h-24 bg-muted animate-pulse rounded mb-4" />
-              <div className="grid grid-cols-2 gap-4">
-                <div className="h-20 bg-muted animate-pulse rounded" />
-                <div className="h-20 bg-muted animate-pulse rounded" />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-        <BottomNav />
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -485,189 +473,84 @@ const Profile = () => {
               </div>
             </CardContent>
           </Card>
+          <Card className="rounded-xl shadow-sm bg-card col-span-2 cursor-pointer hover:shadow-md transition-shadow" onClick={handleSubscriptionAction}>
+            <CardContent className="p-4 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                {profileData?.is_premium ? (
+                  <Crown className="w-5 h-5 text-yellow-500" />
+                ) : (
+                  <Target className="w-5 h-5 text-green-600" />
+                )}
+                <div>
+                  <div className="text-xs text-muted-foreground">Plan</div>
+                  <div className="font-semibold">
+                    {profileData?.is_premium ? (
+                      <span className="flex items-center gap-2">
+                        Premium
+                        <Badge className="bg-yellow-500 text-white">Active</Badge>
+                      </span>
+                    ) : (
+                      'Free (Ad-Supported)'
+                    )}
+                  </div>
+                </div>
+              </div>
+              <Button
+                variant={profileData?.is_premium ? "outline" : "default"}
+                size="sm"
+                className={profileData?.is_premium ? "" : "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSubscriptionAction();
+                }}
+              >
+                {profileData?.is_premium ? "Manage" : "Upgrade"}
+              </Button>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* PREMIUM STATUS SECTION */}
-        {!subscription?.isPremium ? (
-          <>
-            {/* FREE PLAN CARD */}
-            <Card className="rounded-xl shadow-sm border-2 bg-card mb-6">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <h2 className="text-2xl font-bold">Free Plan</h2>
-                    <p className="text-sm text-muted-foreground">Limited features</p>
-                  </div>
-                  <Button 
-                    onClick={() => navigate('/premium')}
-                    className="bg-green-600 hover:bg-green-700"
-                  >
-                    Upgrade
-                  </Button>
-                </div>
-
-                {/* Usage Stats */}
-                <div className="grid grid-cols-2 gap-4 mt-4">
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <p className="text-sm text-muted-foreground mb-1">AI Recipes Today</p>
-                    <p className="text-2xl font-bold text-green-600">
-                      {aiUsage?.count || 0}/1
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">Resets daily at 3 AM</p>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <p className="text-sm text-muted-foreground mb-1">Saved Recipes</p>
-                    <p className="text-2xl font-bold text-green-600">
-                      {savedCount?.count || 0}/50
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">50 recipe limit</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* UPGRADE TO PREMIUM CARD */}
-            <Card className="rounded-xl shadow-sm bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-300 mb-4">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <Crown className="text-yellow-600" size={24} />
-                  <h3 className="text-lg font-bold">Upgrade to Premium</h3>
-                </div>
-                
-                <div className="bg-white rounded-lg p-3 mb-3">
-                  <div className="text-3xl font-bold text-green-600">$2.99</div>
-                  <div className="text-sm text-muted-foreground">per month • Cancel anytime</div>
-                </div>
-
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-start gap-2">
-                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
-                    <div>
-                      <p className="font-semibold">5 AI Recipes Daily</p>
-                      <p className="text-sm text-muted-foreground">vs 1 on free plan</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-2">
-                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
-                    <div>
-                      <p className="font-semibold">Unlimited Chef Quinn AI Chat</p>
-                      <p className="text-sm text-muted-foreground">Get cooking help anytime</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-2">
-                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
-                    <div>
-                      <p className="font-semibold">Nutritional Facts</p>
-                      <p className="text-sm text-muted-foreground">Track calories & macros</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-2">
-                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
-                    <div>
-                      <p className="font-semibold">Unlimited Recipe Saves</p>
-                      <p className="text-sm text-muted-foreground">vs 50 on free plan</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-2">
-                    <Check className="text-green-600 flex-shrink-0 mt-1" size={20} />
-                    <div>
-                      <p className="font-semibold">Export as PDF</p>
-                      <p className="text-sm text-muted-foreground">Print & share recipes</p>
-                    </div>
-                  </div>
-                </div>
-
-                <Button 
-                  onClick={() => navigate('/premium')}
-                  className="w-full bg-green-600 hover:bg-green-700 text-base py-4"
-                >
-                  Upgrade to Premium Now
-                </Button>
-              </CardContent>
-            </Card>
-          </>
-        ) : (
-          <>
-                          {/* PREMIUM USER CARD */}
-              <Card className="rounded-xl shadow-sm bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-300 mb-6">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <Crown className="text-yellow-600" size={32} />
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h2 className="text-2xl font-bold">Premium Member</h2>
-                          {profileData?.subscription_status === 'cancel_at_period_end' && (
-                            <Badge variant="outline" className="border-orange-500 text-orange-600">
-                              Cancelling
-                            </Badge>
-                          )}
-                        </div>
-                                                  <p className="text-sm text-muted-foreground">$2.99/month</p>
-                        {profileData?.subscription_status === 'cancel_at_period_end' && (
-                          <p className="text-xs text-orange-600 mt-1">
-                            Cancelling at end of billing period
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    <Button 
-                      variant="outline"
-                      onClick={() => setSubscriptionModalOpen(true)}
-                    >
-                      Manage Plan
-                    </Button>
-                  </div>
-
-                {/* Usage Stats */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white rounded-lg p-4">
-                    <p className="text-sm text-muted-foreground mb-1">AI Recipes Today</p>
-                    <p className="text-2xl font-bold text-green-600">
-                      {aiUsage?.count || 0}/5
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">Resets daily at 3 AM</p>
-                  </div>
-                  <div className="bg-white rounded-lg p-4">
-                    <p className="text-sm text-muted-foreground mb-1">Saved Recipes</p>
-                    <p className="text-2xl font-bold text-green-600">
-                      {savedCount?.count || 0}/∞
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">Unlimited</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* YOUR PREMIUM BENEFITS */}
-            <Card className="rounded-xl shadow-sm bg-card mb-6">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-bold mb-4">Your Premium Benefits</h3>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-green-600">
-                    <Check size={20} /> 5 AI recipes daily
-                  </div>
-                  <div className="flex items-center gap-2 text-green-600">
-                    <Check size={20} /> Unlimited Chef Quinn chat
-                  </div>
-                  <div className="flex items-center gap-2 text-green-600">
-                    <Check size={20} /> Nutritional facts unlocked
-                  </div>
-                  <div className="flex items-center gap-2 text-green-600">
-                    <Check size={20} /> Unlimited recipe saves
-                  </div>
-                  <div className="flex items-center gap-2 text-green-600">
-                    <Check size={20} /> PDF export enabled
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </>
-        )}
+        {/* DAILY GENERATIONS CARD */}
+        <Card className="rounded-xl shadow-sm bg-gradient-to-br from-green-100 to-emerald-100 border-emerald-200">
+          <CardContent className="p-6 space-y-4">
+            <h3 className="font-semibold text-emerald-900">Your Daily AI Generations</h3>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-emerald-800">
+                {profileData?.is_premium ? (
+                  <>
+                    {aiUsage ? `${aiUsage.count}/${aiUsage.limit} AI generations used today` : 'Loading...'}
+                  </>
+                ) : (
+                  <>
+                    {aiUsage ? `${aiUsage.count}/${aiUsage.limit} free generation${aiUsage.count !== 1 ? 's' : ''} used` : 'Loading...'}
+                  </>
+                )}
+              </span>
+              <div className="flex items-center gap-1">
+                {Array.from({ length: aiUsage?.limit || 1 }, (_, i) => i).map(i => (
+                  <span key={i} className={`w-2.5 h-2.5 rounded-full ${(aiUsage?.count ?? 0) > i ? 'bg-emerald-600' : 'bg-emerald-300'}`}></span>
+                ))}
+              </div>
+            </div>
+            <div className="text-sm text-emerald-900">
+              {profileData?.is_premium ? (
+                <>
+                  <div>Premium: {aiUsage ? `${aiUsage.limit - (aiUsage.count || 0)} AI generation${(aiUsage.limit - (aiUsage.count || 0)) !== 1 ? 's' : ''} left today` : 'Loading...'}</div>
+                </>
+              ) : (
+                <>
+                  <div>Watch ads to unlock premium features:</div>
+                  <ul className="list-disc pl-5 mt-1 space-y-1">
+                    <li>Chat with AI Chef (unlimited with ads)</li>
+                    <li>Detailed Nutrition Info (unlimited with ads)</li>
+                  </ul>
+                  <div className="mt-2 text-emerald-800">Note: AI recipe generation limited to 1 per day</div>
+                </>
+              )}
+            </div>
+            <div className="text-sm text-emerald-900">Resets in: <span className="font-semibold">{resetCountdown}</span></div>
+          </CardContent>
+        </Card>
 
         {/* Stats Dashboard */}
         <div className="grid grid-cols-2 gap-4">
@@ -719,93 +602,91 @@ const Profile = () => {
               <ThemeToggle />
             </div>
           </CardContent>
-                  </Card>
+        </Card>
 
-          {/* Install QuickDish Section */}
-          <Card className="rounded-xl shadow-sm bg-card">
-            <CardContent className="p-6">
-              {/* Header */}
-              <div className="flex items-start gap-3 mb-4">
-                <div className="w-10 h-10 rounded-[10px] bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center flex-shrink-0">
-                  <span className="text-xl">📱</span>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-foreground mb-1">Install QuickDish</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Install QuickDish on your device for quick access, offline recipes, and a native app experience right from your browser!
-                  </p>
-                </div>
+        {/* Install QuickDish Section */}
+        <Card className="rounded-xl shadow-sm bg-card">
+          <CardContent className="p-6">
+            {/* Header */}
+            <div className="flex items-start gap-3 mb-4">
+              <div className="w-10 h-10 rounded-[10px] bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center flex-shrink-0">
+                <span className="text-xl">📱</span>
               </div>
-
-              {/* Install Button */}
-              {showInstallButton && (
-                <Button
-                  variant="default"
-                  className="w-full h-12 justify-center gap-2 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold rounded-[10px] mb-4"
-                  onClick={handleInstallApp}
-                >
-                  <span className="text-base">📥</span>
-                  <span className="text-[15px]">Install App</span>
-                </Button>
-              )}
-
-              {/* Divider */}
-              <div className="flex items-center gap-3 mt-4 mb-4">
-                <div className="flex-1 h-px bg-border"></div>
-                <span className="text-sm text-muted-foreground">or install manually</span>
-                <div className="flex-1 h-px bg-border"></div>
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-foreground mb-1">Install QuickDish</h3>
+                <p className="text-sm text-muted-foreground">
+                  Install QuickDish on your device for quick access, offline recipes, and a native app experience right from your browser!
+                </p>
               </div>
+            </div>
 
-              {/* Manual Instructions Box */}
-              <div className="bg-[#f9fafb] dark:bg-gray-900/50 rounded-[10px] p-4 mb-4">
-                <h4 className="text-sm font-bold text-foreground mb-3">How to Install:</h4>
-                <ul className="space-y-2 text-[13px] text-muted-foreground">
-                  <li className="flex items-start gap-2">
-                    <span>📱</span>
-                    <span><strong className="text-foreground">iOS Safari:</strong> Tap Share → Add to Home Screen</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span>📱</span>
-                    <span><strong className="text-foreground">Android Chrome:</strong> Tap Menu ⋮ → Install App</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span>📱</span>
-                    <span><strong className="text-foreground">Desktop:</strong> Look for install icon in address bar</span>
-                  </li>
-                </ul>
-              </div>
+                          {/* Install Button */}
+              <Button
+                variant="default"
+                className="w-full h-12 justify-center gap-2 bg-gradient-to-r from-[#10b981] to-[#059669] hover:from-[#059669] hover:to-[#047857] text-white font-bold rounded-[10px] mb-4 shadow-[0_4px_12px_rgba(16,185,129,0.3)] hover:shadow-[0_6px_16px_rgba(16,185,129,0.4)] transition-all"
+                onClick={handleInstallApp}
+              >
+              <span className="text-base">📥</span>
+              <span className="text-[15px]">Install App</span>
+            </Button>
 
-              {/* Coming Soon Section */}
-              <div className="mt-4 pt-4 border-t border-border">
-                <h4 className="text-sm font-semibold text-foreground mb-3">Native Apps 🏷️ COMING SOON</h4>
-                <div className="grid grid-cols-2 gap-3">
-                  {/* App Store Badge */}
-                  <div className="bg-gray-100 dark:bg-gray-800/50 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-3 opacity-60">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">🍎</span>
-                      <div className="text-[10px] leading-tight text-muted-foreground">
-                        <div>Download on the</div>
-                        <div className="font-semibold text-foreground">App Store</div>
-                      </div>
+            {/* Divider */}
+            <div className="flex items-center gap-3 my-4">
+              <div className="flex-1 h-px bg-border"></div>
+              <span className="text-sm text-muted-foreground">or install manually</span>
+              <div className="flex-1 h-px bg-border"></div>
+            </div>
+
+            {/* Manual Instructions Box */}
+            <div className="bg-[#f9fafb] dark:bg-gray-900/50 rounded-[10px] p-4 mb-4">
+              <h4 className="text-sm font-bold text-foreground mb-3">How to Install:</h4>
+              <ul className="space-y-2 text-[13px] text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <span>📱</span>
+                  <span><strong className="text-foreground">iOS Safari:</strong> Tap Share → Add to Home Screen</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span>📱</span>
+                  <span><strong className="text-foreground">Android Chrome:</strong> Tap Menu ⋮ → Install App</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span>📱</span>
+                  <span><strong className="text-foreground">Desktop:</strong> Look for install icon in address bar</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Coming Soon Section */}
+            <div className="mt-4 pt-4 border-t border-border">
+              <h4 className="text-sm font-semibold text-foreground mb-3">Native Apps 🏷️ COMING SOON</h4>
+              <div className="grid grid-cols-2 gap-3">
+                {/* App Store Badge */}
+                <div className="bg-gray-100 dark:bg-gray-800/50 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-3 opacity-60">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">🍎</span>
+                    <div className="text-[10px] leading-tight text-muted-foreground">
+                      <div>Download on the</div>
+                      <div className="font-semibold text-foreground">App Store</div>
                     </div>
                   </div>
-                  {/* Google Play Badge */}
-                  <div className="bg-gray-100 dark:bg-gray-800/50 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-3 opacity-60">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">📱</span>
-                      <div className="text-[10px] leading-tight text-muted-foreground">
-                        <div>Get it on</div>
-                        <div className="font-semibold text-foreground">Google Play</div>
-                      </div>
+                </div>
+                {/* Google Play Badge */}
+                <div className="bg-gray-100 dark:bg-gray-800/50 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-3 opacity-60">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">📱</span>
+                    <div className="text-[10px] leading-tight text-muted-foreground">
+                      <div>Get it on</div>
+                      <div className="font-semibold text-foreground">Google Play</div>
                     </div>
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </CardContent>
+        </Card>
 
-          {/* SETTINGS */}
-          <div className="space-y-3">
+        {/* SETTINGS */}
+        <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <Button
               variant="outline"
@@ -862,30 +743,6 @@ const Profile = () => {
           </CardContent>
         </Card>
 
-        {/* DEVELOPER TESTING TOOLS - Only show in dev mode */}
-        {import.meta.env.DEV && (
-          <Card className="rounded-xl shadow-sm bg-card mt-6">
-            <CardHeader>
-              <CardTitle className="text-sm text-muted-foreground">Developer Tools</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button
-                variant="outline"
-                onClick={togglePremium}
-                className={`w-full ${isPremium ? 'bg-green-100 border-green-500' : 'bg-gray-50'}`}
-              >
-                {isPremium ? '🔓 Dev Premium: ON' : '🔒 Dev Premium: OFF'}
-              </Button>
-              <p className="text-xs text-gray-500 text-center">
-                {isPremium 
-                  ? 'All premium features unlocked for testing' 
-                  : 'Click to enable premium features for testing'
-                }
-              </p>
-            </CardContent>
-          </Card>
-        )}
-
         {/* FOOTER */}
         <div className="py-6 px-4 border-t border-gray-200 text-center text-sm text-gray-500 flex flex-col items-center gap-1">
           <div className="inline-flex items-center gap-2 text-gray-600">
@@ -923,7 +780,6 @@ const Profile = () => {
         open={subscriptionModalOpen}
         onOpenChange={setSubscriptionModalOpen}
         subscriptionEnd={subscriptionEnd}
-        subscriptionStatus={profileData?.subscription_status}
         onSubscriptionCanceled={handleSubscriptionCanceled}
       />
 

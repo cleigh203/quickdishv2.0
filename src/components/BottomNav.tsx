@@ -36,7 +36,7 @@ export const BottomNav = () => {
         
         <div className="flex justify-around items-center h-16">
           {navItems.map((item) => {
-            const Icon = item.icon;
+            const Icon = item?.icon || Home;
             const isActive = location.pathname === item.path;
             
             return (

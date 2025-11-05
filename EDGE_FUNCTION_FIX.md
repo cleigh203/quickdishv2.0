@@ -139,3 +139,4 @@ Check Edge Function logs in Supabase Dashboard to see the tracking flow.
 - Old field names (`free_generations_used_today`, `last_generation_reset_date`) are supported as fallback
 - Migration SQL is idempotent (safe to run multiple times)
 
+

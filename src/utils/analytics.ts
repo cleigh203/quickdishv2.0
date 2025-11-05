@@ -65,3 +65,4 @@ export const trackChatError = (error: string, context?: string) =>
   trackEvent('ai_chat_error', { error, context })
 
 
+

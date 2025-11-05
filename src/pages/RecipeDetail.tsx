@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { useSmartNavigation } from "@/hooks/useSmartNavigation";
-import { ArrowLeft, Heart, ShoppingCart, Plus, Minus, ChefHat } from "lucide-react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { ArrowLeft, Heart, ShoppingCart, Plus, Minus, ChefHat, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,8 +18,12 @@ import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
 import { useShoppingList } from "@/hooks/useShoppingList";
 import { RecipeNotesDialog } from "@/components/RecipeNotesDialog";
 import { PremiumPaywallModal } from "@/components/PremiumPaywallModal";
+import { PremiumModal } from "@/components/PremiumModal";
 import { NutritionFactsModal } from "@/components/NutritionFactsModal";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAuthCheck } from "@/hooks/useAuthCheck";
+import { usePremiumCheck } from "@/hooks/usePremiumCheck";
+import { SignupPrompt } from "@/components/SignupPrompt";
 import { supabase } from "@/integrations/supabase/client";
 import { generateRecipePDF } from "@/utils/pdfExport";
 import { RatingModal } from "@/components/RatingModal";
@@ -30,8 +33,6 @@ import { MealPlanDialog } from "@/components/MealPlanDialog";
 import { RecipeAIChatDialog } from "@/components/RecipeAIChatDialog";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { usePantryItems } from "@/hooks/usePantryItems";
-import { trackRecipeView, trackCookingModeStart } from "@/utils/analytics";
-import { PremiumModal } from "@/components/PremiumModal";
 // ShoppingGuide temporarily removed - will use Kroger/Instacart API when ready
 // import { StoreSelection } from "@/components/StoreSelection";
 // import { ShoppingGuide } from "@/components/ShoppingGuide";
@@ -39,11 +40,12 @@ import { PremiumModal } from "@/components/PremiumModal";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const location = useLocation();
-  const navigate = useNavigate(); // For auth navigation
-  const { goBack, getContext, navigateWithContext } = useSmartNavigation();
   const { toast } = useToast();
   const { user, isPremium } = useAuth();
+  const { requireAuth, showSignupModal, setShowSignupModal, modalFeature } = useAuthCheck();
+  const { requirePremium, showPremiumModal, setShowPremiumModal, modalFeature: premiumFeature } = usePremiumCheck();
   const { allRecipes } = useAllRecipes();
   const { isSaved, saveRecipe, unsaveRecipe, savedRecipes, updateRecipeNotes } = useSavedRecipes();
   const { addItems } = useShoppingList();
@@ -58,17 +60,12 @@ const RecipeDetail = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [notesDialogOpen, setNotesDialogOpen] = useState(false);
   const [premiumPaywallOpen, setPremiumPaywallOpen] = useState(false);
-
-  // Back handler uses centralized navigation hook
-  // This automatically preserves all context (search, filters, scroll, etc.)
   const [nutritionModalOpen, setNutritionModalOpen] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
   const [mealPlanDialogOpen, setMealPlanDialogOpen] = useState(false);
   const [aiChatOpen, setAiChatOpen] = useState(false);
   const [showAd, setShowAd] = useState<null | 'chat' | 'nutrition' | 'interstitial'>(null);
-  const [showPremiumModal, setShowPremiumModal] = useState(false);
-  const [premiumFeature, setPremiumFeature] = useState<'chef-quinn' | 'nutrition' | 'unlimited-saves' | 'pdf-export' | 'ai-recipes'>('chef-quinn');
   // Shopping guide removed - will add back with Kroger/Instacart API
   // const [showShopping, setShowShopping] = useState(false);
   // const [selectedStore, setSelectedStore] = useState<GroceryStore | null>(null);
@@ -116,6 +113,8 @@ const RecipeDetail = () => {
     }
     
     // PRIORITY 6: Check custom recipes in localStorage
+    // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
+    /*
     if (!foundRecipe) {
       try {
         const customRecipes = JSON.parse(localStorage.getItem('customRecipes') || '[]');
@@ -124,15 +123,13 @@ const RecipeDetail = () => {
         console.error('Error loading custom recipes:', error);
       }
     }
+    */
     
     if (foundRecipe) {
       setRecipe(foundRecipe);
       setIsLoadingRecipe(false);
       // Ad gating removed for now
-
-      // Track recipe view analytics
-      trackRecipeView(foundRecipe.id);
-
+      
       // Check if coming from "Cook Now" button
       const params = new URLSearchParams(window.location.search);
       if (params.get('cook') === 'true') {
@@ -142,51 +139,24 @@ const RecipeDetail = () => {
     } else {
       setRecipe(null);
       setIsLoadingRecipe(false);
-      navigateWithContext('/generate');
+      navigate('/generate');
     }
-  }, [id, navigateWithContext, generatedRecipes, verifiedRecipes, location.state]);
+  }, [id, navigate, generatedRecipes, verifiedRecipes, location.state]);
 
   const toggleFavorite = async () => {
     if (!recipe) return;
     
-    if (!user) {
-      toast({
-        title: "Sign up to save recipes",
-        description: "Create an account to save your favorite recipes",
-        action: (
-          <Button
-            size="sm"
-            onClick={() => navigate('/auth')}
-            className="bg-primary hover:bg-primary/90"
-          >
-            Sign Up
-          </Button>
-        ),
-      });
-      return;
-    }
+    if (!requireAuth('save favorites')) return;
     
     if (isSaved(recipe.id)) {
       await unsaveRecipe(recipe.id);
     } else {
-      // Check save limit for free users
-      if (!isPremium) {
-        const { count } = await supabase
-          .from('saved_recipes')
-          .select('*', { count: 'exact', head: true })
-          .eq('user_id', user.id);
-        
-        if (count >= 50) {
-          setPremiumFeature('unlimited-saves');
-          setShowPremiumModal(true);
-          return;
-        }
-      }
       // Workaround: persist AI recipes locally so Favorites can resolve by ID immediately
       try {
         const existing = recipeStorage.getRecipes();
         if (!existing.find(r => r.id === recipe.id)) {
-          recipeStorage.setRecipes([recipe, ...existing]);
+          // COMMENTED OUT: Only use database storage, not localStorage
+          // recipeStorage.setRecipes([recipe, ...existing]);
         }
       } catch {}
       // Ensure AI recipe exists in Supabase detail table for fallback
@@ -223,22 +193,7 @@ const RecipeDetail = () => {
   const addToShoppingList = async () => {
     if (!recipe) return;
     
-    if (!user) {
-      toast({
-        title: "Sign up to use shopping lists",
-        description: "Create an account to add ingredients to your shopping list",
-        action: (
-          <Button
-            size="sm"
-            onClick={() => navigate('/auth')}
-            className="bg-primary hover:bg-primary/90"
-          >
-            Sign Up
-          </Button>
-        ),
-      });
-      return;
-    }
+    if (!requireAuth('add recipes to your shopping list')) return;
     
     // Convert recipe ingredients to shopping items format
     const newItems = ingredientsToShoppingItems(recipe.ingredients, recipe.name);
@@ -284,6 +239,8 @@ const RecipeDetail = () => {
   const handleSaveNotes = async (notes: string) => {
     if (!recipe) return { success: false, message: 'No recipe loaded' };
 
+    if (!requireAuth('save notes')) return { success: false, message: 'Sign in required' };
+
     const result = await updateRecipeNotes(recipe.id, notes);
 
     if (result.success) {
@@ -306,12 +263,8 @@ const RecipeDetail = () => {
   const handleExportPDF = async () => {
     if (!recipe) return;
     
-    // Check premium status for PDF export
-    if (!isPremium) {
-      setPremiumFeature('pdf-export');
-      setShowPremiumModal(true);
-      return;
-    }
+    if (!requireAuth('export recipes')) return;
+    if (!requirePremium('export recipes as PDF')) return;
     
     setIsGeneratingPDF(true);
     toast({
@@ -366,6 +319,76 @@ const RecipeDetail = () => {
     );
   }
 
+  // Block full recipe access for non-logged-in users - show signup gate
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-white flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
+          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Lock className="text-green-600" size={40} />
+          </div>
+          
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">
+            Sign Up to View This Recipe
+          </h1>
+          
+          <p className="text-gray-600 mb-6">
+            Join QuickDish to access thousands of chef-curated recipes
+          </p>
+          
+          <div className="bg-gray-50 rounded-lg p-4 mb-6">
+            <img 
+              src={getRecipeImage(recipe, import.meta.env.DEV)} 
+              alt={recipe.name}
+              className="w-full h-40 object-cover rounded-lg mb-3"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1200&q=80";
+              }}
+            />
+            <h3 className="font-semibold">{recipe.name}</h3>
+            <p className="text-sm text-gray-600 mt-1">
+              {recipe.prepTime || recipe.cookTime || 'N/A'} • {recipe.difficulty || 'Medium'}
+            </p>
+          </div>
+          
+          <div className="space-y-3 text-left mb-6">
+            <div className="flex items-center gap-3">
+              <span className="text-green-500">✓</span>
+              <span>Save up to 50 favorite recipes</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-green-500">✓</span>
+              <span>Weekly meal planning</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-green-500">✓</span>
+              <span>Shopping list with Instacart integration</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-green-500">✓</span>
+              <span>1 free AI recipe daily</span>
+            </div>
+          </div>
+          
+          <button
+            onClick={() => navigate('/auth')}
+            className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold mb-3 transition-colors"
+          >
+            Sign Up Free
+          </button>
+          
+          <button
+            onClick={() => navigate('/auth')}
+            className="w-full text-green-600 py-2 font-medium hover:text-green-700 transition-colors"
+          >
+            Already have an account? Sign In
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (cookingMode) {
     return <CookingMode recipe={recipe} onExit={() => setCookingMode(false)} />;
   }
@@ -397,12 +420,12 @@ const RecipeDetail = () => {
               target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1200&q=80";
             }}
           />
-            <Button
-              onClick={goBack}
-              variant="icon"
-              size="icon"
-              className="absolute top-4 left-4"
-            >
+          <Button
+            onClick={() => navigate(-1)}
+            variant="icon"
+            size="icon"
+            className="absolute top-4 left-4"
+          >
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div className="absolute top-4 right-4 flex gap-2">
@@ -423,7 +446,7 @@ const RecipeDetail = () => {
         <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-5 py-8">
           <div className="flex items-center justify-between">
             <Button
-              onClick={goBack}
+              onClick={() => navigate(-1)}
               variant="ghost"
               size="icon"
               className="text-white hover:bg-white/20"
@@ -627,8 +650,6 @@ const RecipeDetail = () => {
                   setMenuOpen(false);
                   return;
                 }
-                // Track cooking mode start
-                trackCookingModeStart(recipe.id);
                 setCookingMode(true);
                 setMenuOpen(false);
               }}
@@ -699,7 +720,6 @@ const RecipeDetail = () => {
               </div>
             </button>
             
-            {/* FREE FEATURES */}
             {/* Add to Shopping List */}
             <button
               onClick={() => {
@@ -716,6 +736,124 @@ const RecipeDetail = () => {
                 <div className="font-semibold text-foreground">Add to Shopping List</div>
                 <div className="text-sm text-muted-foreground">Add all ingredients</div>
               </div>
+            </button>
+
+
+            {/* Visual Divider */}
+            <div className="my-4">
+              <div className="h-px bg-border/50" />
+            </div>
+
+            {/* SECONDARY ACTIONS GROUP */}
+
+                          {/* Ask Chef Quinn - Premium */}
+              <button
+                onClick={() => {
+                  // Guest users: show sign up prompt
+                  if (!user) {
+                    toast({
+                      title: "Sign up to chat with Chef Quinn",
+                      description: "Create an account to ask Chef Quinn about recipes",
+                      action: (
+                        <Button
+                          size="sm"
+                          onClick={() => navigate('/auth')}
+                          className="bg-primary hover:bg-primary/90"
+                        >
+                          Sign Up
+                        </Button>
+                      ),
+                    });
+                    setMenuOpen(false);
+                    return;
+                  }
+
+                  // Authenticated users: check premium status
+                  if (!requirePremium('chat with Chef Quinn')) {
+                    setMenuOpen(false);
+                    return;
+                  }
+
+                  // Open AI chat for premium users
+                  setAiChatOpen(true);
+                  setMenuOpen(false);
+                }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
+            >
+              <div className="w-10 h-10 bg-purple-50 dark:bg-purple-950/30 rounded-full flex items-center justify-center text-xl">
+                👨‍🍳
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-foreground flex items-center gap-2">
+                  Ask Chef Quinn
+                  {isPremium && <span className="text-xs">👑</span>}
+                </div>
+                <div className="text-sm text-muted-foreground">Chat with your AI sous chef</div>
+              </div>
+              {!isPremium && (
+                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  PREMIUM
+                </div>
+              )}
+            </button>
+            
+            {/* Nutritional Facts - Premium */}
+            <button
+              onClick={() => {
+                // Guest users: show sign up prompt
+                if (!user) {
+                  toast({
+                    title: "Sign up to unlock nutritional information",
+                    description: "Create an account to access detailed nutrition facts",
+                    action: (
+                      <Button
+                        size="sm"
+                        onClick={() => navigate('/auth')}
+                        className="bg-primary hover:bg-primary/90"
+                      >
+                        Sign Up
+                      </Button>
+                    ),
+                  });
+                  setMenuOpen(false);
+                  return;
+                }
+
+                                  // Authenticated users: check premium status
+                  if (!requirePremium('view nutritional facts')) {
+                    setMenuOpen(false);
+                    return;
+                  }
+
+                  // Open nutrition for premium users
+                  if (recipe?.nutrition) {
+                    setNutritionModalOpen(true);
+                    setMenuOpen(false);
+                  } else {
+                    toast({
+                      title: "Nutrition data unavailable",
+                      description: "This recipe doesn't have nutrition information yet",
+                    });
+                    setMenuOpen(false);
+                  }
+              }}
+              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
+            >
+              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center text-xl">
+                📊
+              </div>
+              <div className="flex-1 text-left">
+                <div className="font-semibold text-foreground flex items-center gap-2">
+                  Nutritional Facts
+                  {isPremium && <span className="text-xs">👑</span>}
+                </div>
+                <div className="text-sm text-muted-foreground">Calories, macros, vitamins</div>
+              </div>
+              {!isPremium && (
+                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  PREMIUM
+                </div>
+              )}
             </button>
             
             {/* Add Notes */}
@@ -777,124 +915,8 @@ const RecipeDetail = () => {
                 </div>
               </div>
             </button>
-
-            {/* Visual Divider */}
-            <div className="my-4">
-              <div className="h-px bg-border/50" />
-            </div>
-
-            {/* PREMIUM FEATURES */}
-            {/* Ask Chef Quinn - Premium */}
-            <button
-              onClick={() => {
-                // Guest users: show sign up prompt
-                if (!user) {
-                  toast({
-                    title: "Sign up to chat with Chef Quinn",
-                    description: "Create an account to ask Chef Quinn about recipes",
-                    action: (
-                      <Button
-                        size="sm"
-                        onClick={() => navigate('/auth')}
-                        className="bg-primary hover:bg-primary/90"
-                      >
-                        Sign Up
-                      </Button>
-                    ),
-                  });
-                  setMenuOpen(false);
-                  return;
-                }
-
-                // Authenticated users: check premium status
-                if (isPremium) {
-                  setAiChatOpen(true);
-                  setMenuOpen(false);
-                } else {
-                  setPremiumFeature('chef-quinn');
-                  setShowPremiumModal(true);
-                  setMenuOpen(false);
-                }
-              }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
-            >
-              <div className="w-10 h-10 bg-purple-50 dark:bg-purple-950/30 rounded-full flex items-center justify-center text-xl">
-                👨‍🍳
-              </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground flex items-center gap-2">
-                  Ask Chef Quinn
-                  {isPremium && <span className="text-xs">👑</span>}
-                </div>
-                <div className="text-sm text-muted-foreground">Chat with your AI sous chef</div>
-              </div>
-              {!isPremium && (
-                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  PREMIUM
-                </div>
-              )}
-            </button>
             
-            {/* Nutritional Facts - Premium */}
-            <button
-              onClick={() => {
-                // Guest users: show sign up prompt
-                if (!user) {
-                  toast({
-                    title: "Sign up to unlock nutritional information",
-                    description: "Create an account to access detailed nutrition facts",
-                    action: (
-                      <Button
-                        size="sm"
-                        onClick={() => navigate('/auth')}
-                        className="bg-primary hover:bg-primary/90"
-                      >
-                        Sign Up
-                      </Button>
-                    ),
-                  });
-                  setMenuOpen(false);
-                  return;
-                }
-
-                // Authenticated users: check premium status
-                if (recipe?.nutrition) {
-                  if (isPremium) {
-                    setNutritionModalOpen(true);
-                    setMenuOpen(false);
-                  } else {
-                    setPremiumFeature('nutrition');
-                    setShowPremiumModal(true);
-                    setMenuOpen(false);
-                  }
-                } else {
-                  toast({
-                    title: "Nutrition data unavailable",
-                    description: "This recipe doesn't have nutrition information yet",
-                  });
-                  setMenuOpen(false);
-                }
-              }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
-            >
-              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center text-xl">
-                📊
-              </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground flex items-center gap-2">
-                  Nutritional Facts
-                  {isPremium && <span className="text-xs">👑</span>}
-                </div>
-                <div className="text-sm text-muted-foreground">Calories, macros, vitamins</div>
-              </div>
-              {!isPremium && (
-                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  PREMIUM
-                </div>
-              )}
-            </button>
-            
-            {/* Export as PDF - Premium */}
+            {/* Export as PDF */}
             <button
               onClick={() => {
                 handleExportPDF();
@@ -907,17 +929,11 @@ const RecipeDetail = () => {
                 📄
               </div>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground flex items-center gap-2">
+                <div className="font-semibold text-foreground">
                   {isGeneratingPDF ? 'Generating...' : 'Export as PDF'}
-                  {isPremium && <span className="text-xs">👑</span>}
                 </div>
                 <div className="text-sm text-muted-foreground">Download recipe as PDF</div>
               </div>
-              {!isPremium && (
-                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  PREMIUM
-                </div>
-              )}
             </button>
 
             {/* Save as Image (temporarily removed) */}
@@ -962,6 +978,7 @@ const RecipeDetail = () => {
         onOpenChange={setMealPlanDialogOpen}
         recipeName={recipe.name}
         onSave={async (date, mealType) => {
+          if (!requireAuth('add recipes to your meal plan')) return;
           await addMealPlan(recipe.id, date, mealType);
         }}
       />
@@ -970,12 +987,6 @@ const RecipeDetail = () => {
         recipe={recipe}
         open={aiChatOpen}
         onClose={() => setAiChatOpen(false)}
-      />
-
-      <PremiumModal
-        isOpen={showPremiumModal}
-        onClose={() => setShowPremiumModal(false)}
-        feature={premiumFeature}
       />
 
       {/* Shopping Flow Components - Removed, will add back with Kroger/Instacart API */}
@@ -1008,7 +1019,19 @@ const RecipeDetail = () => {
           onBack={() => setSelectedStore(null)}
         />
       )} */}
-    </div>
+
+            <SignupPrompt 
+        isOpen={showSignupModal} 
+        onClose={() => setShowSignupModal(false)} 
+        feature={modalFeature} 
+      />
+
+      <PremiumModal
+        isOpen={showPremiumModal}
+        onClose={() => setShowPremiumModal(false)}
+        feature={premiumFeature}
+      />
+      </div>
   );
 };
 

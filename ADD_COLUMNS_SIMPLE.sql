@@ -9,3 +9,4 @@ ADD COLUMN IF NOT EXISTS ai_generations_used_today INTEGER DEFAULT 0 NOT NULL;
 ALTER TABLE public.profiles 
 ADD COLUMN IF NOT EXISTS ai_generations_reset_date DATE DEFAULT CURRENT_DATE;
 
+

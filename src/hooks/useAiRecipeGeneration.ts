@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useGeneratedRecipes } from '@/hooks/useGeneratedRecipes';
 import { recipeStorage } from '@/utils/recipeStorage';
 import { useQueryClient } from '@tanstack/react-query';
+import { getAiGenerationLimit } from '@/constants/limits';
 
 export const useAiRecipeGeneration = () => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -52,8 +53,21 @@ export const useAiRecipeGeneration = () => {
         tier = profile.subscription_tier === 'premium' || profile.is_premium ? 'premium' : 'free';
       }
 
-      const limit = tier === 'premium' ? 5 : 1;
+              // CRITICAL: Calculate limit based on premium status
+        // Use getAiGenerationLimit helper function
+        const limit = getAiGenerationLimit(tier === 'premium');
       const remaining = Math.max(0, limit - currentGenerations);
+
+      // Debug logging
+      console.log('AI Limit Debug (useAiRecipeGeneration):', {
+        tier,
+        isPremium: tier === 'premium',
+        user_is_premium: profile?.is_premium,
+        subscription_tier: profile?.subscription_tier,
+        limit,
+        currentGenerations,
+        remaining
+      });
 
       setGenerationsRemaining(remaining);
 
@@ -139,12 +153,14 @@ export const useAiRecipeGeneration = () => {
         console.log('📡 7a. Error message:', error.message);
         console.log('📡 7b. Full error:', JSON.stringify(error, null, 2));
         
-        if (error.message?.includes('Rate limit')) {
+                  if (error.message?.includes('Rate limit')) {
+            // CRITICAL: Use dynamic limit based on premium status
+            const limit = getAiGenerationLimit(freshPremiumStatus);
           toast({
             title: "Daily limit reached",
             description: freshPremiumStatus 
-              ? "You've used all 5 AI generations today. Try again tomorrow!"
-              : "You've used your 1 free AI generation. Upgrade to Premium for 5/day!",
+              ? `You've used all ${limit} AI generations today. Try again tomorrow!`
+              : `You've used your 1 free AI generation. Upgrade to Premium for 5/day!`,
             variant: "destructive"
           });
         } else {

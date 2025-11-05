@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { useSmartNavigation } from "@/hooks/useSmartNavigation";
+import { useScrollRestoration } from "@/hooks/useScrollRestoration";
 import { BottomNav } from "@/components/BottomNav";
 import { RecipeCard } from "@/components/RecipeCard";
 import { RecipeCardSkeleton } from "@/components/RecipeCardSkeleton";
@@ -25,6 +26,10 @@ import { MealPlanDialog } from "@/components/MealPlanDialog";
 export const SavedRecipes = () => {
   const location = useLocation();
   const { navigateToRecipe, getContext } = useSmartNavigation();
+  
+  // Enable scroll restoration for this page
+  useScrollRestoration();
+  
   const { allRecipes } = useAllRecipes();
   const { savedRecipes, loading, error, refetch, unsaveRecipe } = useSavedRecipes();
   const { mealPlans, refreshMealPlans, addMealPlan } = useMealPlan();
@@ -59,8 +64,10 @@ export const SavedRecipes = () => {
   const [selectedRecipeForMealPlan, setSelectedRecipeForMealPlan] = useState<Recipe | null>(null);
 
   useEffect(() => {
-    const custom = JSON.parse(localStorage.getItem('customRecipes') || '[]');
-    setCustomRecipes(custom);
+    // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
+    // const custom = JSON.parse(localStorage.getItem('customRecipes') || '[]');
+    // setCustomRecipes(custom);
+    setCustomRecipes([]);
   }, []);
 
   // Resolve saved recipes to actual Recipe objects (static + generated + DB fallback + stubs)
@@ -76,12 +83,16 @@ export const SavedRecipes = () => {
           if (gen) return gen;
           const stat = statMap.get(saved.recipe_id);
           if (stat) return stat;
+          // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
+          /*
           try {
             const stored = JSON.parse(localStorage.getItem('recipes') || '[]');
             return stored.find((r: any) => r.id === saved.recipe_id);
           } catch {
             return undefined;
           }
+          */
+          return undefined;
         })
         .filter((r): r is Recipe => r !== undefined)
         .map(r => ({ ...r }));
@@ -194,15 +205,17 @@ export const SavedRecipes = () => {
   const confirmDelete = () => {
     if (deletingRecipeId) {
       const updatedRecipes = customRecipes.filter(r => r.id !== deletingRecipeId);
-      localStorage.setItem('customRecipes', JSON.stringify(updatedRecipes));
+      // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
+      // localStorage.setItem('customRecipes', JSON.stringify(updatedRecipes));
       setCustomRecipes(updatedRecipes);
       setDeletingRecipeId(null);
     }
   };
 
   const handleSave = () => {
-    const custom = JSON.parse(localStorage.getItem('customRecipes') || '[]');
-    setCustomRecipes(custom);
+    // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
+    // const custom = JSON.parse(localStorage.getItem('customRecipes') || '[]');
+    // setCustomRecipes(custom);
   };
 
   const toggleFilter = (category: 'time' | 'difficulty' | 'mealType', value: string) => {

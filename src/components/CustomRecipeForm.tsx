@@ -100,18 +100,22 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
       tags: ["custom"]
     };
 
-    const customRecipes = JSON.parse(localStorage.getItem('customRecipes') || '[]');
+    // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
+    // const customRecipes = JSON.parse(localStorage.getItem('customRecipes') || '[]');
+    const customRecipes: Recipe[] = [];
     
     if (editRecipe) {
-      const index = customRecipes.findIndex((r: Recipe) => r.id === editRecipe.id);
-      if (index !== -1) {
-        customRecipes[index] = recipe;
-      }
+      // COMMENTED OUT: localStorage recipe storage disabled
+      // const index = customRecipes.findIndex((r: Recipe) => r.id === editRecipe.id);
+      // if (index !== -1) {
+      //   customRecipes[index] = recipe;
+      // }
     } else {
-      customRecipes.push(recipe);
+      // COMMENTED OUT: localStorage recipe storage disabled
+      // customRecipes.push(recipe);
     }
 
-    localStorage.setItem('customRecipes', JSON.stringify(customRecipes));
+    // COMMENTED OUT: localStorage.setItem('customRecipes', JSON.stringify(customRecipes));
     toast.success(editRecipe ? "Recipe updated!" : "Recipe created!");
     resetForm();
     onSave();

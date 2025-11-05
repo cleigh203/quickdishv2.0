@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSmartNavigation } from "@/hooks/useSmartNavigation";
+import { useScrollRestoration } from "@/hooks/useScrollRestoration";
 import { Heart, ChefHat, Loader2, Search } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { Recipe } from "@/types/recipe";
@@ -23,6 +24,9 @@ const Favorites = () => {
   const navigate = useNavigate(); // For non-recipe navigation
   const { navigateToRecipe, getContext } = useSmartNavigation();
 
+  // Enable scroll restoration for this page
+  useScrollRestoration();
+
   useEffect(() => {
     const resolveFavorites = async () => {
       // Map saved recipe IDs to actual recipe objects
@@ -35,12 +39,16 @@ const Favorites = () => {
           if (gen) return gen;
           const stat = statMap.get(saved.recipe_id);
           if (stat) return stat;
+          // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
+          /*
           try {
             const stored = JSON.parse(localStorage.getItem('recipes') || '[]');
             return stored.find((r: any) => r.id === saved.recipe_id);
           } catch {
             return undefined;
           }
+          */
+          return undefined;
         })
         .filter((r): r is Recipe => r !== undefined)
         .map(r => ({ ...r }));

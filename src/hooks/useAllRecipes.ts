@@ -4,19 +4,19 @@ import { Recipe } from '@/types/recipe';
 import { retryOperation } from '@/utils/errorHandling';
 
 // Cache version - increment this to force all users to refresh
-const CACHE_VERSION = 'v4'; // Incremented to force cache refresh
+const CACHE_VERSION = 'v3';
 const CACHE_KEY = `all_recipes_cache_${CACHE_VERSION}`;
 const CACHE_DURATION = 60000; // 1 minute for testing (was 1 hour)
 
 export const useAllRecipes = (enabled = true) => {
   const [allRecipes, setAllRecipes] = useState<Recipe[]>(() => {
-    // Try to load from cache on init - but ONLY if it has image URLs!
+    // Try to load from cache on init
     try {
       const cached = localStorage.getItem(CACHE_KEY);
       if (cached) {
         const { data, timestamp } = JSON.parse(cached);
-        // Use cache ONLY if it's fresh AND has image URLs
-        if (Date.now() - timestamp < CACHE_DURATION && data?.length > 0 && data[0]?.imageUrl) {
+        // Use cache if less than CACHE_DURATION old
+        if (Date.now() - timestamp < CACHE_DURATION) {
           return data;
         }
       }
@@ -28,61 +28,25 @@ export const useAllRecipes = (enabled = true) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Always fetch fresh data on first load to ensure we have images
-    if (enabled && (allRecipes.length === 0 || !allRecipes[0]?.imageUrl)) {
+    if (enabled && allRecipes.length === 0) {
       fetchAllRecipes();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled]);
 
   const fetchAllRecipes = async () => {
-    console.log('🔍 useAllRecipes: Starting fetch, setting loading=true');
     try {
       setIsLoading(true);
       
-              // Use retry logic for network resilience
-        // Fetch all recipes using pagination to avoid any max-rows-per-request limits
-        const data = await retryOperation(async () => {
-          let allRecipesData: any[] = [];
-          let from = 0;
-          // Use a conservative page size that's definitely below any possible max-rows limit
-          // Common max-rows limits are 25, 50, 100, or 1000. Using 20 ensures we can fetch all recipes
-          // even if max-rows is set to 25 (the most restrictive common limit)
-          const pageSize = 20;
-          let hasMore = true;
+      // Use retry logic for network resilience
+      const data = await retryOperation(async () => {
+        const { data, error } = await supabase
+          .from('recipes')
+          .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category, nutrition, total_time')
+          .order('name')
+          .abortSignal(AbortSignal.timeout(10000)); // 10 second timeout
 
-          while (hasMore) {
-            const { data: pageData, error } = await supabase
-              .from('recipes')
-              .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category, nutrition')
-              .order('name')
-              .range(from, from + pageSize - 1)
-              .abortSignal(AbortSignal.timeout(30000)); // 30 second timeout for pagination
-
-            if (error) throw error;
-
-            if (pageData && pageData.length > 0) {
-              allRecipesData = [...allRecipesData, ...pageData];
-              const receivedCount = pageData.length;
-              from += receivedCount;
-              // Continue fetching if we got a full page (exactly pageSize items)
-              // This means there might be more items. If we got fewer, we've reached the end.
-              hasMore = receivedCount === pageSize;
-            } else {
-              hasMore = false;
-            }
-          }
-
-          return allRecipesData;
-        
-        // 🔍 DEBUG: Log what we got from database
-        console.log('🔍 Database Query Results:');
-        console.log('Total recipes fetched:', data?.length);
-        const quickAndEasy = data?.filter((r: any) => r.category === 'Quick and Easy') || [];
-        console.log('Quick and Easy from DB:', quickAndEasy.length);
-        console.log('Quick and Easy recipe names from DB:', quickAndEasy.map((r: any) => r.name).sort());
-        console.log('Greek Chicken Wrap in DB results?', quickAndEasy.some((r: any) => r.name.includes('Greek Chicken')));
-        
+        if (error) throw error;
         return data;
       }, 2, 1000); // 2 retries with 1 second delay
 
@@ -102,7 +66,8 @@ export const useAllRecipes = (enabled = true) => {
         image: dbRecipe.image_url,
         imageUrl: dbRecipe.image_url,
         tags: dbRecipe.tags || [],
-        nutrition: dbRecipe.nutrition as any, // Cast to any to handle Json type
+        totalTime: dbRecipe.total_time,
+        nutrition: dbRecipe.nutrition,
       }));
 
       setAllRecipes(transformedRecipes);
@@ -127,22 +92,10 @@ export const useAllRecipes = (enabled = true) => {
       }
       // Keep existing state; do not clear the list on transient errors
     } finally {
-      console.log('🔍 useAllRecipes: Fetch complete, setting loading=false');
       setIsLoading(false);
     }
   };
 
-  // isLoading should be true if we have no recipes OR if recipes don't have image URLs yet
-  const isReallyLoading = isLoading || (allRecipes.length > 0 && !allRecipes[0]?.imageUrl);
-
-  // Debug logging
-  console.log('🔍 useAllRecipes state:', {
-    isLoading,
-    hasRecipes: allRecipes.length > 0,
-    firstRecipeHasImage: !!allRecipes[0]?.imageUrl,
-    isReallyLoading
-  });
-
-  return { allRecipes, isLoading: isReallyLoading, refetch: fetchAllRecipes };
+  return { allRecipes, isLoading, refetch: fetchAllRecipes };
 };
 

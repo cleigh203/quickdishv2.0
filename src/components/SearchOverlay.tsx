@@ -1,4 +1,4 @@
-import { useState, useMemo, Fragment } from "react";
+import { useState, useMemo, Fragment, useEffect, useRef } from "react";
 import { ArrowLeft, Search, Check, X, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
-import { useSmartNavigation } from "@/hooks/useSmartNavigation";
+import { useNavigate, useLocation } from "react-router-dom";
 import { InlineRating } from "@/components/InlineRating";
 
 interface SearchOverlayProps {
@@ -41,10 +41,10 @@ export const SearchOverlay = ({
   onAddToFavorites,
   hideAiImages = false
 }: SearchOverlayProps) => {
-  const { navigateToRecipe } = useSmartNavigation();
-
-  // Separate input state from applied search state
-  const [appliedSearch, setAppliedSearch] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isRestoringRef = useRef(false);
   
   const FILTERS = {
     time: ['Under 30min', '30-60min'],
@@ -53,30 +53,72 @@ export const SearchOverlay = ({
     meal: ['Breakfast', 'Lunch', 'Dinner', 'Snack']
   };
 
-  // Only filter when appliedSearch is set (after clicking Apply Filters)
+  // Filter recipes in real-time
   const filteredRecipes = useMemo(() => {
-    if (!appliedSearch?.trim()) {
-      return [];
-    }
-    
-          const query = appliedSearch.toLowerCase();
-      return recipes
-        .filter(r => r.name?.toLowerCase().includes(query));
-  }, [appliedSearch, recipes]);
+    const isHalloweenRecipe = (recipe: Recipe) => 
+      recipe.cuisine?.toLowerCase() === 'halloween' || 
+      recipe.tags?.includes('halloween') || false;
 
-  const handleApplyFilters = () => {
-    setAppliedSearch(searchQuery);
-    onSearch(); // Trigger the parent's handleSearch to show filtered view
-  };
+    return recipes.filter(recipe => {
+      // Exclude Halloween recipes from search
+      if (isHalloweenRecipe(recipe)) return false;
 
-  const handleClearAll = () => {
-    setSearchQuery('');
-    setAppliedSearch('');
-    clearFilters();
-  };
+      // Search query filter - search by name AND ingredients with smart word matching
+      if (searchQuery.trim()) {
+        const queryTerms = searchQuery.toLowerCase().split(/[\s,]+/).filter(t => t.length > 0);
+        
+        // For each search term, check if it matches as a word (not just substring)
+        const matches = queryTerms.some(term => {
+          // Create regex for word boundary matching
+          // \b matches word boundaries, so "fish" won't match "finish"
+          const wordRegex = new RegExp(`\\b${term}`, 'i');
+          
+          // Search in recipe name
+          const nameMatch = wordRegex.test(recipe.name);
+          
+          // Search in ingredients (each ingredient item)
+          const ingredientMatch = recipe.ingredients.some(ing => 
+            wordRegex.test(ing.item)
+          );
+          
+          // Search in cuisine
+          const cuisineMatch = wordRegex.test(recipe.cuisine || '');
+          
+          return nameMatch || ingredientMatch || cuisineMatch;
+        });
+        
+        if (!matches) return false;
+      }
+
+      // Apply all filters (AND logic)
+      if (filters.length === 0) return true;
+
+      return filters.every(filter => {
+        // Time filters
+        if (filter === 'Under 30min') {
+          const totalTime = (parseInt(recipe.prepTime) || 0) + (parseInt(recipe.cookTime) || 0);
+          return totalTime <= 30;
+        }
+        if (filter === '30-60min') {
+          const totalTime = (parseInt(recipe.prepTime) || 0) + (parseInt(recipe.cookTime) || 0);
+          return totalTime > 30 && totalTime <= 60;
+        }
+        
+        // Difficulty filters
+        if (['Easy', 'Medium', 'Hard'].includes(filter)) {
+          return recipe.difficulty.toLowerCase() === filter.toLowerCase();
+        }
+        
+        // Diet and meal filters (check tags)
+        const normalizedFilter = filter.toLowerCase().replace(/\s+/g, '-').replace('gluten-free', 'glutenfree');
+        return recipe.tags?.some(tag => 
+          tag.toLowerCase().replace(/\s+/g, '-') === normalizedFilter
+        ) || false;
+      });
+    });
+  }, [recipes, searchQuery, filters]);
 
   if (!isOpen) return null;
-
 
   return (
     <div className="fixed inset-0 bg-background z-50 overflow-y-auto pb-20">
@@ -202,21 +244,26 @@ export const SearchOverlay = ({
         <div className="flex gap-3 pt-4 py-4">
           <Button
             variant="outline"
-            onClick={handleClearAll}
+            onClick={() => {
+              clearFilters();
+              setSearchQuery('');
+            }}
             className="flex-1"
           >
             Clear All
           </Button>
           <Button
-            onClick={handleApplyFilters}
+            onClick={() => {
+              onSearch();
+              onClose();
+            }}
             className="flex-1"
           >
             Apply Filters
           </Button>
         </div>
 
-          {/* Filtered Results */}
-        {appliedSearch && (
+        {/* Filtered Results */}
         <div>
           <p className="text-sm font-semibold text-foreground mb-3">
             Results ({filteredRecipes.length})
@@ -224,8 +271,8 @@ export const SearchOverlay = ({
           
           {filteredRecipes.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
-              <p className="text-lg font-medium">No recipes found for "{appliedSearch}"</p>
-              <p className="text-sm mt-2">Try adjusting your search terms</p>
+              <p className="text-lg font-medium">No recipes found</p>
+              <p className="text-sm mt-2">Try adjusting your filters or search terms</p>
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-4">
@@ -233,10 +280,7 @@ export const SearchOverlay = ({
                 <Fragment key={recipe.id}>
                   <div
                     onClick={() => {
-                      navigateToRecipe(recipe.id, recipe, {
-                        searchQuery: appliedSearch,
-                        activeFilters: filters
-                      });
+                      navigate(`/recipe/${recipe.id}`);
                       onClose();
                     }}
                     className="relative cursor-pointer"
@@ -260,7 +304,7 @@ export const SearchOverlay = ({
                           height="500"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
-                            target.src = "https://via.placeholder.com/400x500/10b981/ffffff?text=QuickDish";
+                            target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
                           }}
                         />
                       )}
@@ -288,7 +332,6 @@ export const SearchOverlay = ({
             </div>
           )}
         </div>
-        )}
       </div>
     </div>
   );

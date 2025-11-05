@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect, useRef } from "react";
-import { X, ArrowLeft, Menu } from "lucide-react";
+import { X } from "lucide-react";
 import { Recipe } from "@/types/recipe";
 import { useToast } from "@/hooks/use-toast";
 
@@ -70,7 +70,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
             if (newRemaining <= 0) {
               playTimerSound();
               toast({
-                title: `â° Timer Complete!`,
+                title: `Timer Complete!`,
                 description: `Step ${timer.stepNumber} timer finished`,
               });
               return { ...timer, remainingSeconds: 0, isRunning: false };
@@ -148,32 +148,10 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Stop voice recognition - reusable cleanup function
-  const stopVoiceRecognition = async () => {
-    if (!isListeningRef.current) return;
-    
-    console.log('Stopping voice recognition...');
-    setIsListening(false);
-    isListeningRef.current = false;
-
-    try {
-      if (isNative) {
-        const { SpeechRecognition } = await import('@capacitor-community/speech-recognition');
-        await SpeechRecognition.removeAllListeners();
-        await SpeechRecognition.stop();
-      } else if (recognitionRef.current) {
-        recognitionRef.current.abort();
-        recognitionRef.current = null;
-      }
-    } catch (error) {
-      console.error('Error stopping voice recognition:', error);
-    }
-  };
-
   // Simple text to speech - NO mic stopping
   const speakText = async (text: string) => {
     try {
-      console.log('ðŸ”Š Speaking:', text.substring(0, 40));
+      console.log('🔊 Speaking:', text.substring(0, 40));
 
       if (isNative) {
         const { TextToSpeech } = await import('@capacitor-community/text-to-speech');
@@ -200,11 +178,64 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     }
   };
 
+  // Stop voice recognition function - reusable cleanup
+  const stopVoiceRecognition = async () => {
+    if (!isListeningRef.current) return; // Already stopped
+    
+    console.log('Stopping voice recognition');
+    setIsListening(false);
+    isListeningRef.current = false;
+    
+    try {
+      if (isNative) {
+        const { SpeechRecognition } = await import('@capacitor-community/speech-recognition');
+        await SpeechRecognition.removeAllListeners();
+        await SpeechRecognition.stop();
+      } else if (recognitionRef.current) {
+        recognitionRef.current.abort();
+        recognitionRef.current.stop();
+        recognitionRef.current = null;
+      }
+    } catch (error) {
+      console.error('Error stopping voice recognition:', error);
+    }
+  };
+
+  // Cleanup voice recognition on unmount
+  useEffect(() => {
+    return () => {
+      // Stop voice recognition on unmount
+      if (isListeningRef.current) {
+        setIsListening(false);
+        isListeningRef.current = false;
+        
+        // Stop web recognition if active
+        if (recognitionRef.current) {
+          try {
+            recognitionRef.current.abort();
+            recognitionRef.current.stop();
+            recognitionRef.current = null;
+          } catch (e) {
+            // Ignore errors during cleanup
+          }
+        }
+        
+        // Stop native recognition if active (try regardless of platform check)
+        import('@capacitor-community/speech-recognition').then(({ SpeechRecognition }) => {
+          SpeechRecognition.removeAllListeners().catch(() => {});
+          SpeechRecognition.stop().catch(() => {});
+        }).catch(() => {
+          // Not native platform, ignore
+        });
+      }
+    };
+  }, []);
+
   // Voice command handler
   const handleVoiceCommand = (command: string) => {
     const cmd = command.toLowerCase().trim();
-    console.log('ðŸŽ¤ RAW COMMAND:', command);
-    console.log('ðŸŽ¤ PROCESSED:', cmd);
+    console.log('🎤 RAW COMMAND:', command);
+    console.log('🎤 PROCESSED:', cmd);
     
     setLastCommand(cmd);
     setTimeout(() => setLastCommand(""), 3000);
@@ -217,11 +248,11 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
                         (cmd.includes('quick') && cmd.includes('dish'));
     
     if (!hasWakeWord) {
-      console.log('âŒ REJECTED: Wake word required (heard: "' + cmd + '")');
+      console.log('❌ REJECTED: Wake word required (heard: "' + cmd + '")');
       // Don't spam toasts - only show if they said an actual command
       if (cmd.includes('next') || cmd.includes('back') || cmd.includes('repeat') || cmd.includes('timer')) {
         toast({
-          title: "ðŸŽ¤ Say 'Quick Dish' first",
+          title: "🎤 Say 'Quick Dish' first",
           description: "Example: 'Quick Dish Next'",
           duration: 2000,
         });
@@ -229,7 +260,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       return;
     }
 
-    console.log('âœ… ACCEPTED: Processing command');
+    console.log('✅ ACCEPTED: Processing command');
 
     // Timer commands
     if (cmd.includes('timer') || cmd.includes('start timer') || cmd.includes('set timer')) {
@@ -250,9 +281,9 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
           setCurrentStep(prev => {
         if (prev >= recipe.instructions.length - 1) {
           speakText("Recipe complete! Enjoy your meal!");
-              // Auto-stop microphone when recipe is done
-              stopVoiceRecognition();
-              setTimeout(onExit, 2000);
+          // Stop microphone when recipe is done
+          stopVoiceRecognition();
+          setTimeout(handleExit, 2000);
           return prev;
         }
         return prev + 1; // Auto-read handled by useEffect
@@ -269,9 +300,9 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     else if (cmd.includes('done') || cmd.includes('finish')) {
       if (currentStepRef.current === recipe.instructions.length - 1) {
         speakText("Congratulations! You finished this recipe!");
-        // Auto-stop microphone when user says done on last step
+        // Stop microphone when user says done on last step
         stopVoiceRecognition();
-        setTimeout(onExit, 3000);
+        setTimeout(handleExit, 3000);
       } else {
         speakText("You're not on the last step yet");
       }
@@ -345,7 +376,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
 
           setIsListening(true);
           toast({ 
-            title: "ðŸŽ¤ Voice control started",
+            title: "🎤 Voice control started",
             description: 'Say "Quick Dish Next"'
           });
         } else {
@@ -395,7 +426,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
           setIsListening(true);
           
           toast({ 
-            title: "ðŸŽ¤ Voice control started",
+            title: "🎤 Voice control started",
             description: 'Say "Quick Dish Next"'
           });
         }
@@ -423,14 +454,6 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     return () => clearTimeout(timer);
   }, [currentStep, isListening, recipe.instructions]);
 
-  // Cleanup voice recognition when component unmounts
-  useEffect(() => {
-    return () => {
-      // Cleanup on unmount
-      stopVoiceRecognition();
-    };
-  }, []);
-
   // Keep screen awake
   useEffect(() => {
     if ('wakeLock' in navigator) {
@@ -455,8 +478,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
         handlePrevious();
       }
       if (e.key === 'Escape') {
-        stopVoiceRecognition();
-        onExit();
+        handleExit();
       }
     };
     window.addEventListener('keydown', handleKeyPress);
@@ -468,10 +490,10 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       if (prev < recipe.instructions.length - 1) {
         return prev + 1;
       } else {
-        toast({ title: "Cooking complete! Enjoy! ðŸŽ‰" });
+        toast({ title: "Cooking complete! Enjoy! 🎉" });
         // Stop voice recognition when recipe completes
         stopVoiceRecognition();
-        setTimeout(onExit, 2000);
+        setTimeout(handleExit, 2000);
         return prev;
       }
     });
@@ -479,6 +501,12 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
 
   const handlePrevious = () => {
     setCurrentStep(prev => Math.max(0, prev - 1));
+  };
+
+  // Handle exit - stop voice recognition before exiting
+  const handleExit = async () => {
+    await stopVoiceRecognition();
+    onExit();
   };
 
   // Extract ingredients needed for current step
@@ -513,7 +541,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">{recipe.name}</h2>
             <button onClick={() => setShowFullRecipe(false)} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white text-xl">
-              Ã—
+              ×
             </button>
           </div>
         </div>
@@ -523,7 +551,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
             <ul className="space-y-2">
               {recipe.ingredients?.map((ing, i) => (
                 <li key={i} className="flex items-start text-lg">
-                  <span className="text-[#10b981] mr-2">â€¢</span>
+                  <span className="text-[#10b981] mr-2">•</span>
                   <span>{`${ing.amount} ${ing.unit} ${ing.item}`.trim()}</span>
                 </li>
               )) || <li className="text-gray-500">No ingredients available</li>}
@@ -550,7 +578,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       {/* Voice Listening Indicator - MOVED TO TOP */}
       {isListening && (
         <div className="bg-green-600 text-white px-4 py-2 text-center text-sm font-semibold flex items-center justify-center gap-2">
-          <div className="animate-pulse">ðŸŽ¤</div>
+          <div className="animate-pulse">🎤</div>
           <span>VOICE CONTROL ACTIVE</span>
         </div>
       )}
@@ -558,15 +586,15 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       {/* Header */}
       <div className="bg-gradient-to-r from-[#10b981] to-[#34d399] text-white px-5 py-6 pt-12">
         <div className="flex items-center justify-between mb-4">
-          <button onClick={async () => { await stopVoiceRecognition(); onExit(); }} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors">
-            <ArrowLeft size={20} />
+          <button onClick={handleExit} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white text-lg">
+            ←
           </button>
           <div className="flex gap-2">
-            <button onClick={async () => { await stopVoiceRecognition(); onExit(); }} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors">
+            <button onClick={handleExit} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white">
               <X size={20} />
             </button>
-            <button onClick={() => setShowFullRecipe(true)} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors">
-              <Menu size={20} />
+            <button onClick={() => setShowFullRecipe(true)} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white text-lg">
+              ☰
             </button>
           </div>
         </div>
@@ -604,7 +632,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
             <ul className="space-y-2">
               {stepIngredients.map((ing, i) => (
                 <li key={i} className="text-lg text-gray-700">
-                  â€¢ {ing.amount} {ing.unit} {ing.item}
+                  • {ing.amount} {ing.unit} {ing.item}
                 </li>
               ))}
             </ul>
@@ -620,7 +648,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
                 onClick={() => startTimer(currentStep + 1, minutes)}
                 className="w-full h-14 bg-[#10b981] text-white rounded-xl font-semibold text-lg shadow-lg hover:bg-[#059669] transition-all"
               >
-                â±ï¸ Start {minutes} Minute Timer
+                                 Start {minutes} Minute Timer
               </button>
             ))}
           </div>
@@ -638,7 +666,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
                   : 'bg-green-600 text-white hover:bg-green-700'
               }`}
             >
-              {isListening ? 'ðŸ”´ Stop Voice Control' : 'ðŸŽ¤ Start Voice Control'}
+              {isListening ? '🔴 Stop Voice Control' : '🎤 Start Voice Control'}
             </button>
 
             {/* Help text - Always show when listening */}
@@ -690,13 +718,13 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
           disabled={currentStep === 0}
           className="flex-1 h-14 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 disabled:opacity-50"
         >
-          â† BACK
+                     BACK
         </button>
         <button 
           onClick={handleNext}
           className="flex-1 h-14 bg-[#10b981] text-white rounded-xl font-semibold shadow-md hover:bg-[#059669]"
         >
-          {currentStep === recipe.instructions.length - 1 ? 'âœ“ DONE!' : 'NEXT â†’'}
+                     {currentStep === recipe.instructions.length - 1 ? 'DONE!' : 'NEXT'}
         </button>
       </div>
     </div>

@@ -69,14 +69,17 @@ export const useSavedRecipes = () => {
         supabase.removeChannel(channel);
       };
     } else {
-      // For guests, load from localStorage
-      loadFromLocalStorage();
+      // COMMENTED OUT: No localStorage for guests - require authentication
+      // loadFromLocalStorage();
+      setSavedRecipes([]);
       setLoading(false);
       initialFetchDoneRef.current = true;
     }
   }, [user]);
 
   const loadFromLocalStorage = () => {
+    // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
+    /*
     try {
       const saved = localStorage.getItem('favorites');
       const favoriteIds: string[] = saved ? JSON.parse(saved) : [];
@@ -93,6 +96,8 @@ export const useSavedRecipes = () => {
       console.error('Failed to load from localStorage:', error);
       setSavedRecipes([]);
     }
+    */
+    setSavedRecipes([]);
   };
 
   const fetchSavedRecipes = async () => {
@@ -124,8 +129,10 @@ export const useSavedRecipes = () => {
 
       if (error) throw error;
       
+      // COMMENTED OUT: No localStorage merging - only database storage
       // Merge with any locally saved favorites (acts as a fallback if DB insert fails)
       let merged: SavedRecipe[] = data || [];
+      /*
       try {
         const local = localStorage.getItem('favorites');
         const localIds: string[] = local ? JSON.parse(local) : [];
@@ -145,6 +152,7 @@ export const useSavedRecipes = () => {
           }
         }
       } catch {}
+      */
 
       setSavedRecipes(merged);
       setError(null); // Clear any previous errors on success
@@ -165,7 +173,9 @@ export const useSavedRecipes = () => {
 
   const saveRecipe = async (recipeId: string) => {
     if (!user) {
+      // COMMENTED OUT: No localStorage for guests - require authentication
       // Guest mode - use localStorage
+      /*
       try {
         const saved = localStorage.getItem('favorites');
         const favorites: string[] = saved ? JSON.parse(saved) : [];
@@ -189,6 +199,8 @@ export const useSavedRecipes = () => {
         });
         return { success: false, message: 'Failed to save' };
       }
+      */
+      return { success: false, message: 'Authentication required' };
     }
 
     // Prevent duplicate save attempts
@@ -244,7 +256,9 @@ export const useSavedRecipes = () => {
 
       await Promise.race([insertPromise, timeoutPromise]);
 
+      // COMMENTED OUT: No localStorage mirroring - only database storage
       // Mirror to localStorage as a safety net (does not affect server truth)
+      /*
       try {
         const saved = localStorage.getItem('favorites');
         const favorites: string[] = saved ? JSON.parse(saved) : [];
@@ -253,6 +267,7 @@ export const useSavedRecipes = () => {
           localStorage.setItem('favorites', JSON.stringify(favorites));
         }
       } catch {}
+      */
 
       // Realtime subscription will update with actual DB data
       
@@ -279,7 +294,9 @@ export const useSavedRecipes = () => {
 
   const unsaveRecipe = async (recipeId: string) => {
     if (!user) {
+      // COMMENTED OUT: No localStorage for guests - require authentication
       // Guest mode - use localStorage
+      /*
       try {
         const saved = localStorage.getItem('favorites');
         const favorites: string[] = saved ? JSON.parse(saved) : [];
@@ -291,6 +308,8 @@ export const useSavedRecipes = () => {
         console.error('Failed to remove from localStorage:', error);
         return { success: false, message: 'Failed to remove' };
       }
+      */
+      return { success: false, message: 'Authentication required' };
     }
 
     // Prevent duplicate unsave attempts
@@ -300,7 +319,9 @@ export const useSavedRecipes = () => {
 
     // Store previous state for rollback
     const previousRecipes = savedRecipes;
+    // COMMENTED OUT: No localStorage rollback - only database storage
     // Store previous localStorage for rollback (logged-in users mirror favorites for resilience)
+    /*
     const previousLocalFavorites = (() => {
       try {
         const saved = localStorage.getItem('favorites');
@@ -309,6 +330,7 @@ export const useSavedRecipes = () => {
         return [] as string[];
       }
     })();
+    */
 
     try {
       saveInProgressRef.current.add(recipeId);
@@ -321,13 +343,16 @@ export const useSavedRecipes = () => {
         description: "Recipe removed from favorites",
       });
 
+      // COMMENTED OUT: No localStorage mirroring - only database storage
       // Also remove from localStorage mirror immediately so it isn't merged back on refetch
+      /*
       try {
         const saved = localStorage.getItem('favorites');
         const favorites: string[] = saved ? JSON.parse(saved) : [];
         const updated = favorites.filter(id => id !== recipeId);
         localStorage.setItem('favorites', JSON.stringify(updated));
       } catch {}
+      */
 
       // Add 8-second timeout for delete
       const timeoutPromise = new Promise((_, reject) =>
@@ -355,10 +380,13 @@ export const useSavedRecipes = () => {
       
       // Rollback optimistic update on error
       setSavedRecipes(previousRecipes);
+      // COMMENTED OUT: No localStorage rollback - only database storage
       // Rollback localStorage mirror if we changed it
+      /*
       try {
         localStorage.setItem('favorites', JSON.stringify(previousLocalFavorites));
       } catch {}
+      */
       
       const errorInfo = handleSupabaseError(err);
       // Don't show timeout errors

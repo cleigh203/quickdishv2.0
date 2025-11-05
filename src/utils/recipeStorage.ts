@@ -1,85 +1,47 @@
 import { Recipe } from "@/types/recipe";
 
+// COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
 export const recipeStorage = {
-  // Recipes
+  // Recipes - DISABLED: Only database storage allowed
   setRecipes: (recipes: Recipe[]) => {
-    try {
-      localStorage.setItem('recipes', JSON.stringify(recipes));
-    } catch (error) {
-      console.error('Failed to save recipes:', error);
-    }
+    // COMMENTED OUT: localStorage.setItem('recipes', JSON.stringify(recipes));
+    console.warn('recipeStorage.setRecipes is disabled. Use database storage instead.');
   },
   
   getRecipes: (): Recipe[] => {
-    try {
-      const saved = localStorage.getItem('recipes');
-      return saved ? JSON.parse(saved) : [];
-    } catch (error) {
-      console.error('Failed to load recipes:', error);
-      return [];
-    }
+    // COMMENTED OUT: localStorage.getItem('recipes')
+    console.warn('recipeStorage.getRecipes is disabled. Use database storage instead.');
+    return [];
   },
   
   getRecipeById: (id: string): Recipe | undefined => {
-    try {
-      const saved = localStorage.getItem('recipes');
-      const recipes: Recipe[] = saved ? JSON.parse(saved) : [];
-      return recipes.find(r => r.id === id);
-    } catch (error) {
-      console.error('Failed to find recipe:', error);
-      return undefined;
-    }
+    // COMMENTED OUT: localStorage.getItem('recipes')
+    console.warn('recipeStorage.getRecipeById is disabled. Use database storage instead.');
+    return undefined;
   },
   
   // Favorites - DEPRECATED: Use useSavedRecipes hook instead
-  // These are kept for backwards compatibility with guest mode only
+  // DISABLED: No localStorage storage allowed
   addFavorite: (recipeId: string) => {
-    console.warn('recipeStorage.addFavorite is deprecated. Use useSavedRecipes hook instead.');
-    try {
-      const saved = localStorage.getItem('favorites');
-      const favorites: string[] = saved ? JSON.parse(saved) : [];
-      if (!favorites.includes(recipeId)) {
-        favorites.push(recipeId);
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-      }
-    } catch (error) {
-      console.error('Failed to add favorite:', error);
-    }
+    console.warn('recipeStorage.addFavorite is deprecated and disabled. Use useSavedRecipes hook instead.');
+    // COMMENTED OUT: localStorage.setItem('favorites', ...)
   },
   
   removeFavorite: (recipeId: string) => {
-    console.warn('recipeStorage.removeFavorite is deprecated. Use useSavedRecipes hook instead.');
-    try {
-      const saved = localStorage.getItem('favorites');
-      const favorites: string[] = saved ? JSON.parse(saved) : [];
-      const updated = favorites.filter(id => id !== recipeId);
-      localStorage.setItem('favorites', JSON.stringify(updated));
-    } catch (error) {
-      console.error('Failed to remove favorite:', error);
-    }
+    console.warn('recipeStorage.removeFavorite is deprecated and disabled. Use useSavedRecipes hook instead.');
+    // COMMENTED OUT: localStorage.setItem('favorites', ...)
   },
   
   getFavorites: (): string[] => {
-    console.warn('recipeStorage.getFavorites is deprecated. Use useSavedRecipes hook instead.');
-    try {
-      const saved = localStorage.getItem('favorites');
-      return saved ? JSON.parse(saved) : [];
-    } catch (error) {
-      console.error('Failed to load favorites:', error);
-      return [];
-    }
+    console.warn('recipeStorage.getFavorites is deprecated and disabled. Use useSavedRecipes hook instead.');
+    // COMMENTED OUT: localStorage.getItem('favorites')
+    return [];
   },
   
   isFavorite: (recipeId: string): boolean => {
-    console.warn('recipeStorage.isFavorite is deprecated. Use useSavedRecipes hook instead.');
-    try {
-      const saved = localStorage.getItem('favorites');
-      const favorites: string[] = saved ? JSON.parse(saved) : [];
-      return favorites.includes(recipeId);
-    } catch (error) {
-      console.error('Failed to check favorite:', error);
-      return false;
-    }
+    console.warn('recipeStorage.isFavorite is deprecated and disabled. Use useSavedRecipes hook instead.');
+    // COMMENTED OUT: localStorage.getItem('favorites')
+    return false;
   },
   
   // Shopping list

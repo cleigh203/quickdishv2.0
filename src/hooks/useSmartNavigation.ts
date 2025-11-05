@@ -13,8 +13,16 @@ interface NavigationContext {
   scrollY?: number;
   recipe?: any;
   navigatedAt?: number;
+  collectionParam?: string; // Preserve collection query parameter
   [key: string]: any; // Allow any additional context
 }
+
+/**
+ * Get scroll key for sessionStorage
+ */
+const getScrollKey = (pathname: string, search: string) => {
+  return `scroll_${pathname}_${search}`;
+};
 
 export const useSmartNavigation = () => {
   const navigate = useNavigate();
@@ -33,11 +41,20 @@ export const useSmartNavigation = () => {
     // Capture current scroll position
     const scrollY = window.scrollY;
     
+    // Save scroll position to sessionStorage for this route
+    const scrollKey = getScrollKey(location.pathname, location.search);
+    sessionStorage.setItem(scrollKey, scrollY.toString());
+    
+    // Capture current URL search params (for collection query parameter)
+    const searchParams = new URLSearchParams(location.search);
+    const collectionParam = searchParams.get('collection');
+    
     // Determine where we're coming from based on pathname
     const pathname = location.pathname;
     const from = pathname.includes('/discover') || pathname.includes('/generate') ? '/discover' :
                  pathname.includes('/favorites') ? '/favorites' :
                  pathname.includes('/saved') ? '/saved' :
+                 pathname.includes('/meal-plan') ? '/meal-plan' :
                  pathname.includes('/') && pathname !== '/' ? pathname :
                  '/discover';
 
@@ -48,6 +65,7 @@ export const useSmartNavigation = () => {
         from,
         scrollY,
         restoreScroll: scrollY, // Alias for compatibility
+        collectionParam: collectionParam || currentState.collectionParam, // Preserve collection parameter
         // Preserve ALL existing state from current page
         ...currentState,
         // Merge in additional state (search, filters, etc.)
@@ -66,7 +84,14 @@ export const useSmartNavigation = () => {
     
     if (state?.from) {
       // Navigate back to the page we came from
-      const targetPath = state.from;
+      let targetPath = state.from;
+      
+      // Restore collection query parameter if it exists
+      if (state.collectionParam) {
+        const url = new URL(targetPath, window.location.origin);
+        url.searchParams.set('collection', state.collectionParam);
+        targetPath = url.pathname + url.search;
+      }
       
       // Prepare state to restore
       const restoreState: any = {
@@ -77,6 +102,7 @@ export const useSmartNavigation = () => {
         activeCategory: state.activeCategory,
         categoryFilter: state.categoryFilter,
         showFilteredView: state.showFilteredView,
+        collectionParam: state.collectionParam, // Preserve collection parameter
       };
 
       // Preserve any other custom state (except internal fields)
@@ -86,16 +112,23 @@ export const useSmartNavigation = () => {
         }
       });
 
-      // Navigate back with all context and restore scroll position
+      // Navigate back with all context
       navigate(targetPath, {
         state: restoreState
       });
       
       // Restore scroll position after navigation
-      setTimeout(() => {
-        const scrollTo = state.scrollY || state.restoreScroll || 0;
-        window.scrollTo({ top: scrollTo, behavior: 'instant' });
-      }, 100);
+      // Use sessionStorage which will be picked up by useScrollRestoration
+      const scrollTo = state.scrollY || state.restoreScroll || 0;
+      if (scrollTo > 0) {
+        const scrollKey = getScrollKey(targetPath, new URL(targetPath, window.location.origin).search);
+        sessionStorage.setItem(scrollKey, scrollTo.toString());
+        
+        // Also try immediate restore after a delay
+        setTimeout(() => {
+          window.scrollTo({ top: scrollTo, behavior: 'instant' });
+        }, 100);
+      }
     } else {
       // Fallback to browser back
       navigate(-1);

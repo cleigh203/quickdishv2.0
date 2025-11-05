@@ -20,7 +20,6 @@ interface SubscriptionManagementModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   subscriptionEnd: string | null;
-  subscriptionStatus?: string | null;
   onSubscriptionCanceled: () => void;
 }
 
@@ -28,7 +27,6 @@ export const SubscriptionManagementModal = ({
   open,
   onOpenChange,
   subscriptionEnd,
-  subscriptionStatus,
   onSubscriptionCanceled,
 }: SubscriptionManagementModalProps) => {
   const { toast } = useToast();
@@ -73,40 +71,13 @@ export const SubscriptionManagementModal = ({
     setCanceling(true);
     try {
       // Call edge function to cancel subscription
-      const { data, error } = await supabase.functions.invoke('cancel-subscription');
+      const { error } = await supabase.functions.invoke('cancel-subscription');
       
-      if (error) {
-        console.error('Cancel subscription error:', error);
-        // Provide user-friendly error messages
-        if (error.message?.includes('No authorization')) {
-          throw new Error('You must be signed in to cancel your subscription');
-        } else if (error.message?.includes('No subscription')) {
-          throw new Error('No active subscription found to cancel');
-        } else if (error.message?.includes('not configured')) {
-          throw new Error('Subscription system is not available. Please contact support.');
-        } else {
-          throw new Error(error.message || 'Failed to cancel subscription. Please try again or contact support.');
-        }
-      }
-
-      if (data?.error) {
-        console.error('Cancel subscription response error:', data.error);
-        throw new Error(data.error || 'Failed to cancel subscription. Please try again.');
-      }
-
-      // Get period end date from response
-      const periodEndDate = data?.period_end || subscriptionEnd;
-      const formattedDate = periodEndDate 
-        ? new Date(periodEndDate).toLocaleDateString('en-US', {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric'
-          })
-        : 'the end of your billing period';
+      if (error) throw error;
 
       toast({
-        title: "Subscription cancellation scheduled",
-        description: `Your subscription will remain active until ${formattedDate}. You'll continue to have access to premium features until then.`,
+        title: "Subscription canceled",
+        description: "Your premium features will remain active until the end of your billing period.",
       });
       
       setCancelDialogOpen(false);
@@ -114,10 +85,9 @@ export const SubscriptionManagementModal = ({
       onSubscriptionCanceled();
     } catch (error: any) {
       console.error('Error canceling subscription:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Failed to cancel subscription. Please try again or contact support.';
       toast({
-        title: "Error canceling subscription",
-        description: errorMessage,
+        title: "Error",
+        description: "Failed to cancel subscription. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -146,14 +116,10 @@ export const SubscriptionManagementModal = ({
             {/* Current Plan */}
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Current Plan</p>
-                              <div className="flex items-center justify-between">
-                  <span className="text-lg font-semibold">Premium - $2.99/month</span>
-                  <Badge className={subscriptionStatus === 'cancel_at_period_end' 
-                    ? "bg-orange-500 hover:bg-orange-500" 
-                    : "bg-green-500 hover:bg-green-500"}>
-                    {subscriptionStatus === 'cancel_at_period_end' ? 'Cancelling' : 'Active'}
-                  </Badge>
-                </div>
+              <div className="flex items-center justify-between">
+                <span className="text-lg font-semibold">Premium - $2.99/month</span>
+                <Badge className="bg-green-500 hover:bg-green-500">Active</Badge>
+              </div>
             </div>
 
             {/* Next Billing Date */}

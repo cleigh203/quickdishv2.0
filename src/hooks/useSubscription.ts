@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { getAiGenerationLimit } from '@/constants/limits';
 
 export const useSubscription = () => {
   return useQuery({
@@ -68,11 +69,33 @@ export const useAIUsage = (usageType: 'recipe_generation' | 'chat' | 'nutrition'
           }
           
           // Check is_premium status from profiles table (preferred over subscription_tier)
+          // Explicitly check for boolean true to avoid truthy values
+          // CRITICAL: Only treat as premium if is_premium is explicitly true OR subscription_tier is 'premium'
           const isPremiumUser = profile?.is_premium === true || profile?.subscription_tier === 'premium';
           
           // Calculate limit: FREE = 1, PREMIUM = 5
-          const limit = isPremiumUser ? 5 : 1;
+          // CRITICAL: Use getAiGenerationLimit helper function
+          const limit = getAiGenerationLimit(isPremiumUser);
+          
+          // Debug logging
+          console.log('AI Limit Debug (useSubscription):', {
+            isPremiumUser,
+            limit,
+            calculatedLimit: getAiGenerationLimit(isPremiumUser)
+          });
+          
           const canUse = currentGenerations < limit;
+          
+          // Debug logging
+          console.log('🔍 AI Usage Limit Calculation:', {
+            userId: subscription.userId,
+            is_premium: profile?.is_premium,
+            subscription_tier: profile?.subscription_tier,
+            isPremiumUser,
+            limit,
+            count: currentGenerations,
+            canUse
+          });
           
           return {
             count: currentGenerations,
