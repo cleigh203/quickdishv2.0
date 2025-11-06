@@ -95,11 +95,14 @@ export const SavedRecipes = () => {
         .from('saved_recipes')
         .select('*')
         .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+        .order('saved_at', { ascending: false });
 
       if (savedError) {
         console.error('Error fetching saved recipes:', savedError);
+        return;
       }
+
+      console.log('Saved recipes:', savedRecipesData);
 
       // Transform generated_recipes to Recipe format
       const generatedRecipesList: Recipe[] = (generatedRecipesData || []).map((record: any) => ({
