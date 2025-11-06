@@ -533,28 +533,33 @@ const RecipeDetail = () => {
                 <p className="small-text">Cook Time</p>
               </div>
               <div className="info-card">
-                <p className="text-2xl font-bold text-primary">{adjustedServings}</p>
+                <p className="text-2xl font-bold text-primary">
+                  {recipe.id?.startsWith('custom-') ? 'Custom' : adjustedServings}
+                </p>
                 <p className="small-text">Servings</p>
               </div>
             </div>
 
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => setServingMultiplier(Math.max(0.5, servingMultiplier - 0.5))}
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
-              <span className="text-lg font-semibold">Adjust Servings</span>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => setServingMultiplier(servingMultiplier + 0.5)}
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
+            {/* Hide serving adjustment for custom recipes */}
+            {!recipe.id?.startsWith('custom-') && (
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setServingMultiplier(Math.max(0.5, servingMultiplier - 0.5))}
+                >
+                  <Minus className="h-4 w-4" />
+                </Button>
+                <span className="text-lg font-semibold">Adjust Servings</span>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setServingMultiplier(servingMultiplier + 0.5)}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
 
             <div className="mb-6">
               <h2 className="text-3xl font-bold mb-4 text-black">Ingredients</h2>
