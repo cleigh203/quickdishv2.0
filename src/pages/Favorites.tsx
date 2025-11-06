@@ -219,8 +219,8 @@ const Favorites = () => {
                     </Button>
                     <Button 
                       onClick={() => {
-                        navigateToRecipe(recipe.id, recipe);
-                        // Note: cook mode should be handled via URL param or state in RecipeDetail
+                        // Navigate to recipe with cook=true parameter to start Cooking Mode directly
+                        navigate(`/recipe/${recipe.id}?cook=true`, { state: { recipe } });
                       }}
                       className="flex-1 bg-primary hover:bg-primary/90 font-semibold"
                     >

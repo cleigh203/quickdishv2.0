@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Loader2, Zap, Crown } from 'lucide-react';
+import { Sparkles, Loader2, Zap, Crown, Flame } from 'lucide-react';
 import { useAiRecipeGeneration } from '@/hooks/useAiRecipeGeneration';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,21 @@ import { Recipe } from '@/types/recipe';
 import { PremiumModal } from '@/components/PremiumModal';
 import { useAIUsage } from '@/hooks/useSubscription';
 import { getAiGenerationLimit } from '@/constants/limits';
+
+const COOKING_TIPS = [
+  "🔥 Preheat your pan before adding oil for better searing",
+  "🧂 Salt your pasta water - it should taste like the sea!",
+  "🥩 Let meat rest after cooking to keep it juicy",
+  "🧄 Add garlic near the end - it burns easily",
+  "🌿 Add fresh herbs at the end for maximum flavor",
+  "🍋 A squeeze of lemon brightens almost any dish",
+  "🔪 Keep your knives sharp for safer, easier cutting",
+  "❄️ Room temperature ingredients mix better",
+  "🧈 Cold butter makes flakier pastries",
+  "🥘 Taste as you cook and adjust seasoning",
+  "🍳 Don't overcrowd the pan - give food space to brown",
+  "⏰ Prep all ingredients before you start cooking",
+];
 
 interface AiGenerationPromptProps {
   searchTerm: string;
@@ -59,6 +74,10 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
   const [remaining, setRemaining] = useState<number | null>(null);
   const [limitReached, setLimitReached] = useState(false);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
+  const [currentTip, setCurrentTip] = useState(() => 
+    Math.floor(Math.random() * COOKING_TIPS.length)
+  );
+  const [fadeIn, setFadeIn] = useState(true);
 
   // Parse ingredients from search term
   const ingredients = searchTerm
@@ -80,6 +99,22 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
       });
     }
   }, [user, aiUsage, checkRateLimit]);
+
+  // Rotate cooking tips while generating
+  useEffect(() => {
+    if (!isGenerating) return;
+
+    const interval = setInterval(() => {
+      setFadeIn(false);
+      setTimeout(() => {
+        const randomTip = Math.floor(Math.random() * COOKING_TIPS.length);
+        setCurrentTip(randomTip);
+        setFadeIn(true);
+      }, 300);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isGenerating]);
 
   const handleGenerate = async () => {
     if (!user) {
@@ -132,9 +167,62 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
 
   const remainingText = getRemainingText();
 
+  // Calculate generations left for display
+  const generationsLeft = remaining !== null ? remaining : 0;
+
   return (
     <>
-      <div className="max-w-[450px] mx-auto bg-white dark:bg-gray-900 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-2xl p-8 shadow-sm">
+      <div className="max-w-[450px] mx-auto bg-white dark:bg-gray-900 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-2xl p-8 shadow-sm relative">
+        {/* Loading Overlay with Tips */}
+        {isGenerating && (
+          <div className="absolute inset-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-2xl flex items-center justify-center z-10">
+            <div className="text-center px-6 max-w-md">
+              {/* Animated Logo */}
+              <div className="mb-6 flex justify-center">
+                <div className="relative">
+                  <Flame 
+                    className="w-16 h-16 text-green-600 dark:text-green-400 animate-[pulse_2s_ease-in-out_infinite]" 
+                    fill="currentColor"
+                  />
+                  <div className="absolute inset-0 animate-[ping_2s_ease-in-out_infinite] opacity-75">
+                    <Flame className="w-16 h-16 text-green-600/40 dark:text-green-400/40" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Loading Message */}
+              <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+                Creating your recipe...
+              </h3>
+              
+              {/* Animated Dots */}
+              <div className="flex justify-center gap-1 mb-6">
+                <span className="w-2 h-2 rounded-full bg-green-600 dark:bg-green-400 animate-[bounce_1s_ease-in-out_infinite]" />
+                <span className="w-2 h-2 rounded-full bg-green-600 dark:bg-green-400 animate-[bounce_1s_ease-in-out_0.1s_infinite]" />
+                <span className="w-2 h-2 rounded-full bg-green-600 dark:bg-green-400 animate-[bounce_1s_ease-in-out_0.2s_infinite]" />
+              </div>
+
+              {/* Rotating Cooking Tip */}
+              <div 
+                className={`bg-green-50 dark:bg-green-900/20 rounded-lg p-4 mb-4 shadow-md transition-opacity duration-300 ${
+                  fadeIn ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {COOKING_TIPS[currentTip]}
+                </p>
+              </div>
+
+              {/* Generation Counter */}
+              {user && (
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  ⚡ {generationsLeft} AI generation{generationsLeft !== 1 ? 's' : ''} left today
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* AI POWERED Badge */}
         <div className="flex justify-center mb-4">
           <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-yellow-400 to-orange-500 text-white">
