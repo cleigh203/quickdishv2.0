@@ -53,8 +53,6 @@ export const SavedRecipes = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [resolvedSavedRecipes, setResolvedSavedRecipes] = useState<Recipe[]>([]);
-  const [allUserRecipes, setAllUserRecipes] = useState<Recipe[]>([]);
-  const [loadingUserRecipes, setLoadingUserRecipes] = useState(false);
   const [activeFilters, setActiveFilters] = useState<{
     time: string[];
     difficulty: string[];
@@ -66,133 +64,6 @@ export const SavedRecipes = () => {
   });
   const [mealPlanDialogOpen, setMealPlanDialogOpen] = useState(false);
   const [selectedRecipeForMealPlan, setSelectedRecipeForMealPlan] = useState<Recipe | null>(null);
-
-  // Fetch all user recipes from both generated_recipes and saved_recipes tables
-  const fetchAllUserRecipes = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      setAllUserRecipes([]);
-      return;
-    }
-
-    setLoadingUserRecipes(true);
-
-    try {
-      // Fetch AI-generated recipes from generated_recipes table
-      const { data: generatedRecipesData, error: genError } = await supabase
-        .from('generated_recipes')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
-
-      if (genError) {
-        console.error('Error fetching generated recipes:', genError);
-      }
-
-      // Fetch user-created custom recipes from saved_recipes table
-      // Note: saved_recipes might have full recipe data or just recipe_id references
-      const { data: savedRecipesData, error: savedError } = await supabase
-        .from('saved_recipes')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
-
-      if (savedError) {
-        console.error('Error fetching saved recipes:', savedError);
-      }
-
-      // Transform generated_recipes to Recipe format
-      const generatedRecipesList: Recipe[] = (generatedRecipesData || []).map((record: any) => ({
-        id: record.recipe_id,
-        name: record.name || 'Unnamed Recipe',
-        description: record.description || '',
-        cookTime: record.cook_time || '',
-        prepTime: record.prep_time || '',
-        difficulty: record.difficulty || 'Medium',
-        servings: record.servings || 4,
-        ingredients: record.ingredients || [],
-        instructions: record.instructions || [],
-        cuisine: record.cuisine || '',
-        imageUrl: record.image_url || '',
-        image: record.image_url || '',
-        nutrition: record.nutrition || undefined,
-        tags: record.tags || [],
-        isAiGenerated: true,
-        generatedAt: record.created_at,
-      } as Recipe));
-
-      // Transform saved_recipes to Recipe format
-      // Check if saved_recipes has full recipe data (custom recipes) or just references (favorites)
-      const customRecipesFromSaved: Recipe[] = (savedRecipesData || [])
-        .filter((record: any) => {
-          // Include records that have full recipe data (indicated by having name field)
-          // Skip records that are just favorite references (only have recipe_id, no name/ingredients)
-          // Check for name OR check if it has recipe data fields beyond just recipe_id
-          const hasName = record.name && record.name.trim() !== '';
-          const hasIngredients = record.ingredients && (Array.isArray(record.ingredients) ? record.ingredients.length > 0 : true);
-          const hasInstructions = record.instructions && (Array.isArray(record.instructions) ? record.instructions.length > 0 : true);
-          
-          // This is a custom recipe (full recipe data) if it has name AND (ingredients OR instructions)
-          return hasName && (hasIngredients || hasInstructions);
-        })
-        .map((record: any) => {
-          // Transform to Recipe format - this is a custom recipe with full data
-          return {
-            id: record.recipe_id || record.id || `saved-${record.created_at || Date.now()}`,
-            name: record.name || 'Unnamed Recipe',
-            description: record.description || '',
-            cookTime: record.cook_time || record.cookTime || '',
-            prepTime: record.prep_time || record.prepTime || '',
-            difficulty: record.difficulty || 'Medium',
-            servings: record.servings || 4,
-            ingredients: Array.isArray(record.ingredients) ? record.ingredients : (record.ingredients ? [record.ingredients] : []),
-            instructions: Array.isArray(record.instructions) ? record.instructions : (record.instructions ? [record.instructions] : []),
-            cuisine: record.cuisine || '',
-            imageUrl: record.image_url || record.imageUrl || '',
-            image: record.image_url || record.imageUrl || '',
-            nutrition: record.nutrition || undefined,
-            tags: record.tags || [],
-            isAiGenerated: false,
-            generatedAt: record.created_at || record.saved_at,
-          } as Recipe;
-        });
-
-      // Combine both arrays
-      const combined = [
-        ...generatedRecipesList,
-        ...customRecipesFromSaved
-      ];
-
-      // Sort by created_at descending
-      combined.sort((a, b) => {
-        const dateA = a.generatedAt ? new Date(a.generatedAt).getTime() : 0;
-        const dateB = b.generatedAt ? new Date(b.generatedAt).getTime() : 0;
-        return dateB - dateA;
-      });
-
-      console.log('✅ Fetched all user recipes:', {
-        generated: generatedRecipesList.length,
-        custom: customRecipesFromSaved.length,
-        total: combined.length
-      });
-
-      setAllUserRecipes(combined);
-    } catch (error) {
-      console.error('Error fetching all user recipes:', error);
-      setAllUserRecipes([]);
-    } finally {
-      setLoadingUserRecipes(false);
-    }
-  };
-
-  // Fetch all user recipes on mount and when user changes
-  useEffect(() => {
-    if (user) {
-      fetchAllUserRecipes();
-    } else {
-      setAllUserRecipes([]);
-    }
-  }, [user]);
 
   useEffect(() => {
     // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
@@ -315,8 +186,7 @@ export const SavedRecipes = () => {
 
   const handleRecipeClick = (recipeId: string) => {
     // Find the recipe in our data to pass via state
-    const recipe = allUserRecipes.find(r => r.id === recipeId) ||
-                   resolvedSavedRecipes.find(r => r.id === recipeId) ||
+    const recipe = resolvedSavedRecipes.find(r => r.id === recipeId) ||
                    customRecipes.find(r => r.id === recipeId);
     navigateToRecipe(recipeId, recipe);
   };
@@ -346,8 +216,8 @@ export const SavedRecipes = () => {
   };
 
   const handleSave = async () => {
-    // Refetch all user recipes to show the newly saved custom recipe
-    await fetchAllUserRecipes();
+    // Refetch generated recipes to show the newly saved custom recipe
+    await refetchGeneratedRecipes();
     // Also refetch saved recipes in case user wants to save it
     await refetch();
   };
