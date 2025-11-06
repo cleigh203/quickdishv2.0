@@ -6,7 +6,7 @@ export const useAuthCheck = () => {
   const [showSignupModal, setShowSignupModal] = useState(false);
   const [modalFeature, setModalFeature] = useState('use this feature');
 
-  const requireAuth = (action: string = 'perform this action'): boolean => {
+  const requireAuth = (action: string = 'use this feature'): boolean => {
     if (!user) {
       setModalFeature(action);
       setShowSignupModal(true);
@@ -15,12 +15,12 @@ export const useAuthCheck = () => {
     return true;
   };
 
-  return { 
-    requireAuth, 
-    isAuthenticated: !!user, 
-    showSignupModal, 
-    setShowSignupModal, 
-    modalFeature 
+  return {
+    requireAuth,
+    isAuthenticated: !!user,
+    showSignupModal,
+    setShowSignupModal,
+    modalFeature
   };
 };
 
