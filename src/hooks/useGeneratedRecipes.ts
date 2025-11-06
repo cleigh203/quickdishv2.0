@@ -53,7 +53,10 @@ export const useGeneratedRecipes = () => {
 
       const { data, error } = await Promise.race([queryPromise, timeoutPromise]) as any;
 
-      console.log('🔄 4. Query result:', { data, error, dataLength: data?.length });
+      console.log('📥 FETCHED data:', data);
+      console.log('📥 FETCHED length:', data?.length);
+      console.log('📥 FETCHED error:', error);
+      console.log('📥 Is data an array?', Array.isArray(data));
 
       if (error) {
         console.error('🔄 Query error:', error);
@@ -84,8 +87,12 @@ export const useGeneratedRecipes = () => {
 
       console.log('🔄 6. Transformed recipes:', recipes.length);
       console.log('🔄 7. Recipe IDs:', recipes.map(r => r.id));
+      console.log('📥 Transformed recipes array:', recipes);
+      console.log('📥 Is transformed recipes an array?', Array.isArray(recipes));
 
       setGeneratedRecipes(recipes);
+      
+      console.log('✅ State SHOULD be set now with', recipes.length, 'recipes');
     } catch (error: any) {
       console.error('🔄 8. Error fetching generated recipes:', error);
       console.error('🔄 Error details:', error.message, error.code);

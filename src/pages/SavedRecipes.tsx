@@ -315,23 +315,23 @@ export const SavedRecipes = () => {
   );
 
   // Debug logging right before render
-  console.log('🎨 RENDERING My Kitchen with:', {
-    generatedRecipes: generatedRecipes,
-    generatedRecipesLength: generatedRecipes?.length || 0,
-    firstGeneratedRecipe: generatedRecipes?.[0],
-    customRecipes: customRecipes,
-    customRecipesLength: customRecipes?.length || 0,
-    resolvedSavedRecipes: resolvedSavedRecipes,
-    resolvedSavedRecipesLength: resolvedSavedRecipes?.length || 0,
-    filteredCustomRecipes: filteredCustomRecipes,
-    filteredCustomRecipesLength: filteredCustomRecipes?.length || 0,
-    filteredSavedRecipes: filteredSavedRecipes,
-    filteredSavedRecipesLength: filteredSavedRecipes?.length || 0,
-    savedRecipesList: savedRecipesList,
-    savedRecipesListLength: savedRecipesList?.length || 0,
-    loading: loading,
-    error: error
-  });
+  console.log('🎨 RENDERING My Kitchen');
+  console.log('🎨 generatedRecipes:', generatedRecipes);
+  console.log('🎨 generatedRecipesLength:', generatedRecipes?.length || 0);
+  console.log('🎨 firstGeneratedRecipe:', generatedRecipes?.[0]);
+  console.log('🎨 Is generatedRecipes an array?', Array.isArray(generatedRecipes));
+  console.log('🎨 customRecipes:', customRecipes);
+  console.log('🎨 customRecipesLength:', customRecipes?.length || 0);
+  console.log('🎨 resolvedSavedRecipes:', resolvedSavedRecipes);
+  console.log('🎨 resolvedSavedRecipesLength:', resolvedSavedRecipes?.length || 0);
+  console.log('🎨 filteredCustomRecipes:', filteredCustomRecipes);
+  console.log('🎨 filteredCustomRecipesLength:', filteredCustomRecipes?.length || 0);
+  console.log('🎨 filteredSavedRecipes:', filteredSavedRecipes);
+  console.log('🎨 filteredSavedRecipesLength:', filteredSavedRecipes?.length || 0);
+  console.log('🎨 savedRecipesList:', savedRecipesList);
+  console.log('🎨 savedRecipesListLength:', savedRecipesList?.length || 0);
+  console.log('🎨 loading:', loading);
+  console.log('🎨 error:', error);
 
   return (
     <div className="min-h-screen pb-20">
