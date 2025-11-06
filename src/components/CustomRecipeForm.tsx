@@ -157,6 +157,8 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
     setIsUploading(false);
 
     try {
+      // For new recipes, generate a unique ID
+      // For edits, we'll handle updates separately if needed
       const recipeId = editRecipe?.id || `custom-${Date.now()}`;
       
       // Parse ingredients into proper format
@@ -231,7 +233,7 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
         }
       }
 
-      // Prepare payload
+      // Prepare payload - use insert for new recipes
       const payload = {
         user_id: user.id,
         recipe_id: recipeId,
@@ -251,10 +253,12 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
 
       console.log('Saving recipe with payload:', JSON.stringify(payload, null, 2));
 
+      // Use insert for new recipes (not upsert)
       const { data, error } = await supabase
         .from('generated_recipes')
-        .upsert(payload, { onConflict: 'user_id,recipe_id' })
-        .select();
+        .insert(payload)
+        .select()
+        .single();
 
       if (error) {
         console.error('Save error details:', JSON.stringify(error, null, 2));
