@@ -356,61 +356,18 @@ export const SavedRecipes = () => {
     });
   };
 
-  // Split generated recipes into custom and AI recipes
-  const customRecipesFromGenerated = useMemo(() => {
-    const custom = generatedRecipes?.filter((r: Recipe) => r.id?.startsWith('custom-')) || [];
-    console.log('🎨 customRecipesFromGenerated computed:', custom.length, custom);
-    return custom;
-  }, [generatedRecipes]);
+  const filteredCustomRecipes = useMemo(() => 
+    getFilteredRecipes(customRecipes), 
+    [customRecipes, searchQuery, activeFilters]
+  );
 
-  const aiRecipesFromGenerated = useMemo(() => {
-    const ai = generatedRecipes?.filter((r: Recipe) => r.id?.startsWith('ai-')) || [];
-    console.log('🎨 aiRecipesFromGenerated computed:', ai.length, ai);
-    return ai;
-  }, [generatedRecipes]);
-
-  const filteredCustomRecipes = useMemo(() => {
-    const filtered = getFilteredRecipes(customRecipesFromGenerated);
-    console.log('🎨 filteredCustomRecipes computed:', filtered.length, filtered);
-    return filtered;
-  }, [customRecipesFromGenerated, searchQuery, activeFilters]);
-
-  const filteredSavedRecipes = useMemo(() => {
-    const filtered = getFilteredRecipes(savedRecipesList);
-    console.log('🎨 filteredSavedRecipes computed:', filtered.length, filtered);
-    return filtered;
-  }, [savedRecipesList, searchQuery, activeFilters]);
-
-  const filteredAiRecipes = useMemo(() => {
-    const filtered = getFilteredRecipes(aiRecipesFromGenerated);
-    console.log('🎨 filteredAiRecipes computed:', filtered.length, filtered);
-    return filtered;
-  }, [aiRecipesFromGenerated, searchQuery, activeFilters]);
-
-  // Component render logging
-  useEffect(() => {
-    console.log('🎨 My Kitchen component mounted/updated');
-    console.log('🎨 Recipes to display:', {
-      totalGenerated: generatedRecipes?.length || 0,
-      custom: customRecipesFromGenerated.length,
-      ai: aiRecipesFromGenerated.length,
-      bookmarked: savedRecipesList.length,
-      total: customRecipesFromGenerated.length + aiRecipesFromGenerated.length + savedRecipesList.length
-    });
-  }, [generatedRecipes, customRecipesFromGenerated, aiRecipesFromGenerated, savedRecipesList]);
+  const filteredSavedRecipes = useMemo(() => 
+    getFilteredRecipes(savedRecipesList), 
+    [savedRecipesList, searchQuery, activeFilters]
+  );
 
   return (
     <div className="min-h-screen pb-20">
-      {console.log('🎨 RENDER - Full render cycle:', {
-        customRecipes: customRecipesFromGenerated.length,
-        aiRecipes: aiRecipesFromGenerated.length,
-        bookmarkedRecipes: savedRecipesList.length,
-        filteredCustom: filteredCustomRecipes.length,
-        filteredAI: filteredAiRecipes.length,
-        filteredSaved: filteredSavedRecipes.length,
-        loading,
-        error
-      })}
       {/* Header */}
       <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-8 px-4">
         <div className="max-w-lg mx-auto">
@@ -429,15 +386,11 @@ export const SavedRecipes = () => {
             >
               <Heart className="w-4 h-4 mr-2" />
               Saved Recipes
-              {(() => {
-                const total = savedRecipesList.length + customRecipesFromGenerated.length + aiRecipesFromGenerated.length;
-                console.log('🎨 Tab badge count:', { total, saved: savedRecipesList.length, custom: customRecipesFromGenerated.length, ai: aiRecipesFromGenerated.length });
-                return total > 0 ? (
-                  <Badge variant="secondary" className="ml-2">
-                    {total}
-                  </Badge>
-                ) : null;
-              })()}
+              {savedRecipesList.length + customRecipes.length > 0 && (
+                <Badge variant="secondary" className="ml-2">
+                  {savedRecipesList.length + customRecipes.length}
+                </Badge>
+              )}
             </TabsTrigger>
             <TabsTrigger 
               value="mealplan" 
@@ -521,125 +474,58 @@ export const SavedRecipes = () => {
                 </div>
               )}
 
-              {/* My Recipes Section - Custom Recipes */}
-              {(() => {
-                console.log('🎨 RENDER - Checking My Recipes section:', {
-                  loading,
-                  filteredCustomRecipesLength: filteredCustomRecipes.length,
-                  customRecipesFromGeneratedLength: customRecipesFromGenerated.length,
-                  willShow: !loading && filteredCustomRecipes.length > 0
-                });
-                return !loading && filteredCustomRecipes.length > 0 ? (
-                  <section>
-                    <h2 className="text-lg font-semibold mb-4">My Recipes ({filteredCustomRecipes.length})</h2>
-                    <div className="grid grid-cols-2 gap-3">
-                      {filteredCustomRecipes.map((recipe) => (
-                        <RecipeCard
-                          key={recipe.id}
-                          recipe={recipe}
-                          onClick={() => handleRecipeClick(recipe.id)}
-                          showRemoveButton={true}
-                          onRemove={() => handleDelete(recipe.id)}
-                        />
-                      ))}
-                    </div>
-                  </section>
-                ) : (
-                  customRecipesFromGenerated.length > 0 && (
-                    <div className="text-center py-4 text-sm text-muted-foreground border border-dashed rounded-lg">
-                      <p>No custom recipes match current filters</p>
-                      <p className="text-xs mt-1">Total custom recipes: {customRecipesFromGenerated.length}</p>
-                    </div>
-                  )
-                );
-              })()}
-
-              {/* AI Recipes Section */}
-              {(() => {
-                console.log('🎨 RENDER - Checking AI Recipes section:', {
-                  loading,
-                  filteredAiRecipesLength: filteredAiRecipes.length,
-                  aiRecipesFromGeneratedLength: aiRecipesFromGenerated.length,
-                  willShow: !loading && filteredAiRecipes.length > 0
-                });
-                return !loading && filteredAiRecipes.length > 0 ? (
-                  <section>
-                    <h2 className="text-lg font-semibold mb-4">AI Recipes ({filteredAiRecipes.length})</h2>
-                    <div className="grid grid-cols-2 gap-3">
-                      {filteredAiRecipes.map((recipe) => (
-                        <RecipeCard
-                          key={recipe.id}
-                          recipe={recipe}
-                          onClick={() => handleRecipeClick(recipe.id)}
-                          showRemoveButton={true}
-                          onRemove={() => handleDelete(recipe.id)}
-                        />
-                      ))}
-                    </div>
-                  </section>
-                ) : (
-                  aiRecipesFromGenerated.length > 0 && (
-                    <div className="text-center py-4 text-sm text-muted-foreground border border-dashed rounded-lg">
-                      <p>No AI recipes match current filters</p>
-                      <p className="text-xs mt-1">Total AI recipes: {aiRecipesFromGenerated.length}</p>
-                    </div>
-                  )
-                );
-              })()}
-
-              {/* Saved from QuickDish Section - Bookmarked Recipes */}
-              {(() => {
-                console.log('🎨 RENDER - Checking Saved from QuickDish section:', {
-                  loading,
-                  filteredSavedRecipesLength: filteredSavedRecipes.length,
-                  savedRecipesListLength: savedRecipesList.length,
-                  willShow: !loading && filteredSavedRecipes.length > 0
-                });
-                return !loading && filteredSavedRecipes.length > 0 ? (
-                  <section>
-                    <h2 className="text-lg font-semibold mb-4">Saved from QuickDish ({filteredSavedRecipes.length})</h2>
-                    <div className="grid grid-cols-2 gap-3">
-                      {filteredSavedRecipes.map((recipe) => {
-                        const savedRecipe = savedRecipes.find(sr => sr.recipe_id === recipe.id);
-                        return (
-                          <RecipeCard
-                            key={recipe.id}
-                            recipe={recipe}
-                            showRemoveButton={true}
-                            onRemove={() => savedRecipe && handleUnsave(savedRecipe.recipe_id)}
-                            onClick={() => handleRecipeClick(recipe.id)}
-                            showMealPlanButton={true}
-                            onMealPlanClick={() => handleMealPlanClick(recipe)}
-                          />
-                        );
-                      })}
-                    </div>
-                  </section>
-                ) : null;
-              })()}
-
-              {/* Empty state - Only show if not loading and no error and no recipes at all */}
-              {(() => {
-                const totalRecipes = filteredCustomRecipes.length + filteredAiRecipes.length + filteredSavedRecipes.length;
-                const hasAnyRecipes = customRecipesFromGenerated.length > 0 || aiRecipesFromGenerated.length > 0 || savedRecipesList.length > 0;
-                console.log('🎨 RENDER - Checking empty state:', {
-                  loading,
-                  error,
-                  totalRecipes,
-                  hasAnyRecipes,
-                  willShow: !loading && !error && totalRecipes === 0 && !hasAnyRecipes
-                });
-                return !loading && !error && totalRecipes === 0 && !hasAnyRecipes ? (
-                  <div className="text-center py-12 text-muted-foreground">
-                    <p className="mb-2">No saved recipes found</p>
-                    <p className="text-sm">
-                      {activeFilters.time.length > 0 || activeFilters.difficulty.length > 0 || activeFilters.mealType.length > 0
-                        ? "Try adjusting your filters"
-                        : "Start saving recipes to see them here"}
-                    </p>
+              {/* My Recipes Section */}
+              {!loading && filteredCustomRecipes.length > 0 && (
+                <section>
+                  <h2 className="text-lg font-semibold mb-4">My Recipes</h2>
+                  <div className="grid grid-cols-2 gap-3">
+                    {filteredCustomRecipes.map((recipe) => (
+                      <RecipeCard
+                        key={recipe.id}
+                        recipe={recipe}
+                        onClick={() => handleRecipeClick(recipe.id)}
+                        showRemoveButton={true}
+                        onRemove={() => handleDelete(recipe.id)}
+                      />
+                    ))}
                   </div>
-                ) : null;
-              })()}
+                </section>
+              )}
+
+              {/* Saved from QuickDish Section */}
+              {!loading && filteredSavedRecipes.length > 0 && (
+                <section>
+                  <h2 className="text-lg font-semibold mb-4">Saved from QuickDish</h2>
+                  <div className="grid grid-cols-2 gap-3">
+                    {filteredSavedRecipes.map((recipe) => {
+                      const savedRecipe = savedRecipes.find(sr => sr.recipe_id === recipe.id);
+                      return (
+                        <RecipeCard
+                          key={recipe.id}
+                          recipe={recipe}
+                          showRemoveButton={true}
+                          onRemove={() => savedRecipe && handleUnsave(savedRecipe.recipe_id)}
+                          onClick={() => handleRecipeClick(recipe.id)}
+                          showMealPlanButton={true}
+                          onMealPlanClick={() => handleMealPlanClick(recipe)}
+                        />
+                      );
+                    })}
+                  </div>
+                </section>
+              )}
+
+              {/* Empty state - Only show if not loading and no error */}
+              {!loading && !error && filteredCustomRecipes.length === 0 && filteredSavedRecipes.length === 0 && (
+                <div className="text-center py-12 text-muted-foreground">
+                  <p className="mb-2">No saved recipes found</p>
+                  <p className="text-sm">
+                    {activeFilters.time.length > 0 || activeFilters.difficulty.length > 0 || activeFilters.mealType.length > 0
+                      ? "Try adjusting your filters"
+                      : "Start saving recipes to see them here"}
+                  </p>
+                </div>
+              )}
             </div>
           </TabsContent>
 
