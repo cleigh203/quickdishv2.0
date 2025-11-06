@@ -22,12 +22,10 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { supabase } from "@/integrations/supabase/client";
 import { MealPlanDialog } from "@/components/MealPlanDialog";
-import { useAuth } from "@/contexts/AuthContext";
 
 export const SavedRecipes = () => {
   const location = useLocation();
   const { navigateToRecipe, getContext } = useSmartNavigation();
-  const { user } = useAuth();
   
   // Enable scroll restoration for this page
   useScrollRestoration();
@@ -46,17 +44,13 @@ export const SavedRecipes = () => {
       window.history.replaceState({}, document.title);
     }
   }, [location]);
+  const [customRecipes, setCustomRecipes] = useState<Recipe[]>([]);
   const [showCustomForm, setShowCustomForm] = useState(false);
   const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
   const [deletingRecipeId, setDeletingRecipeId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [resolvedSavedRecipes, setResolvedSavedRecipes] = useState<Recipe[]>([]);
-  const [allUserRecipes, setAllUserRecipes] = useState<Recipe[]>([]);
-  const [loadingUserRecipes, setLoadingUserRecipes] = useState(false);
-  const [bookmarkedRecipes, setBookmarkedRecipes] = useState<Recipe[]>([]);
-  const [aiGeneratedRecipes, setAiGeneratedRecipes] = useState<Recipe[]>([]);
-  const [customUserRecipes, setCustomUserRecipes] = useState<Recipe[]>([]);
   const [activeFilters, setActiveFilters] = useState<{
     time: string[];
     difficulty: string[];
@@ -69,184 +63,11 @@ export const SavedRecipes = () => {
   const [mealPlanDialogOpen, setMealPlanDialogOpen] = useState(false);
   const [selectedRecipeForMealPlan, setSelectedRecipeForMealPlan] = useState<Recipe | null>(null);
 
-  // Fetch all My Kitchen recipes from all 3 sources
-  const fetchAllMyKitchenRecipes = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      setBookmarkedRecipes([]);
-      setAiGeneratedRecipes([]);
-      setCustomUserRecipes([]);
-      return;
-    }
-
-    setLoadingUserRecipes(true);
-
-    try {
-      // 1. FETCH BOOKMARKED RECIPES (two-step: get IDs, then fetch full recipes)
-      const { data: savedRecipes, error: savedError } = await supabase
-        .from('saved_recipes')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('saved_at', { ascending: false });
-
-      if (savedError) {
-        console.error('Saved recipes error:', savedError);
-      }
-
-      const recipeIds = savedRecipes?.map(sr => sr.recipe_id) || [];
-      
-      let bookmarkedRecipesList: Recipe[] = [];
-      if (recipeIds.length > 0) {
-        const { data: recipeDetails, error: detailsError } = await supabase
-          .from('recipes')
-          .select('*')
-          .in('id', recipeIds);
-
-        if (detailsError) {
-          console.error('Recipe details error:', detailsError);
-        }
-
-        bookmarkedRecipesList = (savedRecipes || [])
-          .map((saved: any) => {
-            const recipe = recipeDetails?.find((r: any) => r.id === saved.recipe_id);
-            if (!recipe) return null;
-            
-            return {
-              id: recipe.id,
-              name: recipe.name || 'Unnamed Recipe',
-              description: recipe.description || '',
-              cookTime: recipe.cook_time || '',
-              prepTime: recipe.prep_time || '',
-              difficulty: recipe.difficulty || 'Medium',
-              servings: recipe.servings || 4,
-              ingredients: recipe.ingredients || [],
-              instructions: recipe.instructions || [],
-              cuisine: recipe.cuisine || '',
-              imageUrl: recipe.image_url || '',
-              image: recipe.image_url || '',
-              nutrition: recipe.nutrition || undefined,
-              tags: recipe.tags || [],
-              isAiGenerated: false,
-              generatedAt: saved.saved_at,
-              source: 'bookmarked',
-              bookmarkId: saved.id,
-              notes: saved.notes,
-              rating: saved.rating,
-              timesCooked: saved.times_cooked,
-            } as Recipe;
-          })
-          .filter((r): r is Recipe => r !== null);
-      }
-
-      // 2. FETCH AI-GENERATED RECIPES (recipe_id starts with "ai-")
-      const { data: aiRecipes, error: aiError } = await supabase
-        .from('generated_recipes')
-        .select('*')
-        .eq('user_id', user.id)
-        .like('recipe_id', 'ai-%')
-        .order('created_at', { ascending: false });
-
-      if (aiError) {
-        console.error('AI recipes error:', aiError);
-      }
-
-      const aiGeneratedRecipesList: Recipe[] = (aiRecipes || []).map((r: any) => ({
-        id: r.recipe_id || r.id,
-        name: r.name || 'Unnamed Recipe',
-        description: r.description || '',
-        cookTime: r.cook_time || '',
-        prepTime: r.prep_time || '',
-        difficulty: r.difficulty || 'Medium',
-        servings: r.servings || 4,
-        ingredients: r.ingredients || [],
-        instructions: r.instructions || [],
-        cuisine: r.cuisine || '',
-        imageUrl: r.image_url || '',
-        image: r.image_url || '',
-        nutrition: r.nutrition || undefined,
-        tags: r.tags || [],
-        isAiGenerated: true,
-        generatedAt: r.created_at,
-        source: 'ai-generated',
-      } as Recipe));
-
-      // 3. FETCH CUSTOM USER-CREATED RECIPES (recipe_id starts with "custom-")
-      const { data: customRecipesData, error: customError } = await supabase
-        .from('generated_recipes')
-        .select('*')
-        .eq('user_id', user.id)
-        .like('recipe_id', 'custom-%')
-        .order('created_at', { ascending: false });
-
-      if (customError) {
-        console.error('Custom recipes error:', customError);
-      }
-
-      const userCustomRecipesList: Recipe[] = (customRecipesData || []).map((r: any) => ({
-        id: r.recipe_id || r.id,
-        name: r.name || 'Unnamed Recipe',
-        description: r.description || '',
-        cookTime: r.cook_time || '',
-        prepTime: r.prep_time || '',
-        difficulty: r.difficulty || 'Medium',
-        servings: r.servings || 4,
-        ingredients: r.ingredients || [],
-        instructions: r.instructions || [],
-        cuisine: r.cuisine || '',
-        imageUrl: r.image_url || '',
-        image: r.image_url || '',
-        nutrition: r.nutrition || undefined,
-        tags: r.tags || [],
-        isAiGenerated: false,
-        generatedAt: r.created_at,
-        source: 'custom',
-      } as Recipe));
-
-      console.log('My Kitchen recipes:', {
-        bookmarked: bookmarkedRecipesList.length,
-        aiGenerated: aiGeneratedRecipesList.length,
-        custom: userCustomRecipesList.length
-      });
-
-      setBookmarkedRecipes(bookmarkedRecipesList);
-      setAiGeneratedRecipes(aiGeneratedRecipesList);
-      setCustomUserRecipes(userCustomRecipesList);
-
-      // Also set allUserRecipes for backward compatibility
-      const combined = [
-        ...bookmarkedRecipesList,
-        ...aiGeneratedRecipesList,
-        ...userCustomRecipesList
-      ];
-      setAllUserRecipes(combined);
-    } catch (err) {
-      console.error('Error fetching My Kitchen recipes:', err);
-      setBookmarkedRecipes([]);
-      setAiGeneratedRecipes([]);
-      setCustomUserRecipes([]);
-      setAllUserRecipes([]);
-    } finally {
-      setLoadingUserRecipes(false);
-    }
-  };
-
-  // Fetch all user recipes on mount and when user changes
-  useEffect(() => {
-    if (user) {
-      fetchAllMyKitchenRecipes();
-    } else {
-      setBookmarkedRecipes([]);
-      setAiGeneratedRecipes([]);
-      setCustomUserRecipes([]);
-      setAllUserRecipes([]);
-    }
-  }, [user]);
-
   useEffect(() => {
     // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
     // const custom = JSON.parse(localStorage.getItem('customRecipes') || '[]');
     // setCustomRecipes(custom);
-      setCustomUserRecipes([]);
+    setCustomRecipes([]);
   }, []);
 
   // Resolve saved recipes to actual Recipe objects (static + generated + DB fallback + stubs)
@@ -356,18 +177,14 @@ export const SavedRecipes = () => {
     }
   }, [activeTab, refreshMealPlans]);
 
-  // Use allUserRecipes which combines generated_recipes and saved_recipes
   const savedRecipesList = useMemo(() => {
-    return allUserRecipes;
-  }, [allUserRecipes]);
+    return resolvedSavedRecipes;
+  }, [resolvedSavedRecipes]);
 
   const handleRecipeClick = (recipeId: string) => {
     // Find the recipe in our data to pass via state
-    const recipe = bookmarkedRecipes.find(r => r.id === recipeId) ||
-                   aiGeneratedRecipes.find(r => r.id === recipeId) ||
-                   customUserRecipes.find(r => r.id === recipeId) ||
-                   allUserRecipes.find(r => r.id === recipeId) ||
-                   resolvedSavedRecipes.find(r => r.id === recipeId);
+    const recipe = resolvedSavedRecipes.find(r => r.id === recipeId) ||
+                   customRecipes.find(r => r.id === recipeId);
     navigateToRecipe(recipeId, recipe);
   };
 
@@ -385,44 +202,19 @@ export const SavedRecipes = () => {
     setDeletingRecipeId(recipeId);
   };
 
-  const confirmDelete = async () => {
-    if (!deletingRecipeId) return;
-
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast.error('You must be logged in to delete recipes');
-        setDeletingRecipeId(null);
-        return;
-      }
-
-      // Delete from generated_recipes table (for AI and custom recipes)
-      const { error } = await supabase
-        .from('generated_recipes')
-        .delete()
-        .eq('recipe_id', deletingRecipeId)
-        .eq('user_id', user.id);
-
-      if (error) {
-        console.error('Error deleting recipe:', error);
-        toast.error('Failed to delete recipe');
-      } else {
-        toast.success('Recipe deleted successfully');
-        // Refetch all recipes to update the display
-        await fetchAllMyKitchenRecipes();
-      }
-
-      setDeletingRecipeId(null);
-    } catch (err) {
-      console.error('Error deleting recipe:', err);
-      toast.error('Failed to delete recipe');
+  const confirmDelete = () => {
+    if (deletingRecipeId) {
+      const updatedRecipes = customRecipes.filter(r => r.id !== deletingRecipeId);
+      // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
+      // localStorage.setItem('customRecipes', JSON.stringify(updatedRecipes));
+      setCustomRecipes(updatedRecipes);
       setDeletingRecipeId(null);
     }
   };
 
   const handleSave = async () => {
-    // Refetch all My Kitchen recipes to show the newly saved custom recipe
-    await fetchAllMyKitchenRecipes();
+    // Refetch generated recipes to show the newly saved custom recipe
+    await refetchGeneratedRecipes();
     // Also refetch saved recipes in case user wants to save it
     await refetch();
   };
@@ -512,19 +304,14 @@ export const SavedRecipes = () => {
     });
   };
 
-  const filteredBookmarkedRecipes = useMemo(() => 
-    getFilteredRecipes(bookmarkedRecipes), 
-    [bookmarkedRecipes, searchQuery, activeFilters]
+  const filteredCustomRecipes = useMemo(() => 
+    getFilteredRecipes(customRecipes), 
+    [customRecipes, searchQuery, activeFilters]
   );
 
-  const filteredAiRecipes = useMemo(() => 
-    getFilteredRecipes(aiGeneratedRecipes), 
-    [aiGeneratedRecipes, searchQuery, activeFilters]
-  );
-
-  const filteredCustomUserRecipes = useMemo(() => 
-    getFilteredRecipes(customUserRecipes), 
-    [customUserRecipes, searchQuery, activeFilters]
+  const filteredSavedRecipes = useMemo(() => 
+    getFilteredRecipes(savedRecipesList), 
+    [savedRecipesList, searchQuery, activeFilters]
   );
 
   return (
@@ -547,9 +334,9 @@ export const SavedRecipes = () => {
             >
               <Heart className="w-4 h-4 mr-2" />
               Saved Recipes
-              {bookmarkedRecipes.length + aiGeneratedRecipes.length + customUserRecipes.length > 0 && (
+              {savedRecipesList.length + customRecipes.length > 0 && (
                 <Badge variant="secondary" className="ml-2">
-                  {bookmarkedRecipes.length + aiGeneratedRecipes.length + customUserRecipes.length}
+                  {savedRecipesList.length + customRecipes.length}
                 </Badge>
               )}
             </TabsTrigger>
@@ -622,7 +409,7 @@ export const SavedRecipes = () => {
               </Button>
 
               {/* Loading State */}
-              {(loading || loadingUserRecipes) && <LoadingScreen message="Loading your saved recipes..." />}
+              {loading && <LoadingScreen message="Loading your saved recipes..." />}
 
               {/* Error State - Only show if not loading */}
               {!loading && error && (
@@ -635,23 +422,37 @@ export const SavedRecipes = () => {
                 </div>
               )}
 
-              {/* 1. Saved Recipes Section - Bookmarked recipes from main database */}
-              {!loading && !loadingUserRecipes && filteredBookmarkedRecipes.length > 0 && (
+              {/* My Recipes Section */}
+              {!loading && filteredCustomRecipes.length > 0 && (
                 <section>
-                  <h2 className="text-lg font-semibold mb-4">Saved Recipes</h2>
+                  <h2 className="text-lg font-semibold mb-4">My Recipes</h2>
                   <div className="grid grid-cols-2 gap-3">
-                    {filteredBookmarkedRecipes.map((recipe) => {
+                    {filteredCustomRecipes.map((recipe) => (
+                      <RecipeCard
+                        key={recipe.id}
+                        recipe={recipe}
+                        onClick={() => handleRecipeClick(recipe.id)}
+                        showRemoveButton={true}
+                        onRemove={() => handleDelete(recipe.id)}
+                      />
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Saved from QuickDish Section */}
+              {!loading && filteredSavedRecipes.length > 0 && (
+                <section>
+                  <h2 className="text-lg font-semibold mb-4">Saved from QuickDish</h2>
+                  <div className="grid grid-cols-2 gap-3">
+                    {filteredSavedRecipes.map((recipe) => {
                       const savedRecipe = savedRecipes.find(sr => sr.recipe_id === recipe.id);
                       return (
                         <RecipeCard
                           key={recipe.id}
                           recipe={recipe}
                           showRemoveButton={true}
-                          onRemove={() => {
-                            if (savedRecipe) {
-                              handleUnsave(savedRecipe.recipe_id);
-                            }
-                          }}
+                          onRemove={() => savedRecipe && handleUnsave(savedRecipe.recipe_id)}
                           onClick={() => handleRecipeClick(recipe.id)}
                           showMealPlanButton={true}
                           onMealPlanClick={() => handleMealPlanClick(recipe)}
@@ -662,57 +463,8 @@ export const SavedRecipes = () => {
                 </section>
               )}
 
-              {/* 2. AI Recipes Section - AI-generated recipes */}
-              {!loading && !loadingUserRecipes && filteredAiRecipes.length > 0 && (
-                <section>
-                  <h2 className="text-lg font-semibold mb-4">AI Recipes</h2>
-                  <div className="grid grid-cols-2 gap-3">
-                    {filteredAiRecipes.map((recipe) => (
-                      <RecipeCard
-                        key={recipe.id}
-                        recipe={recipe}
-                        showRemoveButton={true}
-                        onRemove={() => {
-                          // Delete AI-generated recipe from generated_recipes table
-                          handleDelete(recipe.id);
-                        }}
-                        onClick={() => handleRecipeClick(recipe.id)}
-                        showMealPlanButton={true}
-                        onMealPlanClick={() => handleMealPlanClick(recipe)}
-                      />
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              {/* 3. My Recipes Section - Custom user-created recipes */}
-              {!loading && !loadingUserRecipes && filteredCustomUserRecipes.length > 0 && (
-                <section>
-                  <h2 className="text-lg font-semibold mb-4">My Recipes</h2>
-                  <div className="grid grid-cols-2 gap-3">
-                    {filteredCustomUserRecipes.map((recipe) => (
-                      <RecipeCard
-                        key={recipe.id}
-                        recipe={recipe}
-                        showRemoveButton={true}
-                        onRemove={() => {
-                          // Delete custom recipe from generated_recipes table
-                          handleDelete(recipe.id);
-                        }}
-                        onClick={() => handleRecipeClick(recipe.id)}
-                        showMealPlanButton={true}
-                        onMealPlanClick={() => handleMealPlanClick(recipe)}
-                      />
-                    ))}
-                  </div>
-                </section>
-              )}
-
               {/* Empty state - Only show if not loading and no error */}
-              {!loading && !loadingUserRecipes && !error && 
-               filteredBookmarkedRecipes.length === 0 && 
-               filteredAiRecipes.length === 0 && 
-               filteredCustomUserRecipes.length === 0 && (
+              {!loading && !error && filteredCustomRecipes.length === 0 && filteredSavedRecipes.length === 0 && (
                 <div className="text-center py-12 text-muted-foreground">
                   <p className="mb-2">No saved recipes found</p>
                   <p className="text-sm">
