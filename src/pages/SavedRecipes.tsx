@@ -67,7 +67,7 @@ export const SavedRecipes = () => {
   const [mealPlanDialogOpen, setMealPlanDialogOpen] = useState(false);
   const [selectedRecipeForMealPlan, setSelectedRecipeForMealPlan] = useState<Recipe | null>(null);
 
-  // Fetch all user recipes from both generated_recipes and saved_recipes tables
+  // Fetch all user recipes from all 3 sources: favorited, AI-generated, and custom
   const fetchAllUserRecipes = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
@@ -78,35 +78,94 @@ export const SavedRecipes = () => {
     setLoadingUserRecipes(true);
 
     try {
-      // Fetch AI-generated recipes from generated_recipes table
-      const { data: generatedRecipesData, error: genError } = await supabase
+      // 1. Fetch FAVORITED/BOOKMARKED recipes from saved_recipes table with nested recipes join
+      const { data: favoritedData, error: favoritedError } = await supabase
+        .from('saved_recipes')
+        .select(`
+          *,
+          recipes:recipe_id (
+            id,
+            name,
+            description,
+            image_url,
+            prep_time,
+            cook_time,
+            servings,
+            difficulty,
+            cuisine,
+            ingredients,
+            instructions,
+            nutrition,
+            tags
+          )
+        `)
+        .eq('user_id', user.id)
+        .order('saved_at', { ascending: false });
+
+      if (favoritedError) {
+        console.error('Error fetching favorited recipes:', favoritedError);
+      }
+
+      // 2. Fetch AI-GENERATED recipes from generated_recipes table
+      const { data: aiRecipesData, error: aiError } = await supabase
         .from('generated_recipes')
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
-      if (genError) {
-        console.error('Error fetching generated recipes:', genError);
+      if (aiError) {
+        console.error('Error fetching AI-generated recipes:', aiError);
       }
 
-      // Fetch user-created custom recipes from saved_recipes table
-      // Note: saved_recipes might have full recipe data or just recipe_id references
-      const { data: savedRecipesData, error: savedError } = await supabase
+      // 3. Fetch CUSTOM recipes from saved_recipes table (recipe_id starts with 'custom-')
+      const { data: customRecipesData, error: customError } = await supabase
         .from('saved_recipes')
         .select('*')
         .eq('user_id', user.id)
+        .like('recipe_id', 'custom-%')
         .order('saved_at', { ascending: false });
 
-      if (savedError) {
-        console.error('Error fetching saved recipes:', savedError);
-        return;
+      if (customError) {
+        console.error('Error fetching custom recipes:', customError);
       }
 
-      console.log('Saved recipes:', savedRecipesData);
+      // Transform favorited recipes (use nested recipes data)
+      const favoritedRecipesList: Recipe[] = (favoritedData || [])
+        .filter((record: any) => {
+          // Only include if it has nested recipes data (not custom recipes)
+          // Handle both array and object responses from Supabase
+          const recipe = Array.isArray(record.recipes) ? record.recipes[0] : record.recipes;
+          return recipe && !record.recipe_id?.startsWith('custom-');
+        })
+        .map((record: any) => {
+          // Handle both array and object responses from Supabase
+          const recipe = Array.isArray(record.recipes) ? record.recipes[0] : record.recipes;
+          if (!recipe) return null;
+          
+          return {
+            id: recipe.id || record.recipe_id,
+            name: recipe.name || 'Unnamed Recipe',
+            description: recipe.description || '',
+            cookTime: recipe.cook_time || '',
+            prepTime: recipe.prep_time || '',
+            difficulty: recipe.difficulty || 'Medium',
+            servings: recipe.servings || 4,
+            ingredients: recipe.ingredients || [],
+            instructions: recipe.instructions || [],
+            cuisine: recipe.cuisine || '',
+            imageUrl: recipe.image_url || '',
+            image: recipe.image_url || '',
+            nutrition: recipe.nutrition || undefined,
+            tags: recipe.tags || [],
+            isAiGenerated: false,
+            generatedAt: record.saved_at,
+          } as Recipe;
+        })
+        .filter((r): r is Recipe => r !== null);
 
-      // Transform generated_recipes to Recipe format
-      const generatedRecipesList: Recipe[] = (generatedRecipesData || []).map((record: any) => ({
-        id: record.recipe_id,
+      // Transform AI-generated recipes
+      const aiRecipesList: Recipe[] = (aiRecipesData || []).map((record: any) => ({
+        id: record.recipe_id || record.id,
         name: record.name || 'Unnamed Recipe',
         description: record.description || '',
         cookTime: record.cook_time || '',
@@ -124,49 +183,39 @@ export const SavedRecipes = () => {
         generatedAt: record.created_at,
       } as Recipe));
 
-      // Transform saved_recipes to Recipe format
-      // Check if saved_recipes has full recipe data (custom recipes) or just references (favorites)
-      const customRecipesFromSaved: Recipe[] = (savedRecipesData || [])
+      // Transform custom recipes (from saved_recipes with full recipe data)
+      const customRecipesList: Recipe[] = (customRecipesData || [])
         .filter((record: any) => {
-          // Include records that have full recipe data (indicated by having name field)
-          // Skip records that are just favorite references (only have recipe_id, no name/ingredients)
-          // Check for name OR check if it has recipe data fields beyond just recipe_id
-          const hasName = record.name && record.name.trim() !== '';
-          const hasIngredients = record.ingredients && (Array.isArray(record.ingredients) ? record.ingredients.length > 0 : true);
-          const hasInstructions = record.instructions && (Array.isArray(record.instructions) ? record.instructions.length > 0 : true);
-          
-          // This is a custom recipe (full recipe data) if it has name AND (ingredients OR instructions)
-          return hasName && (hasIngredients || hasInstructions);
+          // Include records that have full recipe data
+          return record.name && (record.ingredients || record.instructions);
         })
-        .map((record: any) => {
-          // Transform to Recipe format - this is a custom recipe with full data
-          return {
-            id: record.recipe_id || record.id || `saved-${record.created_at || Date.now()}`,
-            name: record.name || 'Unnamed Recipe',
-            description: record.description || '',
-            cookTime: record.cook_time || record.cookTime || '',
-            prepTime: record.prep_time || record.prepTime || '',
-            difficulty: record.difficulty || 'Medium',
-            servings: record.servings || 4,
-            ingredients: Array.isArray(record.ingredients) ? record.ingredients : (record.ingredients ? [record.ingredients] : []),
-            instructions: Array.isArray(record.instructions) ? record.instructions : (record.instructions ? [record.instructions] : []),
-            cuisine: record.cuisine || '',
-            imageUrl: record.image_url || record.imageUrl || '',
-            image: record.image_url || record.imageUrl || '',
-            nutrition: record.nutrition || undefined,
-            tags: record.tags || [],
-            isAiGenerated: false,
-            generatedAt: record.created_at || record.saved_at,
-          } as Recipe;
-        });
+        .map((record: any) => ({
+          id: record.recipe_id || record.id || `custom-${record.saved_at}`,
+          name: record.name || 'Unnamed Recipe',
+          description: record.description || '',
+          cookTime: record.cook_time || record.cookTime || '',
+          prepTime: record.prep_time || record.prepTime || '',
+          difficulty: record.difficulty || 'Medium',
+          servings: record.servings || 4,
+          ingredients: Array.isArray(record.ingredients) ? record.ingredients : (record.ingredients ? [record.ingredients] : []),
+          instructions: Array.isArray(record.instructions) ? record.instructions : (record.instructions ? [record.instructions] : []),
+          cuisine: record.cuisine || '',
+          imageUrl: record.image_url || record.imageUrl || '',
+          image: record.image_url || record.imageUrl || '',
+          nutrition: record.nutrition || undefined,
+          tags: record.tags || [],
+          isAiGenerated: false,
+          generatedAt: record.saved_at || record.created_at,
+        } as Recipe));
 
-      // Combine both arrays
+      // Combine all three types
       const combined = [
-        ...generatedRecipesList,
-        ...customRecipesFromSaved
+        ...favoritedRecipesList,
+        ...aiRecipesList,
+        ...customRecipesList
       ];
 
-      // Sort by created_at descending
+      // Sort by date descending
       combined.sort((a, b) => {
         const dateA = a.generatedAt ? new Date(a.generatedAt).getTime() : 0;
         const dateB = b.generatedAt ? new Date(b.generatedAt).getTime() : 0;
@@ -174,8 +223,9 @@ export const SavedRecipes = () => {
       });
 
       console.log('✅ Fetched all user recipes:', {
-        generated: generatedRecipesList.length,
-        custom: customRecipesFromSaved.length,
+        favorited: favoritedRecipesList.length,
+        aiGenerated: aiRecipesList.length,
+        custom: customRecipesList.length,
         total: combined.length
       });
 
