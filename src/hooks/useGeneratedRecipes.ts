@@ -66,24 +66,27 @@ export const useGeneratedRecipes = () => {
       console.log('🔄 5. Raw database records:', data?.length || 0);
 
       // Transform database records to Recipe type
-      const recipes: Recipe[] = (data || []).map((record) => ({
-        id: record.recipe_id,
-        name: record.name,
-        description: record.description || '',
-        cookTime: record.cook_time || '',
-        prepTime: record.prep_time || '',
-        difficulty: record.difficulty || 'Medium',
-        servings: record.servings || 4,
-        ingredients: record.ingredients as any[],
-        instructions: record.instructions as string[],
-        cuisine: record.cuisine || '',
-        imageUrl: record.image_url || '',
-        image: record.image_url || '',
-        nutrition: record.nutrition as any,
-        tags: record.tags || [],
-        isAiGenerated: true,
-        generatedAt: record.created_at
-      }));
+      const recipes: Recipe[] = (data || []).map((record) => {
+        const isCustomRecipe = record.recipe_id?.startsWith('custom-');
+        return {
+          id: record.recipe_id,
+          name: record.name,
+          description: record.description || '',
+          cookTime: record.cook_time || '',
+          prepTime: record.prep_time || '',
+          difficulty: record.difficulty || 'Medium',
+          servings: record.servings || 4,
+          ingredients: record.ingredients as any[],
+          instructions: record.instructions as string[],
+          cuisine: record.cuisine || '',
+          imageUrl: record.image_url || '',
+          image: record.image_url || '',
+          nutrition: record.nutrition as any,
+          tags: record.tags || [],
+          isAiGenerated: !isCustomRecipe, // Custom recipes are NOT AI-generated
+          generatedAt: record.created_at
+        };
+      });
 
       console.log('🔄 6. Transformed recipes:', recipes.length);
       console.log('🔄 7. Recipe IDs:', recipes.map(r => r.id));

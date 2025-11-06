@@ -29,11 +29,50 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
       data-recipe-card
     >
       <div className="relative">
-        {recipe.isAiGenerated ? (
+        {/* Check if this is a custom recipe (ID starts with 'custom-') */}
+        {recipe.id?.startsWith('custom-') ? (
+          /* Custom Recipe - show image or placeholder */
+          recipe.imageUrl || recipe.image ? (
+            <div className="relative recipe-card-image overflow-hidden">
+              {!imageLoaded && (
+                <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+              )}
+              <img
+                key={recipe.imageUrl || recipe.image}
+                src={recipe.imageUrl || recipe.image}
+                alt={recipe.name}
+                className={`w-full h-full object-cover transition-opacity duration-300 ${
+                  imageLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
+                loading="eager"
+                fetchPriority="high"
+                decoding="sync"
+                crossOrigin="anonymous"
+                referrerPolicy="no-referrer"
+                width="400"
+                height="300"
+                onLoad={() => setImageLoaded(true)}
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  // Fallback to placeholder if image fails to load
+                  target.src = "https://via.placeholder.com/400x300/f97316/ffffff?text=My+Recipe";
+                  setImageLoaded(true);
+                }}
+              />
+            </div>
+          ) : (
+            /* Custom Recipe without image - show placeholder */
+            <div className="recipe-card-image bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-white">
+              <span className="text-sm font-bold">My Recipe</span>
+            </div>
+          )
+        ) : recipe.isAiGenerated ? (
+          /* AI Recipe without image - show placeholder */
           <div className="recipe-card-image bg-muted flex items-center justify-center text-muted-foreground">
             <span className="text-sm">AI Recipe</span>
           </div>
         ) : (
+          /* Regular recipe with image */
           <div className="relative recipe-card-image overflow-hidden">
             {!imageLoaded && (
               <div className="absolute inset-0 bg-gray-200 animate-pulse" />
@@ -59,6 +98,14 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
                 setImageLoaded(true);
               }}
             />
+          </div>
+        )}
+        {/* Custom Recipe Badge */}
+        {recipe.id?.startsWith('custom-') && (
+          <div className="absolute top-3 left-3">
+            <span className="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+              Custom
+            </span>
           </div>
         )}
         {recipe.isPremium && (
