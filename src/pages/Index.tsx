@@ -23,17 +23,56 @@ const Index = () => {
   // Enable scroll restoration for this page
   useScrollRestoration();
   
-  const [searchInput, setSearchInput] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
+  // Restore search state from sessionStorage or location state
+  const getInitialSearchState = () => {
+    // Check location state first (from navigation back)
+    const state = location.state as any;
+    if (state?.searchQuery || state?.searchInput) {
+      return {
+        searchInput: state.searchQuery || state.searchInput || "",
+        isSearching: !!(state.searchQuery || state.searchInput)
+      };
+    }
+    // Fallback to sessionStorage
+    const savedSearch = sessionStorage.getItem('home_search');
+    if (savedSearch) {
+      return {
+        searchInput: savedSearch,
+        isSearching: true
+      };
+    }
+    return {
+      searchInput: "",
+      isSearching: false
+    };
+  };
+
+  const initialState = getInitialSearchState();
+  const [searchInput, setSearchInput] = useState(initialState.searchInput);
+  const [isSearching, setIsSearching] = useState(initialState.isSearching);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const { allRecipes, isLoading: isLoadingRecipes } = useAllRecipes();
   const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
   const { verifiedRecipes } = useVerifiedRecipes();
 
+  // Save search state to sessionStorage whenever it changes
+  useEffect(() => {
+    if (isSearching && searchInput.trim()) {
+      sessionStorage.setItem('home_search', searchInput);
+    } else {
+      sessionStorage.removeItem('home_search');
+    }
+  }, [isSearching, searchInput]);
+
   const handleRecipeClick = (recipeId: string) => {
     // Find the recipe in our combined data to pass via state
     const recipe = combinedRecipes.find(r => r.id === recipeId);
-    navigateToRecipe(recipeId, recipe);
+    // Pass search state in navigation so it can be restored on back
+    navigateToRecipe(recipeId, recipe, {
+      searchQuery: searchInput,
+      searchInput: searchInput,
+      isSearching: isSearching
+    });
   };
 
   // Combine verified, generated, and static recipes with proper deduplication
@@ -145,6 +184,7 @@ const Index = () => {
   const handleClearSearch = () => {
     setSearchInput("");
     setIsSearching(false);
+    sessionStorage.removeItem('home_search');
   };
 
   return (
