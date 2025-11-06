@@ -314,6 +314,25 @@ export const SavedRecipes = () => {
     [savedRecipesList, searchQuery, activeFilters]
   );
 
+  // Debug logging right before render
+  console.log('🎨 RENDERING My Kitchen with:', {
+    generatedRecipes: generatedRecipes,
+    generatedRecipesLength: generatedRecipes?.length || 0,
+    firstGeneratedRecipe: generatedRecipes?.[0],
+    customRecipes: customRecipes,
+    customRecipesLength: customRecipes?.length || 0,
+    resolvedSavedRecipes: resolvedSavedRecipes,
+    resolvedSavedRecipesLength: resolvedSavedRecipes?.length || 0,
+    filteredCustomRecipes: filteredCustomRecipes,
+    filteredCustomRecipesLength: filteredCustomRecipes?.length || 0,
+    filteredSavedRecipes: filteredSavedRecipes,
+    filteredSavedRecipesLength: filteredSavedRecipes?.length || 0,
+    savedRecipesList: savedRecipesList,
+    savedRecipesListLength: savedRecipesList?.length || 0,
+    loading: loading,
+    error: error
+  });
+
   return (
     <div className="min-h-screen pb-20">
       {/* Header */}
