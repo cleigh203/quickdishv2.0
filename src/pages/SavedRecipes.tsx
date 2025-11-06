@@ -216,12 +216,56 @@ export const SavedRecipes = () => {
     setDeletingRecipeId(recipeId);
   };
 
-  const confirmDelete = () => {
-    if (deletingRecipeId) {
-      const updatedRecipes = customRecipes.filter(r => r.id !== deletingRecipeId);
-      // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
-      // localStorage.setItem('customRecipes', JSON.stringify(updatedRecipes));
-      setCustomRecipes(updatedRecipes);
+  const confirmDelete = async () => {
+    if (!deletingRecipeId) return;
+
+    try {
+      console.log('🗑️ Deleting recipe:', deletingRecipeId);
+      
+      // Get the current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast.error("You must be logged in to delete recipes");
+        setDeletingRecipeId(null);
+        return;
+      }
+
+      // Find the recipe to get the database UUID id
+      const recipeToDelete = customRecipes.find(r => r.id === deletingRecipeId);
+      if (!recipeToDelete) {
+        console.error('Recipe not found in customRecipes:', deletingRecipeId);
+        setDeletingRecipeId(null);
+        return;
+      }
+
+      // Delete from database using recipe_id (this is the custom-xxx ID stored in the recipe_id column)
+      const { error } = await supabase
+        .from('generated_recipes')
+        .delete()
+        .eq('recipe_id', deletingRecipeId)  // Use recipe_id column which contains 'custom-xxx'
+        .eq('user_id', user.id);
+
+      if (error) {
+        console.error('❌ Delete error:', error);
+        toast.error("Failed to delete recipe");
+        setDeletingRecipeId(null);
+        return;
+      }
+
+      console.log('✅ Recipe deleted from database');
+
+      // Update local state immediately
+      setCustomRecipes(prev => prev.filter(r => r.id !== deletingRecipeId));
+
+      // Also refetch from database to ensure sync
+      await refetchGeneratedRecipes();
+
+      toast.success("Recipe deleted!");
+      setDeletingRecipeId(null);
+
+    } catch (err) {
+      console.error('❌ Delete error:', err);
+      toast.error("Failed to delete recipe");
       setDeletingRecipeId(null);
     }
   };
