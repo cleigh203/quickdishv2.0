@@ -35,58 +35,6 @@ export const SavedRecipes = () => {
   const { mealPlans, refreshMealPlans, addMealPlan } = useMealPlan();
   const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
   const [activeTab, setActiveTab] = useState("saved");
-
-  // DEBUG: Log all recipes data
-  useEffect(() => {
-    console.log('🔍 My Kitchen Debug:');
-    console.log('=== Generated Recipes (from useGeneratedRecipes hook) ===');
-    console.log('Total generated recipes:', generatedRecipes?.length || 0);
-    console.log('All generated recipes:', generatedRecipes);
-    
-    const customRecipesFromGenerated = generatedRecipes?.filter((r: Recipe) => 
-      r.id?.startsWith('custom-')
-    ) || [];
-    console.log('Custom recipes (recipe_id starts with custom-):', customRecipesFromGenerated);
-    console.log('Custom recipes count:', customRecipesFromGenerated.length);
-    console.log('Custom recipe IDs:', customRecipesFromGenerated.map((r: Recipe) => r.id));
-    
-    const aiRecipesFromGenerated = generatedRecipes?.filter((r: Recipe) => 
-      r.id?.startsWith('ai-')
-    ) || [];
-    console.log('AI recipes (recipe_id starts with ai-):', aiRecipesFromGenerated);
-    console.log('AI recipes count:', aiRecipesFromGenerated.length);
-    
-    console.log('=== Custom Recipes State ===');
-    console.log('customRecipes state:', customRecipes);
-    console.log('customRecipes count:', customRecipes.length);
-    
-    console.log('=== Saved Recipes ===');
-    console.log('savedRecipes (from useSavedRecipes):', savedRecipes);
-    console.log('savedRecipes count:', savedRecipes.length);
-    
-    console.log('=== Resolved Saved Recipes ===');
-    console.log('resolvedSavedRecipes:', resolvedSavedRecipes);
-    console.log('resolvedSavedRecipes count:', resolvedSavedRecipes.length);
-    
-    console.log('=== Filtered Recipes (what will be displayed) ===');
-    console.log('filteredCustomRecipes:', filteredCustomRecipes);
-    console.log('filteredCustomRecipes count:', filteredCustomRecipes.length);
-    console.log('filteredSavedRecipes:', filteredSavedRecipes);
-    console.log('filteredSavedRecipes count:', filteredSavedRecipes.length);
-    
-    console.log('=== Display Sections ===');
-    console.log('Will show "My Recipes" section:', filteredCustomRecipes.length > 0);
-    console.log('Will show "Saved from QuickDish" section:', filteredSavedRecipes.length > 0);
-    
-    // Check if custom recipes are in generatedRecipes but not in customRecipes state
-    if (customRecipesFromGenerated.length > 0 && customRecipes.length === 0) {
-      console.warn('⚠️ WARNING: Custom recipes exist in generatedRecipes but customRecipes state is empty!');
-      console.warn('Custom recipes that should be displayed:', customRecipesFromGenerated.map((r: Recipe) => ({
-        id: r.id,
-        name: r.name
-      })));
-    }
-  }, [generatedRecipes, customRecipes, savedRecipes, resolvedSavedRecipes, filteredCustomRecipes, filteredSavedRecipes]);
   
   // Check if we should open meal plan tab
   useEffect(() => {
