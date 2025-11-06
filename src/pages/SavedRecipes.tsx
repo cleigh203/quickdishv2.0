@@ -63,12 +63,26 @@ export const SavedRecipes = () => {
   const [mealPlanDialogOpen, setMealPlanDialogOpen] = useState(false);
   const [selectedRecipeForMealPlan, setSelectedRecipeForMealPlan] = useState<Recipe | null>(null);
 
+  // Filter generatedRecipes into custom and AI recipes
   useEffect(() => {
-    // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
-    // const custom = JSON.parse(localStorage.getItem('customRecipes') || '[]');
-    // setCustomRecipes(custom);
-    setCustomRecipes([]);
-  }, []);
+    if (generatedRecipes && generatedRecipes.length > 0) {
+      console.log('🔍 First recipe in generatedRecipes:', generatedRecipes[0]);
+      console.log('🔍 Checking recipe_id field:', generatedRecipes[0]?.recipe_id);
+      console.log('🔍 Checking id field:', generatedRecipes[0]?.id);
+      
+      const customRecipesFiltered = generatedRecipes.filter((r: Recipe) => {
+        const isCustom = r.recipe_id?.startsWith('custom-') || r.id?.startsWith('custom-');
+        console.log(`🔍 Recipe ${r.name}: recipe_id=${r.recipe_id}, id=${r.id}, isCustom=${isCustom}`);
+        return isCustom;
+      });
+      
+      console.log('✅ Filtered custom recipes:', customRecipesFiltered.length);
+      console.log('✅ Custom recipes array:', customRecipesFiltered);
+      setCustomRecipes(customRecipesFiltered);
+    } else {
+      setCustomRecipes([]);
+    }
+  }, [generatedRecipes]);
 
   // Resolve saved recipes to actual Recipe objects (static + generated + DB fallback + stubs)
   useEffect(() => {
