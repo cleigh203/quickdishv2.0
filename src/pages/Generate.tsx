@@ -68,6 +68,7 @@ const Generate = () => {
     if (savedSearch) {
       setSearchInput(savedSearch);
       setAppliedFilters(prev => ({ ...prev, search: savedSearch }));
+      setShowFilteredView(true); // Keep search results view when returning to page
     }
     if (savedCategory) {
       setAppliedFilters(prev => ({ ...prev, category: savedCategory }));
