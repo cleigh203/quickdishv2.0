@@ -23,6 +23,61 @@ import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { supabase } from "@/integrations/supabase/client";
 import { MealPlanDialog } from "@/components/MealPlanDialog";
 
+type SavedRecipeWithDetails = Recipe & {
+  savedAt?: string;
+  bookmarkId?: string;
+};
+
+const mapDbRecipeToRecipe = (record: any): Recipe => ({
+  id: record.id,
+  name: record.name || 'Untitled Recipe',
+  description: record.description || '',
+  cookTime: record.cook_time ?? record.cookTime ?? '',
+  prepTime: record.prep_time ?? record.prepTime ?? '',
+  difficulty: record.difficulty || 'Medium',
+  servings: record.servings || 4,
+  ingredients: Array.isArray(record.ingredients) ? record.ingredients : [],
+  instructions: Array.isArray(record.instructions)
+    ? record.instructions
+    : record.instructions
+    ? [record.instructions]
+    : [],
+  cuisine: record.cuisine || '',
+  imageUrl: record.image_url ?? record.imageUrl ?? '',
+  image: record.image_url ?? record.image ?? '',
+  nutrition: record.nutrition || undefined,
+  tags: record.tags || [],
+  isPremium: record.is_premium ?? record.isPremium ?? false,
+  totalTime: record.total_time ?? record.totalTime ?? undefined,
+  category: record.category || undefined,
+  isAiGenerated: record.is_ai_generated ?? record.isAiGenerated ?? false,
+  generatedAt: record.generated_at ?? record.generatedAt ?? undefined,
+});
+
+const mapGeneratedRecordToRecipe = (record: any): Recipe => ({
+  id: record.recipe_id,
+  name: record.name || 'Untitled Recipe',
+  description: record.description || '',
+  cookTime: record.cook_time || '',
+  prepTime: record.prep_time || '',
+  difficulty: record.difficulty || 'Medium',
+  servings: record.servings || 4,
+  ingredients: Array.isArray(record.ingredients) ? record.ingredients : [],
+  instructions: Array.isArray(record.instructions)
+    ? record.instructions
+    : record.instructions
+    ? [record.instructions]
+    : [],
+  cuisine: record.cuisine || '',
+  imageUrl: record.image_url || '',
+  image: record.image_url || '',
+  nutrition: record.nutrition || undefined,
+  tags: record.tags || [],
+  isAiGenerated: true,
+  generatedAt: record.created_at || undefined,
+  category: record.category || undefined,
+});
+
 export const SavedRecipes = () => {
   const location = useLocation();
   const { navigateToRecipe, getContext } = useSmartNavigation();
@@ -50,7 +105,8 @@ export const SavedRecipes = () => {
   const [deletingRecipeId, setDeletingRecipeId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
-  const [resolvedSavedRecipes, setResolvedSavedRecipes] = useState<Recipe[]>([]);
+  const [resolvedSavedRecipes, setResolvedSavedRecipes] = useState<SavedRecipeWithDetails[]>([]);
+  const [savedFromQuickDishLoading, setSavedFromQuickDishLoading] = useState(false);
   const [activeFilters, setActiveFilters] = useState<{
     time: string[];
     difficulty: string[];
@@ -84,105 +140,112 @@ export const SavedRecipes = () => {
     }
   }, [generatedRecipes]);
 
-  // Resolve saved recipes to actual Recipe objects (static + generated + DB fallback + stubs)
+  // Resolve saved recipes to complete recipe objects (static + generated + Supabase fetch)
   useEffect(() => {
     const resolveSaved = async () => {
-      // Map saved recipe IDs to actual recipe objects
-      const genMap = new Map(generatedRecipes.map(r => [r.id, r]));
-      const statMap = new Map(allRecipes.map(r => [r.id, r]));
-
-      const base: Recipe[] = savedRecipes
-        .map(saved => {
-          const gen = genMap.get(saved.recipe_id);
-          if (gen) return gen;
-          const stat = statMap.get(saved.recipe_id);
-          if (stat) return stat;
-          // COMMENTED OUT: No localStorage recipe storage - only database for logged-in users
-          /*
-          try {
-            const stored = JSON.parse(localStorage.getItem('recipes') || '[]');
-            return stored.find((r: any) => r.id === saved.recipe_id);
-          } catch {
-            return undefined;
-          }
-          */
-          return undefined;
-        })
-        .filter((r): r is Recipe => r !== undefined)
-        .map(r => ({ ...r }));
-
-      // If any missing IDs remain, fetch from generated_recipes table
-      const resolvedIds = new Set(base.map(r => r.id));
-      const missingIds = savedRecipes.map(s => s.recipe_id).filter(id => !resolvedIds.has(id));
-
-      let fetched: Recipe[] = [];
-      if (missingIds.length > 0) {
-        console.log(`🔍 Fetching ${missingIds.length} recipes from generated_recipes:`, missingIds);
-        try {
-          const { data, error } = await supabase
-            .from('generated_recipes')
-            .select('*')
-            .in('recipe_id', missingIds);
-          
-          if (error) {
-            console.error('❌ Error fetching generated recipes:', error);
-          } else if (Array.isArray(data)) {
-            console.log(`✅ Fetched ${data.length} recipes from database`);
-            fetched = data.map((record: any) => ({
-              id: record.recipe_id,
-              name: record.name || 'Unnamed Recipe',
-              description: record.description || '',
-              cookTime: record.cook_time || '',
-              prepTime: record.prep_time || '',
-              difficulty: record.difficulty || 'Medium',
-              servings: record.servings || 4,
-              ingredients: record.ingredients || [],
-              instructions: record.instructions || [],
-              cuisine: record.cuisine || '',
-              imageUrl: record.image_url || '',
-              image: record.image_url || '',
-              nutrition: record.nutrition || undefined,
-              tags: record.tags || [],
-              isAiGenerated: true,
-              generatedAt: record.created_at,
-            } as Recipe));
-          }
-        } catch (e) {
-          console.error('❌ SavedRecipes fetch fallback failed:', e);
-        }
+      if (!savedRecipes || savedRecipes.length === 0) {
+        setResolvedSavedRecipes([]);
+        setSavedFromQuickDishLoading(false);
+        return;
       }
 
-      // Create stubs for any IDs still unresolved so the user sees items immediately
-      const fetchedIds = new Set(fetched.map(r => r.id));
-      const unresolvedIds = savedRecipes
-        .map(s => s.recipe_id)
-        .filter(id => !resolvedIds.has(id) && !fetchedIds.has(id));
+      setSavedFromQuickDishLoading(true);
 
-      const stubs: Recipe[] = unresolvedIds.map((id) => {
-        console.warn(`⚠️ Unable to resolve recipe with ID: ${id}`);
-        return {
-          id,
-          name: 'Loading Recipe...',
-          description: 'This recipe is being loaded',
-          cookTime: '?',
-          prepTime: '?',
-          difficulty: 'Medium',
-          servings: 1,
-          ingredients: [],
-          instructions: [],
-          cuisine: '',
-          image: '',
-          imageUrl: '',
-          tags: [],
-          isAiGenerated: true,
-        } as Recipe;
-      });
+      try {
+        const generatedMap = new Map(generatedRecipes.map((recipe) => [recipe.id, recipe]));
+        const staticMap = new Map(allRecipes.map((recipe) => [recipe.id, recipe]));
+        const resolvedMap = new Map<string, Recipe>();
 
-      setResolvedSavedRecipes([...base, ...fetched, ...stubs]);
+        // Attempt to resolve from in-memory sources first
+        savedRecipes.forEach((saved) => {
+          const fromGenerated = generatedMap.get(saved.recipe_id);
+          if (fromGenerated) {
+            resolvedMap.set(saved.recipe_id, { ...fromGenerated });
+            return;
+          }
+
+          const fromStatic = staticMap.get(saved.recipe_id);
+          if (fromStatic) {
+            resolvedMap.set(saved.recipe_id, { ...fromStatic });
+          }
+        });
+
+        const unresolvedIds = savedRecipes
+          .map((saved) => saved.recipe_id)
+          .filter((id) => id && !resolvedMap.has(id));
+
+        // Fetch missing recipes from main recipes table
+        if (unresolvedIds.length > 0) {
+          try {
+            const { data: recipeDetails, error } = await supabase
+              .from('recipes')
+              .select('*')
+              .in('id', unresolvedIds);
+
+            if (error) {
+              console.error('Error fetching recipe details:', error);
+            } else if (Array.isArray(recipeDetails)) {
+              recipeDetails.forEach((record) => {
+                const mapped = mapDbRecipeToRecipe(record);
+                resolvedMap.set(mapped.id, mapped);
+              });
+            }
+          } catch (fetchError) {
+            console.error('Error fetching recipes from Supabase:', fetchError);
+          }
+        }
+
+        // Fallback: fetch from generated_recipes for any remaining IDs (custom/AI)
+        const stillMissingIds = savedRecipes
+          .map((saved) => saved.recipe_id)
+          .filter((id) => id && !resolvedMap.has(id));
+
+        if (stillMissingIds.length > 0) {
+          try {
+            const { data: generatedDetails, error } = await supabase
+              .from('generated_recipes')
+              .select('*')
+              .in('recipe_id', stillMissingIds);
+
+            if (error) {
+              console.error('Error fetching generated recipe details:', error);
+            } else if (Array.isArray(generatedDetails)) {
+              generatedDetails.forEach((record) => {
+                const mapped = mapGeneratedRecordToRecipe(record);
+                resolvedMap.set(mapped.id, mapped);
+              });
+            }
+          } catch (generatedFetchError) {
+            console.error('Error fetching fallback generated recipes:', generatedFetchError);
+          }
+        }
+
+        const completeRecipes = savedRecipes
+          .map((saved) => {
+            const recipe = resolvedMap.get(saved.recipe_id);
+            if (!recipe) {
+              console.warn(`Unable to resolve recipe with ID: ${saved.recipe_id}`);
+              return null;
+            }
+
+            return {
+              ...recipe,
+              savedAt: saved.saved_at,
+              bookmarkId: saved.id,
+            };
+          })
+          .filter((recipe): recipe is SavedRecipeWithDetails => recipe !== null);
+
+        setResolvedSavedRecipes(completeRecipes);
+      } catch (error) {
+        console.error('Error resolving saved recipes:', error);
+      } finally {
+        setSavedFromQuickDishLoading(false);
+      }
     };
 
     resolveSaved();
-  }, [savedRecipes, generatedRecipes]);
+  }, [savedRecipes, generatedRecipes, allRecipes]);
 
   // Refresh meal plans when user navigates to meal plan tab
   useEffect(() => {
@@ -194,6 +257,8 @@ export const SavedRecipes = () => {
   const savedRecipesList = useMemo(() => {
     return resolvedSavedRecipes;
   }, [resolvedSavedRecipes]);
+
+  const combinedSavedRecipesLoading = loading || savedFromQuickDishLoading;
 
   const handleRecipeClick = (recipeId: string) => {
     // Find the recipe in our data to pass via state
@@ -389,7 +454,7 @@ export const SavedRecipes = () => {
   console.log('🎨 savedRecipesList:', savedRecipesList);
   console.log('🎨 savedRecipesListLength:', savedRecipesList?.length || 0);
   console.log('🎨 loading:', loading);
-  console.log('🎨 error:', error);
+  console.log('🎨 savedFromQuickDishLoading:', savedFromQuickDishLoading);
 
   return (
     <div className="min-h-screen pb-20">
@@ -486,10 +551,10 @@ export const SavedRecipes = () => {
               </Button>
 
               {/* Loading State */}
-              {loading && <LoadingScreen message="Loading your saved recipes..." />}
+              {combinedSavedRecipesLoading && <LoadingScreen message="Loading your saved recipes..." />}
 
               {/* Error State - Only show if not loading */}
-              {!loading && error && (
+              {!combinedSavedRecipesLoading && error && (
                 <div className="text-center py-8 space-y-4">
                   <p className="text-muted-foreground">{error}</p>
                   <Button onClick={refetch} variant="outline" size="sm">
@@ -500,7 +565,7 @@ export const SavedRecipes = () => {
               )}
 
               {/* My Recipes Section */}
-              {!loading && filteredCustomRecipes.length > 0 && (
+              {!combinedSavedRecipesLoading && filteredCustomRecipes.length > 0 && (
                 <section>
                   <h2 className="text-lg font-semibold mb-4">My Recipes</h2>
                   <div className="grid grid-cols-2 gap-3">
@@ -518,7 +583,7 @@ export const SavedRecipes = () => {
               )}
 
               {/* Saved from QuickDish Section */}
-              {!loading && filteredSavedRecipes.length > 0 && (
+              {!combinedSavedRecipesLoading && filteredSavedRecipes.length > 0 && (
                 <section>
                   <h2 className="text-lg font-semibold mb-4">Saved from QuickDish</h2>
                   <div className="grid grid-cols-2 gap-3">
@@ -541,7 +606,7 @@ export const SavedRecipes = () => {
               )}
 
               {/* Empty state - Only show if not loading and no error */}
-              {!loading && !error && filteredCustomRecipes.length === 0 && filteredSavedRecipes.length === 0 && (
+              {!combinedSavedRecipesLoading && !error && filteredCustomRecipes.length === 0 && filteredSavedRecipes.length === 0 && (
                 <div className="text-center py-12 text-muted-foreground">
                   <p className="mb-2">No saved recipes found</p>
                   <p className="text-sm">
