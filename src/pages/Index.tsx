@@ -190,12 +190,15 @@ const Index = () => {
   return (
     <div className="min-h-screen pb-20 bg-background">
       {/* Full-width Hero */}
-      <div 
-        className="relative h-[420px] mb-8 bg-cover bg-center"
-        style={{
-          backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%), url(https://i.imgur.com/ZWIwJpH.png)`
-        }}
-      >
+      <div className="relative h-[420px] mb-8">
+        <img
+          src="https://i.imgur.com/ZWIwJpH.png"
+          alt="Turn Ingredients Into Magic"
+          className="w-full h-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70" aria-hidden="true" />
         <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
           <h1 className="page-title md:text-6xl mb-4 drop-shadow-2xl text-white">
             Turn Ingredients Into Magic

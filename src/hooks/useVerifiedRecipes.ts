@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 import { supabase } from '@/integrations/supabase/client';
 import { Recipe } from '@/types/recipe';
 import { retryOperation, handleSupabaseError } from '@/utils/errorHandling';
@@ -40,10 +41,10 @@ export const useVerifiedRecipes = (enabled = true) => {
           .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category')
           .eq('verified', true)
           .order('created_at', { ascending: false })
-          .limit(20) // Reduced to 20 for faster loading
           .abortSignal(AbortSignal.timeout(5000)); // 5 second timeout
 
         if (error) throw error;
+
         return data;
       }, 1, 500); // Reduced retries and delay
 
@@ -70,7 +71,7 @@ export const useVerifiedRecipes = (enabled = true) => {
       try {
         localStorage.setItem('verified_recipes_cache', JSON.stringify({
           data: transformedRecipes,
-          timestamp: Date.now()
+          timestamp: Date.Now()
         }));
       } catch (e) {
         // Ignore cache errors (localStorage might be full)
