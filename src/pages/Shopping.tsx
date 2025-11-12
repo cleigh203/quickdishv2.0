@@ -1,13 +1,10 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, lazy, Suspense } from "react";
 import { Printer, Store, Loader2, CheckCircle, Package, RefreshCw, AlertTriangle, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { BottomNav } from "@/components/BottomNav";
-import { StoreSelectionDialog } from "@/components/StoreSelectionDialog";
-import { InstacartButton } from "@/components/InstacartButton";
 import { useToast } from "@/hooks/use-toast";
 import { useShoppingList } from "@/hooks/useShoppingList";
 import { useInstacart } from "@/hooks/useInstacart";
-import { InstacartAttribution } from "@/components/InstacartAttribution";
 import { Switch } from "@/components/ui/switch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PantryItem } from "@/types/pantry";
@@ -25,6 +22,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+
+const StoreSelectionDialog = lazy(() => import("@/components/StoreSelectionDialog").then(m => ({ default: m.StoreSelectionDialog })));
+const InstacartButton = lazy(() => import("@/components/InstacartButton").then(m => ({ default: m.InstacartButton })));
+const InstacartAttribution = lazy(() => import("@/components/InstacartAttribution").then(m => ({ default: m.InstacartAttribution })));
 
 interface ShoppingItem {
   id: number;
@@ -487,22 +488,7 @@ const Shopping = () => {
           )}
           
           {/* Progress Bar */}
-          {totalItems > 0 && (
-            <>
-              <div className="bg-white/20 h-1.5 rounded-full overflow-hidden mb-2">
-                <div 
-                  className="bg-white h-full transition-all duration-300"
-                  style={{ width: `${progressPercentage}%` }}
-                />
-              </div>
-              
-              {/* Stats */}
-              <p className="text-sm opacity-90">
-                {checkedItems} of {totalItems} items checked
-              </p>
-            </>
-          )}
-        </div>
+         </div>
 
         {shoppingList.length === 0 ? (
           <div className="px-5 py-12 text-center">
@@ -513,15 +499,38 @@ const Shopping = () => {
           </div>
         ) : (
           <>
+            {/* Shopping Modes Explanation */}
+            <div className="px-5 pt-5">
+              <div className="bg-orange-50 border-l-4 border-orange-500 p-4 mb-6 rounded">
+                <p className="text-sm font-semibold text-gray-800 mb-2">📋 Two ways to shop:</p>
+                <ul className="text-sm text-gray-700 space-y-2">
+                  <li className="flex items-start">
+                    <span className="mr-2">✓</span>
+                    <span>
+                      <strong>In-Store Shopping:</strong> Check off items as you collect them in the store
+                    </span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2">🛒</span>
+                    <span>
+                      <strong>Instacart Delivery:</strong> Click the green button below to order everything online
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
             {/* Action Bar */}
             <div className="bg-card px-5 py-4 flex gap-3 border-b border-border">
               <div className="flex-1">
-                <InstacartButton
-                  onClick={handleShopOnline}
-                  loading={creatingInstacartList}
-                  disabled={displayList.length === 0}
-                  className="w-full"
-                />
+                <Suspense fallback={<Skeleton className="w-full h-10" />}>
+                  <InstacartButton
+                    onClick={handleShopOnline}
+                    loading={creatingInstacartList}
+                    disabled={displayList.length === 0}
+                    className="w-full"
+                  />
+                </Suspense>
               </div>
               <button
                 onClick={handlePrint}
@@ -535,7 +544,17 @@ const Shopping = () => {
             {/* Instacart Attribution */}
             <div className="bg-gray-50 px-5 py-3 border-b border-gray-200">
               <div className="flex items-center justify-center">
-                <InstacartAttribution size="sm" />
+                <Suspense fallback={<Skeleton className="w-10 h-10" />}>
+                  <InstacartAttribution size="sm" />
+                </Suspense>
+              </div>
+            </div>
+
+            {/* In-Store Checklist Header */}
+            <div className="px-5">
+              <div className="mb-4">
+                <h2 className="text-lg font-semibold text-gray-800 mb-2">🏪 In-Store Shopping Checklist</h2>
+                <p className="text-sm text-gray-600 mb-4">Check items off as you shop</p>
               </div>
             </div>
 
@@ -557,9 +576,23 @@ const Shopping = () => {
                 className="text-sm font-medium text-[#FF6B35] hover:text-[#E55A2B] transition-colors"
               >
                 <Package className="w-4 h-4 inline mr-1" />
-                Adjust in Profile
+                Adjust Pantry
               </button>
             </div>
+
+            {totalItems > 0 && (
+              <div className="px-5 pt-3">
+                <div className="bg-gray-200 h-1.5 rounded-full overflow-hidden mb-2">
+                  <div
+                    className="bg-[#FF6B35] h-full transition-all duration-300"
+                    style={{ width: `${progressPercentage}%` }}
+                  />
+                </div>
+                <p className="text-sm text-gray-600 mb-3">
+                  {checkedItems} of {totalItems} items checked
+                </p>
+              </div>
+            )}
 
             {/* Pantry Loading Screen */}
             {pantryLoading && user && <LoadingScreen message="Loading your pantry..." delay={0} />}
@@ -614,7 +647,7 @@ const Shopping = () => {
                       )}
                     </div>
                     <span className="text-base font-semibold text-foreground">
-                      {isAllChecked ? 'Uncheck All' : 'Check All'}
+                      {isAllChecked ? 'Uncheck All' : 'Check All Items'}
                     </span>
                     <span className="text-sm text-muted-foreground ml-auto">
                       {checkedItems}/{totalItems}
@@ -709,10 +742,12 @@ const Shopping = () => {
         )}
       </div>
       
-      <StoreSelectionDialog
-        open={showStoreDialog}
-        onOpenChange={setShowStoreDialog}
-      />
+      <Suspense fallback={<LoadingScreen message="Loading store selection..." delay={0} />}>
+        <StoreSelectionDialog
+          open={showStoreDialog}
+          onOpenChange={setShowStoreDialog}
+        />
+      </Suspense>
       
       <BottomNav />
 

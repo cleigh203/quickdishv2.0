@@ -51,8 +51,8 @@ export const OnboardingWelcome = () => {
           </h1>
 
           {/* Tagline */}
-          <p className="text-[16px] text-[#7F8C8D] font-medium">
-            Cook Smarter Not Harder
+          <p className="text-[16px] text-[#5A6C7D] font-medium">
+            Cook smarter, not harder. QuickDish helps you turn everyday ingredients into delicious meals.
           </p>
         </div>
 
@@ -95,7 +95,7 @@ export const OnboardingWelcome = () => {
           {/* Secondary Link */}
           <button
             onClick={skipOnboarding}
-            className="text-[15px] text-[#7F8C8D] hover:text-[#FF6B35] hover:underline transition-colors duration-200 font-medium"
+            className="text-[15px] text-[#5A6C7D] hover:text-[#FF6B35] hover:underline transition-colors duration-200 font-medium"
           >
             Skip Tutorial
           </button>

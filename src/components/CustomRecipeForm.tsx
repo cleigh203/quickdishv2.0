@@ -25,6 +25,11 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
   const [imagePreview, setImagePreview] = useState<string>('');
   const [ingredients, setIngredients] = useState<string[]>([""]);
   const [instructions, setInstructions] = useState<string[]>([""]);
+  const [cookTime, setCookTime] = useState("30 mins");
+  const [prepTime, setPrepTime] = useState("15 mins");
+  const [servings, setServings] = useState<number>(4);
+  const [difficulty, setDifficulty] = useState("Medium");
+  const [cuisine, setCuisine] = useState("Custom");
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -35,8 +40,19 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
       const existingImageUrl = editRecipe.imageUrl || editRecipe.image || "";
       setImagePreview(existingImageUrl);
       setImageFile(null); // Don't set file for existing recipes
-      setIngredients(editRecipe.ingredients?.map(ing => `${ing.amount} ${ing.unit} ${ing.item}`.trim()) || []);
-      setInstructions(editRecipe.instructions);
+      setIngredients(
+        editRecipe.ingredients?.map(ing => {
+          if (typeof ing === "string") return ing;
+          const parts = [ing.amount, ing.unit, ing.item].filter(Boolean);
+          return parts.join(" ").trim();
+        }) || [""]
+      );
+      setInstructions(editRecipe.instructions && editRecipe.instructions.length > 0 ? editRecipe.instructions : [""]);
+      setCookTime(editRecipe.cookTime || "30 mins");
+      setPrepTime(editRecipe.prepTime || "15 mins");
+      setServings(editRecipe.servings || 4);
+      setDifficulty(editRecipe.difficulty || "Medium");
+      setCuisine(editRecipe.cuisine || "Custom");
     } else {
       resetForm();
     }
@@ -61,6 +77,11 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
     setImagePreview("");
     setIngredients([""]);
     setInstructions([""]);
+    setCookTime("30 mins");
+    setPrepTime("15 mins");
+    setServings(4);
+    setDifficulty("Medium");
+    setCuisine("Custom");
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,9 +186,9 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
       const recipeIngredients = filteredIngredients.map(ing => {
         const parts = ing.trim().split(' ');
         const amount = parts[0] || "";
-        const unit = parts[1] || "";
-        const item = parts.slice(2).join(' ') || parts[0] || "";
-        return { amount, unit, item };
+        const unit = parts.length > 2 ? parts[1] : "";
+        const item = parts.length > 2 ? parts.slice(2).join(' ') : parts.slice(1).join(' ');
+        return { amount, unit, item: item || parts[0] || "" };
       });
 
       // Validate ingredients are properly formatted
@@ -233,56 +254,82 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
         }
       }
 
-      // Prepare payload - use insert for new recipes
-      const payload = {
-        user_id: user.id,
-        recipe_id: recipeId,
+      const trimmedCookTime = cookTime.trim() || "30 mins";
+      const trimmedPrepTime = prepTime.trim() || "15 mins";
+      const normalizedServings = Number.isFinite(servings) && servings > 0 ? servings : 4;
+      const normalizedDifficulty = difficulty.trim() || "Medium";
+      const normalizedCuisine = cuisine.trim() || "Custom";
+
+      const basePayload = {
         name: title.trim(),
         description: description.trim() || '',
-        cook_time: "Custom",
-        prep_time: "Custom",
-        difficulty: "Custom",
-        servings: 4,
+        cook_time: trimmedCookTime,
+        prep_time: trimmedPrepTime,
+        difficulty: normalizedDifficulty,
+        servings: normalizedServings,
         ingredients: recipeIngredients,
         instructions: filteredInstructions,
-        cuisine: "Custom",
+        cuisine: normalizedCuisine,
         image_url: finalImageUrl || null,
-        nutrition: null,
-        tags: ["custom"]
+        tags: editRecipe?.tags && editRecipe.tags.length > 0 ? editRecipe.tags : ["custom"]
       };
 
-      console.log('Saving recipe with payload:', JSON.stringify(payload, null, 2));
+      console.log('Saving recipe with payload:', JSON.stringify({ ...basePayload, recipe_id: recipeId }, null, 2));
 
-      // Use insert for new recipes (not upsert)
-      const { data, error } = await supabase
-        .from('generated_recipes')
-        .insert(payload)
-        .select()
-        .single();
+      if (editRecipe) {
+        const { error } = await supabase
+          .from('generated_recipes')
+          .update(basePayload)
+          .eq('recipe_id', recipeId)
+          .eq('user_id', user.id);
 
-      if (error) {
-        console.error('Save error details:', JSON.stringify(error, null, 2));
-        console.error('Error code:', error.code);
-        console.error('Error message:', error.message);
-        console.error('Error details:', error.details);
-        console.error('Error hint:', error.hint);
-        
-        let errorMessage = "Failed to save recipe.";
-        if (error.message) {
-          errorMessage = error.message;
-        } else if (error.code) {
-          errorMessage = `Error ${error.code}: ${error.message || 'Failed to save recipe'}`;
+        if (error) {
+          console.error('Update error details:', JSON.stringify(error, null, 2));
+          toast.error("Update failed", {
+            description: error.message || "Failed to update recipe."
+          });
+          setIsSaving(false);
+          return;
         }
-        
-        toast.error("Save failed", {
-          description: errorMessage
-        });
-        setIsSaving(false);
-        return;
-      }
 
-      console.log('Recipe saved successfully:', data);
-      toast.success(editRecipe ? "Recipe updated successfully!" : "Recipe created successfully!");
+        toast.success("Recipe updated successfully!");
+      } else {
+        const insertPayload = {
+          user_id: user.id,
+          recipe_id: recipeId,
+          ...basePayload,
+        };
+
+        const { data, error } = await supabase
+          .from('generated_recipes')
+          .insert(insertPayload)
+          .select()
+          .single();
+
+        if (error) {
+          console.error('Save error details:', JSON.stringify(error, null, 2));
+          console.error('Error code:', error.code);
+          console.error('Error message:', error.message);
+          console.error('Error details:', error.details);
+          console.error('Error hint:', error.hint);
+          
+          let errorMessage = "Failed to save recipe.";
+          if (error.message) {
+            errorMessage = error.message;
+          } else if (error.code) {
+            errorMessage = `Error ${error.code}: ${error.message || 'Failed to save recipe'}`;
+          }
+          
+          toast.error("Save failed", {
+            description: errorMessage
+          });
+          setIsSaving(false);
+          return;
+        }
+
+        console.log('Recipe saved successfully:', data);
+        toast.success("Recipe created successfully!");
+      }
       resetForm();
       onSave();
       onOpenChange(false);
@@ -337,6 +384,56 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
               placeholder="Brief description of your recipe"
               rows={3}
             />
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <Label htmlFor="prepTime">Prep Time *</Label>
+              <Input
+                id="prepTime"
+                value={prepTime}
+                onChange={(e) => setPrepTime(e.target.value)}
+                placeholder="e.g., 15 mins"
+              />
+            </div>
+            <div>
+              <Label htmlFor="cookTime">Cook Time *</Label>
+              <Input
+                id="cookTime"
+                value={cookTime}
+                onChange={(e) => setCookTime(e.target.value)}
+                placeholder="e.g., 30 mins"
+              />
+            </div>
+            <div>
+              <Label htmlFor="servings">Servings *</Label>
+              <Input
+                id="servings"
+                type="number"
+                min={1}
+                value={servings}
+                onChange={(e) => setServings(parseInt(e.target.value, 10) || 1)}
+                placeholder="e.g., 4"
+              />
+            </div>
+            <div>
+              <Label htmlFor="difficulty">Difficulty *</Label>
+              <Input
+                id="difficulty"
+                value={difficulty}
+                onChange={(e) => setDifficulty(e.target.value)}
+                placeholder="e.g., Easy"
+              />
+            </div>
+            <div>
+              <Label htmlFor="cuisine">Cuisine</Label>
+              <Input
+                id="cuisine"
+                value={cuisine}
+                onChange={(e) => setCuisine(e.target.value)}
+                placeholder="e.g., Italian"
+              />
+            </div>
           </div>
 
           <div>

@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { BottomNav } from "@/components/BottomNav";
 import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { RecipeCard } from "@/components/RecipeCard";
-import { useAllRecipes } from "@/hooks/useAllRecipes";
+import { useRecipes } from "@/contexts/RecipesContext";
 import { AiGenerationPrompt } from "@/components/AiGenerationPrompt";
 import type { Recipe } from "@/types/recipe";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
@@ -51,7 +51,7 @@ const Index = () => {
   const [searchInput, setSearchInput] = useState(initialState.searchInput);
   const [isSearching, setIsSearching] = useState(initialState.isSearching);
   const [imagesLoaded, setImagesLoaded] = useState(false);
-  const { allRecipes, isLoading: isLoadingRecipes } = useAllRecipes();
+  const { recipes: allRecipes, isLoading: isLoadingRecipes } = useRecipes();
   const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
   const { verifiedRecipes } = useVerifiedRecipes();
 
@@ -192,7 +192,7 @@ const Index = () => {
       {/* Full-width Hero */}
       <div className="relative h-[420px] mb-8">
         <img
-          src="https://i.imgur.com/ZWIwJpH.png"
+          src="https://i.imgur.com/Xo8YcqT.png"
           alt="Turn Ingredients Into Magic"
           className="w-full h-full object-cover"
           loading="eager"
@@ -314,10 +314,10 @@ const Index = () => {
               <h2 className="section-header">Featured Collections</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-              { name: 'Fall Favorites', image: 'https://i.imgur.com/H7xbRNq.png' },
-{ name: 'Quick and Easy', image: 'https://i.imgur.com/mIajfse.png' },
-{ name: 'Restaurant Copycats', image: 'https://i.imgur.com/eNF1erk.png' },
-{ name: 'One Pot Meals', image: 'https://i.imgur.com/5NcvbyS.png' },
+              { name: 'Fall Favorites', image: 'https://i.imgur.com/lsKNONM.png' },
+              { name: 'Quick and Easy', image: 'https://i.imgur.com/RMQ0oB0.png' },
+              { name: 'Restaurant Copycats', image: 'https://i.imgur.com/NGd21zB.png' },
+              { name: 'One Pot Meals', image: 'https://i.imgur.com/PeFEkGK.png' },
 { name: 'Desserts', image: 'https://i.imgur.com/suB5DEO.png' },
 { name: 'Family Approved', image: 'https://i.imgur.com/vznGLfX.png' },
             ].map((collection) => (

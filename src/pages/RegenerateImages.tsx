@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, CheckCircle, XCircle, Sparkles } from "lucide-react";
-import { useAllRecipes } from "@/hooks/useAllRecipes";
+import { useRecipes } from "@/contexts/RecipesContext";
 
 const RECIPES_TO_REGENERATE = [
   "Red Lobster Cheddar Bay Biscuits",
@@ -26,7 +26,7 @@ const RegenerateImages = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [results, setResults] = useState<any[]>([]);
   const { toast } = useToast();
-  const { allRecipes } = useAllRecipes();
+  const { recipes: allRecipes } = useRecipes();
 
   const handleRegenerate = async () => {
     setIsProcessing(true);

@@ -20,7 +20,7 @@ import { Label } from "@/components/ui/label";
 import { useMealPlan } from "@/hooks/useMealPlan";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useShoppingList } from "@/hooks/useShoppingList";
-import { useAllRecipes } from "@/hooks/useAllRecipes";
+import { useRecipes } from "@/contexts/RecipesContext";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
 import { toast } from "@/hooks/use-toast";
@@ -35,7 +35,7 @@ export const MealPlanTab = () => {
   const navigate = useNavigate(); // For non-recipe navigation
   const { navigateToRecipe } = useSmartNavigation();
   const { user } = useAuth();
-  const { allRecipes } = useAllRecipes();
+  const { recipes: allRecipes } = useRecipes();
   const { mealPlans, deleteMealPlan, clearAllMealPlans, refreshMealPlans } = useMealPlan();
   const { incrementTimesCooked } = useSavedRecipes();
   const { replaceList } = useShoppingList();

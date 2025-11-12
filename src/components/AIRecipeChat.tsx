@@ -7,7 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Recipe } from '@/types/recipe';
 import { RecipeCard } from '@/components/RecipeCard';
-import { useAllRecipes } from '@/hooks/useAllRecipes';
+import { useRecipes } from '@/contexts/RecipesContext';
 import { trackMessageSent, trackRecipeClicked, trackRecipeMentioned, trackChatError } from '@/utils/analytics';
 import { ChatErrorBoundary } from '@/components/ChatErrorBoundary';
 
@@ -42,7 +42,7 @@ export const AIRecipeChat: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user, isPremium } = useAuth();
   const { toast } = useToast();
-  const { allRecipes } = useAllRecipes();
+  const { recipes: allRecipes } = useRecipes();
 
   // Network status monitoring
   useEffect(() => {

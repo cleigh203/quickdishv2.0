@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Clock, ChefHat, Trash2, Calendar } from "lucide-react";
+import { Clock, ChefHat, Trash2, Calendar, Pencil } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Recipe } from "@/types/recipe";
@@ -13,11 +13,13 @@ interface RecipeCardProps {
   showSaveButton?: boolean;
   showRemoveButton?: boolean;
   onRemove?: () => void;
+  showEditButton?: boolean;
+  onEdit?: () => void;
   showMealPlanButton?: boolean;
   onMealPlanClick?: () => void;
 }
 
-export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveButton = false, onRemove, showMealPlanButton = false, onMealPlanClick }: RecipeCardProps) => {
+export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveButton = false, onRemove, showEditButton = false, onEdit, showMealPlanButton = false, onMealPlanClick }: RecipeCardProps) => {
   const { averageRating, totalRatings } = useRecipeRating(recipe.id);
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -115,18 +117,34 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
             </span>
           </div>
         )}
-        {showRemoveButton && onRemove && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onRemove();
-            }}
-            className="absolute top-2 right-2 w-8 h-8 bg-red-500/80 hover:bg-red-500 rounded-full flex items-center justify-center text-white shadow-lg transition-colors"
-            aria-label="Remove recipe"
-          >
-            <Trash2 className="w-4 h-4" />
-          </button>
-        )}
+        {(showRemoveButton && onRemove) || (showEditButton && onEdit) ? (
+          <div className="absolute top-2 right-2 flex gap-2">
+            {showEditButton && onEdit && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit();
+                }}
+                className="w-8 h-8 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 rounded-full flex items-center justify-center shadow-lg transition-colors"
+                aria-label="Edit recipe"
+              >
+                <Pencil className="w-4 h-4" />
+              </button>
+            )}
+            {showRemoveButton && onRemove && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRemove();
+                }}
+                className="w-8 h-8 bg-red-500/80 hover:bg-red-500 rounded-full flex items-center justify-center text-white shadow-lg transition-colors"
+                aria-label="Remove recipe"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+        ) : null}
       </div>
       <CardContent className="recipe-card-content">
         <div className="flex items-center justify-between mb-3">

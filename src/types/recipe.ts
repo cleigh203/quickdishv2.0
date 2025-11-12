@@ -35,4 +35,5 @@ export interface Recipe {
   isAiGenerated?: boolean; // Flag for AI-generated recipes
   generatedAt?: string; // Timestamp when recipe was generated
   category?: string; // Category for organized filtering (Breakfast, Lunch, etc.)
+  isVerified?: boolean; // Supabase verified flag
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, Heart, ShoppingCart, Plus, Minus, ChefHat, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,9 +9,8 @@ import { useToast } from "@/hooks/use-toast";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
-import CookingMode from "@/components/CookingMode";
 import { ingredientsToShoppingItems } from "@/utils/shoppingListUtils";
-import { useAllRecipes } from "@/hooks/useAllRecipes";
+import { useRecipes } from "@/contexts/RecipesContext";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { useVerifiedRecipes } from "@/hooks/useVerifiedRecipes";
@@ -29,7 +28,7 @@ import { generateRecipePDF } from "@/utils/pdfExport";
 import { RatingModal } from "@/components/RatingModal";
 import { useRecipeRating } from "@/hooks/useRecipeRating";
 import { useMealPlan } from "@/hooks/useMealPlan";
-import { MealPlanDialog } from "@/components/MealPlanDialog";
+import { LoadingScreen } from "@/components/LoadingScreen";
 import { RecipeAIChatDialog } from "@/components/RecipeAIChatDialog";
 import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { usePantryItems } from "@/hooks/usePantryItems";
@@ -37,6 +36,10 @@ import { usePantryItems } from "@/hooks/usePantryItems";
 // import { StoreSelection } from "@/components/StoreSelection";
 // import { ShoppingGuide } from "@/components/ShoppingGuide";
 // import { ShoppingListItem, GroceryStore } from "@/types/shopping";
+
+const CookingMode = lazy(() => import("@/components/CookingMode"));
+const MealPlanDialog = lazy(() => import("@/components/MealPlanDialog").then(m => ({ default: m.MealPlanDialog })));
+const PremiumModal = lazy(() => import("@/components/PremiumModal").then(m => ({ default: m.PremiumModal })));
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -46,7 +49,7 @@ const RecipeDetail = () => {
   const { user, isPremium } = useAuth();
   const { requireAuth, showSignupModal, setShowSignupModal, modalFeature } = useAuthCheck();
   const { requirePremium, showPremiumModal, setShowPremiumModal, modalFeature: premiumFeature } = usePremiumCheck();
-  const { allRecipes } = useAllRecipes();
+  const { recipes: allRecipes } = useRecipes();
   const { isSaved, saveRecipe, unsaveRecipe, savedRecipes, updateRecipeNotes } = useSavedRecipes();
   const { addItems } = useShoppingList();
   const { addMealPlan } = useMealPlan();
@@ -390,7 +393,11 @@ const RecipeDetail = () => {
   }
 
   if (cookingMode) {
-    return <CookingMode recipe={recipe} onExit={() => setCookingMode(false)} />;
+    return (
+      <Suspense fallback={<LoadingScreen message="Preparing cooking mode..." delay={0} />}>
+        <CookingMode recipe={recipe} onExit={() => setCookingMode(false)} />
+      </Suspense>
+    );
   }
 
   const adjustedServings = recipe.servings * servingMultiplier;
@@ -984,15 +991,17 @@ const RecipeDetail = () => {
         onRatingSubmitted={refetchRatings}
       />
 
-      <MealPlanDialog
-        open={mealPlanDialogOpen}
-        onOpenChange={setMealPlanDialogOpen}
-        recipeName={recipe.name}
-        onSave={async (date, mealType) => {
-          if (!requireAuth('add recipes to your meal plan')) return;
-          await addMealPlan(recipe.id, date, mealType);
-        }}
-      />
+      <Suspense fallback={null}>
+        <MealPlanDialog
+          open={mealPlanDialogOpen}
+          onOpenChange={setMealPlanDialogOpen}
+          recipeName={recipe.name}
+          onSave={async (date, mealType) => {
+            if (!requireAuth('add recipes to your meal plan')) return;
+            await addMealPlan(recipe.id, date, mealType);
+          }}
+        />
+      </Suspense>
 
       <RecipeAIChatDialog
         recipe={recipe}
@@ -1037,11 +1046,13 @@ const RecipeDetail = () => {
         feature={modalFeature} 
       />
 
-      <PremiumModal
-        isOpen={showPremiumModal}
-        onClose={() => setShowPremiumModal(false)}
-        feature={premiumFeature}
-      />
+      <Suspense fallback={null}>
+        <PremiumModal
+          isOpen={showPremiumModal}
+          onClose={() => setShowPremiumModal(false)}
+          feature={premiumFeature}
+        />
+      </Suspense>
       </div>
   );
 };

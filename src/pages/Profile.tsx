@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { useAIUsage } from '@/hooks/useSubscription';
 import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette, Mail, Calendar, Target, Download } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { BottomNav } from "@/components/BottomNav";
 import { EditProfileDialog } from "@/components/EditProfileDialog";
 import { EditPreferencesDialog } from "@/components/EditPreferencesDialog";
-import { SubscriptionManagementModal } from "@/components/SubscriptionManagementModal";
+const SubscriptionManagementModal = lazy(() => import("@/components/SubscriptionManagementModal").then(m => ({ default: m.SubscriptionManagementModal })));
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { recipeStorage } from "@/utils/recipeStorage";
 import { useToast } from "@/hooks/use-toast";
@@ -810,12 +810,14 @@ const Profile = () => {
         onUpdate={fetchProfile}
       />
 
-      <SubscriptionManagementModal
-        open={subscriptionModalOpen}
-        onOpenChange={setSubscriptionModalOpen}
-        subscriptionEnd={subscriptionEnd}
-        onSubscriptionCanceled={handleSubscriptionCanceled}
-      />
+      <Suspense fallback={null}>
+        <SubscriptionManagementModal
+          open={subscriptionModalOpen}
+          onOpenChange={setSubscriptionModalOpen}
+          subscriptionEnd={subscriptionEnd}
+          onSubscriptionCanceled={handleSubscriptionCanceled}
+        />
+      </Suspense>
 
       <AlertDialog open={deleteAccountOpen} onOpenChange={setDeleteAccountOpen}>
         <AlertDialogContent>

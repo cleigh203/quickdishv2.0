@@ -1,18 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, CheckCircle, XCircle } from "lucide-react";
-import { useAllRecipes } from "@/hooks/useAllRecipes";
+import { Recipe } from "@/types/recipe";
+import { useRecipes } from "@/contexts/RecipesContext";
 
 const MigrateRecipes = () => {
   const [recipeNames, setRecipeNames] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [results, setResults] = useState<any[]>([]);
   const { toast } = useToast();
-  const { allRecipes } = useAllRecipes();
+  const { recipes: allRecipes } = useRecipes();
 
   const handleMigrate = async () => {
     if (!recipeNames.trim()) {

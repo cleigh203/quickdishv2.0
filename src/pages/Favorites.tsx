@@ -1,22 +1,22 @@
-import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Loader2, Search, Star, Filter, Plus, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { RecipeCard } from "@/components/RecipeCard";
+import { useSavedRecipes } from "@/hooks/useSavedRecipes";
+import { useRecipes } from "@/contexts/RecipesContext";
+import { Recipe } from "@/types/recipe";
 import { useSmartNavigation } from "@/hooks/useSmartNavigation";
 import { useScrollRestoration } from "@/hooks/useScrollRestoration";
-import { Heart, ChefHat, Loader2, Search } from "lucide-react";
-import { BottomNav } from "@/components/BottomNav";
-import { Recipe } from "@/types/recipe";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { useSavedRecipes } from "@/hooks/useSavedRecipes";
-import { useAllRecipes } from "@/hooks/useAllRecipes";
-import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { getRecipeImage } from "@/utils/recipeImages";
-import { Input } from "@/components/ui/input";
-import { supabase } from "@/integrations/supabase/client";
+import { BottomNav } from "@/components/BottomNav";
+import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 
 const Favorites = () => {
   const { savedRecipes, loading } = useSavedRecipes();
-  const { allRecipes } = useAllRecipes();
+  const { recipes: allRecipes } = useRecipes();
   const { generatedRecipes } = useGeneratedRecipes();
   const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
   const [searchQuery, setSearchQuery] = useState("");

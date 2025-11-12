@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, lazy, Suspense } from "react";
 import { useLocation } from "react-router-dom";
 import { useSmartNavigation } from "@/hooks/useSmartNavigation";
 import { useScrollRestoration } from "@/hooks/useScrollRestoration";
@@ -11,7 +11,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Search, X, Heart, Calendar, RefreshCw, Trash2 } from "lucide-react";
-import { useAllRecipes } from "@/hooks/useAllRecipes";
+import { useRecipes } from "@/contexts/RecipesContext";
 import { Recipe } from "@/types/recipe";
 import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useMealPlan } from "@/hooks/useMealPlan";
@@ -21,11 +21,12 @@ import { toast } from "sonner";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { supabase } from "@/integrations/supabase/client";
-import { MealPlanDialog } from "@/components/MealPlanDialog";
+
+const MealPlanDialog = lazy(() => import("@/components/MealPlanDialog").then(m => ({ default: m.MealPlanDialog })));
 
 type SavedRecipeWithDetails = Recipe & {
-  savedAt?: string;
-  bookmarkId?: string;
+  savedAt: string;
+  bookmarkId: string;
 };
 
 const mapDbRecipeToRecipe = (record: any): Recipe => ({
@@ -85,10 +86,10 @@ export const SavedRecipes = () => {
   // Enable scroll restoration for this page
   useScrollRestoration();
   
-  const { allRecipes } = useAllRecipes();
+  const { recipes: allRecipes, isLoading: allRecipesLoading } = useRecipes();
   const { savedRecipes, loading, error, refetch, unsaveRecipe } = useSavedRecipes();
   const { mealPlans, refreshMealPlans, addMealPlan } = useMealPlan();
-  const { generatedRecipes, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
+  const { generatedRecipes, isLoading: generatedRecipesLoading, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
   const [activeTab, setActiveTab] = useState("saved");
   
   // Check if we should open meal plan tab
@@ -122,13 +123,16 @@ export const SavedRecipes = () => {
   // Filter generatedRecipes into custom and AI recipes
   useEffect(() => {
     if (generatedRecipes && generatedRecipes.length > 0) {
-      console.log('🔍 First recipe in generatedRecipes:', generatedRecipes[0]);
-      console.log('🔍 Checking recipe_id field:', generatedRecipes[0]?.recipe_id);
-      console.log('🔍 Checking id field:', generatedRecipes[0]?.id);
+      const firstGenerated = generatedRecipes[0] as Recipe & { recipe_id?: string };
+      console.log('🔍 First recipe in generatedRecipes:', firstGenerated);
+      console.log('🔍 Checking recipe_id field:', firstGenerated?.recipe_id);
+      console.log('🔍 Checking id field:', firstGenerated?.id);
       
       const customRecipesFiltered = generatedRecipes.filter((r: Recipe) => {
-        const isCustom = r.recipe_id?.startsWith('custom-') || r.id?.startsWith('custom-');
-        console.log(`🔍 Recipe ${r.name}: recipe_id=${r.recipe_id}, id=${r.id}, isCustom=${isCustom}`);
+        const raw = r as Recipe & { recipe_id?: string };
+        const candidateId = raw.id || raw.recipe_id || "";
+        const isCustom = candidateId.startsWith('custom-');
+        console.log(`🔍 Recipe ${r.name}: candidateId=${candidateId}, isCustom=${isCustom}`);
         return isCustom;
       });
       
@@ -142,13 +146,24 @@ export const SavedRecipes = () => {
 
   // Resolve saved recipes to complete recipe objects (static + generated + Supabase fetch)
   useEffect(() => {
-    const resolveSaved = async () => {
-      if (!savedRecipes || savedRecipes.length === 0) {
-        setResolvedSavedRecipes([]);
-        setSavedFromQuickDishLoading(false);
-        return;
-      }
+    if (!savedRecipes || savedRecipes.length === 0) {
+      setResolvedSavedRecipes([]);
+      setSavedFromQuickDishLoading(false);
+      return;
+    }
 
+    if (loading || allRecipesLoading || generatedRecipesLoading) {
+      setSavedFromQuickDishLoading(true);
+      return;
+    }
+
+    const hasAnyRecipeData = (allRecipes && allRecipes.length > 0) || (generatedRecipes && generatedRecipes.length > 0);
+    if (!hasAnyRecipeData) {
+      setSavedFromQuickDishLoading(true);
+      return;
+    }
+
+    const resolveSaved = async () => {
       setSavedFromQuickDishLoading(true);
 
       try {
@@ -224,7 +239,7 @@ export const SavedRecipes = () => {
           .map((saved) => {
             const recipe = resolvedMap.get(saved.recipe_id);
             if (!recipe) {
-              console.warn(`Unable to resolve recipe with ID: ${saved.recipe_id}`);
+              console.warn('Recipe not found yet:', saved.recipe_id);
               return null;
             }
 
@@ -245,7 +260,7 @@ export const SavedRecipes = () => {
     };
 
     resolveSaved();
-  }, [savedRecipes, generatedRecipes, allRecipes]);
+  }, [savedRecipes, loading, allRecipes, allRecipesLoading, generatedRecipes, generatedRecipesLoading]);
 
   // Refresh meal plans when user navigates to meal plan tab
   useEffect(() => {
@@ -258,7 +273,7 @@ export const SavedRecipes = () => {
     return resolvedSavedRecipes;
   }, [resolvedSavedRecipes]);
 
-  const combinedSavedRecipesLoading = loading || savedFromQuickDishLoading;
+  const combinedSavedRecipesLoading = loading || savedFromQuickDishLoading || allRecipesLoading || generatedRecipesLoading;
 
   const handleRecipeClick = (recipeId: string) => {
     // Find the recipe in our data to pass via state
@@ -273,6 +288,7 @@ export const SavedRecipes = () => {
   };
 
   const handleEdit = (recipe: Recipe) => {
+    if (!recipe.id?.startsWith('custom-')) return;
     setEditingRecipe(recipe);
     setShowCustomForm(true);
   };
@@ -576,6 +592,8 @@ export const SavedRecipes = () => {
                         onClick={() => handleRecipeClick(recipe.id)}
                         showRemoveButton={true}
                         onRemove={() => handleDelete(recipe.id)}
+                        showEditButton={recipe.id.startsWith('custom-')}
+                        onEdit={() => handleEdit(recipe)}
                       />
                     ))}
                   </div>
@@ -662,12 +680,14 @@ export const SavedRecipes = () => {
 
       {/* Meal Plan Dialog */}
       {selectedRecipeForMealPlan && (
-        <MealPlanDialog
-          open={mealPlanDialogOpen}
-          onOpenChange={setMealPlanDialogOpen}
-          onSave={handleMealPlanSave}
-          recipeName={selectedRecipeForMealPlan.name}
-        />
+        <Suspense fallback={null}>
+          <MealPlanDialog
+            open={mealPlanDialogOpen}
+            onOpenChange={setMealPlanDialogOpen}
+            onSave={handleMealPlanSave}
+            recipeName={selectedRecipeForMealPlan.name}
+          />
+        </Suspense>
       )}
 
       {/* Delete Confirmation */}

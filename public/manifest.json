@@ -1,7 +1,7 @@
 {
-  "name": "QuickDish - Recipe & Meal Planner",
+  "name": "QuickDish - Cook Smarter Not Harder",
   "short_name": "QuickDish",
-  "description": "AI-powered recipe companion with meal planning and smart shopping lists",
+  "description": "Discover curated recipes with hands-free voice control, smart meal planning, and shopping lists. Cook smarter, not harder.",
   "theme_color": "#ff6b35",
   "background_color": "#ffffff",
   "display": "standalone",

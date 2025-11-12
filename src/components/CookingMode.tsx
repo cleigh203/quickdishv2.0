@@ -192,6 +192,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
         await SpeechRecognition.removeAllListeners();
         await SpeechRecognition.stop();
       } else if (recognitionRef.current) {
+        recognitionRef.current.onend = null;
         recognitionRef.current.abort();
         recognitionRef.current.stop();
         recognitionRef.current = null;
@@ -234,34 +235,13 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   // Voice command handler
   const handleVoiceCommand = (command: string) => {
     const cmd = command.toLowerCase().trim();
-    console.log('🎤 RAW COMMAND:', command);
-    console.log('🎤 PROCESSED:', cmd);
-    
+    console.log('🎤 COMMAND:', cmd);
+
+    if (!cmd) return;
+
     setLastCommand(cmd);
     setTimeout(() => setLastCommand(""), 3000);
-
-    // ALWAYS require wake word (Protected Mode only)
-    const hasWakeWord = cmd.includes('quick dish') || 
-                        cmd.includes('quickdish') ||
-                        cmd.includes('quick this') ||
-                        cmd.includes('quick dis') ||
-                        (cmd.includes('quick') && cmd.includes('dish'));
-    
-    if (!hasWakeWord) {
-      console.log('❌ REJECTED: Wake word required (heard: "' + cmd + '")');
-      // Don't spam toasts - only show if they said an actual command
-      if (cmd.includes('next') || cmd.includes('back') || cmd.includes('repeat') || cmd.includes('timer')) {
-        toast({
-          title: "🎤 Say 'Quick Dish' first",
-          description: "Example: 'Quick Dish Next'",
-          duration: 2000,
-        });
-      }
-      return;
-    }
-
-    console.log('✅ ACCEPTED: Processing command');
-
+ 
     // Timer commands
     if (cmd.includes('timer') || cmd.includes('start timer') || cmd.includes('set timer')) {
       const step = currentStepRef.current;
@@ -373,8 +353,9 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
             partialResults: true,
             popup: false,
           });
-
+ 
           setIsListening(true);
+          isListeningRef.current = true;
           toast({ 
             title: "🎤 Voice control started",
             description: 'Say "Quick Dish Next"'
@@ -382,52 +363,81 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
         } else {
           // WEB
           const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-          const recognition = new SpeechRecognition();
-          
-          recognition.continuous = true;
-          recognition.interimResults = true;
-          recognition.lang = 'en-US';
+          if (!SpeechRecognition) {
+            toast({
+              title: "Voice not supported",
+              description: "This browser does not support speech recognition",
+              variant: "destructive"
+            });
+            return;
+          }
 
-          recognition.onresult = (event: any) => {
-            const last = event.results.length - 1;
-            const command = event.results[last][0].transcript;
-            if (event.results[last].isFinal) {
-              handleVoiceCommand(command);
-            }
-          };
+          if (!recognitionRef.current) {
+            const recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
 
-          recognition.onerror = (event: any) => {
-            console.error('Recognition error:', event.error);
-            if (event.error === 'not-allowed') {
-              setIsListening(false);
-              toast({
-                title: "Microphone access denied",
-                description: "Please enable microphone permissions",
-                variant: "destructive"
-              });
-            }
-          };
+            const hotwordRegex = /^quick dish\b/i;
 
-          recognition.onend = () => {
-            if (isListeningRef.current) {
-              console.log('Restarting...');
-              setTimeout(() => {
+            recognition.onresult = (event: any) => {
+              if (!event.results || event.results.length === 0) return;
+              const transcript = event.results[0][0].transcript.trim();
+              if (hotwordRegex.test(transcript)) {
+                const command = transcript.replace(hotwordRegex, '').trim();
+                if (command) {
+                  handleVoiceCommand(command);
+                }
+              } else {
+                console.log('❌ Hotword missing:', transcript);
+              }
+            };
+
+            recognition.onerror = (event: any) => {
+              console.error('Recognition error:', event.error);
+              if (event.error === 'not-allowed') {
+                isListeningRef.current = false;
+                recognition.onend = null;
+                setIsListening(false);
+                toast({
+                  title: "Microphone access denied",
+                  description: "Please enable microphone permissions",
+                  variant: "destructive"
+                });
+                try {
+                  recognition.stop();
+                } catch (error) {
+                  console.error('Manual stop failed:', error);
+                }
+                recognitionRef.current = null;
+              }
+            };
+
+            recognition.onend = () => {
+              if (isListeningRef.current) {
                 try {
                   recognition.start();
-                } catch (e) {
-                  console.log('Restart failed');
+                } catch (error) {
+                  console.error('Restart failed:', error);
                 }
-              }, 100);
-            }
-          };
+              }
+            };
 
-          recognition.start();
-          recognitionRef.current = recognition;
+            recognitionRef.current = recognition;
+          }
+
+          isListeningRef.current = true;
           setIsListening(true);
-          
+
+          try {
+            recognitionRef.current.start();
+          } catch (error) {
+            console.error('Recognition start error:', error);
+          }
+
           toast({ 
             title: "🎤 Voice control started",
-            description: 'Say "Quick Dish Next"'
+            description: 'Say "Quick Dish" before your command'
           });
         }
 

@@ -1,4 +1,4 @@
-import { useState, useMemo, Fragment, useEffect, useRef } from "react";
+import { useMemo, Fragment } from "react";
 import { ArrowLeft, Search, Check, X, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { VoiceSearchButton } from "@/components/VoiceSearchButton";
 import { Recipe } from "@/types/recipe";
 import { getRecipeImage } from "@/utils/recipeImages";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { InlineRating } from "@/components/InlineRating";
 
 interface SearchOverlayProps {
@@ -44,15 +44,11 @@ export const SearchOverlay = ({
   hideAiImages = false
 }: SearchOverlayProps) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const isRestoringRef = useRef(false);
   
   const FILTERS = {
     time: ['Under 30min', '30-60min'],
     difficulty: ['Easy', 'Medium', 'Hard'],
-    diet: ['Vegetarian', 'Vegan', 'Gluten-Free'],
-    meal: ['Breakfast', 'Lunch', 'Dinner', 'Snack']
+    diet: ['Vegetarian', 'Vegan', 'Gluten-Free']
   };
 
   // Filter recipes - ONLY when appliedSearchTerm is set (not while typing)
@@ -61,54 +57,14 @@ export const SearchOverlay = ({
       recipe.cuisine?.toLowerCase() === 'halloween' || 
       recipe.tags?.includes('halloween') || false;
 
-    // ONLY filter when appliedSearchTerm is set (filters were applied via button click)
-    // If appliedSearchTerm is undefined, don't filter - wait for user to click "Apply Filters"
     const searchTermToUse = appliedSearchTerm !== undefined ? appliedSearchTerm : '';
+    const normalizedSearch = searchTermToUse.trim().toLowerCase();
+    const searchTerms = normalizedSearch ? normalizedSearch.split(/[\s,]+/).map(term => term.trim()).filter(Boolean) : [];
 
-    return recipes.filter(recipe => {
-      // Exclude Halloween recipes from search
-      if (isHalloweenRecipe(recipe)) return false;
-
-      // Search query filter - ONLY filter if searchTermToUse is not empty
-      // If appliedSearchTerm is provided and empty, don't filter (filters were explicitly applied with empty search)
-      if (appliedSearchTerm !== undefined && !appliedSearchTerm.trim()) {
-        // Filters were applied but search is empty, so don't filter by search
-      } else if (searchTermToUse.trim()) {
-        const queryTerms = searchTermToUse.toLowerCase().split(/[\s,]+/).filter(t => t.length > 0);
-        
-        // For each search term, check if it matches as a word (not just substring)
-        const matches = queryTerms.some(term => {
-          // Create regex for word boundary matching
-          // \b matches word boundaries, so "fish" won't match "finish"
-          const wordRegex = new RegExp(`\\b${term}`, 'i');
-          
-          // Search in recipe name
-          const nameMatch = wordRegex.test(recipe.name);
-          
-          // Search in ingredients (each ingredient item)
-          const ingredientMatch = recipe.ingredients.some(ing => 
-            wordRegex.test(ing.item)
-          );
-          
-          // Search in cuisine
-          const cuisineMatch = wordRegex.test(recipe.cuisine || '');
-          
-          return nameMatch || ingredientMatch || cuisineMatch;
-        });
-        
-        if (!matches) return false;
-      }
-
-      // If appliedSearchTerm is explicitly empty (filters applied with no search), show all recipes
-      if (appliedSearchTerm !== undefined && !appliedSearchTerm.trim() && !searchTermToUse.trim()) {
-        // Continue to filter logic below
-      }
-
-      // Apply all filters (AND logic)
+    const meetsFilters = (recipe: Recipe) => {
       if (filters.length === 0) return true;
 
       return filters.every(filter => {
-        // Time filters
         if (filter === 'Under 30min') {
           const totalTime = (parseInt(recipe.prepTime) || 0) + (parseInt(recipe.cookTime) || 0);
           return totalTime <= 30;
@@ -117,20 +73,37 @@ export const SearchOverlay = ({
           const totalTime = (parseInt(recipe.prepTime) || 0) + (parseInt(recipe.cookTime) || 0);
           return totalTime > 30 && totalTime <= 60;
         }
-        
-        // Difficulty filters
+
         if (['Easy', 'Medium', 'Hard'].includes(filter)) {
           return recipe.difficulty.toLowerCase() === filter.toLowerCase();
         }
-        
-        // Diet and meal filters (check tags)
+
         const normalizedFilter = filter.toLowerCase().replace(/\s+/g, '-').replace('gluten-free', 'glutenfree');
         return recipe.tags?.some(tag => 
           tag.toLowerCase().replace(/\s+/g, '-') === normalizedFilter
         ) || false;
-              });
       });
-  }, [recipes, searchQuery, appliedSearchTerm, filters]);
+    };
+
+    return recipes.filter(recipe => {
+      if (isHalloweenRecipe(recipe)) return false;
+
+      if (appliedSearchTerm !== undefined && !normalizedSearch) {
+        // Filters were applied but search is empty, so don't filter by search
+      } else if (normalizedSearch) {
+        const matchesSearch = searchTerms.every(term => {
+          const nameMatch = (recipe.name || '').toLowerCase().includes(term);
+          const ingredientMatch = recipe.ingredients.some(ing => ing.item.toLowerCase().includes(term));
+          const cuisineMatch = (recipe.cuisine || '').toLowerCase().includes(term);
+          return nameMatch || ingredientMatch || cuisineMatch;
+        });
+
+        if (!matchesSearch) return false;
+      }
+
+      return meetsFilters(recipe);
+    });
+  }, [recipes, appliedSearchTerm, filters]);
 
   if (!isOpen) return null;
 
@@ -232,28 +205,6 @@ export const SearchOverlay = ({
           </div>
         </div>
 
-        {/* Meal Type */}
-        <div>
-          <p className="text-sm font-semibold text-foreground mb-3">Meal Type</p>
-          <div className="flex flex-wrap gap-2">
-            {FILTERS.meal.map((filter) => (
-              <Badge
-                key={filter}
-                variant={filters.includes(filter) ? "default" : "outline"}
-                className={`cursor-pointer px-4 py-2 rounded-full transition-all ${
-                  filters.includes(filter) 
-                    ? 'bg-primary text-white hover:bg-primary/90' 
-                    : 'hover:bg-muted'
-                }`}
-                onClick={() => toggleFilter(filter)}
-              >
-                {filters.includes(filter) && <Check className="w-3 h-3 mr-1" />}
-                {filter}
-              </Badge>
-            ))}
-          </div>
-        </div>
-
         {/* Action Buttons */}
         <div className="flex gap-3 pt-4 py-4">
           <Button
@@ -287,6 +238,7 @@ export const SearchOverlay = ({
             <div className="text-center py-12 text-muted-foreground">
               <p className="text-lg font-medium">No recipes found</p>
               <p className="text-sm mt-2">Try adjusting your filters or search terms</p>
+              {/* Removed search suggestions as per edit hint */}
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-4">
@@ -328,6 +280,7 @@ export const SearchOverlay = ({
                           e.stopPropagation();
                           onAddToFavorites(recipe);
                         }}
+                        aria-label={`Add ${recipe.name} to shopping list`}
                         className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
                       >
                         <Plus className="w-4 h-4 text-foreground" />
