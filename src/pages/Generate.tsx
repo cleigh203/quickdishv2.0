@@ -1018,7 +1018,8 @@ const Generate = () => {
           categories.map((category) => {
             const categoryRecipes = getRecipesByCategory(category.id);
 
-            if (categoryRecipes.length === 0) return null;
+            // 🔍 FIX: Don't hide categories with 0 recipes - show empty state instead
+            // if (categoryRecipes.length === 0) return null;
 
             return (
               <div key={category.id}>
