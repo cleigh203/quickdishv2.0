@@ -158,6 +158,14 @@ const Generate = () => {
   // Combine recipes, deduplicating by recipe_id and prioritizing DB recipes over static ones
   type RecipeWithCategory = Recipe & { category?: string };
 
+  // 🔍 DEBUG: Log recipe counts
+  console.log('🔍 Generate: Recipe counts', {
+    allRecipes: allRecipes.length,
+    generatedRecipes: generatedRecipes.length,
+    verifiedRecipes: verifiedRecipes.length,
+    isLoadingRecipes
+  });
+
   const combinedRecipes: RecipeWithCategory[] = (() => {
     const recipeMap = new Map<string, RecipeWithCategory>();
     

@@ -28,25 +28,35 @@ export const useAllRecipes = (enabled = true) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    console.log('🔍 useAllRecipes: useEffect running', { enabled, currentRecipeCount: allRecipes.length });
     if (enabled && allRecipes.length === 0) {
+      console.log('🔍 useAllRecipes: Triggering fetch (enabled and no recipes)');
       fetchAllRecipes();
+    } else {
+      console.log('🔍 useAllRecipes: Skipping fetch', { enabled, hasRecipes: allRecipes.length > 0 });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled]);
 
   const fetchAllRecipes = async () => {
     try {
+      console.log('🔍 useAllRecipes: Starting fetch...');
       setIsLoading(true);
       
       // Use retry logic for network resilience
       const data = await retryOperation(async () => {
+        console.log('🔍 useAllRecipes: Querying Supabase...');
         const { data, error } = await supabase
           .from('recipes')
-          .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category, nutrition, total_time')
+          .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category, nutrition')
           .order('name')
           .abortSignal(AbortSignal.timeout(10000)); // 10 second timeout
 
-        if (error) throw error;
+        if (error) {
+          console.error('🔍 useAllRecipes: Supabase error:', error);
+          throw error;
+        }
+        console.log('🔍 useAllRecipes: Fetched', data?.length || 0, 'recipes from DB');
         return data;
       }, 2, 1000); // 2 retries with 1 second delay
 
@@ -66,10 +76,10 @@ export const useAllRecipes = (enabled = true) => {
         image: dbRecipe.image_url,
         imageUrl: dbRecipe.image_url,
         tags: dbRecipe.tags || [],
-        totalTime: dbRecipe.total_time,
-        nutrition: dbRecipe.nutrition,
+        nutrition: dbRecipe.nutrition as any,
       }));
 
+      console.log('🔍 useAllRecipes: Setting', transformedRecipes.length, 'recipes to state');
       setAllRecipes(transformedRecipes);
       
       // Cache the results
@@ -78,7 +88,9 @@ export const useAllRecipes = (enabled = true) => {
           data: transformedRecipes,
           timestamp: Date.now()
         }));
+        console.log('🔍 useAllRecipes: Cached recipes to localStorage');
       } catch (e) {
+        console.error('🔍 useAllRecipes: Failed to cache:', e);
         // Ignore cache errors (localStorage might be full)
       }
     } catch (error: any) {
