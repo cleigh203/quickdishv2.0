@@ -57,11 +57,29 @@ export const useAllRecipes = (enabled = true) => {
           throw error;
         }
         console.log('🔍 useAllRecipes: Fetched', data?.length || 0, 'recipes from DB');
+      if (data && data.length > 0) {
+        console.log('🔍 useAllRecipes: Sample DB recipe (first):', {
+          recipe_id: data[0].recipe_id,
+          name: data[0].name,
+          category: data[0].category,
+          allKeys: Object.keys(data[0])
+        });
+      }
         return data;
       }, 2, 1000); // 2 retries with 1 second delay
 
       // Transform database recipes to match Recipe type
-      const transformedRecipes: Recipe[] = (data || []).map((dbRecipe) => ({
+      const transformedRecipes: Recipe[] = (data || []).map((dbRecipe) => {
+        // 🔍 DEBUG: Log category field mapping
+        const categoryValue = dbRecipe.category || 'Uncategorized';
+        if (!dbRecipe.category) {
+          console.warn('🔍 useAllRecipes: Recipe missing category field:', {
+            id: dbRecipe.recipe_id,
+            name: dbRecipe.name,
+            allKeys: Object.keys(dbRecipe)
+          });
+        }
+        return {
         id: dbRecipe.recipe_id,
         name: dbRecipe.name,
         description: dbRecipe.description || '',
@@ -72,14 +90,30 @@ export const useAllRecipes = (enabled = true) => {
         ingredients: (Array.isArray(dbRecipe.ingredients) ? dbRecipe.ingredients : []) as any[],
         instructions: (Array.isArray(dbRecipe.instructions) ? dbRecipe.instructions : []) as string[],
         cuisine: dbRecipe.cuisine || 'International',
-        category: dbRecipe.category || 'Other', // 🔥 CRITICAL: Include category field!
+        category: categoryValue, // Use mapped category value
         image: dbRecipe.image_url,
         imageUrl: dbRecipe.image_url,
         tags: dbRecipe.tags || [],
         nutrition: dbRecipe.nutrition as any,
-      }));
+        };
+      });
 
       console.log('🔍 useAllRecipes: Setting', transformedRecipes.length, 'recipes to state');
+      if (transformedRecipes.length > 0) {
+        console.log('🔍 useAllRecipes: Sample transformed recipe:', {
+          id: transformedRecipes[0].id,
+          name: transformedRecipes[0].name,
+          category: transformedRecipes[0].category,
+          hasCategory: !!transformedRecipes[0].category
+        });
+        // Count recipes by category
+        const categoryCounts = transformedRecipes.reduce((acc, r) => {
+          const cat = r.category || 'Uncategorized';
+          acc[cat] = (acc[cat] || 0) + 1;
+          return acc;
+        }, {} as Record<string, number>);
+        console.log('🔍 useAllRecipes: Category counts:', categoryCounts);
+      }
       setAllRecipes(transformedRecipes);
       
       // Cache the results
