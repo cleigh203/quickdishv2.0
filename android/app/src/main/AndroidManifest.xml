@@ -38,4 +38,17 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Required for Speech Recognition -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Required for File operations -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!-- Required for Camera (if using barcode scanner or photo features) -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Optional: For better speech recognition -->
+    <uses-feature android:name="android.hardware.microphone" android:required="false" />
 </manifest>
