@@ -5,97 +5,111 @@ export const OnboardingWelcome = () => {
 
   const features = [
     {
-      emoji: "👨‍🍳",
-      bgColor: "bg-gradient-to-br from-orange-100 to-orange-200",
+      emoji: "🍳",
       title: "Chef-Curated Recipes",
       description: "Professionally tested recipes at your fingertips",
     },
     {
+      emoji: "🎤",
+      title: "Voice-Controlled Cooking",
+      description: "Hands-free cooking with Quick Dish commands",
+    },
+    {
       emoji: "📅",
-      bgColor: "bg-gradient-to-br from-pink-100 to-pink-200",
       title: "Smart Meal Planning",
-      description: "Plan your entire week in just 5 minutes",
+      description: "Plan your entire week in 5 minutes",
     },
     {
       emoji: "🛒",
-      bgColor: "bg-gradient-to-br from-amber-100 to-yellow-200",
       title: "Automated Shopping Lists",
-      description: "With smart pantry tracking - never buy duplicates again",
+      description: "Smart pantry tracking - never buy duplicates",
+    },
+    {
+      emoji: "🤖",
+      title: "AI Recipe Generator",
+      description: "Turn your ingredients into magic meals",
+    },
+    {
+      emoji: "💾",
+      title: "Save & Organize",
+      description: "Save favorites and build your custom cookbook",
     },
   ];
 
   return (
-    <div className="fixed inset-0 z-[100] bg-[#FAF9F6] flex items-start justify-center p-6 overflow-y-auto pt-20">
-      <div className="max-w-md w-full py-8">
-        {/* Top Section */}
-        <div className="text-center mb-8 animate-fade-in">
-          {/* Logo */}
-          <div className="mb-6 flex justify-center mt-10">
-            <div className="w-[100px] h-[100px] rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FF4500] flex items-center justify-center shadow-2xl">
-              <img 
-                src="/logo.svg" 
-                alt="QuickDish Logo" 
-                className="w-16 h-16 object-contain"
-                loading="eager"
-                fetchPriority="high"
-                decoding="sync"
-                crossOrigin="anonymous"
-                referrerPolicy="no-referrer"
-              />
+    <div className="fixed inset-0 z-[100] bg-gray-50 flex items-start justify-center p-6 overflow-y-auto pt-12">
+      <div className="max-w-5xl w-full px-6 py-12">
+        {/* Header Section */}
+        <div className="text-center mb-8">
+          {/* Orange bell icon in circle */}
+          <div className="mb-6 flex justify-center">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg">
+              <svg
+                className="w-8 h-8 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
             </div>
           </div>
 
-          {/* Headline */}
-          <h1 className="text-[32px] font-bold mb-3 bg-gradient-to-r from-[#FF6B35] to-[#FF4500] bg-clip-text text-transparent">
-            Welcome to Quick Dish
+          {/* Heading */}
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+            Cook smarter, not harder.
           </h1>
 
-          {/* Tagline */}
-          <p className="text-[16px] text-[#5A6C7D] font-medium">
-            Cook smarter, not harder. QuickDish helps you turn everyday ingredients into delicious meals.
+          {/* Subheading */}
+          <p className="text-lg md:text-xl text-gray-700 mb-8">
+            Turn everyday ingredients into delicious meals.
           </p>
         </div>
 
-        {/* Feature Cards */}
-        <div className="space-y-4 mb-8">
+        {/* Feature Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="flex items-center gap-5 p-5 bg-white rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 animate-fade-in"
-              style={{ animationDelay: `${(index + 1) * 150}ms` }}
+              className="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-gray-100 opacity-0"
+              style={{
+                animation: `fadeIn 0.6s ease-out forwards`,
+                animationDelay: `${(index + 1) * 100}ms`,
+              }}
             >
-              {/* Icon */}
-              <div className={`${feature.bgColor} w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0`}>
-                <span className="text-3xl">{feature.emoji}</span>
+              <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-2xl mb-3">
+                {feature.emoji}
               </div>
-
-              {/* Content */}
-              <div className="text-left flex-1">
-                <h3 className="text-[18px] font-bold text-[#2C3E50] mb-1">
-                  {feature.title}
-                </h3>
-                <p className="text-[14px] text-[#7F8C8D] leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
+              <h3 className="text-gray-900 font-semibold text-base mb-1">
+                {feature.title}
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                {feature.description}
+              </p>
             </div>
           ))}
         </div>
 
-        {/* Bottom Section */}
-        <div className="text-center animate-fade-in" style={{ animationDelay: "600ms" }}>
-          {/* Primary Button */}
+        {/* Buttons */}
+        <div className="flex flex-col items-center gap-3 mt-8">
+          {/* Get Started Button */}
           <button
             onClick={() => setCurrentStep(1)}
-            className="w-full py-[18px] text-[18px] font-bold text-white bg-gradient-to-r from-[#FF6B35] to-[#FF4500] rounded-xl shadow-[0_8px_20px_rgba(255,69,0,0.3)] hover:shadow-[0_12px_28px_rgba(255,69,0,0.4)] hover:-translate-y-0.5 transition-all duration-300 mb-4"
+            className="w-full max-w-md bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full text-lg font-semibold"
           >
             Get Started
           </button>
 
-          {/* Secondary Link */}
+          {/* Skip Tutorial Link */}
           <button
             onClick={skipOnboarding}
-            className="text-[15px] text-[#5A6C7D] hover:text-[#FF6B35] hover:underline transition-colors duration-200 font-medium"
+            className="text-gray-500 text-sm hover:text-gray-700 underline"
           >
             Skip Tutorial
           </button>

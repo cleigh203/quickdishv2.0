@@ -1,13 +1,14 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const PremiumSuccess = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const checkSubscription = async () => {
@@ -26,21 +27,19 @@ const PremiumSuccess = () => {
         } else if (data?.subscribed) {
           toast.success("Premium activated!");
         }
+
+        // Clean up URL parameters if present
+        const hasParams = searchParams.toString();
+        if (hasParams) {
+          window.history.replaceState({}, '', '/premium/success');
+        }
       } catch (error) {
         console.error('Error:', error);
       }
     };
 
     checkSubscription();
-  }, [navigate]);
-
-  const premiumFeatures = [
-    "Nutritional Facts & Calorie Tracking",
-    "Advanced Meal Planning Insights",
-    "Detailed Macro Breakdowns",
-    "Ad-Free Experience",
-    "Priority Support"
-  ];
+  }, [navigate, searchParams]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 flex items-center justify-center p-4">
@@ -50,32 +49,14 @@ const PremiumSuccess = () => {
             <Sparkles className="w-10 h-10 text-white" />
           </div>
           <CardTitle className="text-3xl font-bold">
-            Welcome to Premium! 🎉
+            Success! 🎉
           </CardTitle>
           <CardDescription className="text-lg">
-            Your free trial has started. You now have access to all premium features!
+            You now have access to premium features!
           </CardDescription>
         </CardHeader>
         
         <CardContent className="space-y-6">
-          <div className="bg-muted/50 rounded-lg p-6 space-y-3">
-            <h3 className="font-semibold text-lg mb-4">Your Premium Features:</h3>
-            {premiumFeatures.map((feature, index) => (
-              <div key={index} className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Check className="w-4 h-4 text-primary" />
-                </div>
-                <span className="text-sm">{feature}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 text-sm">
-            <p className="text-blue-900 dark:text-blue-100">
-              <strong>5-Day Free Trial:</strong> Your card won't be charged for 5 days. 
-              Cancel anytime from your Profile settings.
-            </p>
-          </div>
 
           <div className="flex flex-col sm:flex-row gap-3 pt-4">
             <Button 

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Camera, X, AlertCircle } from "lucide-react";
 
 interface BarcodeScannerProps {
@@ -110,6 +110,9 @@ export const BarcodeScanner = ({ open, onOpenChange, onScan }: BarcodeScannerPro
             <Camera className="w-5 h-5" />
             Scan Barcode
           </DialogTitle>
+          <DialogDescription>
+            Use your camera to scan a product barcode
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">

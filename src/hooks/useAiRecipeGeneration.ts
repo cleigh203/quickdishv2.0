@@ -7,6 +7,7 @@ import { useGeneratedRecipes } from '@/hooks/useGeneratedRecipes';
 import { recipeStorage } from '@/utils/recipeStorage';
 import { useQueryClient } from '@tanstack/react-query';
 import { getAiGenerationLimit } from '@/constants/limits';
+import { v4 as uuidv4 } from 'uuid';
 
 export const useAiRecipeGeneration = () => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -57,17 +58,6 @@ export const useAiRecipeGeneration = () => {
         // Use getAiGenerationLimit helper function
         const limit = getAiGenerationLimit(tier === 'premium');
       const remaining = Math.max(0, limit - currentGenerations);
-
-      // Debug logging
-      console.log('AI Limit Debug (useAiRecipeGeneration):', {
-        tier,
-        isPremium: tier === 'premium',
-        user_is_premium: profile?.is_premium,
-        subscription_tier: profile?.subscription_tier,
-        limit,
-        currentGenerations,
-        remaining
-      });
 
       setGenerationsRemaining(remaining);
 
@@ -202,13 +192,74 @@ export const useAiRecipeGeneration = () => {
       // Invalidate AI usage cache to refresh the counter
       queryClient.invalidateQueries({ queryKey: ['ai-usage', 'recipe_generation'] });
       
-      // Normalize AI recipe fields and add to session storage (not database)
+      // Generate proper UUID for database (id column is UUID type)
+      const recipeUuid = uuidv4();
+      
+      // Normalize AI recipe fields and use the UUID
       const aiRecipe: Recipe = {
         ...data.recipe,
+        id: recipeUuid, // Use proper UUID instead of custom format
         isAiGenerated: true,
         image: data.recipe.image_url || '',
         imageUrl: data.recipe.image_url || '',
       } as Recipe;
+      
+      // Automatically save to generated_recipes table
+      try {
+        const { error: saveError } = await supabase
+          .from('generated_recipes')
+          .insert({
+            id: recipeUuid, // Use proper UUID
+            recipe_id: recipeUuid, // Use proper UUID
+            user_id: user.id,
+            name: aiRecipe.name,
+            description: aiRecipe.description || '',
+            ingredients: aiRecipe.ingredients || [],
+            instructions: aiRecipe.instructions || [],
+            cook_time: aiRecipe.cookTime || '',
+            prep_time: aiRecipe.prepTime || '',
+            difficulty: aiRecipe.difficulty || '',
+            servings: aiRecipe.servings || 1,
+            cuisine: aiRecipe.cuisine || '',
+            image_url: aiRecipe.imageUrl || aiRecipe.image || '',
+            nutrition: aiRecipe.nutrition || null,
+            tags: aiRecipe.tags || [],
+          });
+
+        if (saveError) {
+          console.error('Error saving recipe to generated_recipes:', saveError);
+          // Still continue - recipe is generated, just couldn't save to DB
+        } else {
+          console.log('✅ Recipe automatically saved to generated_recipes table');
+          
+          // Also add to saved_recipes so it appears in My Kitchen immediately
+          try {
+            const { error: savedError } = await supabase
+              .from('saved_recipes')
+              .insert({
+                user_id: user.id,
+                recipe_id: aiRecipe.id,
+              });
+
+            if (savedError) {
+              // If it already exists, that's fine - just log it
+              if (savedError.code !== '23505') { // Not a duplicate key error
+                console.error('Error saving recipe to saved_recipes:', savedError);
+              }
+            } else {
+              console.log('✅ Recipe also added to saved_recipes');
+            }
+          } catch (savedErr) {
+            console.error('Exception saving recipe to saved_recipes:', savedErr);
+            // Continue even if this fails
+          }
+        }
+      } catch (saveErr) {
+        console.error('Exception saving recipe to database:', saveErr);
+        // Continue even if save fails
+      }
+      
+      // Add to session storage and state
       addGeneratedRecipe(aiRecipe);
       try {
         const existing = recipeStorage.getRecipes();
@@ -218,9 +269,14 @@ export const useAiRecipeGeneration = () => {
         console.warn('Could not persist AI recipe locally', e);
       }
       
+      // Invalidate queries to refresh My Kitchen
+      queryClient.invalidateQueries({ queryKey: ['generated-recipes'] });
+      queryClient.invalidateQueries({ queryKey: ['saved-recipes'] });
+      
       toast({
-        title: "Recipe created!",
-        description: `${data.recipe.name} - Save it if you like it!`
+        title: "✅ Recipe Created & Saved!",
+        description: "Find it anytime in My Kitchen",
+        duration: 4000
       });
 
       return aiRecipe;

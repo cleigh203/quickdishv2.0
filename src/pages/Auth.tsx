@@ -220,7 +220,7 @@ const Auth = () => {
               alt="Quick Dish" 
               className="h-24 w-24 object-contain"
               loading="eager"
-              fetchPriority="high"
+              fetchpriority="high"
               decoding="sync"
               crossOrigin="anonymous"
               referrerPolicy="no-referrer"

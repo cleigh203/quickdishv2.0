@@ -17,17 +17,21 @@ interface RecipeCardProps {
   onEdit?: () => void;
   showMealPlanButton?: boolean;
   onMealPlanClick?: () => void;
+  index?: number; // For progressive loading (first 6 eager, rest lazy)
 }
 
-export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveButton = false, onRemove, showEditButton = false, onEdit, showMealPlanButton = false, onMealPlanClick }: RecipeCardProps) => {
+export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveButton = false, onRemove, showEditButton = false, onEdit, showMealPlanButton = false, onMealPlanClick, index = 0 }: RecipeCardProps) => {
   const { averageRating, totalRatings } = useRecipeRating(recipe.id);
   const [imageLoaded, setImageLoaded] = useState(false);
+  
+  // Progressive loading: first 6 images eager, rest lazy
+  const shouldLoadEager = index < 6;
 
   return (
     <Card
-      className="recipe-card border-0"
+      className="recipe-card border-0 h-full flex flex-col"
       onClick={onClick}
-      style={{ cursor: onClick ? 'pointer' : 'default' }}
+      style={{ cursor: onClick ? 'pointer' : 'default', minHeight: '300px' }}
       data-recipe-card
     >
       <div className="relative">
@@ -35,20 +39,21 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
         {recipe.id?.startsWith('custom-') ? (
           /* Custom Recipe - show image or placeholder */
           recipe.imageUrl || recipe.image ? (
-            <div className="relative recipe-card-image overflow-hidden">
+            <div className="relative w-full aspect-[4/3] overflow-hidden bg-muted">
+              {/* Loading skeleton placeholder */}
               {!imageLoaded && (
-                <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+                <div className="absolute inset-0 bg-muted animate-pulse z-0" />
               )}
               <img
                 key={recipe.imageUrl || recipe.image}
                 src={recipe.imageUrl || recipe.image}
                 alt={recipe.name}
-                className={`w-full h-full object-cover transition-opacity duration-300 ${
+                className={`relative w-full h-full object-cover transition-opacity duration-300 z-10 ${
                   imageLoaded ? 'opacity-100' : 'opacity-0'
                 }`}
-                loading="eager"
-                fetchPriority="high"
-                decoding="sync"
+                loading={shouldLoadEager ? "eager" : "lazy"}
+                fetchpriority={index < 3 ? "high" : index < 6 ? "auto" : "low"}
+                decoding={shouldLoadEager ? "sync" : "async"}
                 crossOrigin="anonymous"
                 referrerPolicy="no-referrer"
                 width="400"
@@ -64,31 +69,32 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
             </div>
           ) : (
             /* Custom Recipe without image - show placeholder */
-            <div className="recipe-card-image bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-white">
+            <div className="w-full aspect-[4/3] bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-white">
               <span className="text-sm font-bold">My Recipe</span>
             </div>
           )
         ) : recipe.isAiGenerated ? (
           /* AI Recipe without image - show placeholder */
-          <div className="recipe-card-image bg-muted flex items-center justify-center text-muted-foreground">
+          <div className="w-full aspect-[4/3] bg-muted flex items-center justify-center text-muted-foreground">
             <span className="text-sm">AI Recipe</span>
           </div>
         ) : (
           /* Regular recipe with image */
-          <div className="relative recipe-card-image overflow-hidden">
+          <div className="relative w-full aspect-[4/3] overflow-hidden bg-muted">
+            {/* Loading skeleton placeholder */}
             {!imageLoaded && (
-              <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+              <div className="absolute inset-0 bg-muted animate-pulse z-0" />
             )}
             <img
               key={recipe.imageUrl || recipe.image}
               src={getRecipeImage(recipe, import.meta.env.DEV)}
               alt={recipe.name}
-              className={`w-full h-full object-cover transition-opacity duration-300 ${
+              className={`relative w-full h-full object-cover transition-opacity duration-300 z-10 ${
                 imageLoaded ? 'opacity-100' : 'opacity-0'
               }`}
-              loading="eager"
-              fetchPriority="high"
-              decoding="sync"
+              loading={shouldLoadEager ? "eager" : "lazy"}
+              fetchpriority={index < 3 ? "high" : index < 6 ? "auto" : "low"}
+              decoding={shouldLoadEager ? "sync" : "async"}
               crossOrigin="anonymous"
               referrerPolicy="no-referrer"
               width="400"
@@ -118,14 +124,14 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
           </div>
         )}
         {(showRemoveButton && onRemove) || (showEditButton && onEdit) ? (
-          <div className="absolute top-2 right-2 flex gap-2">
+          <div className="absolute top-2 right-2 flex gap-2 z-20">
             {showEditButton && onEdit && (
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   onEdit();
                 }}
-                className="w-8 h-8 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 rounded-full flex items-center justify-center shadow-lg transition-colors"
+                className="w-8 h-8 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 rounded-full flex items-center justify-center shadow-lg transition-colors z-20"
                 aria-label="Edit recipe"
               >
                 <Pencil className="w-4 h-4" />
@@ -137,7 +143,7 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
                   e.stopPropagation();
                   onRemove();
                 }}
-                className="w-8 h-8 bg-red-500/80 hover:bg-red-500 rounded-full flex items-center justify-center text-white shadow-lg transition-colors"
+                className="w-8 h-8 bg-red-500/80 hover:bg-red-500 rounded-full flex items-center justify-center text-white shadow-lg transition-colors z-20"
                 aria-label="Remove recipe"
               >
                 <Trash2 className="w-4 h-4" />
@@ -146,7 +152,7 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
           </div>
         ) : null}
       </div>
-      <CardContent className="recipe-card-content">
+      <CardContent className="recipe-card-content flex-1 flex flex-col">
         <div className="flex items-center justify-between mb-3">
           <span className="recipe-badge capitalize">{recipe.difficulty}</span>
           {totalRatings > 0 && (

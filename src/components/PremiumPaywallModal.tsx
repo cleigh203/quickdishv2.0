@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -32,6 +32,9 @@ export const PremiumPaywallModal = ({ open, onClose }: PremiumPaywallModalProps)
           <DialogTitle className="text-center text-2xl">
             Unlock Nutritional Information
           </DialogTitle>
+          <DialogDescription className="text-center">
+            Upgrade to Premium to see detailed nutrition facts for all recipes
+          </DialogDescription>
         </DialogHeader>
         
         <div className="space-y-4 py-4">

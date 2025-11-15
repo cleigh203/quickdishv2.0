@@ -18,6 +18,7 @@ import { useMealPlan } from "@/hooks/useMealPlan";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
 import { supabase } from "@/integrations/supabase/client";
@@ -86,10 +87,30 @@ export const SavedRecipes = () => {
   // Enable scroll restoration for this page
   useScrollRestoration();
   
+  // Scroll to top when page loads
+  useEffect(() => {
+    // Disable browser's automatic scroll restoration
+    window.history.scrollRestoration = 'manual';
+    // Scroll to top immediately
+    window.scrollTo(0, 0);
+    
+    // Also try scrolling after a short delay to ensure it works
+    const timeoutId = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+    
+    return () => {
+      clearTimeout(timeoutId);
+      // Re-enable scroll restoration when component unmounts
+      window.history.scrollRestoration = 'auto';
+    };
+  }, []);
+  
   const { recipes: allRecipes, isLoading: allRecipesLoading } = useRecipes();
   const { savedRecipes, loading, error, refetch, unsaveRecipe } = useSavedRecipes();
   const { mealPlans, refreshMealPlans, addMealPlan } = useMealPlan();
   const { generatedRecipes, isLoading: generatedRecipesLoading, refetch: refetchGeneratedRecipes } = useGeneratedRecipes();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("saved");
   
   // Check if we should open meal plan tab
@@ -123,21 +144,13 @@ export const SavedRecipes = () => {
   // Filter generatedRecipes into custom and AI recipes
   useEffect(() => {
     if (generatedRecipes && generatedRecipes.length > 0) {
-      const firstGenerated = generatedRecipes[0] as Recipe & { recipe_id?: string };
-      console.log('🔍 First recipe in generatedRecipes:', firstGenerated);
-      console.log('🔍 Checking recipe_id field:', firstGenerated?.recipe_id);
-      console.log('🔍 Checking id field:', firstGenerated?.id);
-      
       const customRecipesFiltered = generatedRecipes.filter((r: Recipe) => {
         const raw = r as Recipe & { recipe_id?: string };
         const candidateId = raw.id || raw.recipe_id || "";
         const isCustom = candidateId.startsWith('custom-');
-        console.log(`🔍 Recipe ${r.name}: candidateId=${candidateId}, isCustom=${isCustom}`);
         return isCustom;
       });
       
-      console.log('✅ Filtered custom recipes:', customRecipesFiltered.length);
-      console.log('✅ Custom recipes array:', customRecipesFiltered);
       setCustomRecipes(customRecipesFiltered);
     } else {
       setCustomRecipes([]);
@@ -215,12 +228,13 @@ export const SavedRecipes = () => {
           .map((saved) => saved.recipe_id)
           .filter((id) => id && !resolvedMap.has(id));
 
-        if (stillMissingIds.length > 0) {
+        if (stillMissingIds.length > 0 && user) {
           try {
             const { data: generatedDetails, error } = await supabase
               .from('generated_recipes')
               .select('*')
-              .in('recipe_id', stillMissingIds);
+              .in('recipe_id', stillMissingIds)
+              .eq('user_id', user.id);
 
             if (error) {
               console.error('Error fetching generated recipe details:', error);
@@ -239,7 +253,6 @@ export const SavedRecipes = () => {
           .map((saved) => {
             const recipe = resolvedMap.get(saved.recipe_id);
             if (!recipe) {
-              console.warn('Recipe not found yet:', saved.recipe_id);
               return null;
             }
 
@@ -333,7 +346,6 @@ export const SavedRecipes = () => {
         return;
       }
 
-      console.log('✅ Recipe deleted from database');
 
       // Update local state immediately
       setCustomRecipes(prev => prev.filter(r => r.id !== deletingRecipeId));
@@ -453,25 +465,6 @@ export const SavedRecipes = () => {
     [savedRecipesList, searchQuery, activeFilters]
   );
 
-  // Debug logging right before render
-  console.log('🎨 RENDERING My Kitchen');
-  console.log('🎨 generatedRecipes:', generatedRecipes);
-  console.log('🎨 generatedRecipesLength:', generatedRecipes?.length || 0);
-  console.log('🎨 firstGeneratedRecipe:', generatedRecipes?.[0]);
-  console.log('🎨 Is generatedRecipes an array?', Array.isArray(generatedRecipes));
-  console.log('🎨 customRecipes:', customRecipes);
-  console.log('🎨 customRecipesLength:', customRecipes?.length || 0);
-  console.log('🎨 resolvedSavedRecipes:', resolvedSavedRecipes);
-  console.log('🎨 resolvedSavedRecipesLength:', resolvedSavedRecipes?.length || 0);
-  console.log('🎨 filteredCustomRecipes:', filteredCustomRecipes);
-  console.log('🎨 filteredCustomRecipesLength:', filteredCustomRecipes?.length || 0);
-  console.log('🎨 filteredSavedRecipes:', filteredSavedRecipes);
-  console.log('🎨 filteredSavedRecipesLength:', filteredSavedRecipes?.length || 0);
-  console.log('🎨 savedRecipesList:', savedRecipesList);
-  console.log('🎨 savedRecipesListLength:', savedRecipesList?.length || 0);
-  console.log('🎨 loading:', loading);
-  console.log('🎨 savedFromQuickDishLoading:', savedFromQuickDishLoading);
-
   return (
     <div className="min-h-screen pb-20">
       {/* Header */}
@@ -585,7 +578,7 @@ export const SavedRecipes = () => {
                 <section>
                   <h2 className="text-lg font-semibold mb-4">My Recipes</h2>
                   <div className="grid grid-cols-2 gap-3">
-                    {filteredCustomRecipes.map((recipe) => (
+                    {filteredCustomRecipes.map((recipe, index) => (
                       <RecipeCard
                         key={recipe.id}
                         recipe={recipe}
@@ -594,6 +587,7 @@ export const SavedRecipes = () => {
                         onRemove={() => handleDelete(recipe.id)}
                         showEditButton={recipe.id.startsWith('custom-')}
                         onEdit={() => handleEdit(recipe)}
+                        index={index}
                       />
                     ))}
                   </div>
@@ -605,17 +599,27 @@ export const SavedRecipes = () => {
                 <section>
                   <h2 className="text-lg font-semibold mb-4">Saved from QuickDish</h2>
                   <div className="grid grid-cols-2 gap-3">
-                    {filteredSavedRecipes.map((recipe) => {
+                    {filteredSavedRecipes.map((recipe, index) => {
                       const savedRecipe = savedRecipes.find(sr => sr.recipe_id === recipe.id);
+                      // Calculate total index including custom recipes for progressive loading
+                      const totalIndex = filteredCustomRecipes.length + index;
                       return (
                         <RecipeCard
                           key={recipe.id}
                           recipe={recipe}
                           showRemoveButton={true}
-                          onRemove={() => savedRecipe && handleUnsave(savedRecipe.recipe_id)}
+                          onRemove={() => {
+                            if (savedRecipe) {
+                              handleUnsave(savedRecipe.recipe_id);
+                            } else {
+                              // Fallback: try to unsave using recipe.id directly
+                              handleUnsave(recipe.id);
+                            }
+                          }}
                           onClick={() => handleRecipeClick(recipe.id)}
                           showMealPlanButton={true}
                           onMealPlanClick={() => handleMealPlanClick(recipe)}
+                          index={totalIndex}
                         />
                       );
                     })}

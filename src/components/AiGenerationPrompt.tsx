@@ -150,15 +150,6 @@ export const AiGenerationPrompt = ({ searchTerm, onRecipeGenerated }: AiGenerati
         limit = getAiGenerationLimit(isPremium); // Use helper function
       }
     
-    // Debug logging
-    console.log('AI Limit Debug (AiGenerationPrompt):', {
-      isPremium,
-      user_is_premium: user?.user_metadata?.is_premium,
-      aiUsage_limit: aiUsage?.limit,
-      limit,
-      remaining
-    });
-    
     if (remaining === limit) {
       return `${limit} AI generation${limit !== 1 ? 's' : ''} left today`;
     }

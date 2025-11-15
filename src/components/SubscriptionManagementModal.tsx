@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, CreditCard, AlertTriangle, ExternalLink, Loader2 } from "lucide-react";
+import { Calendar, AlertTriangle, Loader2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,40 +32,6 @@ export const SubscriptionManagementModal = ({
   const { toast } = useToast();
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [canceling, setCanceling] = useState(false);
-  const [loadingPortal, setLoadingPortal] = useState(false);
-
-  const handleUpdatePaymentMethod = async () => {
-    setLoadingPortal(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('customer-portal');
-      
-      if (error) {
-        console.error('Supabase function error:', error);
-        throw new Error(error.message || 'Failed to invoke customer portal');
-      }
-      
-      if (data?.error) {
-        console.error('Customer portal error:', data.error);
-        throw new Error(data.error);
-      }
-      
-      if (data?.url) {
-        window.open(data.url, '_blank');
-      } else {
-        throw new Error('No portal URL returned');
-      }
-    } catch (error) {
-      console.error('Error opening customer portal:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Failed to open payment settings';
-      toast({
-        title: "Error",
-        description: errorMessage,
-        variant: "destructive",
-      });
-    } finally {
-      setLoadingPortal(false);
-    }
-  };
 
   const handleCancelSubscription = async () => {
     setCanceling(true);
@@ -78,6 +44,7 @@ export const SubscriptionManagementModal = ({
       toast({
         title: "Subscription canceled",
         description: "Your premium features will remain active until the end of your billing period.",
+        duration: 8000, // 8 seconds - gives time to read billing period info
       });
       
       setCancelDialogOpen(false);
@@ -110,6 +77,9 @@ export const SubscriptionManagementModal = ({
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">Manage Subscription</DialogTitle>
+            <DialogDescription>
+              View your subscription details and manage your premium account
+            </DialogDescription>
           </DialogHeader>
           
           <div className="space-y-6 py-4">
@@ -123,31 +93,18 @@ export const SubscriptionManagementModal = ({
             </div>
 
             {/* Next Billing Date */}
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Calendar className="w-4 h-4" />
-                <span>Next Billing Date</span>
+            {subscriptionEnd && (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Calendar className="w-4 h-4" />
+                  <span>Next Billing Date</span>
+                </div>
+                <p className="text-base font-medium">{formatDate(subscriptionEnd)}</p>
               </div>
-              <p className="text-base font-medium">{formatDate(subscriptionEnd)}</p>
-            </div>
+            )}
 
             {/* Action Buttons */}
             <div className="space-y-3 pt-4 border-t">
-              <Button
-                variant="outline"
-                className="w-full justify-start gap-2"
-                onClick={handleUpdatePaymentMethod}
-                disabled={loadingPortal}
-              >
-                {loadingPortal ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <CreditCard className="w-4 h-4" />
-                )}
-                Update Payment Method
-                <ExternalLink className="w-3 h-3 ml-auto" />
-              </Button>
-
               <Button
                 variant="outline"
                 className="w-full justify-start gap-2 border-red-300 text-red-600 hover:bg-red-50 hover:text-red-700"

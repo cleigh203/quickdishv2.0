@@ -68,20 +68,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           // is_premium is the primary source of truth
           const isPremiumUser = profile.is_premium === true || profile.subscription_tier === 'premium';
           
-          console.log('🔍 Premium status check:', {
-            is_premium: profile.is_premium,
-            subscription_tier: profile.subscription_tier,
-            subscription_status: profile.subscription_status,
-            result: isPremiumUser
-          });
-          
           if (isPremiumUser) {
             setIsPremium(true);
-            console.log('👑 Premium enabled from database');
             return;
           } else {
             setIsPremium(false);
-            console.log('🔓 Free user (not premium)');
             return;
           }
         }
@@ -122,7 +113,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        console.log('Auth state changed:', event);
         
         // Handle session expiration
         if (event === 'TOKEN_REFRESHED') {

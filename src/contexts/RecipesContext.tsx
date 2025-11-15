@@ -33,13 +33,6 @@ export const RecipesProvider = ({ children }: { children: ReactNode }) => {
     refetch({ force: true });
   }, [user?.id, refetch]);
 
-  useEffect(() => {
-    console.log('🔍 RecipesProvider state', {
-      loading: value.isLoading,
-      recipeCount: value.recipes.length,
-      userId: user?.id ?? null,
-    });
-  }, [value.isLoading, value.recipes.length, user?.id]);
 
   return <RecipesContext.Provider value={value}>{children}</RecipesContext.Provider>;
 };

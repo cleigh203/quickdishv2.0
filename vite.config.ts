@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => ({
     }
   },
   server: {
-    host: "127.0.0.1",
+    host: true, // Allow access from network
     port: 8080,
   },
 }));

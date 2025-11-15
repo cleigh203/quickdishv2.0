@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { useAIUsage } from '@/hooks/useSubscription';
 import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette, Mail, Calendar, Target, Download } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -46,6 +46,7 @@ interface ProfileData {
 const Profile = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user, signOut } = useAuth();
   const { showOnboarding } = useOnboarding();
   const [editProfileOpen, setEditProfileOpen] = useState(false);
@@ -74,17 +75,6 @@ const Profile = () => {
   const [pantryCount, setPantryCount] = useState(0);
   const { data: aiUsage, refetch: refetchAIUsage } = useAIUsage('recipe_generation');
 
-  // Debug logging for AI limit (run when aiUsage or profileData changes)
-  useEffect(() => {
-    if (aiUsage && profileData) {
-      console.log('AI Limit Debug (Profile):', {
-        isPremium: profileData?.is_premium,
-        aiUsage_limit: aiUsage?.limit,
-        aiUsage_count: aiUsage?.count,
-        user_is_premium: profileData?.is_premium
-      });
-    }
-  }, [aiUsage, profileData]);
 
   // Fetch profile data
   const fetchProfile = async () => {
@@ -139,6 +129,25 @@ const Profile = () => {
   useEffect(() => {
     fetchProfile();
   }, [user]);
+
+  // Handle Stripe success redirect with query params
+  useEffect(() => {
+    const status = searchParams.get('status');
+    if (status === 'success') {
+      toast({
+        title: "✅ Premium activated!",
+        description: "Your subscription is now active. Enjoy all premium features!",
+        duration: 5000,
+      });
+      // Clean up URL
+      window.history.replaceState({}, '', '/profile');
+      // Refetch profile to update premium status
+      if (user) {
+        fetchProfile();
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams, toast, user]);
 
   // Live timer until local midnight
   useEffect(() => {
@@ -402,17 +411,17 @@ const Profile = () => {
         </div>
       )}
 
-      {/* PROFILE HEADER - Green Gradient */}
-      <div className="relative bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500 text-white py-12 px-4 mb-8">
+      {/* PROFILE HEADER - Orange Gradient */}
+      <div className="relative bg-gradient-to-r from-[#FF6B35] to-[#FF4500] text-white py-12 px-4 mb-8">
         <div className="max-w-4xl mx-auto flex items-center gap-4">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center overflow-hidden ring-4 ring-white/20">
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center overflow-hidden ring-4 ring-white/20">
             {profileData?.avatar_url ? (
               <img
                 src={profileData.avatar_url}
                 alt="Avatar"
                 className="w-full h-full object-cover"
                 loading="eager"
-                fetchPriority="high"
+                fetchpriority="high"
                 decoding="sync"
                 crossOrigin="anonymous"
                 referrerPolicy="no-referrer"
@@ -457,7 +466,7 @@ const Profile = () => {
         <div className="grid grid-cols-2 gap-4">
           <Card className="rounded-xl shadow-sm bg-card">
             <CardContent className="p-4 flex items-center gap-3">
-              <Mail className="w-5 h-5 text-green-600" />
+              <Mail className="w-5 h-5 text-orange-600" />
               <div className="min-w-0 flex-1">
                 <div className="text-xs text-muted-foreground">Email</div>
                 <div className="font-semibold truncate">{user?.email}</div>
@@ -466,7 +475,7 @@ const Profile = () => {
           </Card>
           <Card className="rounded-xl shadow-sm bg-card">
             <CardContent className="p-4 flex items-center gap-3">
-              <Calendar className="w-5 h-5 text-green-600" />
+              <Calendar className="w-5 h-5 text-orange-600" />
               <div className="min-w-0 flex-1">
                 <div className="text-xs text-muted-foreground">Member Since</div>
                 <div className="font-semibold truncate">{new Date(user?.created_at || '').toLocaleDateString()}</div>
@@ -479,7 +488,7 @@ const Profile = () => {
                 {profileData?.is_premium ? (
                   <Crown className="w-5 h-5 text-yellow-500" />
                 ) : (
-                  <Target className="w-5 h-5 text-green-600" />
+                  <Target className="w-5 h-5 text-orange-600" />
                 )}
                 <div>
                   <div className="text-xs text-muted-foreground">Plan</div>
@@ -498,7 +507,7 @@ const Profile = () => {
               <Button
                 variant={profileData?.is_premium ? "outline" : "default"}
                 size="sm"
-                className={profileData?.is_premium ? "" : "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"}
+                className={profileData?.is_premium ? "" : "bg-gradient-to-r from-[#FF6B35] to-[#FF4500] hover:from-[#FF4500] hover:to-[#FF6B35]"}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleSubscriptionAction();
@@ -512,7 +521,7 @@ const Profile = () => {
 
         {/* AI GENERATIONS UPGRADE CARD */}
         {!profileData?.is_premium ? (
-          <div className="rounded-xl shadow-lg bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-600 p-6 space-y-4">
+          <div className="rounded-xl shadow-lg bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 p-6 space-y-4">
             <div className="text-white">
               <h3 className="font-bold text-lg mb-2">Daily AI Recipe Generations</h3>
               <div className="flex items-center gap-3 mb-4">
@@ -544,8 +553,8 @@ const Profile = () => {
                       <div>1 recipe/day</div>
                     </div>
                     <div className="text-2xl">→</div>
-                    <div className="text-emerald-600">
-                      <div className="font-semibold text-emerald-700">Premium</div>
+                    <div className="text-orange-600">
+                      <div className="font-semibold text-orange-700">Premium</div>
                       <div>5 recipes/day</div>
                     </div>
                   </div>
@@ -553,7 +562,7 @@ const Profile = () => {
                 
                 <Button
                   onClick={handleSubscriptionAction}
-                  className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-6 text-lg rounded-lg shadow-lg"
+                  className="w-full bg-gradient-to-r from-[#FF6B35] to-[#FF4500] hover:from-[#FF4500] hover:to-[#FF6B35] text-white font-bold py-6 text-lg rounded-lg shadow-lg"
                 >
                   Upgrade for $2.99/month
                 </Button>
@@ -565,23 +574,23 @@ const Profile = () => {
             </Card>
           </div>
         ) : (
-          <Card className="rounded-xl shadow-sm bg-gradient-to-br from-green-100 to-emerald-100 border-emerald-200">
+          <Card className="rounded-xl shadow-sm bg-gradient-to-br from-orange-100 to-orange-50 border-orange-200">
             <CardContent className="p-6 space-y-4">
-              <h3 className="font-semibold text-emerald-900">Your Daily AI Generations</h3>
+              <h3 className="font-semibold text-orange-900">Your Daily AI Generations</h3>
               <div className="flex items-center gap-3">
-                <span className="text-sm text-emerald-800">
+                <span className="text-sm text-orange-800">
                   {aiUsage ? `${aiUsage.count}/${aiUsage.limit} AI generations used today` : 'Loading...'}
                 </span>
                 <div className="flex items-center gap-1">
                   {Array.from({ length: aiUsage?.limit || 5 }, (_, i) => i).map(i => (
-                    <span key={i} className={`w-2.5 h-2.5 rounded-full ${(aiUsage?.count ?? 0) > i ? 'bg-emerald-600' : 'bg-emerald-300'}`}></span>
+                    <span key={i} className={`w-2.5 h-2.5 rounded-full ${(aiUsage?.count ?? 0) > i ? 'bg-orange-600' : 'bg-orange-300'}`}></span>
                   ))}
                 </div>
               </div>
-              <div className="text-sm text-emerald-900">
+              <div className="text-sm text-orange-900">
                 <div>Premium: {aiUsage ? `${aiUsage.limit - (aiUsage.count || 0)} AI generation${(aiUsage.limit - (aiUsage.count || 0)) !== 1 ? 's' : ''} left today` : 'Loading...'}</div>
               </div>
-              <div className="text-sm text-emerald-900">Resets in: <span className="font-semibold">{resetCountdown}</span></div>
+              <div className="text-sm text-orange-900">Resets in: <span className="font-semibold">{resetCountdown}</span></div>
             </CardContent>
           </Card>
         )}
@@ -591,11 +600,11 @@ const Profile = () => {
           {/* Saved Recipes */}
           <Card 
             className="rounded-xl shadow-sm bg-card hover:shadow-md transition-shadow cursor-pointer"
-            onClick={() => navigate('/favorites')}
+            onClick={() => navigate('/saved')}
           >
             <CardContent className="p-6 text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 dark:bg-green-950/30 mb-3">
-                <Heart className="w-6 h-6 text-green-600 dark:text-green-400 fill-green-600 dark:fill-green-400" />
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
+                <Heart className="w-6 h-6 text-orange-600 dark:text-orange-400 fill-orange-600 dark:fill-orange-400" />
               </div>
               <p className="text-4xl font-bold text-foreground mb-1">{savedRecipes.length}</p>
               <p className="text-sm text-muted-foreground">Saved</p>
@@ -608,11 +617,11 @@ const Profile = () => {
             onClick={handlePantryClick}
           >
             <CardContent className="p-6 text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 dark:bg-green-950/30 mb-3">
-                <Package className="w-6 h-6 text-green-600 dark:text-green-400" />
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
+                <Package className="w-6 h-6 text-orange-600 dark:text-orange-400" />
               </div>
               {loadingPantry ? (
-                <Loader2 className="w-8 h-8 mx-auto animate-spin text-green-600 mb-1" />
+                <Loader2 className="w-8 h-8 mx-auto animate-spin text-orange-600 mb-1" />
               ) : (
                 <p className="text-4xl font-bold text-foreground mb-1">{pantryCount}</p>
               )}
@@ -626,7 +635,7 @@ const Profile = () => {
         <Card className="rounded-xl shadow-sm bg-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Palette className="w-5 h-5 text-green-600" />
+              <Palette className="w-5 h-5 text-orange-600" />
               Appearance
             </CardTitle>
           </CardHeader>
@@ -640,59 +649,23 @@ const Profile = () => {
 
         {/* Install QuickDish Section */}
         <Card className="rounded-xl shadow-sm bg-card">
-          <CardContent className="p-6">
+          <CardContent className="p-4">
             {/* Header */}
-            <div className="flex items-start gap-3 mb-4">
-              <div className="w-10 h-10 rounded-[10px] bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center flex-shrink-0">
+            <div className="flex items-start gap-3 mb-3">
+              <div className="w-10 h-10 rounded-[10px] bg-gradient-to-r from-[#FF6B35] to-[#FF4500] flex items-center justify-center flex-shrink-0">
                 <span className="text-xl">📱</span>
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-bold text-foreground mb-1">Install QuickDish</h3>
+                <h3 className="text-lg font-bold text-foreground mb-2">Install QuickDish</h3>
                 <p className="text-sm text-muted-foreground">
-                  Install QuickDish on your device for quick access, offline recipes, and a native app experience right from your browser!
+                  Visit our website on your device - your browser will prompt you to install automatically. Or manually install from your browser settings (look for install icon in address bar).
                 </p>
               </div>
             </div>
 
-                          {/* Install Button */}
-              <Button
-                variant="default"
-                className="w-full h-12 justify-center gap-2 bg-gradient-to-r from-[#10b981] to-[#059669] hover:from-[#059669] hover:to-[#047857] text-white font-bold rounded-[10px] mb-4 shadow-[0_4px_12px_rgba(16,185,129,0.3)] hover:shadow-[0_6px_16px_rgba(16,185,129,0.4)] transition-all"
-                onClick={handleInstallApp}
-              >
-              <span className="text-base">📥</span>
-              <span className="text-[15px]">Install App</span>
-            </Button>
-
-            {/* Divider */}
-            <div className="flex items-center gap-3 my-4">
-              <div className="flex-1 h-px bg-border"></div>
-              <span className="text-sm text-muted-foreground">or install manually</span>
-              <div className="flex-1 h-px bg-border"></div>
-            </div>
-
-            {/* Manual Instructions Box */}
-            <div className="bg-[#f9fafb] dark:bg-gray-900/50 rounded-[10px] p-4 mb-4">
-              <h4 className="text-sm font-bold text-foreground mb-3">How to Install:</h4>
-              <ul className="space-y-2 text-[13px] text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span>📱</span>
-                  <span><strong className="text-foreground">iOS Safari:</strong> Tap Share → Add to Home Screen</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span>📱</span>
-                  <span><strong className="text-foreground">Android Chrome:</strong> Tap Menu ⋮ → Install App</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span>📱</span>
-                  <span><strong className="text-foreground">Desktop:</strong> Look for install icon in address bar</span>
-                </li>
-              </ul>
-            </div>
-
             {/* Coming Soon Section */}
             <div className="mt-4 pt-4 border-t border-border">
-              <h4 className="text-sm font-semibold text-foreground mb-3">Native Apps 🏷️ COMING SOON</h4>
+              <h4 className="text-sm font-semibold text-foreground mb-3">Native Apps 👉 COMING SOON</h4>
               <div className="grid grid-cols-2 gap-3">
                 {/* App Store Badge */}
                 <div className="bg-gray-100 dark:bg-gray-800/50 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-3 opacity-60">
@@ -724,7 +697,7 @@ const Profile = () => {
           <div className="grid grid-cols-2 gap-3">
             <Button
               variant="outline"
-              className="w-full h-11 justify-center gap-2 border-green-600 text-green-700 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-950/30"
+              className="w-full h-11 justify-center gap-2 border-orange-600 text-orange-700 hover:bg-orange-50 dark:text-orange-400 dark:hover:bg-orange-950/30"
               onClick={handleChangePassword}
             >
               <Lock className="w-4 h-4" /> Change Password

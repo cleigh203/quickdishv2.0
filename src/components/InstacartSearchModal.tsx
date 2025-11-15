@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -47,6 +47,9 @@ export const InstacartSearchModal = ({ isOpen, onClose, onAddToShoppingList }: I
             <ShoppingCart className="w-5 h-5" />
             Search Instacart
           </DialogTitle>
+          <DialogDescription>
+            Search for items on Instacart and add them to your shopping list
+          </DialogDescription>
         </DialogHeader>
 
         <div className="flex gap-2 mb-4">

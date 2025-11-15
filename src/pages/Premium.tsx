@@ -45,7 +45,7 @@ const Premium = () => {
     },
     {
       question: "Do you offer refunds?",
-      answer: "We offer a 30-day money-back guarantee. If you're not satisfied with Premium, contact us within 30 days of your subscription for a full refund."
+      answer: "Refunds are handled on a case-by-case basis. Please contact our support team if you have any concerns about your subscription."
     }
   ];
 
@@ -278,8 +278,6 @@ const Premium = () => {
               </Button>
               <div className="flex items-center justify-center gap-4 text-sm opacity-90">
                 <Shield className="w-5 h-5" />
-                <span>30-day money-back guarantee</span>
-                <span>•</span>
                 <span>Cancel anytime</span>
               </div>
             </div>

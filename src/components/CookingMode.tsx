@@ -29,6 +29,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
   const recognitionRef = useRef<any>(null);
   const currentStepRef = useRef(currentStep);
   const isListeningRef = useRef(false);
+  const hasShownCompletionRef = useRef(false);
   const { toast } = useToast();
 
   // Update refs
@@ -495,17 +496,25 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [currentStep, showFullRecipe]);
 
-  const handleNext = () => {
-    setCurrentStep(prev => {
-      if (prev < recipe.instructions.length - 1) {
-        return prev + 1;
-      } else {
+  // Handle recipe completion when reaching last step
+  useEffect(() => {
+    if (currentStep === recipe.instructions.length - 1 && recipe.instructions.length > 0) {
+      if (!hasShownCompletionRef.current) {
+        hasShownCompletionRef.current = true;
         toast({ title: "Cooking complete! Enjoy! 🎉" });
         // Stop voice recognition when recipe completes
         stopVoiceRecognition();
         setTimeout(handleExit, 2000);
-        return prev;
       }
+    }
+  }, [currentStep, recipe.instructions.length]);
+
+  const handleNext = () => {
+    setCurrentStep(prev => {
+      if (prev < recipe.instructions.length - 1) {
+        return prev + 1;
+      }
+      return prev; // Already on last step
     });
   };
 

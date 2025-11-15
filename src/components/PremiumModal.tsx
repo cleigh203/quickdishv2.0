@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -63,6 +63,10 @@ export const PremiumModal = ({ isOpen, onClose, feature }: PremiumModalProps) =>
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-sm p-0">
+        <DialogHeader className="sr-only">
+          <DialogTitle>{details?.title || 'Premium Feature'}</DialogTitle>
+          <DialogDescription>{details?.description || 'Upgrade to unlock this feature'}</DialogDescription>
+        </DialogHeader>
         <div className="text-center py-4 px-4">
           {feature === 'ai-recipes' ? (
             <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">

@@ -416,7 +416,7 @@ const RecipeDetail = () => {
             alt={recipe.name}
             className="w-full h-auto object-cover lg:max-h-[600px] lg:rounded-xl transition-opacity duration-300"
             loading="eager"
-            fetchPriority="high"
+            fetchpriority="high"
             decoding="sync"
             crossOrigin="anonymous"
             referrerPolicy="no-referrer"
@@ -677,23 +677,25 @@ const RecipeDetail = () => {
               </div>
             </button>
             
-            {/* Add to Saved */}
-            <button
-              onClick={() => {
-                toggleFavorite();
-                setMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
-              data-menu-favorites
-            >
-              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center text-xl">
-                {recipe && isSaved(recipe.id) ? '❤️' : '🤍'}
-              </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-foreground">{recipe && isSaved(recipe.id) ? 'Remove from' : 'Save to'} Favorites</div>
-                <div className="text-sm text-muted-foreground">Save for later</div>
-              </div>
-            </button>
+            {/* Add to Saved - Hide for AI-generated recipes (auto-saved) */}
+            {!recipe?.isAiGenerated && (
+              <button
+                onClick={() => {
+                  toggleFavorite();
+                  setMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-accent border-b border-border"
+                data-menu-favorites
+              >
+                <div className="w-10 h-10 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center text-xl">
+                  {recipe && isSaved(recipe.id) ? '❤️' : '🤍'}
+                </div>
+                <div className="flex-1 text-left">
+                  <div className="font-semibold text-foreground">{recipe && isSaved(recipe.id) ? 'Remove from' : 'Save to'} Favorites</div>
+                  <div className="text-sm text-muted-foreground">Save for later</div>
+                </div>
+              </button>
+            )}
 
             {/* Add to Meal Plan */}
             <button

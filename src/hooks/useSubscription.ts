@@ -77,25 +77,7 @@ export const useAIUsage = (usageType: 'recipe_generation' | 'chat' | 'nutrition'
           // CRITICAL: Use getAiGenerationLimit helper function
           const limit = getAiGenerationLimit(isPremiumUser);
           
-          // Debug logging
-          console.log('AI Limit Debug (useSubscription):', {
-            isPremiumUser,
-            limit,
-            calculatedLimit: getAiGenerationLimit(isPremiumUser)
-          });
-          
           const canUse = currentGenerations < limit;
-          
-          // Debug logging
-          console.log('🔍 AI Usage Limit Calculation:', {
-            userId: subscription.userId,
-            is_premium: profile?.is_premium,
-            subscription_tier: profile?.subscription_tier,
-            isPremiumUser,
-            limit,
-            count: currentGenerations,
-            canUse
-          });
           
           return {
             count: currentGenerations,

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -699,6 +700,9 @@ export const PantryDialog = ({ open, onOpenChange, onUpdate }: PantryDialogProps
             <Package className="w-5 h-5" />
             My Pantry ({pantryItems.length} items)
           </DialogTitle>
+          <DialogDescription>
+            Manage your pantry items to hide them from shopping lists
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">

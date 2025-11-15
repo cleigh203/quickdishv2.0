@@ -496,20 +496,28 @@ export const MealPlanTab = () => {
             >
               <CardContent className="p-4">
                 <div className="flex gap-4">
-                  <img 
-                    src={displayImage as string | undefined} 
-                    alt={displayName}
-                    className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="sync"
-                    crossOrigin="anonymous"
-                    referrerPolicy="no-referrer"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = 'https://via.placeholder.com/96x96/10b981/ffffff?text=Meal';
-                    }}
-                  />
+                  <div className="relative w-24 h-24 flex-shrink-0">
+                    <img 
+                      src={displayImage || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96"><rect fill="%23f3f4f6" width="96" height="96"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="%239ca3af" font-size="12" font-family="system-ui">AI Recipe</text></svg>'} 
+                      alt={displayName}
+                      className="w-full h-full object-cover rounded-lg"
+                      loading="eager"
+                      fetchpriority="high"
+                      decoding="sync"
+                      crossOrigin="anonymous"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96"><rect fill="%23f3f4f6" width="96" height="96"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="%239ca3af" font-size="12" font-family="system-ui">AI Recipe</text></svg>';
+                      }}
+                    />
+                    {(recipe?.isAiGenerated || meal.recipe_id?.startsWith('ai-')) && (
+                      <div className="absolute top-1 left-1 bg-purple-500 text-white text-xs px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-md">
+                        <span>🤖</span>
+                        <span>AI</span>
+                      </div>
+                    )}
+                  </div>
                   <div className="flex-1 min-w-0 pr-10">
                     <p className="text-sm text-muted-foreground mb-1">{formatDate(meal.scheduled_date)}</p>
                     <h3 className="font-semibold mb-2 line-clamp-1">{displayName}</h3>

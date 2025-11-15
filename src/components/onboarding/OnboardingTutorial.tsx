@@ -14,15 +14,15 @@ export const OnboardingTutorial = () => {
     {
       id: 1,
       title: "Browse Recipes",
-      description: "Browse 400+ recipes and tap any one to see details 🔍",
+      description: "Browse chef-curated recipes and tap any one to see details 🔍",
       targetSelector: ".recipe-card, [data-recipe-card]",
       action: () => navigate('/'),
     },
     {
       id: 2,
-      title: "Recipe Actions Menu ⭐",
-      description: "Tap these three dots to see all recipe actions",
-      subtitle: "This is your recipe action center - everything you need is here!",
+      title: "Recipe Actions Menu 📋",
+      description: "Tap the three dots ⋮ in the top right of any recipe to:",
+      subtitle: "• Save recipes to your collection\n• Add ingredients to shopping list\n• Chat with Chef Quinn\n• Start Cooking Mode\n• Add Recipe to meal plan\n\nYour recipe command center - everything you need!",
       targetSelector: "[data-recipe-menu-button]",
       highlightPulse: true,
       autoOpen: true,
@@ -50,17 +50,18 @@ export const OnboardingTutorial = () => {
     },
     {
       id: 5,
-      title: "Shopping Lists",
-      description: "Add all ingredients to your shopping list automatically 🛒",
+      title: "Shopping Lists 🛒",
+      description: "Two ways to shop:",
+      subtitle: "• In-Store Mode: Interactive checklist to track items\n• Instacart Mode: Order groceries with one tap\n\nAdd all recipe ingredients automatically to your list",
       targetSelector: "[data-menu-shopping]",
       keepMenuOpen: true,
       action: () => navigate('/shopping'),
     },
     {
       id: 6,
-      title: "Pantry Staples 🆕",
-      description: "Track what you already have at home 🥫",
-      subtitle: "Hide items from shopping list that are in your pantry. Edit pantry staples in Profile → My Pantry.",
+      title: "Pantry Staples 🏺",
+      description: "Track what you already have at home",
+      subtitle: "Hide pantry items from shopping lists. Edit your pantry anytime from Shopping List or Profile.",
       targetSelector: "[data-pantry-toggle]",
       highlightPulse: true,
       action: () => navigate('/shopping'),
@@ -74,9 +75,9 @@ export const OnboardingTutorial = () => {
     },
     {
       id: 8,
-      title: "AI Recipe Generator 🤖",
-      description: "Search for ingredients you have at home. If no recipes match, AI will create a custom recipe for you!",
-      subtitle: "Free: 1 recipe/day | Premium: 5 recipes/day. Use the search bar on the home page to get started!",
+      title: "What's in Your Fridge? 🤖",
+      description: "Enter ingredients you have at home and get instant recipe suggestions",
+      subtitle: "If no recipes match, AI creates a custom one for you!\nFree: 1/day | Premium: 5/day",
       targetSelector: "[data-search-bar], .search-input, input[type='search'], input[placeholder*='Search']",
       highlightPulse: true,
       action: () => navigate('/'),
@@ -188,7 +189,7 @@ export const OnboardingTutorial = () => {
             </div>
             <p className="text-[#2C3E50] mb-2">{currentStepData?.description}</p>
             {currentStepData?.subtitle && (
-              <p className="text-sm text-primary font-semibold">{currentStepData.subtitle}</p>
+              <p className="text-sm text-[#2C3E50] whitespace-pre-line leading-relaxed">{currentStepData.subtitle}</p>
             )}
           </div>
 

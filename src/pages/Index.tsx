@@ -192,11 +192,11 @@ const Index = () => {
       {/* Full-width Hero */}
       <div className="relative h-[420px] mb-8">
         <img
-          src="https://i.imgur.com/Xo8YcqT.png"
+          src="https://res.cloudinary.com/dhqua8wb1/image/upload/f_webp,q_80,w_600/ingreidentsmagic_1_dgi7id"
           alt="Turn Ingredients Into Magic"
           className="w-full h-full object-cover"
           loading="eager"
-          fetchPriority="high"
+          fetchpriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70" aria-hidden="true" />
         <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
@@ -314,12 +314,12 @@ const Index = () => {
               <h2 className="section-header">Featured Collections</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-              { name: 'Fall Favorites', image: 'https://i.imgur.com/lsKNONM.png' },
-              { name: 'Quick and Easy', image: 'https://i.imgur.com/RMQ0oB0.png' },
-              { name: 'Restaurant Copycats', image: 'https://i.imgur.com/NGd21zB.png' },
-              { name: 'One Pot Meals', image: 'https://i.imgur.com/PeFEkGK.png' },
-{ name: 'Desserts', image: 'https://i.imgur.com/suB5DEO.png' },
-{ name: 'Family Approved', image: 'https://i.imgur.com/vznGLfX.png' },
+              { name: 'Fall Favorites', image: 'https://res.cloudinary.com/dhqua8wb1/image/upload/f_webp,q_80,w_600/fallfavorites_1_zuxnil' },
+              { name: 'Quick and Easy', image: 'https://res.cloudinary.com/dhqua8wb1/image/upload/f_webp,q_80,w_600/quickandeasy_1_wvluh9' },
+              { name: 'Restaurant Copycats', image: 'https://res.cloudinary.com/dhqua8wb1/image/upload/f_webp,q_80,w_600/restaurantcopycat_1_nabws9' },
+              { name: 'One Pot Meals', image: 'https://res.cloudinary.com/dhqua8wb1/image/upload/f_webp,q_80,w_600/onepot_1_hurx5c' },
+{ name: 'Desserts', image: 'https://res.cloudinary.com/dhqua8wb1/image/upload/f_webp,q_80,w_600/Desserts_upybcq' },
+{ name: 'Family Approved', image: 'https://res.cloudinary.com/dhqua8wb1/image/upload/f_webp,q_80,w_600/Family_Approved_yx48b8' },
             ].map((collection) => (
                 <div 
                   key={collection.name}
@@ -334,9 +334,8 @@ const Index = () => {
                       src={collection.image}
                       alt={collection.name}
                       className="w-full h-full object-cover transition-opacity duration-300"
-                      loading="eager"
-                      fetchPriority="high"
-                      decoding="sync"
+                      loading="lazy"
+                      decoding="async"
                       crossOrigin="anonymous"
                       referrerPolicy="no-referrer"
                       onError={(e) => {

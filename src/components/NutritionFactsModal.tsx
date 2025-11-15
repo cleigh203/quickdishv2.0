@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Nutrition } from "@/types/recipe";
 import { Separator } from "@/components/ui/separator";
 
@@ -24,7 +24,9 @@ export const NutritionFactsModal = ({ open, onClose, nutrition, recipeName }: Nu
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-center">Nutrition Facts</DialogTitle>
-          <p className="text-sm text-muted-foreground text-center">{recipeName}</p>
+          <DialogDescription className="text-center">
+            {recipeName}
+          </DialogDescription>
         </DialogHeader>
         
         <div className="border-2 border-black p-4 space-y-2 font-sans">

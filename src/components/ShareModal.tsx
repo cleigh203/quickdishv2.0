@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Link2, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -78,6 +78,9 @@ export const ShareModal = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Share Recipe</DialogTitle>
+          <DialogDescription>
+            Share this recipe with friends via link, native share, or Pinterest
+          </DialogDescription>
         </DialogHeader>
         
         <div className="flex flex-col gap-3 py-4">

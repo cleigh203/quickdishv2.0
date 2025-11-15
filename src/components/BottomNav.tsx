@@ -17,7 +17,20 @@ export const BottomNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 glass-card border-t border-border z-50">
+    <nav 
+      className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border shadow-lg bottom-nav"
+      style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        width: '100%',
+        transform: 'translateZ(0)',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
+        willChange: 'transform'
+      }}
+    >
       <div className="max-w-lg mx-auto">
         {/* Guest mode banner */}
         {!user && (

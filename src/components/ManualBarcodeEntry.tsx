@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -40,6 +41,9 @@ export const ManualBarcodeEntry = ({
             <Barcode className="w-5 h-5" />
             Enter Barcode Manually
           </DialogTitle>
+          <DialogDescription>
+            Type in the barcode number if you can't scan it
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">

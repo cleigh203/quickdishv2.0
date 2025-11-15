@@ -109,6 +109,16 @@ const AppRoutes: React.FC = () => {
             <Route path="/help" element={<Suspense fallback={<LoadingScreen />}><Help /></Suspense>} />
             <Route path="/premium" element={<ProtectedRoute allowGuest><Suspense fallback={<LoadingScreen />}><Premium /></Suspense></ProtectedRoute>} />
             <Route path="/premium/success" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
+            {/* Stripe redirect routes - handle various success URLs */}
+            <Route path="/checkout-success" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
+            <Route path="/billing" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
+            <Route path="/payment-success" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
+            <Route path="/success" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
+            <Route path="/checkout/success" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
+            <Route path="/stripe/success" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
+            <Route path="/subscribe/success" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
+            <Route path="/checkout" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
+            <Route path="/stripe" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
             <Route path="/admin" element={<Suspense fallback={<LoadingScreen />}><Admin /></Suspense>} />
             <Route path="/admin/recipes" element={<Suspense fallback={<LoadingScreen />}><AdminRecipes /></Suspense>} />
             <Route path="/admin/generate-dessert-images" element={<Suspense fallback={<LoadingScreen />}><GenerateDessertImages /></Suspense>} />

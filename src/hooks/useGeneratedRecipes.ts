@@ -30,16 +30,12 @@ export const useGeneratedRecipes = () => {
   }, [user]);
 
   const fetchGeneratedRecipes = async () => {
-    console.log('🔄 1. fetchGeneratedRecipes called, user:', user?.id);
     if (!user) {
-      console.log('🔄 2. No user, skipping fetch');
       return;
     }
 
     setIsLoading(true);
     try {
-      console.log('🔄 3. Querying generated_recipes table...');
-      
       // Add timeout to prevent hanging
       const timeoutPromise = new Promise((_, reject) => 
         setTimeout(() => reject(new Error('Query timeout after 10s')), 10000)
@@ -53,17 +49,10 @@ export const useGeneratedRecipes = () => {
 
       const { data, error } = await Promise.race([queryPromise, timeoutPromise]) as any;
 
-      console.log('📥 FETCHED data:', data);
-      console.log('📥 FETCHED length:', data?.length);
-      console.log('📥 FETCHED error:', error);
-      console.log('📥 Is data an array?', Array.isArray(data));
-
       if (error) {
-        console.error('🔄 Query error:', error);
+        console.error('Error fetching generated recipes:', error);
         throw error;
       }
-
-      console.log('🔄 5. Raw database records:', data?.length || 0);
 
       // Transform database records to Recipe type
       const recipes: Recipe[] = (data || []).map((record) => {
@@ -88,20 +77,11 @@ export const useGeneratedRecipes = () => {
         };
       });
 
-      console.log('🔄 6. Transformed recipes:', recipes.length);
-      console.log('🔄 7. Recipe IDs:', recipes.map(r => r.id));
-      console.log('📥 Transformed recipes array:', recipes);
-      console.log('📥 Is transformed recipes an array?', Array.isArray(recipes));
-
       setGeneratedRecipes(recipes);
-      
-      console.log('✅ State SHOULD be set now with', recipes.length, 'recipes');
     } catch (error: any) {
-      console.error('🔄 8. Error fetching generated recipes:', error);
-      console.error('🔄 Error details:', error.message, error.code);
+      console.error('Error fetching generated recipes:', error);
       setGeneratedRecipes([]);
     } finally {
-      console.log('🔄 9. Setting isLoading to false');
       setIsLoading(false);
     }
   };

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Loader2, Search, Star, Filter, Plus, X } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Loader2, Search, Star, Filter, Plus, X, Heart, ChefHat } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,11 +13,14 @@ import { useScrollRestoration } from "@/hooks/useScrollRestoration";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { BottomNav } from "@/components/BottomNav";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Favorites = () => {
   const { savedRecipes, loading } = useSavedRecipes();
   const { recipes: allRecipes } = useRecipes();
   const { generatedRecipes } = useGeneratedRecipes();
+  const { user } = useAuth();
   const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
@@ -58,12 +61,13 @@ const Favorites = () => {
       const missingIds = savedRecipes.map(s => s.recipe_id).filter(id => !resolvedIds.has(id));
 
       let fetched: Recipe[] = [];
-      if (missingIds.length > 0) {
+      if (missingIds.length > 0 && user) {
         try {
           const { data, error } = await supabase
             .from('generated_recipes')
             .select('*')
-            .in('recipe_id', missingIds);
+            .in('recipe_id', missingIds)
+            .eq('user_id', user.id);
           if (!error && Array.isArray(data)) {
             fetched = data.map((record: any) => ({
               id: record.recipe_id,
@@ -181,7 +185,7 @@ const Favorites = () => {
                       alt={recipe.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       loading="eager"
-                      fetchPriority="high"
+                      fetchpriority="high"
                       decoding="sync"
                       crossOrigin="anonymous"
                       referrerPolicy="no-referrer"
