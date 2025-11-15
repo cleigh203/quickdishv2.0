@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Recipe } from '@/types/recipe';
 import { retryOperation } from '@/utils/errorHandling';
@@ -8,74 +8,78 @@ const CACHE_VERSION = 'v3';
 const CACHE_KEY = `all_recipes_cache_${CACHE_VERSION}`;
 const CACHE_DURATION = 60000; // 1 minute for testing (was 1 hour)
 
-// Module-level shared cache so multiple hook instances reuse the same data/fetch
-let sharedRecipes: Recipe[] | null = null;
-let sharedTimestamp = 0;
-let sharedPromise: Promise<Recipe[]> | null = null;
-
-const loadInitialRecipes = (): Recipe[] => {
-  const now = Date.now();
-
-  if (sharedRecipes && now - sharedTimestamp < CACHE_DURATION) {
-    return sharedRecipes;
-  }
-
-  try {
-    const cached = localStorage.getItem(CACHE_KEY);
-    if (cached) {
-      const { data, timestamp } = JSON.parse(cached);
-      if (now - timestamp < CACHE_DURATION) {
-        sharedRecipes = data;
-        sharedTimestamp = timestamp;
-        return data;
-      }
-    }
-  } catch (e) {
-    // Ignore cache errors
-  }
-
-  return [];
-};
-
 export const useAllRecipes = (enabled = true) => {
-  const initialRecipesRef = useRef<Recipe[]>(loadInitialRecipes());
-  const [allRecipes, setAllRecipes] = useState<Recipe[]>(initialRecipesRef.current);
-  const [isLoading, setIsLoading] = useState(initialRecipesRef.current.length === 0);
-
-  const fetchAllRecipes = useCallback(async (force = false) => {
+  const [allRecipes, setAllRecipes] = useState<Recipe[]>(() => {
+    // Try to load from cache on init
     try {
-      const now = Date.now();
-      if (!force && sharedRecipes && now - sharedTimestamp < CACHE_DURATION) {
-        setAllRecipes(sharedRecipes);
-        setIsLoading(false);
-        return;
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { data, timestamp } = JSON.parse(cached);
+        // Use cache if less than CACHE_DURATION old
+        if (Date.now() - timestamp < CACHE_DURATION) {
+          return data;
+        }
       }
+    } catch (e) {
+      // Ignore cache errors
+    }
+    return [];
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
-      if (!force && sharedPromise) {
-        const data = await sharedPromise;
-        setAllRecipes(data);
-        setIsLoading(false);
-        return;
-      }
+  useEffect(() => {
+    console.log('🔍 useAllRecipes: useEffect running', { enabled, currentRecipeCount: allRecipes.length });
+    if (enabled && allRecipes.length === 0) {
+      console.log('🔍 useAllRecipes: Triggering fetch (enabled and no recipes)');
+      fetchAllRecipes();
+    } else {
+      console.log('🔍 useAllRecipes: Skipping fetch', { enabled, hasRecipes: allRecipes.length > 0 });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enabled]);
 
+  const fetchAllRecipes = async () => {
+    try {
+      console.log('🔍 useAllRecipes: Starting fetch...');
       setIsLoading(true);
-
-      const fetchPromise = retryOperation(async () => {
+      
+      // Use retry logic for network resilience
+      const data = await retryOperation(async () => {
+        console.log('🔍 useAllRecipes: Querying Supabase...');
         const { data, error } = await supabase
           .from('recipes')
-          .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category, nutrition, total_time, verified')
+          .select('recipe_id, name, description, cook_time, prep_time, difficulty, servings, ingredients, instructions, cuisine, image_url, tags, category, nutrition')
           .order('name')
           .abortSignal(AbortSignal.timeout(10000)); // 10 second timeout
 
-        if (error) throw error;
+        if (error) {
+          console.error('🔍 useAllRecipes: Supabase error:', error);
+          throw error;
+        }
+        console.log('🔍 useAllRecipes: Fetched', data?.length || 0, 'recipes from DB');
+      if (data && data.length > 0) {
+        console.log('🔍 useAllRecipes: Sample DB recipe (first):', {
+          recipe_id: data[0].recipe_id,
+          name: data[0].name,
+          category: data[0].category,
+          allKeys: Object.keys(data[0])
+        });
+      }
         return data;
-      }, 2, 1000);
+      }, 2, 1000); // 2 retries with 1 second delay
 
-      sharedPromise = fetchPromise;
-
-      const data = await fetchPromise;
-
-      const transformedRecipes: Recipe[] = (data || []).map((dbRecipe) => ({
+      // Transform database recipes to match Recipe type
+      const transformedRecipes: Recipe[] = (data || []).map((dbRecipe) => {
+        // 🔍 DEBUG: Log category field mapping
+        const categoryValue = dbRecipe.category || 'Uncategorized';
+        if (!dbRecipe.category) {
+          console.warn('🔍 useAllRecipes: Recipe missing category field:', {
+            id: dbRecipe.recipe_id,
+            name: dbRecipe.name,
+            allKeys: Object.keys(dbRecipe)
+          });
+        }
+        return {
         id: dbRecipe.recipe_id,
         name: dbRecipe.name,
         description: dbRecipe.description || '',
@@ -86,31 +90,45 @@ export const useAllRecipes = (enabled = true) => {
         ingredients: (Array.isArray(dbRecipe.ingredients) ? dbRecipe.ingredients : []) as any[],
         instructions: (Array.isArray(dbRecipe.instructions) ? dbRecipe.instructions : []) as string[],
         cuisine: dbRecipe.cuisine || 'International',
-        category: dbRecipe.category || 'Other',
+        category: categoryValue, // Use mapped category value
         image: dbRecipe.image_url,
         imageUrl: dbRecipe.image_url,
         tags: dbRecipe.tags || [],
-        totalTime: dbRecipe.total_time,
-        nutrition: dbRecipe.nutrition,
-        isVerified: Boolean(dbRecipe.verified),
-      }));
+        nutrition: dbRecipe.nutrition as any,
+        };
+      });
 
-      sharedRecipes = transformedRecipes;
-      sharedTimestamp = Date.now();
-      sharedPromise = null;
-
+      console.log('🔍 useAllRecipes: Setting', transformedRecipes.length, 'recipes to state');
+      if (transformedRecipes.length > 0) {
+        console.log('🔍 useAllRecipes: Sample transformed recipe:', {
+          id: transformedRecipes[0].id,
+          name: transformedRecipes[0].name,
+          category: transformedRecipes[0].category,
+          hasCategory: !!transformedRecipes[0].category
+        });
+        // Count recipes by category
+        const categoryCounts = transformedRecipes.reduce((acc, r) => {
+          const cat = r.category || 'Uncategorized';
+          acc[cat] = (acc[cat] || 0) + 1;
+          return acc;
+        }, {} as Record<string, number>);
+        console.log('🔍 useAllRecipes: Category counts:', categoryCounts);
+      }
       setAllRecipes(transformedRecipes);
-
+      
+      // Cache the results
       try {
         localStorage.setItem(CACHE_KEY, JSON.stringify({
           data: transformedRecipes,
-          timestamp: sharedTimestamp,
+          timestamp: Date.now()
         }));
+        console.log('🔍 useAllRecipes: Cached recipes to localStorage');
       } catch (e) {
+        console.error('🔍 useAllRecipes: Failed to cache:', e);
         // Ignore cache errors (localStorage might be full)
       }
     } catch (error: any) {
-      sharedPromise = null;
+      // Silence noisy network timeouts and keep whatever we already have (or cache)
       const msg = String(error?.message || '');
       const code = String(error?.code || '');
       if (msg.includes('TimeoutError') || code === '23') {
@@ -118,30 +136,12 @@ export const useAllRecipes = (enabled = true) => {
       } else {
         console.error('Error fetching all recipes:', error);
       }
+      // Keep existing state; do not clear the list on transient errors
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  };
 
-  useEffect(() => {
-    if (!enabled) return;
-
-    const now = Date.now();
-    if (allRecipes.length > 0) {
-      setIsLoading(false);
-      // Local state already populated
-      return;
-    }
-
-    if (sharedRecipes && now - sharedTimestamp < CACHE_DURATION) {
-      setAllRecipes(sharedRecipes);
-      setIsLoading(false);
-      return;
-    }
-
-    fetchAllRecipes();
-  }, [enabled, fetchAllRecipes, allRecipes.length]);
-
-  return { allRecipes, isLoading, refetch: (options?: { force?: boolean }) => fetchAllRecipes(options?.force) };
+  return { allRecipes, isLoading, refetch: fetchAllRecipes };
 };
 
