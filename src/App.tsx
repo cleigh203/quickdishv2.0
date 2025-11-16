@@ -11,6 +11,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { OfflineBanner } from "@/components/OfflineBanner";
 import { InstallPrompt } from "@/components/InstallPrompt";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
 import { LoadingScreen } from "@/components/LoadingScreen";
 
@@ -144,6 +145,7 @@ const App = () => (
     <ThemeProvider>
       <BrowserRouter>
         <AuthProvider>
+          <ScrollToTop />
           <AppRoutes />
         </AuthProvider>
       </BrowserRouter>

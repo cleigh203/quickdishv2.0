@@ -765,11 +765,11 @@ const Generate = () => {
         />
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-8 px-4">
+        <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 12px)', paddingBottom: '16px' }}>
           <div className="max-w-lg mx-auto flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Discover</h1>
-              <p className="text-white/90">Explore recipes for every occasion</p>
+              <h1 className="text-xl font-bold mb-0.5">Discover</h1>
+              <p className="text-xs text-white/90">Explore recipes</p>
             </div>
             <Button
               variant="ghost"
@@ -782,9 +782,9 @@ const Generate = () => {
                 setAppliedSearchTerm(undefined);
               }
             }}
-              className="text-white hover:bg-white/20"
+              className="text-white hover:bg-white/20 h-8 w-8"
             >
-              <Search className="w-5 h-5" />
+              <Search className="w-4 h-4" />
             </Button>
           </div>
         </div>
@@ -1114,11 +1114,11 @@ const Generate = () => {
         />
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-8 px-4">
+        <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 12px)', paddingBottom: '16px' }}>
           <div className="max-w-lg mx-auto flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Discover</h1>
-              <p className="text-white/90">Explore recipes for every occasion</p>
+              <h1 className="text-xl font-bold mb-0.5">Discover</h1>
+              <p className="text-xs text-white/90">Explore recipes</p>
             </div>
             <Button
               variant="ghost"
@@ -1131,9 +1131,9 @@ const Generate = () => {
                 setAppliedSearchTerm(undefined);
               }
             }}
-              className="text-white hover:bg-white/20"
+              className="text-white hover:bg-white/20 h-8 w-8"
             >
-              <Search className="w-5 h-5" />
+              <Search className="w-4 h-4" />
             </Button>
           </div>
         </div>
@@ -1377,11 +1377,11 @@ const Generate = () => {
       />
 
       {/* Header */}
-      <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-8 px-4">
+      <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 12px)', paddingBottom: '16px' }}>
         <div className="max-w-lg mx-auto flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Discover</h1>
-            <p className="text-white/90">Explore recipes for every occasion</p>
+            <h1 className="text-xl font-bold mb-0.5">Discover</h1>
+            <p className="text-xs text-white/90">Explore recipes</p>
           </div>
           <Button
             variant="ghost"
@@ -1395,9 +1395,9 @@ const Generate = () => {
                 setAppliedSearchTerm(undefined);
               }
             }}
-            className="text-white hover:bg-white/20"
+            className="text-white hover:bg-white/20 h-8 w-8"
           >
-            <Search className="w-5 h-5" />
+            <Search className="w-4 h-4" />
           </Button>
         </div>
       </div>

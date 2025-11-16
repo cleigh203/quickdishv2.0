@@ -149,34 +149,105 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Simple text to speech - NO mic stopping
-  const speakText = async (text: string) => {
-    try {
-      console.log('🔊 Speaking:', text.substring(0, 40));
+  const speakText = (text: string) => {
+    if (!('speechSynthesis' in window)) return;
 
-      if (isNative) {
-        const { TextToSpeech } = await import('@capacitor-community/text-to-speech');
-        await TextToSpeech.speak({
-          text: text,
-          lang: 'en-US',
-          rate: 1.0, // Slightly faster for clarity
-          pitch: 1.1, // Slightly higher pitch
-          volume: 1.0, // Max volume
-          category: 'playback', // Changed from 'ambient' for louder output
-        });
-      } else {
-        if (window.speechSynthesis) {
-          window.speechSynthesis.cancel();
-          const speech = new SpeechSynthesisUtterance(text);
-          speech.rate = 1.0;
-          speech.volume = 1.0;
-          speech.pitch = 1.1;
-          window.speechSynthesis.speak(speech);
-        }
-      }
-    } catch (error) {
-      console.error('Speech error:', error);
+    // Stop listening while speaking to avoid echo
+    const wasListening = isListeningRef.current;
+    const recognition = recognitionRef.current;
+    if (wasListening && recognition) {
+      recognition.abort();
     }
+
+    window.speechSynthesis.cancel();
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.rate = 0.9;
+
+    // Restart listening after speaking finishes
+    speech.onend = () => {
+      if (wasListening && recognition) {
+        setTimeout(() => {
+          try {
+            recognition.start();
+          } catch (error) {
+            console.error('Error restarting recognition after speech:', error);
+          }
+        }, 300);
+      }
+    };
+
+    window.speechSynthesis.speak(speech);
+  };
+
+  const speakCurrentStep = () => {
+    if (!('speechSynthesis' in window)) return;
+
+    // Stop listening while speaking to avoid echo
+    const wasListening = isListeningRef.current;
+    const recognition = recognitionRef.current;
+    if (wasListening && recognition) {
+      recognition.abort();
+    }
+
+    // Cancel any ongoing speech
+    window.speechSynthesis.cancel();
+
+    const currentInstruction = recipe.instructions[currentStep]?.replace(/^\d+\.\s*/, '').replace(/\[|\]/g, '') || '';
+    const announcement = `Step ${currentStep + 1}. ${currentInstruction}`;
+    
+    const speech = new SpeechSynthesisUtterance(announcement);
+    speech.rate = 0.85;
+    speech.pitch = 1;
+    speech.volume = 1;
+    
+    // Restart listening after speaking finishes
+    speech.onend = () => {
+      if (wasListening && recognition) {
+        setTimeout(() => {
+          try {
+            recognition.start();
+          } catch (error) {
+            console.error('Error restarting recognition after speech:', error);
+          }
+        }, 300);
+      }
+    };
+    
+    console.log('Speaking:', announcement);
+    window.speechSynthesis.speak(speech);
+  };
+
+  const announceStep = (step: number) => {
+    if (!('speechSynthesis' in window)) return;
+    if (step < 0 || step >= recipe.instructions.length) return;
+
+    // Stop listening while speaking to avoid echo
+    const wasListening = isListeningRef.current;
+    const recognition = recognitionRef.current;
+    if (wasListening && recognition) {
+      recognition.abort();
+    }
+
+    window.speechSynthesis.cancel();
+    
+    const announcement = new SpeechSynthesisUtterance(`Step ${step + 1}`);
+    announcement.rate = 0.9;
+    announcement.volume = 0.7;
+    
+    // Restart listening after speaking finishes
+    announcement.onend = () => {
+      if (wasListening && recognition) {
+        setTimeout(() => {
+          try {
+            recognition.start();
+          } catch (error) {
+            console.error('Error restarting recognition after speech:', error);
+          }
+        }, 300);
+      }
+    };
+    
+    window.speechSynthesis.speak(announcement);
   };
 
   // Stop voice recognition function - reusable cleanup

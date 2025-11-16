@@ -30,6 +30,8 @@ import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { usePantryItems } from "@/hooks/usePantryItems";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { supabase } from "@/integrations/supabase/client";
+import { Browser } from '@capacitor/browser';
+import { Capacitor } from '@capacitor/core';
 
 export const MealPlanTab = () => {
   const navigate = useNavigate(); // For non-recipe navigation
@@ -339,7 +341,7 @@ export const MealPlanTab = () => {
   };
 
   // Open a prefilled Google Calendar event for a single meal
-  const addMealToGoogleCalendar = (meal: { id: string; recipe_id: string; scheduled_date: string; meal_type: string }) => {
+  const addMealToGoogleCalendar = async (meal: { id: string; recipe_id: string; scheduled_date: string; meal_type: string }) => {
     const db = dbRecipesById[meal.recipe_id];
     const recipe = allAvailableRecipes.find(r => r.id === (db?.recipe_id || meal.recipe_id));
     const name = recipe?.name || db?.name || 'Meal';
@@ -363,7 +365,13 @@ export const MealPlanTab = () => {
     const details = encodeURIComponent(`Planned via QuickDish\n${link}`);
 
     const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${dates}&details=${details}`;
-    window.open(url, '_blank');
+    
+    // Use Capacitor Browser for mobile, fallback to window.open for web
+    if (Capacitor.isNativePlatform()) {
+      await Browser.open({ url });
+    } else {
+      window.open(url, '_blank');
+    }
   };
 
   const handleClearAll = async () => {

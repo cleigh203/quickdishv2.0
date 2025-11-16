@@ -176,7 +176,7 @@ export const SearchOverlay = ({
       className="fixed inset-0 bg-background z-50 overflow-y-auto pb-20"
     >
       {/* Header */}
-      <div className="sticky top-0 bg-background border-b px-4 py-3 flex items-center gap-3">
+      <div className="sticky top-0 bg-background border-b px-4 py-3 flex items-center gap-3" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 12px)' }}>
         <Button
           variant="ghost"
           size="icon"

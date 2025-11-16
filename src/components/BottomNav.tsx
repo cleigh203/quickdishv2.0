@@ -17,21 +17,10 @@ export const BottomNav = () => {
   ];
 
   return (
-    <nav 
-      className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border shadow-lg bottom-nav"
-      style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        width: '100%',
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden',
-        WebkitBackfaceVisibility: 'hidden',
-        willChange: 'transform'
-      }}
-    >
-      <div className="max-w-lg mx-auto">
+<nav
+  className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50"
+  style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+>      <div className="max-w-lg mx-auto">
         {/* Guest mode banner */}
         {!user && (
           <div className="bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2 flex items-center justify-between">
@@ -49,7 +38,7 @@ export const BottomNav = () => {
         
         <div className="flex justify-around items-center h-16">
           {navItems.map((item) => {
-            const Icon = item?.icon || Home;
+            const Icon = item.icon;
             const isActive = location.pathname === item.path;
             
             return (
