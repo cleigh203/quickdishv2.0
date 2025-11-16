@@ -506,16 +506,33 @@ export const SavedRecipes = () => {
           </TabsList>
 
           <TabsContent value="saved" className="mt-0">
-            {/* Search Bar for Saved Tab */}
-            <div className="sticky top-[57px] z-10 glass-card border-b border-border px-4 py-3">
-              <button
-                onClick={() => setShowSearch(true)}
-                className="w-full flex items-center gap-2 px-4 py-2 bg-muted rounded-lg text-muted-foreground hover:bg-muted/80 smooth-transition"
-              >
-                <Search className="w-4 h-4" />
-                <span>Search saved recipes...</span>
-              </button>
+            {/* Fixed Header Container - positioned below tabs (tabs are ~57px tall) */}
+            <div className="fixed top-[57px] left-0 right-0 z-40 bg-background max-w-lg mx-auto">
+              {/* Search Bar for Saved Tab */}
+              <div className="border-b border-border px-4 py-3 bg-background">
+                <button
+                  onClick={() => setShowSearch(true)}
+                  className="w-full flex items-center gap-2 px-4 py-2 bg-muted rounded-lg text-muted-foreground hover:bg-muted/80 smooth-transition"
+                >
+                  <Search className="w-4 h-4" />
+                  <span>Search saved recipes...</span>
+                </button>
+              </div>
+
+              {/* Create Your Own Recipe Button */}
+              <div className="border-b border-border px-4 py-3 bg-background">
+                <Button 
+                  onClick={() => setShowCustomForm(true)}
+                  className="w-full bg-primary hover:bg-primary/90 flex items-center justify-center gap-2"
+                >
+                  <Plus className="w-5 h-5" />
+                  Create Your Own Recipe
+                </Button>
+              </div>
             </div>
+            
+            {/* Spacer to prevent content from going under fixed header */}
+            <div className="h-[113px]"></div>
 
             {/* Active Filters */}
             {(activeFilters.time.length > 0 || 
@@ -550,15 +567,6 @@ export const SavedRecipes = () => {
             )}
 
             <div className="p-4 space-y-8">
-              {/* Create Your Own Recipe Button */}
-              <Button 
-                onClick={() => setShowCustomForm(true)}
-                className="w-full bg-primary hover:bg-primary/90 flex items-center justify-center gap-2"
-              >
-                <Plus className="w-5 h-5" />
-                Create Your Own Recipe
-              </Button>
-
               {/* Loading State */}
               {combinedSavedRecipesLoading && <LoadingScreen message="Loading your saved recipes..." />}
 

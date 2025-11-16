@@ -30,8 +30,6 @@ import { filterShoppingListByPantry } from "@/utils/pantryUtils";
 import { usePantryItems } from "@/hooks/usePantryItems";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { supabase } from "@/integrations/supabase/client";
-import { Browser } from '@capacitor/browser';
-import { Capacitor } from '@capacitor/core';
 
 export const MealPlanTab = () => {
   const navigate = useNavigate(); // For non-recipe navigation
@@ -353,29 +351,84 @@ export const MealPlanTab = () => {
     const end = new Date(start);
     end.setDate(end.getDate() + 1); // all-day event end date is exclusive
 
-    const fmt = (d: Date) => {
+    // Generate .ics file content
+    const formatICSDate = (d: Date) => {
       const y = d.getUTCFullYear();
       const m = String(d.getUTCMonth() + 1).padStart(2, '0');
       const da = String(d.getUTCDate()).padStart(2, '0');
       return `${y}${m}${da}`;
     };
 
-    const text = encodeURIComponent(`${name} (${meal.meal_type})`);
-    const dates = `${fmt(start)}/${fmt(end)}`; // all-day
-    const details = encodeURIComponent(`Planned via QuickDish\n${link}`);
+    const formatICSDateTime = (d: Date) => {
+      const y = d.getUTCFullYear();
+      const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+      const da = String(d.getUTCDate()).padStart(2, '0');
+      const h = String(d.getUTCHours()).padStart(2, '0');
+      const min = String(d.getUTCMinutes()).padStart(2, '0');
+      const s = String(d.getUTCSeconds()).padStart(2, '0');
+      return `${y}${m}${da}T${h}${min}${s}Z`;
+    };
 
-    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${dates}&details=${details}`;
-    
-    // Use Capacitor Browser for mobile, fallback to window.open for web
-    if (Capacitor.isNativePlatform()) {
-      await Browser.open({ url });
-    } else {
-      window.open(url, '_blank');
+    const now = new Date();
+    const dtstart = formatICSDate(start);
+    const dtend = formatICSDate(end);
+    const dtstamp = formatICSDateTime(now);
+    const summary = `${name} (${meal.meal_type})`.replace(/,/g, '\\,').replace(/;/g, '\\;');
+    const description = `Planned via QuickDish\\n${link}`.replace(/,/g, '\\,').replace(/;/g, '\\;');
+
+    const icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//QuickDish//MealPlan//EN',
+      'BEGIN:VEVENT',
+      `UID:${meal.id}@quickdish`,
+      `DTSTAMP:${dtstamp}`,
+      `DTSTART;VALUE=DATE:${dtstart}`,
+      `DTEND;VALUE=DATE:${dtend}`,
+      `SUMMARY:${summary}`,
+      `DESCRIPTION:${description}`,
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+
+    const fileName = `quickdish-${name.replace(/\s+/g, '-')}-${meal.scheduled_date}.ics`;
+
+    // Create and download .ics file - works on all platforms
+    // On mobile, downloading .ics will prompt to open in calendar app
+    try {
+      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const linkElement = document.createElement('a');
+      linkElement.href = url;
+      linkElement.download = fileName;
+      linkElement.style.display = 'none';
+      document.body.appendChild(linkElement);
+      linkElement.click();
+      
+      // Clean up after a short delay
+      setTimeout(() => {
+        document.body.removeChild(linkElement);
+        URL.revokeObjectURL(url);
+      }, 100);
+
+      // Show success toast
+      toast({
+        title: "Calendar event created",
+        description: "Open the downloaded file in your calendar app",
+      });
+    } catch (error) {
+      console.error('Error creating calendar event:', error);
+      toast({
+        title: "Error",
+        description: "Failed to create calendar event. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
   const handleClearAll = async () => {
     await clearAllMealPlans(keepPastMeals);
+    await refreshMealPlans(); // Refresh to update the UI immediately
     toast({
       title: "Success",
       description: "Meal plan cleared",
@@ -539,7 +592,7 @@ export const MealPlanTab = () => {
                         {cookTime}
                       </span>
                     </div>
-                    {isPastMeal && (
+                    {isPastMeal ? (
                       <Button
                         size="sm"
                         variant="link"
@@ -551,8 +604,7 @@ export const MealPlanTab = () => {
                       >
                         Mark as Cooked
                       </Button>
-                    )}
-                    {!isPastMeal && (
+                    ) : (
                       <Button
                         size="sm"
                         variant="link"
@@ -562,6 +614,7 @@ export const MealPlanTab = () => {
                           addMealToGoogleCalendar(meal);
                         }}
                       >
+                        <Calendar className="w-3 h-3 mr-1" />
                         Add to Google Calendar
                       </Button>
                     )}
