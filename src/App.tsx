@@ -11,9 +11,9 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { OfflineBanner } from "@/components/OfflineBanner";
 import { InstallPrompt } from "@/components/InstallPrompt";
-import { ScrollToTop } from "@/components/ScrollToTop";
 import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
 import { LoadingScreen } from "@/components/LoadingScreen";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Eager load critical pages
 import Index from "./pages/Index";
@@ -23,11 +23,13 @@ import Auth from "./pages/Auth";
 const ConfirmEmail = lazy(() => import("./pages/ConfirmEmail"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
 const Generate = lazy(() => import("./pages/Generate"));
+const CategoryPage = lazy(() => import("./pages/CategoryPage"));
 const RecipeDetail = lazy(() => import("./pages/RecipeDetail"));
 const Favorites = lazy(() => import("./pages/Favorites"));
 const SavedRecipes = lazy(() => import("./pages/SavedRecipes"));
 const Shopping = lazy(() => import("./pages/Shopping"));
 const Pantry = lazy(() => import("./pages/Pantry"));
+const PantryRecipes = lazy(() => import("./pages/PantryRecipes"));
 const Profile = lazy(() => import("./pages/Profile"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
@@ -39,18 +41,6 @@ const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const ProfileSetup = lazy(() => import("./pages/ProfileSetup"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-// Admin pages (rarely used)
-const Admin = lazy(() => import("./pages/Admin"));
-const AdminRecipes = lazy(() => import("./pages/AdminRecipes"));
-const GenerateDessertImages = lazy(() => import("./pages/GenerateDessertImages"));
-const GenerateNewRecipeImages = lazy(() => import("./pages/GenerateNewRecipeImages"));
-const BatchRegenerateImages = lazy(() => import("./pages/BatchRegenerateImages"));
-const CustomRegenerateImages = lazy(() => import("./pages/CustomRegenerateImages"));
-const QuickImageUpdate = lazy(() => import("./pages/QuickImageUpdate"));
-const MigrateRecipes = lazy(() => import("./pages/MigrateRecipes"));
-const RegenerateImages = lazy(() => import("./pages/RegenerateImages"));
-const GenerateRecipeImages = lazy(() => import("./pages/GenerateRecipeImages"));
-const ExecuteImageGeneration = lazy(() => import("./pages/ExecuteImageGeneration"));
 
 const queryClient = new QueryClient();
 
@@ -96,6 +86,16 @@ const AppRoutes: React.FC = () => {
               }
             />
             <Route
+              path="/category/:categoryName"
+              element={
+                <ProtectedRoute allowGuest>
+                  <Suspense fallback={<LoadingScreen />}>
+                    <CategoryPage />
+                  </Suspense>
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/recipe/:id"
               element={<ProtectedRoute allowGuest><Suspense fallback={<LoadingScreen />}><RecipeDetail /></Suspense></ProtectedRoute>}
             />
@@ -103,6 +103,7 @@ const AppRoutes: React.FC = () => {
             <Route path="/saved" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><SavedRecipes /></Suspense></ProtectedRoute>} />
             <Route path="/shopping" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><Shopping /></Suspense></ProtectedRoute>} />
             <Route path="/pantry" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><Pantry /></Suspense></ProtectedRoute>} />
+            <Route path="/pantry-recipes" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PantryRecipes /></Suspense></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><Profile /></Suspense></ProtectedRoute>} />
             <Route path="/privacy" element={<Suspense fallback={<LoadingScreen />}><Privacy /></Suspense>} />
             <Route path="/terms" element={<Suspense fallback={<LoadingScreen />}><Terms /></Suspense>} />
@@ -120,17 +121,6 @@ const AppRoutes: React.FC = () => {
             <Route path="/subscribe/success" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
             <Route path="/checkout" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
             <Route path="/stripe" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><PremiumSuccess /></Suspense></ProtectedRoute>} />
-            <Route path="/admin" element={<Suspense fallback={<LoadingScreen />}><Admin /></Suspense>} />
-            <Route path="/admin/recipes" element={<Suspense fallback={<LoadingScreen />}><AdminRecipes /></Suspense>} />
-            <Route path="/admin/generate-dessert-images" element={<Suspense fallback={<LoadingScreen />}><GenerateDessertImages /></Suspense>} />
-            <Route path="/admin/generate-onepot-images" element={<Suspense fallback={<LoadingScreen />}><GenerateNewRecipeImages /></Suspense>} />
-            <Route path="/migrate-recipes" element={<Suspense fallback={<LoadingScreen />}><MigrateRecipes /></Suspense>} />
-            <Route path="/regenerate-images" element={<Suspense fallback={<LoadingScreen />}><RegenerateImages /></Suspense>} />
-            <Route path="/batch-regenerate-images" element={<Suspense fallback={<LoadingScreen />}><BatchRegenerateImages /></Suspense>} />
-            <Route path="/custom-regenerate-images" element={<Suspense fallback={<LoadingScreen />}><CustomRegenerateImages /></Suspense>} />
-            <Route path="/quick-image-update" element={<Suspense fallback={<LoadingScreen />}><QuickImageUpdate /></Suspense>} />
-            <Route path="/generate-recipe-images" element={<Suspense fallback={<LoadingScreen />}><GenerateRecipeImages /></Suspense>} />
-            <Route path="/execute-image-generation" element={<Suspense fallback={<LoadingScreen />}><ExecuteImageGeneration /></Suspense>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<Suspense fallback={<LoadingScreen />}><NotFound /></Suspense>} />
           </Routes>
@@ -141,16 +131,17 @@ const AppRoutes: React.FC = () => {
 };
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider>
-      <BrowserRouter>
-        <AuthProvider>
-          <ScrollToTop />
-          <AppRoutes />
-        </AuthProvider>
-      </BrowserRouter>
-    </ThemeProvider>
-  </QueryClientProvider>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <BrowserRouter>
+          <AuthProvider>
+            <AppRoutes />
+          </AuthProvider>
+        </BrowserRouter>
+      </ThemeProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

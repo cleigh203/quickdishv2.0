@@ -41,7 +41,12 @@ const CookingMode = lazy(() => import("@/components/CookingMode"));
 const MealPlanDialog = lazy(() => import("@/components/MealPlanDialog").then(m => ({ default: m.MealPlanDialog })));
 const PremiumModal = lazy(() => import("@/components/PremiumModal").then(m => ({ default: m.PremiumModal })));
 
-const RecipeDetail = () => {
+interface RecipeDetailProps {
+  recipe?: Recipe;
+  onClose?: () => void;
+}
+
+const RecipeDetail = ({ recipe: propRecipe, onClose }: RecipeDetailProps = {}) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
@@ -76,12 +81,22 @@ const RecipeDetail = () => {
   const currentSavedRecipe = recipe ? savedRecipes.find(r => r.recipe_id === recipe.id) : null;
   const { averageRating, totalRatings, refetch: refetchRatings } = useRecipeRating(recipe?.id || '');
 
-  // Always start at top when opening a recipe
+  // Always start at top when opening a recipe (only if not in modal)
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  }, [id]);
+    if (!propRecipe && id) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }
+  }, [id, propRecipe]);
 
   useEffect(() => {
+    // If recipe is passed as prop (modal mode), use it directly
+    if (propRecipe) {
+      setRecipe(propRecipe);
+      setIsLoadingRecipe(false);
+      return;
+    }
+
+    // Otherwise, use existing route-based logic
     if (!id) {
       setIsLoadingRecipe(false);
       return;
@@ -146,6 +161,46 @@ const RecipeDetail = () => {
     }
   }, [id, navigate, generatedRecipes, verifiedRecipes, location.state]);
 
+  // DEBUG: Track what's scrolling the page
+  useEffect(() => {
+    // Log every scroll event to find the culprit
+    const handleScroll = () => {
+      console.log('🔴 PAGE SCROLLED TO:', window.scrollY);
+      console.trace('Scroll triggered by:'); // Shows what caused the scroll
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Check initial state
+    console.log('Initial scroll on mount:', window.scrollY);
+
+    // Force scroll multiple times
+    window.scrollTo(0, 0);
+
+    requestAnimationFrame(() => {
+      console.log('After requestAnimationFrame:', window.scrollY);
+      window.scrollTo(0, 0);
+    });
+
+    setTimeout(() => {
+      console.log('After 100ms:', window.scrollY);
+      if (window.scrollY !== 0) {
+        console.log('⚠️ SOMETHING SCROLLED THE PAGE!');
+        window.scrollTo(0, 0);
+      }
+    }, 100);
+
+    setTimeout(() => {
+      console.log('After 500ms:', window.scrollY);
+      if (window.scrollY !== 0) {
+        console.log('⚠️ SOMETHING SCROLLED THE PAGE AGAIN!');
+        window.scrollTo(0, 0);
+      }
+    }, 500);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [id]);
+
   const toggleFavorite = async () => {
     if (!recipe) return;
     
@@ -190,6 +245,28 @@ const RecipeDetail = () => {
       }
       // Ensure AI recipes can be saved even if not in static list
       await saveRecipe(recipe.id);
+    }
+  };
+
+  const handleBack = () => {
+    if (onClose) {
+      // Modal mode - use onClose callback
+      onClose();
+    } else {
+      // Route mode - use browser navigation
+      const state = location.state as any;
+      if (state?.fromCategory && state?.fromViewMode === 'all') {
+        navigate('/generate', {
+          replace: true,
+          state: {
+            selectedCategory: state.fromCategory,
+            viewMode: 'all',
+            restoreScroll: state.savedScrollPosition || 0
+          }
+        });
+      } else {
+        navigate(-1);
+      }
     }
   };
 
@@ -341,7 +418,7 @@ const RecipeDetail = () => {
           
           <div className="bg-gray-50 rounded-lg p-4 mb-6">
             <img 
-              src={getRecipeImage(recipe, import.meta.env.DEV)} 
+              src={recipe.image_url || getRecipeImage(recipe, import.meta.env.DEV)} 
               alt={recipe.name}
               className="w-full h-40 object-cover rounded-lg mb-3"
               onError={(e) => {
@@ -411,8 +488,8 @@ const RecipeDetail = () => {
       {!recipe.isAiGenerated && (
         <div className="relative min-h-[400px] overflow-hidden">
           <img
-            key={recipe.imageUrl || recipe.image}
-            src={getRecipeImage(recipe, import.meta.env.DEV)}
+            key={recipe.image_url || recipe.imageUrl || recipe.image}
+            src={recipe.image_url || getRecipeImage(recipe, import.meta.env.DEV)}
             alt={recipe.name}
             className="w-full h-auto object-cover lg:max-h-[600px] lg:rounded-xl transition-opacity duration-300"
             loading="eager"
@@ -428,7 +505,7 @@ const RecipeDetail = () => {
             }}
           />
           <Button
-            onClick={() => navigate(-1)}
+            onClick={handleBack}
             variant="icon"
             size="icon"
             className="absolute top-4 left-4"
@@ -453,7 +530,7 @@ const RecipeDetail = () => {
         <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-5 py-8">
           <div className="flex items-center justify-between">
             <Button
-              onClick={() => navigate(-1)}
+              onClick={handleBack}
               variant="ghost"
               size="icon"
               className="text-white hover:bg-white/20"

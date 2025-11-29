@@ -4,9 +4,11 @@ const config: CapacitorConfig = {
   appId: 'com.quickdishco.app',
   appName: 'QuickDish',
   webDir: 'dist',
-  server: {
-    androidScheme: 'https'
-  },
+  // server config removed for production build
+  // Uncomment below for development:
+  // server: {
+  //   androidScheme: 'https'
+  // },
   plugins: {
     BarcodeScanner: {
       "lensFacing": "back"

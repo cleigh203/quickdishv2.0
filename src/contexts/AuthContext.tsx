@@ -4,6 +4,19 @@ import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
 import { handleSupabaseError } from '@/utils/errorHandling';
 import { useQueryClient } from '@tanstack/react-query';
+import { initializeDefaultPantryItems } from '@/utils/defaultPantryItems';
+
+// Helper to get Sentry (only in production with DSN)
+const getSentry = async () => {
+  if (import.meta.env.PROD && import.meta.env.VITE_SENTRY_DSN) {
+    try {
+      return await import('@sentry/react');
+    } catch (e) {
+      return null;
+    }
+  }
+  return null;
+};
 
 interface AuthContextType {
   user: User | null;
@@ -127,11 +140,43 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(session?.user ?? null);
         setLoading(false);
         
+        // Set Sentry user context when user signs in
+        if (event === 'SIGNED_IN' && session?.user) {
+          getSentry().then(Sentry => {
+            if (Sentry) {
+              Sentry.setUser({
+                id: session.user.id,
+                email: session.user.email,
+              });
+              Sentry.setTag('premium', isPremium ? 'true' : 'false');
+            }
+          });
+        }
+        
+        // Clear Sentry user context when user signs out
+        if (event === 'SIGNED_OUT') {
+          getSentry().then(Sentry => {
+            if (Sentry) {
+              Sentry.setUser(null);
+            }
+          });
+        }
+        
         // Check subscription when user signs in
         if (event === 'SIGNED_IN' && session) {
           setTimeout(() => {
             checkSubscription();
           }, 0);
+          
+          // Initialize default pantry items for new users
+          if (session.user) {
+            initializeDefaultPantryItems(session.user.id, supabase).catch((error) => {
+              // Silently fail - this is not critical
+              if (import.meta.env.DEV) {
+                console.log('Pantry initialization:', error);
+              }
+            });
+          }
         }
         
         // Redirect to login if session expired while user is on a protected route
@@ -153,11 +198,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(session?.user ?? null);
       setLoading(false);
       
+      // Set Sentry user context if session exists
+      if (session?.user) {
+        getSentry().then(Sentry => {
+          if (Sentry) {
+            Sentry.setUser({
+              id: session.user.id,
+              email: session.user.email,
+            });
+          }
+        });
+      }
+      
       // Check subscription on initial load if user is logged in
       if (session) {
         setTimeout(() => {
           checkSubscription();
         }, 0);
+        
+        // Initialize default pantry items if user has none
+        if (session.user) {
+          initializeDefaultPantryItems(session.user.id, supabase).catch((error) => {
+            // Silently fail - this is not critical
+            if (import.meta.env.DEV) {
+              console.log('Pantry initialization:', error);
+            }
+          });
+        }
       }
     }).catch((error) => {
       console.error('Error getting session:', error);
@@ -246,7 +313,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       // 5. Clear sessionStorage
       sessionStorage.clear();
       
-      // 6. Clear IndexedDB (Supabase uses this for session storage)
+      // 6. Clear Sentry user context
+      getSentry().then(Sentry => {
+        if (Sentry) {
+          Sentry.setUser(null);
+        }
+      });
+      
+      // 7. Clear IndexedDB (Supabase uses this for session storage)
       if (window.indexedDB) {
         try {
           const databases = await window.indexedDB.databases();

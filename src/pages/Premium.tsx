@@ -66,7 +66,7 @@ const Premium = () => {
       </div>
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600 text-white py-16 px-6">
+      <div className="bg-gradient-to-br from-emerald-700 via-emerald-800 to-emerald-900 text-white py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-6 backdrop-blur-sm">
             <Crown className="w-10 h-10 text-white" />
@@ -113,7 +113,7 @@ const Premium = () => {
           {/* Premium Plan */}
           <Card className="border-2 border-primary shadow-xl relative overflow-hidden">
             <div className="absolute top-4 right-4">
-              <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white border-0 shadow-lg">
+              <Badge className="bg-gradient-to-r from-amber-400 to-emerald-700 text-white border-0 shadow-lg">
                 Most Popular
               </Badge>
             </div>
@@ -149,7 +149,7 @@ const Premium = () => {
                     <span><strong>Unlimited recipe saves</strong></span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <FileText className="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" />
+                    <FileText className="w-5 h-5 text-emerald-700 mt-0.5 flex-shrink-0" />
                     <span><strong>Export recipes to PDF</strong></span>
                   </li>
                   <li className="flex items-start gap-3">

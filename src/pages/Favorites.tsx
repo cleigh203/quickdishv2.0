@@ -9,7 +9,6 @@ import { useSavedRecipes } from "@/hooks/useSavedRecipes";
 import { useRecipes } from "@/contexts/RecipesContext";
 import { Recipe } from "@/types/recipe";
 import { useSmartNavigation } from "@/hooks/useSmartNavigation";
-import { useScrollRestoration } from "@/hooks/useScrollRestoration";
 import { getRecipeImage } from "@/utils/recipeImages";
 import { BottomNav } from "@/components/BottomNav";
 import { useGeneratedRecipes } from "@/hooks/useGeneratedRecipes";
@@ -25,10 +24,8 @@ const Favorites = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
   const navigate = useNavigate(); // For non-recipe navigation
-  const { navigateToRecipe, getContext } = useSmartNavigation();
 
   // Enable scroll restoration for this page
-  useScrollRestoration();
 
   useEffect(() => {
     const resolveFavorites = async () => {
@@ -173,7 +170,7 @@ const Favorites = () => {
               <div key={recipe.id} className="glass-card rounded-xl overflow-hidden group hover:scale-[1.02] transition-transform">
                 <div 
                   className="relative h-48 md:h-36 overflow-hidden cursor-pointer"
-                  onClick={() => navigateToRecipe(recipe.id, recipe)}
+                  onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
                 >
                   {recipe.isAiGenerated ? (
                     <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground">
@@ -202,7 +199,7 @@ const Favorites = () => {
                 <div className="p-4">
                   <h3 
                     className="text-white font-bold text-lg mb-2 cursor-pointer hover:text-primary transition-colors"
-                    onClick={() => navigateToRecipe(recipe.id, recipe)}
+                    onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
                   >
                     {recipe.name}
                   </h3>
@@ -215,7 +212,7 @@ const Favorites = () => {
                   {/* Action buttons */}
                   <div className="flex gap-2">
                     <Button 
-                      onClick={() => navigateToRecipe(recipe.id, recipe)}
+                      onClick={() => navigate(`/recipe/${recipe.id}`, { state: { recipe } })}
                       variant="outline"
                       className="flex-1"
                     >

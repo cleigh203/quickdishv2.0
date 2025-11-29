@@ -43,7 +43,7 @@ export const OnboardingWelcome = () => {
         <div className="text-center mb-8">
           {/* Orange bell icon in circle */}
           <div className="mb-6 flex justify-center">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-700 flex items-center justify-center shadow-lg">
               <svg
                 className="w-8 h-8 text-white"
                 fill="none"
@@ -83,7 +83,7 @@ export const OnboardingWelcome = () => {
                 animationDelay: `${(index + 1) * 100}ms`,
               }}
             >
-              <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-2xl mb-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-full flex items-center justify-center text-2xl mb-3">
                 {feature.emoji}
               </div>
               <h3 className="text-gray-900 font-semibold text-base mb-1">
@@ -101,7 +101,7 @@ export const OnboardingWelcome = () => {
           {/* Get Started Button */}
           <button
             onClick={() => setCurrentStep(1)}
-            className="w-full max-w-md bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full text-lg font-semibold"
+            className="w-full max-w-md bg-emerald-700 hover:bg-emerald-800 text-white px-8 py-4 rounded-full text-lg font-semibold"
           >
             Get Started
           </button>

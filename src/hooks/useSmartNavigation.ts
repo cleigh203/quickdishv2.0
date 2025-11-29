@@ -35,15 +35,20 @@ export const useSmartNavigation = () => {
    * @param additionalState - Optional additional state to preserve (search, filters, etc.)
    */
   const navigateToRecipe = useCallback((recipeId: string, recipe?: any, additionalState?: Partial<NavigationContext>) => {
+    // Capture CURRENT scroll position BEFORE navigating (for restoration when coming back)
+    const scrollY = window.scrollY;
+    
     // Capture CURRENT page state automatically
     const currentState = (location.state as NavigationContext) || {};
     
-    // Capture current scroll position
-    const scrollY = window.scrollY;
-    
-    // Save scroll position to sessionStorage for this route
+    // Save scroll position to sessionStorage for restoration when returning
     const scrollKey = getScrollKey(location.pathname, location.search);
     sessionStorage.setItem(scrollKey, scrollY.toString());
+    
+    // Also save to a discover-specific key if we're on discover page
+    if (location.pathname.includes('/discover') || location.pathname.includes('/generate')) {
+      sessionStorage.setItem('discover_scroll', scrollY.toString());
+    }
     
     // Capture current URL search params (for collection query parameter)
     const searchParams = new URLSearchParams(location.search);
@@ -58,21 +63,9 @@ export const useSmartNavigation = () => {
                  pathname.includes('/') && pathname !== '/' ? pathname :
                  '/discover';
 
-    // Navigate with ALL context preserved
+    // Navigate to recipe - just pass the recipe object
     navigate(`/recipe/${recipeId}`, {
-      state: {
-        recipe,
-        from,
-        scrollY,
-        restoreScroll: scrollY, // Alias for compatibility
-        collectionParam: collectionParam || currentState.collectionParam, // Preserve collection parameter
-        // Preserve ALL existing state from current page
-        ...currentState,
-        // Merge in additional state (search, filters, etc.)
-        ...additionalState,
-        // Add timestamp to force state update
-        navigatedAt: Date.now()
-      }
+      state: { recipe }
     });
   }, [navigate, location]);
 

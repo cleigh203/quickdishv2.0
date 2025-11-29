@@ -29,7 +29,7 @@ export const generateRecipePDF = async (
 
   // Header - QuickDish Branding
   doc.setFontSize(24);
-  doc.setTextColor(255, 107, 53); // #FF6B35 - orange
+  doc.setTextColor(4, 120, 87); // #047857 - dark green
   doc.text('QuickDish', margin, yPosition);
   yPosition += 0.4;
 
@@ -79,7 +79,8 @@ export const generateRecipePDF = async (
   doc.setFontSize(11);
   recipe.ingredients.forEach((ing) => {
     checkPageBreak(0.25);
-    const ingredientText = `• ${ing.amount} ${ing.unit} ${ing.item}`.trim();
+    const parts = [ing.amount, ing.unit, ing.item].filter(Boolean).map(p => p.toString().trim());
+    const ingredientText = `• ${parts.join(' ')}`;
     const lines = doc.splitTextToSize(ingredientText, contentWidth);
     doc.text(lines, margin, yPosition);
     yPosition += lines.length * 0.2 + 0.05;
@@ -142,7 +143,114 @@ export const generateRecipePDF = async (
   };
 
   const filename = `QuickDish-${sanitizeFilename(recipe.name)}.pdf`;
-  doc.save(filename);
+  
+  // For native apps, use Capacitor Share plugin to save PDF properly
+  if (typeof window !== 'undefined') {
+    try {
+      // Check if we're in a Capacitor native app
+      const isCapacitor = (window as any).Capacitor?.isNativePlatform?.() || false;
+      
+      if (isCapacitor) {
+        // Use Capacitor Filesystem for native apps - write to Documents directory
+        const { Filesystem, Directory } = await import('@capacitor/filesystem');
+        const { Share } = await import('@capacitor/share');
+        
+        // Generate PDF as base64
+        const pdfBase64 = doc.output('datauristring').split(',')[1];
+        
+        try {
+          // Try to write to Documents directory (user-accessible on Android)
+          const filePath = filename;
+          await Filesystem.writeFile({
+            path: filePath,
+            data: pdfBase64,
+            directory: Directory.Documents,
+            recursive: true,
+          });
+          
+          // Get file URI and share it
+          const fileUri = await Filesystem.getUri({
+            path: filePath,
+            directory: Directory.Documents,
+          });
+          
+          // Share the file (opens native share dialog where user can save/share)
+          await Share.share({
+            title: `Save ${recipe.name} Recipe`,
+            text: `QuickDish Recipe: ${recipe.name}`,
+            url: fileUri.uri,
+            dialogTitle: 'Save Recipe PDF',
+          });
+        } catch (fsError) {
+          // If Documents directory fails, try Cache and share
+          console.error('Error writing to Documents:', fsError);
+          const filePath = `QuickDish/${filename}`;
+          await Filesystem.writeFile({
+            path: filePath,
+            data: pdfBase64,
+            directory: Directory.Cache,
+            recursive: true,
+          });
+          
+          const fileUri = await Filesystem.getUri({
+            path: filePath,
+            directory: Directory.Cache,
+          });
+          
+          await Share.share({
+            title: `Save ${recipe.name} Recipe`,
+            text: `QuickDish Recipe: ${recipe.name}`,
+            url: fileUri.uri,
+            dialogTitle: 'Save Recipe PDF',
+          });
+        }
+        
+        return;
+      }
+      
+      // For web/mobile browsers, use blob download
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      if (isMobile) {
+        // Generate blob and create download link for mobile
+        const pdfBlob = doc.output('blob');
+        const url = URL.createObjectURL(pdfBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      } else {
+        // Use standard save for desktop
+        doc.save(filename);
+      }
+    } catch (error) {
+      console.error('Error saving PDF:', error);
+      // Fallback to blob method
+      try {
+        const pdfBlob = doc.output('blob');
+        const url = URL.createObjectURL(pdfBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      } catch (fallbackError) {
+        console.error('Fallback PDF save also failed:', fallbackError);
+        // Last resort - try direct save
+        doc.save(filename);
+      }
+    }
+  } else {
+    // Fallback for non-browser environments
+    doc.save(filename);
+  }
 };
 
 // Helper function to load image as base64

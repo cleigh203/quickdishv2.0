@@ -8,9 +8,10 @@ interface BarcodeScannerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onScan: (barcode: string) => void;
+  onError?: () => void;
 }
 
-export const BarcodeScanner = ({ open, onOpenChange, onScan }: BarcodeScannerProps) => {
+export const BarcodeScanner = ({ open, onOpenChange, onScan, onError }: BarcodeScannerProps) => {
   const [scanning, setScanning] = useState(false);
   const [error, setError] = useState<string>("");
   const scannerRef = useRef<Html5Qrcode | null>(null);
@@ -35,12 +36,24 @@ export const BarcodeScanner = ({ open, onOpenChange, onScan }: BarcodeScannerPro
       const scanner = new Html5Qrcode(scannerId);
       scannerRef.current = scanner;
 
+      // First, check and request camera permissions
+      try {
+        const devices = await Html5Qrcode.getCameras();
+        if (devices.length === 0) {
+          throw new Error("No camera found on this device.");
+        }
+      } catch (permissionErr: any) {
+        console.error("Camera permission error:", permissionErr);
+        // If permission is denied, we'll catch it in the start() call
+      }
+
       // Request camera permission and start scanning
       await scanner.start(
         { facingMode: "environment" }, // Use back camera
         {
           fps: 10,
           qrbox: { width: 250, height: 250 },
+          aspectRatio: 1.0,
         },
         (decodedText) => {
           // Successfully scanned
@@ -49,18 +62,43 @@ export const BarcodeScanner = ({ open, onOpenChange, onScan }: BarcodeScannerPro
         (errorMessage) => {
           // Scanning error (usually just "no barcode found")
           // We can ignore these as they happen continuously
+          // Only log if it's not a common "not found" error
+          if (!errorMessage.includes("NotFoundException") && !errorMessage.includes("No MultiFormat Readers")) {
+            console.debug("Scanning:", errorMessage);
+          }
         }
       );
 
       setScanning(true);
     } catch (err: any) {
       console.error("Scanner error:", err);
-      if (err.name === "NotAllowedError") {
-        setError("Camera access denied. Please enable camera permissions and try again.");
-      } else if (err.name === "NotFoundError") {
-        setError("No camera found on this device.");
+      let errorMessage = "Unable to start camera. Please try manual entry.";
+      
+      if (err.name === "NotAllowedError" || err.message?.includes("permission")) {
+        errorMessage = "Camera access denied. Please enable camera permissions in your device settings and try again.";
+        setError(errorMessage);
+      } else if (err.name === "NotFoundError" || err.message?.includes("No camera")) {
+        errorMessage = "No camera found on this device.";
+        setError(errorMessage);
+      } else if (err.message) {
+        errorMessage = err.message;
+        setError(errorMessage);
       } else {
-        setError("Unable to start camera. Please try manual entry.");
+        setError(errorMessage);
+      }
+      
+      // Don't immediately trigger manual entry - let user see the error and choose
+      // The "Enter Manually" button is already available in the UI
+      setScanning(false);
+      
+      // Only trigger onError callback for permission errors, not for other errors
+      // This allows the user to see the error message and manually choose to enter barcode
+      if (err.name === "NotAllowedError" || err.message?.includes("permission")) {
+        // For permission errors, we can offer manual entry
+        if (onError) {
+          // Don't call onError immediately - let user see the error first
+          // They can click "Enter Manually" button if needed
+        }
       }
     }
   };

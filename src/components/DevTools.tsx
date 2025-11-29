@@ -76,7 +76,7 @@ export const DevTools = () => {
 
   return (
     <div className="fixed bottom-4 left-4 z-50">
-      <Card className="w-64 shadow-lg border-orange-500">
+      <Card className="w-64 shadow-lg border-emerald-700">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="text-sm flex items-center gap-2">

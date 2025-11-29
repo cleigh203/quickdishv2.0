@@ -95,6 +95,8 @@ const Shopping = () => {
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const shoppingListRef = useRef(shoppingList);
 
+  // Scroll restoration - ensures main pages start at top
+
   // Keep ref in sync with shopping list
   useEffect(() => {
     shoppingListRef.current = shoppingList;
@@ -351,7 +353,142 @@ const Shopping = () => {
   };
 
   const handlePrint = () => {
-    window.print();
+    // Create a print-friendly window
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      toast({ 
+        title: "Print blocked", 
+        description: "Please allow popups to print your shopping list",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Generate HTML for print view
+    const printContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>QuickDish Shopping List</title>
+        <style>
+          @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none !important; }
+          }
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+          }
+          h1 {
+            text-align: center;
+            color: #047857;
+            margin-bottom: 30px;
+            font-size: 28px;
+          }
+          .back-button {
+            position: fixed;
+            top: 60px;
+            left: 20px;
+            background: #047857;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 24px;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+          }
+          .back-button:hover {
+            background: #065f46;
+          }
+          @media print {
+            .back-button { display: none; }
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+          }
+          th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+          }
+          th {
+            background-color: #047857;
+            color: white;
+            font-weight: bold;
+          }
+          tr:nth-child(even) {
+            background-color: #f9fafb;
+          }
+          .checked {
+            text-decoration: line-through;
+            color: #9ca3af;
+          }
+        </style>
+      </head>
+      <body>
+        <button class="back-button" onclick="handleBack()" aria-label="Back to App">←</button>
+        <script>
+          function handleBack() {
+            try {
+              if (window.opener && !window.opener.closed) {
+                window.opener.location.href = window.location.origin + '/shopping';
+                window.close();
+              } else {
+                window.location.href = window.location.origin + '/shopping';
+              }
+            } catch (e) {
+              window.location.href = window.location.origin + '/shopping';
+            }
+          }
+        </script>
+        <h1>QuickDish Shopping List</h1>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 50px;">✓</th>
+              <th>Item</th>
+              <th>Amount</th>
+              <th>For Recipe</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${displayList.map(item => `
+              <tr class="${item.checked ? 'checked' : ''}">
+                <td style="text-align: center;">${item.checked ? '✓' : ''}</td>
+                <td>${item.item || ''}</td>
+                <td>${item.amount || ''}</td>
+                <td>${item.recipes ? item.recipes.join(', ') : ''}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+        <script>
+          window.onload = function() {
+            setTimeout(() => {
+              window.print();
+            }, 250);
+          };
+        </script>
+      </body>
+      </html>
+    `;
+
+    printWindow.document.write(printContent);
+    printWindow.document.close();
+    
     toast({ title: "Print dialog opened" });
   };
 
@@ -449,7 +586,7 @@ const Shopping = () => {
     <>
       <div className="min-h-screen pb-20 bg-background">
         {/* Header with Orange Gradient */}
-        <div className="bg-gradient-to-r from-[#FF6B35] to-[#FF8C5A] text-white px-5 py-6">
+        <div className="bg-gradient-to-r from-[#047857] to-[#065f46] text-white px-5 py-6">
           <div className="flex items-center justify-between mb-3">
             <h1 className="text-3xl font-bold">Shopping List</h1>
             
@@ -501,7 +638,7 @@ const Shopping = () => {
           <>
             {/* Shopping Modes Explanation */}
             <div className="px-5 pt-5">
-              <div className="bg-orange-50 border-l-4 border-orange-500 p-4 mb-6 rounded">
+              <div className="bg-emerald-50 border-l-4 border-emerald-700 p-4 mb-6 rounded">
                 <p className="text-sm font-semibold text-gray-800 mb-2">📋 Two ways to shop:</p>
                 <ul className="text-sm text-gray-700 space-y-2">
                   <li className="flex items-start">
@@ -559,21 +696,21 @@ const Shopping = () => {
             </div>
 
             {/* Pantry Toggle */}
-            <div className="bg-orange-50 px-5 py-3.5 border-b border-orange-200 flex items-center justify-between" data-pantry-toggle>
+            <div className="bg-emerald-50 px-5 py-3.5 border-b border-emerald-200 flex items-center justify-between" data-pantry-toggle>
               <div className="flex items-center gap-3">
                 <Switch
                   id="hide-pantry"
                   checked={hidePantryItems}
                   onCheckedChange={setHidePantryItems}
-                  className="data-[state=checked]:bg-[#FF6B35]"
+                  className="data-[state=checked]:bg-[#047857]"
                 />
-                <span className="text-sm font-medium text-orange-800">
+                <span className="text-sm font-medium text-emerald-800">
                   Hide pantry items {hiddenCount > 0 && `(${hiddenCount})`}
                 </span>
               </div>
               <button
                 onClick={() => navigate('/pantry')}
-                className="text-sm font-medium text-[#FF6B35] hover:text-[#E55A2B] transition-colors"
+                className="text-sm font-medium text-[#047857] hover:text-[#065f46] transition-colors"
               >
                 <Package className="w-4 h-4 inline mr-1" />
                 Adjust Pantry
@@ -584,7 +721,7 @@ const Shopping = () => {
               <div className="px-5 pt-3">
                 <div className="bg-gray-200 h-1.5 rounded-full overflow-hidden mb-2">
                   <div
-                    className="bg-[#FF6B35] h-full transition-all duration-300"
+                    className="bg-[#047857] h-full transition-all duration-300"
                     style={{ width: `${progressPercentage}%` }}
                   />
                 </div>
@@ -632,10 +769,10 @@ const Shopping = () => {
                       className={`
                         w-7 h-7 rounded-md border-2 flex items-center justify-center transition-all flex-shrink-0
                         ${isAllChecked
-                          ? 'bg-[#FF6B35] border-[#FF6B35]' 
+                          ? 'bg-[#047857] border-[#047857]' 
                           : isIndeterminate
-                          ? 'bg-[#FF6B35]/50 border-[#FF6B35]'
-                          : 'border-border group-hover:border-[#FF6B35]'
+                          ? 'bg-[#047857]/50 border-[#047857]'
+                          : 'border-border group-hover:border-[#047857]'
                         }
                       `}
                     >
@@ -695,8 +832,8 @@ const Shopping = () => {
                           className={`
                             w-7 h-7 rounded-md border-2 flex items-center justify-center transition-all cursor-pointer flex-shrink-0
                             ${item.checked 
-                              ? 'bg-[#FF6B35] border-[#FF6B35]' 
-                              : 'border-border hover:border-[#FF6B35]'
+                              ? 'bg-[#047857] border-[#047857]' 
+                              : 'border-border hover:border-[#047857]'
                             }
                           `}
                         >
@@ -712,7 +849,7 @@ const Shopping = () => {
                             {item.item}
                           </div>
                           {item.recipes && item.recipes.length > 0 && (
-                            <div className="inline-block mt-1 px-2 py-0.5 bg-orange-50 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400 text-xs rounded">
+                            <div className="inline-block mt-1 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-500 text-xs rounded">
                               For: {item.recipes.join(', ')}
                             </div>
                           )}
@@ -768,7 +905,7 @@ const Shopping = () => {
             </AlertDialogCancel>
             <AlertDialogAction 
               onClick={handleClearAll}
-              className="bg-[#FF6B35] text-white hover:bg-[#E55A2B]"
+              className="bg-[#047857] text-white hover:bg-[#065f46]"
             >
               Clear List
             </AlertDialogAction>

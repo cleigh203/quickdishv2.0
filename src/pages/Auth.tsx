@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
 import { Mail, Lock, User } from 'lucide-react';
-const logo = '/logo.svg';
+const logo = '/logo.png';
 import { supabase } from '@/integrations/supabase/client';
 
 const signUpSchema = z.object({
@@ -56,6 +56,7 @@ const Auth = () => {
     password: '',
   });
 
+  const [rememberMe, setRememberMe] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
   const [verifyEmail, setVerifyEmail] = useState('');
 
@@ -65,6 +66,21 @@ const Auth = () => {
       navigate('/');
     }
   }, [user, navigate]);
+
+  // Load saved credentials on mount
+  useEffect(() => {
+    if (view === 'signin') {
+      const savedEmail = localStorage.getItem('quickdish_saved_email');
+      const savedPassword = localStorage.getItem('quickdish_saved_password');
+      if (savedEmail && savedPassword) {
+        setSignInData({
+          email: savedEmail,
+          password: savedPassword,
+        });
+        setRememberMe(true);
+      }
+    }
+  }, [view]);
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -156,6 +172,15 @@ const Auth = () => {
           });
         }
       } else {
+        // Save credentials if "Remember me" is checked
+        if (rememberMe) {
+          localStorage.setItem('quickdish_saved_email', validated.email);
+          localStorage.setItem('quickdish_saved_password', validated.password);
+        } else {
+          // Clear saved credentials if unchecked
+          localStorage.removeItem('quickdish_saved_email');
+          localStorage.removeItem('quickdish_saved_password');
+        }
         navigate('/');
       }
     } catch (error) {
@@ -211,7 +236,7 @@ const Auth = () => {
 
   if (view === 'welcome') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-orange-100 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-emerald-100 p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-4">
@@ -262,7 +287,7 @@ const Auth = () => {
 
   if (view === 'signup') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-orange-100 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-emerald-100 p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Create Account</CardTitle>
@@ -375,7 +400,7 @@ const Auth = () => {
 
   if (view === 'verify') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-orange-100 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-emerald-100 p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Check your email</CardTitle>
@@ -405,7 +430,7 @@ const Auth = () => {
 
   if (view === 'signin') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-orange-100 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-emerald-100 p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Welcome Back</CardTitle>
@@ -444,7 +469,17 @@ const Auth = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="remember-me"
+                    checked={rememberMe}
+                    onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                  />
+                  <Label htmlFor="remember-me" className="text-sm font-normal cursor-pointer">
+                    Remember me
+                  </Label>
+                </div>
                 <button
                   type="button"
                   onClick={() => setView('reset')}
@@ -477,7 +512,7 @@ const Auth = () => {
 
   if (view === 'reset') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-orange-100 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-emerald-100 p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Reset Password</CardTitle>

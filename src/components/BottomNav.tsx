@@ -23,12 +23,12 @@ export const BottomNav = () => {
 >      <div className="max-w-lg mx-auto">
         {/* Guest mode banner */}
         {!user && (
-          <div className="bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2 flex items-center justify-between">
+          <div className="bg-gradient-to-r from-emerald-700 to-emerald-800 px-4 py-2 flex items-center justify-between">
             <span className="text-black text-sm font-medium">Sign up to save recipes & more!</span>
             <Button
               size="sm"
               variant="secondary"
-              className="h-7 text-xs bg-white text-orange-600 hover:bg-white/90"
+              className="h-7 text-xs bg-white text-emerald-700 hover:bg-white/90"
               onClick={() => navigate('/auth')}
             >
               Sign Up
@@ -44,7 +44,11 @@ export const BottomNav = () => {
             return (
               <button
                 key={item.path}
-                onClick={() => navigate(item.path)}
+                onClick={() => {
+                  // Scroll to top when navigating
+                  window.scrollTo({ top: 0, behavior: 'instant' });
+                  navigate(item.path);
+                }}
                 className={`flex flex-col items-center justify-center w-full h-full smooth-transition ${
                   isActive ? "text-primary" : "text-muted-foreground"
                 }`}

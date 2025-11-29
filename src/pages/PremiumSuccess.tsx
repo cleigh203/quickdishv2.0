@@ -45,7 +45,7 @@ const PremiumSuccess = () => {
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 flex items-center justify-center p-4">
       <Card className="max-w-2xl w-full">
         <CardHeader className="text-center space-y-4">
-          <div className="mx-auto w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center animate-bounce">
+          <div className="mx-auto w-20 h-20 bg-gradient-to-br from-yellow-400 to-emerald-700 rounded-full flex items-center justify-center animate-bounce">
             <Sparkles className="w-10 h-10 text-white" />
           </div>
           <CardTitle className="text-3xl font-bold">
@@ -61,7 +61,7 @@ const PremiumSuccess = () => {
           <div className="flex flex-col sm:flex-row gap-3 pt-4">
             <Button 
               onClick={() => navigate('/generate')}
-              className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-semibold"
+              className="flex-1 bg-gradient-to-r from-yellow-400 to-emerald-700 hover:from-yellow-500 hover:to-emerald-800 text-white font-semibold"
             >
               Start Cooking
             </Button>

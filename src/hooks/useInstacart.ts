@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 export interface InstacartItem {
   id: string;
@@ -23,6 +24,7 @@ export const useInstacart = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<InstacartItem[]>([]);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const searchItems = useCallback(async (searchTerm: string): Promise<InstacartSearchResult | null> => {
     if (!searchTerm.trim()) {
@@ -69,7 +71,7 @@ export const useInstacart = () => {
   const addToCart = useCallback(async (item: InstacartItem, quantity: number = 1) => {
     try {
       const { data, error } = await supabase.functions.invoke('instacart-add-to-cart', {
-        body: { itemId: item.id, quantity, userId: 'current-user' } // TODO: Get actual user ID
+        body: { itemId: item.id, quantity, userId: user?.id || 'current-user' }
       });
 
       if (error) {
@@ -104,7 +106,7 @@ export const useInstacart = () => {
       const isRecipeObject = recipeOrItems.name && recipeOrItems.instructions;
       const items = isRecipeObject ? recipeOrItems.ingredients : recipeOrItems;
       
-      console.log('Creating Instacart page with:', isRecipeObject ? 'recipe object' : 'items array');
+      if (import.meta.env.DEV) console.log('Creating Instacart page with:', isRecipeObject ? 'recipe object' : 'items array');
       
       // Parse amount string to extract quantity and unit separately
       const parseAmountAndUnit = (amountString: string) => {
@@ -149,13 +151,13 @@ export const useInstacart = () => {
         ingredients: formattedIngredients
       };
       
-      console.log('Sending recipe to Instacart:', recipePayload);
+      if (import.meta.env.DEV) console.log('Sending recipe to Instacart:', recipePayload);
       
       const response = await supabase.functions.invoke('instacart-create-list', {
         body: { recipe: recipePayload }
       });
 
-      console.log('Raw response:', response);
+      if (import.meta.env.DEV) console.log('Raw response:', response);
       
       const { data, error } = response;
 
@@ -190,10 +192,10 @@ export const useInstacart = () => {
       }
       
       // Log the full response for debugging
-      console.log('Instacart create list response:', data);
+      if (import.meta.env.DEV) console.log('Instacart create list response:', data);
 
       if (data?.products_link_url) {
-        console.log('Successfully created Instacart link:', data.products_link_url);
+        if (import.meta.env.DEV) console.log('Successfully created Instacart link:', data.products_link_url);
         return data.products_link_url;
       }
       

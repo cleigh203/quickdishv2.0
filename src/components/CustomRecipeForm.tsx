@@ -551,7 +551,7 @@ export const CustomRecipeForm = ({ open, onOpenChange, editRecipe, onSave }: Cus
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={handleSave} className="bg-[#FF6B35] hover:bg-[#FF6B35]/90" disabled={isSaving || isUploading}>
+          <Button onClick={handleSave} className="bg-[#047857] hover:bg-[#047857]/90" disabled={isSaving || isUploading}>
             {isUploading ? "Uploading Image..." : isSaving ? "Saving..." : editRecipe ? "Update Recipe" : "Save Recipe"}
           </Button>
         </div>

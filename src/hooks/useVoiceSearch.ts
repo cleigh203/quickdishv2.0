@@ -76,9 +76,10 @@ export const useVoiceSearch = (onTranscript: (text: string) => void) => {
           lastHeardAtRef.current = Date.now();
           if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
           inactivityTimerRef.current = setTimeout(() => {
-            // If no new speech for 1200ms, stop listening to finalize
+            // If no new speech for 2000ms, stop listening to finalize
+            // Increased timeout to give user more time to speak
             stopListening();
-          }, 1200);
+          }, 2000);
         };
 
         const l1 = await SpeechRecognition.addListener("partialResults", (data: any) => {
@@ -115,32 +116,55 @@ export const useVoiceSearch = (onTranscript: (text: string) => void) => {
         recognition.interimResults = true; // Show real-time transcription
         recognition.lang = 'en-US';
 
-        let finalTranscript = '';
+        // Use a ref to store final transcript so it's accessible in onend
+        const finalTranscriptRef = { current: '' };
 
         recognition.onresult = (event: any) => {
           let interimTranscript = '';
+          let newFinalTranscript = '';
           
           for (let i = event.resultIndex; i < event.results.length; i++) {
             const transcript = event.results[i][0].transcript;
             if (event.results[i].isFinal) {
-              finalTranscript += transcript;
+              newFinalTranscript += transcript + ' ';
+              finalTranscriptRef.current = newFinalTranscript.trim(); // Update final transcript
             } else {
               interimTranscript += transcript;
             }
           }
           
-          // Send the transcript (interim or final)
-          onTranscript(finalTranscript || interimTranscript);
+          // Send the transcript (prefer final, fallback to interim)
+          const currentTranscript = finalTranscriptRef.current || interimTranscript;
+          if (currentTranscript) {
+            onTranscript(currentTranscript);
+          }
         };
 
         recognition.onerror = (event: any) => {
           console.error('Speech recognition error:', event.error);
-          setIsListening(false);
+          if (event.error === 'no-speech') {
+            // User didn't speak - this is okay, just stop
+            setIsListening(false);
+          } else {
+            setIsListening(false);
+            toast({
+              title: "Voice recognition error",
+              description: event.error === 'not-allowed' 
+                ? "Microphone permission denied" 
+                : "Please try again",
+              variant: "destructive"
+            });
+          }
         };
 
         recognition.onend = () => {
           setIsListening(false);
-          // Automatically stops when user finishes speaking
+          // Ensure final transcript is sent if we have it
+          if (finalTranscriptRef.current.trim()) {
+            onTranscript(finalTranscriptRef.current.trim());
+            // Clear finalTranscript after sending
+            finalTranscriptRef.current = '';
+          }
         };
 
         recognition.start();

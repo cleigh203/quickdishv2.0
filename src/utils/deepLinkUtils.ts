@@ -28,7 +28,7 @@ export async function openStoreWithDeepLink(
       await Browser.open({ 
         url: webUrl,
         presentationStyle: 'popover', // Opens as overlay on top of app
-        toolbarColor: '#10b981' // QuickDish green theme
+        toolbarColor: '#047857' // QuickDish green theme
       });
       
       console.log(`✅ Opened ${store.name} in in-app browser`);

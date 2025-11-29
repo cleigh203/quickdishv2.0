@@ -25,7 +25,7 @@ export const PremiumPaywallModal = ({ open, onClose }: PremiumPaywallModalProps)
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <div className="flex items-center justify-center mb-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-3xl">
+            <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-emerald-700 rounded-full flex items-center justify-center text-3xl">
               👑
             </div>
           </div>
@@ -59,7 +59,7 @@ export const PremiumPaywallModal = ({ open, onClose }: PremiumPaywallModalProps)
                 }
                 onClose();
               }}
-              className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-semibold"
+              className="w-full bg-gradient-to-r from-yellow-400 to-emerald-700 hover:from-yellow-500 hover:to-emerald-800 text-white font-semibold"
             >
               {user ? 'Upgrade to Premium' : 'Sign In to Upgrade'}
             </Button>

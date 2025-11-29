@@ -171,9 +171,25 @@ export const getRecipeImage = (recipe: Recipe & { ingredientInput?: string }, ca
     'https://images.pexels.com/photos/1537635/pexels-photo-1537635.jpeg?auto=compress&cs=tinysrgb&w=600'
   ];
   
-  const index = recipe.id ? 
-    parseInt(recipe.id.toString().slice(-1)) % defaultImages.length : 
-    Math.floor(Math.random() * defaultImages.length);
+  // Use recipe ID for deterministic selection, or fall back to recipe name hash for consistency
+  let index = 0;
+  if (recipe.id) {
+    // Use the last character of the ID for deterministic selection
+    const idStr = recipe.id.toString();
+    const lastChar = idStr.slice(-1);
+    index = parseInt(lastChar, 16) % defaultImages.length; // Use hex parsing to handle alphanumeric IDs
+  } else if (recipe.name) {
+    // Hash the recipe name for consistent selection when ID is missing
+    let hash = 0;
+    for (let i = 0; i < recipe.name.length; i++) {
+      hash = ((hash << 5) - hash) + recipe.name.charCodeAt(i);
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    index = Math.abs(hash) % defaultImages.length;
+  } else {
+    // Last resort: use a fixed index instead of random
+    index = 0;
+  }
   
   return defaultImages[index];
 };

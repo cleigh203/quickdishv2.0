@@ -138,8 +138,9 @@ export const RecipeAIChatDialog: React.FC<RecipeAIChatDialogProps> = ({ recipe, 
         onClick={onClose}
       />
       
-      {/* Slide-out Panel */}
-      <div className="fixed inset-y-0 right-0 w-full sm:w-[500px] bg-background z-[90] shadow-2xl animate-slide-in-right flex flex-col">
+      {/* Centered Modal */}
+      <div className="fixed inset-0 z-[90] flex items-center justify-center p-4">
+        <div className="w-full max-w-2xl max-h-[90vh] bg-background rounded-lg shadow-2xl flex flex-col animate-in fade-in zoom-in-95">
         {/* Header */}
         <div className="border-b border-border bg-card/50 backdrop-blur-sm">
           <div className="p-4 flex items-center justify-between gap-3">
@@ -289,6 +290,7 @@ export const RecipeAIChatDialog: React.FC<RecipeAIChatDialogProps> = ({ recipe, 
               <Send className="w-5 h-5" />
             </Button>
           </div>
+        </div>
         </div>
       </div>
     </>

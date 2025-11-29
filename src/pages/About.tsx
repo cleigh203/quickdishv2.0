@@ -28,7 +28,7 @@ const About = () => {
         <div className="text-center space-y-6">
           <div className="flex justify-center">
             <img 
-              src="/logo.svg" 
+              src="/logo.png" 
               alt="QuickDish Logo" 
               className="w-32 h-32 object-contain drop-shadow-2xl"
               loading="eager"
@@ -250,7 +250,7 @@ const About = () => {
         {/* Built With Love */}
         <section className="space-y-6">
           <h3 className="text-3xl font-bold text-center mb-8">🚀 Built With Love</h3>
-          <div className="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20 rounded-xl p-8 border-2 border-primary/20">
+          <div className="bg-gradient-to-br from-emerald-50 to-red-50 dark:from-emerald-950/20 dark:to-red-950/20 rounded-xl p-8 border-2 border-primary/20">
             <p className="text-lg text-foreground/90 leading-relaxed mb-6">
               QuickDish is built by an ex restaurateur turned home cook. We believe cooking should be fun, 
               not stressful. Every feature is designed to save you time, reduce waste, and help you create 
@@ -282,12 +282,22 @@ const About = () => {
               Have feedback? Found a bug? Want to suggest a recipe?
             </p>
             <div className="space-y-4">
-              <div className="text-center">
-                <p className="font-medium">info@quickdishco.com</p>
-              </div>
-              <div className="text-center">
-                <p className="font-medium">@quickdishapp</p>
-              </div>
+              <a 
+                href="mailto:info@quickdishco.com"
+                className="flex items-center justify-center gap-3 p-4 rounded-lg hover:bg-accent transition-colors"
+              >
+                <span className="text-2xl">📧</span>
+                <p className="font-medium text-primary">info@quickdishco.com</p>
+              </a>
+              <a 
+                href="https://instagram.com/quickdishapp"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 p-4 rounded-lg hover:bg-accent transition-colors"
+              >
+                <span className="text-2xl">📸</span>
+                <p className="font-medium text-primary">@quickdishapp</p>
+              </a>
             </div>
             <p className="text-center text-muted-foreground mt-6">
               We'd love to hear from you!

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, lazy, Suspense } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSmartNavigation } from "@/hooks/useSmartNavigation";
-import { useScrollRestoration } from "@/hooks/useScrollRestoration";
+import { usePullToRefresh } from "@/hooks/usePullToRefresh";
 import { BottomNav } from "@/components/BottomNav";
 import { RecipeCard } from "@/components/RecipeCard";
 import { RecipeCardSkeleton } from "@/components/RecipeCardSkeleton";
@@ -81,29 +81,19 @@ const mapGeneratedRecordToRecipe = (record: any): Recipe => ({
 });
 
 export const SavedRecipes = () => {
+  const navigate = useNavigate();
   const location = useLocation();
-  const { navigateToRecipe, getContext } = useSmartNavigation();
+  const { getContext } = useSmartNavigation();
   
-  // Enable scroll restoration for this page
-  useScrollRestoration();
+  // Enable scroll restoration for this page (but main page loads start at top)
   
-  // Scroll to top when page loads
+  // Always scroll to top when page loads
   useEffect(() => {
-    // Disable browser's automatic scroll restoration
-    window.history.scrollRestoration = 'manual';
-    // Scroll to top immediately
-    window.scrollTo(0, 0);
-    
-    // Also try scrolling after a short delay to ensure it works
-    const timeoutId = setTimeout(() => {
-      window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    // Also try after a short delay to ensure it works
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }, 100);
-    
-    return () => {
-      clearTimeout(timeoutId);
-      // Re-enable scroll restoration when component unmounts
-      window.history.scrollRestoration = 'auto';
-    };
   }, []);
   
   const { recipes: allRecipes, isLoading: allRecipesLoading } = useRecipes();
@@ -113,10 +103,15 @@ export const SavedRecipes = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("saved");
   
-  // Check if we should open meal plan tab
+  // Check if we should open meal plan tab (from URL param or state)
   useEffect(() => {
-    if (location.state?.openMealPlan) {
-      setActiveTab("mealPlan");
+    const searchParams = new URLSearchParams(location.search);
+    const tabParam = searchParams.get('tab');
+    
+    if (tabParam === 'mealplan') {
+      setActiveTab("mealplan");
+    } else if (location.state?.openMealPlan) {
+      setActiveTab("mealplan");
       // Clear the state so it doesn't reopen on refresh
       window.history.replaceState({}, document.title);
     }
@@ -292,7 +287,9 @@ export const SavedRecipes = () => {
     // Find the recipe in our data to pass via state
     const recipe = resolvedSavedRecipes.find(r => r.id === recipeId) ||
                    customRecipes.find(r => r.id === recipeId);
-    navigateToRecipe(recipeId, recipe);
+    navigate(`/recipe/${recipeId}`, {
+      state: { recipe }
+    });
   };
 
   const handleUnsave = async (recipeId: string) => {
@@ -314,7 +311,6 @@ export const SavedRecipes = () => {
     if (!deletingRecipeId) return;
 
     try {
-      console.log('🗑️ Deleting recipe:', deletingRecipeId);
       
       // Get the current user
       const { data: { user } } = await supabase.auth.getUser();
@@ -467,8 +463,8 @@ export const SavedRecipes = () => {
 
   return (
     <div className="min-h-screen pb-20">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-8 px-4">
+      {/* Header - Scrollable */}
+      <div className="bg-gradient-to-r from-emerald-700 to-emerald-800 text-white py-8 px-4">
         <div className="max-w-lg mx-auto">
           <h1 className="text-3xl font-bold mb-2">My Kitchen</h1>
           <p className="text-white/90">Your saved recipes and meal plans</p>
@@ -478,37 +474,37 @@ export const SavedRecipes = () => {
       {/* Tabs */}
       <div className="max-w-lg mx-auto">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full rounded-none border-b bg-transparent h-auto p-0 sticky top-0 z-10 glass-card">
-            <TabsTrigger 
-              value="saved" 
-              className="flex-1 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:bg-transparent py-4"
-            >
-              <Heart className="w-4 h-4 mr-2" />
-              Saved Recipes
-              {savedRecipesList.length + customRecipes.length > 0 && (
-                <Badge variant="secondary" className="ml-2">
-                  {savedRecipesList.length + customRecipes.length}
-                </Badge>
-              )}
-            </TabsTrigger>
-            <TabsTrigger 
-              value="mealplan" 
-              className="flex-1 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:bg-transparent py-4"
-            >
-              <Calendar className="w-4 h-4 mr-2" />
-              Meal Plan
-              {mealPlans.length > 0 && (
-                <Badge variant="secondary" className="ml-2">
-                  {mealPlans.length}
-                </Badge>
-              )}
-            </TabsTrigger>
-          </TabsList>
+          {/* Sticky Header Section - Tabs + Search + Create Button */}
+          <div className="sticky top-0 z-50 bg-background border-b border-border shadow-sm" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
+            <TabsList className="w-full rounded-none border-b bg-background h-auto p-0">
+              <TabsTrigger 
+                value="saved" 
+                className="flex-1 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:bg-transparent py-4"
+              >
+                <Heart className="w-4 h-4 mr-2" />
+                Saved Recipes
+                {savedRecipesList.length + customRecipes.length > 0 && (
+                  <Badge variant="secondary" className="ml-2">
+                    {savedRecipesList.length + customRecipes.length}
+                  </Badge>
+                )}
+              </TabsTrigger>
+              <TabsTrigger 
+                value="mealplan" 
+                className="flex-1 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:bg-transparent py-4"
+              >
+                <Calendar className="w-4 h-4 mr-2" />
+                Meal Plan
+                {mealPlans.length > 0 && (
+                  <Badge variant="secondary" className="ml-2">
+                    {mealPlans.length}
+                  </Badge>
+                )}
+              </TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="saved" className="mt-0">
-            {/* Fixed Header Container - positioned below tabs (tabs are ~57px tall) */}
-            <div className="fixed top-[57px] left-0 right-0 z-40 bg-background max-w-lg mx-auto">
-              {/* Search Bar for Saved Tab */}
+            {/* Search Bar - only show for saved tab */}
+            {activeTab === 'saved' && (
               <div className="border-b border-border px-4 py-3 bg-background">
                 <button
                   onClick={() => setShowSearch(true)}
@@ -518,8 +514,10 @@ export const SavedRecipes = () => {
                   <span>Search saved recipes...</span>
                 </button>
               </div>
+            )}
 
-              {/* Create Your Own Recipe Button */}
+            {/* Create Recipe Button - Sticky at top */}
+            {activeTab === 'saved' && (
               <div className="border-b border-border px-4 py-3 bg-background">
                 <Button 
                   onClick={() => setShowCustomForm(true)}
@@ -529,10 +527,10 @@ export const SavedRecipes = () => {
                   Create Your Own Recipe
                 </Button>
               </div>
-            </div>
-            
-            {/* Spacer to prevent content from going under fixed header */}
-            <div className="h-[113px]"></div>
+            )}
+          </div>
+
+          <TabsContent value="saved" className="mt-0">
 
             {/* Active Filters */}
             {(activeFilters.time.length > 0 || 
@@ -655,11 +653,12 @@ export const SavedRecipes = () => {
         </Tabs>
       </div>
 
-      {/* Search Overlay */}
+      {/* Search Overlay - Centered Modal */}
       {showSearch && (
-        <div className="fixed inset-0 bg-background z-50">
-          <div className="sticky top-0 z-10 glass-card border-b border-border px-4 py-3">
-            <div className="flex items-center gap-3">
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-background border border-border rounded-xl shadow-lg w-full max-w-lg max-h-[90vh] flex flex-col">
+            {/* Header */}
+            <div className="border-b border-border px-4 py-3 flex items-center gap-3">
               <Button variant="ghost" size="icon" onClick={() => setShowSearch(false)}>
                 <X className="w-5 h-5" />
               </Button>
@@ -669,12 +668,59 @@ export const SavedRecipes = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="flex-1"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearch();
+                  }
+                }}
               />
+              {(searchQuery || activeFilters.time.length > 0 || activeFilters.difficulty.length > 0 || activeFilters.mealType.length > 0) && (
+                <Button variant="ghost" size="sm" onClick={handleClearAll}>
+                  <Trash2 className="w-4 h-4 mr-1" />
+                  Clear All
+                </Button>
+              )}
             </div>
-          </div>
-          <div className="p-4 space-y-6">
-            {/* Filters would go here if needed */}
-            <p className="text-sm text-muted-foreground">Type to search your saved recipes...</p>
+            
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto p-4">
+              <p className="text-sm text-muted-foreground mb-4">Type to search your saved recipes...</p>
+              
+              {/* Active Filters */}
+              {(activeFilters.time.length > 0 || 
+                activeFilters.difficulty.length > 0 || 
+                activeFilters.mealType.length > 0) && (
+                <div className="mb-4">
+                  <p className="text-sm font-medium mb-2">Active Filters:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {activeFilters.time.map(filter => (
+                      <Badge key={filter} variant="secondary" className="flex items-center gap-1">
+                        {filter}
+                        <button onClick={() => removeActiveFilter('time', filter)}>
+                          <X className="w-3 h-3" />
+                        </button>
+                      </Badge>
+                    ))}
+                    {activeFilters.difficulty.map(filter => (
+                      <Badge key={filter} variant="secondary" className="flex items-center gap-1">
+                        {filter}
+                        <button onClick={() => removeActiveFilter('difficulty', filter)}>
+                          <X className="w-3 h-3" />
+                        </button>
+                      </Badge>
+                    ))}
+                    {activeFilters.mealType.map(filter => (
+                      <Badge key={filter} variant="secondary" className="flex items-center gap-1">
+                        {filter}
+                        <button onClick={() => removeActiveFilter('mealType', filter)}>
+                          <X className="w-3 h-3" />
+                        </button>
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

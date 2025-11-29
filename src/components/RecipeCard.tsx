@@ -29,7 +29,7 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
 
   return (
     <Card
-      className="recipe-card border-0 h-full flex flex-col"
+      className="recipe-card border-0 h-full flex flex-col rounded-lg sm:rounded-xl mb-4"
       onClick={onClick}
       style={{ cursor: onClick ? 'pointer' : 'default', minHeight: '300px' }}
       data-recipe-card
@@ -69,7 +69,7 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
             </div>
           ) : (
             /* Custom Recipe without image - show placeholder */
-            <div className="w-full aspect-[4/3] bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-white">
+            <div className="w-full aspect-[4/3] bg-gradient-to-br from-emerald-600 to-emerald-700 flex items-center justify-center text-white">
               <span className="text-sm font-bold">My Recipe</span>
             </div>
           )
@@ -111,7 +111,7 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
         {/* Custom Recipe Badge */}
         {recipe.id?.startsWith('custom-') && (
           <div className="absolute top-3 left-3">
-            <span className="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+            <span className="bg-emerald-700 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
               Custom
             </span>
           </div>
@@ -152,14 +152,16 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
           </div>
         ) : null}
       </div>
-      <CardContent className="recipe-card-content flex-1 flex flex-col">
-        <div className="flex items-center justify-between mb-3">
-          <span className="recipe-badge capitalize">{recipe.difficulty}</span>
+      <CardContent className="recipe-card-content flex-1 flex flex-col p-4 sm:p-6">
+        <div className="mb-3">
+          <div className="mb-2">
+            <span className="recipe-badge capitalize">{recipe.difficulty}</span>
+          </div>
           {totalRatings > 0 && (
-            <span className="text-xs font-semibold text-primary flex items-center gap-1">
-              <RatingStars value={averageRating} />
-              {averageRating} ({totalRatings})
-            </span>
+            <div className="text-xs font-semibold text-primary flex items-center gap-1.5 w-full">
+              <RatingStars value={averageRating} className="flex-shrink-0" />
+              <span>{averageRating} ({totalRatings})</span>
+            </div>
           )}
         </div>
         <h3 className="recipe-card-title line-clamp-2 leading-snug">{recipe.name}</h3>
@@ -181,7 +183,7 @@ export const RecipeCard = ({ recipe, onClick, showSaveButton = true, showRemoveB
                 e.stopPropagation();
                 onMealPlanClick();
               }}
-              className="flex items-center gap-2 px-3 py-1.5 bg-orange-100 hover:bg-orange-200 text-orange-800 rounded-full text-xs font-medium transition-colors"
+              className="flex items-center gap-2 px-3 py-1.5 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 rounded-full text-xs font-medium transition-colors"
             >
               <Calendar className="w-3 h-3" />
               Add to Meal Plan

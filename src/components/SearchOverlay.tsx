@@ -45,6 +45,19 @@ export const SearchOverlay = ({
 }: SearchOverlayProps) => {
   const navigate = useNavigate();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const searchDebounceRef = useRef<number | null>(null);
+  
+  // Auto-clear category filter when user types in search (trigger onSearch which clears category)
+  useEffect(() => {
+    if (searchQuery.trim() && isOpen) {
+      // When user types, trigger onSearch which will clear category filter in parent
+      // This ensures search works immediately without category filter interfering
+      const timeoutId = setTimeout(() => {
+        onSearch();
+      }, 300);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [searchQuery, isOpen]); // Only when searchQuery changes and modal is open
   
   const FILTERS = {
     time: ['Under 30min', '30-60min'],
@@ -52,12 +65,11 @@ export const SearchOverlay = ({
     diet: ['Vegetarian', 'Vegan', 'Gluten-Free']
   };
 
-  // Filter recipes - ONLY when appliedSearchTerm is set (not while typing)
-  // Return empty array if appliedSearchTerm is undefined (modal just opened)
+  // Filter recipes - Use searchQuery if available, otherwise use appliedSearchTerm
+  // This allows real-time search as user types
   const filteredRecipes = useMemo(() => {
-    // If appliedSearchTerm is undefined, return empty array (no recipes shown until Apply Filters clicked)
-    // But allow filtering if filters are applied (even without search term)
-    if (appliedSearchTerm === undefined && filters.length === 0) {
+    // If no search query and no filters, return empty array
+    if (!searchQuery.trim() && filters.length === 0 && appliedSearchTerm === undefined) {
       return [];
     }
 
@@ -65,7 +77,8 @@ export const SearchOverlay = ({
       recipe.cuisine?.toLowerCase() === 'halloween' || 
       recipe.tags?.includes('halloween') || false;
 
-    const searchTermToUse = appliedSearchTerm || '';
+    // Use searchQuery if available (user is typing), otherwise use appliedSearchTerm
+    const searchTermToUse = searchQuery.trim() || appliedSearchTerm || '';
     const normalizedSearch = searchTermToUse.trim().toLowerCase();
     const searchTerms = normalizedSearch ? normalizedSearch.split(/[\s,]+/).map(term => term.trim()).filter(Boolean) : [];
 
@@ -96,10 +109,10 @@ export const SearchOverlay = ({
         }
 
         // Dietary Filters
-        const normalizedFilter = filter.toLowerCase().replace(/\s+/g, '-').replace('gluten-free', 'glutenfree');
+        const normalizedFilter = filter.toLowerCase().replace(/\s+/g, '-');
         const recipeTags = recipe.tags || [];
         return recipeTags.some(tag => {
-          const normalizedTag = tag.toLowerCase().replace(/\s+/g, '-').replace('gluten-free', 'glutenfree');
+          const normalizedTag = tag.toLowerCase().replace(/\s+/g, '-');
           return normalizedTag === normalizedFilter;
         });
       });
@@ -114,17 +127,24 @@ export const SearchOverlay = ({
         return meetsFilters(recipe);
       }
 
-      // Search ONLY recipe names (not ingredients or cuisine)
-      // Home page already has ingredient search, Discover search is for finding dishes by name
+      // Search in recipe names, ingredients, tags, and cuisine
       const matchesSearch = searchTerms.every(term => {
-        return (recipe.name || '').toLowerCase().includes(term);
+        const nameMatch = (recipe.name || '').toLowerCase().includes(term);
+        const ingredientMatch = recipe.ingredients?.some(ing => 
+          ing.item?.toLowerCase().includes(term)
+        ) || false;
+        const tagMatch = recipe.tags?.some(tag => 
+          tag.toLowerCase().includes(term)
+        ) || false;
+        const cuisineMatch = (recipe.cuisine || '').toLowerCase().includes(term);
+        return nameMatch || ingredientMatch || tagMatch || cuisineMatch;
       });
 
       if (!matchesSearch) return false;
 
       return meetsFilters(recipe);
     });
-  }, [recipes, appliedSearchTerm, filters]);
+  }, [recipes, searchQuery, appliedSearchTerm, filters]); // Added searchQuery to dependencies
 
   // Restore scroll position when modal opens with applied search or filters
   useEffect(() => {
@@ -190,12 +210,41 @@ export const SearchOverlay = ({
             autoFocus
             placeholder="Search by name or ingredients..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              // Auto-trigger search when user types (with debounce)
+              // This makes search work immediately without needing to click "Apply Filters"
+              if (searchDebounceRef.current) {
+                clearTimeout(searchDebounceRef.current);
+              }
+              if (e.target.value.trim()) {
+                searchDebounceRef.current = window.setTimeout(() => {
+                  onSearch();
+                }, 500); // 500ms debounce
+              }
+            }}
+            onKeyDown={(e) => {
+              // Also trigger search on Enter key
+              if (e.key === 'Enter' && searchQuery.trim()) {
+                if (searchDebounceRef.current) {
+                  clearTimeout(searchDebounceRef.current);
+                }
+                onSearch();
+              }
+            }}
             className="border-0 bg-muted/50 focus-visible:ring-0 pr-12"
           />
           <div className="absolute right-2 top-1/2 -translate-y-1/2">
             <VoiceSearchButton
               onTranscript={(text) => setSearchQuery(text)}
+              onSearchTrigger={(text) => {
+                // Auto-trigger search when voice input completes
+                if (text) {
+                  setSearchQuery(text);
+                }
+                // Trigger search immediately
+                onSearch();
+              }}
               variant="ghost"
               size="sm"
             />
@@ -204,7 +253,7 @@ export const SearchOverlay = ({
       </div>
 
       {/* Content */}
-      <div className="px-4 py-6 space-y-6">
+      <div className="px-4 py-6 pb-32 space-y-6">
         {/* Cook Time */}
         <div>
           <p className="text-sm font-semibold text-foreground mb-3">Cook Time</p>
@@ -296,8 +345,8 @@ export const SearchOverlay = ({
           </Button>
         </div>
 
-        {/* Filtered Results - Only show when appliedSearchTerm is set OR filters are applied (after Apply Filters clicked) */}
-        {(appliedSearchTerm !== undefined || filters.length > 0) ? (
+        {/* Filtered Results - Show when searchQuery has text OR filters are applied */}
+        {(searchQuery.trim() || appliedSearchTerm !== undefined || filters.length > 0) ? (
           <div>
             <p className="text-sm font-semibold text-foreground mb-3">
               Results ({filteredRecipes.length})

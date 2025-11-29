@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.quickdishco.app",
+      "sha256_cert_fingerprints": [
+        "4C746C5DB8ABEBAFD12F28C709C27E384A24389ED9EB9A054F6D17406C62DEAB"
+      ]
+    }
+  }
+]

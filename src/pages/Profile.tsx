@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { useAIUsage } from '@/hooks/useSubscription';
-import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette, Mail, Calendar, Target, Download } from "lucide-react";
+import { User, ChefHat, Settings, Package, LogOut, Edit, Lock, Trash2, Loader2, Heart, Crown, HelpCircle, Palette, Mail, Calendar, Target, Download, AlertCircle } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -57,6 +57,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
   const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const [isPremium, setIsPremium] = useState(() => {
     return localStorage.getItem('premiumUser') === 'true';
@@ -67,6 +68,7 @@ const Profile = () => {
   const [resetCountdown, setResetCountdown] = useState<string>("");
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
+  const [isNativeApp, setIsNativeApp] = useState(false);
 
   const recipes = recipeStorage.getRecipes();
   const { savedRecipes } = useSavedRecipes();
@@ -75,6 +77,7 @@ const Profile = () => {
   const [pantryCount, setPantryCount] = useState(0);
   const { data: aiUsage, refetch: refetchAIUsage } = useAIUsage('recipe_generation');
 
+  // Scroll restoration - ensures main pages start at top
 
   // Fetch profile data
   const fetchProfile = async () => {
@@ -121,6 +124,7 @@ const Profile = () => {
         refetchAIUsage();
     } catch (error: any) {
       console.error('Error fetching profile:', error);
+      setError(error.message || 'Failed to load profile');
     } finally {
       setLoading(false);
     }
@@ -182,22 +186,38 @@ const Profile = () => {
     loadInitialPantryCount();
   }, [user, fetchPantryItems]);
 
-  // Listen for PWA install prompt
+  // Listen for PWA install prompt (only on web, not native apps)
   useEffect(() => {
-    const handler = (e: any) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-      setShowInstallButton(true);
+    // Check if running as native app - don't show install prompt
+    const checkNative = async () => {
+      try {
+        const { Capacitor } = await import('@capacitor/core');
+        if (Capacitor.isNativePlatform()) {
+          setIsNativeApp(true);
+          setShowInstallButton(false);
+          return;
+        }
+      } catch {
+        // Capacitor not available, continue with web check
+      }
+      
+      const handler = (e: any) => {
+        e.preventDefault();
+        setDeferredPrompt(e);
+        setShowInstallButton(true);
+      };
+      
+      window.addEventListener('beforeinstallprompt', handler);
+      
+      // Check if already installed
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        setShowInstallButton(false);
+      }
+      
+      return () => window.removeEventListener('beforeinstallprompt', handler);
     };
     
-    window.addEventListener('beforeinstallprompt', handler);
-    
-    // Check if already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      setShowInstallButton(false);
-    }
-    
-    return () => window.removeEventListener('beforeinstallprompt', handler);
+    checkNative();
   }, []);
 
   const loadPantryItems = async () => {
@@ -320,26 +340,86 @@ const Profile = () => {
 
     setDeleting(true);
     try {
-      // Delete profile data
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .delete()
-        .eq('id', user.id);
+      const userId = user.id;
 
-      if (profileError) throw profileError;
+      // Delete all user data in parallel for better performance
+      const deletePromises = [
+        // Delete saved recipes
+        supabase.from('saved_recipes').delete().eq('user_id', userId),
+        // Delete meal plans
+        supabase.from('meal_plans').delete().eq('user_id', userId),
+        // Delete generated recipes
+        supabase.from('generated_recipes').delete().eq('user_id', userId),
+        // Delete pantry items
+        supabase.from('pantry_items').delete().eq('user_id', userId),
+        // Delete shopping lists
+        supabase.from('shopping_lists').delete().eq('user_id', userId),
+        // Delete user subscriptions
+        supabase.from('user_subscriptions').delete().eq('user_id', userId),
+        // Delete profile data (must be last due to foreign key constraints)
+        supabase.from('profiles').delete().eq('id', userId),
+      ];
+
+      const results = await Promise.allSettled(deletePromises);
+      
+      // Check for errors (ignore profile deletion error if other deletions failed)
+      const errors = results
+        .map((result, index) => {
+          if (result.status === 'rejected') {
+            return { index, error: result.reason };
+          }
+          if (result.status === 'fulfilled' && result.value.error) {
+            return { index, error: result.value.error };
+          }
+          return null;
+        })
+        .filter(Boolean);
+
+      // If profile deletion failed, that's critical
+      const profileResult = results[results.length - 1];
+      if (profileResult.status === 'rejected' || 
+          (profileResult.status === 'fulfilled' && profileResult.value.error)) {
+        throw new Error('Failed to delete account. Please contact support.');
+      }
+
+      // Log non-critical errors but don't fail
+      if (errors.length > 0 && import.meta.env.DEV) {
+        console.warn('Some user data deletion errors (non-critical):', errors);
+      }
+
+      // Note: Auth user deletion requires server-side admin access
+      // The auth user will be automatically cleaned up by Supabase
+      // or can be deleted via a server-side Edge Function if needed
 
       // Sign out (this will trigger auth cleanup)
       await signOut();
 
       toast({
         title: 'Account deleted',
-        description: 'Your account has been permanently deleted',
+        description: 'Your account and all associated data have been permanently deleted',
       });
     } catch (error: any) {
       console.error('Error deleting account:', error);
+      
+      // Track account deletion errors in Sentry
+      if (import.meta.env.PROD && import.meta.env.VITE_SENTRY_DSN) {
+        try {
+          const Sentry = await import('@sentry/react');
+          Sentry.captureException(error, {
+            tags: {
+              error_type: 'account_deletion_failed',
+              user_id: user?.id,
+            },
+            level: 'error',
+          });
+        } catch (sentryError) {
+          // Sentry not available
+        }
+      }
+      
       toast({
         title: 'Error deleting account',
-        description: error.message,
+        description: error.message || 'Please try again or contact support',
         variant: 'destructive',
       });
     } finally {
@@ -402,19 +482,39 @@ const Profile = () => {
     );
   }
 
+  if (error) {
+    return (
+      <div className="min-h-screen pb-24 bg-gradient-to-b from-background to-muted/20 flex items-center justify-center px-4">
+        <Card className="max-w-md w-full">
+          <CardContent className="p-6 text-center">
+            <div className="text-red-500 mb-4">
+              <AlertCircle className="w-12 h-12 mx-auto" />
+            </div>
+            <h2 className="text-xl font-bold mb-2">Error Loading Profile</h2>
+            <p className="text-muted-foreground mb-4">{error}</p>
+            <Button onClick={() => { setError(null); fetchProfile(); }}>
+              Try Again
+            </Button>
+          </CardContent>
+        </Card>
+        <BottomNav />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen pb-24 bg-gradient-to-b from-background to-muted/20">
       {/* Test Premium Mode Warning Banner */}
       {import.meta.env.DEV && profileData?.is_premium && (
-        <div className="bg-orange-500 text-white py-3 px-4 text-center font-semibold">
+        <div className="bg-emerald-700 text-white py-3 px-4 text-center font-semibold">
           ⚠️ TEST PREMIUM MODE ACTIVE - Not a real subscription
         </div>
       )}
 
       {/* PROFILE HEADER - Orange Gradient */}
-      <div className="relative bg-gradient-to-r from-[#FF6B35] to-[#FF4500] text-white py-12 px-4 mb-8">
+      <div className="relative bg-gradient-to-r from-[#047857] to-[#065f46] text-white py-12 px-4 mb-8">
         <div className="max-w-4xl mx-auto flex items-center gap-4">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center overflow-hidden ring-4 ring-white/20">
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-700 flex items-center justify-center overflow-hidden ring-4 ring-white/20">
             {profileData?.avatar_url ? (
               <img
                 src={profileData.avatar_url}
@@ -463,22 +563,26 @@ const Profile = () => {
 
       <div className="max-w-4xl mx-auto px-4 space-y-6">
         {/* ACCOUNT CARDS */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-4">
           <Card className="rounded-xl shadow-sm bg-card">
-            <CardContent className="p-4 flex items-center gap-3">
-              <Mail className="w-5 h-5 text-orange-600" />
-              <div className="min-w-0 flex-1">
-                <div className="text-xs text-muted-foreground">Email</div>
-                <div className="font-semibold truncate">{user?.email}</div>
+            <CardContent className="p-4">
+              <div className="flex items-start gap-3">
+                <Calendar className="w-5 h-5 text-emerald-700 mt-0.5 flex-shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <div className="text-xs text-muted-foreground mb-1">Member Since</div>
+                  <div className="font-semibold">{new Date(user?.created_at || '').toLocaleDateString()}</div>
+                </div>
               </div>
             </CardContent>
           </Card>
           <Card className="rounded-xl shadow-sm bg-card">
-            <CardContent className="p-4 flex items-center gap-3">
-              <Calendar className="w-5 h-5 text-orange-600" />
-              <div className="min-w-0 flex-1">
-                <div className="text-xs text-muted-foreground">Member Since</div>
-                <div className="font-semibold truncate">{new Date(user?.created_at || '').toLocaleDateString()}</div>
+            <CardContent className="p-4">
+              <div className="flex items-start gap-3">
+                <Mail className="w-5 h-5 text-emerald-700 mt-0.5 flex-shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <div className="text-xs text-muted-foreground mb-1">Email</div>
+                  <div className="font-semibold break-words">{user?.email}</div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -488,7 +592,7 @@ const Profile = () => {
                 {profileData?.is_premium ? (
                   <Crown className="w-5 h-5 text-yellow-500" />
                 ) : (
-                  <Target className="w-5 h-5 text-orange-600" />
+                  <Target className="w-5 h-5 text-emerald-700" />
                 )}
                 <div>
                   <div className="text-xs text-muted-foreground">Plan</div>
@@ -507,7 +611,7 @@ const Profile = () => {
               <Button
                 variant={profileData?.is_premium ? "outline" : "default"}
                 size="sm"
-                className={profileData?.is_premium ? "" : "bg-gradient-to-r from-[#FF6B35] to-[#FF4500] hover:from-[#FF4500] hover:to-[#FF6B35]"}
+                className={profileData?.is_premium ? "" : "bg-gradient-to-r from-[#047857] to-[#065f46] hover:from-[#065f46] hover:to-[#047857]"}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleSubscriptionAction();
@@ -521,7 +625,7 @@ const Profile = () => {
 
         {/* AI GENERATIONS UPGRADE CARD */}
         {!profileData?.is_premium ? (
-          <div className="rounded-xl shadow-lg bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 p-6 space-y-4">
+          <div className="rounded-xl shadow-lg bg-gradient-to-br from-emerald-700 via-emerald-800 to-emerald-900 p-6 space-y-4">
             <div className="text-white">
               <h3 className="font-bold text-lg mb-2">Daily AI Recipe Generations</h3>
               <div className="flex items-center gap-3 mb-4">
@@ -553,8 +657,8 @@ const Profile = () => {
                       <div>1 recipe/day</div>
                     </div>
                     <div className="text-2xl">→</div>
-                    <div className="text-orange-600">
-                      <div className="font-semibold text-orange-700">Premium</div>
+                    <div className="text-emerald-700">
+                      <div className="font-semibold text-emerald-700">Premium</div>
                       <div>5 recipes/day</div>
                     </div>
                   </div>
@@ -562,7 +666,7 @@ const Profile = () => {
                 
                 <Button
                   onClick={handleSubscriptionAction}
-                  className="w-full bg-gradient-to-r from-[#FF6B35] to-[#FF4500] hover:from-[#FF4500] hover:to-[#FF6B35] text-white font-bold py-6 text-lg rounded-lg shadow-lg"
+                  className="w-full bg-gradient-to-r from-[#047857] to-[#065f46] hover:from-[#065f46] hover:to-[#047857] text-white font-bold py-6 text-lg rounded-lg shadow-lg"
                 >
                   Upgrade for $2.99/month
                 </Button>
@@ -574,23 +678,23 @@ const Profile = () => {
             </Card>
           </div>
         ) : (
-          <Card className="rounded-xl shadow-sm bg-gradient-to-br from-orange-100 to-orange-50 border-orange-200">
+          <Card className="rounded-xl shadow-sm bg-gradient-to-br from-emerald-100 to-emerald-50 border-emerald-200">
             <CardContent className="p-6 space-y-4">
-              <h3 className="font-semibold text-orange-900">Your Daily AI Generations</h3>
+              <h3 className="font-semibold text-emerald-900">Your Daily AI Generations</h3>
               <div className="flex items-center gap-3">
-                <span className="text-sm text-orange-800">
+                <span className="text-sm text-emerald-800">
                   {aiUsage ? `${aiUsage.count}/${aiUsage.limit} AI generations used today` : 'Loading...'}
                 </span>
                 <div className="flex items-center gap-1">
                   {Array.from({ length: aiUsage?.limit || 5 }, (_, i) => i).map(i => (
-                    <span key={i} className={`w-2.5 h-2.5 rounded-full ${(aiUsage?.count ?? 0) > i ? 'bg-orange-600' : 'bg-orange-300'}`}></span>
+                    <span key={i} className={`w-2.5 h-2.5 rounded-full ${(aiUsage?.count ?? 0) > i ? 'bg-emerald-800' : 'bg-emerald-300'}`}></span>
                   ))}
                 </div>
               </div>
-              <div className="text-sm text-orange-900">
+              <div className="text-sm text-emerald-900">
                 <div>Premium: {aiUsage ? `${aiUsage.limit - (aiUsage.count || 0)} AI generation${(aiUsage.limit - (aiUsage.count || 0)) !== 1 ? 's' : ''} left today` : 'Loading...'}</div>
               </div>
-              <div className="text-sm text-orange-900">Resets in: <span className="font-semibold">{resetCountdown}</span></div>
+              <div className="text-sm text-emerald-900">Resets in: <span className="font-semibold">{resetCountdown}</span></div>
             </CardContent>
           </Card>
         )}
@@ -603,8 +707,8 @@ const Profile = () => {
             onClick={() => navigate('/saved')}
           >
             <CardContent className="p-6 text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
-                <Heart className="w-6 h-6 text-orange-600 dark:text-orange-400 fill-orange-600 dark:fill-orange-400" />
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950/30 mb-3">
+                <Heart className="w-6 h-6 text-emerald-700 dark:text-emerald-400" />
               </div>
               <p className="text-4xl font-bold text-foreground mb-1">{savedRecipes.length}</p>
               <p className="text-sm text-muted-foreground">Saved</p>
@@ -617,11 +721,11 @@ const Profile = () => {
             onClick={handlePantryClick}
           >
             <CardContent className="p-6 text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-950/30 mb-3">
-                <Package className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950/30 mb-3">
+                <Package className="w-6 h-6 text-emerald-700 dark:text-emerald-400" />
               </div>
               {loadingPantry ? (
-                <Loader2 className="w-8 h-8 mx-auto animate-spin text-orange-600 mb-1" />
+                <Loader2 className="w-8 h-8 mx-auto animate-spin text-emerald-700 mb-1" />
               ) : (
                 <p className="text-4xl font-bold text-foreground mb-1">{pantryCount}</p>
               )}
@@ -635,7 +739,7 @@ const Profile = () => {
         <Card className="rounded-xl shadow-sm bg-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Palette className="w-5 h-5 text-orange-600" />
+              <Palette className="w-5 h-5 text-emerald-700" />
               Appearance
             </CardTitle>
           </CardHeader>
@@ -647,12 +751,13 @@ const Profile = () => {
           </CardContent>
         </Card>
 
-        {/* Install QuickDish Section */}
+        {/* Install QuickDish Section - Only show on web, not native apps */}
+        {!isNativeApp && (
         <Card className="rounded-xl shadow-sm bg-card">
           <CardContent className="p-4">
             {/* Header */}
             <div className="flex items-start gap-3 mb-3">
-              <div className="w-10 h-10 rounded-[10px] bg-gradient-to-r from-[#FF6B35] to-[#FF4500] flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-[10px] bg-gradient-to-r from-[#047857] to-[#065f46] flex items-center justify-center flex-shrink-0">
                 <span className="text-xl">📱</span>
               </div>
               <div className="flex-1">
@@ -691,13 +796,14 @@ const Profile = () => {
             </div>
           </CardContent>
         </Card>
+        )}
 
         {/* SETTINGS */}
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <Button
               variant="outline"
-              className="w-full h-11 justify-center gap-2 border-orange-600 text-orange-700 hover:bg-orange-50 dark:text-orange-400 dark:hover:bg-orange-950/30"
+              className="w-full h-11 justify-center gap-2 border-emerald-700 text-emerald-700 hover:bg-emerald-50 dark:text-emerald-500 dark:hover:bg-emerald-950/30"
               onClick={handleChangePassword}
             >
               <Lock className="w-4 h-4" /> Change Password

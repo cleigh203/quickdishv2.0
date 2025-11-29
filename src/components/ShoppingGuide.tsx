@@ -48,7 +48,7 @@ export function ShoppingGuide({ items, store, onComplete, onBack }: ShoppingGuid
   return (
     <div className="fixed inset-0 bg-white z-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-[#10b981] to-[#34d399] text-white px-5 py-6 pt-12">
+      <div className="bg-gradient-to-r from-[#047857] to-[#065f46] text-white px-5 py-6 pt-12">
         <div className="flex items-center justify-between mb-4">
           <button onClick={handleBack} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white text-lg">
             ←
@@ -70,7 +70,7 @@ export function ShoppingGuide({ items, store, onComplete, onBack }: ShoppingGuid
             <div className="text-6xl mb-4">🛒</div>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Shopping Guide</h2>
             <p className="text-gray-600 mb-6">
-              Ready to shop for: <strong className="text-[#10b981]">{currentItem.name}</strong>
+              Ready to shop for: <strong className="text-[#047857]">{currentItem.name}</strong>
             </p>
 
             {/* Search URL for reference */}
@@ -118,7 +118,7 @@ export function ShoppingGuide({ items, store, onComplete, onBack }: ShoppingGuid
                   onClick={() => goToItem(index)}
                   className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
                     index === currentIndex
-                      ? 'bg-green-50 border-2 border-[#10b981]'
+                      ? 'bg-green-50 border-2 border-[#047857]'
                       : completedItems.has(index)
                       ? 'bg-gray-50 border border-gray-200 opacity-60'
                       : 'bg-gray-50 border border-gray-200 hover:bg-gray-100'
@@ -126,9 +126,9 @@ export function ShoppingGuide({ items, store, onComplete, onBack }: ShoppingGuid
                 >
                   <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
                     completedItems.has(index)
-                      ? 'bg-[#10b981] text-white'
+                      ? 'bg-[#047857] text-white'
                       : index === currentIndex
-                      ? 'bg-[#10b981] text-white'
+                      ? 'bg-[#047857] text-white'
                       : 'bg-gray-300 text-gray-600'
                   }`}>
                     {completedItems.has(index) ? (
@@ -180,7 +180,7 @@ export function ShoppingGuide({ items, store, onComplete, onBack }: ShoppingGuid
           </button>
           <button
             onClick={handleGotIt}
-            className="flex-1 py-3 bg-[#10b981] text-white rounded-xl font-semibold hover:bg-[#059669] transition-colors flex items-center justify-center gap-2 shadow-lg"
+            className="flex-1 py-3 bg-[#047857] text-white rounded-xl font-semibold hover:bg-[#065f46] transition-colors flex items-center justify-center gap-2 shadow-lg"
           >
             <Check size={20} />
             Got it

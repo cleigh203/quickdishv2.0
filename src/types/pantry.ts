@@ -4,11 +4,15 @@ export interface PantryItem {
   id: string;
   name: string;
   quantity: number;
-  unit: string;
-  category: PantryCategory;
-  addedDate: string;
-  expiryDate?: string;
+  unit: string; // 'lbs', 'oz', 'eggs', 'cups', 'gallons', etc.
+  category: PantryCategory; // Auto-assigned
+  location?: string; // 'Fridge', 'Pantry', 'Freezer', 'Counter'
+  expiration_date?: string; // Optional
+  date_added?: string; // Optional, falls back to addedDate
+  addedDate?: string; // Legacy support
+  expiryDate?: string; // Legacy support
   barcode?: string;
+  image_url?: string;
 }
 
 export const PANTRY_CATEGORIES: { value: PantryCategory; label: string }[] = [

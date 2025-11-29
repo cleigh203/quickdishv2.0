@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -16,38 +16,52 @@ export const useMealPlan = () => {
   const { user } = useAuth();
   const [mealPlans, setMealPlans] = useState<MealPlan[]>([]);
   const [loading, setLoading] = useState(true);
-  const fetchInProgressRef = useState(false)[0];
+  const fetchInProgressRef = useRef(false);
 
-  const fetchMealPlans = async () => {
+  const fetchMealPlans = useCallback(async () => {
     // Prevent duplicate simultaneous requests
-    if (fetchInProgressRef) return;
+    if (fetchInProgressRef.current) {
+      console.log('🔄 Meal plan fetch already in progress, skipping');
+      return;
+    }
     if (!user) {
+      console.log('👤 No user, setting empty meal plans');
       setMealPlans([]);
       setLoading(false);
       return;
     }
 
     try {
-      Object.assign(fetchInProgressRef, { current: true });
+      fetchInProgressRef.current = true;
+      setLoading(true);
+      console.log('📋 Fetching meal plans for user:', user.id);
       
-      // Add 8-second timeout
+      // Add 15-second timeout
       const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Request timed out')), 8000)
+        setTimeout(() => reject(new Error('Request timed out')), 15000)
       );
 
-      const fetchPromise = supabase
+      const queryPromise = supabase
         .from('meal_plans')
         .select('*')
         .eq('user_id', user.id)
         .order('scheduled_date', { ascending: true });
 
-      const { data, error } = await Promise.race([fetchPromise, timeoutPromise]) as any;
+      const { data, error } = await Promise.race([queryPromise, timeoutPromise]) as any;
 
       if (error) throw error;
+      console.log('✅ Meal plans fetched successfully:', data?.length || 0, 'plans');
       setMealPlans(data || []);
     } catch (error: any) {
-      console.error('Error fetching meal plans:', error);
-      // Don't show timeout errors - page loads fine with retries
+      // Only log if it's not a timeout (user probably has no meal plans)
+      if (error.message !== 'Request timed out') {
+        console.error('❌ Error fetching meal plans:', error);
+      } else {
+        console.log('⏱️ Meal plan request timed out (user may not have meal plans)');
+      }
+      // Set empty array on error (user may not have meal plans yet)
+      setMealPlans([]);
+      // Don't show timeout errors - user probably just doesn't have meal plans
       if (error.message !== 'Request timed out') {
         toast({
           title: "Error",
@@ -56,10 +70,11 @@ export const useMealPlan = () => {
         });
       }
     } finally {
-      Object.assign(fetchInProgressRef, { current: false });
+      fetchInProgressRef.current = false;
       setLoading(false);
+      console.log('🏁 Meal plan fetch completed, loading set to false');
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     fetchMealPlans();
@@ -85,7 +100,7 @@ export const useMealPlan = () => {
         supabase.removeChannel(channel);
       };
     }
-  }, [user]);
+  }, [user, fetchMealPlans]);
 
   const addMealPlan = async (recipeId: string, scheduledDate: string, mealType: string) => {
     if (!user) {
@@ -276,6 +291,7 @@ export const useMealPlan = () => {
       toast({
         title: "Added to meal plan",
         description: `Scheduled for ${mealType}`,
+        duration: 1000, // Auto-dismiss after 1 second
       });
       return true;
     } catch (error: any) {

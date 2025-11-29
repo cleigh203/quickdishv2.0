@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* FORCE instant scroll behavior - no smooth scrolling */
+* {
+  scroll-behavior: auto !important;
+}
+
+html, body {
+  scroll-behavior: auto !important;
+}
+
 /* Safe area support for native apps (handles notches, status bars, etc) */
 :root {
   --safe-area-inset-top: env(safe-area-inset-top);
@@ -11,14 +20,58 @@
   --status-bar-height: 24px; /* Default Android status bar height */
 }
 
-/* Barcode Scanner Styles */
-.scanner-active {
-  --background: transparent !important;
-  --ion-background-color: transparent !important;
+/* Scanner Active State */
+body.scanner-active,
+html.scanner-active {
   background: transparent !important;
 }
 
-.scanner-active::before {
+body.scanner-active *,
+html.scanner-active * {
+  visibility: hidden !important;
+}
+
+/* Show only the scanner overlay */
+body.scanner-active .scanner-overlay {
+  visibility: visible !important;
+  display: block !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background: transparent;
+}
+
+.scanner-overlay {
+  display: none;
+}
+
+.scanner-back-button {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  z-index: 10000;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.scanner-back-button:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+/* Scanner guide box and text */
+body.scanner-active::before,
+html.scanner-active body::before {
   content: '';
   position: fixed;
   top: 50%;
@@ -28,11 +81,13 @@
   height: 250px;
   border: 2px solid #10b981;
   border-radius: 10px;
-  z-index: 9999;
+  z-index: 9998;
   box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+  visibility: visible !important;
 }
 
-.scanner-active::after {
+body.scanner-active::after,
+html.scanner-active body::after {
   content: 'Point camera at barcode';
   position: fixed;
   bottom: 100px;
@@ -42,8 +97,9 @@
   background: rgba(0, 0, 0, 0.7);
   padding: 10px 20px;
   border-radius: 8px;
-  z-index: 9999;
+  z-index: 9998;
   font-size: 16px;
+  visibility: visible !important;
 }
 
 /* Add safe area padding to the body */
@@ -52,41 +108,6 @@ body {
   padding-bottom: var(--safe-area-inset-bottom);
   padding-left: var(--safe-area-inset-left);
   padding-right: var(--safe-area-inset-right);
-}
-
-/* Barcode Scanner Styles */
-.scanner-active {
-  --background: transparent !important;
-  --ion-background-color: transparent !important;
-  background: transparent !important;
-}
-
-.scanner-active::before {
-  content: '';
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 250px;
-  height: 250px;
-  border: 2px solid #10b981;
-  border-radius: 10px;
-  z-index: 9999;
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
-}
-
-.scanner-active::after {
-  content: 'Point camera at barcode';
-  position: fixed;
-  bottom: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 10px 20px;
-  border-radius: 8px;
-  z-index: 9999;
-  font-size: 16px;
 }
 
 /* Force padding for root element in native apps - only on mobile/native */
@@ -242,7 +263,7 @@ All colors MUST be HSL.
     --popover-foreground: 0 0% 10%;
 
     /* Orange accent */
-    --primary: 16 100% 60%;
+    --primary: 160 84% 39%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 96%;
@@ -251,7 +272,7 @@ All colors MUST be HSL.
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: 16 100% 60%;
+    --accent: 160 84% 39%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -326,9 +347,9 @@ All colors MUST be HSL.
     --popover: 0 0% 14%;
     --popover-foreground: 0 0% 98%;
 
-    /* Keep orange accent but adjust slightly for dark mode */
-    --primary: 16 100% 60%;
-    --primary-foreground: 0 0% 10%;
+    /* Green accent for dark mode */
+    --primary: 160 84% 39%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 18%;
     --secondary-foreground: 0 0% 98%;
@@ -336,7 +357,7 @@ All colors MUST be HSL.
     --muted: 0 0% 18%;
     --muted-foreground: 0 0% 60%;
 
-    --accent: 16 100% 60%;
+    --accent: 160 84% 39%;
     --accent-foreground: 0 0% 10%;
 
     --destructive: 0 84.2% 60.2%;
@@ -1632,4 +1653,28 @@ All colors MUST be HSL.
   border-radius: 8px;
   z-index: 9999;
   font-size: 16px;
+}
+
+/* Barcode Scanner - Body styles for Capacitor */
+body.scanner-active {
+  background: transparent !important;
+  --background: transparent !important;
+}
+
+body.scanner-active .ion-page {
+  background: transparent !important;
+}
+
+body.scanner-active ion-content {
+  --background: transparent !important;
+}
+
+/* Slide-up animation for recipe modal */
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
 }

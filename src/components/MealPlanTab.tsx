@@ -1,10 +1,10 @@
 import { useState, useMemo, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSmartNavigation } from "@/hooks/useSmartNavigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Clock, ChefHat, Trash2, Calendar, RefreshCw } from "lucide-react";
+import { ShoppingCart, Clock, ChefHat, Trash2, Calendar } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,10 +33,10 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const MealPlanTab = () => {
   const navigate = useNavigate(); // For non-recipe navigation
-  const { navigateToRecipe } = useSmartNavigation();
+  const location = useLocation();
   const { user } = useAuth();
   const { recipes: allRecipes } = useRecipes();
-  const { mealPlans, deleteMealPlan, clearAllMealPlans, refreshMealPlans } = useMealPlan();
+  const { mealPlans, deleteMealPlan, clearAllMealPlans, loading: mealPlansLoading, refreshMealPlans } = useMealPlan();
   const { incrementTimesCooked } = useSavedRecipes();
   const { replaceList } = useShoppingList();
   const { fetchPantryItems, loading: pantryLoading } = usePantryItems();
@@ -63,8 +63,6 @@ export const MealPlanTab = () => {
       const missing = recipeIds.filter(id => !dbRecipesById[id as string]);
       if (missing.length === 0) return;
 
-      console.log('🔍 Fetching recipes for meal plans:', missing.length, 'recipes');
-      
       // Separate regular recipe IDs (UUIDs) from AI recipe IDs (starting with "ai-")
       const regularRecipeIds = missing.filter(id => !id.startsWith('ai-'));
       const aiRecipeIds = missing.filter(id => id.startsWith('ai-'));
@@ -73,7 +71,6 @@ export const MealPlanTab = () => {
 
       // Fetch regular recipes from recipes table
       if (regularRecipeIds.length > 0) {
-        console.log('🔍 Fetching regular recipes:', regularRecipeIds.length);
         // Try by recipe_id first (TEXT field), then by id (UUID)
         const { data: recipesByRecipeId, error: error1 } = await supabase
           .from('recipes')
@@ -109,7 +106,6 @@ export const MealPlanTab = () => {
 
       // Fetch AI recipes from generated_recipes table
       if (aiRecipeIds.length > 0) {
-        console.log('🔍 Fetching AI recipes:', aiRecipeIds.length);
         if (user) {
           const { data: aiRecipes, error: aiError } = await supabase
             .from('generated_recipes')
@@ -134,7 +130,6 @@ export const MealPlanTab = () => {
         }
       }
 
-      console.log('✅ Fetched recipes:', Object.keys(next).length, 'total');
       setDbRecipesById(next);
     };
     fetchDbRecipes();
@@ -151,27 +146,12 @@ export const MealPlanTab = () => {
     const today = startOfDay(new Date());
     const nextWeek = addDays(today, 7);
     
-    console.log('📅 Calculating upcoming meals:', {
-      today: today.toISOString(),
-      nextWeek: nextWeek.toISOString(),
-      totalMealPlans: sortedMealPlans.length
-    });
-    
     const filtered = sortedMealPlans.filter(meal => {
       const mealDate = startOfDay(new Date(meal.scheduled_date + 'T00:00:00'));
       const isUpcoming = mealDate >= today && mealDate < nextWeek;
-      
-      console.log(`  Meal: ${meal.recipe_id}`, {
-        scheduledDate: meal.scheduled_date,
-        mealDate: mealDate.toISOString(),
-        isUpcoming,
-        reason: !isUpcoming ? (mealDate < today ? 'past' : 'beyond 7 days') : 'included'
-      });
-      
       return isUpcoming;
     });
     
-    console.log('✅ Upcoming meals count:', filtered.length);
     return filtered;
   }, [sortedMealPlans]);
 
@@ -253,7 +233,7 @@ export const MealPlanTab = () => {
   const handleMarkAsCooked = async (recipeId: string, mealPlanId: string) => {
     await incrementTimesCooked(recipeId);
     await deleteMealPlan(mealPlanId);
-    await refreshMealPlans(); // Immediately refresh to remove the meal
+    // Page automatically refreshes when changes are made
     toast({
       title: "Success",
       description: "Marked as cooked!",
@@ -325,14 +305,97 @@ export const MealPlanTab = () => {
     }).join('');
     w.document.write(`
       <html><head><title>QuickDish Meal Plan</title>
-      <style>body{font-family:system-ui,Segoe UI,Arial} table{border-collapse:collapse;width:100%} td,th{border:1px solid #ddd;padding:8px} th{background:#f3f4f6;text-align:left}</style>
+      <style>
+        @media print {
+          @page {
+            margin: 1in;
+          }
+          .back-button {
+            display: none;
+          }
+        }
+        body {
+          font-family: system-ui, Segoe UI, Arial;
+          margin: 0;
+          padding: 40px 20px;
+          padding-top: 80px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .back-button {
+          position: fixed;
+          top: 60px;
+          left: 20px;
+          background: #047857;
+          color: white;
+          border: none;
+          padding: 0;
+          border-radius: 50%;
+          width: 48px;
+          height: 48px;
+          font-size: 24px;
+          font-weight: 600;
+          cursor: pointer;
+          z-index: 1000;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          line-height: 1;
+        }
+        .back-button:hover {
+          background: #065f46;
+        }
+        .back-button:active {
+          transform: scale(0.98);
+        }
+        h2 {
+          text-align: center;
+          margin: 100px 0 30px 0;
+          font-size: 24px;
+          font-weight: bold;
+        }
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          max-width: 800px;
+        }
+        td, th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+        th {
+          background: #f3f4f6;
+          text-align: left;
+        }
+      </style>
       </head><body>
+      <button class="back-button" onclick="handleBack()" aria-label="Back to App">←</button>
       <h2>QuickDish Meal Plan</h2>
       <table>
         <thead><tr><th>Date</th><th>Meal</th><th>Recipe</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
-      <script>window.onload=() => window.print()</script>
+      <script>
+        function handleBack() {
+          // Navigate back to meal plan page
+          try {
+            if (window.opener && !window.opener.closed) {
+              // If opened from parent, navigate the parent window to meal plan page
+              window.opener.location.href = window.location.origin + '/saved?tab=mealplan';
+              window.close();
+            } else {
+              // Navigate current window to saved recipes page (meal plan tab)
+              window.location.href = window.location.origin + '/saved?tab=mealplan';
+            }
+          } catch (e) {
+            // If accessing opener fails, navigate current window
+            window.location.href = window.location.origin + '/saved?tab=mealplan';
+          }
+        }
+        window.onload=() => window.print()
+      </script>
       </body></html>
     `);
     w.document.close();
@@ -391,36 +454,28 @@ export const MealPlanTab = () => {
       'END:VCALENDAR'
     ].join('\r\n');
 
-    const fileName = `quickdish-${name.replace(/\s+/g, '-')}-${meal.scheduled_date}.ics`;
+    // Use Google Calendar URL - opens directly in calendar app on mobile
+    const formatGoogleCalendarDate = (date: Date) => {
+      return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    };
 
-    // Create and download .ics file - works on all platforms
-    // On mobile, downloading .ics will prompt to open in calendar app
+    const startStr = formatGoogleCalendarDate(start);
+    const endStr = formatGoogleCalendarDate(end);
+    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(summary)}&dates=${startStr}/${endStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(link)}`;
+
     try {
-      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const linkElement = document.createElement('a');
-      linkElement.href = url;
-      linkElement.download = fileName;
-      linkElement.style.display = 'none';
-      document.body.appendChild(linkElement);
-      linkElement.click();
+      // Open Google Calendar URL - on mobile this will open in the native calendar app
+      window.open(googleCalendarUrl, '_blank');
       
-      // Clean up after a short delay
-      setTimeout(() => {
-        document.body.removeChild(linkElement);
-        URL.revokeObjectURL(url);
-      }, 100);
-
-      // Show success toast
       toast({
-        title: "Calendar event created",
-        description: "Open the downloaded file in your calendar app",
+        title: "Opening calendar",
+        description: "Add the event to your calendar",
       });
     } catch (error) {
-      console.error('Error creating calendar event:', error);
+      console.error('Error opening calendar:', error);
       toast({
         title: "Error",
-        description: "Failed to create calendar event. Please try again.",
+        description: "Failed to open calendar. Please try again.",
         variant: "destructive",
       });
     }
@@ -428,7 +483,7 @@ export const MealPlanTab = () => {
 
   const handleClearAll = async () => {
     await clearAllMealPlans(keepPastMeals);
-    await refreshMealPlans(); // Refresh to update the UI immediately
+    // Page automatically refreshes when changes are made
     toast({
       title: "Success",
       description: "Meal plan cleared",
@@ -447,13 +502,30 @@ export const MealPlanTab = () => {
 
   const getMealTypeColor = (type: string) => {
     const colors = {
-      breakfast: 'bg-orange-500/20 text-orange-700',
-      lunch: 'bg-orange-500/20 text-orange-700',
-      dinner: 'bg-orange-500/20 text-orange-700',
-      snack: 'bg-orange-500/20 text-orange-700',
+      breakfast: 'bg-emerald-700/20 text-emerald-700',
+      lunch: 'bg-emerald-700/20 text-emerald-700',
+      dinner: 'bg-emerald-700/20 text-emerald-700',
+      snack: 'bg-emerald-700/20 text-emerald-700',
     };
-    return colors[type as keyof typeof colors] || 'bg-orange-500/20 text-orange-700';
+    return colors[type as keyof typeof colors] || 'bg-emerald-700/20 text-emerald-700';
   };
+
+  // Reload meal plan whenever we navigate back to this page
+  useEffect(() => {
+    refreshMealPlans();
+  }, [location.pathname, refreshMealPlans]);
+
+  // Show loading screen while data is being fetched
+  if (mealPlansLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-emerald-50 via-white to-emerald-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-4xl mb-4">📅</div>
+          <div className="text-lg font-semibold text-gray-700">Loading meal plan...</div>
+        </div>
+      </div>
+    );
+  }
 
   if (sortedMealPlans.length === 0) {
     return (
@@ -501,28 +573,18 @@ export const MealPlanTab = () => {
                   variant="outline" 
                   size="sm"
                   onClick={() => printMealPlan()}
+                  className="flex-1 sm:flex-none"
                 >
                   Print Plan
                 </Button>
-                <div className="flex gap-2">
-                  <Button
-                    onClick={refreshMealPlans}
-                    variant="outline"
-                    size="sm"
-                    className="text-muted-foreground hover:text-foreground"
-                  >
-                    <RefreshCw className="w-4 h-4 mr-2" />
-                    Refresh
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground"
-                    onClick={() => setShowClearDialog(true)}
-                  >
-                    Clear All
-                  </Button>
-                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex-1 sm:flex-none text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground"
+                  onClick={() => setShowClearDialog(true)}
+                >
+                  Clear All
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -551,7 +613,9 @@ export const MealPlanTab = () => {
               onClick={() => {
                 const recipeToNavigate = recipe || db;
                 if (recipeToNavigate && navigateId) {
-                  navigateToRecipe(navigateId, recipeToNavigate);
+                  navigate(`/recipe/${navigateId}`, {
+                    state: { recipe: recipeToNavigate }
+                  });
                 }
               }}
             >
@@ -563,7 +627,7 @@ export const MealPlanTab = () => {
                       alt={displayName}
                       className="w-full h-full object-cover rounded-lg"
                       loading="eager"
-                      fetchpriority="high"
+                      {...({ fetchpriority: "high" } as any)}
                       decoding="sync"
                       crossOrigin="anonymous"
                       referrerPolicy="no-referrer"
@@ -719,3 +783,4 @@ export const MealPlanTab = () => {
     </>
   );
 };
+

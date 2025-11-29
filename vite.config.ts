@@ -31,11 +31,58 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'ui-vendor': ['lucide-react']
+        manualChunks: (id) => {
+          // React and core dependencies
+          if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+            return 'react-vendor';
+          }
+          
+          // UI libraries
+          if (id.includes('@radix-ui') || id.includes('lucide-react') || id.includes('cmdk')) {
+            return 'ui-vendor';
+          }
+          
+          // Capacitor plugins
+          if (id.includes('@capacitor') || id.includes('@capgo')) {
+            return 'capacitor-vendor';
+          }
+          
+          // Supabase
+          if (id.includes('@supabase')) {
+            return 'supabase-vendor';
+          }
+          
+          // Large libraries
+          if (id.includes('html2canvas')) {
+            return 'html2canvas-vendor';
+          }
+          
+          if (id.includes('jspdf')) {
+            return 'jspdf-vendor';
+          }
+          
+          // Chart library
+          if (id.includes('recharts')) {
+            return 'recharts-vendor';
+          }
+          
+          // Form libraries
+          if (id.includes('react-hook-form') || id.includes('@hookform') || id.includes('zod')) {
+            return 'form-vendor';
+          }
+          
+          // Date utilities
+          if (id.includes('date-fns')) {
+            return 'date-vendor';
+          }
+          
+          // TanStack Query
+          if (id.includes('@tanstack/react-query')) {
+            return 'query-vendor';
+          }
         }
       }
     }
