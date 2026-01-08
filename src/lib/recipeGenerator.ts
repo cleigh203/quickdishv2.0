@@ -2,7 +2,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 // CRITICAL: These are the ONLY valid categories
 export const VALID_CATEGORIES = [
-    'Fall Favorites',
+    'Seasonal Favorites',
     'Quick and Easy',
     'Clean Eats',
     'Breakfast',

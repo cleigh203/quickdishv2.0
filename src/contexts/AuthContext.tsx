@@ -75,7 +75,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         // Handle profile errors gracefully
         if (error) {
-          console.error('Profile fetch error in AuthContext:', error);
+          // Only log in dev mode or if it's not a "not found" error (profile might not exist yet)
+          if (import.meta.env.DEV || (error.code !== 'PGRST116' && error.message !== 'JSON object requested, multiple (or no) rows returned')) {
+            console.error('Profile fetch error in AuthContext:', error);
+          }
+          // Set premium to false if profile doesn't exist
+          setIsPremium(false);
+          return;
         } else if (profile) {
           // Check for premium status - check BOTH is_premium AND subscription_tier
           // is_premium is the primary source of truth
@@ -89,8 +95,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             return;
           }
         }
-      } catch (error) {
-        console.error('Error fetching profile in AuthContext:', error);
+      } catch (error: any) {
+        // Only log in dev mode
+        if (import.meta.env.DEV) {
+          console.error('Error fetching profile in AuthContext:', error);
+        }
+        // Set premium to false on error
+        setIsPremium(false);
         // Continue with normal flow if profile fetch fails
       }
 
@@ -236,16 +247,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signUp = async (email: string, password: string, displayName: string) => {
     try {
-      const redirectUrl = `${window.location.origin}/auth/callback`;
-      
-      const { error } = await supabase.auth.signUp({
+      // Sign up WITHOUT redirect URL to avoid 404 errors
+      // If email confirmation is enabled, Supabase will use the default redirect
+      // If disabled, user will be signed in immediately
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: redirectUrl,
           data: {
             full_name: displayName
           }
+          // NO emailRedirectTo - let Supabase handle it with default settings
         }
       });
       
@@ -254,7 +266,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return { error: { message: errorInfo.description, ...error } };
       }
       
-      return { error: null };
+      return { data, error: null };
     } catch (error: any) {
       const errorInfo = handleSupabaseError(error);
       return { error: { message: errorInfo.description } };
@@ -263,6 +275,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signIn = async (email: string, password: string) => {
     try {
+      // Validate Supabase is configured
+      if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) {
+        console.error('Supabase not configured - missing environment variables');
+        return { 
+          error: { 
+            message: 'Authentication service is not configured. Please contact support.',
+            code: 'CONFIG_ERROR'
+          } 
+        };
+      }
+
+      // Password-based sign-in doesn't need redirect URL
+      // Only OAuth and email confirmation flows need it
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,

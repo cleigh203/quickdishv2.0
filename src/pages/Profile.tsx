@@ -94,7 +94,32 @@ const Profile = () => {
         .eq('id', user.id)
         .single();
 
-      if (profileError) throw profileError;
+      // Handle missing profile gracefully (profile might not exist yet for new users)
+      if (profileError) {
+        // If profile doesn't exist, create a default profile
+        if (profileError.code === 'PGRST116' || profileError.message?.includes('No rows returned')) {
+          // Profile doesn't exist - this is ok for new users
+          // Set default profile data
+          setProfileData({
+            display_name: user.email?.split('@')[0] || null,
+            avatar_url: null,
+            dietary_preferences: null,
+            skill_level: null,
+            favorite_cuisines: null,
+            learning_goals: null,
+            is_premium: false,
+            pantry_items: null,
+            has_completed_onboarding: false,
+            theme_preference: null,
+            free_generations_used_today: 0,
+          });
+          setIsPremium(false);
+          setLoading(false);
+          return;
+        }
+        // For other errors, throw to be caught below
+        throw profileError;
+      }
 
       // Fetch subscription data separately (more secure)
       const { data: subscriptionData } = await supabase
@@ -123,8 +148,30 @@ const Profile = () => {
         // Refetch AI usage to update generation counter with correct premium status
         refetchAIUsage();
     } catch (error: any) {
-      console.error('Error fetching profile:', error);
-      setError(error.message || 'Failed to load profile');
+      // Only log in dev mode or if it's a real error (not just missing profile)
+      if (import.meta.env.DEV || (error.code !== 'PGRST116' && !error.message?.includes('No rows returned'))) {
+        console.error('Error fetching profile:', error);
+      }
+      // Set a user-friendly error message
+      if (error.code !== 'PGRST116' && !error.message?.includes('No rows returned')) {
+        setError(error.message || 'Failed to load profile');
+      } else {
+        // Profile doesn't exist - set default values
+        setProfileData({
+          display_name: user?.email?.split('@')[0] || null,
+          avatar_url: null,
+          dietary_preferences: null,
+          skill_level: null,
+          favorite_cuisines: null,
+          learning_goals: null,
+          is_premium: false,
+          pantry_items: null,
+          has_completed_onboarding: false,
+          theme_preference: null,
+          free_generations_used_today: 0,
+        });
+        setIsPremium(false);
+      }
     } finally {
       setLoading(false);
     }

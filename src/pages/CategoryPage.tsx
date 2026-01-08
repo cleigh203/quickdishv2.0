@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useRef } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useRecipes } from '@/contexts/RecipesContext';
 import { useEffect, useMemo } from 'react';
 import { getRecipeImage } from '@/utils/recipeImages';
@@ -10,7 +10,7 @@ import { useSavedRecipes } from '@/hooks/useSavedRecipes';
 
 // Map category name to category ID (same as Generate.tsx)
 const categoryNameToId: { [key: string]: string } = {
-  'Fall Favorites': 'fall',
+  'Seasonal Favorites': 'fall',
   'Quick and Easy': 'quick',
   'Clean Eats': 'cleaneats',
   'Restaurant Copycats': 'copycat',
@@ -23,11 +23,16 @@ const categoryNameToId: { [key: string]: string } = {
 const CategoryPage = () => {
   const { categoryName } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { recipes } = useRecipes();
   const { saveRecipe, isSaved, unsaveRecipe } = useSavedRecipes();
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [dietaryFilters, setDietaryFilters] = useState<string[]>([]);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const touchEndY = useRef<number | null>(null);
 
   // Decode category name from URL
   const decodedCategoryName = categoryName ? decodeURIComponent(categoryName) : null;
@@ -56,8 +61,8 @@ const CategoryPage = () => {
         break;
 
       // --- CATEGORY-BASED FILTERS ---
-      case 'fall': // For "Fall Favorites"
-        filtered = recipes.filter(r => r.category === 'Fall Favorites');
+      case 'fall': // For "Seasonal Favorites"
+        filtered = recipes.filter(r => r.category === 'Seasonal Favorites');
         break;
       case 'cleaneats': // For "Clean Eats"
         filtered = recipes.filter(r => r.category === 'Clean Eats');
@@ -116,19 +121,98 @@ const CategoryPage = () => {
     }
   }, [categoryName]);
 
+  // Prevent pull-to-refresh
+  useEffect(() => {
+    let touchStartY = 0;
+    let isAtTop = false;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+      isAtTop = window.scrollY === 0;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      // Only prevent if at top and pulling down
+      if (isAtTop && e.touches[0].clientY > touchStartY) {
+        e.preventDefault();
+      }
+    };
+
+    // Use passive: false to allow preventDefault
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+    return () => {
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, []);
+
+  // Swipe gesture handler - only horizontal swipes
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchEndY.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
+    touchStartY.current = e.targetTouches[0].clientY;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+    touchEndY.current = e.targetTouches[0].clientY;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current || !touchStartY.current || !touchEndY.current) return;
+    
+    const deltaX = touchEndX.current - touchStartX.current;
+    const deltaY = Math.abs(touchEndY.current - touchStartY.current);
+    
+    // Only trigger if horizontal swipe is greater than vertical (horizontal gesture)
+    // and swipe distance is sufficient
+    const isHorizontalSwipe = Math.abs(deltaX) > deltaY && Math.abs(deltaX) > minSwipeDistance;
+    const isRightSwipe = deltaX > minSwipeDistance;
+    
+    if (isHorizontalSwipe && isRightSwipe) {
+      // Check if we can go back (has previous location or history)
+      const canGoBack = location.key !== 'default' || window.history.length > 1;
+      if (canGoBack) {
+        try {
+          navigate(-1);
+        } catch (error) {
+          // If navigation fails, go to home
+          navigate('/');
+        }
+      } else {
+        // Fallback to home if no history
+        navigate('/');
+      }
+    }
+  };
+
   return (
     <>
-      <div className="min-h-screen pb-20">
-        <div className="sticky top-0 bg-white border-b p-4 z-10">
+      <div 
+        className="min-h-screen pb-20"
+        style={{ overscrollBehavior: 'none', touchAction: 'pan-y' }}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        <div className="fixed top-0 left-0 right-0 bg-white border-b p-4 z-10">
           <button onClick={() => navigate(-1)} className="text-lg">
             ← Back
           </button>
           <h1 className="text-2xl font-bold mt-2">{decodeURIComponent(categoryName || '')}</h1>
         </div>
+        
+        {/* Spacer to account for fixed header */}
+        <div className="h-20"></div>
 
         {/* Refine Results Section */}
         {categoryRecipes.length > 0 && (
-          <div className="px-4 pt-4 pb-2">
+          <div className="px-4 pb-2 bg-white">
             <div className="flex items-center gap-4 mb-3">
               <button
                 onClick={() => setShowFilters(!showFilters)}
@@ -261,7 +345,7 @@ const CategoryPage = () => {
       
       {/* Recipe modal - slides up from bottom */}
       {selectedRecipe && (
-        <div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slide-up">
+        <div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slide-up pb-32">
           <RecipeDetail 
             recipe={selectedRecipe}
             onClose={() => setSelectedRecipe(null)}

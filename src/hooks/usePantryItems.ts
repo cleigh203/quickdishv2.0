@@ -50,7 +50,12 @@ export const usePantryItems = () => {
       const { data, error } = await Promise.race([fetchPromise, timeoutPromise]);
 
       if (error) {
-        console.error('Error fetching pantry items:', error);
+        // Only log if it's not a "not found" error (profile might not exist yet)
+        if (error.code !== 'PGRST116' && !error.message?.includes('No rows returned')) {
+          if (import.meta.env.DEV) {
+            console.error('Error fetching pantry items:', error);
+          }
+        }
         // Return empty array if profile fetch fails
         return [];
       }
@@ -72,7 +77,10 @@ export const usePantryItems = () => {
 
       return pantryItems;
     } catch (error: any) {
-      console.error('Error fetching pantry items:', error);
+      // Only log in dev mode or if it's not a timeout (timeouts are expected)
+      if (import.meta.env.DEV && !error.message?.includes('timed out')) {
+        console.error('Error fetching pantry items:', error);
+      }
       // Return cached items if available on timeout/error
       return cacheRef.current?.items || [];
     } finally {

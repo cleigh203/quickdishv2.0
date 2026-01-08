@@ -173,33 +173,11 @@ export const useSavedRecipes = () => {
 
   const saveRecipe = async (recipeId: string) => {
     if (!user) {
-      // COMMENTED OUT: No localStorage for guests - require authentication
-      // Guest mode - use localStorage
-      /*
-      try {
-        const saved = localStorage.getItem('favorites');
-        const favorites: string[] = saved ? JSON.parse(saved) : [];
-        if (!favorites.includes(recipeId)) {
-          favorites.push(recipeId);
-          localStorage.setItem('favorites', JSON.stringify(favorites));
-          loadFromLocalStorage();
-          toast({
-            title: "Saved!",
-            description: "Recipe added to favorites",
-          });
-          return { success: true };
-        }
-        return { success: false, message: 'Already saved' };
-      } catch (error) {
-        console.error('Failed to save to localStorage:', error);
-        toast({
-          title: "Couldn't save recipe",
-          description: "Try again?",
-          variant: "destructive",
-        });
-        return { success: false, message: 'Failed to save' };
-      }
-      */
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to save recipes",
+        variant: "destructive",
+      });
       return { success: false, message: 'Authentication required' };
     }
 
@@ -220,6 +198,37 @@ export const useSavedRecipes = () => {
       }
 
       saveInProgressRef.current.add(recipeId);
+
+      // Ensure user profile exists before saving (fixes foreign key constraint error)
+      try {
+        const { data: existingProfile, error: profileError } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('id', user.id)
+          .single();
+
+        if (profileError && (profileError.code === 'PGRST116' || profileError.message?.includes('No rows returned'))) {
+          // Profile doesn't exist - create it
+          const { error: createError } = await supabase
+            .from('profiles')
+            .insert({
+              id: user.id,
+              display_name: user.email?.split('@')[0] || null,
+              pantry_items: [],
+              has_completed_onboarding: false,
+            });
+
+          if (createError && createError.code !== '23505') {
+            // Ignore duplicate key errors (race condition)
+            throw createError;
+          }
+        }
+      } catch (profileErr: any) {
+        // Log but don't fail - profile might be created by trigger
+        if (import.meta.env.DEV) {
+          console.log('Profile check/creation:', profileErr);
+        }
+      }
 
       // Optimistically update local state immediately
       const newRecipe: SavedRecipe = {
@@ -280,13 +289,28 @@ export const useSavedRecipes = () => {
       
       // Don't show timeout errors
       if (error.message !== 'Save timed out') {
+        // Show more specific error messages
+        let errorMessage = "Try again?";
+        if (error.code === '23505') {
+          // Unique constraint violation - already saved
+          errorMessage = "This recipe is already in your favorites";
+        } else if (error.code === '23503') {
+          // Foreign key constraint - profile doesn't exist
+          errorMessage = "Please refresh the page and try again";
+        } else if (error.code === '42501') {
+          // Permission denied (RLS)
+          errorMessage = "Permission denied. Please refresh and try again.";
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+        
         toast({
           title: "Couldn't save recipe",
-          description: "Try again?",
+          description: errorMessage,
           variant: "destructive",
         });
       }
-      return { success: false, message: 'Failed to save' };
+      return { success: false, message: error.message || 'Failed to save' };
     } finally {
       saveInProgressRef.current.delete(recipeId);
     }

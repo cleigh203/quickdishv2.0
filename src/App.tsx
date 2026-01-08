@@ -20,7 +20,6 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 
 // Lazy load non-critical pages
-const ConfirmEmail = lazy(() => import("./pages/ConfirmEmail"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
 const Generate = lazy(() => import("./pages/Generate"));
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
@@ -60,7 +59,6 @@ const AppRoutes: React.FC = () => {
         <Suspense fallback={<LoadingScreen />}>
           <Routes>
             <Route path="/auth" element={<Auth />} />
-            <Route path="/auth/confirm-email" element={<Suspense fallback={<LoadingScreen />}><ConfirmEmail /></Suspense>} />
             <Route path="/auth/callback" element={<Suspense fallback={<LoadingScreen />}><AuthCallback /></Suspense>} />
             <Route path="/auth/reset-password" element={<Suspense fallback={<LoadingScreen />}><ResetPassword /></Suspense>} />
             <Route path="/profile-setup" element={<ProtectedRoute><Suspense fallback={<LoadingScreen />}><ProfileSetup /></Suspense></ProtectedRoute>} />

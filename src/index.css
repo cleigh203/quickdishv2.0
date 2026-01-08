@@ -9,6 +9,8 @@
 
 html, body {
   scroll-behavior: auto !important;
+  overscroll-behavior-y: none;
+  overscroll-behavior: none;
 }
 
 /* Safe area support for native apps (handles notches, status bars, etc) */

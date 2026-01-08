@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { X, ChevronLeft, Menu, Mic, Volume2, Play, FastForward, Rewind, Timer, CheckCircle, RotateCcw } from "lucide-react";
 import { Recipe } from "@/types/recipe";
 import { useToast } from "@/hooks/use-toast";
-import { Capacitor } from '@capacitor/core';
+// Capacitor import is dynamic to support web builds
 import { formatIngredient } from '@/utils/recipeHelpers';
 
 // Define SpeechRecognition types for TypeScript
@@ -206,32 +206,90 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     }
     
     try {
-      const { TextToSpeech } = await import('@capacitor-community/text-to-speech');
-      await TextToSpeech.speak({
-        text: text,
-        lang: 'en-US',
-        rate: 0.9,
-        pitch: 1.0,
-        volume: 1.0,
-        category: 'playback',
-      });
-      console.log('? [V4-CLEAN] TTS done');
+      // Check if we're on native (Capacitor) or web
+      const isNative = typeof (window as any).Capacitor !== 'undefined' && (window as any).Capacitor.isNativePlatform();
       
-      // MARK SPEAKING END
-      isSpeakingRef.current = false;
-      setIsSpeaking(false);
-
-      // RESTART MIC AFTER TTS FINISHES (if voice control was active)
-      if (wasListening) {
-        console.log('?? [V4-CLEAN] Restarting mic after TTS...');
-        // Ensure we restart cleanly
-        if (!recognitionRef.current) {
-            setTimeout(() => {
-                startMicListening();
-            }, 200);
-        }
+      if (isNative) {
+        // Use Capacitor TextToSpeech for native apps
+        const { TextToSpeech } = await import('@capacitor-community/text-to-speech');
+        await TextToSpeech.speak({
+          text: text,
+          lang: 'en-US',
+          rate: 0.9,
+          pitch: 1.0,
+          volume: 1.0,
+          category: 'playback',
+        });
+        console.log('? [V4-CLEAN] TTS done (native)');
       } else {
-        console.log('?? [V4-CLEAN] NOT restarting - wasListening is false');
+        // Use Web Speech API for web browsers
+        return new Promise<void>((resolve, reject) => {
+          if (!('speechSynthesis' in window)) {
+            reject(new Error('Speech synthesis not supported'));
+            return;
+          }
+
+          // Cancel any ongoing speech
+          window.speechSynthesis.cancel();
+
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = 'en-US';
+          utterance.rate = 0.9;
+          utterance.pitch = 1.0;
+          utterance.volume = 1.0;
+
+          utterance.onend = () => {
+            console.log('? [V4-CLEAN] TTS done (web)');
+            // MARK SPEAKING END
+            isSpeakingRef.current = false;
+            setIsSpeaking(false);
+
+            // RESTART MIC AFTER TTS FINISHES (if voice control was active)
+            if (wasListening) {
+              console.log('?? [V4-CLEAN] Restarting mic after TTS...');
+              if (!recognitionRef.current) {
+                setTimeout(() => {
+                  startMicListening();
+                }, 200);
+              }
+            } else {
+              console.log('?? [V4-CLEAN] NOT restarting - wasListening is false');
+            }
+            resolve();
+          };
+
+          utterance.onerror = (event) => {
+            console.error('? [V4-CLEAN] TTS error (web):', event);
+            isSpeakingRef.current = false;
+            setIsSpeaking(false);
+            // Try to recover mic if TTS fails
+            if (wasListening) {
+              startMicListening();
+            }
+            reject(event);
+          };
+
+          window.speechSynthesis.speak(utterance);
+        });
+      }
+      
+      // For native, mark speaking end after promise resolves
+      if (isNative) {
+        // MARK SPEAKING END
+        isSpeakingRef.current = false;
+        setIsSpeaking(false);
+
+        // RESTART MIC AFTER TTS FINISHES (if voice control was active)
+        if (wasListening) {
+          console.log('?? [V4-CLEAN] Restarting mic after TTS...');
+          if (!recognitionRef.current) {
+            setTimeout(() => {
+              startMicListening();
+            }, 200);
+          }
+        } else {
+          console.log('?? [V4-CLEAN] NOT restarting - wasListening is false');
+        }
       }
     } catch (error) {
       console.error('? [V4-CLEAN] TTS error:', error);
@@ -239,7 +297,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
       setIsSpeaking(false);
       // Try to recover mic if TTS fails
       if (wasListening) {
-          startMicListening();
+        startMicListening();
       }
     }
   };
@@ -473,7 +531,7 @@ const CookingMode = ({ recipe, onExit }: CookingModeProps) => {
     if (currentStep === recipe.instructions.length - 1) {
       if (!hasShownCompletionRef.current) {
         hasShownCompletionRef.current = true;
-        toast({ title: "Cooking complete! Enjoy! ??" });
+        toast({ title: "Cooking complete! Enjoy!" });
       }
     } else {
       hasShownCompletionRef.current = false;

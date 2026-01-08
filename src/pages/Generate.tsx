@@ -18,7 +18,7 @@ const AiGenerationPrompt = lazy(() => import("@/components/AiGenerationPrompt").
 
 // Map collection name to category ID (moved outside component to prevent recreation on every render)
 const collectionToCategoryId: { [key: string]: string } = {
-  'Fall Favorites': 'fall',
+  'Seasonal Favorites': 'fall',
   'Quick and Easy': 'quick',
   'Clean Eats': 'cleaneats',
   'Restaurant Copycats': 'copycat',
@@ -475,7 +475,7 @@ const Generate = () => {
         }
         // Handle category-based filters - map category ID to category name
         const categoryMapping: Record<string, string> = {
-          'fall': 'Fall Favorites',
+          'fall': 'Seasonal Favorites',
           'cleaneats': 'Clean Eats',
           'breakfast': 'Breakfast',
           'dessert': 'Desserts',
@@ -569,7 +569,7 @@ const Generate = () => {
 
   // Recipe categories for horizontal sections
   const categories = [
-    { id: 'fall', name: 'Fall Favorites' },
+    { id: 'fall', name: 'Seasonal Favorites' },
     { id: 'quick', name: 'Quick and Easy' },
     { id: 'cleaneats', name: 'Clean Eats' },
     { id: 'copycat', name: 'Restaurant Copycats' },
@@ -596,8 +596,8 @@ const Generate = () => {
         );
 
       // --- CATEGORY-BASED FILTERS ---
-      case 'fall': // For "Fall Favorites"
-        return recipesToUse.filter(r => r.category === 'Fall Favorites');
+      case 'fall': // For "Seasonal Favorites"
+        return recipesToUse.filter(r => r.category === 'Seasonal Favorites');
       case 'cleaneats': // For "Clean Eats"
         return recipesToUse.filter(r => r.category === 'Clean Eats');
       case 'breakfast': // For "Breakfast"
@@ -1019,7 +1019,7 @@ const Generate = () => {
       } else {
         // Handle category-based filters - map category ID to category name
         const categoryMapping: Record<string, string> = {
-          'fall': 'Fall Favorites',
+          'fall': 'Seasonal Favorites',
           'cleaneats': 'Clean Eats',
           'breakfast': 'Breakfast',
           'dessert': 'Desserts',

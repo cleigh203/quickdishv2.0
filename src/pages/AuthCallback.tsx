@@ -14,6 +14,16 @@ const AuthCallback = () => {
   useEffect(() => {
     const handleEmailVerification = async () => {
       try {
+        // First, try to get existing session (for simple redirects)
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionData?.session && !sessionError) {
+          // User already has a session, redirect to home
+          console.log('Session exists, redirecting to home');
+          navigate('/');
+          return;
+        }
+
         // Get the code from URL params (Supabase PKCE flow)
         const code = searchParams.get('code');
         const error = searchParams.get('error');
@@ -123,7 +133,16 @@ const AuthCallback = () => {
           return;
         }
 
-        // No valid callback found
+        // No valid callback found - check if we have a session anyway
+        const { data: finalSession } = await supabase.auth.getSession();
+        if (finalSession?.session) {
+          // Session exists, redirect to home
+          console.log('Session found after callback, redirecting to home');
+          navigate('/');
+          return;
+        }
+
+        // No valid callback and no session
         console.error('No valid auth callback found');
         setStatus('error');
         setErrorMessage('Invalid verification link. Please request a new one.');

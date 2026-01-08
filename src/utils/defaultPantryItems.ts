@@ -42,7 +42,12 @@ export async function initializeDefaultPantryItems(
       .single();
 
     if (fetchError) {
-      console.error('Error fetching profile for pantry initialization:', fetchError);
+      // Only log if it's not a "not found" error (profile might not exist yet - that's ok)
+      if (fetchError.code !== 'PGRST116' && fetchError.message !== 'JSON object requested, multiple (or no) rows returned') {
+        if (import.meta.env.DEV) {
+          console.error('Error fetching profile for pantry initialization:', fetchError);
+        }
+      }
       return false;
     }
 

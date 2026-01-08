@@ -75,7 +75,7 @@ const About = () => {
                 <h4 className="text-xl font-bold">Seasonal Collections</h4>
               </div>
               <p className="text-muted-foreground">
-                Fresh, timely recipes that celebrate what's in season—from fall favorites to holiday specials.
+                Fresh, timely recipes that celebrate what's in season—from seasonal favorites to holiday specials.
               </p>
             </div>
 

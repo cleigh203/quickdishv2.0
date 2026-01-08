@@ -408,15 +408,15 @@ const Index = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && setSearchQuery(searchQuery)}
-                placeholder="Search dishes or ingredients..."
-                className="w-full px-5 py-3 pr-28 rounded-xl text-base border-0 focus:ring-4 focus:ring-white/30 focus:outline-none placeholder-gray-400"
+                placeholder="Search here"
+                className="w-full px-5 py-3 pr-40 sm:pr-36 md:pr-36 rounded-xl text-base border-0 focus:ring-4 focus:ring-white/30 focus:outline-none placeholder-gray-400"
               />
               
               {/* Voice Button */}
               {voiceSupported && (
                 <button
                   onClick={toggleVoiceSearch}
-                  className={`absolute right-16 top-1/2 -translate-y-1/2 w-10 h-10 rounded-lg flex items-center justify-center transition-all ${
+                  className={`absolute right-9 sm:right-16 md:right-20 top-1/2 -translate-y-1/2 w-10 h-10 rounded-lg flex items-center justify-center transition-all ${
                     isListening 
                       ? 'bg-red-500 text-white animate-pulse' 
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -921,7 +921,7 @@ const Index = () => {
 
       {/* Recipe modal */}
       {selectedRecipe && (
-        <div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slide-up">
+        <div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slide-up pb-32">
           <RecipeDetail 
             recipe={selectedRecipe}
             onClose={() => setSelectedRecipe(null)}

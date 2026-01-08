@@ -480,7 +480,7 @@ const RecipeDetail = ({ recipe: propRecipe, onClose }: RecipeDetailProps = {}) =
   const adjustedServings = recipe.servings * servingMultiplier;
 
   return (
-    <div className="min-h-screen pb-8">
+    <div className="min-h-screen pb-32">
       {/* Top banner ad (excluded in cooking mode branch) */}
       <div className="max-w-5xl mx-auto px-5 pt-2">
       </div>
@@ -508,11 +508,11 @@ const RecipeDetail = ({ recipe: propRecipe, onClose }: RecipeDetailProps = {}) =
             onClick={handleBack}
             variant="icon"
             size="icon"
-            className="absolute top-4 left-4"
+            className={`absolute left-4 ${propRecipe ? 'top-[10%]' : 'top-4'}`}
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <div className="absolute top-4 right-4 flex gap-2">
+          <div className={`absolute right-4 flex gap-2 ${propRecipe ? 'top-[10%]' : 'top-4'}`}>
             <Button
               onClick={() => setMenuOpen(true)}
               variant="icon"
@@ -527,7 +527,7 @@ const RecipeDetail = ({ recipe: propRecipe, onClose }: RecipeDetailProps = {}) =
 
       {/* For AI recipes, show simple header with back button */}
       {recipe.isAiGenerated && (
-        <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-5 py-8">
+        <div className={`bg-gradient-to-r from-purple-500 to-pink-500 text-white px-5 ${propRecipe ? 'pt-[10%] pb-8' : 'py-8'}`}>
           <div className="flex items-center justify-between">
             <Button
               onClick={handleBack}

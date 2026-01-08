@@ -1,53 +1,18 @@
-// Default config - uses web config by default
-// For native builds, use: vite --config vite.config.native.ts
-// For web builds, use: vite --config vite.config.web.ts (or default)
-// This file re-exports the web config for backward compatibility
-export { default } from './vite.config.web';
-
-// Legacy config kept for backward compatibility
-// New projects should use vite.config.web.ts or vite.config.native.ts
-/*
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 
-// Plugin to handle missing Capacitor modules in web builds
-const capacitorStubPlugin = () => ({
-  name: 'capacitor-stub',
-  resolveId(id: string) {
-    if (id.includes('@capacitor/core')) {
-      return `\0capacitor-core-stub`;
-    }
-    if (id.startsWith('@capacitor/') || id.startsWith('@capacitor-community/') || id.startsWith('@capgo/')) {
-      return `\0capacitor-plugin-stub`;
-    }
-    return null;
-  },
-  load(id: string) {
-    if (id === '\0capacitor-core-stub') {
-      return `export const Capacitor = { isNativePlatform: () => false, getPlatform: () => 'web' };
-export const registerPlugin = () => ({});
-export const WebPlugin = class {};
-export const buildRequestInit = () => ({});
-export const CapacitorException = class {};
-export const ExceptionCode = {};`;
-    }
-    if (id === '\0capacitor-plugin-stub') {
-      return `export default {};`;
-    }
-    return null;
-  }
-});
-
-// https://vitejs.dev/config/
+// Native-specific Vite config (for Android/iOS builds)
 export default defineConfig(({ mode }) => ({
+  define: {
+    'import.meta.env.VITE_PLATFORM': JSON.stringify('native'),
+  },
   plugins: [
     react(),
     cssInjectedByJsPlugin(),
-    mode === "development" && componentTagger(),
-    capacitorStubPlugin()
+    mode === "development" && componentTagger()
   ].filter(Boolean),
   resolve: {
     alias: {
@@ -71,13 +36,6 @@ export default defineConfig(({ mode }) => ({
     assetsDir: 'assets',
     chunkSizeWarningLimit: 600,
     rollupOptions: {
-      onwarn(warning, warn) {
-        // Suppress warnings about unresolved Capacitor imports (not available in Vercel web builds)
-        if (warning.code === 'UNRESOLVED_IMPORT' && warning.id?.includes('@capacitor')) {
-          return;
-        }
-        warn(warning);
-      },
       output: {
         manualChunks: (id) => {
           // React and core dependencies
@@ -90,7 +48,7 @@ export default defineConfig(({ mode }) => ({
             return 'ui-vendor';
           }
           
-          // Capacitor plugins
+          // Capacitor plugins (included for native)
           if (id.includes('@capacitor') || id.includes('@capgo')) {
             return 'capacitor-vendor';
           }
@@ -137,3 +95,4 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
   },
 }));
+

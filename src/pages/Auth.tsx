@@ -84,6 +84,7 @@ const Auth = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     setLoading(true);
 
     try {
@@ -91,40 +92,55 @@ const Auth = () => {
       const { data, error } = await signUp(validated.email, validated.password, validated.displayName);
 
       if (error) {
-        if (error.message.includes('already registered')) {
+        // Log error for debugging
+        console.error('Sign-up error:', error);
+        
+        if (error.message?.includes('already registered') || error.message?.includes('already exists')) {
           toast({
             title: 'Account exists',
             description: 'This email is already registered. Please sign in instead.',
             variant: 'destructive',
           });
+        } else if (error.code === 'NOT_FOUND' || error.message?.includes('404') || error.message?.includes('redirect')) {
+          toast({
+            title: 'Configuration Error',
+            description: 'The sign-up service is not properly configured. Please contact support or try again later.',
+            variant: 'destructive',
+          });
         } else {
           toast({
             title: 'Sign up failed',
-            description: error.message,
+            description: error.message || 'An error occurred during sign up. Please try again.',
             variant: 'destructive',
           });
         }
+        // Stay on sign-up page - don't navigate
+        setLoading(false);
+        return;
       } else {
-        // Check if email confirmation is disabled (session exists immediately)
-        if (data?.session) {
-          toast({
-            title: 'Account created!',
-            description: 'Welcome to QuickDish!',
-          });
-          navigate('/');
-        } else {
-          // Email confirmation is enabled, redirect to confirm email page
-          navigate(`/auth/confirm-email?email=${encodeURIComponent(validated.email)}`);
-        }
+        // Account created - user is logged in immediately (email confirmation disabled)
+        toast({
+          title: 'Account created!',
+          description: 'Welcome to QuickDish!',
+        });
+        navigate('/');
       }
     } catch (error) {
+      console.error('Sign-up exception:', error);
       if (error instanceof z.ZodError) {
         toast({
           title: 'Validation error',
           description: error.errors[0].message,
           variant: 'destructive',
         });
+      } else {
+        toast({
+          title: 'Sign up failed',
+          description: 'An unexpected error occurred. Please try again.',
+          variant: 'destructive',
+        });
       }
+      // Stay on sign-up page
     } finally {
       setLoading(false);
     }
@@ -146,6 +162,7 @@ const Auth = () => {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+    e.stopPropagation(); // Prevent any default form behavior
     setLoading(true);
 
     try {
@@ -153,24 +170,19 @@ const Auth = () => {
       const { error } = await signIn(validated.email, validated.password);
 
       if (error) {
-        // Check if it's an unverified email error
-        if ((error as any).code === 'EMAIL_NOT_VERIFIED') {
-          toast({
-            title: 'Email not verified',
-            description: error.message,
-            variant: 'destructive',
-            action: {
-              label: 'Resend',
-              onClick: () => navigate(`/auth/confirm-email?email=${encodeURIComponent((error as any).email)}`)
-            }
-          });
-        } else {
+        // Handle sign-in errors
+        {
+          // Log error for debugging
+          console.error('Login error:', error);
           toast({
             title: 'Sign in failed',
-            description: error.message,
+            description: error.message || 'Invalid email or password. Please try again.',
             variant: 'destructive',
           });
         }
+        // Stay on login page - don't navigate anywhere
+        setLoading(false);
+        return;
       } else {
         // Save credentials if "Remember me" is checked
         if (rememberMe) {
@@ -181,16 +193,25 @@ const Auth = () => {
           localStorage.removeItem('quickdish_saved_email');
           localStorage.removeItem('quickdish_saved_password');
         }
+        // Only navigate on successful login
         navigate('/');
       }
     } catch (error) {
+      console.error('Login exception:', error);
       if (error instanceof z.ZodError) {
         toast({
           title: 'Validation error',
           description: error.errors[0].message,
           variant: 'destructive',
         });
+      } else {
+        toast({
+          title: 'Sign in failed',
+          description: 'An unexpected error occurred. Please try again.',
+          variant: 'destructive',
+        });
       }
+      // Stay on login page - don't navigate anywhere
     } finally {
       setLoading(false);
     }

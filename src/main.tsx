@@ -1,9 +1,18 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import * as Sentry from "@sentry/react";
-import { Capacitor } from "@capacitor/core";
 import App from "./App.tsx";
 import "./index.css";
+
+// Helper to safely get Capacitor (for web builds where it's not available)
+const getCapacitor = async () => {
+  try {
+    const { Capacitor } = await import("@capacitor/core");
+    return Capacitor;
+  } catch {
+    return { isNativePlatform: () => false, getPlatform: () => 'web' };
+  }
+};
 
 // Initialize Sentry for error tracking (only in production)
 if (import.meta.env.PROD && import.meta.env.VITE_SENTRY_DSN) {
@@ -46,38 +55,43 @@ if (import.meta.env.PROD && import.meta.env.VITE_SENTRY_DSN) {
         return null;
       }
       
-      // Add platform context
-      if (Capacitor.isNativePlatform()) {
-        event.tags = {
-          ...event.tags,
-          platform: 'native',
-          native_platform: Capacitor.getPlatform(),
-        };
-      } else {
-        event.tags = {
-          ...event.tags,
-          platform: 'web',
-        };
-      }
+      // Add platform context (default to web, will be updated if native)
+      event.tags = {
+        ...event.tags,
+        platform: 'web',
+      };
+      
+      // Check if native (async, but we set default above)
+      getCapacitor().then(Capacitor => {
+        if (Capacitor.isNativePlatform()) {
+          event.tags = {
+            ...event.tags,
+            platform: 'native',
+            native_platform: Capacitor.getPlatform(),
+          };
+        }
+      }).catch(() => {
+        // Ignore errors
+      });
       
       return event;
     },
   });
 
   // Add Capacitor-specific error handling for native apps
-  if (Capacitor.isNativePlatform()) {
-    // Capture unhandled promise rejections
-    window.addEventListener('unhandledrejection', (event) => {
-      Sentry.captureException(event.reason, {
-        tags: {
-          error_type: 'unhandled_promise_rejection',
-          platform: 'native',
-        },
-      });
-    });
-    
-    // Capture native crashes if available
+  getCapacitor().then(Capacitor => {
     if (Capacitor.isNativePlatform()) {
+      // Capture unhandled promise rejections
+      window.addEventListener('unhandledrejection', (event) => {
+        Sentry.captureException(event.reason, {
+          tags: {
+            error_type: 'unhandled_promise_rejection',
+            platform: 'native',
+          },
+        });
+      });
+      
+      // Capture native crashes if available
       // Dynamically import @capacitor/app only at runtime
       Promise.resolve().then(async () => {
         try {
@@ -93,7 +107,7 @@ if (import.meta.env.PROD && import.meta.env.VITE_SENTRY_DSN) {
         }
       });
     }
-  }
+  });
 }
 
 // Warn if Supabase env vars are missing at runtime (helps Vercel env setup)

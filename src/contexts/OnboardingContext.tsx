@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useLocation } from 'react-router-dom';
 
 interface OnboardingContextType {
   hasSeenOnboarding: boolean;
@@ -19,9 +20,15 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
   const [isOnboardingActive, setIsOnboardingActive] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const totalSteps = 8; // Steps 1-7 + completion screen
+  const location = useLocation();
 
   // Check database for onboarding status
   useEffect(() => {
+    // Don't show onboarding if we're on the auth page (user is trying to log in)
+    if (location.pathname.startsWith('/auth')) {
+      return;
+    }
+
     const checkOnboardingStatus = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       
@@ -52,7 +59,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
     };
     
     checkOnboardingStatus();
-  }, []);
+  }, [location.pathname]);
 
   const showOnboarding = () => {
     setCurrentStep(0);

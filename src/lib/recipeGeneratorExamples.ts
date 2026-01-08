@@ -161,7 +161,7 @@ function getDefaultOptionsForCategory(category: string) {
       return { cuisine: 'Various' };
     case 'Halloween':
       return { dietary: 'none' };
-    case 'Fall Favorites':
+    case 'Seasonal Favorites':
       return { cuisine: 'American' };
     default:
       return {};

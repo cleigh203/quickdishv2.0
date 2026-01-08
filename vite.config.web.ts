@@ -1,12 +1,3 @@
-// Default config - uses web config by default
-// For native builds, use: vite --config vite.config.native.ts
-// For web builds, use: vite --config vite.config.web.ts (or default)
-// This file re-exports the web config for backward compatibility
-export { default } from './vite.config.web';
-
-// Legacy config kept for backward compatibility
-// New projects should use vite.config.web.ts or vite.config.native.ts
-/*
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
@@ -41,8 +32,11 @@ export const ExceptionCode = {};`;
   }
 });
 
-// https://vitejs.dev/config/
+// Web-specific Vite config (for Vercel/deployment)
 export default defineConfig(({ mode }) => ({
+  define: {
+    'import.meta.env.VITE_PLATFORM': JSON.stringify('web'),
+  },
   plugins: [
     react(),
     cssInjectedByJsPlugin(),
@@ -90,7 +84,7 @@ export default defineConfig(({ mode }) => ({
             return 'ui-vendor';
           }
           
-          // Capacitor plugins
+          // Capacitor plugins (stubbed for web)
           if (id.includes('@capacitor') || id.includes('@capgo')) {
             return 'capacitor-vendor';
           }
@@ -137,3 +131,4 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
   },
 }));
+

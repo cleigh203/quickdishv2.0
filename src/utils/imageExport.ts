@@ -1,7 +1,5 @@
 import html2canvas from 'html2canvas';
-import { Filesystem, Directory } from '@capacitor/filesystem';
-import { Share } from '@capacitor/share';
-import { Capacitor } from '@capacitor/core';
+// Capacitor imports are dynamic to support web builds
 import { Recipe } from '@/types/recipe';
 
 export const generateRecipeImage = async (
@@ -112,26 +110,46 @@ export const generateRecipeImage = async (
     reader.readAsDataURL(blob);
     const base64Data = await base64Promise;
 
-    const isNative = Capacitor.isNativePlatform();
+    // Check if native platform (dynamic import)
+    let isNative = false;
+    try {
+      const { Capacitor } = await import('@capacitor/core');
+      isNative = Capacitor.isNativePlatform();
+    } catch {
+      isNative = false;
+    }
 
     if (isNative) {
       // Save to device using Capacitor
       const fileName = `QuickDish-${sanitizeFilename(recipe.name)}-${Date.now()}.png`;
       
-      // Write file
-      const savedFile = await Filesystem.writeFile({
-        path: fileName,
-        data: base64Data,
-        directory: Directory.Cache,
-      });
+      try {
+        const { Filesystem, Directory } = await import('@capacitor/filesystem');
+        const { Share } = await import('@capacitor/share');
+        
+        // Write file
+        const savedFile = await Filesystem.writeFile({
+          path: fileName,
+          data: base64Data,
+          directory: Directory.Cache,
+        });
 
-      // Share using native share sheet (which has "Save to Photos" option)
-      await Share.share({
-        title: `${recipe.name} - QuickDish Recipe`,
-        text: `Check out this recipe: ${recipe.name}`,
-        url: savedFile.uri,
-        dialogTitle: 'Save Recipe Image',
-      });
+        // Share using native share sheet (which has "Save to Photos" option)
+        await Share.share({
+          title: `${recipe.name} - QuickDish Recipe`,
+          text: `Check out this recipe: ${recipe.name}`,
+          url: savedFile.uri,
+          dialogTitle: 'Save Recipe Image',
+        });
+      } catch (error) {
+        console.error('Error saving image to device:', error);
+        // Fallback to web download
+        const url = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = `QuickDish-${sanitizeFilename(recipe.name)}.png`;
+        link.href = url;
+        link.click();
+      }
 
     } else {
       // Web: Download the image

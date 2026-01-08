@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { X, Download } from "lucide-react";
 import { toast } from "sonner";
-import { Capacitor } from '@capacitor/core';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -12,20 +11,21 @@ interface BeforeInstallPromptEvent extends Event {
 export const InstallPrompt = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
-  const [isInstalled, setIsInstalled] = useState(() => {
-    // Check immediately on mount if native platform
-    if (typeof window !== 'undefined' && Capacitor.isNativePlatform()) {
-      return true;
-    }
-    return false;
-  });
+  const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
-    // Don't show install prompt if running as native app (Android/iOS)
-    if (Capacitor.isNativePlatform()) {
-      setIsInstalled(true);
-      return;
-    }
+    // Check if native platform (dynamic import)
+    (async () => {
+      try {
+        const { Capacitor } = await import('@capacitor/core');
+        if (Capacitor.isNativePlatform()) {
+          setIsInstalled(true);
+          return;
+        }
+      } catch {
+        // Capacitor not available (web build)
+      }
+    })();
 
     // Check if already installed
     if (window.matchMedia('(display-mode: standalone)').matches) {
